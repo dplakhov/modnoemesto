@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+<form action="{% url social:login %}" method="POST">
+    <table>
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="{% trans "Login" %}"/>
+</form>
+{% endblock %}

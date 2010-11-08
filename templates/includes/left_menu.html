@@ -1,0 +1,20 @@
+<div class="left-menu">
+    <div class="submenu">
+        <p>Messages</p>
+        <ul>
+            <li><a href="{% url social:view_inbox %}">Inbox</a></li>
+            <li><a href="{% url social:view_sent %}">Sent</a></li>
+        </ul>
+    </div>
+    <div class="submenu">
+        <p>Friendship offers</p>
+        <ul>
+            <li>
+                <a href="{% url social:view_fs_offers_inbox %}">Inbox</a>
+            </li>
+            <li>
+                <a href="{% url social:view_fs_offers_sent %}">Sent</a>
+            </li>
+        </ul>
+    </div>
+</div>

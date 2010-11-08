@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+индекс.штмл
+<h2>Registered users:</h2>
+<p>
+{% for acc in accs %}
+<a href="{% url social:user acc.id %}">{{ acc.username }}</a>
+{% if not forloop.last %},{% endif %}
+{% endfor %}
+</p>
+{% endblock %}

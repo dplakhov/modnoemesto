@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Viewing a message</h1>
+
+<div id="content-main">
+
+    <div class="left-menu">
+        <div class="submenu">
+            <p>Messages</p>
+            <ul>
+                <li><a href="{% url social:view_inbox %}">Inbox</a></li>
+                <li><a href="{% url social:view_sent %}">Sent</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="message">
+        <table summary="Message view" width="100%">
+            <caption>Viewing a message</caption>
+            <tr>
+                <th>When</th><th>From</th>
+            </tr>
+            <tr>
+                <td>
+                    <a href="{% url social:view_message message_id=msg.id %}">
+                        {{ msg.timestamp|timesince }} ago
+                    </a>
+
+                </td>
+                <td>
+                    <a href="{% url social:user user_id=msg.author.id %}">
+                        {{ msg.author.username }}
+                    </a>
+                </td>
+            </tr>
+            <tr><td colspan="2">{{ msg.text }}</td> </tr>
+            <tr>
+                <td colspan="2">
+                    <a href="{% url social:delete_message message_id=msg.id%}">
+                        Delete message
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

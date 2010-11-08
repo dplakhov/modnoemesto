@@ -1,0 +1,60 @@
+<html>
+<head>
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="Cache-control" content="no-cache" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    {# <meta name="keywords" content="" /> #}
+    {# <meta name="description" content="" /> #}
+
+    {#<link href="/favicon.ico" rel="shortcut icon" />#}
+
+    {% block css %}
+    <link href="/media/styles/style.css" rel="stylesheet" type="text/css" />
+    {% endblock %}
+
+    {% block rss %}
+    {# <link href="/rss/" rel="alternate" type="application/rss+xml" /> #}
+    {% endblock %}
+
+    {% block title %}
+    <title>whatever.com - someone's home</title>
+    {% endblock %}
+
+    {% block js %}
+    {#<script type="text/javascript" src="/media/scripts/jquerymin.js"></script>#}
+    {% endblock %}
+</head>
+<body>
+
+<div id="header">
+<h1><a href="/">Whatever.com</a></h1>
+    <div class="horizontal-menu">
+    {% if user.is_authenticated %}
+        <p>
+            Hello, {{ user }}!
+            {% if user.unread_msg_count %}
+                You have
+                <a href="{% url social:view_inbox %}">{% spaceless %}
+                    {{ user.unread_msg_count}} unread message(s).
+                {% endspaceless %}</a>
+
+            {% endif %}
+            /
+            <a href="{% url social:home %}">home</a> /
+            <a href="{% url social:logout %}">logout</a></p>
+    {% else %}
+        <a href="{% url social:register %}">signup</a> /
+        <a href="{% url social:login %}">login</a>
+    {% endif %}
+    </div>
+</div>
+
+<div id="content">
+{% block content %}
+here goes the actual content
+{% endblock %}
+</div>
+
+</body>
+</html>

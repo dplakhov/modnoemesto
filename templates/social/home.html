@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Welcome to your homepage</h1>
+
+<div id="content-main">
+
+    {%  include "includes/left_menu.html" %}
+
+    {% comment %}
+    <div class="module">
+        <table summary="Your whatever settings etc" width="100%">
+            <caption>Settings</caption>
+            <tr>
+                <th><a href=".">Foo bar</a></th>
+            </tr>
+        </table>
+    </div>
+    {% endcomment %}
+
+</div>
+
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+        <h2>Your friends:</h2>
+        {#<h3>whatever</h3>#}
+        {% if user.mutual_friends %}
+            <ul>
+                {% for f in user.mutual_friends %}
+                <li>
+                    <a href="{% url social:user user_id=f.id %}">
+                        {{ f }}
+                    </a>
+                    <a href="{% url social:unfriend user_id=f.id %}">
+                        x
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>None available</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

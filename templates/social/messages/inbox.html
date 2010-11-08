@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Messages history</h1>
+
+<div id="content-main">
+
+    {%  include "includes/left_menu.html" %}
+
+    <div class="messages">
+        <table summary="Your inbox" width="100%">
+            <caption>Messages: inbox</caption>
+            <tr>
+                <th>When</th><th>From</th>
+            </tr>
+            {% for msg in msgs %}
+            <tr>
+                <td>
+                    <a href="{% url social:view_message message_id=msg.id %}">
+                        {% if msg.is_read %}
+                            {{ msg.timestamp|timesince }} ago
+                        {% else %}
+                            (unread) {{ msg.timestamp|timesince }} ago
+                        {% endif %}
+                    </a>
+
+                </td>
+                <td>
+                    <a href="{% url social:user user_id=msg.author.id %}">
+                        {{ msg.author.username }}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

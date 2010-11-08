@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Messages history</h1>
+
+<div id="content-main">
+
+    {%  include "includes/left_menu.html" %}
+
+    <div class="messages">
+        <table summary="Your inbox" width="100%">
+            <caption>Friendship offers: inbox</caption>
+            <tr>
+                <th>When</th><th>From</th><th>Accept/Decline</th>
+            </tr>
+            {% for offer in offers %}
+            <tr>
+                <td>
+                    {{ offer.timestamp|timesince }} ago
+                </td>
+                <td>
+                    <a href="{% url social:user user_id=offer.author.id %}">
+                        {{ offer.author.username }}
+                    </a>
+                </td>
+                <td>
+                    <a href="{% url social:friend user_id=offer.author.id %}">
+                        Accept
+                    </a>
+                    /
+                    <a href="{% url social:decline_fs_offer offer.id %}">
+                        Decline
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

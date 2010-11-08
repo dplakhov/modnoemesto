@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Messages history</h1>
+
+<div id="content-main">
+
+    {%  include "includes/left_menu.html" %}
+
+    <div class="messages">
+        <table summary="Your sent messages" width="100%">
+            <caption>Messages: sent</caption>
+            <tr>
+                <th>When</th><th>To</th>
+            </tr>
+            {% for msg in msgs %}
+            <tr>
+                <td>
+                    <a href="{% url social:view_message message_id=msg.id %}">
+                        {{ msg.timestamp|timesince }}
+                    </a>
+                </td>
+                <td>
+                    <a href="{% url social:user user_id=msg.recipient.id %}">
+                        {{ msg.recipient.username}}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}
