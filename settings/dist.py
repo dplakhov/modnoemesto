@@ -123,6 +123,7 @@ INSTALLED_APPS = (
     #'django.contrib.admin',
     #'mongoengine.django.auth',
     'apps.social',
+    'apps.media',
 )
 
 AUTHENTICATION_BACKENDS = (
