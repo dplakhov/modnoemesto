@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-import urllib
+
 
 from django.test import TestCase
 
@@ -40,7 +40,18 @@ class MediaFileTest(TestCase):
         file.file.put(open(file_path('logo-mongodb.png')),
             content_type='image/png')
         file.save()
-        file.set_transformations(ImageResize(name='thumbnail', width=100, height=100))
+        file.set_transformations(ImageResize(name='thumbnail', format='png', width=100, height=100))
+        derivatives = file.create_derivatives()
+
+        self.failUnless(derivatives)
+        self.failUnlessEqual(type([]), type(derivatives))
+        self.failUnlessEqual(1, len(derivatives))
+
+        derivative = derivatives[0]
+        print derivative.file.content_type
+
+        self.failUnless(isinstance(derivative, FileDerivative))
+        self.failUnless(derivative.file.read())
 
 
     def test_apply_transformations_before_save_raises(self):
