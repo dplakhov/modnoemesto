@@ -1,6 +1,10 @@
+# -*- coding: utf-8 -*-
+
 from datetime import datetime
 
 from mongoengine import *
+
+
 
 class File(Document):
     author = ReferenceField('Account')
@@ -34,6 +38,11 @@ class FileDerivation(Document):
 
 
 class FileTransformation(object):
+    def __init__(self, name, *args, **kwargs):
+        self.name = name
+        self.kwargs = kwargs
+
+class ImageResize(FileTransformation):
     pass
 
 
