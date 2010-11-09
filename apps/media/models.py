@@ -2,8 +2,17 @@
 
 from datetime import datetime
 
-import cStringIO
-from mongoengine import *
+import pymongo.dbref
+
+from mongoengine import Document
+from mongoengine import ReferenceField
+from mongoengine import DateTimeField
+from mongoengine import FileField
+from mongoengine import DictField
+from mongoengine import StringField
+
+from mongoengine.connection import _get_db
+from mongoengine.fields import GridFSProxy
 
 from ImageFile import Parser as ImageFileParser
 
@@ -11,6 +20,7 @@ class File(Document):
     author = ReferenceField('Account')
     ctime = DateTimeField()
     file = FileField()
+    derivatives = DictField()
 
     class SourceFileEmpty(Exception):
         pass
@@ -35,10 +45,18 @@ class File(Document):
         if trasformations:
             self.trasformations = trasformations
 
-    def create_derivatives(self):
-        derivatives = []
+    def apply_transformations(self):
+        derivatives = {}
+
         for trasformation in self.get_transformations():
-            derivatives.append(trasformation.create_derivative(self))
+            derivatives[trasformation.name] = trasformation.apply(self)
+
+        if derivatives:
+            for name, derivative in derivatives.items():
+                self.derivatives[name] = pymongo.dbref.DBRef(derivative._meta['collection'],
+                                                                           derivative.pk)
+            self.save()
+
         return derivatives
 
     def get_transformations(self):
@@ -47,9 +65,18 @@ class File(Document):
         except AttributeError:
             return []
 
+    def get_derivative(self, transformation_name):
+        derivative = self.derivatives[transformation_name]
+        if derivative:
+            derivative = _get_db().dereference(derivative)
+            derivative = FileDerivative(**derivative)
+            derivative.file = GridFSProxy(derivative.file)
+            return derivative
+
 class FileDerivative(Document):
     source = ReferenceField('File')
     file = FileField()
+    transformation = StringField()
 
 class FileTransformation(object):
     def __init__(self, name, **kwargs):
@@ -57,8 +84,11 @@ class FileTransformation(object):
         for k, v in kwargs.items():
             setattr(self, k, v)
 
-    def create_derivative(self, file):
+    def apply(self, source):
         raise NotImplementedError
+
+    def create_derivative(self, source):
+        return FileDerivative(source=source, transformation=self.name)
 
 
 class BatchFileTransformation(FileTransformation):
@@ -78,9 +108,12 @@ class VideoFile(MediaFile):
 class AudioFile(MediaFile):
     pass
 
+
+############################################################################################
+
 class ImageResize(FileTransformation):
-    def create_derivative(self, source):
-        derivative = FileDerivative(source=source)
+    def apply(self, source):
+        derivative = self.create_derivative(source)
         parser = ImageFileParser()
         parser.feed(source.file.read())
         source_image = parser.close()
@@ -93,3 +126,4 @@ class ImageResize(FileTransformation):
 
 class VideoThumbnail(FileTransformation):
     pass
+
