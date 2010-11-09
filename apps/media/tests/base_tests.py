@@ -5,8 +5,8 @@ import os
 
 from django.test import TestCase
 
-from ..models import *
-
+from ..files import *
+from ..transformations import ImageResize
 
 def file_path(file_name):
     return os.path.abspath(os.path.join(os.path.dirname(__file__),
