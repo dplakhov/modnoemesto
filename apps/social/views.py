@@ -17,7 +17,7 @@ from forms import UserCreationForm, LoginForm, MessageTextForm
 
 
 def index(request):
-    accs = Account.objects()
+    accs = Account.objects().only('username')
     return direct_to_template(request, 'index.html', { 'accs': accs })
 
 
