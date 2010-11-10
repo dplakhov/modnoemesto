@@ -7,6 +7,10 @@ from django.core.urlresolvers import reverse
 
 from apps.social.documents import Account, Message, FriendshipOffer as FSOffer
 
+import mongoengine
+
+# use separate db for tests
+mongoengine.connect('social_test')
 
 class BasicTestCase(unittest.TestCase):
 
