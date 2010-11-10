@@ -46,16 +46,19 @@ class MediaFileTest(TestCase):
 
         file.save()
 
+        '''
         file.set_transformations(ImageResize(name=TRANSFORMATION_NAME,
                                              format='png', width=100, height=100))
-
-        derivatives = file.apply_transformations()
+        '''
+        derivatives = file.apply_transformations(ImageResize(name=TRANSFORMATION_NAME,
+                                             format='png', width=100, height=100))
 
         self.failUnless(derivatives)
         self.failUnlessEqual(type({}), type(derivatives))
         self.failUnlessEqual(1, len(derivatives))
 
         derivative = derivatives[TRANSFORMATION_NAME]
+        derivative = FileDerivative.objects(id=derivative.id).first()
 
         self.failUnless(isinstance(derivative, FileDerivative))
         self.failUnless(derivative.file.read())
@@ -65,8 +68,14 @@ class MediaFileTest(TestCase):
         self.failUnlessEqual(derivative.file.read(),
                              file.get_derivative(TRANSFORMATION_NAME).file.read())
 
+        self.failUnlessEqual(derivative.file.content_type, 'image/png')
+
         derivative = file.get_derivative(TRANSFORMATION_NAME)
+
+
         self.failUnlessEqual(TRANSFORMATION_NAME, derivative.transformation)
+
+        self.failUnless(file.get_derivative('notfound') is None)
 
     def test_apply_transformations_before_save_raises_exc(self):
         pass

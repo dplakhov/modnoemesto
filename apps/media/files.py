@@ -31,23 +31,25 @@ class File(Document):
         super(File, self).__init__(*args, **kwargs)
         self.ctime = self.ctime or datetime.now()
 
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.file.read() is None:
             raise File.SourceFileEmpty()
 
         if self.file.content_type is None:
             raise File.ContentTypeUnspecified()
 
-        super(File, self).save()
+        super(File, self).save(*args, **kwargs)
 
     def set_transformations(self, *trasformations):
         if trasformations:
             self.trasformations = trasformations
 
-    def apply_transformations(self):
+    def apply_transformations(self, *args):
         derivatives = {}
 
-        for trasformation in self.get_transformations():
+        transformations = args if args else self.get_transformations()
+
+        for trasformation in transformations:
             derivatives[trasformation.name] = trasformation.apply(self)
 
         if derivatives:
@@ -65,7 +67,7 @@ class File(Document):
             return []
 
     def get_derivative(self, transformation_name):
-        derivative = self.derivatives[transformation_name]
+        derivative = self.derivatives.get(transformation_name)
         if derivative:
             derivative = _get_db().dereference(derivative)
             derivative = FileDerivative(**derivative)

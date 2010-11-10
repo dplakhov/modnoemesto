@@ -3,6 +3,13 @@
 from ImageFile import Parser as ImageFileParser
 from files import FileDerivative
 
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
+
+
+
 class FileTransformation(object):
     def __init__(self, name, **kwargs):
         self.name = name
@@ -19,7 +26,6 @@ class FileTransformation(object):
 class BatchFileTransformation(FileTransformation):
     pass
 
-
 class ImageResize(FileTransformation):
     def apply(self, source):
         derivative = self.create_derivative(source)
@@ -27,9 +33,10 @@ class ImageResize(FileTransformation):
         parser.feed(source.file.read())
         source_image = parser.close()
         image = source_image.resize((self.width, self.height,))
-        image.save(derivative.file, self.format)
-        derivative.file.content_type = 'image/%s' % self.format
-        derivative.file.close()
+        buffer = StringIO()
+        image.save(buffer, self.format)
+        buffer.reset()
+        derivative.file.put(buffer, content_type = 'image/%s' % self.format)
         derivative.save()
         return derivative
 
