@@ -96,6 +96,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     #'django.core.context_processors.i18n',
     'django.core.context_processors.media',
     'django.core.context_processors.request',
+    'apps.social.context_processors.site_domain',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -132,3 +133,9 @@ AUTHENTICATION_BACKENDS = (
 SESSION_ENGINE = 'mongoengine.django.sessions'
 
 FORCE_SCRIPT_NAME = ''
+
+SEND_EMAILS = True
+
+SITE_DOMAIN = 'whatever.com' # no slashes here, please
+
+ROBOT_EMAIL_ADDRESS = 'noreply@whatever.com'

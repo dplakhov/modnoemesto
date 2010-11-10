@@ -18,6 +18,8 @@ class UserCreationForm(forms.Form):
                                         " Letters, digits and @/./+/-/_ only."),
         error_messages = {'invalid': _("This value may contain only letters,"
                                        " numbers and @/./+/-/_ characters.")})
+    email = forms.EmailField(label=_("Email"), help_text = _("Please enter a"
+        "valid email address, it is required to complete registration process"))
     password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
     password2 = forms.CharField(label=_("Password confirmation"),
         widget=forms.PasswordInput, help_text = _("Enter the same password as"

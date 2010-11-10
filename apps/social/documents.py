@@ -17,6 +17,9 @@ class LimitsViolationException(Exception):
 class Account(User):
     groups = ListField(ReferenceField('Group'))
 
+    # activation stuff
+    activation_code = StringField(max_length=12)
+
     # subscriptions
     mutual_friends = ListField(ReferenceField('Account'))
 
