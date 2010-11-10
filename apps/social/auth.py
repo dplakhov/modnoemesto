@@ -100,16 +100,14 @@ class MongoEngineBackend(object):
     """
 
     def authenticate(self, username=None, password=None):
-        from documents import Account as User
-        user = defer_user_fields(User.objects(username=username)).first()
+        user = User.objects(username=username).first()
         if user:
             if password and user.check_password(password):
                 return user
         return None
 
     def get_user(self, user_id):
-        from documents import Account as User
-        return defer_user_fields(User.objects).with_id(user_id)
+        return User.objects.with_id(user_id)
 
 
 def get_user(userid):
@@ -120,9 +118,3 @@ def get_user(userid):
     if not userid:
         return AnonymousUser()
     return MongoEngineBackend().get_user(userid) or AnonymousUser()
-
-
-def defer_user_fields(qs):
-    # defer rare and heavy fields fetching
-    return qs.only('username', 'password', 'mutual_friends',
-                   'friends_count', 'fs_offers_inbox_count', 'unread_msg_count')
