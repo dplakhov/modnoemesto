@@ -36,9 +36,15 @@
             {% if user.unread_msg_count %}
                 You have
                 <a href="{% url social:view_inbox %}">{% spaceless %}
-                    {{ user.unread_msg_count}} unread message(s).
+                    {{ user.unread_msg_count }} unread message(s)
                 {% endspaceless %}</a>
-
+            {% endif %}
+            {% if user.fs_offers_inbox_count %}
+                You have
+                <a href="{% url social:view_fs_offers_inbox %}">{% spaceless %}
+                    {{ user.fs_offers_inbox_count }} friendship
+                    offer(s)
+                {% endspaceless %}</a>
             {% endif %}
             /
             <a href="{% url social:home %}">home</a> /

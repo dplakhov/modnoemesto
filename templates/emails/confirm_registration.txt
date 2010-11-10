@@ -1,0 +1,9 @@
+Hello, {{ user.username }}!
+
+Thank you for registering in whatever.com.
+To confirm your registration please visit the activation url below:
+
+https://{{ SITE_DOMAIN }}{% url social:activation code=user.activation_code %}
+
+Regards,
+whatever.com team

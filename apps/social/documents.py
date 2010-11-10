@@ -17,6 +17,9 @@ class LimitsViolationException(Exception):
 class Account(User):
     groups = ListField(ReferenceField('Group'))
 
+    # activation stuff
+    activation_code = StringField(max_length=12)
+
     # subscriptions
     mutual_friends = ListField(ReferenceField('Account'))
 
@@ -26,6 +29,7 @@ class Account(User):
 
     # some denormalisation
     friends_count = IntField(default=0)
+    fs_offers_inbox_count = IntField(default=0)
     unread_msg_count = IntField(default=0)
     msg_inbox_count = IntField(default=0)
     msg_sent_count = IntField(default=0)
@@ -33,9 +37,15 @@ class Account(User):
     # some control
     version = IntField(default=0)
 
+    meta = {
+        'indexes': ['username', 'mutual_friends']
+    }
+
     def friend(self, user):
         #@todo: maybe move whole routine to some asynchronous worker such as
         # celery
+        if self.id == user.id:
+            return
         if FriendshipOffer.objects(recipient=self, author=user).count():
             #@warning: this code is non-transactional
             # minor limits violation is possible due to requests concurrency
@@ -47,16 +57,22 @@ class Account(User):
                 if acc.friends_count > 499:
                     raise LimitsViolationException(acc)
 
-            FriendshipOffer.objects(recipient=self, author=user).delete()
+            FriendshipOffer.objects.get(recipient=self,
+                                        author=user).delete(is_accepted=True)
 
             Account.objects(id=user.id).update_one\
                     (add_to_set__mutual_friends=self, inc__friends_count=1,
                      inc__version=1)
             Account.objects(id=self.id).update_one\
                     (add_to_set__mutual_friends=user, inc__friends_count=1,
-                     inc__version=1)
+                     dec__fs_offers_inbox_count=1, inc__version=1)
         else:
-            FriendshipOffer.objects.get_or_create(recipient=user, author=self)
+            #@warning: this code is non-transactional too
+            _, created = FriendshipOffer.objects.get_or_create(recipient=user,
+                                                    author=self)
+            if created:
+                Account.objects(id=user.id).update_one\
+                    (inc__fs_offers_inbox_count=1, inc__version=1)
 
 
 
@@ -145,9 +161,23 @@ class FriendshipOffer(Document):
     author = ReferenceField('Account')
     recipient = ReferenceField('Account')
 
+    meta = {
+        'indexes': ['-timestamp', 'author', 'recipient']
+    }
+
     def __init__(self, *args, **kwargs):
         super(FriendshipOffer, self).__init__(*args, **kwargs)
         self.timestamp = self.timestamp or datetime.now()
+
+    def delete(self, is_accepted=False):
+        """
+        @param is_accepted: if False (default), also decreases recipient's
+        fs_offers_inbox_count field value
+        """
+        if not is_accepted:
+            Account.objects(id=self.recipient.id).update_one\
+                    (dec__fs_offers_inbox_count=1, inc__version=1)
+        super(FriendshipOffer, self).delete()
 
 
 class Message(Document):
@@ -157,6 +187,10 @@ class Message(Document):
     timestamp = DateTimeField()
     userlist = ListField(ReferenceField('Account'))
     is_read = BooleanField(default=False)
+
+    meta = {
+        'indexes': ['-timestamp', 'author', 'recipient', 'userlist']
+    }
 
     def __init__(self, *args, **kwargs):
         super(Message, self).__init__(*args, **kwargs)

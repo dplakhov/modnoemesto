@@ -1,0 +1,5 @@
+/.*
+/settings/local.py
+/settings/secret.txt
+*.pyc
+/venv

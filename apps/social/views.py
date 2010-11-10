@@ -1,10 +1,13 @@
 
 from django.views.generic.simple import direct_to_template
+from django.template.loader import render_to_string
 from django.contrib.auth import (authenticate, login as django_login,
     logout as django_logout)
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from django.core.mail import send_mail
+from django.conf import settings
 
 from mongoengine.django.shortcuts import get_document_or_404
 
@@ -15,7 +18,7 @@ from django.core.urlresolvers import reverse
 
 
 def index(request):
-    accs = Account.objects()
+    accs = Account.objects().only('username')
     return direct_to_template(request, 'index.html', { 'accs': accs })
 
 
@@ -23,13 +26,37 @@ def register(request):
     form = UserCreationForm(request.POST or None)
 
     if form.is_valid():
-        user = Account.create_user(form.data['username'],
-                                   form.data['password1'])
-        user = authenticate(username=user.username, password=form.data['password1'])
-        django_login(request, user)
-        return redirect('social:home')
+        from random import choice
+        alpha = 'abcdef0123456789'
+        activation_code = ''.join(choice(alpha) for _ in xrange(12))
+        user = Account(username=form.data['username'], is_active=False,
+                                   activation_code=activation_code)
+        user.set_password(form.data['password1'])
+        user.save()
+
+        #@todo: send email in a separate process (queue worker or smth like it)
+        #@todo: check email sending results
+        email_body = render_to_string('emails/confirm_registration.txt',
+                { 'user': user, 'SITE_DOMAIN': settings.SITE_DOMAIN })
+
+        settings.SEND_EMAILS and send_mail('Confirm registration', email_body,
+            settings.ROBOT_EMAIL_ADDRESS, [form.data['email']],
+            fail_silently=True)
+
+        return direct_to_template(request, 'registration_complete.html')
 
     return direct_to_template(request, 'registration.html', { 'form': form })
+
+
+def activation(request, code=None):
+    user = get_document_or_404(Account, is_active=False, activation_code=code)
+    user.is_active = True
+    # django needs a backend annotation
+    from django.contrib.auth import get_backends
+    backend = get_backends()[0]
+    user.backend = "%s.%s" % (backend.__module__, backend.__class__.__name__)
+    django_login(request, user)
+    return redirect('social:home')
 
 
 def login(request):
@@ -60,9 +87,16 @@ def user(request, user_id=None):
     page_user = get_document_or_404(Account, id=user_id)
     if page_user == request.user:
         return redirect('social:home')
+
+    show_friend_button = request.user.is_authenticated() and not (page_user in
+            request.user.mutual_friends or
+            FriendshipOffer.objects(author=request.user,
+                               recipient=page_user).count())
+
     msgform = MessageTextForm()
     return direct_to_template(request, 'social/user.html',
-                              { 'page_user': page_user, 'msgform': msgform })
+                              { 'page_user': page_user, 'msgform': msgform,
+                                'show_friend_button': show_friend_button })
 
 
 @login_required

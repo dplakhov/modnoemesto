@@ -4,14 +4,17 @@
 
 <h1>{{ page_user }}'s home</h1>
 
+{% if show_friend_button %}
 <p>
     <a href="{% url social:friend user_id=page_user.id %}">
         Add to my friends
     </a>
 </p>
+{% endif %}
 
 <div id="content-main">
 
+    {% if user.is_authenticated %}
     <div class="messages">
         <form method="POST"
               action="{% url social:send_message user_id=page_user.id %}">
@@ -22,6 +25,7 @@
         </table>
         </form>
     </div>
+    {% endif %}
 
 </div>
 

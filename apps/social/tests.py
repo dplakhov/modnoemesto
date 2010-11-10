@@ -7,6 +7,10 @@ from django.core.urlresolvers import reverse
 
 from apps.social.documents import Account, Message, FriendshipOffer as FSOffer
 
+import mongoengine
+
+# use separate db for tests
+mongoengine.connect('social_test')
 
 class BasicTestCase(unittest.TestCase):
 
@@ -148,6 +152,11 @@ class FriendshipTestCase(BasicTestCase):
         self.assertEquals(
             FSOffer.objects(author=self.acc1, recipient=self.acc2).count(), 1)
 
+    def test_friendship_offer_increases_fs_offers_inbox_count(self):
+        self.c.get(reverse('social:friend', kwargs={ 'user_id': self.acc2.id }))
+        self.acc2.reload()
+        self.assertEquals(self.acc2.fs_offers_inbox_count, 1)
+
     def test_friendship_offer_accepts_successfully(self):
         self.c.login(username=self.acc2.username, password='123')
         self.c.get(reverse('social:friend', kwargs={ 'user_id': self.acc1.id }))
@@ -156,11 +165,24 @@ class FriendshipTestCase(BasicTestCase):
         self.assertTrue(self.acc1 in self.acc2.mutual_friends)
         self.assertEquals(FSOffer.objects.count(), 0)
 
+    def test_accepting_friendship_offer_decreases_fs_offers_inbox_count(self):
+        self.c.login(username=self.acc2.username, password='123')
+        self.c.get(reverse('social:friend', kwargs={ 'user_id': self.acc1.id }))
+        self.acc2.reload()
+        self.assertEquals(self.acc2.fs_offers_inbox_count, 0)
+
     def test_friendship_offer_cancels_successfully(self):
         fso = FSOffer.objects.get()
         self.c.get(reverse('social:cancel_fs_offer',
                            kwargs={ 'offer_id': fso.id }))
         self.assertEquals(FSOffer.objects.count(), 0)
+
+    def test_friendship_offer_cancelling_decreases_fs_offers_inbox_count(self):
+        fso = FSOffer.objects.get()
+        self.c.get(reverse('social:cancel_fs_offer',
+                           kwargs={ 'offer_id': fso.id }))
+        self.acc2.reload()
+        self.assertEquals(self.acc2.fs_offers_inbox_count, 0)
 
     def test_friendship_offer_declines_successfully(self):
         self.c.login(username=self.acc2.username, password='123')
@@ -169,6 +191,24 @@ class FriendshipTestCase(BasicTestCase):
                            kwargs={ 'offer_id': fso.id }))
         self.assertEquals(FSOffer.objects.count(), 0)
 
+    def test_friendship_offer_declining_decreases_fs_offers_inbox_count(self):
+        self.c.login(username=self.acc2.username, password='123')
+        fso = FSOffer.objects.get()
+        self.c.get(reverse('social:decline_fs_offer',
+                           kwargs={ 'offer_id': fso.id }))
+        self.assertEquals(self.acc2.fs_offers_inbox_count, 0)
+
+
+
+class MassFriendshipTestCase(BasicTestCase):
+
+    def setUp(self):
+        FSOffer.objects.delete()
+        super(MassFriendshipTestCase, self).setUp()
+
+    def tearDown(self):
+        FSOffer.objects.delete()
+        super(MassFriendshipTestCase, self).tearDown()
 
     def test_mass_friendship_limits(self):
         FSOffer.objects.delete()
