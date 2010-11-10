@@ -59,9 +59,16 @@ def user(request, user_id=None):
     page_user = get_document_or_404(Account, id=user_id)
     if page_user == request.user:
         return redirect('social:home')
+
+    show_friend_button = request.user.is_authenticated() and not (page_user in
+            request.user.mutual_friends or
+            FriendshipOffer.objects(author=request.user,
+                               recipient=page_user).count())
+
     msgform = MessageTextForm()
     return direct_to_template(request, 'social/user.html',
-                              { 'page_user': page_user, 'msgform': msgform })
+                              { 'page_user': page_user, 'msgform': msgform,
+                                'show_friend_button': show_friend_button })
 
 
 @login_required
