@@ -170,6 +170,16 @@ class FriendshipTestCase(BasicTestCase):
         self.assertEquals(FSOffer.objects.count(), 0)
 
 
+class MassFriendshipTestCase(BasicTestCase):
+
+    def setUp(self):
+        FSOffer.objects.delete()
+        super(MassFriendshipTestCase, self).setUp()
+
+    def tearDown(self):
+        FSOffer.objects.delete()
+        super(MassFriendshipTestCase, self).tearDown()
+
     def test_mass_friendship_limits(self):
         FSOffer.objects.delete()
         c2 = Client()
