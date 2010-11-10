@@ -4,9 +4,13 @@
 <h1>Group "{{ group.name }}"</h1>
 {% for member in group.members %}
     <div>
-        <a href="{% url social:user user_id=member.id %}"
+        <a href="{% url social:user user_id=member.id %}">{{ member }}</a>
     </div>
-    <hr/>
-    <a href="{% url social:user user_id=member.id %}"
 {% endfor %}
+<hr/>
+{% if request.user in group.members %}
+    <a href="{% url social:group_leave id=group.id %}">leave group</a>
+{% else %}
+    <a href="{% url social:group_join id=group.id %}">join group</a>
+{% endif %}
 {% endblock %}

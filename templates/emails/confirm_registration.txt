@@ -3,7 +3,7 @@ Hello, {{ user.username }}!
 Thank you for registering in {{ SITE_DOMAIN }}.
 To confirm your registration please visit the activation url below:
 
-https://{{ SITE_DOMAIN }}{% url social:activation code=user.activation_code %}
+http://{{ SITE_DOMAIN }}{% url social:activation code=user.activation_code %}
 
 Regards,
 {{ SITE_DOMAIN }} team

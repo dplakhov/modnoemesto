@@ -1,5 +1,8 @@
 from dist import *
-from local import *
+try:
+    from local import *
+except ImportError:
+    pass
 
 import mongoengine
 

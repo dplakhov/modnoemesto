@@ -224,24 +224,27 @@ def group_add(request):
         name = form.data['name']
         group, created = Group.objects.get_or_create(name=name)
         if created:
-            group.members.append(request.user)
-            group.save()
-        return redirect(reverse('social.views.group_view', group.id))
-    return direct_to_template(request, 'social/groups/create.html', { 'form': form })
+            group.add_member(request.user)
+        return redirect(reverse('social:group_view', kwargs=dict(id=group.pk)))
+    return direct_to_template(request, 'social/groups/create.html', dict(form=form))
 
 
 @login_required
 def group_view(request, id):
     group = get_document_or_404(Group, id=id)
     return direct_to_template(request, 'social/groups/view.html',
-                              dict(group=group)
-                              )
+                              dict(group=group))
 
 @login_required
 def group_join(request, id):
     group = get_document_or_404(Group, id=id)
-    return direct_to_template(request, 'social/groups/view.html',
-                              dict(group=group)
-                              )
+    group.add_member(request.user)
+    return redirect(reverse('social:group_view', kwargs=dict(id=id)))
 
+
+@login_required
+def group_leave(request, id):
+    group = get_document_or_404(Group, id=id)
+    group.remove_member(request.user)
+    return redirect(reverse('social:group_view', kwargs=dict(id=id)))
 
