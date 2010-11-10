@@ -43,22 +43,24 @@ class Command(BaseCommand):
                 this_user.friend(friend)
                 random.randint(0,3) and friend.friend(this_user) # ~66%
 
-            max_msg_rcpts_count = random.randint(0, num % 25 + 25)
-            msg_rcpts_numbers = set([ random.randint(0, num-1) for _ in
-                            xrange(max_msg_rcpts_count) ]).difference(set([i]))
+            max_msg_sndrs_count = random.randint(0, num)
+            msg_sndrs_numbers = set([ random.randint(0, num-1) for _ in
+                            xrange(max_msg_sndrs_count) ]).difference(set([i]))
 
-            for rcpt_num in msg_rcpts_numbers:
-                messages_count = random.randint(0, 20)
+            for sndr_num in msg_sndrs_numbers:
+                messages_count = random.randint(0, 3)
 
-                rcpt = documents.Account.objects().order_by('username')[rcpt_num]
-                #this_user.reload()
+                sndr = documents.Account.objects().order_by('username'
+                                                            )[sndr_num]
                 for _ in xrange(messages_count):
+
                     text = ' '.join(random.choice(('hey', 'hello', 'what',
                                                    'test', 'text', 'maybe',
                                                    'joke', 'err', 'ohno!',
                                                    'damn', 'cool'))
                                   for i in xrange(5, 25))
-                    this_user.send_message(text, rcpt)
+
+                    sndr.send_message(text, this_user)
 
             if not i % (num/10 or 10):
                 print  '\rfriending and messaging %002d%%' % (i*100/num),
