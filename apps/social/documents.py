@@ -37,6 +37,10 @@ class Account(User):
     # some control
     version = IntField(default=0)
 
+    meta = {
+        'indexes': ['username', 'mutual_friends']
+    }
+
     def friend(self, user):
         #@todo: maybe move whole routine to some asynchronous worker such as
         # celery
@@ -156,6 +160,10 @@ class FriendshipOffer(Document):
     author = ReferenceField('Account')
     recipient = ReferenceField('Account')
 
+    meta = {
+        'indexes': ['-timestamp', 'author', 'recipient']
+    }
+
     def __init__(self, *args, **kwargs):
         super(FriendshipOffer, self).__init__(*args, **kwargs)
         self.timestamp = self.timestamp or datetime.now()
@@ -178,6 +186,10 @@ class Message(Document):
     timestamp = DateTimeField()
     userlist = ListField(ReferenceField('Account'))
     is_read = BooleanField(default=False)
+
+    meta = {
+        'indexes': ['-timestamp', 'author', 'recipient', 'userlist']
+    }
 
     def __init__(self, *args, **kwargs):
         super(Message, self).__init__(*args, **kwargs)
