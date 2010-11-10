@@ -40,6 +40,8 @@ class Account(User):
     def friend(self, user):
         #@todo: maybe move whole routine to some asynchronous worker such as
         # celery
+        if self.id == user.id:
+            return
         if FriendshipOffer.objects(recipient=self, author=user).count():
             #@warning: this code is non-transactional
             # minor limits violation is possible due to requests concurrency
