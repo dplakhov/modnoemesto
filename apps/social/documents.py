@@ -37,6 +37,8 @@ class Account(User):
     # some control
     version = IntField(default=0)
 
+    avatar = ReferenceField('ImageFile')
+
     meta = {
         'indexes': ['username', 'mutual_friends']
     }

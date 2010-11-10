@@ -22,6 +22,8 @@ urlpatterns = patterns('apps.social.views',
    url(r'^users/(?P<user_id>[a-f0-9]{24})/unfriend/$', 'unfriend',
        name='unfriend'),
 
+   url(r'^avatar/(?P<user_id>[a-f0-9]{24})/(?P<format>40x40|20x20|100x100)/$', 'avatar', name='avatar'),
+
    url(r'^friendship_offers/inbox/$', 'view_fs_offers_inbox',
        name='view_fs_offers_inbox'),
    url(r'^friendship_offers/sent/$', 'view_fs_offers_sent',
@@ -36,5 +38,7 @@ urlpatterns = patterns('apps.social.views',
    url(r'^groups/(?P<id>[a-f0-9]{24})/$', 'group_view', name='group_view'),
    url(r'^groups/(?P<id>[a-f0-9]{24})/join/$', 'group_join', name='group_join'),
    url(r'^groups/(?P<id>[a-f0-9]{24})/leave/$', 'group_leave', name='group_leave'),
+
+
 
 )

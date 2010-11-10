@@ -5,7 +5,7 @@ from django.contrib.auth import (authenticate, login as django_login,
     logout as django_logout)
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.core.mail import send_mail
 from django.conf import settings
 
@@ -247,4 +247,27 @@ def group_leave(request, id):
     group = get_document_or_404(Group, id=id)
     group.remove_member(request.user)
     return redirect(reverse('social:group_view', kwargs=dict(id=id)))
+
+@login_required
+def profile_edit(request):
+    return direct_to_template(request, 'social/groups/view.html',
+                              )
+
+def avatar(request, user_id, format):
+    user = get_document_or_404(Account, id=user_id)
+    if not user.avatar:
+        return redirect('/media/img/notfound/avatar_%s.png' % format)
+
+    image = user.avatar.get_derivative(format)
+    # image = FileDerivative.objects(transformation=format, source=user.avatar).first()
+
+    if not image:
+        return redirect('/media/img/converting/avatar_%s.png' % format)
+
+    return HttpResponse(image.file.read(), content_type=image.file.content_type)
+
+
+
+
+
 
