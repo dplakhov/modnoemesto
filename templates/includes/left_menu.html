@@ -2,7 +2,17 @@
     <div class="submenu">
         <p>Messages</p>
         <ul>
-            <li><a href="{% url social:view_inbox %}">Inbox</a></li>
+            <li>
+                {% if user.unread_msg_count %}
+                    <strong>
+                    <a href="{% url social:view_inbox %}">
+                        Inbox ({{ user.unread_msg_count }})
+                    </a>
+                    </strong>
+                {% else %}
+                    <a href="{% url social:view_inbox %}">Inbox</a>
+                {% endif %}
+            </li>
             <li><a href="{% url social:view_sent %}">Sent</a></li>
         </ul>
     </div>
