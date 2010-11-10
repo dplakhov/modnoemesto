@@ -20,7 +20,15 @@
         <p>Friendship offers</p>
         <ul>
             <li>
-                <a href="{% url social:view_fs_offers_inbox %}">Inbox</a>
+                {% if user.fs_offers_inbox_count %}
+                    <strong>
+                    <a href="{% url social:view_fs_offers_inbox %}">
+                        Inbox ({{ user.fs_offers_inbox_count }})
+                    </a>
+                    </strong>
+                {% else %}
+                    <a href="{% url social:view_fs_offers_inbox %}">Inbox</a>
+                {% endif %}
             </li>
             <li>
                 <a href="{% url social:view_fs_offers_sent %}">Sent</a>
