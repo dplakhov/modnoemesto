@@ -137,6 +137,7 @@ class Account(User):
 
 class Group(Document):
     name = StringField(required=True, unique=True)
+    members = ListField(ReferenceField('Account'))
 
 
 class FriendshipOffer(Document):

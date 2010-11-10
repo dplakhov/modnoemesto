@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Group "{{ group.name }}"</h1>
+{% for member in group.members %}
+    <div>
+        <a href="{% url social:user user_id=member.id %}"
+    </div>
+    <hr/>
+    <a href="{% url social:user user_id=member.id %}"
+{% endfor %}
+{% endblock %}

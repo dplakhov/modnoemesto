@@ -8,9 +8,10 @@ from django.http import Http404
 
 from mongoengine.django.shortcuts import get_document_or_404
 
-from documents import (Account, FriendshipOffer, Message,
+from documents import (Account, FriendshipOffer, Message, Group,
         LimitsViolationException)
-from forms import UserCreationForm, LoginForm, MessageTextForm
+from forms import UserCreationForm, LoginForm, MessageTextForm, GroupCreationForm
+from django.core.urlresolvers import reverse
 
 
 def index(request):
@@ -170,3 +171,43 @@ def delete_message(request, message_id):
     message = get_document_or_404(Message, id=message_id, userlist=request.user)
     message.delete_from(request.user)
     return redirect('social:view_inbox')
+
+
+@login_required
+def group_list(request):
+    #@todo: pagination
+    #@todo: partial data fetching
+    groups = Group.objects[:10]
+    return direct_to_template(request, 'social/groups/list.html',
+                              dict(groups=groups)
+                              )
+
+
+@login_required
+def group_add(request):
+    form = GroupCreationForm(request.POST or None)
+    if form.is_valid():
+        name = form.data['name']
+        group, created = Group.objects.get_or_create(name=name)
+        if created:
+            group.members.append(request.user)
+            group.save()
+        return redirect(reverse('social.views.group_view', group.id))
+    return direct_to_template(request, 'social/groups/create.html', { 'form': form })
+
+
+@login_required
+def group_view(request, id):
+    group = get_document_or_404(Group, id=id)
+    return direct_to_template(request, 'social/groups/view.html',
+                              dict(group=group)
+                              )
+
+@login_required
+def group_join(request, id):
+    group = get_document_or_404(Group, id=id)
+    return direct_to_template(request, 'social/groups/view.html',
+                              dict(group=group)
+                              )
+
+
