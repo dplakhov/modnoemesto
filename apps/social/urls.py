@@ -1,4 +1,7 @@
+# -*- coding: utf-8 -*-
 from django.conf.urls.defaults import *
+
+from django.conf import settings
 
 urlpatterns = patterns('apps.social.views',
    url(r'^$', 'index', name='index'),
@@ -22,7 +25,10 @@ urlpatterns = patterns('apps.social.views',
    url(r'^users/(?P<user_id>[a-f0-9]{24})/unfriend/$', 'unfriend',
        name='unfriend'),
 
-   url(r'^avatar/(?P<user_id>[a-f0-9]{24})/(?P<format>40x40|20x20|100x100)/$', 'avatar', name='avatar'),
+   url(r'^avatar/(?P<user_id>[a-f0-9]{24})/(?P<format>%s)/$' %
+       '|'.join(['%dx%d' % (w, h) for (w, h) in settings.AVATAR_SIZES ]),
+
+       'avatar', name='avatar'),
 
    url(r'^friendship_offers/inbox/$', 'view_fs_offers_inbox',
        name='view_fs_offers_inbox'),
@@ -39,6 +45,7 @@ urlpatterns = patterns('apps.social.views',
    url(r'^groups/(?P<id>[a-f0-9]{24})/join/$', 'group_join', name='group_join'),
    url(r'^groups/(?P<id>[a-f0-9]{24})/leave/$', 'group_leave', name='group_leave'),
 
-
+   url(r'^profile/$', 'profile_edit', name='profile_edit'),
+   url(r'^profile/avatar/$', 'avatar_edit', name='avatar_edit'),
 
 )

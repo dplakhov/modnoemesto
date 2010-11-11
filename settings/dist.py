@@ -93,10 +93,12 @@ TEMPLATE_LOADERS = (
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.auth',
     'django.core.context_processors.debug',
-    #'django.core.context_processors.i18n',
+    'django.core.context_processors.i18n',
     'django.core.context_processors.media',
     'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
     'apps.social.context_processors.site_domain',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -104,7 +106,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    #'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -120,7 +122,7 @@ INSTALLED_APPS = (
     #'django.contrib.contenttypes',
     'django.contrib.sessions',
     #'django.contrib.sites',
-    #'django.contrib.messages',
+    'django.contrib.messages',
     #'django.contrib.admin',
     #'mongoengine.django.auth',
     'apps.social',
@@ -140,3 +142,9 @@ SEND_EMAILS = True
 SITE_DOMAIN = 'whatever.com' # no slashes here, please
 
 ROBOT_EMAIL_ADDRESS = 'noreply@whatever.com'
+
+AVATAR_SIZES = (
+    (100, 100),
+    (60, 60),
+    (30, 30),
+)

@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
 from django.template.loader import render_to_string
 from django.contrib.auth import (authenticate, login as django_login,
@@ -8,13 +8,26 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse
 from django.core.mail import send_mail
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
 from mongoengine.django.shortcuts import get_document_or_404
 
 from documents import (Account, FriendshipOffer, Message, Group,
         LimitsViolationException)
-from forms import UserCreationForm, LoginForm, MessageTextForm, GroupCreationForm
+from forms import ( UserCreationForm, LoginForm, MessageTextForm,
+    GroupCreationForm, ChangeAvatarForm)
 from django.core.urlresolvers import reverse
+
+from apps.media.files import ImageFile
+from apps.media.transformations import ImageResize
+from ImageFile import Parser as ImageFileParser
+
+from django.contrib import messages
+
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
 
 
 def index(request):
@@ -268,6 +281,48 @@ def avatar(request, user_id, format):
 
 
 
+@login_required
+def avatar_edit(request):
+    form = ChangeAvatarForm(request.POST, request.FILES)
+    user = request.user
+
+    if form.is_valid():
+        file = request.FILES['file']
+        buffer = StringIO()
+
+        for chunk in file.chunks():
+            buffer.write(chunk)
+
+        buffer.reset()
+        try:
+            parser = ImageFileParser()
+            parser.feed(buffer.read())
+            image = parser.close()
+            image_valid = True
+        except Exception, e:
+            messages.add_message(request, messages.ERROR, _('Invalid image file format'))
+            image_valid = False
+
+        if image_valid:
+            avatar = ImageFile()
+            buffer.reset()
+            avatar.file.put(buffer, content_type=file.content_type)
+            avatar.save()
+
+            user.avatar = avatar
+            user.save()
+
+            #@todo doing transformations by queue
+            transformations = [ ImageResize(name='%sx%s' % (w,h), format='png', width=w, height=h)
+                                for (w, h) in settings.AVATAR_SIZES ]
+            avatar.apply_transformations(*transformations)
+
+            messages.add_message(request, messages.SUCCESS, _('Avatar successfully updated'))
+
+
+    return direct_to_template(request, 'social/profile/avatar.html',
+                              dict(form=form, user=user)
+                              )
 
 
 

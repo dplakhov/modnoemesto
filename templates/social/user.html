@@ -3,7 +3,6 @@
 {% block content %}
 
 <h1>{{ page_user }}'s home</h1>
-    <img src="{% url social:avatar user_id=page_user.id format='100x100' %}" />
     {% if user.avatar %}
         <img src="{% url social:avatar user_id=page_user.id format='100x100' %}" />
     {% else %}
