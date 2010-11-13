@@ -141,6 +141,10 @@ CELERY_MONGODB_BACKEND_SETTINGS = {
     "taskmeta_collection": "taskmeta",
 }
 
+TASKS_ENABLED = dict(
+    AVATAR_RESIZE = 1
+)
+
 
 AUTHENTICATION_BACKENDS = (
     'apps.social.auth.MongoEngineBackend',

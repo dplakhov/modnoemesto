@@ -29,6 +29,9 @@ try:
 except ImportError:
     from StringIO import StringIO
 
+from apps.media.tasks import apply_image_transformations
+
+
 
 def index(request):
     accs = Account.objects().only('username')
@@ -315,7 +318,14 @@ def avatar_edit(request):
             #@todo doing transformations by queue
             transformations = [ ImageResize(name='%sx%s' % (w,h), format='png', width=w, height=h)
                                 for (w, h) in settings.AVATAR_SIZES ]
-            avatar.apply_transformations(*transformations)
+
+            if settings.TASKS_ENABLED.get('AVATAR_RESIZE'):
+                args = [ avatar.id, ] + transformations
+                apply_image_transformations.apply_async(args=args, countdown=3)
+                print 'avatar!!!!'
+
+            else:
+                avatar.apply_transformations(*transformations)
 
             messages.add_message(request, messages.SUCCESS, _('Avatar successfully updated'))
 
