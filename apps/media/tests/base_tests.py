@@ -2,7 +2,6 @@
 
 import os
 
-
 from django.test import TestCase
 
 from ..files import *
@@ -11,7 +10,6 @@ from ..transformations import ImageResize
 def file_path(file_name):
     return os.path.abspath(os.path.join(os.path.dirname(__file__),
                                         'files', file_name))
-
 
 class MediaFileTest(TestCase):
     def test_save_empty_file_raises_exc(self):
@@ -46,10 +44,9 @@ class MediaFileTest(TestCase):
 
         file.save()
 
-        '''
-        file.set_transformations(ImageResize(name=TRANSFORMATION_NAME,
-                                             format='png', width=100, height=100))
-        '''
+        file = MediaFile(id=file.id)
+        file.reload()
+
         derivatives = file.apply_transformations(ImageResize(name=TRANSFORMATION_NAME,
                                              format='png', width=100, height=100))
 
@@ -79,3 +76,30 @@ class MediaFileTest(TestCase):
 
     def test_apply_transformations_before_save_raises_exc(self):
         pass
+
+
+class TasksTest(TestCase):
+    def test_apply_image_transformations(self):
+        print '\nthis test requres running celeryd (python manage.py celeryd)'
+        from ..tasks import apply_image_transformations
+        file = ImageFile()
+
+        file.file.put(open(file_path('logo-mongodb.png')),
+            content_type='image/png')
+
+        file.save()
+
+        args = [
+            str(file.id),
+            ImageResize(name='trans1', format='png', width=100, height=100),
+            ImageResize(name='trans2', format='png', width=100, height=100)
+        ]
+
+        result = apply_image_transformations.apply_async(args=args, countdown=3)
+        result.get()
+
+        file.reload()
+
+        self.failUnless(file.get_derivative('trans1'))
+        self.failUnless(file.get_derivative('trans2'))
+
