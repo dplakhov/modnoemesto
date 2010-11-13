@@ -275,64 +275,59 @@ def avatar(request, user_id, format):
         return redirect('/media/img/notfound/avatar_%s.png' % format)
 
     image = user.avatar.get_derivative(format)
-    # image = FileDerivative.objects(transformation=format, source=user.avatar).first()
+    #image = FileDerivative.objects(transformation=format, source=user.avatar).first()
 
     if not image:
         return redirect('/media/img/converting/avatar_%s.png' % format)
 
     return HttpResponse(image.file.read(), content_type=image.file.content_type)
 
-
-
 @login_required
 def avatar_edit(request):
-    form = ChangeAvatarForm(request.POST, request.FILES)
     user = request.user
+    if request.method != 'POST':
+        form = ChangeAvatarForm()
+    else:
+        form = ChangeAvatarForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = request.FILES['file']
+            buffer = StringIO()
 
-    if form.is_valid():
-        file = request.FILES['file']
-        buffer = StringIO()
+            for chunk in file.chunks():
+                buffer.write(chunk)
 
-        for chunk in file.chunks():
-            buffer.write(chunk)
-
-        buffer.reset()
-        try:
-            parser = ImageFileParser()
-            parser.feed(buffer.read())
-            image = parser.close()
-            image_valid = True
-        except Exception, e:
-            messages.add_message(request, messages.ERROR, _('Invalid image file format'))
-            image_valid = False
-
-        if image_valid:
-            avatar = ImageFile()
             buffer.reset()
-            avatar.file.put(buffer, content_type=file.content_type)
-            avatar.save()
+            try:
+                parser = ImageFileParser()
+                parser.feed(buffer.read())
+                image = parser.close()
+                image_valid = True
+            except Exception, e:
+                messages.add_message(request, messages.ERROR, _('Invalid image file format'))
+                image_valid = False
 
-            user.avatar = avatar
-            user.save()
+            if image_valid:
+                avatar = ImageFile()
+                buffer.reset()
+                avatar.file.put(buffer, content_type=file.content_type)
+                avatar.save()
 
-            #@todo doing transformations by queue
-            transformations = [ ImageResize(name='%sx%s' % (w,h), format='png', width=w, height=h)
-                                for (w, h) in settings.AVATAR_SIZES ]
+                user.avatar = avatar
+                user.save()
 
-            if settings.TASKS_ENABLED.get('AVATAR_RESIZE'):
-                args = [ avatar.id, ] + transformations
-                apply_image_transformations.apply_async(args=args, countdown=3)
-                print 'avatar!!!!'
+                transformations = [ ImageResize(name='%sx%s' % (w,h), format='png', width=w, height=h)
+                                    for (w, h) in settings.AVATAR_SIZES ]
 
-            else:
-                avatar.apply_transformations(*transformations)
+                if settings.TASKS_ENABLED.get('AVATAR_RESIZE'):
+                    args = [ avatar.id, ] + transformations
+                    apply_image_transformations.apply_async(args=args, countdown=3)
+                else:
+                    avatar.apply_transformations(*transformations)
 
-            messages.add_message(request, messages.SUCCESS, _('Avatar successfully updated'))
+                messages.add_message(request, messages.SUCCESS, _('Avatar successfully updated'))
 
 
     return direct_to_template(request, 'social/profile/avatar.html',
                               dict(form=form, user=user)
                               )
-
-
 

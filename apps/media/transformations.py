@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import Image
+
+
 from ImageFile import Parser as ImageFileParser
 from files import FileDerivative
 
@@ -32,7 +35,7 @@ class ImageResize(FileTransformation):
         parser = ImageFileParser()
         parser.feed(source.file.read())
         source_image = parser.close()
-        image = source_image.resize((self.width, self.height,))
+        image = source_image.resize((self.width, self.height,), Image.ANTIALIAS)
         buffer = StringIO()
         image.save(buffer, self.format)
         buffer.reset()
