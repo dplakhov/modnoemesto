@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     (r'^', include('apps.social.urls', namespace='social')),
+    (r'^cam/', include('apps.cam.urls', namespace='cam')),
 )
 
 if settings.DEBUG:

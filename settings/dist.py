@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'djcelery',
     'apps.social',
     'apps.media',
+    'apps.cam',
 )
 
 CELERY_RESULT_BACKEND = "mongodb"

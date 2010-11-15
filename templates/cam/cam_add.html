@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h2>{% trans "Registered cameras" %}</h2>
+<p>
+{% for cam in cams %}
+    <div>
+        <a href="{% url cam:view cam.id %}">{{ cam.name }}</a>
+    </div>
+{% endfor %}
+</p>
+{% endblock %}
