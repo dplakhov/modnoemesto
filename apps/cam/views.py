@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
+
+from mongoengine.django.shortcuts import get_document_or_404
+
 from .models import Camera
 from .models import CameraType
 
@@ -16,10 +19,12 @@ def type_list(request):
                               dict(types=types)
                               )
 
-
 def type_add(request):
     types = CameraType.objects()
     return direct_to_template(request, 'cam/type_add.html',
                               dict(types=types)
                               )
+
+def type_view(request, id):
+    type = get_document_or_404(CameraType, id=id) 
 
