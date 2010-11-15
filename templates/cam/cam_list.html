@@ -6,7 +6,11 @@
 <p>
 {% for cam in cams %}
     <div>
-        <a href="{% url cam:view cam.id %}">{{ cam.name }}</a>
+        {{ cam.name }}
+    <a href="{% url cam:cam_view cam.id %}">{% trans 'View' %}</a>
+    {% if cam.owner == request.user or request.user.is_superuser %}
+        <a href="{% url cam:cam_edit cam.id %}">{% trans 'Edit' %}</a>
+    {% endif %}
     </div>
 {% endfor %}
 </p>

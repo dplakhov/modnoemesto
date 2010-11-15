@@ -4,7 +4,7 @@ from mongoengine import Document, StringField, ReferenceField
 
 
 class CameraType(Document):
-    name = StringField(max_length=255)
+    name = StringField(max_length=255, unique=True)
 
 
 class Camera(Document):

@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls.defaults import *
 
-from django.conf import settings
-
 urlpatterns = patterns('apps.cam.views',
     url(r'^$', 'cam_list', name='cam_list'),
-    url(r'add/$', 'cam_add', name='cam_add'),
 
-    url(r'types/$', 'type_list', name='type_list'),
-    url(r'types/add/$', 'type_add', name='type_add'),
-    url(r'types/(?P<id>[a-f0-9]{24})/$', 'type_view', name='type_view'),
+    url(r'^(?P<id>[a-f0-9]{24})/$', 'cam_view', name='cam_view'),
+
+    url(r'^add/$', 'cam_edit', name='cam_edit'),
+    url(r'^edit/(?P<id>[a-f0-9]{24})/$', 'cam_edit', name='cam_edit'),
+
+
+    url(r'^types/$', 'type_list', name='type_list'),
+    url(r'^types/add/$', 'type_edit', name='type_edit'),
+    url(r'^types/(?P<id>[a-f0-9]{24})/$', 'type_edit', name='type_edit'),
 
 )

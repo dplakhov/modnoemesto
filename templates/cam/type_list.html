@@ -6,12 +6,11 @@
 <p>
 {% for type in types %}
     <div>
-        <a href="{% url cam:view cam.id %}">{{ cam.name }}</a>
+        <a href="{% url cam:type_edit type.id %}">{{ type.name }}</a>
     </div>
 {% endfor %}
 </p>
 
-        <a href="{% url cam:type_add %}">{% trans "Add type" %}</a>
-
+<a href="{% url cam:type_edit %}">{% trans "Add type" %}</a>
 
 {% endblock %}

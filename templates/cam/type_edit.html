@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<h2>
+    {% if is_new %}
+        {% trans "Add camera type" %}
+    {% else %}
+        {% trans "Edit camera type" %}
+    {% endif %}
+</h2>
+    <form method="post">
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit"
+               value="{% if is_new %}{% trans 'Add' %}{% else %}{% trans 'Save' %}{% endif %}" />
+    </form>
+{% endblock %}
