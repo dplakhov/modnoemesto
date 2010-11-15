@@ -320,7 +320,8 @@ def avatar_edit(request):
 
                 if settings.TASKS_ENABLED.get('AVATAR_RESIZE'):
                     args = [ avatar.id, ] + transformations
-                    apply_image_transformations.apply_async(args=args, countdown=3)
+                    apply_image_transformations.apply_async(args=args)
+                    #apply_image_transformations.delay()
                 else:
                     avatar.apply_transformations(*transformations)
 
