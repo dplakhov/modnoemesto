@@ -56,6 +56,9 @@
         <a href="{% url social:login %}">login</a>
     {% endif %}
     </div>
+    {% if request.user.is_superuser %}
+        {% include 'includes/admin_menu.html' %}
+    {% endif %}
 </div>
 {% if messages %}
 <div class="messages">

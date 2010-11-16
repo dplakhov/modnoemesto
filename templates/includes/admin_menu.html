@@ -1,0 +1,10 @@
+{% if request.user.is_superuser %}
+<div class="admin-menu">
+    <div class="submenu">
+        <p>Cameras</p>
+        <ul>
+            <li><a href="{% url cam:type_list %}">Camera types</a></li>
+        </ul>
+    </div>
+</div>
+{% endif %}
