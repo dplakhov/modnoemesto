@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from mongoengine import Document, StringField, ReferenceField 
+from mongoengine import Document, StringField, ReferenceField, BooleanField
 
 
 class CameraType(Document):
@@ -14,3 +14,4 @@ class Camera(Document):
     ip = StringField(max_length=15)
     username = StringField(max_length=64)
     password = StringField(max_length=64)
+    enabled = BooleanField()

@@ -18,14 +18,17 @@ def cam_list(request):
 
 @login_required
 def cam_edit(request, id=None):
+    simple_fields = ('name', 'ip', 'username', 'password', 'enabled', )
+
     if id:
         cam = get_document_or_404(Camera, id=id)
+
         initial = {}
-        initial['name'] = cam.name
+
+        for field in simple_fields:
+            initial[field] = getattr(cam, field)
+
         initial['type'] = cam.type.id
-        initial['ip'] = cam.ip
-        initial['username'] = cam.username
-        initial['password'] = cam.password
 
     else:
         cam = None
@@ -38,11 +41,10 @@ def cam_edit(request, id=None):
             cam = Camera()
             cam.owner = request.user
 
-        cam.name = form.cleaned_data['name']
+        for field in simple_fields:
+            setattr(cam, field, form.cleaned_data[field])
+            
         cam.type = CameraType.objects.get(id=form.cleaned_data['type'])
-        cam.ip = form.cleaned_data['ip']
-        cam.username = form.cleaned_data['username']
-        cam.password = form.cleaned_data['password']
 
         cam.save()
         return HttpResponseRedirect(reverse('cam:cam_list'))
