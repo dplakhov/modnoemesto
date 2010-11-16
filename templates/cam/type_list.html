@@ -7,6 +7,7 @@
 {% for type in types %}
     <div>
         <a href="{% url cam:type_edit type.id %}">{{ type.name }}</a>
+        <a href="{% url cam:type_delete type.id %}">[x]</a>
     </div>
 {% endfor %}
 </p>

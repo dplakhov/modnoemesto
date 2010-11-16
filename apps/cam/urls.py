@@ -15,5 +15,6 @@ urlpatterns = patterns('apps.cam.views',
     url(r'^types/$', 'type_list', name='type_list'),
     url(r'^types/add/$', 'type_edit', name='type_edit'),
     url(r'^types/(?P<id>[a-f0-9]{24})/$', 'type_edit', name='type_edit'),
+    url(r'^types/(?P<id>[a-f0-9]{24})/delete/$', 'type_delete', name='type_delete'),
 
 )

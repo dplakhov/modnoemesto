@@ -101,3 +101,10 @@ def type_edit(request, id=None):
     return direct_to_template(request, 'cam/type_edit.html',
                               dict(form=form, is_new=id is None)
                               )
+
+
+@login_required
+def type_delete(request, id):
+    type = get_document_or_404(CameraType, id=id)
+    type.delete()
+    return HttpResponseRedirect(reverse('cam:type_list'))
