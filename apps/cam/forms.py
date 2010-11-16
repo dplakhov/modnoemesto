@@ -6,6 +6,7 @@ from .models import CameraType
 
 class CameraTypeForm(forms.Form):
     name = forms.CharField()
+    driver = forms.CharField()
 
 class CameraForm(forms.Form):
     name = forms.CharField()

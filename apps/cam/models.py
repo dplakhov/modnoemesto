@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 
 from mongoengine import Document, StringField, ReferenceField, BooleanField
-
+from reflect import namedClass
 
 class CameraType(Document):
     name = StringField(max_length=255, unique=True)
-    code = StringField(max_length=255)
+    driver = StringField(max_length=255)
+
+    @property
+    def driver_class(self):
+        return namedClass(self.driver)
+
 
 class Camera(Document):
     name = StringField(max_length=255)
