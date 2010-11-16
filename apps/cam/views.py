@@ -23,6 +23,10 @@ def cam_edit(request, id=None):
         initial = {}
         initial['name'] = cam.name
         initial['type'] = cam.type.id
+        initial['ip'] = cam.ip
+        initial['username'] = cam.username
+        initial['password'] = cam.password
+
     else:
         cam = None
         initial = {}
@@ -36,6 +40,9 @@ def cam_edit(request, id=None):
 
         cam.name = form.cleaned_data['name']
         cam.type = CameraType.objects.get(id=form.cleaned_data['type'])
+        cam.ip = form.cleaned_data['ip']
+        cam.username = form.cleaned_data['username']
+        cam.password = form.cleaned_data['password']
 
         cam.save()
         return HttpResponseRedirect(reverse('cam:cam_list'))
