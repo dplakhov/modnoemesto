@@ -49,7 +49,8 @@
             /
             <a href="{% url social:home %}">home</a> /
             <a href="{% url social:logout %}">logout</a> /
-            <a href="{% url social:group_list %}">groups</a> 
+            <a href="{% url social:group_list %}">groups</a> /
+            <a href="{% url cam:cam_list %}">cameras</a>
             </p>
     {% else %}
         <a href="{% url social:register %}">signup</a> /

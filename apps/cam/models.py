@@ -5,7 +5,7 @@ from mongoengine import Document, StringField, ReferenceField, BooleanField
 
 class CameraType(Document):
     name = StringField(max_length=255, unique=True)
-
+    code = StringField(max_length=255)
 
 class Camera(Document):
     name = StringField(max_length=255)

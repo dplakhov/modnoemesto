@@ -13,7 +13,7 @@ class CameraForm(forms.Form):
     ip = forms.CharField()
     username = forms.CharField()
     password = forms.CharField()
-    enabled = forms.BooleanField()
+    enabled = forms.BooleanField(required=False)
 
 
 #CameraTypeForm = model_form(CameraType)
