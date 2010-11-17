@@ -20,3 +20,7 @@ class Camera(Document):
     username = StringField(max_length=64)
     password = StringField(max_length=64)
     enabled = BooleanField()
+
+    @property
+    def driver(self):
+        return self.type.driver_class(self)
