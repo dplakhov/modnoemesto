@@ -4,6 +4,7 @@ from django.test import TestCase
 import apps.cam.drivers.axis
 from models import CameraType, Camera
 import drivers.exceptions
+import mechanize
 
 
 AXIS_CAMERA_HOST = '192.168.1.219'
@@ -78,7 +79,7 @@ class CameraDriverTest(TestCase):
         camera = Camera(type=camera_type,
                         host=AXIS_CAMERA_HOST,
                         username=AXIS_CAMERA_USER,
-                        password=AXIS_CAMERA_PASSWORD
+                        password='badpassword00'
                         )
         control_interface = camera.driver.control
         self.failUnlessRaises(drivers.exceptions.AccessDenied, control_interface.check)
@@ -89,9 +90,21 @@ class CameraDriverTest(TestCase):
         camera = Camera(type=camera_type,
                         host=AXIS_CAMERA_HOST,
                         username=AXIS_CAMERA_USER,
-                        password='badpassword00'
+                        password=AXIS_CAMERA_PASSWORD
                         )
         control_interface = camera.driver.control
+
         self.failUnless(control_interface.check())
 
+
+    def test_control_interface_authenticate(self):
+        camera_type = CameraType(name='axis', driver='apps.cam.drivers.axis.AxisDriver')
+        camera = Camera(type=camera_type,
+                        host=AXIS_CAMERA_HOST,
+                        username=AXIS_CAMERA_USER,
+                        password=AXIS_CAMERA_PASSWORD
+                        )
+        control_interface = camera.driver.control
+
+        self.failUnless(isinstance(control_interface.authenticate(), mechanize.Browser))
 
