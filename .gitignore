@@ -3,3 +3,4 @@
 /settings/secret.txt
 *.pyc
 /venv
+tags
