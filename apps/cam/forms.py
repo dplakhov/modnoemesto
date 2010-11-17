@@ -10,11 +10,16 @@ class CameraTypeForm(forms.Form):
 
 class CameraForm(forms.Form):
     name = forms.CharField()
-    type = forms.ChoiceField(choices=tuple([(x.id, x.name) for x in CameraType.objects.all()]))
+    type = forms.ChoiceField(choices=())
     host = forms.CharField()
     username = forms.CharField()
     password = forms.CharField()
     enabled = forms.BooleanField(required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(CameraForm, self).__init__(*args, **kwargs)
+        self.fields['type'].choices = tuple(
+                            (x.id, x.name) for x in CameraType.objects.all())
 
 
 #CameraTypeForm = model_form(CameraType)
