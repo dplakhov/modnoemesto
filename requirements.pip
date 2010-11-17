@@ -3,3 +3,4 @@ mongoengine==0.4
 pymongo==1.9
 wsgiref==0.1.2
 django-celery==2.1.2
+mechanize==0.2.4
