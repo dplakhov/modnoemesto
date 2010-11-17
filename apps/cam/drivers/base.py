@@ -29,6 +29,12 @@ class ControlInterface(BaseInterface):
     def move_right(self):
         raise NotImplementedError()
 
+    def home(self):
+        raise NotImplementedError()
+
+    def reset(self):
+        raise NotImplementedError()
+    
 class StreamInterface(BaseInterface):
     def check(self):
        raise NotImplementedError()

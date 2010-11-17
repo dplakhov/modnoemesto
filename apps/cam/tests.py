@@ -60,6 +60,8 @@ class CameraDriverTest(TestCase):
             'move_down',
             'move_left',
             'move_right',
+            'home',
+            'reset',
             ):
             self.failUnless(hasattr(control_interface, method),
                             'control interface has not method %s' % method)
@@ -107,4 +109,16 @@ class CameraDriverTest(TestCase):
         control_interface = camera.driver.control
 
         self.failUnless(isinstance(control_interface.authenticate(), mechanize.Browser))
+
+
+    def test_control_interface_command(self):
+        camera_type = CameraType(name='axis', driver='apps.cam.drivers.axis.AxisDriver')
+        camera = Camera(type=camera_type,
+                        host=AXIS_CAMERA_HOST,
+                        username=AXIS_CAMERA_USER,
+                        password=AXIS_CAMERA_PASSWORD
+                        )
+        control_interface = camera.driver.control
+        control_interface.reset()
+
 
