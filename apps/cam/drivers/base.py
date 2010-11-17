@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
+from .exceptions import ImproperlyConfigured
 
 class BaseInterface(object):
     def __init__(self, camera):
         self.camera = camera
+    def check(self):
+        for required in ('host', 'username', 'password'):
+            if not getattr(self.camera, required):
+                raise ImproperlyConfigured('Empty %s parameter' % required)
+
 
 class ControlInterface(BaseInterface):
-    def check(self):
-       raise NotImplementedError()
-
     def zoom_in(self):
         raise NotImplementedError()
 

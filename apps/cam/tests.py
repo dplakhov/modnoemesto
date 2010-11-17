@@ -3,6 +3,13 @@ from django.test import TestCase
 
 import apps.cam.drivers.axis
 from models import CameraType, Camera
+import drivers.exceptions
+
+
+AXIS_CAMERA_HOST = '192.168.1.219'
+AXIS_CAMERA_USER = 'Admin'
+AXIS_CAMERA_PASSWORD = '123456'
+
 
 class CameraDriverTest(TestCase):
     def test_driver_class_loading(self):
@@ -58,5 +65,33 @@ class CameraDriverTest(TestCase):
 
             self.failUnless(callable(getattr(control_interface, method)),
                             'control interface method %s is not callable' % method)
+
+
+    def test_control_interface_check_fail_ImproperlyConfigured(self):
+        camera_type = CameraType(name='axis', driver='apps.cam.drivers.axis.AxisDriver')
+        camera = Camera(type=camera_type)
+        control_interface = camera.driver.control
+        self.failUnlessRaises(drivers.exceptions.ImproperlyConfigured, control_interface.check)
+
+    def test_control_interface_check_fail_AccessDenied(self):
+        camera_type = CameraType(name='axis', driver='apps.cam.drivers.axis.AxisDriver')
+        camera = Camera(type=camera_type,
+                        host=AXIS_CAMERA_HOST,
+                        username=AXIS_CAMERA_USER,
+                        password=AXIS_CAMERA_PASSWORD
+                        )
+        control_interface = camera.driver.control
+        self.failUnlessRaises(drivers.exceptions.AccessDenied, control_interface.check)
+
+
+    def test_control_interface_check_success(self):
+        camera_type = CameraType(name='axis', driver='apps.cam.drivers.axis.AxisDriver')
+        camera = Camera(type=camera_type,
+                        host=AXIS_CAMERA_HOST,
+                        username=AXIS_CAMERA_USER,
+                        password='badpassword00'
+                        )
+        control_interface = camera.driver.control
+        self.failUnless(control_interface.check())
 
 

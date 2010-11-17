@@ -11,7 +11,7 @@ class CameraTypeForm(forms.Form):
 class CameraForm(forms.Form):
     name = forms.CharField()
     type = forms.ChoiceField(choices=tuple([(x.id, x.name) for x in CameraType.objects.all()]))
-    ip = forms.CharField()
+    host = forms.CharField()
     username = forms.CharField()
     password = forms.CharField()
     enabled = forms.BooleanField(required=False)
