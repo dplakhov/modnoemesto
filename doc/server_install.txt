@@ -1,0 +1,29 @@
+apt-get update 
+apt-get dist-upgrade upgrade
+
+
+
+
+apt-get install vim-nox mc htop zip unzip exuberant-ctags screen 
+
+apt-get install git subversion git-svn
+
+git config --global user.name root
+git config --global user.email root@web-mark.ru
+
+
+apt-get install etckeeper
+vim /etc/etckeeper/etckeeper.conf
+etckeeper init
+
+apt-get install postfix uudeview mutt elinks
+
+apt-get install python-virtualenv python-pip python-imaging 
+
+echo deb http://downloads.mongodb.org/distros/ubuntu 10.10 10gen > /etc/apt/sources.list.d/mongodb.list
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
+apt-get update
+apt-get install mongodb-stable
+
+apt-get install rabbitmq-server
+
