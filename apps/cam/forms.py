@@ -25,11 +25,19 @@ class CameraTypeForm(forms.Form):
 
 class CameraForm(forms.Form):
     name = forms.CharField()
-    type = forms.ChoiceField(choices=tuple([(x.id, x.name) for x in CameraType.objects.all()]))
+    type = forms.ChoiceField(choices=())
     host = forms.CharField()
     username = forms.CharField()
     password = forms.CharField()
     enabled = forms.BooleanField(required=False)
+    public = forms.BooleanField(required=False)
+    free = forms.BooleanField(required=False)
+    operator = forms.CharField()
+
+    def __init__(self, *args, **kwargs):
+        super(CameraForm, self).__init__(*args, **kwargs)
+        self.fields['type'].choices = tuple(
+                            (x.id, x.name) for x in CameraType.objects.all())
 
     def clean(self):
         data = self.cleaned_data

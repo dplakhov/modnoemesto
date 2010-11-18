@@ -21,11 +21,11 @@ def is_superuser(user):
 
 @login_required
 def cam_edit(request, id=None):
-    user = request.user
-    simple_fields = ('name', 'host', 'username', 'password', 'enabled', )
+    simple_fields = ('name', 'host', 'username', 'password', 'enabled', 
+                     'public', 'free', 'operator' )
 
     if id:
-        cam = get_document_or_404(Camera, id=id)
+        cam = get_document_or_404(Camera, id=id, owner=request.user)
 
         if not is_superuser(user) and user.id != cam.owner.id:
             return HttpResponseNotFound()
@@ -51,6 +51,8 @@ def cam_edit(request, id=None):
         for field in simple_fields:
             setattr(cam, field, form.cleaned_data[field])
             
+        cam.type = CameraType.objects.get(id=form.cleaned_data['type'])
+
         cam.save()
         return HttpResponseRedirect(reverse('cam:cam_list'))
 

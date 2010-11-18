@@ -1,5 +1,16 @@
 {% extends "base.html" %}
 
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
+    {% if user.is_authenticated %}
+    <script src="/media/js/jquery-1.4.2.min.js"></script>
+    <script src="/media/js/underscore-min.js"></script>
+    <script src="/media/js/socket.io.js"></script>
+    <script src="/media/js/client-io.js"></script>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
 
 <h1>Welcome to your homepage</h1>
@@ -18,6 +29,15 @@
         </table>
     </div>
     {% endcomment %}
+
+    <div id="camera">
+        {% if camera %}
+            {% include "includes/camera.html" %}
+        {% else %}
+            You have no registered camera.
+            Wanna do it right now?
+        {% endif %}
+    </div>
 
 </div>
 
