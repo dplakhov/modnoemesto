@@ -22,7 +22,7 @@ def cam_edit(request, id=None):
                      'public', 'free', 'operator' )
 
     if id:
-        cam = get_document_or_404(Camera, id=id)
+        cam = get_document_or_404(Camera, id=id, owner=request.user)
 
         initial = {}
 
