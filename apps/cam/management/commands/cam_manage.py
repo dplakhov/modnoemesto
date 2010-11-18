@@ -4,11 +4,11 @@ from apps.cam.models import Camera, CameraType
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        print repr(args)
         try:
             (driver, host, username, password) = args
         except:
             raise
+
         import curses
         type = CameraType(name=driver, driver='apps.cam.drivers.%s' % driver)
         camera = Camera(
