@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.core.urlresolvers import reverse
 
 from mongoengine.django.shortcuts import get_document_or_404
+
+from .constants import AVAILABLE_COMMANDS
 
 from .models import Camera
 from .models import CameraType
@@ -116,3 +118,13 @@ def type_delete(request, id):
     type = get_document_or_404(CameraType, id=id)
     type.delete()
     return HttpResponseRedirect(reverse('cam:type_list'))
+
+@login_required
+def cam_manage(request, id, command):
+    if command not in AVAILABLE_COMMANDS:
+        return HttpResponseNotFound()
+
+    cam = get_document_or_404(Camera, id=id)
+    cam = Camera()
+
+    return HttpResponse()
