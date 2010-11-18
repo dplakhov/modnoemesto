@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import HttpResponseRedirect, HttpResponseNotFound
+from django.core.urlresolvers import reverse
 
 from mongoengine.django.shortcuts import get_document_or_404
 
@@ -8,20 +10,25 @@ from .models import Camera
 from .models import CameraType
 
 from .forms import CameraTypeForm, CameraForm
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
 
+@login_required
 def cam_list(request):
     cams = Camera.objects()
     return direct_to_template(request, 'cam/cam_list.html', dict(cams=cams) )
 
+def is_superuser(user):
+    return user.is_superuser
 
 @login_required
 def cam_edit(request, id=None):
+    user = request.user
     simple_fields = ('name', 'host', 'username', 'password', 'enabled', )
 
     if id:
         cam = get_document_or_404(Camera, id=id)
+
+        if not is_superuser(user) and user.id != cam.owner.id:
+            return HttpResponseNotFound()
 
         initial = {}
 
@@ -39,13 +46,11 @@ def cam_edit(request, id=None):
     if form.is_valid():
         if not cam:
             cam = Camera()
-            cam.owner = request.user
+            cam.owner = user
 
         for field in simple_fields:
             setattr(cam, field, form.cleaned_data[field])
             
-        cam.type = CameraType.objects.get(id=form.cleaned_data['type'])
-
         cam.save()
         return HttpResponseRedirect(reverse('cam:cam_list'))
 
@@ -54,7 +59,7 @@ def cam_edit(request, id=None):
                               )
 
 
-
+@login_required
 def cam_view(request, id):
     cam = get_document_or_404(Camera, id=id)
     return direct_to_template(request, 'cam/cam_view.html',
@@ -63,13 +68,14 @@ def cam_view(request, id):
 
 
 
-@login_required
+@user_passes_test(is_superuser)
 def type_list(request):
     types = CameraType.objects()
     return direct_to_template(request, 'cam/type_list.html',
                               dict(types=types)
                               )
-@login_required
+
+@user_passes_test(is_superuser)
 def type_edit(request, id=None):
     if id:
         type = get_document_or_404(CameraType, id=id)
@@ -93,7 +99,6 @@ def type_edit(request, id=None):
                 continue
             if hasattr(type, k):
                 setattr(type, k, v)
-
         type.save()
         #return HttpResponseRedirect(reverse('cam:type_edit', kwargs=dict(id=type.id)))
         return HttpResponseRedirect(reverse('cam:type_list'))
@@ -103,7 +108,7 @@ def type_edit(request, id=None):
                               )
 
 
-@login_required
+@user_passes_test(is_superuser)
 def type_delete(request, id):
     type = get_document_or_404(CameraType, id=id)
     type.delete()
