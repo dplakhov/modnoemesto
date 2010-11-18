@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
+{% endblock %}
+
 {% block content %}
 
 <h1>{{ page_user }}'s home</h1>
@@ -31,6 +36,16 @@
         </form>
     </div>
     {% endif %}
+
+    <div id="camera">
+        {% with page_user.get_camera as cam %}
+            {% if cam %}
+                {% include "includes/camera.html" %}
+            {% else %}
+                This user has no registered camera.
+            {% endif %}
+        {% endwith %}
+    </div>
 
 </div>
 
