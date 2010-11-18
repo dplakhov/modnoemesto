@@ -15,6 +15,8 @@ class CameraForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField()
     enabled = forms.BooleanField(required=False)
+    public = forms.BooleanField(required=False)
+    free = forms.BooleanField(required=False)
 
     def __init__(self, *args, **kwargs):
         super(CameraForm, self).__init__(*args, **kwargs)

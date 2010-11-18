@@ -20,6 +20,8 @@ class Camera(Document):
     username = StringField(max_length=64)
     password = StringField(max_length=64)
     enabled = BooleanField()
+    public = BooleanField(default=True)
+    free = BooleanField(default=True)
 
     @property
     def driver(self):
