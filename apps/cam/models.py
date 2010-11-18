@@ -22,6 +22,7 @@ class Camera(Document):
     enabled = BooleanField()
     public = BooleanField(default=True)
     free = BooleanField(default=True)
+    operator = StringField(max_length=64)
 
     @property
     def driver(self):

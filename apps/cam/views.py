@@ -19,7 +19,7 @@ def cam_list(request):
 @login_required
 def cam_edit(request, id=None):
     simple_fields = ('name', 'host', 'username', 'password', 'enabled', 
-                     'public', 'free' )
+                     'public', 'free', 'operator' )
 
     if id:
         cam = get_document_or_404(Camera, id=id)

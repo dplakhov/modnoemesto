@@ -17,6 +17,7 @@ class CameraForm(forms.Form):
     enabled = forms.BooleanField(required=False)
     public = forms.BooleanField(required=False)
     free = forms.BooleanField(required=False)
+    operator = forms.CharField()
 
     def __init__(self, *args, **kwargs):
         super(CameraForm, self).__init__(*args, **kwargs)
