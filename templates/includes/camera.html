@@ -1,9 +1,10 @@
 <script>
-var room = "{{ cam.id }}";
+var room = "{{ camera.id }}";
 var nick = "{{ user.username }}";
 </script>
 <center>
     <p>&nbsp;</p>
+    {% if camera.show %}
     <a
         href="http://188.93.21.227:8092"
         style="display:block;width:520px;height:330px;background-color:black"
@@ -16,4 +17,8 @@ var nick = "{{ user.username }}";
         <embed src="/media/swf/ManageCam_5.swf"
             flashvars="ip=188.93.21.227&amp;path=cgi-bin/encoder&amp;user=admin&amp;password=123456&amp;debug=0">
     </object>
+    {% if not camera.free %}This camera is not free!{% endif %}
+    {% else %}
+    This camera is private.
+    {% endif %}
 </center>

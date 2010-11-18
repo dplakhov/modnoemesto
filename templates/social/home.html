@@ -31,14 +31,12 @@
     {% endcomment %}
 
     <div id="camera">
-        {% with user.get_camera as cam %}
-            {% if cam %}
-                {% include "includes/camera.html" %}
-            {% else %}
-                You have no registered camera.
-                Wanna do it right now?
-            {% endif %}
-        {% endwith %}
+        {% if camera %}
+            {% include "includes/camera.html" %}
+        {% else %}
+            You have no registered camera.
+            Wanna do it right now?
+        {% endif %}
     </div>
 
 </div>
