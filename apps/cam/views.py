@@ -24,6 +24,7 @@ def cam_edit(request, id=None):
     simple_fields = ('name', 'host', 'username', 'password', 'enabled', 
                      'public', 'free', 'operator' )
 
+    user = request.user
     if id:
         cam = get_document_or_404(Camera, id=id, owner=request.user)
 
