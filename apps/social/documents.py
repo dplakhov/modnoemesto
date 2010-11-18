@@ -43,6 +43,10 @@ class Account(User):
         'indexes': ['username', 'mutual_friends']
     }
 
+    def get_camera(self):
+        from apps.cam.models import Camera
+        return Camera.objects(owner=self).first()
+
     def friend(self, user):
         #@todo: maybe move whole routine to some asynchronous worker such as
         # celery

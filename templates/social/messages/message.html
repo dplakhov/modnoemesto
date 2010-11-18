@@ -16,10 +16,7 @@
             </tr>
             <tr>
                 <td>
-                    <a href="{% url social:view_message message_id=msg.id %}">
-                        {{ msg.timestamp|timesince }} ago
-                    </a>
-
+                    {{ msg.timestamp|timesince }} ago
                 </td>
                 <td>
                     <a href="{% url social:user user_id=msg.author.id %}">

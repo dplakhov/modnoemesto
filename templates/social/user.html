@@ -1,5 +1,16 @@
 {% extends "base.html" %}
 
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
+    {% if user.is_authenticated and camera.show %}
+    <script src="/media/js/jquery-1.4.2.min.js"></script>
+    <script src="/media/js/underscore-min.js"></script>
+    <script src="/media/js/socket.io.js"></script>
+    <script src="/media/js/client-io.js"></script>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
 
 <h1>{{ page_user }}'s home</h1>
@@ -31,6 +42,14 @@
         </form>
     </div>
     {% endif %}
+
+    <div id="camera">
+        {% if camera %}
+            {% include "includes/camera.html" %}
+        {% else %}
+            This user has no registered camera.
+        {% endif %}
+    </div>
 
 </div>
 

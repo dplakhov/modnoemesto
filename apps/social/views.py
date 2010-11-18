@@ -96,7 +96,10 @@ def logout(request):
 
 @login_required
 def home(request):
-    return direct_to_template(request, 'social/home.html')
+    camera = request.user.get_camera()
+    if camera:
+        camera.show = True
+    return direct_to_template(request, 'social/home.html', { 'camera': camera })
 
 
 def user(request, user_id=None):
@@ -104,15 +107,22 @@ def user(request, user_id=None):
     if page_user == request.user:
         return redirect('social:home')
 
-    show_friend_button = request.user.is_authenticated() and not (page_user in
-            request.user.mutual_friends or
-            FriendshipOffer.objects(author=request.user,
-                               recipient=page_user).count())
+    page_user.is_friend = request.user.is_authenticated() and (page_user in
+                                                 request.user.mutual_friends)
+
+    show_friend_button = request.user.is_authenticated() and not (
+            page_user.is_friend or FriendshipOffer.objects(author=request.user,
+                recipient=page_user).count())
+
+    camera = page_user.get_camera()
+    if camera:
+        camera.show = camera.public or page_user.is_friend
 
     msgform = MessageTextForm()
     return direct_to_template(request, 'social/user.html',
                               { 'page_user': page_user, 'msgform': msgform,
-                                'show_friend_button': show_friend_button })
+                                'show_friend_button': show_friend_button,
+                                'camera': camera })
 
 
 @login_required
