@@ -16,7 +16,7 @@ class Camera(Document):
     name = StringField(max_length=255)
     owner = ReferenceField('Account')
     type = ReferenceField('CameraType')
-    host = StringField(max_length=15)
+    host = StringField(max_length=64)
     username = StringField(max_length=64)
     password = StringField(max_length=64)
     enabled = BooleanField()
@@ -27,3 +27,6 @@ class Camera(Document):
     @property
     def driver(self):
         return self.type.driver_class(self)
+
+    def is_user_operator(self, user):
+        return user.name == self.operator
