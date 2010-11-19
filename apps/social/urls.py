@@ -6,6 +6,7 @@ from django.conf import settings
 urlpatterns = patterns('apps.social.views',
    url(r'^$', 'index', name='index'),
    url(r'^home/$', 'home', name='home'),
+   url(r'^home/friends/$', 'user_friends', name='user_friends'),
    url(r'^messages/inbox/$', 'view_inbox', name='view_inbox'),
    url(r'^messages/sent/$', 'view_sent', name='view_sent'),
    url(r'^messages/(?P<message_id>[a-f0-9]{24})/$', 'view_message',

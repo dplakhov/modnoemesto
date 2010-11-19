@@ -244,7 +244,7 @@ function refreshList(r) {
 }
 
 function addNewRoom(r) {
-  $('body').append("<div class='room' id='room_" + r + "'></div>");
+  $('#video_coment .chat').append("<div class='room' id='room_" + r + "'></div>");
   $('#room_' + r).append("<div class='chat' id='chat_" + r + "'></div>");
   $('#room_' + r).append('<form id="f_'+ r +'" action="send" method="post" onsubmit="send($(\'#t_' + r + '\').val()); return false;"></form>');
   $('#room_' + r).append("<div class='nicks' id='n_"+ r +"'></div>");
