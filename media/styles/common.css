@@ -5,7 +5,7 @@
     border: none;
 }
 
-input {
+input, textarea {
     border: 1px solid gray;
 }
 
