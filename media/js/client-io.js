@@ -250,7 +250,7 @@ function addNewRoom(r) {
   $('#room_' + r).append("<div class='nicks' id='n_"+ r +"'></div>");
   $('#f_' + r).append('<input type="text" id="t_' + r + '" name="t" value="" width="50" />');
   $('#f_' + r).append('<input type="submit" value="send" />');
-  $('.room').css("display","none").css("border", "1px solid").css("padding", "15px");
+  $('.room').css("border", "1px solid").css("padding", "15px");
   $('#r_' + r).click(function() { displayRoom(this.id) });
   $("#rooms ul li").removeClass("active");
   $('#r_' + r).addClass("active");
