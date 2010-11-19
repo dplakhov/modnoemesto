@@ -21,12 +21,6 @@ var nick = "{{ user.username }}";
       </object>
     {% endif %}
 
-
-    {% if not camera.free %}This camera is not free!{% endif %}
-  {% else %}
-    This camera is private.
-  {% endif %}
-
     <div id="video_coment">
         <div id="laying">
             <div class="tab_chat">
@@ -51,4 +45,8 @@ var nick = "{{ user.username }}";
         </div>
     </div>
 
+    {% if not camera.free %}This camera is not free!{% endif %}
+  {% else %}
+    This camera is private.
+  {% endif %}
 </center>
