@@ -57,6 +57,7 @@ div#serch
 	margin-top: 24px;
 	margin-left: 750px;
 }
+div#serch input { border: none }
 .find
 {
 	background: url(../images/serch_field.png) no-repeat;
@@ -71,11 +72,11 @@ div#serch
 {
 	padding-top: 18px;
 	padding-left: 90px;
-	width: 610px;
+	width: 620px;
 	overflow: hidden;
 	position: relative;
 	top: -46px;
-	left: 296px;
+	left: 286px;
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) {#menu{top: -48px;} .sub{padding: 12px 20px 13px;}}
 /*body:nth-of-type(1) #menu{top: -48px;} */
@@ -449,7 +450,7 @@ input, textarea
 	border: #cccccc solid 1px;
 	
 }
-input.text
+div.reg p input
 {
 	width: 400px;
 	padding: 5px;
