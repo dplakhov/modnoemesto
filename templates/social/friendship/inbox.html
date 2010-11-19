@@ -20,9 +20,9 @@
                     {{ offer.timestamp|timesince }} ago
                 </td>
                 <td>
-                    <a href="{% url social:user user_id=offer.author.id %}">
-                        {{ offer.author.username }}
-                    </a>
+                    {% with offer.author as user %}
+                        {% include "includes/user/micro.html" %}
+                    {% endwith %}
                 </td>
                 <td>
                     <a href="{% url social:friend user_id=offer.author.id %}">
