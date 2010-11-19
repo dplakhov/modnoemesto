@@ -16,7 +16,7 @@ class Camera(Document):
     name = StringField(max_length=255)
     owner = ReferenceField('Account')
     type = ReferenceField('CameraType')
-    host = StringField(max_length=64)
+    host = StringField(max_length=255)
     username = StringField(max_length=64)
     password = StringField(max_length=64)
     enabled = BooleanField()
