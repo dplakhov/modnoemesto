@@ -19,13 +19,14 @@ kill_if_exist () {
 
 case "$1" in
   start|restart)
-	kill_if_exist "node"
+	kill_if_exist "node server-io.js"
 	cd /var/www/Node-Multi-Rooms-Chat
 	node server-io.js > /dev/null 2>&1 &
 	cd /var/www/socnet
+	. venv/bin/activate
 	kill_if_exist "manage.py celeryd"
 	./manage.py celeryd > /dev/null 2>&1 &
-	kill_if_exist "uwsgi"
+	kill_if_exist "venv/bin/uwsgi"
 	./venv/bin/uwsgi -s /tmp/uwsgi.sock -C -H venv -x django.xml -M -p 16 -l 16384 > /dev/null 2>&1 &
 	;;
   stop)
