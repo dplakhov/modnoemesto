@@ -22,9 +22,9 @@
                     </a>
                 </td>
                 <td>
-                    <a href="{% url social:user user_id=msg.recipient.id %}">
-                        {{ msg.recipient.username}}
-                    </a>
+                    {% with msg.recipient as user %}
+                        {% include "includes/user/micro.html" %}
+                    {% endwith %}
                 </td>
             </tr>
             {% endfor %}

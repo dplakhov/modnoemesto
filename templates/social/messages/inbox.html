@@ -27,9 +27,9 @@
 
                 </td>
                 <td>
-                    <a href="{% url social:user user_id=msg.author.id %}">
-                        {{ msg.author.username }}
-                    </a>
+                    {% with msg.author as user %}
+                        {% include "includes/user/micro.html" %}
+                    {% endwith %}
                 </td>
             </tr>
             {% endfor %}
