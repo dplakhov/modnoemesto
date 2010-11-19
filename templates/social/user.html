@@ -57,11 +57,9 @@
         {#<h3>whatever</h3>#}
           {% if page_user.mutual_friends %}
             <ul>
-                {% for f in page_user.mutual_friends %}
+                {% for user in page_user.mutual_friends %}
                     <li>
-                        <a href="{% url social:user user_id=f.id %}">
-                            {{ f.username }}
-                        </a>
+                        {% include "includes/user/micro.html" %}
                     </li>
                 {% endfor %}
             </ul>

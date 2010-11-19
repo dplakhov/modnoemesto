@@ -49,14 +49,10 @@
         {#<h3>whatever</h3>#}
         {% if user.mutual_friends %}
             <ul>
-                {% for f in user.mutual_friends %}
+                {% for user in user.mutual_friends %}
                 <li>
-                    {% with f as user %}
-                        {% include "includes/user/micro.html" %}
-                    {% endwith %}
-                    <a href="{% url social:unfriend user_id=f.id %}">
-                        x
-                    </a>
+                    {% include "includes/user/micro.html" %}
+                    <a href="{% url social:unfriend user_id=user.id %}">x</a>
                 </li>
                 {% endfor %}
             </ul>
