@@ -2,9 +2,9 @@
 
 {% block content %}
 <h1>Group "{{ group.name }}"</h1>
-{% for member in group.members %}
+{% for user in group.members %}
     <div>
-        <a href="{% url social:user user_id=member.id %}">{{ member }}</a>
+        {% include "includes/user/micro.html" %}
     </div>
 {% endfor %}
 <hr/>
