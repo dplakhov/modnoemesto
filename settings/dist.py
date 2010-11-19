@@ -144,9 +144,9 @@ FORCE_SCRIPT_NAME = ''
 
 SEND_EMAILS = True
 
-SITE_DOMAIN = 'whatever.com' # no slashes here, please
+SITE_DOMAIN = 'modnoemesto.ru' # no slashes here, please
 
-ROBOT_EMAIL_ADDRESS = 'noreply@whatever.com'
+ROBOT_EMAIL_ADDRESS = 'noreply@modnoemesto.ru'
 
 AVATAR_SIZES = (
     (100, 100),
