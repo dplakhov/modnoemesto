@@ -39,7 +39,7 @@ class CameraForm(forms.Form):
         self.fields['type'].choices = tuple(
                             (x.id, x.name) for x in CameraType.objects.all())
 
-    def clean(self):
+    def tmp_disabled_clean(self):
         data = self.cleaned_data
         args = dict([(x, data[x]) for x in 'name host username password'.split()])
         args['type'] = CameraType.objects.get(id=data['type'])

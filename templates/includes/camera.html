@@ -6,7 +6,7 @@ var nick = "{{ user.username }}";
   <p>&nbsp;</p>
   {% if camera.show %}
     <a
-        href="http://188.93.21.227:8092"
+        href="{{ camera.host }}"
         style="display:block;width:520px;height:330px;background-color:black"
         id="player">
     </a>
