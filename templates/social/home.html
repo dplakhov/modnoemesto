@@ -14,6 +14,7 @@
 {% block content %}
 
 <h1>Welcome to your homepage</h1>
+    {% include "includes/user/midi.html" %}
 
 <div id="content-main">
 
@@ -34,8 +35,9 @@
         {% if camera %}
             {% include "includes/camera.html" %}
         {% else %}
+            <img src="/media/img/notfound/cam.png" alt="" />
             You have no registered camera.
-            Wanna do it right now?
+            <a href="{% url cam:cam_add %}">Wanna do it right now?</a>
         {% endif %}
     </div>
 

@@ -14,7 +14,7 @@
 {% block content %}
 
 <h1>{{ page_user }}'s home</h1>
-    {% with acc as user %}
+    {% with page_user as user %}
         {% include "includes/user/midi.html" %}
     {% endwith %}
 {% if show_friend_button %}
@@ -44,6 +44,7 @@
         {% if camera %}
             {% include "includes/camera.html" %}
         {% else %}
+            <img src="/media/img/notfound/cam.png" alt="" />
             This user has no registered camera.
         {% endif %}
     </div>
