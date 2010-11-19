@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls.defaults import *
 
+from .constants import AVAILABLE_COMMANDS
+
 urlpatterns = patterns('apps.cam.views',
     url(r'^$', 'cam_list', name='cam_list'),
     url(r'^add/$', 'cam_edit', name='cam_add'),
 
     url(r'^(?P<id>[a-f0-9]{24})/$', 'cam_view', name='cam_view'),
-
     url(r'^(?P<id>[a-f0-9]{24})/edit/$', 'cam_edit', name='cam_edit'),
+    url(r'^(?P<id>[a-f0-9]{24})/manage/(%s)/$' % '|'.join(AVAILABLE_COMMANDS),
+        'cam_manage', name='cam_manage'),
 
     #url(r'^(?P<id>[a-f0-9]{24})/enable/$', 'cam_edit', name='cam_edit'),
 

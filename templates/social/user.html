@@ -14,12 +14,9 @@
 {% block content %}
 
 <h1>{{ page_user }}'s home</h1>
-    {% if user.avatar %}
-        <img src="{% url social:avatar user_id=page_user.id format='100x100' %}" />
-    {% else %}
-        <img src="/media/img/notfound/avatar_100x100.png" />
-    {% endif %}
-
+    {% with page_user as user %}
+        {% include "includes/user/midi.html" %}
+    {% endwith %}
 {% if show_friend_button %}
 <p>
     <a href="{% url social:friend user_id=page_user.id %}">
@@ -47,6 +44,7 @@
         {% if camera %}
             {% include "includes/camera.html" %}
         {% else %}
+            <img src="/media/img/notfound/cam.png" alt="" />
             This user has no registered camera.
         {% endif %}
     </div>
@@ -59,11 +57,9 @@
         {#<h3>whatever</h3>#}
           {% if page_user.mutual_friends %}
             <ul>
-                {% for f in page_user.mutual_friends %}
+                {% for user in page_user.mutual_friends %}
                     <li>
-                        <a href="{% url social:user user_id=f.id %}">
-                            {{ f.username }}
-                        </a>
+                        {% include "includes/user/micro.html" %}
                     </li>
                 {% endfor %}
             </ul>

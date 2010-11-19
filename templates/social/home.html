@@ -14,7 +14,8 @@
 {% block content %}
 
 <h1>Welcome to your homepage</h1>
-
+    {% include "includes/user/midi.html" %}
+<a href="{% url social:avatar_edit %}">Change avatar</a>
 <div id="content-main">
 
     {%  include "includes/left_menu.html" %}
@@ -34,8 +35,9 @@
         {% if camera %}
             {% include "includes/camera.html" %}
         {% else %}
+            <img src="/media/img/notfound/cam.png" alt="" />
             You have no registered camera.
-            Wanna do it right now?
+            <a href="{% url cam:cam_add %}">Wanna do it right now?</a>
         {% endif %}
     </div>
 
@@ -47,14 +49,10 @@
         {#<h3>whatever</h3>#}
         {% if user.mutual_friends %}
             <ul>
-                {% for f in user.mutual_friends %}
+                {% for user in user.mutual_friends %}
                 <li>
-                    <a href="{% url social:user user_id=f.id %}">
-                        {{ f }}
-                    </a>
-                    <a href="{% url social:unfriend user_id=f.id %}">
-                        x
-                    </a>
+                    {% include "includes/user/micro.html" %}
+                    <a href="{% url social:unfriend user_id=user.id %}">x</a>
                 </li>
                 {% endfor %}
             </ul>

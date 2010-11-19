@@ -3,14 +3,16 @@ from fabric.api import run, local, cd, env
 
 env.hosts = [
     '188.93.21.226',
-    '188.93.21.227',
+    #'188.93.21.227',
 ]
+env.user = 'root'
 
 def deploy():
     local('git push')
-    with cd('/var/www/'):
+    with cd('/var/www/socnet'):
         run('git pull')
-        run('/etc/init.d/apache2 reload')
+        run('/etc/init.d/nginx reload')
+        run('/etc/init.d/socnet restart')
 
 def uname():
     run('uname -a')

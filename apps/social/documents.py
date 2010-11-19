@@ -6,6 +6,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from auth import User
+from django.core.urlresolvers import reverse
 
 
 class LimitsViolationException(Exception):
@@ -156,6 +157,8 @@ class Account(User):
                     ).update_one(push__msg_inbox=msg, inc__msg_inbox_count=1,
                          inc__unread_msg_count=1, inc__version=1)
 
+    def get_absolute_url(self):
+        return reverse('social:user',  kwargs=dict(user_id=self.id))
 
 class Group(Document):
     name = StringField(required=True, unique=True)
