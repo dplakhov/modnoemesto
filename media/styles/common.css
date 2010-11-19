@@ -5,12 +5,6 @@
     border: none;
 }
 
-input, textarea {
-    border: 1px solid gray;
-}
-
-#search-box input { border: none}
-
 
 html, body
 {
@@ -49,9 +43,8 @@ div#subContainer
 #header
 {
 	overflow: hidden;
-	height: 92px;
-	background: url(../images/menu_bg.jpg) repeat-x;
-	border-bottom: #d9d8bf solid 2px;
+	height: 96px;
+	background: url(../images/header_bg.jpg) no-repeat;
 }
 #logo
 {
@@ -78,13 +71,14 @@ div#serch
 {
 	padding-top: 18px;
 	padding-left: 90px;
-	width: 620px;
+	width: 610px;
 	overflow: hidden;
 	position: relative;
 	top: -46px;
-	left: 291px;
+	left: 296px;
 }
-
+@media screen and (-webkit-min-device-pixel-ratio:0) {#menu{top: -48px;} .sub{padding: 12px 20px 13px;}}
+/*body:nth-of-type(1) #menu{top: -48px;} */
 #menu table td
 {
 	border-bottom: #d9d8bf solid 2px;
@@ -311,8 +305,9 @@ div#player
 }
 #watch-panel
 {
-	border: #eeedde solid 4px;
+	border: #eeedde solid 5px;
 	margin-top: 10px;
+	width: 515px;
 }
 #video_coment
 {
@@ -429,11 +424,52 @@ p.send_mass
 {
 	background: url(../images/but.jpg) no-repeat;
 	color: #FFF;
-	padding: 12px 5px 13px;
+	padding: 12px 8px 13px 8px;
 	/*margin-left: 415px;*/
 	float: right;
 	cursor:pointer;
+	border: none;
 }
+/* For Reg
+------------------------------------*/
+div.reg
+{
+	padding: 10px 10px 10px 60px;
+	overflow: hidden;
+	background: #eeedde;
+	margin-top: 10px;
+}
+div.reg p
+{
+	padding-bottom: 10px;
+	color: #999999;
+}
+input, textarea
+{
+	border: #cccccc solid 1px;
+	
+}
+input.text
+{
+	width: 400px;
+	padding: 5px;
+}
+
+p.but
+{
+	overflow: hidden;
+}
+.reg input.sub
+{
+	background: url(../images/but.jpg) no-repeat;
+	color: #FFF;
+	padding: 12px 4px 13px;
+	cursor:pointer;
+	border: none;
+    width:84px;
+}
+/*@media all and (-webkit-min-device-pixel-ratio:10000),not all and (-webkit-min-device-pixel-ratio:0){.sub{padding: 12px 9px 13px;}}
+@media screen and (-webkit-min-device-pixel-ratio:0) {.sub{padding: 12px 15px 13px;}}
 /*-----------------------------------*/
 #rightColumn
 {

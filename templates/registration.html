@@ -1,12 +1,15 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-
 {% block content %}
+<h2 class="video_title">Регистрация</h2>
+<div class="reg rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
 <form action="{% url social:register %}" method="POST">
-    <table>
-    {{ form.as_table }}
-    </table>
-    <input type="submit" value="{% trans "Signup" %}"/>
+    {% for field in form %}
+        {{ field.errors }}
+        <p>{{ field.label }}<br/>
+            <input name="text" class="text" size="65" value="{{ field.value }}"/></p>
+    {% endfor %}
+    <input type="submit" class="sub" value="Отправить"/>
 </form>
+</div>
 {% endblock %}
