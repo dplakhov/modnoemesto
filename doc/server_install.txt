@@ -30,3 +30,22 @@ apt-get install rabbitmq-server
 add-apt-repository ppa:nginx/stable
 apt-get update
 apt-get install nginx
+
+
+add-apt-repository ppa:jerome-etienne/neoip
+apt-get update
+apt-get install nodejs
+
+cd /var/www
+git clone https://github.com/solisoft/Node-Multi-Rooms-Chat.git
+cd Node-Multi-Rooms-Chat
+git submodule init
+git submodule update
+git submodule foreach git submodule init
+git submodule foreach git submodule update
+
+
+# for uwsgi
+apt-get install build-essential psmisc python-dev libxml2 libxml2-dev
+# next in venv:
+# > pip install http://projects.unbit.it/downloads/uwsgi-latest.tar.gz
