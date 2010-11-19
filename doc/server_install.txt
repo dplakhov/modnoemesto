@@ -27,3 +27,6 @@ apt-get install mongodb-stable
 
 apt-get install rabbitmq-server
 
+add-apt-repository ppa:nginx/stable
+apt-get update
+apt-get install nginx

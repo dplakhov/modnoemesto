@@ -1,0 +1,6 @@
+<uwsgi>
+  <!--socket>127.0.0.1:8012</socket-->
+  <pythonpath>/var/www/social/</pythonpath>
+  <module>django_wsgi</module>
+</uwsgi>
+
