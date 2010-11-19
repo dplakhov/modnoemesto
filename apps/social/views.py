@@ -34,7 +34,7 @@ from apps.media.tasks import apply_image_transformations
 
 
 def index(request):
-    accs = Account.objects().only('username')
+    accs = Account.objects().only('username', 'avatar')
     return direct_to_template(request, 'index.html', { 'accs': accs })
 
 

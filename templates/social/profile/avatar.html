@@ -3,13 +3,9 @@
 {% block content %}
 <h1>{% trans "Change avatar" %}</h1>
 
-    {% if user.avatar %}
         <img src="{% url social:avatar user_id=user.id format='30x30' %}" />
         <img src="{% url social:avatar user_id=user.id format='60x60' %}" />
         <img src="{% url social:avatar user_id=user.id format='100x100' %}" />
-    {% else %}
-        <img src="/media/img/notfound/avatar_100x100.png" />
-    {% endif %}
 
     <form method="post" enctype="multipart/form-data">
     <table>

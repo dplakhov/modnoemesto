@@ -4,7 +4,9 @@
 <h2>Registered users:</h2>
 <p>
 {% for acc in accs %}
-<a href="{% url social:user acc.id %}">{{ acc.username }}</a>
+    {% with acc as user %}
+        {% include "includes/user/micro.html" %}
+    {% endwith %}
 {% if not forloop.last %},{% endif %}
 {% endfor %}
 </p>
