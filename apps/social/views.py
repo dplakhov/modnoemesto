@@ -5,7 +5,7 @@ from django.contrib.auth import (authenticate, login as django_login,
     logout as django_logout)
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -336,6 +336,7 @@ def avatar_edit(request):
                     avatar.apply_transformations(*transformations)
 
                 messages.add_message(request, messages.SUCCESS, _('Avatar successfully updated'))
+                return HttpResponseRedirect(request.path)
 
 
     return direct_to_template(request, 'social/profile/avatar.html',
