@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-CMD_MOVE_UP = 'move_up'
 CMD_ZOOM_IN = 'zoom_in'
 CMD_ZOOM_OUT = 'zoom_out'
 CMD_MOVE_UP = 'move_up'
