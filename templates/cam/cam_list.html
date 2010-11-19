@@ -10,8 +10,6 @@
         {% with cam.owner as user %}
             {% include "includes/user/micro.html" %}
         {% endwith %}
-
-    <a href="{% url cam:cam_view cam.id %}">{% trans 'View' %}</a>
     {% if cam.owner == request.user or request.user.is_superuser %}
         <a href="{% url cam:cam_edit cam.id %}">{% trans 'Edit' %}</a>
     {% endif %}
