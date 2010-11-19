@@ -27,12 +27,12 @@ case "$1" in
 	kill_if_exist "manage.py celeryd"
 	./manage.py celeryd > /dev/null 2>&1 &
 	kill_if_exist "venv/bin/uwsgi"
-	./venv/bin/uwsgi -s /tmp/uwsgi.sock -C -H venv -x django.xml -M -p 16 -l 16384 > /dev/null 2>&1 &
+	./venv/bin/uwsgi -s /tmp/socnet-uwsgi.sock -C -H venv -x django.xml -M -p 16 -l 16384 > /dev/null 2>&1 &
 	;;
   stop)
-	kill_if_exist "uwsgi"
+	kill_if_exist "venv/bin/uwsgi"
 	kill_if_exist "manage.py celeryd"
-	kill_if_exist "node"
+	kill_if_exist "node server-io.js"
 	;;
   *)
 	echo "Usage: /etc/init.d/socnet {start|stop|restart}" >&2
