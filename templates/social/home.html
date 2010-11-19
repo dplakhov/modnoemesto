@@ -49,9 +49,9 @@
             <ul>
                 {% for f in user.mutual_friends %}
                 <li>
-                    <a href="{% url social:user user_id=f.id %}">
-                        {{ f }}
-                    </a>
+                    {% with f as user %}
+                        {% include "includes/user/micro.html" %}
+                    {% endwith %}
                     <a href="{% url social:unfriend user_id=f.id %}">
                         x
                     </a>

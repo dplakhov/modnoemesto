@@ -1,0 +1,8 @@
+<a href="{{ user.get_absolute_url }}">
+    {% if user.avatar %}
+        <img src="{% url social:avatar user_id=user.id format='30x30' %}" />
+    {% else %}
+        <img src="/media/img/notfound/avatar_30x30.png" />
+    {% endif %}
+</a>
+<a href="{{ user.get_absolute_url }}">{{ user }}</a>
