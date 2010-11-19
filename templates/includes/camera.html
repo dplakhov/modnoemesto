@@ -21,8 +21,34 @@ var nick = "{{ user.username }}";
       </object>
     {% endif %}
 
+
     {% if not camera.free %}This camera is not free!{% endif %}
   {% else %}
     This camera is private.
   {% endif %}
+
+    <div id="video_coment">
+        <div id="laying">
+            <div class="tab_chat">
+                <span class="tab_chat">Чат</span>
+            </div>
+            <div class="tab_comment">
+                <span class="tab_comment"><p>Комментарии<p><img src="/media/images/hand_up.jpg" alt="hand_up" />
+
+                <p class="hand_up">47671</p><img src="/media/images/hand_down.jpg" alt="hand_down" />
+                <p class="hand_down">481</p><p class="rating">Рейтинг</p><p class="rat">648</p>
+                </span>
+            </div>
+        </div>
+        <div class="room">
+
+            <div class="scroll-wrap">
+
+                <div class="scroll-pane">
+                    <div class="chat"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </center>
