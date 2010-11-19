@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+        <h2>Your friends:</h2>
+        {#<h3>whatever</h3>#}
+        {% if user.mutual_friends %}
+            <ul>
+                {% for user in user.mutual_friends %}
+                <li>
+                    {% include "includes/user/micro.html" %}
+                    <a href="{% url social:unfriend user_id=user.id %}">x</a>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>None available</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

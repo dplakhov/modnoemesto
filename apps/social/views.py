@@ -126,6 +126,12 @@ def user(request, user_id=None):
 
 
 @login_required
+def user_friends(request):
+    return direct_to_template(request, 'social/profile/user_friends.html',
+                              { 'frends': request.user })
+
+
+@login_required
 def friend(request, user_id):
     if request.user.id == user_id:
         return redirect('social:home')
