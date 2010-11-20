@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from itertools import chain
+
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
@@ -32,12 +34,15 @@ class CameraForm(forms.Form):
     enabled = forms.BooleanField(required=False)
     public = forms.BooleanField(required=False)
     free = forms.BooleanField(required=False)
-    operator = forms.CharField()
+    operator = forms.ChoiceField(required=False, choices=())
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         super(CameraForm, self).__init__(*args, **kwargs)
         self.fields['type'].choices = tuple(
                             (x.id, x.name) for x in CameraType.objects.all())
+        self.fields['operator'].choices = tuple(chain([('', 'all users'),
+            (user.username, 'myself')],
+            [(x.username, x.username) for x in user.mutual_friends]))
 
     def tmp_disabled_clean(self):
         data = self.cleaned_data

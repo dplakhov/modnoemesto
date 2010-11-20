@@ -44,7 +44,7 @@ def cam_edit(request, id=None):
         cam = None
         initial = {}
 
-    form = CameraForm(request.POST or None, initial=initial)
+    form = CameraForm(request.user, request.POST or None, initial=initial)
 
     if form.is_valid():
         if not cam:
