@@ -76,7 +76,7 @@ socket.on('message', function(message){
         
         if($(nh).html() == null) {
           if(n[1] == "undefined" || n[1] == undefined) value = n[0];
-          /*if(n[0] == conn_id)*/ $("#n_" + message.room).append("<div id='n_" + room + "_" +n[0]+"'>" + value +"</div>");
+          /*if(n[0] == conn_id)*/ $("#n_" + message.room).append("<span id='n_" + room + "_" +n[0]+"'>" + value +"</span> ");
           /*else $("#n_" + message.room).append("<div id='n_" + room + "_" +n[0]+"'><a href='#' onclick='socket.send(\"/pm "+ n[0]+"\")'>" + value +"</a></div>");*/
         }
         
@@ -165,11 +165,11 @@ function refreshList(r) {
 function addNewRoom(r) {
   $('#video_coment .chat').append("<div class='room' id='room_" + r + "'></div>");
   $('#room_' + r).append("<div class='chat' id='chat_" + r + "'></div>");
-  $('#room_' + r).append('<form id="f_'+ r +'" action="send" method="post" onsubmit="send($(\'#t_' + r + '\').val()); return false;"></form>');
-  $('#room_' + r).append("<div class='nicks' id='n_"+ r +"'></div>");
-  $('#f_' + r).append('<input type="text" id="t_' + r + '" name="t" value="" width="50" />');
-  $('#f_' + r).append('<input type="submit" value="send" />');
-  $('.room').css("border", "1px solid").css("padding", "15px");
+  $('#video_coment').append('<form id="f_'+ r +'" style="width:515px;" action="send" method="post" onsubmit="send($(\'#t_' + r + '\').val()); return false;"></form>');
+  $('#video_coment').append("<div class='nicks' style='width:515px;' id='n_"+ r +"'></div>");
+  $('#f_' + r).append('<input type="text" id="t_' + r + '" name="t" value="" style="width:480px;" />');
+  $('#f_' + r).append('<input type="submit" value="send" style="float: right"/>');
+  $('.room').css("padding", "5px");
   $('#r_' + r).click(function() { displayRoom(this.id) });
   $("#rooms ul li").removeClass("active");
   $('#r_' + r).addClass("active");
