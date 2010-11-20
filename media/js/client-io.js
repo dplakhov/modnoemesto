@@ -24,44 +24,6 @@ socket.on('message', function(message){
     
     case "/msg":
       var text = data.slice(1).join(" ");
-      if(message.room == "/pm") { // Private Message
-        var id = message.to == undefined ? message.from : message.to;
-        if(text != "" || message.from == conn_id) {
-          if(rooms[id] == undefined) {
-            rooms[id] = {};
-            rooms[id]["last_user"] = "";
-            rooms[id]["nb"] = 0;
-            rooms[id]["type"] = "pm";
-            rooms[id]["to"] = message.name;
-            /* try { $("#audio_new_pm")[0].play(); } catch(e) {} */
-            $('#rooms ul:first-child').append("<li class='pm' id='r_" + id + "'>@" + message.name + "</li>");
-            addNewRoom(id);
-            room = id;
-          }
-          if(text != "") {
-            /* try { $("#audio_msg")[0].play(); } catch(e) {} */
-            if(rooms[id]["last_user"] != message.toname) {
-              var date = new Date(),
-                hour  = date.getHours(),
-                min   = date.getMinutes();
-              if(min < 10) min = "0" + min;
-              rooms[id]["last_user"] = message.toname;
-              $('#chat_' + id).append("<div class='from'><div class='date'>"+hour+":"+min+"</div>" + message.toname + "</div>");
-            }
-           
-            $('#chat_' + id).append("<div>" + HTMLEncode(text) + "</div>");
-            scrollChat();
-            if(room != id) {
-              rooms[id]["nb"]++;
-              $("#r_" + id).html("@" + message.name + " (" + rooms[id]["nb"] + ")");
-            } else {
-              $("#r_" + id).html("@" + message.name);
-            }
-          }
-        }
-      } 
-      else { // Normal message
-        /* try { $("#audio_msg")[0].play(); } catch(e) {} */
         if(rooms[message.room]["last_user"] != message.from) {
           var date = new Date(),
             hour  = date.getHours(),
@@ -79,7 +41,6 @@ socket.on('message', function(message){
         } else {
           $("#r_" + message.room).html(message.room);
         }
-      }
       break;
     
     case "/your_nick":
@@ -117,9 +78,6 @@ socket.on('message', function(message){
           if(n[1] == "undefined" || n[1] == undefined) value = n[0];
           /*if(n[0] == conn_id)*/ $("#n_" + message.room).append("<div id='n_" + room + "_" +n[0]+"'>" + value +"</div>");
           /*else $("#n_" + message.room).append("<div id='n_" + room + "_" +n[0]+"'><a href='#' onclick='socket.send(\"/pm "+ n[0]+"\")'>" + value +"</a></div>");*/
-        } else {
-          $(nh + " a").html(value);
-          $("#r_" + n[0]).html("@" + value);
         }
         
       });
@@ -129,20 +87,7 @@ socket.on('message', function(message){
       $("#n_" + msg_room + "_" + data[1]).detach();
       $('#chat_' + msg_room).append("<div class='notice'>:: " + message.from + " left the room</div>");
       break;
-    /*
-    case "/part":
-      $("#n_" + msg_room + "_" + data[1]).detach();
-      $('#chat_' + msg_room).append("<div class='notice'>:: " + message.from + " left the room</div>");
-      break;
-  
-    case "/writing":
-      $("#n_" + msg_room + "_" + data[1]).addClass("writing");
-      break;
-    
-    case "/notice":
-      $('#chat_' +room).append("<div class='notice'>:: " + data.slice(1).join(" ") + " </div>");
-      break;
-    */
+
     default:
       break;
   }
@@ -157,37 +102,11 @@ function send(msg) {
   if(msg[0] == "/") {
     var can_send = true;
     var data = msg.split(" ");
-    /*switch(data[0]) {
-      case "/join":
-        room = data[1].replace(/\W/g, "");
-        msg = "/join " + room;
-        can_send = nick == "" ? false : true;
-        break;
-      case "/part":
-        msg = msg + " " + room;
-        rooms[room] = undefined;
-        $('#r_' + room).detach();
-        $('#n_' + room).detach();
-        $("#chat_" + room).detach();
-        for(var r in rooms) {
-          if(rooms[r] != undefined) {
-            room = r;
-            displayRoom("r_" + room);
-          }
-          break;
-        }
-        break;
-
-      break;
-    }*/
     if(can_send) socket.send(msg);
   }
   else {
     if(nick != "") {
       var txt = '/msg ' + room + " " + msg;
-      /*if(rooms[room].type == "pm") {
-        txt = "/pm " + room + " " + msg;
-      }*/
       socket.send(txt);
     }
   }
