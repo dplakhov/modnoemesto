@@ -14,6 +14,7 @@ urlpatterns = patterns('',
 
     (r'^', include('apps.social.urls', namespace='social')),
     (r'^cam/', include('apps.cam.urls', namespace='cam')),
+    (r'^notes/', include('apps.notes.urls', namespace='notes')),
 )
 
 if settings.DEBUG:
