@@ -279,7 +279,7 @@ div#what_new
 {
 	float: left;
 	display: inline;
-	width: 525px;
+	width: 530px;
 	margin-left: 15px;
 }
 h2.video_title
@@ -304,13 +304,13 @@ a#name_creater
 div#player
 {
 	width: 515px;
+	width: 515px;
 	height: 445px;
 }
 #watch-panel
 {
 	border: #eeedde solid 5px;
 	margin-top: 10px;
-	width: 515px;
 }
 #video_coment
 {
@@ -327,7 +327,7 @@ div#player
 {
 	float: left;
 	height: 29px;
-	margin-left: 20px;
+	margin-left: 23px;
 }
 #laying div.tab_chat
 {
@@ -390,10 +390,6 @@ div#player
 {
 	 padding: 10px 0px;
 }
-div.scroll-wrap
-{
-    background: #efeedf;
-}
 .comment
 {
 	padding: 10px 0px;
@@ -413,25 +409,26 @@ div.scroll-wrap
 .send
 {
 	padding-top:5px;
-	width: 515px;
+    background:none repeat scroll 0 0 #EFEEDF;
 }
 p.send_mass
 {
 	color: #999999;
 	padding-bottom: 7px;
 }
-.room textarea.com
+#video_coment textarea.com
 {
-	width: 410px;
+	width: 420px;
 	height: 43px;
+    border: none;
 	/*float: left;
 	display: inline; */
 }
-.room input.sub
+#video_coment input.sub
 {
 	background: url(../images/but.jpg) no-repeat;
 	color: #FFF;
-	padding: 12px 8px 13px 8px;
+	padding: 12px 10px 13px 2px;
 	/*margin-left: 415px;*/
 	float: right;
 	cursor:pointer;
@@ -631,3 +628,24 @@ div.all a
 	color: #000;
 }
 
+
+
+.chat .chat { color: #F66 }
+.chat .chat div { padding: 10px 0 }
+.chat .chat div div { padding: 0 }
+.chat .chat .from
+{
+	overflow: hidden;
+	color: #F66;
+	display: inline;
+	padding: 10px 7px 0 0;
+	float:left;
+}
+.chat .chat .from .date
+{
+	display: inline;
+	padding-right: 7px;
+}
+
+.scroll-wrap{padding: 5px 0px; background: url(/media/images/char_bg.jpg) repeat-x;}
+.scroll-pane{width:510px;height:150px;overflow:auto}

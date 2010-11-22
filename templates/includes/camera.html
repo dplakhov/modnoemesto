@@ -4,6 +4,12 @@ var nick = "{{ user.username }}";
 </script>
   <p>&nbsp;</p>
   {% if camera.show %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.scroll-pane').jScrollPane({showArrows:true, scrollbarWidth:5});
+        });
+    </script>
+    <div id="watch-panel">
     <a
         href="{{ camera.host }}"
         style="display:block;width:520px;height:330px;background-color:black"
@@ -38,6 +44,14 @@ var nick = "{{ user.username }}";
                 <div class="chat"></div>
             </div>
         </div>
+        <div class="send">
+        <p class="send_mass">Отправить собщение в чат:</p>
+            <form action="send" method="post">
+                <textarea class="com" name="t"></textarea>
+                <input type="submit" class="sub" value="отправить" />
+            </form>
+        </div>
+    </div>
     </div>
 
     {% if not camera.free %}This camera is not free!{% endif %}

@@ -165,10 +165,17 @@ function refreshList(r) {
 function addNewRoom(r) {
   $('#video_coment .chat').append("<div class='room' id='room_" + r + "'></div>");
   $('#room_' + r).append("<div class='chat' id='chat_" + r + "'></div>");
-  $('#video_coment').append('<form id="f_'+ r +'" style="width:515px;" action="send" method="post" onsubmit="send($(\'#t_' + r + '\').val()); return false;"></form>');
-  $('#video_coment').append("<div class='nicks' style='width:515px;' id='n_"+ r +"'></div>");
-  $('#f_' + r).append('<input type="text" id="t_' + r + '" name="t" value="" style="width:480px;" />');
-  $('#f_' + r).append('<input type="submit" value="send" style="float: right"/>');
+  $('#video_coment .send form')
+    .attr('id','f_'+ r)
+    .submit(function() {
+      send($('#t_' + r).val());
+      return false;
+    })
+    .filter('textarea').attr('id','t_' + r);
+  //$('#video_coment').append('<form id="f_'+ r +' action="send" method="post" onsubmit="send($(\'#t_' + r + '\').val()); return false;"></form>');
+  //$('#video_coment').append("<div class='nicks' style='width:515px;' id='n_"+ r +"'></div>");
+  //$('#f_' + r).append('<input type="text" id="t_' + r + '" name="t" value="" style="width:480px;" />');
+  //$('#f_' + r).append('<input type="submit" value="send" style="float: right"/>');
   $('.room').css("padding", "5px");
   $('#r_' + r).click(function() { displayRoom(this.id) });
   $("#rooms ul li").removeClass("active");
