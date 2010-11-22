@@ -119,6 +119,7 @@ INSTALLED_APPS = (
     'apps.media',
     'apps.cam',
     'apps.notes',
+    'apps.user_messages',
 )
 
 CELERY_RESULT_BACKEND = "mongodb"

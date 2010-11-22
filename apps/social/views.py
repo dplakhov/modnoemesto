@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from mongoengine.django.shortcuts import get_document_or_404
 
-from documents import (Account, FriendshipOffer, Message, Group,
+from documents import (Account, FriendshipOffer, Group,
         LimitsViolationException)
 from forms import ( UserCreationForm, LoginForm, MessageTextForm,
     GroupCreationForm, ChangeAvatarForm)
@@ -187,57 +187,6 @@ def decline_fs_offer(request, offer_id):
         raise Http404()
     offer.delete()
     return redirect('social:view_fs_offers_inbox')
-
-@login_required
-def send_message(request, user_id):
-    if user_id == request.user.id:
-        raise Http404()
-    msgform = MessageTextForm(request.POST or None)
-    recipient = get_document_or_404(Account, id=user_id)
-    if msgform.is_valid():
-        text = msgform.data['text']
-        request.user.send_message(text, recipient)
-        return redirect('social:home')
-    else:
-        #@todo: use separate form and screen to handle each situation
-        return direct_to_template(request, 'social/user.html',
-                              { 'page_user': recipient, 'msgform': msgform })
-
-
-@login_required
-def view_inbox(request):
-    #@todo: pagination
-    #@todo: partial data fetching
-    messages = reversed(request.user.msg_inbox[-10:])
-    return direct_to_template(request, 'social/messages/inbox.html',
-                              { 'msgs': messages })
-
-
-@login_required
-def view_sent(request):
-    #@todo: pagination
-    #@todo: partial data fetching
-    messages = reversed(request.user.msg_sent[-10:])
-    return direct_to_template(request, 'social/messages/sent.html',
-                              { 'msgs': messages })
-
-
-@login_required
-def view_message(request, message_id):
-    message = get_document_or_404(Message, id=message_id, userlist=request.user)
-    if message.recipient == request.user and not message.is_read:
-        Account.objects(id=request.user.id).update_one(dec__unread_msg_count=1)
-        Message.objects(id=message.id).update_one(set__is_read=True)
-    return direct_to_template(request, 'social/messages/message.html',
-                              { 'msg': message })
-
-
-@login_required
-def delete_message(request, message_id):
-    message = get_document_or_404(Message, id=message_id, userlist=request.user)
-    message.delete_from(request.user)
-    return redirect('social:view_inbox')
-
 
 @login_required
 def group_list(request):

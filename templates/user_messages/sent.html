@@ -9,25 +9,20 @@
     {%  include "includes/left_menu.html" %}
 
     <div class="messages">
-        <table summary="Your inbox" width="100%">
-            <caption>Messages: inbox</caption>
+        <table summary="Your sent messages" width="100%">
+            <caption>Messages: sent</caption>
             <tr>
-                <th>When</th><th>From</th>
+                <th>When</th><th>To</th>
             </tr>
             {% for msg in msgs %}
             <tr>
                 <td>
-                    <a href="{% url social:view_message message_id=msg.id %}">
-                        {% if msg.is_read %}
-                            {{ msg.timestamp|timesince }} ago
-                        {% else %}
-                            (unread) {{ msg.timestamp|timesince }} ago
-                        {% endif %}
+                    <a href="{% url user_messages:view_message message_id=msg.id %}">
+                        {{ msg.timestamp|timesince }}
                     </a>
-
                 </td>
                 <td>
-                    {% with msg.author as user %}
+                    {% with msg.recipient as user %}
                         {% include "includes/user/micro.html" %}
                     {% endwith %}
                 </td>

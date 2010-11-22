@@ -96,7 +96,7 @@
         <p>
             {% if user.unread_msg_count %}
                 You have
-                <a href="{% url social:view_inbox %}">{% spaceless %}
+                <a href="{% url user_messages:view_inbox %}">{% spaceless %}
                     {{ user.unread_msg_count }} unread message(s)
                 {% endspaceless %}</a>
             {% endif %}
@@ -126,7 +126,7 @@
                             <li id="fashion_place"><a href="#">Мои Модные места</a></li>
                             <li id="friends"><a href="{% url social:user_friends %}">Друзья</a></li>
 
-                            <li id="mail"><a href="{% url social:view_inbox %}">Сообщения</a></li>
+                            <li id="mail"><a href="{% url user_messages:view_inbox %}">Сообщения</a></li>
                             <li id="notes"><a href="{% url notes:note_list %}">Заметки</a></li>
                             <li id="group"><a href="{% url social:group_list %}">Группы</a></li>
                             <li id="foto"><a href="#">Фотографии</a></li>

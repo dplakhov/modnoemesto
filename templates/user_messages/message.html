@@ -27,7 +27,7 @@
             <tr><td colspan="2">{{ msg.text }}</td> </tr>
             <tr>
                 <td colspan="2">
-                    <a href="{% url social:delete_message message_id=msg.id%}">
+                    <a href="{% url user_messages:delete_message message_id=msg.id%}">
                         Delete message
                     </a>
                 </td>

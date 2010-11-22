@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns, url
 
 from django.conf import settings
 
@@ -7,21 +7,15 @@ urlpatterns = patterns('apps.social.views',
    url(r'^$', 'index', name='index'),
    url(r'^home/$', 'home', name='home'),
    url(r'^home/friends/$', 'user_friends', name='user_friends'),
-   url(r'^messages/inbox/$', 'view_inbox', name='view_inbox'),
-   url(r'^messages/sent/$', 'view_sent', name='view_sent'),
-   url(r'^messages/(?P<message_id>[a-f0-9]{24})/$', 'view_message',
-       name='view_message'),
-   url(r'^messages/(?P<message_id>[a-f0-9]{24})/delete/$', 'delete_message',
-       name='delete_message'),
 
    url(r'^login/$', 'login', name='login'),
    url(r'^logout/$', 'logout', name='logout'),
    url(r'^register/$', 'register', name='register'),
    url(r'^activation/(?P<code>[a-f0-9]{12})/$', 'activation',
        name='activation'),
+
    url(r'^users/(?P<user_id>[a-f0-9]{24})/$', 'user', name='user'),
-   url(r'^users/(?P<user_id>[a-f0-9]{24})/send_message/$', 'send_message',
-       name='send_message'),
+
    url(r'^users/(?P<user_id>[a-f0-9]{24})/friend/$', 'friend', name='friend'),
    url(r'^users/(?P<user_id>[a-f0-9]{24})/unfriend/$', 'unfriend',
        name='unfriend'),
