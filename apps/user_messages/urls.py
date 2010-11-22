@@ -8,7 +8,6 @@ urlpatterns = patterns('apps.user_messages.views',
         name='view_message'),
     url(r'^(?P<message_id>[a-f0-9]{24})/delete/$', 'delete_message',
         name='delete_message'),
-    url(r'^users/(?P<user_id>[a-f0-9]{24})/send_message/$', 'send_message',
+    url(r'^user/(?P<user_id>[a-f0-9]{24})/send/$', 'send_message',
         name='send_message'),
-
     )
