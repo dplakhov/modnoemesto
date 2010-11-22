@@ -28,6 +28,10 @@ class BasicTestCase(unittest.TestCase):
         Account.objects.delete()
         Message.objects.delete()
 
+class MessageTestCase(BasicTestCase):
+    def test_message_send(self):
+        user1, user2 = self.acc1, self.acc2
+
 
 class SingleMessageTestCase(BasicTestCase):
 
@@ -50,7 +54,7 @@ class SingleMessageTestCase(BasicTestCase):
     def test_send_one_message_succeeds(self):
         self.assertEquals(self.resp.status_code, 302) # redirect
 
-    def test_message_adds_to_author_sent(self):
+    def test_message_adds_to_sender_sent(self):
         self.assertTrue(
             Account.objects(username=self.acc1.username,
                             msg_sent=self.msg).count()

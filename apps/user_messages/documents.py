@@ -4,7 +4,7 @@ from mongoengine import *
 
 class Message(Document):
     text = StringField(required=True)
-    author = ReferenceField('Account')
+    sender = ReferenceField('Account')
     recipient = ReferenceField('Account')
     timestamp = DateTimeField()
     userlist = ListField(ReferenceField('Account'))
@@ -15,7 +15,7 @@ class Message(Document):
     meta = {
         'indexes': [
                 '-timestamp',
-                'author',
+                'sender',
                 'recipient',
                 'userlist',
                 'sender_deleted',
@@ -32,7 +32,7 @@ class Message(Document):
         from apps.social.documents import Account
 
         if user in self.userlist:
-            place = 'msg_sent' if user == self.author else 'msg_inbox'
+            place = 'msg_sent' if user == self.sender else 'msg_inbox'
             cmd = { 'pull__%s' % place: self, 'dec__%s_count' % place: 1,
                     'inc__version': 1 }
             if not self.is_read and self.recipient.id == user.id:
@@ -45,7 +45,7 @@ class Message(Document):
                 self.delete()
 
     @classmethod
-    def send(cls, author, recipient, text):
-        msg = Message(author=author, recipient=recipient, text=text)
+    def send(cls, sender, recipient, text):
+        msg = Message(sender=sender, recipient=recipient, text=text)
         msg.save()
         
