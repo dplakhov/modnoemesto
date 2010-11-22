@@ -380,12 +380,6 @@ div#player
 	color: #00b2d5;
 	text-decoration: underline;
 }
-.room
-{
-	padding-left: ;
-	background: #efeedf;
-	border-top: #a8a8a8 solid 1px;
-}
 .chat
 {
 	 padding: 10px 0px;
@@ -647,5 +641,9 @@ div.all a
 	padding-right: 7px;
 }
 
-.scroll-wrap{padding: 5px 0px; background: url(/media/images/char_bg.jpg) repeat-x;}
+.scroll-wrap {
+    padding: 5px 0px;
+    background: url(/media/images/char_bg.jpg) repeat-x;
+    border-top: #a8a8a8 solid 1px;
+}
 .scroll-pane{width:510px;height:150px;overflow:auto}
