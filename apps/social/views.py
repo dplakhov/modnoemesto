@@ -30,6 +30,7 @@ except ImportError:
     from StringIO import StringIO
 
 from apps.media.tasks import apply_image_transformations
+from auth import REDIRECT_FIELD_NAME
 
 
 
@@ -83,7 +84,8 @@ def login(request):
         if user is not None:
             if user.is_active:
                 django_login(request, user)
-                return redirect('social:home')
+                redirect_to = request.REQUEST.get(REDIRECT_FIELD_NAME, 'social:home')
+                return redirect(redirect_to)
             else:
                 return direct_to_template(request, 'disabled_account.html')
     return direct_to_template(request, 'login.html', { 'form': form })
@@ -99,7 +101,7 @@ def home(request):
     camera = request.user.get_camera()
     if camera:
         camera.show = True
-    return direct_to_template(request, 'social/home.html', { 'camera': camera })
+    return direct_to_template(request, 'social/home.html', { 'camera': camera, 'is_owner': True })
 
 
 def user(request, user_id=None):
