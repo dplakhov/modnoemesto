@@ -4,6 +4,7 @@ var nick = "{{ user.username }}";
 </script>
   <p>&nbsp;</p>
   {% if camera.show %}
+    {% if is_owner %}<a href='{% url cam:cam_edit camera.id %}'>Edit camera</a>{% endif %}
     <script type="text/javascript">
         $(document).ready(function(){
             $('.scroll-pane').jScrollPane({showArrows:true, autoReinitialise: true, scrollbarWidth:5});
