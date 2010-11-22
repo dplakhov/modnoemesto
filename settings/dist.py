@@ -155,3 +155,5 @@ AVATAR_SIZES = (
     (60, 60),
     (30, 30),
 )
+
+MAX_USER_MESSAGES_COUNT = 500

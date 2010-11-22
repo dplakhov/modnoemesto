@@ -44,3 +44,8 @@ class Message(Document):
                 #@todo: ensure that we really don't need deleted messages
                 self.delete()
 
+    @classmethod
+    def send(cls, author, recipient, text):
+        msg = Message(author=author, recipient=recipient, text=text)
+        msg.save()
+        

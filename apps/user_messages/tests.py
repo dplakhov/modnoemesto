@@ -6,6 +6,8 @@ from datetime import datetime as dt
 from django.test.client import Client
 from django.core.urlresolvers import reverse
 
+from apps.utils.test import patch_settings
+
 from apps.social.documents import Account
 from .documents import Message
 
@@ -41,7 +43,6 @@ class SingleMessageTestCase(BasicTestCase):
         self.msg = Message.objects.get()
         self.acc1.reload()
         self.acc2.reload()
-        print repr(self.resp)
 
     def tearDown(self):
         super(SingleMessageTestCase, self).tearDown()
@@ -99,12 +100,19 @@ class MassMessagingTestCase(BasicTestCase):
 
     text = 'test text'
 
+
+    def run(self, *args, **kwargs):
+        with patch_settings(MAX_USER_MESSAGES_COUNT=self.MAX_MESSAGES_COUNT):
+            result = super(MassMessagingTestCase, self).run(*args, **kwargs)
+        return result
+
     def setUp(self):
         super(MassMessagingTestCase, self).setUp()
+        from django.conf import settings
         print
-        for i in xrange(501):
-            if not i % 25:
-                print  '\rmass messaging.. %002d%%' % (i*100/500),
+        for i in range(1, settings.MAX_USER_MESSAGES_COUNT + 1):
+            if not i % settings.MAX_USER_MESSAGES_COUNT / 50:
+                print  '\rmass messaging.. %002d%%' % (i*100/settings.MAX_USER_MESSAGES_COUNT),
                 sys.stdout.flush()
             self.resp = self.c.post(
                 reverse('user_messages:send_message', kwargs={
@@ -118,8 +126,8 @@ class MassMessagingTestCase(BasicTestCase):
     def tearDown(self):
         super(MassMessagingTestCase, self).tearDown()
 
-    def test_only_500_messages_exists(self):
-        self.assertEquals(Message.objects.count(), 500)
+    def test_only_n_messages_exists(self):
+        self.assertEquals(self.MAX_MESSAGES_COUNT, Message.objects.count())
 
     def test_message_inbox_queue_correct_shifting(self):
         # assert first (with #0) message is gone
