@@ -12,7 +12,6 @@ from .documents import Message
 
 @login_required
 def send_message(request, user_id):
-    raise Exception()
     
     from apps.social.documents import Account
 

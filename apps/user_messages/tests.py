@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
 import sys
-
-from django.test import TestCase
+import unittest
+from datetime import datetime as dt
 
 from django.test.client import Client
 from django.core.urlresolvers import reverse
@@ -10,7 +9,7 @@ from django.core.urlresolvers import reverse
 from apps.social.documents import Account
 from .documents import Message
 
-class BasicTestCase(TestCase):
+class BasicTestCase(unittest.TestCase):
 
     def setUp(self):
         Account.objects.delete()

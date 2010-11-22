@@ -99,6 +99,7 @@ class Account(User):
 
 
     def send_message(self, text, recipient):
+        from apps.user_messages.documents import Message
         #@todo: maybe move whole routine to some asynchronous worker such as
         # celery
         import pymongo
