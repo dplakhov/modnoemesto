@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import unittest
-from datetime import datetime as dt
+from time import sleep
 
 from django.test.client import Client
 from django.core.urlresolvers import reverse
@@ -9,15 +9,13 @@ from django.core.urlresolvers import reverse
 from apps.utils.test import patch_settings
 
 from apps.social.documents import Account
-from .documents import Message, IncomingMessageBox, SentMessageBox
-from apps.user_messages.documents import UnreadMessageBox
-from time import sleep
+from .documents import ( Message, IncomingMessageBox, SentMessageBox,
+    UnreadMessageBox, )
 
 class BasicTestCase(unittest.TestCase):
 
     def setUp(self):
-        Account.objects.delete()
-        Message.objects.delete()
+        self.cleanUp()
 
         self.c = Client()
 
@@ -27,6 +25,9 @@ class BasicTestCase(unittest.TestCase):
         self.c.login(username='test1', password='123')
 
     def tearDown(self):
+        self.cleanUp()
+
+    def cleanUp(self):
         Account.objects.delete()
         Message.objects.delete()
 
@@ -70,6 +71,7 @@ class MessageTestCase(BasicTestCase):
 
         self.failUnless(msg in user2.messages.incoming)
         self.failIf(msg in user2.messages.unread)
+        self.failUnless(msg.is_read)
 
     def test_message_store_read_task(self):
         user1, user2 = self.acc1, self.acc2
@@ -78,15 +80,15 @@ class MessageTestCase(BasicTestCase):
 
         with patch_settings(TASKS_ENABLED={Message.TASK_NAME_STORE_READED: True}):
             msg.set_readed()
-            sleep(1)
+        sleep(1)
 
-            self.failUnless(msg in user2.messages.incoming)
-            self.failIf(msg in user2.messages.unread)
+        self.failUnless(msg in user2.messages.incoming)
+        self.failIf(msg in user2.messages.unread)
 
 
 class SingleMessageTestCase(BasicTestCase):
 
-    text = 'test text'
+    text = 'test text jsdfksdfjkdfsjkfsdjkfsd'
 
     def setUp(self):
         super(SingleMessageTestCase, self).setUp()
@@ -96,53 +98,48 @@ class SingleMessageTestCase(BasicTestCase):
         )
 
         self.msg = Message.objects.get()
-        self.acc1.reload()
-        self.acc2.reload()
 
     def test_send_one_message_succeeds(self):
         self.assertEquals(self.resp.status_code, 302) # redirect
+        msg = self.msg
+        self.assertEquals(msg.sender, self.acc1)
+        self.assertEquals(msg.recipient, self.acc2)
+        self.failUnlessEqual(None, msg.readed)
+        self.failUnlessEqual(self.text, msg.text)
 
-    def test_message_adds_to_sender_sent(self):
-        self.assertTrue(
-            Account.objects(username=self.acc1.username,
-                            msg_sent=self.msg).count()
+    def test_view_inbox(self):
+        self.c.login(username='test2', password='123')
+        response = self.c.get(
+            reverse('user_messages:view_inbox')
         )
 
-    def test_message_adds_to_rcpt_inbox(self):
-        self.assertTrue(
-            Account.objects(username=self.acc2.username,
-                            msg_inbox=self.msg).count()
-        )
+        self.failUnless(reverse('user_messages:view_message', kwargs={'message_id': self.msg.id })
+                     in response.content)
 
-    def test_message_is_unread_by_default(self):
-        self.assertFalse(self.acc2.msg_inbox[0].is_read)
-
-    def test_recipient_unread_msg_count_increased(self):
-        self.assertEquals(self.acc2.unread_msg_count, 1)
 
     def test_viewed_incoming_message_marks_as_read(self):
         self.c.login(username='test2', password='123')
-        resp = self.c.get(
-            reverse('user_messages:view_message', kwargs={
-                'message_id': self.acc2.msg_inbox[0].id })
-        )
-        self.msg.reload()
-        self.assertTrue(self.msg.is_read)
+        with patch_settings(TASKS_ENABLED={}):
+            resp = self.c.get(reverse('user_messages:view_message',
+                                  kwargs={'message_id': self.msg.id }))
+        msg = self.msg
+        msg.reload()
+
+        self.failUnless(msg.readed)
+        self.failUnless(msg.is_read)
 
     def test_viewed_incoming_message_decreases_unread_msg_count(self):
+        self.assertEquals(1, len(self.acc2.messages.unread))
         self.c.login(username='test2', password='123')
-        resp = self.c.get(
-            reverse('user_messages:view_message', kwargs={
-                'message_id': self.acc2.msg_inbox[0].id })
-        )
-        self.acc2.reload()
-        self.assertEquals(self.acc2.unread_msg_count, 0)
+        with patch_settings(TASKS_ENABLED={}):
+            resp = self.c.get(reverse('user_messages:view_message',
+                    kwargs={'message_id': self.msg.id }))
+        self.assertEquals(0, len(self.acc2.messages.unread))
 
     def test_viewed_sent_message_remains_unread(self):
-        resp = self.c.get(
-            reverse('user_messages:view_message', kwargs={
-                'message_id': self.acc2.msg_inbox[0].id })
-        )
+        with patch_settings(TASKS_ENABLED={}):
+            resp = self.c.get(reverse('user_messages:view_message',
+                  kwargs={'message_id': self.acc2.messages.incoming[0].id }))
         self.msg.reload()
         self.assertFalse(self.msg.is_read)
 
@@ -180,9 +177,10 @@ class MassMessagingTestCase(BasicTestCase):
 
     def test_message_inbox_queue_correct_shifting(self):
         # assert first (with #0) message is gone
-        self.assertEquals(self.acc2.msg_inbox[0].text, '%s %s' % (self.text, 1))
+        print [ x.text for x in self.acc2.messages.incoming ]
+        self.assertEquals(self.acc2.messages.incoming[0].text, '%s %s' % (self.text, 1))
 
     def test_message_sent_queue_correct_shifting(self):
         # assert first (with #0) message is gone
-        self.assertEquals(self.acc1.msg_sent[0].text, '%s %s' % (self.text, 1))
+        self.assertEquals(self.acc1.messages.sent[0].text, '%s %s' % (self.text, 1))
 

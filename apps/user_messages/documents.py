@@ -82,13 +82,22 @@ class Message(Document):
 
     meta = {
         'indexes': [
-                '-timestamp',
+                'timestamp',
                 'sender',
                 'recipient',
                 'sender_deleted',
                 'recipient_deleted',
+        ],
+
+        'ordering': [
+                'timestamp',
         ]
+
     }
+
+    def __init__(self, *args, **kwargs):
+        super(Message, self).__init__(*args, **kwargs)
+        self.timestamp = self.timestamp or datetime.now()
 
     def set_readed(self, timestamp=None):
         if timestamp is None:
@@ -106,13 +115,13 @@ class Message(Document):
         self.readed = timestamp
         self.save()
 
-
-    def __init__(self, *args, **kwargs):
-        super(Message, self).__init__(*args, **kwargs)
-        self.timestamp = self.timestamp or datetime.now()
+    @property
+    def is_read(self):
+        return bool(self.readed)
 
 
     def delete_from(self, user):
+        raise Exception()
         from apps.social.documents import Account
 
         if user in self.userlist:

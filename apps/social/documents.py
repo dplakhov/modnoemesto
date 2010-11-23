@@ -24,16 +24,10 @@ class Account(User):
     # subscriptions
     mutual_friends = ListField(ReferenceField('Account'))
 
-    # messaging
-    msg_inbox = ListField(ReferenceField('Message'))
-    msg_sent = ListField(ReferenceField('Message'))
 
     # some denormalisation
     friends_count = IntField(default=0)
     fs_offers_inbox_count = IntField(default=0)
-    unread_msg_count = IntField(default=0)
-    msg_inbox_count = IntField(default=0)
-    msg_sent_count = IntField(default=0)
 
     @property
     def messages(self):

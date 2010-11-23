@@ -33,7 +33,7 @@ def send_message(request, user_id):
 def view_inbox(request):
     #@todo: pagination
     #@todo: partial data fetching
-    messages = reversed(request.user.msg_inbox[-10:])
+    messages = reversed(request.user.messages.incoming[0:10])
     return direct_to_template(request, 'user_messages/inbox.html',
                               { 'msgs': messages })
 
@@ -50,10 +50,15 @@ def view_sent(request):
 @login_required
 def view_message(request, message_id):
     from apps.social.documents import Account
-    message = get_document_or_404(Message, id=message_id, userlist=request.user)
-    if message.recipient == request.user and not message.is_read:
-        Account.objects(id=request.user.id).update_one(dec__unread_msg_count=1)
-        Message.objects(id=message.id).update_one(set__is_read=True)
+    message = get_document_or_404(Message, id=message_id)
+    user = request.user
+
+    if user.id != message.sender.id and user.id != message.recipient.id:
+        raise Http404()
+
+    if message.recipient.id == request.user.id and not message.is_read:
+        message.set_readed()
+
     return direct_to_template(request, 'user_messages/message.html',
                               { 'msg': message })
 
