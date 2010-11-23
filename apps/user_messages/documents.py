@@ -2,13 +2,68 @@
 from datetime import datetime
 from mongoengine import *
 
+class MessageBox(object):
+
+    def __init__(self, owner):
+        self.owner = owner
+
+    @property
+    def _messages(self):
+        raise NotImplementedError()
+        return Message.objects.none()
+
+    def __len__(self):
+        return len(self._messages)
+
+    def __iter__(self):
+        return self._messages
+
+class IncomingMessageBox(MessageBox):
+    @property
+    def _messages(self):
+        return Message.objects(recipient=self.owner)
+
+class SentMessageBox(MessageBox):
+    @property
+    def _messages(self):
+        return Message.objects(sender=self.owner)
+
+class UnreadMessageBox(MessageBox):
+    @property
+    def _messages(self):
+        return Message.objects(recipient=self.owner, readed=None)
+
+class DraftMessageBox(MessageBox):
+    pass
+
+class TrashMessageBox(MessageBox):
+    pass
+
+
+class MessageBoxFactory(object):
+    def __init__(self, owner):
+        self.owner = owner
+
+    def __getattribute__(self, item):
+        if item == 'sent':
+            return SentMessageBox(self.owner)
+        elif item == 'incoming':
+            return IncomingMessageBox(self.owner)
+        elif item == 'unread':
+            return UnreadMessageBox(self.owner)
+
+        return super(MessageBoxFactory, self).__getattribute__(item)
+
 class Message(Document):
-    text = StringField(required=True)
     sender = ReferenceField('Account')
     recipient = ReferenceField('Account')
+    text = StringField(required=True)
+
     timestamp = DateTimeField()
     userlist = ListField(ReferenceField('Account'))
-    is_read = BooleanField(default=False)
+
+    readed = DateTimeField()
+
     sender_deleted = DateTimeField()
     recipient_deleted = DateTimeField()
 
@@ -22,6 +77,9 @@ class Message(Document):
                 'recipient_deleted',
         ]
     }
+    def set_readed(self, datetime):
+        pass
+
 
     def __init__(self, *args, **kwargs):
         super(Message, self).__init__(*args, **kwargs)
@@ -48,4 +106,5 @@ class Message(Document):
     def send(cls, sender, recipient, text):
         msg = Message(sender=sender, recipient=recipient, text=text)
         msg.save()
+        return msg
         

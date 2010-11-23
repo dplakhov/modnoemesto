@@ -9,7 +9,8 @@ from django.core.urlresolvers import reverse
 from apps.utils.test import patch_settings
 
 from apps.social.documents import Account
-from .documents import Message
+from .documents import Message, IncomingMessageBox, SentMessageBox
+from apps.user_messages.documents import UnreadMessageBox
 
 class BasicTestCase(unittest.TestCase):
 
@@ -29,9 +30,33 @@ class BasicTestCase(unittest.TestCase):
         Message.objects.delete()
 
 class MessageTestCase(BasicTestCase):
+    def test_message_box(self):
+        user = self.acc1
+        self.failUnless(isinstance(user.messages.sent, SentMessageBox))
+        self.failUnless(isinstance(user.messages.incoming, IncomingMessageBox))
+        self.failUnless(isinstance(user.messages.unread, UnreadMessageBox))
+        self.failUnlessEqual(0, len(user.messages.sent))
+        self.failUnlessEqual(0, len(user.messages.incoming))
+        self.failUnlessEqual(0, len(user.messages.unread))
+
     def test_message_send(self):
         user1, user2 = self.acc1, self.acc2
+        text = 'zzZZzz'
+        msg = Message.send(sender=user1, recipient=user2, text=text)
 
+        self.failUnless(msg in user1.messages.sent)
+        self.failIf(msg in user2.messages.sent)
+
+        self.failIf(msg in user1.messages.incoming)
+        self.failUnless(msg in user2.messages.incoming)
+
+        self.failIf(msg in user1.messages.unread)
+        self.failUnless(msg in user2.messages.unread)
+
+        msg.set_readed()
+
+        self.failUnless(msg in user2.messages.incoming)
+        self.failIf(msg in user2.messages.unread)
 
 class SingleMessageTestCase(BasicTestCase):
 
@@ -47,9 +72,6 @@ class SingleMessageTestCase(BasicTestCase):
         self.msg = Message.objects.get()
         self.acc1.reload()
         self.acc2.reload()
-
-    def tearDown(self):
-        super(SingleMessageTestCase, self).tearDown()
 
     def test_send_one_message_succeeds(self):
         self.assertEquals(self.resp.status_code, 302) # redirect
@@ -126,9 +148,6 @@ class MassMessagingTestCase(BasicTestCase):
         print '\ndone.'
         self.acc1.reload()
         self.acc2.reload()
-
-    def tearDown(self):
-        super(MassMessagingTestCase, self).tearDown()
 
     def test_only_n_messages_exists(self):
         self.assertEquals(self.MAX_MESSAGES_COUNT, Message.objects.count())

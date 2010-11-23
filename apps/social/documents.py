@@ -35,6 +35,12 @@ class Account(User):
     msg_inbox_count = IntField(default=0)
     msg_sent_count = IntField(default=0)
 
+    @property
+    def messages(self):
+        from apps.user_messages.documents import MessageBoxFactory
+        return MessageBoxFactory(self)
+
+
     # some control
     version = IntField(default=0)
 
