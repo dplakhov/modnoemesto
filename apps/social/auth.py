@@ -112,7 +112,9 @@ class MongoEngineBackend(object):
         return None
 
     def get_user(self, user_id):
-        return User.objects.with_id(user_id)
+        #@todo: need merge Account and User
+        from apps.social.documents import Account
+        return Account.objects.with_id(user_id)
 
 
 def get_user(userid):

@@ -625,14 +625,14 @@ div.all a
 
 
 .chat .chat { color: #F66 }
-.chat .chat div { padding: 10px 0 }
+.chat .chat div { padding: 5px 0 }
 .chat .chat div div { padding: 0 }
 .chat .chat .from
 {
 	overflow: hidden;
 	color: #F66;
 	display: inline;
-	padding: 10px 7px 0 0;
+	padding: 5px 7px 0 0;
 	float:left;
 }
 .chat .chat .from .date

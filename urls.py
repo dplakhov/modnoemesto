@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     (r'^cam/', include('apps.cam.urls', namespace='cam')),
     (r'^messages/', include('apps.user_messages.urls', namespace='user_messages')),
     (r'^notes/', include('apps.notes.urls', namespace='notes')),
+    (r'^billing/', include('apps.billing.urls', namespace='billing')),
 )
 
 if settings.DEBUG:

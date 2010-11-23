@@ -40,6 +40,8 @@ class Account(User):
 
     avatar = ReferenceField('ImageFile')
 
+    cash = IntField(default=0)
+
     meta = {
         'indexes': ['username', 'mutual_friends']
     }
