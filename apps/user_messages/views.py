@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 
 from mongoengine.django.shortcuts import get_document_or_404
 
-from apps.social.forms import MessageTextForm
+from .forms import MessageTextForm
 
 from .documents import Message
 
@@ -33,7 +33,7 @@ def send_message(request, user_id):
 def view_inbox(request):
     #@todo: pagination
     #@todo: partial data fetching
-    messages = reversed(request.user.messages.incoming[0:10])
+    messages = request.user.messages.incoming[0:10]
     return direct_to_template(request, 'user_messages/inbox.html',
                               { 'msgs': messages })
 
@@ -42,14 +42,14 @@ def view_inbox(request):
 def view_sent(request):
     #@todo: pagination
     #@todo: partial data fetching
-    messages = reversed(request.user.msg_sent[-10:])
+    messages = request.user.messages.sent[0:10]
     return direct_to_template(request, 'user_messages/sent.html',
                               { 'msgs': messages })
 
 
 def _message_acl_check(message, user):
-    if user.id != message.sender.id and user.id != message.recipient.id:
-            raise Http404()
+    if not message.is_sender(user) and not message.is_recipient(user):
+        raise Http404()
 
 
 @login_required
@@ -75,6 +75,8 @@ def delete_message(request, message_id):
     _message_acl_check(message, user)
 
     message.set_user_delete(request.user)
-
-    return redirect('view_inbox:view_inbox')
+    if message.is_sender(user):
+        return redirect('user_messages:view_inbox')
+    elif message.is_recipient(user):
+        return redirect('user_messages:view_inbox')
 

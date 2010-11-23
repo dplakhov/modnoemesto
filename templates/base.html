@@ -97,7 +97,7 @@
             {% if user.unread_msg_count %}
                 You have
                 <a href="{% url user_messages:view_inbox %}">{% spaceless %}
-                    {{ user.unread_msg_count }} unread message(s)
+                    {{ user.messages.unread|length }} unread message(s)
                 {% endspaceless %}</a>
             {% endif %}
             {% if user.fs_offers_inbox_count %}

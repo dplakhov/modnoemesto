@@ -126,26 +126,34 @@ class Message(Document):
     def is_read(self):
         return bool(self.readed)
 
+    def is_sender(self, user):
+        return self.sender.id == user.id
+
+    def is_recipient(self, user):
+        return self.recipient.id == user.id
 
     def set_user_delete(self, user, timestamp=None):
         if timestamp is None:
             timestamp = datetime.now()
+
         async = settings.TASKS_ENABLED.get(self.TASK_NAME_DELETE)
         if async:
             args = [ self.id, timestamp, ]
 
-        if user.id == self.sender.id:
+        if self.is_sender(user):
             self.sender_delete = timestamp
             if async:
                 message_store_sender_delete.apply_async(args=args)
             else:
                 self.store_sender_delete(timestamp)
-        elif user.id == self.recipient.id:
+        elif self.is_recipient(user):
             self.recipient_delete = timestamp
             if async:
                 message_store_recipient_delete.apply_async(args=args)
             else:
                 self.store_recipient_delete(timestamp)
+        else:
+            raise RuntimeError()
 
     def store_sender_delete(self, timestamp=None):
         if timestamp is None:

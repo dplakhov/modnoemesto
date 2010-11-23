@@ -14,8 +14,11 @@ from mongoengine.django.shortcuts import get_document_or_404
 
 from documents import (Account, FriendshipOffer, Group,
         LimitsViolationException)
-from forms import ( UserCreationForm, LoginForm, MessageTextForm,
+from forms import ( UserCreationForm, LoginForm,
     GroupCreationForm, ChangeAvatarForm)
+
+from apps.user_messages.forms import MessageTextForm 
+
 from django.core.urlresolvers import reverse
 
 from apps.media.files import ImageFile
