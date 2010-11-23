@@ -21,8 +21,9 @@ class Camera(Document):
     password = StringField(max_length=64)
     enabled = BooleanField()
     public = BooleanField(default=True)
-    free = BooleanField(default=True)
+    paid = BooleanField(default=False)
     operator = StringField(max_length=64)
+    tariff = ReferenceField('Tariff')
 
     @property
     def driver(self):
