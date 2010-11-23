@@ -119,6 +119,7 @@ INSTALLED_APPS = (
     'apps.media',
     'apps.cam',
     'apps.notes',
+    'apps.user_messages',
 )
 
 CELERY_RESULT_BACKEND = "mongodb"
@@ -131,7 +132,9 @@ CELERY_MONGODB_BACKEND_SETTINGS = {
 }
 
 TASKS_ENABLED = dict(
-    AVATAR_RESIZE = 1
+    AVATAR_RESIZE = 1,
+    MESSAGE_STORE_READED = 1,
+    MESSAGE_DELETE = 1,
 )
 
 
@@ -154,3 +157,5 @@ AVATAR_SIZES = (
     (60, 60),
     (30, 30),
 )
+
+MAX_USER_MESSAGES_COUNT = 500

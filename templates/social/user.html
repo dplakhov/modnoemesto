@@ -31,7 +31,7 @@
     {% if user.is_authenticated %}
     <div class="messages">
         <form method="POST"
-              action="{% url social:send_message user_id=page_user.id %}">
+              action="{% url user_messages:send_message user_id=page_user.id %}">
         <table summary="Leave a message to {{ page_user }}" width="100%">
             <caption>Leave a message</caption>
             {{ msgform.as_table }}

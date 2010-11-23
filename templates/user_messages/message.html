@@ -19,7 +19,7 @@
                     {{ msg.timestamp|timesince }} ago
                 </td>
                 <td>
-                    {% with msg.author as user %}
+                    {% with msg.sender as user %}
                         {% include "includes/user/mini.html" %}
                     {% endwith %}
                 </td>
@@ -27,7 +27,7 @@
             <tr><td colspan="2">{{ msg.text }}</td> </tr>
             <tr>
                 <td colspan="2">
-                    <a href="{% url social:delete_message message_id=msg.id%}">
+                    <a href="{% url user_messages:delete_message message_id=msg.id%}">
                         Delete message
                     </a>
                 </td>
