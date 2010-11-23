@@ -53,19 +53,19 @@ ul.srList li.srHoverLi {
 }
 
 ul.srBlur {
-	background: url('images/input_filter.jpg') no-repeat;
+	background: url("'images/input_filter.jpg'") no-repeat;
 	border:0px;
 }
 #rightColumn ul.srBlur {
-	background: url('images/input_filter_video.jpg') no-repeat;
+	background: url("'images/input_filter_video.jpg'") no-repeat;
 	border:0px;
 }
 ul.srFocus, ul.srHoverUl {
-	background: url('images/input_filter.jpg') no-repeat 0px 0px;
+	background: url("'images/input_filter.jpg'") no-repeat 0px 0px;
 	border:0px;
 }
 #rightColumn ul.srFocus, #rightColumn ul.srHoverUl {
-	background: url('images/input_filter_video.jpg') no-repeat 0px 0px;
+	background: url("'images/input_filter_video.jpg'") no-repeat 0px 0px;
 	border:0px;
 }
 ul.srBlur li.srSelectedLi {
@@ -89,12 +89,12 @@ ul.srExpanded li.srSelectedLi {
 
 ul.srExpanded li.srFirstLi, ul.srList li.srFirstLi {
 	display:block;
-	background: url('images/input_filter.jpg') no-repeat;
+	background: url("'images/input_filter.jpg'") no-repeat;
 	cursor:pointer; cursor:hand;
 }
 #rightColumn ul.srExpanded li.srFirstLi, #rightColumn ul.srList li.srFirstLi {
 	display:block;
-	background: url('images/input_filter_video.jpg') no-repeat;
+	background: url("'images/input_filter_video.jpg'") no-repeat;
 	cursor:pointer; cursor:hand;
 }
 ul.srExpanded li.srLastLi, ul.srList li.srLastLi {
@@ -103,12 +103,12 @@ ul.srExpanded li.srLastLi, ul.srList li.srLastLi {
 
 ul.srExpanded {
 	position:relative;
-	background: url('images/input_filter.jpg') no-repeat 0px 100%;
+	background: url("'images/input_filter.jpg'") no-repeat 0px 100%;
 	z-index:1000;
 }
 #rightColumn ul.srExpanded {
 	position:relative;
-	background: url('images/input_filter_video.jpg') no-repeat 0px 100%;
+	background: url("'images/input_filter_video.jpg'") no-repeat 0px 100%;
 	z-index:1000;
 }
 ul.srExpanded li {
