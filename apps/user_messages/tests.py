@@ -39,6 +39,7 @@ class MessageTestCase(BasicTestCase):
         self.failUnlessEqual(0, len(user.messages.sent))
         self.failUnlessEqual(0, len(user.messages.incoming))
         self.failUnlessEqual(0, len(user.messages.unread))
+        self.failUnlessEqual(0, len(user.messages.sent[0:10]))
 
     def test_message_send(self):
         user1, user2 = self.acc1, self.acc2
@@ -53,6 +54,11 @@ class MessageTestCase(BasicTestCase):
 
         self.failIf(msg in user1.messages.unread)
         self.failUnless(msg in user2.messages.unread)
+
+        self.failUnlessEqual(msg, user2.messages.unread[0])
+        self.failUnlessEqual(msg, user2.messages.unread[0:][0])
+
+        self.failIf(msg.is_read)
 
     def test_message_read(self):
         user1, user2 = self.acc1, self.acc2

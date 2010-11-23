@@ -21,6 +21,9 @@ class MessageBox(object):
     def __iter__(self):
         return self._messages
 
+    def __getitem__(self, item):
+        return self._messages[item]
+
 class IncomingMessageBox(MessageBox):
     @property
     def _messages(self):
