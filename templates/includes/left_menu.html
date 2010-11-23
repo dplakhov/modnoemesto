@@ -6,7 +6,7 @@
                 {% if user.unread_msg_count %}
                     <strong>
                     <a href="{% url user_messages:view_inbox %}">
-                        Inbox ({{ user.unread_msg_count }})
+                        Inbox ({{ user.messages.unread|length }})
                     </a>
                     </strong>
                 {% else %}

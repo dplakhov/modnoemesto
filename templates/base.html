@@ -94,7 +94,7 @@
 
     {% if user.is_authenticated %}
         <p>
-            {% if user.unread_msg_count %}
+            {% if user.messages.unread|length %}
                 You have
                 <a href="{% url user_messages:view_inbox %}">{% spaceless %}
                     {{ user.messages.unread|length }} unread message(s)
