@@ -11,6 +11,7 @@ from apps.utils.test import patch_settings
 from apps.social.documents import Account
 from .documents import Message, IncomingMessageBox, SentMessageBox
 from apps.user_messages.documents import UnreadMessageBox
+from time import sleep
 
 class BasicTestCase(unittest.TestCase):
 
@@ -53,10 +54,29 @@ class MessageTestCase(BasicTestCase):
         self.failIf(msg in user1.messages.unread)
         self.failUnless(msg in user2.messages.unread)
 
-        msg.set_readed()
+    def test_message_read(self):
+        user1, user2 = self.acc1, self.acc2
+        text = 'zzZZzz'
+        msg = Message.send(sender=user1, recipient=user2, text=text)
+
+        with patch_settings(TASKS_ENABLED={}):
+            msg.set_readed()
 
         self.failUnless(msg in user2.messages.incoming)
         self.failIf(msg in user2.messages.unread)
+
+    def test_message_store_read_task(self):
+        user1, user2 = self.acc1, self.acc2
+        text = 'zzZZzz'
+        msg = Message.send(sender=user1, recipient=user2, text=text)
+
+        with patch_settings(TASKS_ENABLED={Message.TASK_NAME_STORE_READED: True}):
+            msg.set_readed()
+            sleep(1)
+
+            self.failUnless(msg in user2.messages.incoming)
+            self.failIf(msg in user2.messages.unread)
+
 
 class SingleMessageTestCase(BasicTestCase):
 

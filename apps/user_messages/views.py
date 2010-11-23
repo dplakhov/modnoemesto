@@ -21,7 +21,7 @@ def send_message(request, user_id):
     recipient = get_document_or_404(Account, id=user_id)
     if msgform.is_valid():
         text = msgform.data['text']
-        request.user.send_message(text, recipient)
+        Message.send(request.user, recipient, text)
         return redirect('social:home')
     else:
         #@todo: use separate form and screen to handle each situation
