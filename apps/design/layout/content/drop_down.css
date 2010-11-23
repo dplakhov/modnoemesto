@@ -1,0 +1,116 @@
+.styled {
+	display: block;
+	margin: 0 0 10px;
+	width: 180px;
+}
+#rightColumn .styled {
+	width: 221px;
+}
+/* ñòèëè íåîáõîäèìûå äëÿ ðàáîòû ñêðèïòà */
+select.srReplacedSelect {
+	width: 1px;
+	position: absolute;
+	left: -999px;
+}
+
+ul.srList{
+	list-style:none;
+	padding:0;
+	width: 180px;
+	height:24px;
+	border:0px;
+}
+#rightColumn ul.srList {
+	width: 221px;
+}
+ul.srList li{
+	display:none;
+	border:0px;
+	background:#FFF;
+	/*background:repeat-y url('selectbgli.gif');*/
+	line-height:20px; /*1.5em;*/
+	padding:0 10px;
+	width:160px;
+	cursor:pointer; cursor:hand;
+}
+#rightColumn ul.srList li {
+	width:200px;
+}
+/*ul.srList2 li {
+	display:none;
+	background: #FFF;
+	background:repeat-y url('selectbgli.gif');
+	line-height:25px; /*1.5em;*/
+	/*padding:0 10px;
+	width:180px;
+	cursor:pointer; cursor:hand;
+}*/
+
+ul.srList li.srHoverLi {
+	background:#eeedde;
+	/*background:repeat-y url('selectbglih.gif');*/
+	cursor:pointer; cursor:hand;
+}
+
+ul.srBlur {
+	background: url('images/input_filter.jpg') no-repeat;
+	border:0px;
+}
+#rightColumn ul.srBlur {
+	background: url('images/input_filter_video.jpg') no-repeat;
+	border:0px;
+}
+ul.srFocus, ul.srHoverUl {
+	background: url('images/input_filter.jpg') no-repeat 0px 0px;
+	border:0px;
+}
+#rightColumn ul.srFocus, #rightColumn ul.srHoverUl {
+	background: url('images/input_filter_video.jpg') no-repeat 0px 0px;
+	border:0px;
+}
+ul.srBlur li.srSelectedLi {
+	display:block;
+	background: url('transparent.png') no-repeat 0px 100%;
+	cursor:pointer; cursor:hand;
+}
+
+ul.srFocus li.srSelectedLi, ul.srHoverUl li.srSelectedLi {
+	display:block;
+	background: url('transparent.png') no-repeat 0px 100%;
+	cursor:pointer; cursor:hand;
+}
+
+ul.srExpanded li.srSelectedLi {
+	display:block;
+	background:#d2d2d2;
+	/*background:repeat-y url('selectbglih.gif');*/
+	cursor:pointer; cursor:hand;
+}
+
+ul.srExpanded li.srFirstLi, ul.srList li.srFirstLi {
+	display:block;
+	background: url('images/input_filter.jpg') no-repeat;
+	cursor:pointer; cursor:hand;
+}
+#rightColumn ul.srExpanded li.srFirstLi, #rightColumn ul.srList li.srFirstLi {
+	display:block;
+	background: url('images/input_filter_video.jpg') no-repeat;
+	cursor:pointer; cursor:hand;
+}
+ul.srExpanded li.srLastLi, ul.srList li.srLastLi {
+	border-bottom:1px solid #717171;
+}
+
+ul.srExpanded {
+	position:relative;
+	background: url('images/input_filter.jpg') no-repeat 0px 100%;
+	z-index:1000;
+}
+#rightColumn ul.srExpanded {
+	position:relative;
+	background: url('images/input_filter_video.jpg') no-repeat 0px 100%;
+	z-index:1000;
+}
+ul.srExpanded li {
+	display:block;
+}
