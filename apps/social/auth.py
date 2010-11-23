@@ -94,6 +94,11 @@ class User(Document):
     def get_and_delete_messages(self):
         return []
 
+    def has_perm(self, perm):
+        if perm == 'superuser':
+            return self.is_superuser
+        raise Exception
+
 
 class MongoEngineBackend(object):
     """Authenticate using MongoEngine and mongoengine.django.auth.User.
