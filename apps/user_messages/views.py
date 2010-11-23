@@ -76,7 +76,7 @@ def delete_message(request, message_id):
 
     message.set_user_delete(request.user)
     if message.is_sender(user):
-        return redirect('user_messages:view_inbox')
+        return redirect('user_messages:view_sent')
     elif message.is_recipient(user):
         return redirect('user_messages:view_inbox')
 
