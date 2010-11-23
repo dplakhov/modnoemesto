@@ -85,6 +85,67 @@ class MessageTestCase(BasicTestCase):
         self.failUnless(msg in user2.messages.incoming)
         self.failIf(msg in user2.messages.unread)
 
+    def test_message_direct_delete_disallowed(self):
+        user1, user2 = self.acc1, self.acc2
+        text = 'zzZZzz'
+        msg = Message.send(sender=user1, recipient=user2, text=text)
+        self.failUnlessRaises(Exception, msg.delete)
+
+    def test_message_hard_delete(self):
+        user1, user2 = self.acc1, self.acc2
+        text = 'zzZZzz'
+        self.failIf(Message.objects.all())
+        msg = Message.send(sender=user1, recipient=user2, text=text)
+        self.failUnless(Message.objects.all())
+        msg.hard_delete()
+        self.failIf(Message.objects.all())
+
+
+    def test_message_delete(self):
+        with patch_settings(TASKS_ENABLED={}):
+            user1, user2 = self.acc1, self.acc2
+            text = 'zzZZzz'
+            msg = Message.send(sender=user1, recipient=user2, text=text)
+
+            self.failUnless(msg in user1.messages.sent)
+            self.failUnless(msg in user2.messages.incoming)
+            self.failUnless(msg in user2.messages.unread)
+
+            msg.set_user_delete(user1)
+
+            self.failIf(msg in user1.messages.sent)
+            self.failUnless(msg in user2.messages.incoming)
+            self.failUnless(msg in user2.messages.unread)
+
+            msg.set_user_delete(user2)
+            self.failIf(msg in user1.messages.sent)
+            self.failIf(msg in user2.messages.incoming)
+            self.failIf(msg in user2.messages.unread)
+
+    def test_message_delete_async(self):
+        with patch_settings(TASKS_ENABLED={Message.TASK_NAME_DELETE: True}):
+            user1, user2 = self.acc1, self.acc2
+            text = 'zzZZzz'
+            msg = Message.send(sender=user1, recipient=user2, text=text)
+
+            self.failUnless(msg in user1.messages.sent)
+            self.failUnless(msg in user2.messages.incoming)
+            self.failUnless(msg in user2.messages.unread)
+
+            msg.set_user_delete(user1)
+            sleep(1)
+            self.failIf(msg in user1.messages.sent)
+            self.failUnless(msg in user2.messages.incoming)
+            self.failUnless(msg in user2.messages.unread)
+
+            msg.set_user_delete(user2)
+            sleep(1)
+            self.failIf(msg in user1.messages.sent)
+            self.failIf(msg in user2.messages.incoming)
+            self.failIf(msg in user2.messages.unread)
+
+
+
 
 class SingleMessageTestCase(BasicTestCase):
 
@@ -177,7 +238,6 @@ class MassMessagingTestCase(BasicTestCase):
 
     def test_message_inbox_queue_correct_shifting(self):
         # assert first (with #0) message is gone
-        print [ x.text for x in self.acc2.messages.incoming ]
         self.assertEquals(self.acc2.messages.incoming[0].text, '%s %s' % (self.text, 1))
 
     def test_message_sent_queue_correct_shifting(self):

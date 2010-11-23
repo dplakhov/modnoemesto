@@ -47,14 +47,18 @@ def view_sent(request):
                               { 'msgs': messages })
 
 
+def _message_acl_check(message, user):
+    if user.id != message.sender.id and user.id != message.recipient.id:
+            raise Http404()
+
+
 @login_required
 def view_message(request, message_id):
     from apps.social.documents import Account
     message = get_document_or_404(Message, id=message_id)
     user = request.user
+    _message_acl_check(message, user)
 
-    if user.id != message.sender.id and user.id != message.recipient.id:
-        raise Http404()
 
     if message.recipient.id == request.user.id and not message.is_read:
         message.set_readed()
@@ -65,7 +69,12 @@ def view_message(request, message_id):
 
 @login_required
 def delete_message(request, message_id):
-    message = get_document_or_404(Message, id=message_id, userlist=request.user)
-    message.delete_from(request.user)
+    from apps.social.documents import Account
+    message = get_document_or_404(Message, id=message_id)
+    user = request.user
+    _message_acl_check(message, user)
+
+    message.set_user_delete(request.user)
+
     return redirect('view_inbox:view_inbox')
 

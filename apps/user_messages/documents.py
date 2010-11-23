@@ -3,7 +3,8 @@ from datetime import datetime
 from mongoengine import *
 from django.conf import settings
 
-from .tasks import message_store_set_readed
+from .tasks import (message_store_set_readed, message_store_sender_delete,
+    message_store_recipient_delete)
 
 class MessageBox(object):
 
@@ -27,17 +28,22 @@ class MessageBox(object):
 class IncomingMessageBox(MessageBox):
     @property
     def _messages(self):
-        return Message.objects(recipient=self.owner)
+        return Message.objects(recipient=self.owner,
+                               recipient_delete=None)
 
 class SentMessageBox(MessageBox):
     @property
     def _messages(self):
-        return Message.objects(sender=self.owner)
+        return Message.objects(sender=self.owner, 
+                               sender_delete=None)
 
 class UnreadMessageBox(MessageBox):
     @property
     def _messages(self):
-        return Message.objects(recipient=self.owner, readed=None)
+        return Message.objects(recipient=self.owner,
+                               readed=None,
+                               recipient_delete=None
+                               )
 
 class DraftsMessageBox(MessageBox):
     pass
@@ -68,6 +74,7 @@ class MessageBoxFactory(object):
 
 class Message(Document):
     TASK_NAME_STORE_READED = 'MESSAGE_STORE_READED'
+    TASK_NAME_DELETE = 'MESSAGE_DELETE'
 
     sender = ReferenceField('Account')
     recipient = ReferenceField('Account')
@@ -77,16 +84,16 @@ class Message(Document):
 
     readed = DateTimeField()
 
-    sender_deleted = DateTimeField()
-    recipient_deleted = DateTimeField()
+    sender_delete = DateTimeField()
+    recipient_delete = DateTimeField()
 
     meta = {
         'indexes': [
                 'timestamp',
                 'sender',
                 'recipient',
-                'sender_deleted',
-                'recipient_deleted',
+                'sender_delete',
+                'recipient_delete',
         ],
 
         'ordering': [
@@ -120,26 +127,48 @@ class Message(Document):
         return bool(self.readed)
 
 
-    def delete_from(self, user):
-        raise Exception()
-        from apps.social.documents import Account
+    def set_user_delete(self, user, timestamp=None):
+        if timestamp is None:
+            timestamp = datetime.now()
+        async = settings.TASKS_ENABLED.get(self.TASK_NAME_DELETE)
+        if async:
+            args = [ self.id, timestamp, ]
 
-        if user in self.userlist:
-            place = 'msg_sent' if user == self.sender else 'msg_inbox'
-            cmd = { 'pull__%s' % place: self, 'dec__%s_count' % place: 1,
-                    'inc__version': 1 }
-            if not self.is_read and self.recipient.id == user.id:
-                cmd['dec__unread_msg_count'] = 1
-            Account.objects(id=user.id).update_one(**cmd)
-            if len(self.userlist) > 1:
-                Message.objects(id=self.id).update_one(pull__userlist=user)
+        if user.id == self.sender.id:
+            self.sender_delete = timestamp
+            if async:
+                message_store_sender_delete.apply_async(args=args)
             else:
-                #@todo: ensure that we really don't need deleted messages
-                self.delete()
+                self.store_sender_delete(timestamp)
+        elif user.id == self.recipient.id:
+            self.recipient_delete = timestamp
+            if async:
+                message_store_recipient_delete.apply_async(args=args)
+            else:
+                self.store_recipient_delete(timestamp)
+
+    def store_sender_delete(self, timestamp=None):
+        if timestamp is None:
+            timestamp = datetime.now()
+
+        Message.objects(id=self.id).update_one(set__sender_delete=timestamp)
+
+    def store_recipient_delete(self, timestamp=None):
+        if timestamp is None:
+            timestamp = datetime.now()
+
+        Message.objects(id=self.id).update_one(set__recipient_delete=timestamp)
+
+
+    def delete(self):
+        raise RuntimeError('Can not delete directly')
+
+    def hard_delete(self, safe=False):
+        super(Message, self).delete(safe)
 
     @classmethod
     def send(cls, sender, recipient, text):
         msg = Message(sender=sender, recipient=recipient, text=text)
         msg.save()
         return msg
-        
+
