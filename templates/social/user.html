@@ -43,6 +43,7 @@
 
     <div id="camera">
         {% if camera %}
+            <a href="{% url billing:get_access_to_camera camera.id %}">Get access to camera</a>
             {% include "includes/camera.html" %}
         {% else %}
             <img src="/media/img/notfound/cam.png" alt="" />

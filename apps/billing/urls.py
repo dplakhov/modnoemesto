@@ -3,6 +3,7 @@ from django.conf.urls.defaults import *
 
 
 urlpatterns = patterns('apps.billing.views',
+    url(r'^camera/(?P<id>[a-f0-9]{24})/access/$', 'get_access_to_camera', name='get_access_to_camera'),
     url(r'^purse/$', 'purse', name='purse'),
     url(r'^purse/pay/(?P<order_id>\d+)/$', 'pay', name='pay'),
     url(r'^tariffs/$', 'tariff_list', name='tariff_list'),

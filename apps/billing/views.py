@@ -14,6 +14,8 @@ from assist.forms import AssistMode2Form
 from apps.billing.models import UserOrder
 from apps.billing.forms import UserOrderForm
 from django.shortcuts import get_object_or_404
+from apps.cam.models import Camera
+from datetime import datetime
 
 
 @login_required
@@ -78,7 +80,7 @@ def pay(request, order_id):
     form = AssistMode2Form(initial={
                'Order_IDP': order.id,
                'Subtotal_P': total_cost,
-               'Comment': 'UserID: %r, Total: %r'  % (request.user.id, order.total),
+               'Comment': 'UserID: %r, Total mods: %r, Total cost: %r'  % (request.user.id, order.total, total_cost),
                'LastName': request.user.last_name,
                'FirstName': request.user.first_name,
                'Email': request.user.email,
@@ -90,3 +92,30 @@ def pay(request, order_id):
     request.user.cash += order.total
     request.user.save()
     return direct_to_template(request, 'billing/pay.html', {'form':form, 'order':order, 'mod_cost':MOD_COST, 'total_cost':total_cost})
+
+
+@login_required
+def get_access_to_camera(request, id):
+    camera = get_document_or_404(Camera, id=id)
+    camera_is_controlled = camera.type.is_controlled
+    if request.POST:
+        form = AccessCamOrderForm(request.user, camera_is_controlled,request.POST)
+        if form.is_valid():
+            order = AccessCamOrder(
+                tarif=form.cleaned_data['tariff'],
+                duration=form.cleaned_data['duration'],
+                user=request.user,
+                camera=camera,
+            )
+            if camera_is_controlled:
+                order.status = 'wait'
+            else:
+                order.status = 'enable'
+                order.init_on = datetime.now()
+                request.user.cash -= form.total_cost
+                request.user.save()
+            order.save()
+            return HttpResponseRedirect(reverse('social:user', args=[camera.owner.id]))
+    else:
+        form = AccessCamOrderForm()
+    return direct_to_template(request, 'billing/get_access_to_camera.html', {'form':form})
