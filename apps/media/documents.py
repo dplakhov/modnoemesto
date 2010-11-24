@@ -22,7 +22,7 @@ class File(Document):
     file = FileField()
 
     derivatives = DictField()
-    parent = ReferenceField('File')
+    source = ReferenceField('File')
     transformation = StringField()
 
     class SourceFileEmpty(Exception):

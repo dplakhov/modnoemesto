@@ -81,6 +81,8 @@ class FileTest(TestCase):
 
         self.failUnlessEqual(TRANSFORMATION_NAME, derivative.transformation)
 
+        self.failUnlessEqual(file, derivative.source)
+
         self.failUnless(file.get_derivative('notfound') is None)
 
     def test_apply_transformations_before_save_raises_exc(self):
