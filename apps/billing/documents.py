@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from mongoengine import Document, StringField, ReferenceField, BooleanField, IntField, DateTimeField
+from datetime import datetime
 
 
 class Tariff(Document):
@@ -15,7 +16,8 @@ class AccessCamOrder(Document):
     is_controlled = BooleanField(default=False)
     tariff = ReferenceField('Tariff')
     duration = IntField(required=True)
-    status = IntField()
-    tariff = ReferenceField('Camera')
+    status = StringField(max_length=10)
+    camera = ReferenceField('Camera')
     user = ReferenceField('User')
-    timestamp = DateTimeField()
+    init_on = DateTimeField()
+    create_on = DateTimeField(default=datetime.now)

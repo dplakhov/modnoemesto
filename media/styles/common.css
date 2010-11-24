@@ -391,12 +391,6 @@ div#player
 	color: #00b2d5;
 	text-decoration: underline;
 }
-.room
-{
-	padding-left: ;
-	background: #efeedf;
-	border-top: #a8a8a8 solid 1px;
-}
 .chat
 {
 	 padding: 10px 0px;
@@ -420,6 +414,7 @@ div#player
 .send
 {
 	padding-top:5px;
+    background:none repeat scroll 0 0 #EFEEDF;
 	width: 515px;
 }
 p.send_mass
@@ -427,18 +422,19 @@ p.send_mass
 	color: #999999;
 	padding-bottom: 7px;
 }
-.room textarea.com
+#video_coment textarea.com
 {
-	width: 410px;
+	width: 420px;
+     border: none;
 	height: 43px;
 	/*float: left;
 	display: inline; */
 }
-.room input.sub
+#video_coment input.sub
 {
 	background:url(../images/but.jpg) no-repeat;
 	color: #FFF;
-	padding: 12px 8px 13px 8px;
+	padding: 12px 10px 13px 2px;
 	/*margin-left: 415px;*/
 	float: right;
 	cursor:pointer;

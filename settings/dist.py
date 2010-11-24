@@ -25,8 +25,18 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': '',
         'PORT': '',
-    }
+    },
+    'assist': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'assist',
+        'USER': 'root',
+        'PASSWORD': '123',
+        'HOST': 'localhost',
+        'PORT': '',
+    },
 }
+
+DATABASE_ROUTERS = ['db_routers.AssistRouter',]
 
 TIME_ZONE = 'Europe/Moscow'
 
@@ -121,6 +131,8 @@ INSTALLED_APPS = (
     'apps.cam',
     'apps.notes',
     'apps.user_messages',
+    'apps.billing',
+    'assist',
 )
 
 CELERY_RESULT_BACKEND = "mongodb"
@@ -160,3 +172,9 @@ AVATAR_SIZES = (
 )
 
 MAX_USER_MESSAGES_COUNT = 500
+
+
+ASSIST_SHOP_IDP = '123456789'
+ASSIST_LOGIN = 'test'
+ASSIST_PASSWORD = 'test'
+ASSIST_TEST_MODE = True
