@@ -22,7 +22,8 @@ from apps.user_messages.forms import MessageTextForm
 from django.core.urlresolvers import reverse
 
 from apps.media.documents import File
-from apps.media.transformations import ImageResize
+from apps.media.transformations.image import ImageResize
+
 from ImageFile import Parser as ImageFileParser
 
 from django.contrib import messages

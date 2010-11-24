@@ -11,7 +11,8 @@ from django.test import TestCase
 import mongoengine
 
 from ..documents import *
-from ..transformations import ImageResize, FileTransformation, BatchFileTransformation
+from ..transformations import FileTransformation, BatchFileTransformation
+from ..transformations.image import ImageResize
 
 def file_path(file_name):
     return os.path.abspath(os.path.join(os.path.dirname(__file__),
@@ -131,6 +132,7 @@ class FileTransformationTest(TestCase):
         transformation.apply(file, file)
         file.reload()
         self.failUnlessEqual('4', file.file.read())
+
 class BatchFileTransformationTest(TestCase):
     def test_batch_transformation_with_single_transformation(self):
         file = File(type='text')
