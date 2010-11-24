@@ -250,7 +250,10 @@ def avatar(request, user_id, format):
     if not image:
         return redirect('/media/img/converting/avatar_%s.png' % format)
 
-    return HttpResponse(image.file.read(), content_type=image.file.content_type)
+    response = HttpResponse(image.file.read(), content_type=image.file.content_type)
+    response['Last-Modified'] = image.file.upload_date
+    return response
+
 
 @login_required
 def avatar_edit(request):
