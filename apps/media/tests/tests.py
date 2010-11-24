@@ -161,13 +161,14 @@ class BatchFileTransformationTest(TestCase):
 
         transformation = BatchFileTransformation('batch',
                     TextTransformation('test'),
+                    TextTransformation('test'),
                     TextTransformation('test')
                 )
 
         transformation.apply(file, file)
 
         file.reload()
-        self.failUnlessEqual('4', file.file.read())
+        self.failUnlessEqual('8', file.file.read())
 
     def test_batch_transformation_constructor_exc(self):
         self.failUnlessRaises(Exception, BatchFileTransformation, 'batch')
