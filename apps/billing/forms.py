@@ -4,6 +4,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from documents import Tariff, AccessCamOrder
+from apps.billing.models import UserOrder
 
 
 class TariffForm(forms.Form):
@@ -16,3 +17,10 @@ class TariffForm(forms.Form):
 
 class AccessCamOrderForm(forms.Form):
     pass
+
+
+class UserOrderForm(forms.ModelForm):
+    total = forms.IntegerField(min_value=1)
+    class Meta:
+        model = UserOrder
+        fields = ('total',)

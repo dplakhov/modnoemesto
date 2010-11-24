@@ -36,7 +36,7 @@ class CameraForm(forms.Form):
     public = forms.BooleanField(required=False)
     paid = forms.BooleanField(required=False)
     operator = forms.ChoiceField(required=False, choices=())
-    tariff =  forms.ChoiceField(choices=())
+    tariffs =  forms.MultipleChoiceField(choices=())
 
     def __init__(self, user, *args, **kwargs):
         super(CameraForm, self).__init__(*args, **kwargs)
@@ -44,8 +44,7 @@ class CameraForm(forms.Form):
                             (x.id, x.name) for x in CameraType.objects.all())
         self.fields['operator'].choices = [(user.username, 'myself'),] +\
             [(x.username, x.username) for x in user.mutual_friends]
-        self.fields['tariff'].choices = [('', 'Free'),] +\
-                                        [(x.id, x.name) for x in Tariff.objects.all()]
+        self.fields['tariffs'].choices = [(x.id, x.name) for x in Tariff.objects.all()]
 
     def tmp_disabled_clean(self):
         data = self.cleaned_data

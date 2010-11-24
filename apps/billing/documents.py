@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from mongoengine import Document, StringField, ReferenceField, BooleanField, IntField, DateTimeField
+from datetime import datetime
 
 
 class Tariff(Document):
@@ -18,4 +19,4 @@ class AccessCamOrder(Document):
     status = IntField()
     tariff = ReferenceField('Camera')
     user = ReferenceField('User')
-    timestamp = DateTimeField()
+    timestamp = DateTimeField(default=datetime.now)

@@ -3,6 +3,8 @@ from django.conf.urls.defaults import *
 
 
 urlpatterns = patterns('apps.billing.views',
+    url(r'^purse/$', 'purse', name='purse'),
+    url(r'^purse/pay/(?P<order_id>\d+)/$', 'pay', name='pay'),
     url(r'^tariffs/$', 'tariff_list', name='tariff_list'),
     url(r'^tariffs/add/$', 'tariff_edit', name='tariff_add'),
     url(r'^tariffs/(?P<id>[a-f0-9]{24})/$', 'tariff_edit', name='tariff_edit'),

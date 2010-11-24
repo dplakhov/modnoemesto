@@ -9,6 +9,11 @@ from mongoengine.django.shortcuts import get_document_or_404
 from documents import Tariff, AccessCamOrder
 
 from forms import TariffForm, AccessCamOrderForm
+from assist.decorators import cp1251
+from assist.forms import AssistMode2Form
+from apps.billing.models import UserOrder
+from apps.billing.forms import UserOrderForm
+from django.shortcuts import get_object_or_404
 
 
 @login_required
@@ -49,3 +54,39 @@ def tariff_edit(request, id=None):
 def tariff_delete(request, id):
     get_document_or_404(Tariff, id=id).delete()
     return HttpResponseRedirect(reverse('billing:tariff_list'))
+
+
+@login_required
+def purse(request):
+    if request.POST:
+        form = UserOrderForm(request.POST)
+        if form.is_valid():
+            form.user = request.user.id
+            order = form.save()
+            return HttpResponseRedirect(reverse('billing:pay', args=[order.id]))
+    else:
+        form = UserOrderForm()
+    return direct_to_template(request, 'billing/purse.html', {'form': form})
+
+
+@login_required
+@cp1251
+def pay(request, order_id):
+    MOD_COST = 30
+    order = get_object_or_404(UserOrder, id=order_id)
+    total_cost = order.total * MOD_COST
+    form = AssistMode2Form(initial={
+               'Order_IDP': order.id,
+               'Subtotal_P': total_cost,
+               'Comment': 'UserID: %r, Total: %r'  % (request.user.id, order.total),
+               'LastName': request.user.last_name,
+               'FirstName': request.user.first_name,
+               'Email': request.user.email,
+               #'Phone': request.user.get_profile().phone,
+           })
+    # for tests:
+    order.is_payed = True
+    order.save()
+    request.user.cash += order.total
+    request.user.save()
+    return direct_to_template(request, 'billing/pay.html', {'form':form, 'order':order, 'mod_cost':MOD_COST, 'total_cost':total_cost})

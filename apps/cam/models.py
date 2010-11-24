@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from mongoengine import Document, StringField, ReferenceField, BooleanField
+from mongoengine import Document, StringField, ReferenceField, BooleanField, ListField
 from reflect import namedClass
 
 class CameraType(Document):
@@ -23,7 +23,7 @@ class Camera(Document):
     public = BooleanField(default=True)
     paid = BooleanField(default=False)
     operator = StringField(max_length=64)
-    tariff = ReferenceField('Tariff')
+    tariffs = ListField(ReferenceField('Tariff'))
 
     @property
     def driver(self):
