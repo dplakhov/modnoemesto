@@ -4,8 +4,6 @@ import os
 
 from django.test import TestCase
 
-from apps.utils.test import patch_settings
-
 from ..documents import *
 from ..transformations import ImageResize
 
@@ -13,18 +11,28 @@ def file_path(file_name):
     return os.path.abspath(os.path.join(os.path.dirname(__file__),
                                         'files', file_name))
 
+
 class FileTest(TestCase):
     def test_save_empty_file_raises_exc(self):
-        file = File()
+        file = File(type='image')
         self.failUnlessRaises(File.SourceFileEmpty, file.save)
 
-    def test_save_content_type_unspecified_raises_exc(self):
+    def test_save_type_unspecified_raises_exc(self):
         file = File()
+        content_type = 'image/png'
+        file.file.put(open(file_path('logo-mongodb.png')),
+            content_type=content_type)
+        file.file.put(open(file_path('logo-mongodb.png')))
+        self.failUnlessRaises(File.ContentTypeUnspecified, file.save)
+
+
+    def test_save_content_type_unspecified_raises_exc(self):
+        file = File(type='image')
         file.file.put(open(file_path('logo-mongodb.png')))
         self.failUnlessRaises(File.ContentTypeUnspecified, file.save)
 
     def test_save(self):
-        file = File()
+        file = File(type='image')
         content_type = 'image/png'
         file.file.put(open(file_path('logo-mongodb.png')),
             content_type=content_type)
@@ -39,7 +47,7 @@ class FileTest(TestCase):
 
         TRANSFORMATION_NAME = 'thumbnail'
 
-        file = File()
+        file = File(type='image')
 
         file.file.put(open(file_path('logo-mongodb.png')),
             content_type='image/png')
@@ -81,10 +89,10 @@ class FileTest(TestCase):
 
 
 class TasksTest(TestCase):
-    def test_apply_image_transformations(self):
+    def test_apply_file_transformations(self):
         print '\nthis test requres running celeryd (python manage.py celeryd test)'
-        from ..tasks import apply_image_transformations
-        file = File()
+        from ..tasks import apply_file_transformations
+        file = File(type='image')
 
         file.file.put(open(file_path('logo-mongodb.png')),
             content_type='image/png')
@@ -97,7 +105,7 @@ class TasksTest(TestCase):
             ImageResize(name='trans2', format='png', width=100, height=100)
         ]
 
-        result = apply_image_transformations.apply_async(args=args, countdown=3)
+        result = apply_file_transformations.apply_async(args=args)
         result.get()
 
         file.reload()
@@ -105,3 +113,6 @@ class TasksTest(TestCase):
         self.failUnless(file.get_derivative('trans1'))
         self.failUnless(file.get_derivative('trans2'))
 
+
+class FileSetTest(TestCase):
+    pass

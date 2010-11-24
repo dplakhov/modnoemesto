@@ -4,6 +4,6 @@ from documents import File
 
 
 @task()
-def apply_image_transformations(source_id, *transformations):
+def apply_file_transformations(source_id, *transformations):
     file = File.objects.get(id=source_id)
     file.apply_transformations(*transformations)

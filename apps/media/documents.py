@@ -17,9 +17,10 @@ from mongoengine.fields import GridFSProxy
 
 class File(Document):
     author = ReferenceField('Account')
-    #type = StringField(regex='^\w+$', required=True)
+    type = StringField(regex='^\w+$', required=True)
     ctime = DateTimeField()
     file = FileField()
+
     derivatives = DictField()
     parent = ReferenceField('File')
     transformation = StringField()

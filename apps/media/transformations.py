@@ -23,13 +23,14 @@ class FileTransformation(object):
         raise NotImplementedError
 
     def create_derivative(self, source):
-        return File(source=source, transformation=self.name)
+        return File(source=source, transformation=self.name, type=self.FILE_TYPE)
 
 
 class BatchFileTransformation(FileTransformation):
     pass
 
 class ImageResize(FileTransformation):
+    FILE_TYPE = 'image'
     def apply(self, source):
         derivative = self.create_derivative(source)
         parser = ImageFileParser()
