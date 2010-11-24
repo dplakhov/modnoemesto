@@ -4,30 +4,32 @@ import os
 
 from django.test import TestCase
 
-from ..files import *
+from apps.utils.test import patch_settings
+
+from ..documents import *
 from ..transformations import ImageResize
 
 def file_path(file_name):
     return os.path.abspath(os.path.join(os.path.dirname(__file__),
                                         'files', file_name))
 
-class MediaFileTest(TestCase):
+class FileTest(TestCase):
     def test_save_empty_file_raises_exc(self):
-        file = MediaFile()
+        file = File()
         self.failUnlessRaises(File.SourceFileEmpty, file.save)
 
     def test_save_content_type_unspecified_raises_exc(self):
-        file = MediaFile()
+        file = File()
         file.file.put(open(file_path('logo-mongodb.png')))
         self.failUnlessRaises(File.ContentTypeUnspecified, file.save)
 
     def test_save(self):
-        file = MediaFile()
+        file = File()
         content_type = 'image/png'
         file.file.put(open(file_path('logo-mongodb.png')),
             content_type=content_type)
         file.save()
-        file = MediaFile.objects.get(id=file.id)
+        file = File.objects.get(id=file.id)
         self.failUnlessEqual(content_type, file.file.content_type)
         self.failUnlessEqual(open(file_path('logo-mongodb.png')).read(),
                              file.file.read()
@@ -37,14 +39,14 @@ class MediaFileTest(TestCase):
 
         TRANSFORMATION_NAME = 'thumbnail'
 
-        file = MediaFile()
+        file = File()
 
         file.file.put(open(file_path('logo-mongodb.png')),
             content_type='image/png')
 
         file.save()
 
-        file = MediaFile(id=file.id)
+        file = File(id=file.id)
         file.reload()
 
         derivatives = file.apply_transformations(ImageResize(name=TRANSFORMATION_NAME,
@@ -82,7 +84,7 @@ class TasksTest(TestCase):
     def test_apply_image_transformations(self):
         print '\nthis test requres running celeryd (python manage.py celeryd test)'
         from ..tasks import apply_image_transformations
-        file = ImageFile()
+        file = File()
 
         file.file.put(open(file_path('logo-mongodb.png')),
             content_type='image/png')

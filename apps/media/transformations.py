@@ -4,7 +4,7 @@ import Image
 
 
 from ImageFile import Parser as ImageFileParser
-from files import FileDerivative
+from documents import FileDerivative
 
 try:
     from cStringIO import StringIO
