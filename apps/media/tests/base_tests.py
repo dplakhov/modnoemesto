@@ -80,7 +80,7 @@ class MediaFileTest(TestCase):
 
 class TasksTest(TestCase):
     def test_apply_image_transformations(self):
-        print '\nthis test requres running celeryd (python manage.py celeryd)'
+        print '\nthis test requres running celeryd (python manage.py celeryd test)'
         from ..tasks import apply_image_transformations
         file = ImageFile()
 
