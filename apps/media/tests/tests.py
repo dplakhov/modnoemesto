@@ -12,6 +12,13 @@ def file_path(file_name):
     return os.path.abspath(os.path.join(os.path.dirname(__file__),
                                         'files', file_name))
 
+def create_file():
+    file = File(type='image')
+    file.file.put(open(file_path('logo-mongodb.png')),
+        content_type='image/png')
+    file.save()
+    return file
+
 
 class FileTest(TestCase):
     def test_save_empty_file_raises_exc(self):
@@ -46,12 +53,7 @@ class FileTest(TestCase):
 
         TRANSFORMATION_NAME = 'thumbnail'
 
-        file = File(type='image')
-
-        file.file.put(open(file_path('logo-mongodb.png')),
-            content_type='image/png')
-
-        file.save()
+        file = create_file()
 
         file = File(id=file.id)
         file.reload()
@@ -86,19 +88,23 @@ class FileTest(TestCase):
         self.failUnless(file.get_derivative('notfound') is None)
 
     def test_apply_transformations_before_save_raises_exc(self):
-        pass
+        file = File(type='image')
+
+        file.file.put(open(file_path('logo-mongodb.png')),
+            content_type='image/png')
+
+        self.failUnlessRaises(Exception, file.apply_transformations,
+                              ImageResize(name='thumbnail',
+                                          format='png', width=100, height=100))
+
 
 
 class TasksTest(TestCase):
     def test_apply_file_transformations(self):
         print '\nthis test requres running celeryd (python manage.py celeryd test)'
         from ..tasks import apply_file_transformations
-        file = File(type='image')
 
-        file.file.put(open(file_path('logo-mongodb.png')),
-            content_type='image/png')
-
-        file.save()
+        file = create_file()
 
         args = [
             str(file.id),
@@ -116,4 +122,16 @@ class TasksTest(TestCase):
 
 
 class FileSetTest(TestCase):
-    pass
+    def test_add_file(self):
+        file_set = FileSet(type='liba')
+        file_set.save()
+
+        file = create_file()
+
+        file_set.add_file(file)
+        
+        self.failUnlessEqual(1, len(file_set.files))
+        file_set.save()
+
+        file_set.reload()
+        self.failUnlessEqual(1, len(file_set.files))

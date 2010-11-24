@@ -5,11 +5,13 @@ from datetime import datetime
 import pymongo.dbref
 
 from mongoengine import Document
+
 from mongoengine import ReferenceField
 from mongoengine import DateTimeField
 from mongoengine import FileField
 from mongoengine import DictField
 from mongoengine import StringField
+from mongoengine import ListField
 
 from mongoengine.connection import _get_db
 from mongoengine.fields import GridFSProxy
@@ -24,6 +26,14 @@ class File(Document):
     derivatives = DictField()
     source = ReferenceField('File')
     transformation = StringField()
+
+    meta = {
+        'indexes': [
+                'author',
+                'type',
+                'source',
+        ],
+    }
 
     class SourceFileEmpty(Exception):
         pass
@@ -67,3 +77,21 @@ class File(Document):
             derivative.file = GridFSProxy(derivative.file)
             return derivative
 
+
+class FileSet(Document):
+    author = ReferenceField('Account')
+    name = StringField()
+    type = StringField(regex='^\w+$', required=True)
+    files = ListField(ReferenceField(File))
+
+    meta = {
+        'indexes': [
+                'author',
+                'type',
+        ],
+    }
+
+
+    def add_file(self, file):
+        self.files.append(file)
+        self.__class__.objects(id=self.id).update_one(push__files=file)
