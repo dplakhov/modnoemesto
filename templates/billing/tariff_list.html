@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h2>{% trans "Tariffs" %}</h2>
+<p>
+{% for tariff in tariffs %}
+    <div>
+        <a href="{% url billing:tariff_edit tariff.id %}">{{ tariff.name }}</a>
+        <a href="{% url billing:tariff_delete tariff.id %}">x</a>
+    </div>
+{% endfor %}
+</p>
+<a href="{% url billing:tariff_add %}">{% trans 'Add' %}</a>
+{% endblock %}

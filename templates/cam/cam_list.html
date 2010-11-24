@@ -1,9 +1,37 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+{% block css %}
+{{ block.super }}
+<link href="/media/styles/drop_down.css" type="text/css" rel="stylesheet" />
+
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script type="text/javascript" src="/media/js/jquery.corner.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.rounded').corner();
+    });
+</script>
+<script src="/media/js/drop_down.js" type="text/javascript"></script>
+{% endblock %}
+
 {% block content %}
-<h2>{% trans "Registered cameras" %}</h2>
-<p>
+<div id="filter">
+<h2>Фильтр модных мест</h2>
+
+
+<div class="filt rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+    <table cellspacing="0" cellpadding="0">
+        <tbody>
+<form method="post">
+        {{ form.as_table }}
+        <tr><td colspan="2"><input type="submit" value="Фильтровать" class="button"/></td></tr>
+</form>
+    </tbody></table>
+</div>
 {% for cam in cams %}
     <div>
         {{ cam.name }}
@@ -15,5 +43,5 @@
     {% endif %}
     </div>
 {% endfor %}
-</p>
+</div>
 {% endblock %}

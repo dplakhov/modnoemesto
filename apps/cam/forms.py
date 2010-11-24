@@ -8,6 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from .models import Camera, CameraType
 from .drivers.base import Driver as BaseDriver
 from .drivers.exceptions import ImproperlyConfigured, AccessDenied
+from apps.billing.documents import Tariff
 
 
 class CameraTypeForm(forms.Form):
@@ -33,16 +34,18 @@ class CameraForm(forms.Form):
     password = forms.CharField()
     enabled = forms.BooleanField(required=False)
     public = forms.BooleanField(required=False)
-    free = forms.BooleanField(required=False)
+    paid = forms.BooleanField(required=False)
     operator = forms.ChoiceField(required=False, choices=())
+    tariff =  forms.ChoiceField(choices=())
 
     def __init__(self, user, *args, **kwargs):
         super(CameraForm, self).__init__(*args, **kwargs)
         self.fields['type'].choices = tuple(
                             (x.id, x.name) for x in CameraType.objects.all())
-        self.fields['operator'].choices = tuple(chain([('', 'all users'),
-            (user.username, 'myself')],
-            [(x.username, x.username) for x in user.mutual_friends]))
+        self.fields['operator'].choices = [(user.username, 'myself'),] +\
+            [(x.username, x.username) for x in user.mutual_friends]
+        self.fields['tariff'].choices = [('', 'Free'),] +\
+                                        [(x.id, x.name) for x in Tariff.objects.all()]
 
     def tmp_disabled_clean(self):
         data = self.cleaned_data
@@ -57,3 +60,9 @@ class CameraForm(forms.Form):
             raise forms.ValidationError(_('Camera improperly configured'))
         return self.cleaned_data
 
+
+class CamFilterForm(forms.Form):
+    name = forms.CharField(required=False,label=u'Ключевые слова', widget=forms.TextInput(attrs={'class':'kay'}))
+    enabled = forms.BooleanField(required=False,initial=True,label=u'Активные')
+    public = forms.BooleanField(required=False,initial=True,label=u'Публичные')
+    paid = forms.BooleanField(required=False,initial=False,label=u'Платные')

@@ -12,52 +12,58 @@ from .models import Camera
 from .models import CameraType
 
 from .forms import CameraTypeForm, CameraForm
+from apps.billing.documents import Tariff
+from apps.cam.forms import CamFilterForm
 
 @login_required
 def cam_list(request):
-    cams = Camera.objects()
-    return direct_to_template(request, 'cam/cam_list.html', dict(cams=cams) )
+    form = CamFilterForm(request.POST or None)
+    if form.is_valid():
+        data = dict(form.cleaned_data)
+        if not data['name']:
+            del data['name']
+        else:
+            data['name__icontains'] = data['name'].split()
+            print data['name__icontains']
+            del data['name']
+        print data
+        cams = Camera.objects(**data)
+    else:
+        cams = Camera.objects()
+    return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams) )
 
 def is_superuser(user):
     return user.is_superuser
 
 @login_required
 def cam_edit(request, id=None):
-    simple_fields = ('name', 'host', 'username', 'password', 'enabled', 
-                     'public', 'free', 'operator' )
-
     user = request.user
     if id:
-        cam = get_document_or_404(Camera, id=id, owner=request.user)
-
+        cam = get_document_or_404(Camera, id=id, owner=user)
         if not is_superuser(user) and user.id != cam.owner.id:
             return HttpResponseNotFound()
-
-        initial = {}
-
-        for field in simple_fields:
-            initial[field] = getattr(cam, field)
-
+        initial = cam._data
         initial['type'] = cam.type.id
-
+        initial['tariff'] = cam.tariff and cam.tariff.id
     else:
         cam = None
         initial = {}
 
-    form = CameraForm(request.user, request.POST or None, initial=initial)
+    form = CameraForm(user, request.POST or None, initial=initial)
 
     if form.is_valid():
         if not cam:
             cam = Camera()
             cam.owner = user
 
-        for field in simple_fields:
-            setattr(cam, field, form.cleaned_data[field])
+        for k, v in form.cleaned_data.items():
+            setattr(cam, k, v)
             
         cam.type = CameraType.objects.get(id=form.cleaned_data['type'])
+        cam.tariff = Tariff.objects.get(id=form.cleaned_data['tariff'])
 
         cam.save()
-        return HttpResponseRedirect(reverse('cam:cam_list'))
+        return HttpResponseRedirect(reverse('social:home'))
 
     return direct_to_template(request, 'cam/cam_edit.html',
                               dict(form=form, is_new=id is None)
