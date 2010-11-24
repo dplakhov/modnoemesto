@@ -135,3 +135,17 @@ class FileSetTest(TestCase):
 
         file_set.reload()
         self.failUnlessEqual(1, len(file_set.files))
+
+    def test_add_file_without_save(self):
+        file_set = FileSet(type='liba')
+        file_set.save()
+
+        file = create_file()
+
+        file_set.add_file(file)
+        
+        self.failUnlessEqual(1, len(file_set.files))
+
+        file_set.reload()
+        self.failUnlessEqual(1, len(file_set.files))
+        
