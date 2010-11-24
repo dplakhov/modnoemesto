@@ -2,11 +2,16 @@
 
 import os
 
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
+
 from django.test import TestCase
+import mongoengine
 
 from ..documents import *
-from ..transformations import ImageResize, FileTransformation
-import mongoengine
+from ..transformations import ImageResize, FileTransformation, BatchFileTransformation
 
 def file_path(file_name):
     return os.path.abspath(os.path.join(os.path.dirname(__file__),
@@ -19,6 +24,14 @@ def create_file():
     file.save()
     return file
 
+class TextTransformation(FileTransformation):
+    def _apply(self, source, destination):
+        source_data = int(source.file.read())
+
+        destination.file.seek(0)
+        destination.file.replace(str(source_data * 2),
+                         content_type=destination.file.content_type)
+        destination.save()
 
 class FileTest(TestCase):
     def test_save_empty_file_raises_exc(self):
@@ -50,11 +63,6 @@ class FileTest(TestCase):
                              )
 
 class FileTransformationTest(TestCase):
-
-    def test_apply_transformation_into_source(self):
-        class DummyTransformation(FileTransformation):
-            pass
-
     def test_apply_transformations(self):
 
         TRANSFORMATION_NAME = 'thumbnail'
@@ -103,6 +111,68 @@ class FileTransformationTest(TestCase):
                               ImageResize(name='thumbnail',
                                           format='png', width=100, height=100))
 
+    def test_apply_transformation_into_source(self):
+        file = File(type='text')
+        buffer = StringIO()
+        buffer.write('1')
+        buffer.reset()
+        file.file.put(buffer, content_type='text/plain')
+        file.save()
+        file.reload()
+        self.failUnlessEqual('1', file.file.read())
+
+
+        transformation = TextTransformation('test')
+        transformation.apply(file, file)
+
+        file.reload()
+        self.failUnlessEqual('2', file.file.read())
+
+        transformation.apply(file, file)
+        file.reload()
+        self.failUnlessEqual('4', file.file.read())
+class BatchFileTransformationTest(TestCase):
+    def test_batch_transformation_with_single_transformation(self):
+        file = File(type='text')
+        buffer = StringIO()
+        buffer.write('1')
+        buffer.reset()
+        file.file.put(buffer, content_type='text/plain')
+        file.save()
+        file.reload()
+
+        transformation = BatchFileTransformation('batch',
+                    TextTransformation('test')
+                )
+
+        transformation.apply(file, file)
+
+        file.reload()
+        self.failUnlessEqual('2', file.file.read())
+
+    def test_batch_transformation_with_multiple_transformations(self):
+        file = File(type='text')
+        buffer = StringIO()
+        buffer.write('1')
+        buffer.reset()
+        file.file.put(buffer, content_type='text/plain')
+        file.save()
+        file.reload()
+
+        transformation = BatchFileTransformation('batch',
+                    TextTransformation('test'),
+                    TextTransformation('test')
+                )
+
+        transformation.apply(file, file)
+
+        file.reload()
+        self.failUnlessEqual('4', file.file.read())
+
+    def test_batch_transformation_constructor_exc(self):
+        self.failUnlessRaises(Exception, BatchFileTransformation, 'batch')
+        self.failUnlessRaises(Exception, BatchFileTransformation, 'batch',
+                              'not Transformation class')
 
 
 class TransformationTasksTest(TestCase):
