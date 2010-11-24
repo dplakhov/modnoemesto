@@ -6,6 +6,7 @@ from django.test import TestCase
 
 from ..documents import *
 from ..transformations import ImageResize
+import mongoengine
 
 def file_path(file_name):
     return os.path.abspath(os.path.join(os.path.dirname(__file__),
@@ -22,9 +23,7 @@ class FileTest(TestCase):
         content_type = 'image/png'
         file.file.put(open(file_path('logo-mongodb.png')),
             content_type=content_type)
-        file.file.put(open(file_path('logo-mongodb.png')))
-        self.failUnlessRaises(File.ContentTypeUnspecified, file.save)
-
+        self.failUnlessRaises(mongoengine.ValidationError, file.save)
 
     def test_save_content_type_unspecified_raises_exc(self):
         file = File(type='image')

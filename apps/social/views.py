@@ -21,7 +21,7 @@ from apps.user_messages.forms import MessageTextForm
 
 from django.core.urlresolvers import reverse
 
-from apps.media.documents import ImageFile
+from apps.media.documents import File
 from apps.media.transformations import ImageResize
 from ImageFile import Parser as ImageFileParser
 
@@ -32,7 +32,7 @@ try:
 except ImportError:
     from StringIO import StringIO
 
-from apps.media.tasks import apply_image_transformations
+from apps.media.tasks import apply_file_transformations
 from auth import REDIRECT_FIELD_NAME
 
 
@@ -280,7 +280,7 @@ def avatar_edit(request):
                 image_valid = False
 
             if image_valid:
-                avatar = ImageFile()
+                avatar = File(type='image')
                 buffer.reset()
                 avatar.file.put(buffer, content_type=file.content_type)
                 avatar.save()
@@ -293,8 +293,7 @@ def avatar_edit(request):
 
                 if settings.TASKS_ENABLED.get('AVATAR_RESIZE'):
                     args = [ avatar.id, ] + transformations
-                    apply_image_transformations.apply_async(args=args)
-                    #apply_image_transformations.delay()
+                    apply_file_transformations.apply_async(args=args)
                 else:
                     avatar.apply_transformations(*transformations)
 

@@ -38,7 +38,7 @@ class Account(User):
     # some control
     version = IntField(default=0)
 
-    avatar = ReferenceField('ImageFile')
+    avatar = ReferenceField('File')
 
     cash = IntField(default=0)
 
