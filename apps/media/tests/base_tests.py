@@ -57,9 +57,9 @@ class FileTest(TestCase):
         self.failUnlessEqual(1, len(derivatives))
 
         derivative = derivatives[TRANSFORMATION_NAME]
-        derivative = FileDerivative.objects(id=derivative.id).first()
+        derivative = File.objects(id=derivative.id).first()
 
-        self.failUnless(isinstance(derivative, FileDerivative))
+        self.failUnless(isinstance(derivative, File))
         self.failUnless(derivative.file.read())
 
         self.failUnless(file.derivatives)

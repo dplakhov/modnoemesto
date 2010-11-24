@@ -4,7 +4,7 @@ import Image
 
 
 from ImageFile import Parser as ImageFileParser
-from documents import FileDerivative
+from .documents import File
 
 try:
     from cStringIO import StringIO
@@ -23,7 +23,7 @@ class FileTransformation(object):
         raise NotImplementedError
 
     def create_derivative(self, source):
-        return FileDerivative(source=source, transformation=self.name)
+        return File(source=source, transformation=self.name)
 
 
 class BatchFileTransformation(FileTransformation):

@@ -62,11 +62,7 @@ class File(Document):
         derivative = self.derivatives.get(transformation_name)
         if derivative:
             derivative = _get_db().dereference(derivative)
-            derivative = FileDerivative(**derivative)
+            derivative = File(**derivative)
             derivative.file = GridFSProxy(derivative.file)
             return derivative
 
-class FileDerivative(Document):
-    source = ReferenceField('File')
-    file = FileField()
-    transformation = StringField()
