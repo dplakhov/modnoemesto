@@ -19,7 +19,12 @@ class FileTransformation(object):
         for k, v in kwargs.items():
             setattr(self, k, v)
 
-    def apply(self, source):
+    def apply(self, source, destination=None):
+        if destination is None:
+            destination = self.create_derivative(source)
+        return self._apply(source, destination)
+
+    def _apply(self, source, destination):
         raise NotImplementedError
 
     def create_derivative(self, source):
@@ -31,8 +36,7 @@ class BatchFileTransformation(FileTransformation):
 
 class ImageResize(FileTransformation):
     FILE_TYPE = 'image'
-    def apply(self, source):
-        derivative = self.create_derivative(source)
+    def _apply(self, source, destination):
         parser = ImageFileParser()
         parser.feed(source.file.read())
         source_image = parser.close()
@@ -40,9 +44,9 @@ class ImageResize(FileTransformation):
         buffer = StringIO()
         image.save(buffer, self.format)
         buffer.reset()
-        derivative.file.put(buffer, content_type = 'image/%s' % self.format)
-        derivative.save()
-        return derivative
+        destination.file.put(buffer, content_type = 'image/%s' % self.format)
+        destination.save()
+        return destination
 
 class VideoThumbnail(FileTransformation):
     pass

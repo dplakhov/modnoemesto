@@ -5,7 +5,7 @@ import os
 from django.test import TestCase
 
 from ..documents import *
-from ..transformations import ImageResize
+from ..transformations import ImageResize, FileTransformation
 import mongoengine
 
 def file_path(file_name):
@@ -48,6 +48,12 @@ class FileTest(TestCase):
         self.failUnlessEqual(open(file_path('logo-mongodb.png')).read(),
                              file.file.read()
                              )
+
+class FileTransformationTest(TestCase):
+
+    def test_apply_transformation_into_source(self):
+        class DummyTransformation(FileTransformation):
+            pass
 
     def test_apply_transformations(self):
 
@@ -99,7 +105,7 @@ class FileTest(TestCase):
 
 
 
-class TasksTest(TestCase):
+class TransformationTasksTest(TestCase):
     def test_apply_file_transformations(self):
         print '\nthis test requres running celeryd (python manage.py celeryd test)'
         from ..tasks import apply_file_transformations
