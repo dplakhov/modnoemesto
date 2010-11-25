@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
-<h1>Group creation</h1>
+<h1>{% trans "Group creation" %}</h1>
     <form method="post">
     <table>
     {{ form.as_table }}
     </table>
-    <input type="submit" value="create"/>
+    <input type="submit" value="{% trans "Create group" %}"/>
     </form>
 {% endblock %}

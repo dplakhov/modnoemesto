@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
-<h1>Available groups</h1>
+<h1>{% trans "Available groups" %}</h1>
     {% for group in groups %}
         <div>
             <a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a>
@@ -10,5 +10,5 @@
 
     <hr />
 
-    <a href="{% url groups:group_add %}">Create group</a>
+    <a href="{% url groups:group_add %}">{% trans "Create group" %}</a>
 {% endblock %}

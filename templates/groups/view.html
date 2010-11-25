@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
-<h1>Group "{{ group.name }}"</h1>
+<h1>{% trans "Group" %} "{{ group.name }}"</h1>
 {% for user in group.members %}
     <div>
         {% include "includes/user/micro.html" %}
@@ -9,8 +10,8 @@
 {% endfor %}
 <hr/>
 {% if request.user in group.members %}
-    <a href="{% url groups:group_leave id=group.id %}">leave group</a>
+    <a href="{% url groups:group_leave id=group.id %}">{% trans "Leave group" %}</a>
 {% else %}
-    <a href="{% url groups:group_join id=group.id %}">join group</a>
+    <a href="{% url groups:group_join id=group.id %}">{% trans "Join group" %}</a>
 {% endif %}
 {% endblock %}
