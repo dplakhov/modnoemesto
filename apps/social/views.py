@@ -9,6 +9,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from django.contrib import messages
 
 from mongoengine.django.shortcuts import get_document_or_404
 
@@ -17,15 +18,15 @@ from forms import ( UserCreationForm, LoginForm, ChangeAvatarForm)
 
 from apps.user_messages.forms import MessageTextForm 
 
-from django.core.urlresolvers import reverse
-
 from apps.media.documents import File
 from apps.media.transformations.image import ImageResize
+from apps.groups.documents import Group
 
 from ImageFile import Parser as ImageFileParser
 
-from django.contrib import messages
+
 from apps.billing.documents import AccessCamOrder
+
 
 try:
     from cStringIO import StringIO
