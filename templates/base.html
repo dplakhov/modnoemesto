@@ -72,9 +72,10 @@
             <td class="menu_but"><a class="curent" href="#">приложения</a></td>
             <td class="right_corner"></td>
             <td class="empty"></td>
-            <td class="left_corner {% active request 'social:group_list' %}"></td>
-            <td class="menu_but {% active request 'social:group_list' %}"><a href="{% url social:group_list %}">группы</a></td>
-            <td class="right_corner {% active request 'social:group_list' %}"></td>
+            <td class="left_corner {% active request 'groups:group_list' %}"></td>
+            <td class="menu_but {% active request 'groups:group_list' %}">
+                <a href="{% url groups:group_list %}">группы</a></td>
+            <td class="right_corner {% active request 'groups:group_list' %}"></td>
             <td class="empty"></td>
 
             {% if user.is_authenticated %}
@@ -129,7 +130,7 @@
 
                             <li id="mail"><a href="{% url user_messages:view_inbox %}">Сообщения</a></li>
                             <li id="notes"><a href="{% url notes:note_list %}">Заметки</a></li>
-                            <li id="group"><a href="{% url social:group_list %}">Группы</a></li>
+                            <li id="group"><a href="{% url groups:group_list %}">Группы</a></li>
                             <li id="foto"><a href="#">Фотографии</a></li>
                             <li id="video"><a href="#">Видеозаписи</a></li>
                             <li id="audio"><a href="#">Аудиозаписи</a></li>

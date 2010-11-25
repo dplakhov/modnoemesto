@@ -4,11 +4,11 @@
 <h1>Available groups</h1>
     {% for group in groups %}
         <div>
-            <a href="{% url social:group_view id=group.id %}">{{ group.name }}</a>
+            <a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a>
         </div>
     {% endfor %}
 
     <hr />
 
-    <a href="{% url social:group_add %}">Create group</a>
+    <a href="{% url groups:group_add %}">Create group</a>
 {% endblock %}

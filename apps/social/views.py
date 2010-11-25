@@ -12,10 +12,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from mongoengine.django.shortcuts import get_document_or_404
 
-from documents import (Account, FriendshipOffer, Group,
-        LimitsViolationException)
-from forms import ( UserCreationForm, LoginForm,
-    GroupCreationForm, ChangeAvatarForm)
+from documents import (Account, FriendshipOffer, LimitsViolationException)
+from forms import ( UserCreationForm, LoginForm, ChangeAvatarForm)
 
 from apps.user_messages.forms import MessageTextForm 
 
@@ -193,47 +191,6 @@ def decline_fs_offer(request, offer_id):
         raise Http404()
     offer.delete()
     return redirect('social:view_fs_offers_inbox')
-
-@login_required
-def group_list(request):
-    #@todo: pagination
-    #@todo: partial data fetching
-    groups = Group.objects[:10]
-    return direct_to_template(request, 'social/groups/list.html',
-                              dict(groups=groups)
-                              )
-
-
-@login_required
-def group_add(request):
-    form = GroupCreationForm(request.POST or None)
-    if form.is_valid():
-        name = form.data['name']
-        group, created = Group.objects.get_or_create(name=name)
-        if created:
-            group.add_member(request.user)
-        return redirect(reverse('social:group_view', kwargs=dict(id=group.pk)))
-    return direct_to_template(request, 'social/groups/create.html', dict(form=form))
-
-
-@login_required
-def group_view(request, id):
-    group = get_document_or_404(Group, id=id)
-    return direct_to_template(request, 'social/groups/view.html',
-                              dict(group=group))
-
-@login_required
-def group_join(request, id):
-    group = get_document_or_404(Group, id=id)
-    group.add_member(request.user)
-    return redirect(reverse('social:group_view', kwargs=dict(id=id)))
-
-
-@login_required
-def group_leave(request, id):
-    group = get_document_or_404(Group, id=id)
-    group.remove_member(request.user)
-    return redirect(reverse('social:group_view', kwargs=dict(id=id)))
 
 @login_required
 def profile_edit(request):
