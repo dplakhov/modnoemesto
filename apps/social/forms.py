@@ -45,9 +45,6 @@ class UserCreationForm(forms.Form):
 class MessageTextForm(forms.Form):
     text = forms.CharField(max_length=500, widget=forms.Textarea, required=True)
 
-class GroupCreationForm(forms.Form):
-    name = forms.CharField(label=_("Name"), max_length=255)
-
 class ChangeAvatarForm(forms.Form):
     file = forms.FileField(label=_("Image"), required=True)
 

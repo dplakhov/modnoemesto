@@ -63,6 +63,10 @@ USE_I18N = True
 
 USE_L10N = True
 
+LOCALE_PATHS = (
+    rel('templates/locale'),
+)
+
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = rel('media/')

@@ -1,0 +1,88 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-11-25 15:59+0300\n"
+"PO-Revision-Date: 2010-11-25 16:00+0300\n"
+"Last-Translator: dgk <dgk@web-mark-ru>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: forms.py:25
+#, python-format
+msgid "Invalid driver name %(driver)s"
+msgstr "Неправильное имя драйвера камеры: %(driver)s"
+
+#: forms.py:30
+msgid "Name"
+msgstr "Название"
+
+#: forms.py:31
+msgid "Camera type"
+msgstr "Тип камеры"
+
+#: forms.py:32
+msgid "Host"
+msgstr "Хост"
+
+#: forms.py:33
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: forms.py:34
+msgid "Password"
+msgstr "Пароль"
+
+#: forms.py:35
+msgid "Enabled"
+msgstr "Включена"
+
+#: forms.py:36
+msgid "Public"
+msgstr "Публичная"
+
+#: forms.py:37
+msgid "Paid"
+msgstr "Платная"
+
+#: forms.py:38
+msgid "Operator"
+msgstr "Оператор"
+
+#: forms.py:39
+msgid "Tariffs"
+msgstr "Тарифы"
+
+#: forms.py:57
+msgid "Invalid camera credentials"
+msgstr "Неверно заданы имя пользователя и пароль"
+
+#: forms.py:59
+msgid "Camera improperly configured"
+msgstr "Камера неправильно сконфигрирована"
+
+#: forms.py:64
+msgid "Keywords"
+msgstr "Ключевые слова"
+
+#: forms.py:66
+msgid "Enableds"
+msgstr "Активные"
+
+#: forms.py:67
+msgid "Publics"
+msgstr "Публичные"
+
+#: forms.py:68
+msgid "Paids"
+msgstr "Платные"
+
