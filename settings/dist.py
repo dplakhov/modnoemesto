@@ -151,6 +151,7 @@ INSTALLED_APPS = (
     'apps.notes',
     'apps.user_messages',
     'apps.billing',
+    'apps.groups',
     'assist',
 )
 

@@ -8,9 +8,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.core.urlresolvers import reverse
 
-
-from apps.groups.documents import Group
-
 class LimitsViolationException(Exception):
     def __init__(self, cause):
         self.cause = cause
