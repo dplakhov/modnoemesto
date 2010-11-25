@@ -23,10 +23,8 @@ def cam_list(request):
         if not data['name']:
             del data['name']
         else:
-            data['name__icontains'] = data['name'].split()
-            print data['name__icontains']
+            data['name__icontains'] = data['name']
             del data['name']
-        print data
         cams = Camera.objects(**data)
     else:
         cams = Camera.objects()
