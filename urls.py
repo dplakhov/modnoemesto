@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     (r'^notes/', include('apps.notes.urls', namespace='notes')),
     (r'^billing/', include('apps.billing.urls', namespace='billing')),
     (r'^library/', include('apps.media_library.urls', namespace='media_library')),
+    (r'^file/', include('apps.media.urls', namespace='media')),
 )
 
 if settings.DEBUG:
