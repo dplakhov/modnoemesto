@@ -5,23 +5,23 @@ from datetime import datetime as dt
 from django.test.client import Client
 from django.core.urlresolvers import reverse
 
-from apps.social.documents import Account, FriendshipOffer as FSOffer
+from apps.social.documents import User, FriendshipOffer as FSOffer
 
 
 class BasicTestCase(unittest.TestCase):
 
     def setUp(self):
-        Account.objects.delete()
+        User.objects.delete()
 
         self.c = Client()
 
-        self.acc1 = Account.create_user(username='test1', password='123')
-        self.acc2 = Account.create_user(username='test2', password='123')
+        self.acc1 = User.create_user(username='test1', password='123')
+        self.acc2 = User.create_user(username='test2', password='123')
 
         self.c.login(username='test1', password='123')
 
     def tearDown(self):
-        Account.objects.delete()
+        User.objects.delete()
 
 class FriendshipTestCase(BasicTestCase):
 
@@ -111,7 +111,7 @@ class MassFriendshipTestCase(BasicTestCase):
             if not i % 25:
                 print  '\rmass friending.. %002d%%' % (i*100/500),
                 sys.stdout.flush()
-            acc = Account.create_user(username='masstest%s' % i,
+            acc = User.create_user(username='masstest%s' % i,
                                       password='123')
             c2.login(username='masstest%s' % i, password='123')
             acc.save()

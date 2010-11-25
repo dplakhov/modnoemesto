@@ -1,7 +1,7 @@
 import sys
 from django.core.management.base import BaseCommand, CommandError
 from apps.social import documents
-
+from apps.user_messages.documents import Message
 import random
 
 class Command(BaseCommand):
@@ -12,8 +12,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         num = int(args and args[0] or 10)
 
-        documents.Account.objects.delete()
-        documents.Message.objects.delete()
+        documents.User.objects.delete()
+        Message.objects.delete()
         documents.FriendshipOffer.objects.delete()
 
         # creating accounts
@@ -24,7 +24,7 @@ class Command(BaseCommand):
                 sys.stdout.flush()
             name = random.choice(('den', 'pete', 'serge', 'iren', 'mary',
                                   'dude', 'ivan', 'vladimir'))
-            acc = documents.Account.create_user(username='%s%s' % (name, i),
+            acc = documents.User.create_user(username='%s%s' % (name, i),
                                       password='123')
             acc.save()
         print  '\rusers creation 100%'
@@ -35,10 +35,10 @@ class Command(BaseCommand):
             max_friends_count = random.randint(0, num % 25 + 25)
             friends_numbers = set([ random.randint(0, num-1) for _ in
                             xrange(max_friends_count) ]).difference(set([i]))
-            this_user = documents.Account.objects().order_by('username')[i]
+            this_user = documents.User.objects().order_by('username')[i]
 
             for fn in friends_numbers:
-                friend = documents.Account.objects().order_by('username')[fn]
+                friend = documents.User.objects().order_by('username')[fn]
                 #this_user.reload()
                 this_user.friend(friend)
                 random.randint(0,3) and friend.friend(this_user) # ~66%
@@ -50,7 +50,7 @@ class Command(BaseCommand):
             for sndr_num in msg_sndrs_numbers:
                 messages_count = random.randint(0, 3)
 
-                sndr = documents.Account.objects().order_by('username'
+                sndr = documents.User.objects().order_by('username'
                                                             )[sndr_num]
                 for _ in xrange(messages_count):
 
@@ -60,7 +60,7 @@ class Command(BaseCommand):
                                                    'damn', 'cool'))
                                   for i in xrange(5, 25))
 
-                    sndr.send_message(text, this_user)
+                    Message.send(sndr, this_user, text)
 
             if not i % (num/10 or 10):
                 print  '\rfriending and messaging %002d%%' % (i*100/num),
