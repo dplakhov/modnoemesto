@@ -131,6 +131,7 @@ INSTALLED_APPS = (
     'apps.cam',
     'apps.notes',
     'apps.user_messages',
+    'apps.media_library',
     'apps.billing',
     'assist',
 )

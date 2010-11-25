@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     (r'^messages/', include('apps.user_messages.urls', namespace='user_messages')),
     (r'^notes/', include('apps.notes.urls', namespace='notes')),
     (r'^billing/', include('apps.billing.urls', namespace='billing')),
+    (r'^library/', include('apps.media_library.urls', namespace='media_library')),
 )
 
 if settings.DEBUG:

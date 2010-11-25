@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<h1>{% trans "Images" %}</h1>
+
+<div id="content-main">
+{% for file in files  %}
+    {{ file }}
+{% endfor %}
+</div>
+
+    {% if form %}
+        <form action="{% url media_library:image_add %}" method="post" enctype="multipart/form-data">
+
+        <table>
+        {{ form.as_table }}
+        </table>
+        <input type="submit" value="{% trans "Add" %}"/>
+        </form>
+
+    {% endif %}
+    
+{% endblock %}
