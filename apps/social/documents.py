@@ -50,7 +50,7 @@ class Account(User):
     website = URLField()
     university = StringField(max_length=30)
     department = StringField(max_length=30)
-    status = StringField(max_length=30)
+    university_status = StringField(max_length=30)
 
     meta = {
         'indexes': ['username', 'mutual_friends']

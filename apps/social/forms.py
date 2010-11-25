@@ -45,6 +45,24 @@ class UserCreationForm(forms.Form):
 class MessageTextForm(forms.Form):
     text = forms.CharField(max_length=500, widget=forms.Textarea, required=True)
 
+
 class ChangeAvatarForm(forms.Form):
     file = forms.FileField(label=_("Image"), required=True)
 
+
+class ChangeProfileForm(forms.Form):
+    SEX_CHOICES = (
+        ('', _('None selected')),
+        ('f', _('Female')),
+        ('m', _('Male')),
+    )
+
+    hometown = forms.CharField(max_length=30, required=False)
+    birthday = forms.CharField(max_length=10, required=False)
+    sex = forms.ChoiceField(choices=SEX_CHOICES, required=False)
+    icq = forms.CharField(max_length=30, required=False)
+    mobile = forms.CharField(max_length=30, required=False)
+    website = forms.URLField(required=False)
+    university = forms.CharField(max_length=30, required=False)
+    department = forms.CharField(max_length=30, required=False)
+    university_status = forms.CharField(max_length=30, required=False)

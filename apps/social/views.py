@@ -26,6 +26,7 @@ from ImageFile import Parser as ImageFileParser
 
 
 from apps.billing.documents import AccessCamOrder
+from apps.social.forms import ChangeProfileForm
 
 
 try:
@@ -105,6 +106,8 @@ def home(request):
     camera = request.user.get_camera()
     if camera:
         camera.show = True
+    #@todo: need filter
+    request.user.sex = dict(ChangeProfileForm.SEX_CHOICES).get(request.user.sex, ChangeProfileForm.SEX_CHOICES[0][1])
     return direct_to_template(request, 'social/home.html', { 'camera': camera, 'is_owner': True })
 
 
@@ -266,6 +269,13 @@ def avatar_edit(request):
 
 
 def profile_edit(request):
+    form = ChangeProfileForm(request.POST or None, initial=request.user._data)
+    if form.is_valid():
+        for k, v in form.cleaned_data.items():
+            setattr(request.user, k, v if v else None)
+
+        request.user.save()
+        return redirect('social:home')
     return direct_to_template(request, 'social/profile/edit.html',
-                              dict(user=request.user)
+                              dict(form=form, user=request.user)
                               )

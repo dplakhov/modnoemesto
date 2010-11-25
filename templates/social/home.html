@@ -34,7 +34,7 @@
     </dl>
     <div class="about_persone transparent">
         <div style="overflow: hidden;">
-        <p>{% trans "Contact Information" %}</p><span><a href="#" class="change">{% trans "edit" %}</a></span>
+        <p>{% trans "Contact Information" %}</p><span><a href="{% url social:profile_edit %}" class="change">{% trans "edit" %}</a></span>
         </div>
         <dl>
             <dt>{% trans "ICQ" %}</dt>
@@ -47,7 +47,7 @@
     </div>
     <div class="about_persone transparent">
         <div style="overflow: hidden;">
-        <p>{% trans "Education" %}</p><span><a href="#" class="change">{% trans "edit" %}</a></span>
+        <p>{% trans "Education" %}</p><span><a href="{% url social:profile_edit %}" class="change">{% trans "edit" %}</a></span>
         </div>
         <dl>
             <dt>{% trans "University" %}</dt>
@@ -55,7 +55,7 @@
             <dt>{% trans "Department" %}</dt>
                 <dd><a href="#">{{ user.department }}</a></dd>
             <dt>{% trans "Status" %}</dt>
-                <dd><a href="#">{{ user.status }}</a></dd>
+                <dd><a href="#">{{ user.university_status }}</a></dd>
         </dl>
     </div>
 </div>
