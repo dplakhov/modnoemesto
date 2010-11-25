@@ -7,7 +7,7 @@ from mongoengine import connection
 class Note(Document):
     title = StringField(max_length=128, required=True)
     text = StringField(required=True)
-    author = ReferenceField('Account')
+    author = ReferenceField('User')
     timestamp = DateTimeField()
     is_public = BooleanField(default=True)
 

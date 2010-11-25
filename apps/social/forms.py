@@ -2,7 +2,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from documents import Account
+from documents import User
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=128, required=True)
@@ -28,7 +28,7 @@ class UserCreationForm(forms.Form):
 
     def clean_username(self):
         username = self.cleaned_data["username"]
-        if Account.objects(username=username).count():
+        if User.objects(username=username).count():
             raise forms.ValidationError(_("A user with that username already"
                                           " exists."))
         return username
