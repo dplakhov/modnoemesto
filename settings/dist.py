@@ -183,7 +183,7 @@ ROBOT_EMAIL_ADDRESS = 'noreply@modnoemesto.ru'
 AVATAR_SIZES = (
     (100, 100),
     (60, 60),
-    (30, 30),
+    (47, 47),
 )
 
 MAX_USER_MESSAGES_COUNT = 500

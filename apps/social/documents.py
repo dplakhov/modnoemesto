@@ -101,6 +101,15 @@ class Account(User):
     def get_absolute_url(self):
         return reverse('social:user',  kwargs=dict(user_id=self.id))
 
+
+    def avatar_micro(self):
+        format = "%ix%i" % settings.AVATAR_SIZES[2]
+        if self.avatar:
+            return reverse('social:avatar',  kwargs=dict(user_id=self.id, format=format))
+        else:
+            return "/media/img/notfound/avatar_%s.png" % format
+
+
 class Group(Document):
     name = StringField(required=True, unique=True)
     members = ListField(ReferenceField('Account'))
