@@ -8,7 +8,7 @@ env.hosts = [
 env.user = 'root'
 
 def deploy():
-    local('git push')
+    #local('git push')
     with cd('/var/www/socnet'):
         run('git pull')
         run('/etc/init.d/nginx reload')
