@@ -28,11 +28,7 @@ div#left
 	padding: 5px;
 	overflow: hidden;
 	width: 150px;
-}
-#left dd a
-{
 	color: #00b2d5;
-	text-decoration: underline;
 }
 div.about_persone
 {
