@@ -2,6 +2,7 @@
 {% load i18n %}
 {% block content %}
 <h2>{% trans "Note" %} "{{ note.title }}"</h2>
-<div>Created: {{ note.timestamp }} by {{ note.author }}</div>
+<div>{% trans "Created:" %} {{ note.timestamp }}</div>
+<div>{% trans "Creator:" %} {{ note.author }}</div>
 <div>{{ note.text }}</div>
 {% endblock %}

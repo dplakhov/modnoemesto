@@ -1,0 +1,180 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-11-25 14:33+0300\n"
+"PO-Revision-Date: 2010-11-25 15:14+0300\n"
+"Last-Translator: dgk <dgk@web-mark-ru>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: billing/get_access_to_camera.html:5
+msgid "Access to camera"
+msgstr "Доступ к камере"
+
+#: billing/get_access_to_camera.html:11
+msgid "Оплатить"
+msgstr ""
+
+#: billing/tariff_edit.html:6
+msgid "Add tariff"
+msgstr "Добавить тариф"
+
+#: billing/tariff_edit.html:8
+msgid "Edit tariff"
+msgstr "Редактировать тариф"
+
+#: billing/tariff_edit.html:16
+#: billing/tariff_list.html:14
+#: cam/cam_edit.html:16
+#: cam/type_edit.html:16
+#: notes/note_edit.html:16
+msgid "Add"
+msgstr "Добавить"
+
+#: billing/tariff_edit.html:16
+#: cam/cam_edit.html:16
+#: cam/type_edit.html:16
+#: notes/note_edit.html:16
+#: social/profile/avatar.html:14
+msgid "Save"
+msgstr "Сохранить"
+
+#: billing/tariff_list.html:5
+msgid "Tariffs"
+msgstr "Тарифы"
+
+#: cam/cam_edit.html:6
+msgid "Add camera"
+msgstr "Добавить камеру"
+
+#: cam/cam_edit.html:8
+msgid "Edit camera"
+msgstr "Редактировать камеру"
+
+#: cam/cam_list.html:42
+#: notes/note_list.html:12
+msgid "Edit"
+msgstr "Редактировать"
+
+#: cam/cam_view.html:4
+msgid "Camera"
+msgstr "Камера"
+
+#: cam/type_edit.html:6
+msgid "Add camera type"
+msgstr "Добавить тип камеры"
+
+#: cam/type_edit.html:8
+msgid "Edit camera type"
+msgstr "Редактировать тип камеры"
+
+#: cam/type_list.html:5
+msgid "Camera types"
+msgstr "Типы камер"
+
+#: cam/type_list.html:15
+msgid "Add type"
+msgstr "Добавить тип"
+
+#: notes/note_edit.html:6
+msgid "Add a note"
+msgstr "Добавить заметку"
+
+#: notes/note_edit.html:8
+msgid "Edit note"
+msgstr "Редактировать заметку"
+
+#: notes/note_list.html:5
+msgid "Notes"
+msgstr "Заметки"
+
+#: notes/note_list.html:6
+msgid "Create a note"
+msgstr "Создать заметку"
+
+#: notes/note_list.html:13
+msgid "Delete"
+msgstr "Удалить"
+
+#: notes/note_view.html:4
+msgid "Note"
+msgstr "Заметка"
+
+#: notes/note_view.html:5
+msgid "Created:"
+msgstr "Создана:"
+
+#: notes/note_view.html:6
+msgid "Creator:"
+msgstr "Автор:"
+
+#: social/friendship/inbox.html:5
+#: social/friendship/sent.html:5
+msgid "Messages history"
+msgstr "История сообщений"
+
+#: social/friendship/inbox.html:12
+msgid "Your inbox"
+msgstr ""
+
+#: social/friendship/inbox.html:13
+msgid "Friendship offers: inbox"
+msgstr ""
+
+#: social/friendship/inbox.html:15
+#: social/friendship/sent.html:15
+msgid "When"
+msgstr ""
+
+#: social/friendship/inbox.html:15
+msgid "From"
+msgstr "От кого"
+
+#: social/friendship/inbox.html:15
+msgid "Accept/Decline"
+msgstr "Принять/Отклонить"
+
+#: social/friendship/inbox.html:20
+#: social/friendship/sent.html:20
+msgid "ago"
+msgstr "назад"
+
+#: social/friendship/inbox.html:29
+msgid "Accept"
+msgstr "Принять"
+
+#: social/friendship/inbox.html:32
+msgid "Decline"
+msgstr "Отклонить"
+
+#: social/friendship/sent.html:12
+msgid "Your sent friendship offers"
+msgstr ""
+
+#: social/friendship/sent.html:13
+msgid "Friendship offers: sent"
+msgstr ""
+
+#: social/friendship/sent.html:15
+msgid "To"
+msgstr "Кто"
+
+#: social/friendship/sent.html:15
+#: social/friendship/sent.html.py:29
+msgid "Cancel"
+msgstr "Отменить"
+
+#: social/profile/avatar.html:4
+msgid "Change avatar"
+msgstr "Сменить аватар"
+
