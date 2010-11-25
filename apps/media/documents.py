@@ -16,7 +16,6 @@ from mongoengine import ListField
 from mongoengine.connection import _get_db
 from mongoengine.fields import GridFSProxy
 
-
 class File(Document):
     author = ReferenceField('Account')
     type = StringField(regex='^\w+$', required=True)
@@ -39,6 +38,9 @@ class File(Document):
         pass
 
     class ContentTypeUnspecified(Exception):
+        pass
+
+    class DerivativeNotFound(Exception):
         pass
 
     def __init__(self, *args, **kwargs):
@@ -64,18 +66,33 @@ class File(Document):
         if derivatives:
             for name, derivative in derivatives.items():
                 self.derivatives[name] = pymongo.dbref.DBRef(derivative._meta['collection'],
-                                                                           derivative.pk)
+                                                             derivative.pk)
             self.save()
 
         return derivatives
 
     def get_derivative(self, transformation_name):
         derivative = self.derivatives.get(transformation_name)
-        if derivative:
-            derivative = _get_db().dereference(derivative)
-            derivative = File(**derivative)
-            derivative.file = GridFSProxy(derivative.file)
-            return derivative
+
+        if not derivative:
+            raise File.DerivativeNotFound()
+
+        derivative = _get_db().dereference(derivative)
+        derivative = File(**derivative)
+        derivative.file = GridFSProxy(derivative.file)
+        return derivative
+
+    class DerivativeProxy(object):
+        def __init__(self, file):
+            self.file = file
+
+        def __getitem__(self, item):
+            return self.file.get_derivative(item)
+
+    def __getattribute__(self, item):
+        if item == 'modifications':
+            return File.DerivativeProxy(self)
+        return super(File, self).__getattribute__(item)
 
 
 class FileSet(Document):
@@ -95,3 +112,5 @@ class FileSet(Document):
     def add_file(self, file):
         self.files.append(file)
         self.__class__.objects(id=self.id).update_one(push__files=file)
+
+

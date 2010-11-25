@@ -6,7 +6,8 @@
 
 <div id="content-main">
 {% for file in files  %}
-    {{ file.file }}
+    <img src="{% url media:file_view file_id=file.id|stringformat:"s" transformation_name='thumb.png' %}"
+         alt="" />
 {% endfor %}
 </div>
 

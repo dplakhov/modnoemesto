@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+from django.core.urlresolvers import reverse
 
 try:
     from cStringIO import StringIO
@@ -63,6 +64,23 @@ class FileTest(TestCase):
                              file.file.read()
                              )
 
+class FileViewTest(TestCase):
+    def test_view_derivative(self):
+        print reverse('media:file_view', kwargs={'transformation_name':
+                                                 u'thumb', 'file_id': u'4ced41403633844b9e000003'})
+        TRANSFORMATION_NAME = 'thumbnail'
+        file = create_file()
+        (derivative, ) = file.apply_transformations(ImageResize(name=TRANSFORMATION_NAME,
+                                             format='png', width=100, height=100))
+
+        client = self.client
+        response = client.get(reverse('media:file_view',
+                           kwargs=dict(file_id=file.id,
+                                  transformation_name=TRANSFORMATION_NAME)))
+
+
+        self.assertEquals('image/png', response['Content-Type'])
+
 class FileTransformationTest(TestCase):
     def test_apply_transformations(self):
 
@@ -100,7 +118,11 @@ class FileTransformationTest(TestCase):
 
         self.failUnlessEqual(file, derivative.source)
 
-        self.failUnless(file.get_derivative('notfound') is None)
+        self.failUnlessRaises(File.DerivativeNotFound, file.get_derivative, 'notfound')
+
+        derivative = file.modifications[TRANSFORMATION_NAME]
+        self.failUnlessEqual(file, derivative.source)
+
 
     def test_apply_transformations_before_save_raises_exc(self):
         file = File(type='image')
