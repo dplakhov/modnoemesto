@@ -111,8 +111,6 @@ class Account(User):
     def get_absolute_url(self):
         return reverse('social:user',  kwargs=dict(user_id=self.id))
 
-<<<<<<< HEAD
-
     def avatar_micro(self):
         format = "%ix%i" % settings.AVATAR_SIZES[2]
         if self.avatar:
@@ -133,8 +131,6 @@ class Group(Document):
         Group.objects(id=self.id).update_one(pull__members=user)
         Account.objects(id=user.id).update_one(pull__groups=self)
 
-=======
->>>>>>> 6a33961410a0f2c2dd20b923a54ad4c3c73716c8
 
 class FriendshipOffer(Document):
     timestamp = DateTimeField()
