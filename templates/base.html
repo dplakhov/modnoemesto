@@ -113,49 +113,49 @@
 
             <div id="leftColumn">
                 <div class="nav">
-                        <ul>
-                        {% if user.is_authenticated %}
-                            <li id="persone"><a href="{% url social:home %}">{{ user }}</a></li>
-                            <li id="money">
-                                <div class="q">
-                                    <p>На моем счету</p>
+                    <ul>
+                    {% if user.is_authenticated %}
+                        <li id="persone"><a href="{% url social:home %}">{{ user }}</a></li>
+                        <li id="money">
+                            <div class="q">
+                                <p>На моем счету</p>
 
-                                    <div><p id="amount"><span>{{ user.cash }}</span> модов</p></div>
-                                    <p id="purse"><a href="{% url billing:purse %}">Перейти в кошелек</a></p>
-                                 </div>
-                            </li>
-                            <li id="fashion_place"><a href="#">Мои Модные места</a></li>
-                            <li id="friends"><a href="{% url social:user_friends %}">Друзья</a></li>
+                                <div><p id="amount"><span>{{ user.cash }}</span> модов</p></div>
+                                <p id="purse"><a href="{% url billing:purse %}">Перейти в кошелек</a></p>
+                             </div>
+                        </li>
+                        <li id="fashion_place"><a href="#">Мои Модные места</a></li>
+                        <li id="friends"><a href="{% url social:user_friends %}">Друзья</a></li>
 
-                            <li id="mail"><a href="{% url user_messages:view_inbox %}">Сообщения</a></li>
-                            <li id="notes"><a href="{% url notes:note_list %}">Заметки</a></li>
-                            <li id="group"><a href="{% url social:group_list %}">Группы</a></li>
-                            <li id="foto"><a href="#">Фотографии</a></li>
-                            <li id="video"><a href="#">Видеозаписи</a></li>
-                            <li id="audio"><a href="#">Аудиозаписи</a></li>
+                        <li id="mail"><a href="{% url user_messages:view_inbox %}">Сообщения</a></li>
+                        <li id="notes"><a href="{% url notes:note_list %}">Заметки</a></li>
+                        <li id="group"><a href="{% url social:group_list %}">Группы</a></li>
+                        <li id="foto"><a href="#">Фотографии</a></li>
+                        <li id="video"><a href="#">Видеозаписи</a></li>
+                        <li id="audio"><a href="#">Аудиозаписи</a></li>
 
-                            <li id="meeting"><a href="#">Встречи</a></li>
-                        {% else %}
-                            <li><a href="{% url social:register %}">регистрация</a></li>
-                            <li><a href="{% url social:login %}">вход</a></li>
-                        {% endif %}
-                        {% if request.user.is_superuser %}
-                            {% include 'includes/admin_menu.html' %}
-                        {% endif %}
-                        </ul>
+                        <li id="meeting"><a href="#">Встречи</a></li>
+                    {% else %}
+                        <li><a href="{% url social:register %}">регистрация</a></li>
+                        <li><a href="{% url social:login %}">вход</a></li>
+                    {% endif %}
+                    {% if request.user.is_superuser %}
+                        {% include 'includes/admin_menu.html' %}
+                    {% endif %}
+                    </ul>
+                </div>
+                <div id="what_new">
+                    <a href="#"><img src="/media/images/what_new.jpg" /></a>
+                </div>
+                <div id="advertising">
+                    <div>
+
+                        <img src="/media/images/ermi_pic.jpg" alt="gj" />
                     </div>
-                    <div id="what_new">
-                        <a href="#"><img src="/media/images/what_new.jpg" /></a>
-                    </div>
-                    <div id="advertising">
-                        <div>
-
-                            <img src="/media/images/ermi_pic.jpg" alt="gj" />
-                        </div>
-                        <p class="date">12 декабря 18:39</p>
-                        <p class="cam">12 камер в Эрмитаже</p>
-                        <p>Кмеры работают в режиме тестирования</p>
-                    </div>
+                    <p class="date">12 декабря 18:39</p>
+                    <p class="cam">12 камер в Эрмитаже</p>
+                    <p>Кмеры работают в режиме тестирования</p>
+                </div>
             </div>
 
             <div id="centerColumn">

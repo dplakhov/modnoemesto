@@ -42,6 +42,16 @@ class Account(User):
 
     cash = IntField(default=0)
 
+    hometown = StringField(max_length=30)
+    birthday = StringField(max_length=10)
+    sex = StringField(max_length=1)
+    icq = StringField(max_length=30)
+    mobile = StringField(max_length=30)
+    website = URLField()
+    university = StringField(max_length=30)
+    department = StringField(max_length=30)
+    status = StringField(max_length=30)
+
     meta = {
         'indexes': ['username', 'mutual_friends']
     }

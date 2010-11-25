@@ -306,3 +306,8 @@ def avatar_edit(request):
                               dict(form=form, user=user)
                               )
 
+
+def profile_edit(request):
+    return direct_to_template(request, 'social/profile/edit.html',
+                              dict(user=request.user)
+                              )

@@ -1,47 +1,134 @@
 {% extends "base.html" %}
 
+{% load i18n %}
+
+{% block css %}
+{{ block.super }}
+<link href="/media/styles/profile.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
 {% block js %}
-    {{ block.super }}
-    <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
-    {% if user.is_authenticated %}
-    <script src="/media/js/jquery-1.4.2.min.js"></script>
-    <script src="/media/js/underscore-min.js"></script>
-    <script src="/media/js/socket.io.js"></script>
-    <script src="/media/js/client-io.js"></script>
-    <script type="text/javascript" src="/media/js/jScrollPane.js"></script>
-    {% endif %}
+{{ block.super }}
+<script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
+{% if user.is_authenticated %}
+<script src="/media/js/jquery-1.4.2.min.js"></script>
+<script src="/media/js/underscore-min.js"></script>
+<script src="/media/js/socket.io.js"></script>
+<script src="/media/js/client-io.js"></script>
+<script type="text/javascript" src="/media/js/jScrollPane.js"></script>
+{% endif %}
 {% endblock %}
 
 {% block content %}
+<div id="left">
+    <h2 class="name_persone">{{ user.username}}</h2>
+    <a href="{% url social:profile_edit %}" class="change_all">{% trans "edit" %}</a>
+    <div class="clear"></div>
+       <dl>
+        <dt>{% trans "Hometown" %}</dt>
+            <dd><a href="#">{{ user.hometown }}</a></dd>
+        <dt>{% trans "Birthday" %}</dt>
+            <dd><a href="#">{{ user.birthday }}</a></dd>
+        <dt>{% trans "Sex" %}</dt>
+            <dd><a href="#">{{ user.sex }}</a></dd>
+    </dl>
+    <div class="about_persone transparent">
+        <div style="overflow: hidden;">
+        <p>{% trans "Contact Information" %}</p><span><a href="#" class="change">{% trans "edit" %}</a></span>
+        </div>
+        <dl>
+            <dt>{% trans "ICQ" %}</dt>
+                <dd><a href="#">{{ user.icq }}</a></dd>
+            <dt>{% trans "Mobile" %}</dt>
+                <dd><a href="#">{{ user.mobile }}</a></dd>
+            <dt>{% trans "Website" %}</dt>
+                <dd><a href="#">{{ user.website }}</a></dd>
+        </dl>
+    </div>
+    <div class="about_persone transparent">
+        <div style="overflow: hidden;">
+        <p>{% trans "Education" %}</p><span><a href="#" class="change">{% trans "edit" %}</a></span>
+        </div>
+        <dl>
+            <dt>{% trans "University" %}</dt>
+                <dd><a href="#">{{ user.university }}</a></dd>
+            <dt>{% trans "Department" %}</dt>
+                <dd><a href="#">{{ user.department }}</a></dd>
+            <dt>{% trans "Status" %}</dt>
+                <dd><a href="#">{{ user.status }}</a></dd>
+        </dl>
+    </div>
+</div>
 
-<h1>Welcome to your homepage</h1>
-    {% include "includes/user/midi.html" %}
-<a href="{% url social:avatar_edit %}">Change avatar</a>
-<div id="content-main">
-
-    {%  include "includes/left_menu.html" %}
-
-    {% comment %}
-    <div class="module">
-        <table summary="Your whatever settings etc" width="100%">
-            <caption>Settings</caption>
+<div id="right">
+    <div class="own_photo rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+        {% if user.avatar %}
+        <img src="{% url social:avatar user_id=user.id format='100x100' %}"/>
+        {% else %}
+        <img src="/media/img/notfound/avatar_100x100.png"/>
+        {% endif %}
+    </div>
+    <div class="rating_persone rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+        <p>{% trans "Rating" %} <span style="color: rgb(12, 156, 183);">5565677</span></p>
+    </div>
+    <div class="profileActions">
+        <ul>{% url social:user_friends as friends %}
+            <li><a href="{{ friends }}">{% trans "Friends" %}</a> <a href="{{ friends }}">(456)</a></li>
+            <li><a href="#">{% trans "Increase ranking" %}</a></li>
+            <li><a href="#">{% trans "Video with me" %}</a></li>
+            <li><a href="{% url social:avatar_edit %}">{% trans "Edit photo" %}</a></li>
+        </ul>
+    </div>
+    <div class="friend_box transparent">
+        <div style="overflow: hidden;">
+            <p>Друзья онлайн</p><span><a href="#" class="change">все 78</a></span>
+        </div>
+        <table cellspacing="0" cellpadding="0" border="0" height="100%" class="friendTable">
+            <tbody>
             <tr>
-                <th><a href=".">Foo bar</a></th>
+{% for friend in user.mutual_friends|slice:":6" %}
+                <td>
+                    <table border="0" height="100%">
+                        <tbody>
+                        <tr>
+                            <td height="100%" style="vertical-align: middle;">
+                                <a href="{{ friend.get_absolute_url }}">
+                                    <img src="{{ friend.avatar_micro }}" />
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div>
+                                    <a href="#">{{ friend.username }}<br>{{ friend.username }}</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+{% if forloop.counter == 3 %}
+    </tr>
+    <tr>
+{% endif %}
+{% endfor %}
             </tr>
+            </tbody>
         </table>
     </div>
-    {% endcomment %}
+</div>
 
+<div id="content-main" style="clear: both;">
     <div id="camera">
         {% if camera %}
-            {% include "includes/camera.html" %}
+        {% include "includes/camera.html" %}
         {% else %}
-            <img src="/media/img/notfound/cam.png" alt="" />
-            You have no registered camera.
-            <a href="{% url cam:cam_add %}">Wanna do it right now?</a>
+        <img src="/media/img/notfound/cam.png" alt=""/>
+        You have no registered camera.
+        <a href="{% url cam:cam_add %}">Wanna do it right now?</a>
         {% endif %}
     </div>
 
 </div>
-
 {% endblock %}
