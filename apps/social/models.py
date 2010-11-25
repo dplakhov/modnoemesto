@@ -1,1 +1,2 @@
-# an empty models file just to be a honest django application
+# -*- coding: utf-8 -*-
+from documents import *

@@ -13,7 +13,7 @@ from django.contrib import messages
 
 from mongoengine.django.shortcuts import get_document_or_404
 
-from documents import (Account, FriendshipOffer, LimitsViolationException)
+from documents import (User, FriendshipOffer, LimitsViolationException)
 from forms import ( UserCreationForm, LoginForm, ChangeAvatarForm)
 
 from apps.user_messages.forms import MessageTextForm 
@@ -35,12 +35,11 @@ except ImportError:
     from StringIO import StringIO
 
 from apps.media.tasks import apply_file_transformations
-from auth import REDIRECT_FIELD_NAME
-
+from django.contrib.auth import REDIRECT_FIELD_NAME
 
 
 def index(request):
-    accs = Account.objects().only('username', 'avatar')
+    accs = User.objects().only('username', 'avatar')
     return direct_to_template(request, 'index.html', { 'accs': accs })
 
 
@@ -51,7 +50,7 @@ def register(request):
         from random import choice
         alpha = 'abcdef0123456789'
         activation_code = ''.join(choice(alpha) for _ in xrange(12))
-        user = Account(username=form.data['username'], is_active=False,
+        user = User(username=form.data['username'], is_active=False,
                                    activation_code=activation_code)
         user.set_password(form.data['password1'])
         user.save()
@@ -71,7 +70,7 @@ def register(request):
 
 
 def activation(request, code=None):
-    user = get_document_or_404(Account, is_active=False, activation_code=code)
+    user = get_document_or_404(User, is_active=False, activation_code=code)
     user.is_active = True
     # django needs a backend annotation
     from django.contrib.auth import get_backends
@@ -112,7 +111,7 @@ def home(request):
 
 
 def user(request, user_id=None):
-    page_user = get_document_or_404(Account, id=user_id)
+    page_user = get_document_or_404(User, id=user_id)
     if page_user == request.user:
         return redirect('social:home')
 
@@ -143,7 +142,7 @@ def user_friends(request):
 def friend(request, user_id):
     if request.user.id == user_id:
         return redirect('social:home')
-    some_user = get_document_or_404(Account, id=user_id)
+    some_user = get_document_or_404(User, id=user_id)
     try:
         request.user.friend(some_user)
     except LimitsViolationException:
@@ -156,7 +155,7 @@ def friend(request, user_id):
 def unfriend(request, user_id):
     if request.user.id == user_id:
         return redirect('social:home')
-    some_user = get_document_or_404(Account, id=user_id)
+    some_user = get_document_or_404(User, id=user_id)
     request.user.unfriend(some_user)
     return redirect('social:home')
 
@@ -202,7 +201,7 @@ def profile_edit(request):
                               )
 
 def avatar(request, user_id, format):
-    user = get_document_or_404(Account, id=user_id)
+    user = get_document_or_404(User, id=user_id)
     if not user.avatar:
         return redirect('/media/img/notfound/avatar_%s.png' % format)
 

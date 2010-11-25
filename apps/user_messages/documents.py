@@ -76,8 +76,8 @@ class Message(Document):
     TASK_NAME_STORE_READED = 'MESSAGE_STORE_READED'
     TASK_NAME_DELETE = 'MESSAGE_DELETE'
 
-    sender = ReferenceField('Account')
-    recipient = ReferenceField('Account')
+    sender = ReferenceField('User')
+    recipient = ReferenceField('User')
     text = StringField(required=True)
 
     timestamp = DateTimeField()
