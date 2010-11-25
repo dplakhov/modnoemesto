@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from apps.cam.models import Camera, CameraType
+from apps.cam.documents import Camera, CameraType
 
 
 class Command(BaseCommand):

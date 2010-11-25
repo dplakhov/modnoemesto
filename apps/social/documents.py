@@ -47,7 +47,7 @@ class Account(User):
     }
 
     def get_camera(self):
-        from apps.cam.models import Camera
+        from apps.cam.documents import Camera
         #@todo: bad fix KeyError
         from apps.billing.documents import Tariff
         return Camera.objects(owner=self).first()

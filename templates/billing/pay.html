@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>Стоимость одного мода {{ mod_cost }}</p>
+    <p>Стоимость одного мода {{ mod_cost }} руб.</p>
     <p>Итого к оплате: {{ total_cost }} руб.</p>
     <p>Оплатить {{ order.total }} модов?</p>
-    <form action="{{ form.target }}" method="POST">
+    <form action="{{ form.target }}" method="POST" class="baseform">
         <p>{{ form.as_p }}</p>
         <p><input type="submit" name='SUBMIT' value="Оплатить"></p>
     </form>

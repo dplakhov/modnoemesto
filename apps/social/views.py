@@ -27,6 +27,7 @@ from apps.media.transformations.image import ImageResize
 from ImageFile import Parser as ImageFileParser
 
 from django.contrib import messages
+from apps.billing.documents import AccessCamOrder
 
 try:
     from cStringIO import StringIO
@@ -122,8 +123,7 @@ def user(request, user_id=None):
 
     camera = page_user.get_camera()
     if camera:
-        camera.show = camera.public or page_user.is_friend
-
+        camera.show = camera.can_show(page_user)
     msgform = MessageTextForm()
     return direct_to_template(request, 'social/user.html',
                               { 'page_user': page_user, 'msgform': msgform,

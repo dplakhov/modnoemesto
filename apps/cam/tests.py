@@ -2,7 +2,7 @@
 from django.test import TestCase
 
 import apps.cam.drivers.axis
-from models import CameraType, Camera
+from documents import CameraType, Camera
 import drivers.exceptions
 import mechanize
 

@@ -14,8 +14,8 @@ from assist.forms import AssistMode2Form
 from apps.billing.models import UserOrder
 from apps.billing.forms import UserOrderForm
 from django.shortcuts import get_object_or_404
-from apps.cam.models import Camera
-from datetime import datetime
+from apps.cam.documents import Camera
+from apps.billing.constans import ACCESS_CAM_ORDER_STATUS
 
 
 @login_required
@@ -107,11 +107,8 @@ def get_access_to_camera(request, id):
                 user=request.user,
                 camera=camera,
             )
-            if camera_is_controlled:
-                order.status = 'wait'
-            else:
-                order.status = 'enable'
-                order.init_on = datetime.now()
+            if not camera_is_controlled:
+                order.set_access_period(form.cleaned_data['tariff'])
                 request.user.cash -= form.total_cost
                 request.user.save()
             order.save()

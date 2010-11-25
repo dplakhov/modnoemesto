@@ -3,7 +3,7 @@
 {% block content %}
 <p>Текущий счёт: {{ request.user.cash }} модов</p>
 Пополнить:
-<form method="POST">
+<form method="POST" class="baseform">
 <table>
     {{ form.as_table }}
 </table>

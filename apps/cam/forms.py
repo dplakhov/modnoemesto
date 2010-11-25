@@ -5,7 +5,7 @@ from itertools import chain
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Camera, CameraType
+from .documents import Camera, CameraType
 from .drivers.base import Driver as BaseDriver
 from .drivers.exceptions import ImproperlyConfigured, AccessDenied
 from apps.billing.documents import Tariff
