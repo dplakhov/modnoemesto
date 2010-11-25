@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__),
     os.path.pardir))
@@ -35,6 +36,20 @@ DATABASES = {
         'PORT': '',
     },
 }
+
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:', #rel('default.db'),
+        },
+        'assist': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:', #rel('assist.db'),
+        },
+    }
+
+
 
 DATABASE_ROUTERS = ['db_routers.AssistRouter',]
 
