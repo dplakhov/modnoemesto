@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-25 14:33+0300\n"
-"PO-Revision-Date: 2010-11-25 15:14+0300\n"
+"POT-Creation-Date: 2010-11-25 17:21+0300\n"
+"PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -85,6 +85,31 @@ msgstr "Типы камер"
 #: cam/type_list.html:15
 msgid "Add type"
 msgstr "Добавить тип"
+
+#: groups/create.html:4
+msgid "Group creation"
+msgstr "Создание группы"
+
+#: groups/create.html:9
+#: groups/list.html:13
+msgid "Create group"
+msgstr "Создать группу"
+
+#: groups/list.html:4
+msgid "Available groups"
+msgstr "Доступные группы"
+
+#: groups/view.html:5
+msgid "Group"
+msgstr "Группа"
+
+#: groups/view.html:13
+msgid "Leave group"
+msgstr "Покинуть группу"
+
+#: groups/view.html:15
+msgid "Join group"
+msgstr "Вступить в группу"
 
 #: notes/note_edit.html:6
 msgid "Add a note"
