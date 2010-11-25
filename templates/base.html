@@ -1,4 +1,5 @@
 {% load menu_tags %}
+{% load i18n %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <meta http-equiv="Pragma" content="no-cache" />
@@ -96,16 +97,13 @@
     {% if user.is_authenticated %}
         <p>
             {% if user.messages.unread|length %}
-                You have
-                <a href="{% url user_messages:view_inbox %}">{% spaceless %}
-                    {{ user.messages.unread|length }} unread message(s)
+                У вас<a href="{% url user_messages:view_inbox %}">{% spaceless %}
+                    {{ user.messages.unread|length }} непрочитанных сообщений
                 {% endspaceless %}</a>
             {% endif %}
             {% if user.fs_offers_inbox_count %}
-                You have
-                <a href="{% url social:view_fs_offers_inbox %}">{% spaceless %}
-                    {{ user.fs_offers_inbox_count }} friendship
-                    offer(s)
+                У вас <a href="{% url social:view_fs_offers_inbox %}">{% spaceless %}
+                    {{ user.fs_offers_inbox_count }} предложений дружбы
                 {% endspaceless %}</a>
             {% endif %}
             </p>
@@ -154,7 +152,7 @@
                     </div>
                     <p class="date">12 декабря 18:39</p>
                     <p class="cam">12 камер в Эрмитаже</p>
-                    <p>Кмеры работают в режиме тестирования</p>
+                    <p>Камеры работают в режиме тестирования</p>
                 </div>
             </div>
 

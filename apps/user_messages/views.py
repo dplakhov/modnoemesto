@@ -9,6 +9,7 @@ from mongoengine.django.shortcuts import get_document_or_404
 from .forms import MessageTextForm
 
 from .documents import Message
+from apps.social.documents import Account
 
 @login_required
 def send_message(request, user_id):
