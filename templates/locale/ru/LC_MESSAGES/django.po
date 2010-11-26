@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-26 17:51+0300\n"
+"POT-Creation-Date: 2010-11-26 18:18+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -285,7 +285,7 @@ msgstr "У пользователя нет зарегистрированных 
 msgid "%(page_user)s marked as friends:"
 msgstr "Друзья %(page_user)s"
 
-#: social/user.html:68
+#: social/user.html:68 social/profile/user_friends.html:18
 msgid "None available"
 msgstr "Никого нет"
 
@@ -354,6 +354,10 @@ msgstr "Сменить аватар"
 #: social/profile/edit.html:6
 msgid "Edit profile"
 msgstr "Редактировать профиль"
+
+#: social/profile/user_friends.html:7
+msgid "Your friends:"
+msgstr "Ваши друзья"
 
 #: user_messages/inbox.html:12 user_messages/inbox.html.py:13
 msgid "Messages: inbox"
