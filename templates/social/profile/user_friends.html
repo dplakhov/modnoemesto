@@ -1,11 +1,10 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
 
 <div id="content-related">
     <div class="module" id="recent-actions-module">
-        <h2>Your friends:</h2>
-        {#<h3>whatever</h3>#}
+        <h2>{% trans "Your friends:" %}</h2>
         {% if user.mutual_friends %}
             <table>
                 {% for user in user.mutual_friends %}
@@ -16,7 +15,7 @@
                 {% endfor %}
             </table>
         {% else %}
-            <p>None available</p>
+            <p>{% trans "None available" %}</p>
         {% endif %}
     </div>
 </div>
