@@ -85,7 +85,7 @@ def login(request):
     redirect_to = request.REQUEST.get(REDIRECT_FIELD_NAME, 'social:home')
 
     if request.method == "POST":
-        form = LoginForm(data=request.POST)
+        form = LoginForm(request, data=request.POST)
         if form.is_valid():
             if not redirect_to or ' ' in redirect_to:
                 redirect_to = settings.LOGIN_REDIRECT_URL
@@ -99,7 +99,6 @@ def login(request):
                 request.session.delete_test_cookie()
 
             return redirect(redirect_to)
-
     else:
         form = LoginForm(request)
 
