@@ -49,7 +49,8 @@ if 'test' in sys.argv:
         },
     }
 
-
+MONGO_DATABASE = 'social'
+MONGO_HOST = '127.0.0.1'
 
 DATABASE_ROUTERS = ['db_routers.BillingRouter',]
 
