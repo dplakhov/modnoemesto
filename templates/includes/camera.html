@@ -55,7 +55,7 @@ var nick = "{{ user.username }}";
     </div>
     </div>
 
-    {% if not camera.free %}This camera is not free!{% endif %}
+    {% if not camera.free %}{% trans "This camera is not free!" %}{% endif %}
   {% else %}
-    This camera is private.
+    {% trans "This camera is private." %}
   {% endif %}

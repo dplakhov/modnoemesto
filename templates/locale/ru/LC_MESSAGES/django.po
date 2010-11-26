@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-26 16:48+0300\n"
+"POT-Creation-Date: 2010-11-26 17:51+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,6 +21,14 @@ msgstr ""
 #: index.html:4
 msgid "Users online"
 msgstr "Пользователи онлайн"
+
+#: login.html:14
+msgid "Username:"
+msgstr "Имя пользователя"
+
+#: login.html:20
+msgid "Password:"
+msgstr "Пароль"
 
 #: billing/get_access_to_camera.html:5
 msgid "Access to camera"
@@ -61,7 +69,7 @@ msgstr "Добавить камеру"
 msgid "Edit camera"
 msgstr "Редактировать камеру"
 
-#: cam/cam_list.html:42 notes/note_list.html:12
+#: cam/cam_list.html:46 notes/note_list.html:12
 msgid "Edit"
 msgstr "Редактировать"
 
@@ -101,13 +109,21 @@ msgstr "Доступные группы"
 msgid "Group"
 msgstr "Группа"
 
-#: groups/view.html:13
+#: groups/view.html:15
 msgid "Leave group"
 msgstr "Покинуть группу"
 
-#: groups/view.html:15
+#: groups/view.html:17
 msgid "Join group"
 msgstr "Вступить в группу"
+
+#: includes/camera.html:58
+msgid "This camera is not free!"
+msgstr "Просмотр этой камеры платный"
+
+#: includes/camera.html:60
+msgid "This camera is private."
+msgstr "Эта камера не для всеобщего просмотра"
 
 #: includes/left_menu.html:4
 msgid "Messages"
@@ -225,6 +241,14 @@ msgstr "Видеозаписи со мной"
 #: social/home.html:79
 msgid "Edit photo"
 msgstr "Изменить фотографию"
+
+#: social/home.html:102
+msgid "You have no registered camera."
+msgstr "У вас нет зарегистрированных камер"
+
+#: social/home.html:103
+msgid "Wanna do it right now?"
+msgstr "Хотите добавить камеру сейчас?"
 
 #: social/user.html:17
 #, python-format
