@@ -27,9 +27,9 @@ DATABASES = {
         'HOST': '',
         'PORT': '',
     },
-    'assist': {
+    'billing': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'assist',
+        'NAME': 'billing',
         'USER': 'root',
         'PASSWORD': '123',
         'HOST': 'localhost',
@@ -43,7 +43,7 @@ if 'test' in sys.argv:
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': ':memory:', #rel('default.db'),
         },
-        'assist': {
+        'billing': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': ':memory:', #rel('assist.db'),
         },
@@ -51,7 +51,7 @@ if 'test' in sys.argv:
 
 
 
-DATABASE_ROUTERS = ['db_routers.AssistRouter',]
+DATABASE_ROUTERS = ['db_routers.BillingRouter',]
 
 TIME_ZONE = 'Europe/Moscow'
 
@@ -153,7 +153,6 @@ INSTALLED_APPS = (
     'apps.user_messages',
     'apps.billing',
     'apps.groups',
-    'assist',
 )
 
 CELERY_RESULT_BACKEND = "mongodb"
@@ -193,9 +192,3 @@ AVATAR_SIZES = (
 )
 
 MAX_USER_MESSAGES_COUNT = 500
-
-
-ASSIST_SHOP_IDP = '123456789'
-ASSIST_LOGIN = 'test'
-ASSIST_PASSWORD = 'test'
-ASSIST_TEST_MODE = True

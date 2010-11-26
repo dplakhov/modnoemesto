@@ -83,39 +83,13 @@
         <div style="overflow: hidden;">
             <p>Друзья онлайн</p><span><a href="#" class="change">все 78</a></span>
         </div>
-        <table cellspacing="0" cellpadding="0" border="0" height="100%" class="friendTable">
-            <tbody>
-            <tr>
-{% for friend in user.mutual_friends|slice:":6" %}
-                <td>
-                    <table border="0" height="100%">
-                        <tbody>
-                        <tr>
-                            <td height="100%" style="vertical-align: middle;">
-                                <a href="{{ friend.get_absolute_url }}">
-                                    <img src="{{ friend.avatar_micro }}" />
-                                </a>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <div>
-                                    <a href="#">{{ friend.username }}<br>{{ friend.username }}</a>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
-{% if forloop.counter == 3 %}
-    </tr>
-    <tr>
-{% endif %}
+        <ul class="friendTable">
+{% for user in user.mutual_friends|slice:":6" %}
+                <li>
+{% include "includes/user/micro.html" %}
+                </li>
 {% endfor %}
-            </tr>
-            </tbody>
-        </table>
+        </ul>
     </div>
 </div>
 

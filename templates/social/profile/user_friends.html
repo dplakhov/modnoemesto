@@ -7,14 +7,14 @@
         <h2>Your friends:</h2>
         {#<h3>whatever</h3>#}
         {% if user.mutual_friends %}
-            <ul>
+            <table>
                 {% for user in user.mutual_friends %}
-                <li>
-                    {% include "includes/user/micro.html" %}
-                    <a href="{% url social:unfriend user_id=user.id %}">x</a>
-                </li>
+                <tr>
+		<td class="friendTable">{% include "includes/user/micro.html" %}</td>
+                <td><a href="{% url social:unfriend user_id=user.id %}">x</a></td
+                </tr>
                 {% endfor %}
-            </ul>
+            </table>
         {% else %}
             <p>None available</p>
         {% endif %}

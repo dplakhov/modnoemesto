@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
 from django.template.loader import render_to_string
-from django.contrib.auth import (authenticate, login as django_login,
+from django.contrib.auth import (login as django_login,
     logout as django_logout)
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
@@ -27,6 +27,7 @@ from ImageFile import Parser as ImageFileParser
 
 from apps.billing.documents import AccessCamOrder
 from apps.social.forms import ChangeProfileForm
+import re
 
 
 try:
@@ -81,18 +82,33 @@ def activation(request, code=None):
 
 
 def login(request):
-    form = LoginForm(request.POST or None)
-    if form.is_valid():
-        username, password = form.data['username'], form.data['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                django_login(request, user)
-                redirect_to = request.REQUEST.get(REDIRECT_FIELD_NAME, 'social:home')
-                return redirect(redirect_to)
-            else:
-                return direct_to_template(request, 'disabled_account.html')
-    return direct_to_template(request, 'login.html', { 'form': form })
+    redirect_to = request.REQUEST.get(REDIRECT_FIELD_NAME, 'social:home')
+
+    if request.method == "POST":
+        form = LoginForm(data=request.POST)
+        if form.is_valid():
+            if not redirect_to or ' ' in redirect_to:
+                redirect_to = settings.LOGIN_REDIRECT_URL
+
+            elif '//' in redirect_to and re.match(r'[^\?]*//', redirect_to):
+                    redirect_to = settings.LOGIN_REDIRECT_URL
+
+            django_login(request, form.get_user())
+
+            if request.session.test_cookie_worked():
+                request.session.delete_test_cookie()
+
+            return redirect(redirect_to)
+
+    else:
+        form = LoginForm(request)
+
+    request.session.set_test_cookie()
+
+    return direct_to_template(request, 'login.html', {
+        'form': form,
+        REDIRECT_FIELD_NAME: redirect_to,
+    })
 
 
 def logout(request):

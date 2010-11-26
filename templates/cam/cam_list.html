@@ -32,16 +32,22 @@
 </form>
     </tbody></table>
 </div>
+<table>
 {% for cam in cams %}
-    <div>
-        {{ cam.name }}
+    <tr>
+        <td>{{ cam.name }}</td>
+        <td class="friendTable">
         {% with cam.owner as user %}
             {% include "includes/user/micro.html" %}
         {% endwith %}
+        </td>
+        <td>
     {% if cam.owner == request.user or request.user.is_superuser %}
         <a href="{% url cam:cam_edit cam.id %}">{% trans 'Edit' %}</a>
     {% endif %}
-    </div>
+        </td>
+    </tr>
 {% endfor %}
+</table
 </div>
 {% endblock %}

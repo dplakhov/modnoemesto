@@ -57,7 +57,7 @@
     <div class="module" id="recent-actions-module">
         <h2>{% blocktrans %}{{ page_user }} marked as friends:{% endblocktrans %}</h2>
           {% if page_user.mutual_friends %}
-            <ul>
+            <ul class="friendTable">
                 {% for user in page_user.mutual_friends %}
                     <li>
                         {% include "includes/user/micro.html" %}
