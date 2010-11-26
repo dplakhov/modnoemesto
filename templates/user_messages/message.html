@@ -1,22 +1,22 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
 
-<h1>Viewing a message</h1>
+<h1>{% trans "Viewing a message" %}</h1>
 
 <div id="content-main">
 
     {%  include "includes/left_menu.html" %}
 
     <div class="message">
-        <table summary="Message view" width="100%">
-            <caption>Viewing a message</caption>
+        <table summary="{% trans "Viewing a message" %}" width="100%">
+            <caption>{% trans "Viewing a message" %}</caption>
             <tr>
-                <th>When</th><th>From</th>
+                <th>{% trans "When" %}</th><th>{% trans "From" %}</th>
             </tr>
             <tr>
                 <td>
-                    {{ msg.timestamp|timesince }} ago
+                    {{ msg.timestamp|timesince }} {% trans "ago" %}
                 </td>
                 <td>
                     {% with msg.sender as user %}
@@ -28,7 +28,7 @@
             <tr>
                 <td colspan="2">
                     <a href="{% url user_messages:delete_message message_id=msg.id%}">
-                        Delete message
+                        {% trans "Delete" %}
                     </a>
                 </td>
             </tr>

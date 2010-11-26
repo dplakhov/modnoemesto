@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-26 15:22+0300\n"
+"POT-Creation-Date: 2010-11-26 16:23+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,6 +105,23 @@ msgstr "Покинуть группу"
 msgid "Join group"
 msgstr "Вступить в группу"
 
+#: includes/left_menu.html:4
+msgid "Messages"
+msgstr "Сообщения"
+
+#: includes/left_menu.html:10 includes/left_menu.html.py:14
+#: includes/left_menu.html:27 includes/left_menu.html.py:31
+msgid "Inbox"
+msgstr "Входящие"
+
+#: includes/left_menu.html:17 includes/left_menu.html.py:35
+msgid "Sent"
+msgstr "Отправленные"
+
+#: includes/left_menu.html:21
+msgid "Friendship offers"
+msgstr "Предложения дружбы"
+
 #: notes/note_edit.html:6
 msgid "Add a note"
 msgstr "Добавить заметку"
@@ -121,7 +138,7 @@ msgstr "Заметки"
 msgid "Create a note"
 msgstr "Создать заметку"
 
-#: notes/note_list.html:13
+#: notes/note_list.html:13 user_messages/message.html:31
 msgid "Delete"
 msgstr "Удалить"
 
@@ -211,6 +228,7 @@ msgid "%(page_user)s's home"
 msgstr "Страница пользователя %(page_user)s"
 
 #: social/friendship/inbox.html:5 social/friendship/sent.html:5
+#: user_messages/inbox.html:5 user_messages/sent.html:5
 msgid "Messages history"
 msgstr "История сообщений"
 
@@ -223,10 +241,13 @@ msgid "Friendship offers: inbox"
 msgstr "Предложения дружбы: полученные"
 
 #: social/friendship/inbox.html:15 social/friendship/sent.html:15
+#: user_messages/inbox.html:15 user_messages/message.html:15
+#: user_messages/sent.html:15
 msgid "When"
 msgstr "Когда"
 
-#: social/friendship/inbox.html:15
+#: social/friendship/inbox.html:15 user_messages/inbox.html:15
+#: user_messages/message.html:15
 msgid "From"
 msgstr "От кого"
 
@@ -235,6 +256,8 @@ msgid "Accept/Decline"
 msgstr "Принять/Отклонить"
 
 #: social/friendship/inbox.html:20 social/friendship/sent.html:20
+#: user_messages/inbox.html:22 user_messages/inbox.html.py:24
+#: user_messages/message.html:19
 msgid "ago"
 msgstr "назад"
 
@@ -254,7 +277,7 @@ msgstr "Отправленные вами предложения дружбы"
 msgid "Friendship offers: sent"
 msgstr "Предложения дружбы: отправленные"
 
-#: social/friendship/sent.html:15
+#: social/friendship/sent.html:15 user_messages/sent.html:15
 msgid "To"
 msgstr "Кто"
 
@@ -269,3 +292,20 @@ msgstr "Сменить аватар"
 #: social/profile/edit.html:6
 msgid "Edit profile"
 msgstr "Редактировать профиль"
+
+#: user_messages/inbox.html:12 user_messages/inbox.html.py:13
+msgid "Messages: inbox"
+msgstr "Сообщения: входящие"
+
+#: user_messages/inbox.html:24
+msgid "(unread)"
+msgstr "(непрочитано)"
+
+#: user_messages/message.html:5 user_messages/message.html.py:12
+#: user_messages/message.html:13
+msgid "Viewing a message"
+msgstr "Просмотр сообщения"
+
+#: user_messages/sent.html:12 user_messages/sent.html.py:13
+msgid "Messages: sent"
+msgstr "Сообщения: отправленные"
