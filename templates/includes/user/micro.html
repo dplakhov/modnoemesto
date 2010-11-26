@@ -1,4 +1,16 @@
-<a href="{{ user.get_absolute_url }}">
-    <img src="{{ user.avatar_micro }}" />
-</a>
-<a href="{{ user.get_absolute_url }}">{{ user }}</a>
+<table border="0" height="100%">
+ <tbody><tr>
+  <td height="100%" style="vertical-align: middle;">
+   <a href="{{ user.get_absolute_url }}">
+    <img src="{{ user.avatar_micro }}">
+   </a>
+  </td>
+ </tr>
+
+ <tr>
+  <td><div>
+   <a href="{{ user.get_absolute_url }}">{{ user }}</a>
+   </div>
+  </td>
+ </tr>
+</tbody></table>
