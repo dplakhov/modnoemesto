@@ -2,6 +2,7 @@
 
 import os
 import sys
+import django
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__),
     os.path.pardir))
@@ -153,6 +154,7 @@ INSTALLED_APPS = (
     'apps.user_messages',
     'apps.billing',
     'apps.groups',
+    'apps.logging',
 )
 
 CELERY_RESULT_BACKEND = "mongodb"
@@ -178,6 +180,17 @@ AUTHENTICATION_BACKENDS = (
 SESSION_ENGINE = 'mongoengine.django.sessions'
 
 
+# patches for django 1.2 series
+if django.VERSION[1] < 3:
+    LOGGING_CONFIG = 'apps.logging.patch.log.dictConfig'
+    _adminEmailHandler = 'apps.logging.patch.log.AdminEmailHandler'
+    _nullHandler = 'apps.logging.patch.log.NullHandler'
+else:
+    #for django version > 1.3.0
+    LOGGING_CONFIG = 'django.utils.log.dictConfig'
+    _adminEmailHandler = 'django.utils.log.AdminEmailHandler'
+    _nullHandler = 'django.utils.log.NullHandler',
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -190,15 +203,15 @@ LOGGING = {
         },
     },
     'filters': {
-        'special': {
-            '()': 'project.logging.SpecialFilter',
-            'foo': 'bar',
-        }
+     #    'special': {
+     #        '()': 'project.logging.SpecialFilter',
+     #       'foo': 'bar',
+     #   }
     },
     'handlers': {
         'null': {
             'level':'DEBUG',
-            'class':'django.utils.log.NullHandler',
+            'class':_nullHandler,
         },
         'console':{
             'level':'DEBUG',
@@ -207,25 +220,25 @@ LOGGING = {
         },
         'mail_admins': {
             'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-            'filters': ['special']
+            'class': _adminEmailHandler,
+            #'filters': ['special']
         }
     },
     'loggers': {
         'django': {
-            'handlers':['null'],
+            'handlers':['console'],
             'propagate': True,
             'level':'INFO',
         },
         'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
+            'handlers': ['mail_admins', 'console'],
+            'level': 'INFO',
             'propagate': False,
         },
         'myproject.custom': {
             'handlers': ['console', 'mail_admins'],
             'level': 'INFO',
-            'filters': ['special']
+            #'filters': ['special']
         }
     }
 }
