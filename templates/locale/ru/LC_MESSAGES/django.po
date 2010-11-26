@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-26 11:42+0300\n"
+"POT-Creation-Date: 2010-11-26 13:58+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,8 +23,8 @@ msgid "Access to camera"
 msgstr "Доступ к камере"
 
 #: billing/get_access_to_camera.html:11
-msgid "Оплатить"
-msgstr ""
+msgid "Paid"
+msgstr "Оплатить"
 
 #: billing/tariff_edit.html:6
 msgid "Add tariff"
@@ -205,21 +205,26 @@ msgstr "Видеозаписи со мной"
 msgid "Edit photo"
 msgstr "Изменить фотографию"
 
+#: social/user.html:17
+#, python-format
+msgid "%(page_user)s's home"
+msgstr "Страница пользователя %(page_user)s"
+
 #: social/friendship/inbox.html:5 social/friendship/sent.html:5
 msgid "Messages history"
 msgstr "История сообщений"
 
 #: social/friendship/inbox.html:12
 msgid "Your inbox"
-msgstr ""
+msgstr "Полученные вами предложения дружбы"
 
 #: social/friendship/inbox.html:13
 msgid "Friendship offers: inbox"
-msgstr ""
+msgstr "Предложения дружбы: полученные"
 
 #: social/friendship/inbox.html:15 social/friendship/sent.html:15
 msgid "When"
-msgstr ""
+msgstr "Когда"
 
 #: social/friendship/inbox.html:15
 msgid "From"
@@ -243,11 +248,11 @@ msgstr "Отклонить"
 
 #: social/friendship/sent.html:12
 msgid "Your sent friendship offers"
-msgstr ""
+msgstr "Отправленные вами предложения дружбы"
 
 #: social/friendship/sent.html:13
 msgid "Friendship offers: sent"
-msgstr ""
+msgstr "Предложения дружбы: отправленные"
 
 #: social/friendship/sent.html:15
 msgid "To"

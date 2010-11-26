@@ -97,6 +97,7 @@
     {% if user.is_authenticated %}
         <p>
             {% if user.messages.unread|length %}
+
                 У вас<a href="{% url user_messages:view_inbox %}">{% spaceless %}
                     {{ user.messages.unread|length }} непрочитанных сообщений
                 {% endspaceless %}</a>

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block js %}
     {{ block.super }}
     <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
@@ -14,7 +14,7 @@
 
 {% block content %}
 
-<h1>{{ page_user }}'s home</h1>
+<h1>{% blocktrans %}{{ page_user }}'s home{% endblocktrans %}</h1>
     {% with page_user as user %}
         {% include "includes/user/midi.html" %}
     {% endwith %}
@@ -56,7 +56,6 @@
 <div id="content-related">
     <div class="module" id="recent-actions-module">
         <h2>{{ page_user }} marked as friends:</h2>
-        {#<h3>whatever</h3>#}
           {% if page_user.mutual_friends %}
             <ul>
                 {% for user in page_user.mutual_friends %}
