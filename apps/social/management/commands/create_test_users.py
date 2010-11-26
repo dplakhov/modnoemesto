@@ -49,11 +49,10 @@ class Command(BaseCommand):
                 print  '\rusers creation %002d%%' % (i*100/num),
                 sys.stdout.flush()
             if with_ava:
-                if faces[i].find('/male/')!=-1:
-                    name = random.choice(('den', 'pete', 'serge', 'ivan', 'vladimir'))
-                else:
+                if faces[i].find('/female/')!=-1:
                     name = random.choice(('iren', 'mary', 'ann',))
-
+                else:
+                    name = random.choice(('den', 'pete', 'serge', 'ivan', 'vladimir'))
             else:
                 name = random.choice(('den', 'pete', 'serge', 'iren', 'mary',
                                   'dude', 'ivan', 'vladimir'))
