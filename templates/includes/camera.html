@@ -1,14 +1,15 @@
-{% load i18n %}}
+{% load i18n %}
 <script>
 var room = "{{ camera.id }}";
 var nick = "{{ user.username }}";
 </script>
   <p>&nbsp;</p>
   {% if camera.show %}
-    {% if is_owner %}<a href='{% url cam:cam_edit camera.id %}'>Edit camera</a>{% endif %}
+    {% if is_owner %}<a href='{% url cam:cam_edit camera.id %}'>{% trans "Edit camera" %}</a>{% endif %}
     <script type="text/javascript">
         $(document).ready(function(){
-            $('.scroll-pane').jScrollPane({showArrows:true, autoReinitialise: true, scrollbarWidth:5});
+            // jScrollPane conflicts with chat
+            //$('.scroll-pane').jScrollPane({showArrows:true, autoReinitialise: true, scrollbarWidth:5});
         });
     </script>
     <div id="watch-panel">
@@ -87,7 +88,8 @@ var nick = "{{ user.username }}";
     </div>
     </div>
 
-    {% if not camera.free %}{% trans "This camera is not free!" %}{% endif %}
+    {% if camera.paid %}
+        {% trans "This camera is not free!" %}{% endif %}
   {% else %}
     {% trans "This camera is private." %}
   {% endif %}
