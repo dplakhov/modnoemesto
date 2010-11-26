@@ -12,15 +12,46 @@ var nick = "{{ user.username }}";
         });
     </script>
     <div id="watch-panel">
-    <a
-        href="{{ camera.host }}"
-        style="display:block;width:520px;height:330px;background-color:black"
-        id="player">
-    </a>
-    <script>
-        flowplayer("player", "/media/swf/flowplayer-3.2.5.swf");
-    </script>
+    {% if "rtmp" in camera.host %}
+        <a style="display:block;width:520px;height:330px" id="fms">
+        </a>
+        <script language='javascript'> 
+        $f("fms", "/media/swf/flowplayer-3.2.5.swf", {
+                // common configuration for each clip
+                clip: {
 
+                        // each clip uses the rtmp provider
+                        provider: 'rtmp'
+                },
+
+                // here is our playlist
+                playlist: [
+                        {
+                                // third clip uses a different RTMP server
+                                netConnectionUrl: '{{ camera.host }}',
+                                url:'{{ camera.username }}'
+                        }
+                ],
+
+                plugins: {
+                        rtmp: {
+                                url: '/media/swf/flowplayer.rtmp-3.2.3.swf',
+                                netConnectionUrl: '{{ camera.host }}'
+                        }
+                }
+         
+        });
+        </script>
+    {% else %}
+        <a
+            href="{{ camera.host }}"
+            style="display:block;width:520px;height:330px;background-color:black"
+            id="player">
+        </a>
+        <script>
+            flowplayer("player", "/media/swf/flowplayer-3.2.5.swf");
+        </script>
+    {% endif %}
     {% if not camera.operator or camera.operator == user.username %}
       <object>
         <embed src="/media/swf/ManageCam_5.swf" width="450" height="154"
