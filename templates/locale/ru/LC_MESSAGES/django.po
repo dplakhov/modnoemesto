@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-26 16:23+0300\n"
+"POT-Creation-Date: 2010-11-26 16:48+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: index.html:4
+msgid "Users online"
+msgstr "Пользователи онлайн"
 
 #: billing/get_access_to_camera.html:5
 msgid "Access to camera"
@@ -226,6 +230,40 @@ msgstr "Изменить фотографию"
 #, python-format
 msgid "%(page_user)s's home"
 msgstr "Страница пользователя %(page_user)s"
+
+#: social/user.html:24
+msgid "Add to my friends"
+msgstr "Добавить в друзья"
+
+#: social/user.html:35
+#, python-format
+msgid "Leave a message to %(page_user)s"
+msgstr "Оставить сообщение %(page_user)s"
+
+#: social/user.html:36
+msgid "Leave a message"
+msgstr "Оставить сообщение"
+
+#: social/user.html:38
+msgid "Send"
+msgstr "Отправить"
+
+#: social/user.html:46
+msgid "Get access to camera"
+msgstr "Получить доступ к камере"
+
+#: social/user.html:50
+msgid "This user has no registered camera."
+msgstr "У пользователя нет зарегистрированных камер"
+
+#: social/user.html:58
+#, python-format
+msgid "%(page_user)s marked as friends:"
+msgstr "Друзья %(page_user)s"
+
+#: social/user.html:68
+msgid "None available"
+msgstr "Никого нет"
 
 #: social/friendship/inbox.html:5 social/friendship/sent.html:5
 #: user_messages/inbox.html:5 user_messages/sent.html:5

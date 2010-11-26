@@ -21,7 +21,7 @@
 {% if show_friend_button %}
 <p>
     <a href="{% url social:friend user_id=page_user.id %}">
-        Add to my friends
+        {% trans "Add to my friends" %}
     </a>
 </p>
 {% endif %}
@@ -30,12 +30,12 @@
 
     {% if user.is_authenticated %}
     <div class="messages">
-        <form method="POST"
+        <form method="post"
               action="{% url user_messages:send_message user_id=page_user.id %}">
-        <table summary="Leave a message to {{ page_user }}" width="100%">
-            <caption>Leave a message</caption>
+        <table summary="{% blocktrans %}Leave a message to {{ page_user }}{% endblocktrans %}" width="100%">
+            <caption>{% trans "Leave a message" %}</caption>
             {{ msgform.as_table }}
-            <tr><td colspan="2"><input type="submit" value="Send"/></td></tr>
+            <tr><td colspan="2"><input type="submit" value="{% trans "Send" %}"/></td></tr>
         </table>
         </form>
     </div>
@@ -43,11 +43,11 @@
 
     <div id="camera">
         {% if camera %}
-            <a href="{% url billing:get_access_to_camera camera.id %}">Get access to camera</a>
+            <a href="{% url billing:get_access_to_camera camera.id %}">{% trans "Get access to camera" %}</a>
             {% include "includes/camera.html" %}
         {% else %}
             <img src="/media/img/notfound/cam.png" alt="" />
-            This user has no registered camera.
+            {% trans "This user has no registered camera." %}
         {% endif %}
     </div>
 
@@ -55,7 +55,7 @@
 
 <div id="content-related">
     <div class="module" id="recent-actions-module">
-        <h2>{{ page_user }} marked as friends:</h2>
+        <h2>{% blocktrans %}{{ page_user }} marked as friends:{% endblocktrans %}</h2>
           {% if page_user.mutual_friends %}
             <ul>
                 {% for user in page_user.mutual_friends %}
@@ -65,7 +65,7 @@
                 {% endfor %}
             </ul>
           {% else %}
-            <p>None available</p>
+            <p>{% trans "None available" %}</p>
           {% endif %}
     </div>
 </div>
