@@ -58,7 +58,7 @@
         <h2>{{ page_user }} marked as friends:</h2>
         {#<h3>whatever</h3>#}
           {% if page_user.mutual_friends %}
-            <ul>
+            <ul class="friendTable">
                 {% for user in page_user.mutual_friends %}
                     <li>
                         {% include "includes/user/micro.html" %}

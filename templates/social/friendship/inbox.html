@@ -19,7 +19,7 @@
                 <td>
                     {{ offer.timestamp|timesince }} {% trans "ago" %}
                 </td>
-                <td>
+                <td class="friendTable">
                     {% with offer.author as user %}
                         {% include "includes/user/micro.html" %}
                     {% endwith %}

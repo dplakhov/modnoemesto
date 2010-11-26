@@ -21,7 +21,7 @@
                         {{ msg.timestamp|timesince }}
                     </a>
                 </td>
-                <td>
+                <td class="friendTable">
                     {% with msg.recipient as user %}
                         {% include "includes/user/micro.html" %}
                     {% endwith %}
