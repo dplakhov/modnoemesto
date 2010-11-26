@@ -1,5 +1,6 @@
 {% load menu_tags %}
 {% load i18n %}
+{% load pytils_numeral %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <meta http-equiv="Pragma" content="no-cache" />
@@ -97,15 +98,20 @@
     {% if user.is_authenticated %}
         <p>
             {% if user.messages.unread|length %}
-
-                У вас<a href="{% url user_messages:view_inbox %}">{% spaceless %}
-                    {{ user.messages.unread|length }} непрочитанных сообщений
-                {% endspaceless %}</a>
+                {% with user.messages.unread|length as unread_messages_count %}
+                    У вас <a href="{% url user_messages:view_inbox %}">{% spaceless %}
+                        {{ unread_messages_count }}
+{{ unread_messages_count|choose_plural:"непрочитанное сообщение,непрочитанных сообщения,непрочитанных сообщений" }}
+                    {% endspaceless %}</a>
+                {% endwith %}
             {% endif %}
             {% if user.fs_offers_inbox_count %}
+                {% with user.fs_offers_inbox_count as fs_offers_inbox_count %}
                 У вас <a href="{% url social:view_fs_offers_inbox %}">{% spaceless %}
-                    {{ user.fs_offers_inbox_count }} предложений дружбы
-                {% endspaceless %}</a>
+                    {{ fs_offers_inbox_count }}
+                    {{ fs_offers_inbox_count|choose_plural:"предложение,предложения,предложений" }}  дружбы
+                    {% endspaceless %}</a>
+                {% endwith %}
             {% endif %}
             </p>
     {% endif %}
