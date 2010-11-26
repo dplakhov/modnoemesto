@@ -29,7 +29,6 @@ class LoginForm(forms.Form):
         if self.request:
             if not self.request.session.test_cookie_worked():
                 raise forms.ValidationError(_("Your Web browser doesn't appear to have cookies enabled. Cookies are required for logging in."))
-
         return self.cleaned_data
 
     def get_user_id(self):
