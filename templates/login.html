@@ -5,12 +5,24 @@
 {% block content %}
 <h2 class="video_title">Авторизация</h2>
 <div class="reg rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+
+{% if form.non_field_errors %}
+<p class="errornote">{{ form.non_field_errors }}</p>
+{% endif %}
 <form action="{{ app_path }}" method="POST">
-    {% for field in form %}
-        {{ field.errors }}
-        <p>{{ field.label }}<br/>
-            {{ field }}</p>
-    {% endfor %}
+  <p>
+    <label for="id_username">{% trans 'Username:' %}</label>
+    {% for i in form.username.errors %} {{ i }} {% endfor %}
+    <br/>
+    <input type="text" lang="en" name="username" id="id_username" />
+  </p>
+  <p>
+    <label for="id_password">{% trans 'Password:' %}</label>
+    {% for i in form.password.errors %} {{ i }} {% endfor %}
+    <br/>
+    <input type="password" name="password" id="id_password" />
+    <input type="hidden" name="this_is_the_login_form" value="1" />
+  </p>
     <input type="submit" class="sub" value="Войти"/>
 </form>
 
