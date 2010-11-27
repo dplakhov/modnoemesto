@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import login_required, permission_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponse
 from django.core.urlresolvers import reverse
 
 from mongoengine.django.shortcuts import get_document_or_404
@@ -10,9 +10,9 @@ from documents import Tariff, AccessCamOrder
 
 from forms import TariffForm, AccessCamOrderForm
 from apps.billing.models import UserOrder
-from apps.billing.forms import UserOrderForm
-from django.shortcuts import get_object_or_404
 from apps.cam.documents import Camera
+from django.conf import settings
+from apps.billing.constans import TRANS_STATUS
 
 
 @login_required
@@ -57,29 +57,87 @@ def tariff_delete(request, id):
 
 @login_required
 def purse(request):
-    if request.POST:
-        form = UserOrderForm(request.POST)
-        if form.is_valid():
-            form.user = request.user.id
-            order = form.save()
-            return HttpResponseRedirect(reverse('billing:pay', args=[order.id]))
-    else:
-        form = UserOrderForm()
-    return direct_to_template(request, 'billing/purse.html', {'form': form})
-
-
-@login_required
-def pay(request, order_id):
-    MOD_COST = 30
-    order = get_object_or_404(UserOrder, id=order_id)
-    total_cost = order.total * MOD_COST
-    form = None
-    # for tests:
-    order.is_payed = True
+    order = UserOrder(user=request.user)
     order.save()
-    request.user.cash += order.total
-    request.user.save()
-    return direct_to_template(request, 'billing/pay.html', {'form':form, 'order':order, 'mod_cost':MOD_COST, 'total_cost':total_cost})
+    return direct_to_template(request, 'billing/pay.html', {
+        'service': settings.PKSPB_ID,
+        'account': order.id,
+    })
+
+
+def operator(request):
+    """Accepting payments using bank cards.
+    """
+    def before(request):
+        if request.GET.get('duser', None) != settings.PKSPB_DUSER or\
+           request.GET.get('dpass', None) != settings.PKSPB_DPASS or\
+           request.GET.get('sid', None) != '1':
+            return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
+        cid = request.GET.get('cid', '')
+        if not cid or not cid.isdigit():
+            return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
+        try:
+            order = UserOrder.objects.get(id=cid)
+        except UserOrder.DoesNotExist:
+            return HttpResponse('status=%i' % TRANS_STATUS.INVALID_CID)
+        return order
+
+    def action_get_info(request, order):
+        return HttpResponse('status=%i' % TRANS_STATUS.SUCCESSFUL)
+
+    def get_pay_params(request):
+        try:
+            term = int(request.GET.get('term', None))
+            trans = int(request.GET.get('trans', None))
+            amount = float(request.GET.get('sum', None))
+        except (ValueError, TypeError):
+            return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
+        if term and trans and amount:
+            return term, trans, amount
+
+    def action_prepayment(request, order):
+        params = get_pay_params(request)
+        if params is None:
+            return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
+        order.term, order.trans, order.amount = params
+        order.save()
+        return HttpResponse('status=%i&summa=%.2f' % (TRANS_STATUS.SUCCESSFUL, order.amount))
+
+    def action_payment(request, order):
+        params = get_pay_params(request)
+        if params is None:
+            return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
+        if (order.term, order.trans, order.amount) == params:
+            return HttpResponse('status=%i&summa=%.2f' % (TRANS_STATUS.SUCCESSFUL, order.amount))
+        return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
+
+    def main(request):
+        try:
+            result = before(request)
+            if type(result) != UserOrder:
+                return result
+            if 'uact' not in request.GET:
+                return HttpResponseNotFound()
+            uactf = {
+                'get_info': action_get_info,
+                'prepayment': action_prepayment,
+                'payment': action_payment,
+            }.get(request.GET['uact'])
+            if uactf:
+                return uactf(request, result)
+            return HttpResponse('status=%i' % TRANS_STATUS.INVALID_UACT)
+        except:
+            #@TODO: need log
+            return HttpResponse('status=%i' % TRANS_STATUS.INTERNAL_SERVER_ERROR)
+
+    print "="*80
+    print "GET  = %s" % repr(request.GET)
+    print "POST = %s" % repr(request.POST)
+    print "="*80
+    response = main(request)
+    print response.content
+    print "="*80
+    return response
 
 
 @login_required

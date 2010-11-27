@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
+
 {% block content %}
-    <p>Стоимость одного мода {{ mod_cost }} руб.</p>
-    <p>Итого к оплате: {{ total_cost }} руб.</p>
-    <p>Оплатить {{ order.total }} модов?</p>
-    <form action="{{ form.target }}" method="POST" class="baseform">
-        <p>{{ form.as_p }}</p>
-        <p><input type="submit" name='SUBMIT' value="Оплатить"></p>
+    <form action="https://pay.pskb.spb.ru/" method="POST" class="baseform">
+        <input type="hidden" name="service" value="{{ service }}" />
+        <input type="hidden" name="account" value="{{ account }}" />
+        <p><label for="id_amount">{% trans "Amount" %}</label> <input type="text" id="id_amount" name="amount" autocomplete="off" /></p>
+        <p><input type="submit" name='SUBMIT' value="{% trans 'Pay' %}"></p>
     </form>
 {% endblock %}
