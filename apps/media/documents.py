@@ -101,4 +101,9 @@ class FileSet(Document):
         self.files.append(file)
         self.__class__.objects(id=self.id).update_one(push__files=file)
 
+    def remove_file(self, file):
+        self.files.remove(file)
+        self.__class__.objects(id=self.id).update_one(pull__files=file)
+
+
 
