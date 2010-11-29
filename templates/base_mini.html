@@ -1,0 +1,137 @@
+{% load menu_tags %}
+{% load i18n %}
+{% load pytils_numeral %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="Cache-control" content="no-cache" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    {# <meta name="keywords" content="" /> #}
+    {# <meta name="description" content="" /> #}
+
+    {#<link href="/favicon.ico" rel="shortcut icon" />#}
+
+    {% block css %}
+    <link href="/media/styles/common.css" rel="stylesheet" type="text/css" />
+    <link href="/media/styles/user_micro.css" rel="stylesheet" type="text/css" />
+    <link href="/media/styles/jScrollPane.css" rel="stylesheet" type="text/css" />
+    <link href="/media/styles/debug.css" rel="stylesheet" type="text/css" />
+    {% endblock %}
+
+    {% block rss %}
+    {# <link href="/rss/" rel="alternate" type="application/rss+xml" /> #}
+    {% endblock %}
+
+    {% block title %}
+    <title>Модное место</title>
+    {% endblock %}
+
+    {% block js %}
+    <script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/media/js/jquery.mousewheel.min.js"></script>
+    <script src="/media/js/ie6fix.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        DD_belatedPNG.fix('.transparent');
+    </script>
+    {% endblock %}
+</head>
+<body>
+
+<div id="container">
+	<div id="subContainer">
+
+        <div id="header">
+            <a id="logo" href="/"><img src="/media/images/logo_m.jpg" alt="Модное место" /></a>
+            <div id="serch">
+                <form id="search-box" action="">
+                    <div>
+                        <input type="text" class="find transparent" value="{% trans 'search' %}" />
+                        <input type="image" value="Найти" src="/media/images/serch.jpg" />
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div id="menu">
+            <table cellspacing="0px" cellpadding="0px">
+            <tr>
+            <td class="left_corner {% active request 'social:index' %}"></td>
+            <td class="menu_but {% active request 'social:index' %}"><a href="/">люди</a></td>
+            <td class="right_corner {% active request 'social:index' %}"></td>
+
+            <td class="empty"></td>
+            <td class="left_corner {% active request 'cam:cam_list' %}"></td>
+            <td class="menu_but {% active request 'cam:cam_list' %}"><a href="{% url cam:cam_list %}">модные места</a></td>
+            <td class="right_corner {% active request 'cam:cam_list' %}"></td>
+            <td class="empty"></td>
+            <td class="left_corner"></td>
+            <td class="menu_but"><a href="#">аукцион</a></td>
+
+            <td class="right_corner"></td>
+            <td class="empty"></td>
+            <td class="left_corner"></td>
+            <td class="menu_but"><a class="curent" href="#">приложения</a></td>
+            <td class="right_corner"></td>
+            <td class="empty"></td>
+            <td class="left_corner {% active request 'groups:group_list' %}"></td>
+            <td class="menu_but {% active request 'groups:group_list' %}"><a href="{% url groups:group_list %}">группы</a></td>
+            <td class="right_corner {% active request 'groups:group_list' %}"></td>
+            <td class="empty"></td>
+
+            {% if user.is_authenticated %}
+            <td class="left_corner"></td>
+            <td class="menu_but"><a href="{% url social:logout %}">выход</a></td>
+            <td class="right_corner"></td>
+            {% else %}
+            <td class="left_corner"></td>
+            <td class="menu_but"><a href="{% url social:login %}">вход</a></td>
+            <td class="right_corner"></td>
+            {% endif %}
+            </tr>
+            </table>
+        </div>
+
+
+        <div id="mainContent" style="background:url(/media/images/bg_reg.jpg) no-repeat">
+
+{% if messages %}
+<div class="messages">
+    <ul class="messages">
+        {% for message in messages %}
+            <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% block base_content %}
+here goes the actual content
+{% endblock %}
+        </div>
+
+    <div id="fotter">
+        <div id="info">
+            <ul>
+
+            <li style="padding-left:0"><a href="#">О сайте</a></li>
+            <li><a href="#">Техподдержка</a></li>
+            <li><a href="#">Вакансии</a></li>
+            <li><a href="#"> Блог</a></li>
+            <li><a href="#">Правила </a></li>
+            <li><a href="#">Реклама</a></li>
+
+            <li><a href="#">Разработчикам</a></li>
+            <li style="padding-right:0"><a href="#">Магазинам</a></li>
+            </ul>
+            <p style="width:200px">Модное место &copy; 2010</p>
+            <p id="design">Разработано в <a href="http://www.web-mark.ru/" target="_blank">Web-Mark</a></p>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
