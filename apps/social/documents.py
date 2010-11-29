@@ -58,7 +58,7 @@ class User(Document):
 
     avatar = ReferenceField('File')
 
-    cash = IntField(default=0)
+    cash = FloatField(default=0.0)
 
     hometown = StringField(max_length=30)
     birthday = StringField(max_length=10)

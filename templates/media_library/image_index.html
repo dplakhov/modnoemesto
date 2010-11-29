@@ -28,7 +28,7 @@
 </div>
 
 
-    {% if form %}
+    {% if can_manage %}
         <form action="{% url media_library:image_add %}" method="post" enctype="multipart/form-data">
 
         <table>

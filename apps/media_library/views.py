@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import redirect
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.views.generic.simple import direct_to_template
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
@@ -19,15 +19,20 @@ from apps.media.tasks import apply_file_transformations
 from .forms import ImageAddForm
 
 from .constants import *
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 def get_library(type):
     assert type in (LIBRARY_TYPE_IMAGE, LIBRARY_TYPE_AUDIO, LIBRARY_TYPE_VIDEO, )
     library, created = FileSet.objects.get_or_create(type='common_%s_library' % type)
     return library
 
+def can_manage_library(user):
+    return user.has_perm('superuser')
+
+@login_required
 def image_index(request):
     library = get_library(LIBRARY_TYPE_IMAGE)
-    if request.user.is_superuser:
+    if can_manage_library(request.user):
         form = ImageAddForm()
     else:
         form = None
@@ -48,9 +53,10 @@ def image_index(request):
                               dict(
                                       objects=objects,
                                       form=form,
+                                      can_manage=can_manage_library(request.user),
                                    )
                               )
-
+@user_passes_test(can_manage_library)
 def image_add(request):
     form = ImageAddForm(request.POST, request.FILES)
     if form.is_valid():
