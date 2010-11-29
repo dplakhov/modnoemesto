@@ -2,6 +2,8 @@
 
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+from django.template import Context, Template
+
 from .common import file_path, create_file
 
 class TemplatetagsTest(TestCase):
@@ -10,6 +12,7 @@ class TemplatetagsTest(TestCase):
         file.apply_transformations()
         url = reverse('media:file_view', kwargs=dict(file_id=file.id,
                                                      transformation_name='thumb.png'))
-        print url
-        template = '''{% load media %}{% media_url file 'thumb.png' %}'''
-        #rendered =
+        template = Template('''{% load media %}{% media_url file thumb.png %}''')
+        context = Context(dict(file=file))
+        rendered = template.render(context)
+        self.failUnlessEqual(url, rendered)

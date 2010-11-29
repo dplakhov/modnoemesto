@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load media %}
 {% block content %}
 
 <h1>{% trans "Images" %}</h1>
 
 <div id="content-main">
 {% for file in files  %}
-    <img src="{% url media:file_view file_id=file.id|stringformat:"s" transformation_name='thumb.png' %}"
-         alt="" />
+    <img src="{% media_url file library_image_thumbnail.png %}" alt="" />
 {% endfor %}
 </div>
 
