@@ -67,6 +67,9 @@ def purse(request):
 def operator(request):
     """Accepting payments using bank cards.
     """
+    #@TODO: fix KeyError
+    from apps.groups.documents import Group
+
     import logging
     LOG_FILENAME = '/tmp/modnoemesto_debug.log'
     logger = logging.getLogger("simple_example")
@@ -107,22 +110,6 @@ def operator(request):
             return term, trans, amount
         raise ValueError
 
-    def action_prepayment(request, user):
-        try:
-            params = get_pay_params(request)
-        except (ValueError, TypeError):
-            logger.debug('5')
-            return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
-        term, trans, amount = params
-        trans_count = UserOrder.objects.filter(trans=trans).count()
-        if trans_count > 0:
-            return HttpResponse('status=%i' % TRANS_STATUS.ALREADY)
-        order = UserOrder(user=user)
-        order.term, order.trans, order.amount = params
-        order.save()
-        logger.debug('6')
-        return HttpResponse('status=%i&summa=%.2f' % (TRANS_STATUS.SUCCESSFUL, order.amount))
-
     def action_payment(request, user):
         try:
             params = get_pay_params(request)
@@ -133,23 +120,18 @@ def operator(request):
         trans_count = UserOrder.objects.filter(trans=trans).count()
         if trans_count > 0:
             return HttpResponse('status=%i' % TRANS_STATUS.ALREADY)
-        try:
-            order = UserOrder.objects.get(user=user, trans=trans)
-        except UserOrder.DoesNotExist:
-            logger.debug('8')
-            #@TODO: skip first steps
-            order = UserOrder(user=user)
-            order.term, order.trans, order.amount = params
-            #return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
-        if (int(order.term), float(order.amount)) == (term, amount):
-            order.is_payed = True
-            order.save()
-            user.cash += order.amount
-            user.save()
-            logger.debug('9')
-            return HttpResponse('status=%i&summa=%.2f' % (TRANS_STATUS.SUCCESSFUL, order.amount))
-        logger.debug('10')
-        return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
+        order = UserOrder(
+            user=user,
+            is_payed=True,
+            term=term,
+            trans=trans,
+            amount=amount,
+        )
+        order.save()
+        user.cash += order.amount
+        user.save()
+        logger.debug('9')
+        return HttpResponse('status=%i&summa=%.2f' % (TRANS_STATUS.SUCCESSFUL, order.amount))
 
     def main(request):
         try:
@@ -160,7 +142,6 @@ def operator(request):
                 return HttpResponseNotFound()
             uactf = {
                 'get_info': action_get_info,
-                'prepayment': action_prepayment,
                 'payment': action_payment,
             }.get(request.GET['uact'])
             if uactf:
