@@ -67,21 +67,36 @@ def purse(request):
 def operator(request):
     """Accepting payments using bank cards.
     """
+    import logging
+    LOG_FILENAME = '/tmp/modnoemesto_debug.log'
+    logger = logging.getLogger("simple_example")
+    logger.setLevel(logging.DEBUG)
+    ch = logging.FileHandler(LOG_FILENAME)
+    ch.setLevel(logging.DEBUG)
+    formatter = logging.Formatter("%(asctime)s:%(message)s")
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
+
+
     def before(request):
         if request.GET.get('duser', None) != settings.PKSPB_DUSER or\
            request.GET.get('dpass', None) != settings.PKSPB_DPASS or\
            request.GET.get('sid', None) != '1':
+            logger.debug('1')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         cid = request.GET.get('cid', None)
         if not cid:
+            logger.debug('2')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         try:
             user = User.objects.get(id=cid)
         except User.DoesNotExist:
+            logger.debug('3')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_CID)
         return user
 
     def action_get_info(request, user):
+        logger.debug('4')
         return HttpResponse('status=%i' % TRANS_STATUS.SUCCESSFUL)
 
     def get_pay_params(request):
@@ -96,28 +111,34 @@ def operator(request):
         try:
             params = get_pay_params(request)
         except (ValueError, TypeError):
+            logger.debug('5')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         order = UserOrder(user=user)
         order.term, order.trans, order.amount = params
         order.save()
+        logger.debug('6')
         return HttpResponse('status=%i&summa=%.2f' % (TRANS_STATUS.SUCCESSFUL, order.amount))
 
     def action_payment(request, user):
         try:
             params = get_pay_params(request)
         except (ValueError, TypeError):
+            logger.debug('7')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         term, trans, amount = params
         try:
             order = UserOrder.objects.get(user=user, trans=trans)
         except UserOrder.DoesNotExist:
+            logger.debug('8')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         if (order.term, order.amount) == (term, amount):
             order.is_payed = True
             order.save()
             user.cash += order.amount
             user.save()
+            logger.debug('9')
             return HttpResponse('status=%i&summa=%.2f' % (TRANS_STATUS.SUCCESSFUL, order.amount))
+        logger.debug('10')
         return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
 
     def main(request):
@@ -134,11 +155,22 @@ def operator(request):
             }.get(request.GET['uact'])
             if uactf:
                 return uactf(request, result)
+            logger.debug('11')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_UACT)
         except:
             #@TODO: need log
+            logger.debug('12')
+            import sys, traceback
+            logger.debug(traceback.format_exc())
             return HttpResponse('status=%i' % TRANS_STATUS.INTERNAL_SERVER_ERROR)
 
+    logger.debug("="*80)
+    logger.debug("GET  = %s" % repr(request.GET))
+    logger.debug("POST = %s" % repr(request.POST))
+    logger.debug("="*80)
+    response = main(request)
+    logger.debug(response.content)
+    logger.debug("="*80)
     response = main(request)
     return response
 
