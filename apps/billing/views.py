@@ -86,26 +86,26 @@ def operator(request):
         return HttpResponse('status=%i' % TRANS_STATUS.SUCCESSFUL)
 
     def get_pay_params(request):
-        try:
-            term = int(request.GET.get('term', None))
-            trans = int(request.GET.get('trans', None))
-            amount = float(request.GET.get('sum', None))
-        except (ValueError, TypeError):
-            return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
+        term = int(request.GET.get('term', None))
+        trans = int(request.GET.get('trans', None))
+        amount = float(request.GET.get('sum', None))
         if term and trans and amount:
             return term, trans, amount
+        raise ValueError
 
     def action_prepayment(request, order):
-        params = get_pay_params(request)
-        if params is None:
+        try:
+            params = get_pay_params(request)
+        except (ValueError, TypeError):
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         order.term, order.trans, order.amount = params
         order.save()
         return HttpResponse('status=%i&summa=%.2f' % (TRANS_STATUS.SUCCESSFUL, order.amount))
 
     def action_payment(request, order):
-        params = get_pay_params(request)
-        if params is None:
+        try:
+            params = get_pay_params(request)
+        except (ValueError, TypeError):
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         if (order.term, order.trans, order.amount) == params:
             return HttpResponse('status=%i&summa=%.2f' % (TRANS_STATUS.SUCCESSFUL, order.amount))
@@ -130,13 +130,13 @@ def operator(request):
             #@TODO: need log
             return HttpResponse('status=%i' % TRANS_STATUS.INTERNAL_SERVER_ERROR)
 
-    print "="*80
-    print "GET  = %s" % repr(request.GET)
-    print "POST = %s" % repr(request.POST)
-    print "="*80
+    #print "="*80
+    #print "GET  = %s" % repr(request.GET)
+    #print "POST = %s" % repr(request.POST)
+    #print "="*80
     response = main(request)
-    print response.content
-    print "="*80
+    #print response.content
+    #print "="*80
     return response
 
 
