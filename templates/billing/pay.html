@@ -32,7 +32,7 @@
                 <tr>
                     <td width="30%">№ Договора</td>
                     <td width="72%">
-                    <div><input type="text" name="account" value="{{ account }}" class="text"></div>
+                    <div><input type="text" name="account" value="{{ account }}" class="text" disabled="disabled"></div>
 
                     </td>
                 </tr>
@@ -66,7 +66,7 @@
         <h2 class="caption">Инструкция пополнения счета Банковской картой</h2>
         <ol class="instuction">
             <li>
-                <span>В окне справа Вы вводите Ваш номер договора (ID) и сумму платежа.</span>
+                <span>В окне слева Вы вводите Ваш номер договора (ID) и сумму платежа.</span>
             </li>
             <li>
                 <span>Нажимаете кнопку «Оплатить». При этом происходит загрузка страницы Банка для ввода данных
@@ -121,11 +121,16 @@
                 </span>
             </li>
             <li>
-                <span></span>
+                <span>После введения номера квитанции и PIN-кода платежа нажмите кнопку «Проверить»</span>
             </li>
-            <li><span></span>
+            <li><span>Система производит проверку корректности переданных данных и выводит на экран аналог чека с текущим статусом платежа и его расшифровкой.</span>
 
             </li>
         </ol>
+        <p style="color: rgb(88, 88, 88);">
+            <span class="star"><a name="1"></a>*</span>&nbsp;В случае, если платеж не прошел, просьба обратиться в
+            техническую поддержку банка ПСКБ тел. (812)332-31-17,
+            <a href="mailto:support@pscb.ru">e-mail: support@pscb.ru</a>
+        </p>
             </div>
 {% endblock %}

@@ -3,6 +3,7 @@
 from django.db.models.base import Model
 from django.db import models
 from datetime import datetime
+from documents import *
 
 
 class UserOrder(Model):
