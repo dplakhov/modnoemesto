@@ -71,9 +71,9 @@ def operator(request):
         if request.GET.get('duser', None) != settings.PKSPB_DUSER or\
            request.GET.get('dpass', None) != settings.PKSPB_DPASS or\
            request.GET.get('sid', None) != '1':
-            return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
-        cid = request.GET.get('cid', '')
-        if not cid or not cid.isdigit():
+            return HttpResponse('1status=%i' % TRANS_STATUS.INVALID_PARAMS)
+        cid = request.GET.get('cid', None)
+        if not cid:
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         try:
             user = User.objects.get(id=cid)
