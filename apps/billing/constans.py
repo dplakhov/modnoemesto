@@ -1,0 +1,4 @@
+class ACCESS_CAM_ORDER_STATUS:
+    WAIT = 1
+    ACTIVE = 2
+    COMPLETE = 3

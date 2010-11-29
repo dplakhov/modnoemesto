@@ -1,0 +1,12 @@
+.baseform input,
+.baseform textarea {
+    border: 1px gray solid
+}
+
+.baseform th {
+    text-align: left;
+}
+
+ul {
+    list-style: none;
+}

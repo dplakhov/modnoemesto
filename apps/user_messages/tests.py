@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 
 from apps.utils.test import patch_settings
 
-from apps.social.documents import Account
+from apps.social.documents import User
 from .documents import ( Message, IncomingMessageBox, SentMessageBox,
     UnreadMessageBox, )
 
@@ -19,8 +19,8 @@ class BasicTestCase(unittest.TestCase):
 
         self.c = Client()
 
-        self.acc1 = Account.create_user(username='test1', password='123')
-        self.acc2 = Account.create_user(username='test2', password='123')
+        self.acc1 = User.create_user(username='test1', password='123')
+        self.acc2 = User.create_user(username='test2', password='123')
 
         self.c.login(username='test1', password='123')
 
@@ -28,7 +28,7 @@ class BasicTestCase(unittest.TestCase):
         self.cleanUp()
 
     def cleanUp(self):
-        Account.objects.delete()
+        User.objects.delete()
         Message.objects.delete()
 
 class MessageTestCase(BasicTestCase):

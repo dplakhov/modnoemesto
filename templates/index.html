@@ -1,13 +1,12 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
-<h2>Registered users:</h2>
-<p>
-{% for acc in accs %}
-    {% with acc as user %}
-        {% include "includes/user/micro.html" %}
-    {% endwith %}
-{% if not forloop.last %},{% endif %}
+<h2>{% trans "Users online" %}</h2>
+<ul class="friendTable">
+{% for user in accs %}
+    <li>
+    {% include "includes/user/micro.html" %}
+    </li>
 {% endfor %}
-</p>
+</ul>
 {% endblock %}

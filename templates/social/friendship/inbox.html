@@ -1,36 +1,35 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
 
-<h1>Messages history</h1>
+<h1>{% trans "Messages history" %}</h1>
 
 <div id="content-main">
 
     {%  include "includes/left_menu.html" %}
 
     <div class="messages">
-        <table summary="Your inbox" width="100%">
-            <caption>Friendship offers: inbox</caption>
+        <table summary="{% trans "Your inbox" %}" width="100%">
+            <caption>{% trans "Friendship offers: inbox" %}</caption>
             <tr>
-                <th>When</th><th>From</th><th>Accept/Decline</th>
+                <th>{% trans "When" %}</th><th>{% trans "From" %}</th><th>{% trans "Accept/Decline" %}</th>
             </tr>
             {% for offer in offers %}
             <tr>
                 <td>
-                    {{ offer.timestamp|timesince }} ago
+                    {{ offer.timestamp|timesince }} {% trans "ago" %}
                 </td>
-                <td>
+                <td class="friendTable">
                     {% with offer.author as user %}
                         {% include "includes/user/micro.html" %}
                     {% endwith %}
                 </td>
                 <td>
                     <a href="{% url social:friend user_id=offer.author.id %}">
-                        Accept
+                        {% trans "Accept" %}
                     </a>
-                    /
                     <a href="{% url social:decline_fs_offer offer.id %}">
-                        Decline
+                        {% trans "Decline" %}
                     </a>
                 </td>
             </tr>

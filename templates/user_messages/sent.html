@@ -1,18 +1,18 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
 
-<h1>Messages history</h1>
+<h1>{% trans "Messages history" %}</h1>
 
 <div id="content-main">
 
     {%  include "includes/left_menu.html" %}
 
     <div class="messages">
-        <table summary="Your sent messages" width="100%">
-            <caption>Messages: sent</caption>
+        <table summary="{% trans "Messages: sent" %}" width="100%">
+            <caption>{% trans "Messages: sent" %}</caption>
             <tr>
-                <th>When</th><th>To</th>
+                <th>{% trans "When" %}</th><th>{% trans "To" %}</th>
             </tr>
             {% for msg in msgs %}
             <tr>
@@ -21,7 +21,7 @@
                         {{ msg.timestamp|timesince }}
                     </a>
                 </td>
-                <td>
+                <td class="friendTable">
                     {% with msg.recipient as user %}
                         {% include "includes/user/micro.html" %}
                     {% endwith %}

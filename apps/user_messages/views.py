@@ -9,16 +9,17 @@ from mongoengine.django.shortcuts import get_document_or_404
 from .forms import MessageTextForm
 
 from .documents import Message
+from apps.social.documents import User
 
 @login_required
 def send_message(request, user_id):
     
-    from apps.social.documents import Account
+    from apps.social.documents import User
 
     if user_id == request.user.id:
         raise Http404()
     msgform = MessageTextForm(request.POST or None)
-    recipient = get_document_or_404(Account, id=user_id)
+    recipient = get_document_or_404(User, id=user_id)
     if msgform.is_valid():
         text = msgform.data['text']
         Message.send(request.user, recipient, text)
@@ -54,7 +55,7 @@ def _message_acl_check(message, user):
 
 @login_required
 def view_message(request, message_id):
-    from apps.social.documents import Account
+    from apps.social.documents import User
     message = get_document_or_404(Message, id=message_id)
     user = request.user
     _message_acl_check(message, user)
@@ -69,7 +70,7 @@ def view_message(request, message_id):
 
 @login_required
 def delete_message(request, message_id):
-    from apps.social.documents import Account
+    from apps.social.documents import User
     message = get_document_or_404(Message, id=message_id)
     user = request.user
     _message_acl_check(message, user)

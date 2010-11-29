@@ -17,7 +17,7 @@ from mongoengine.connection import _get_db
 from mongoengine.fields import GridFSProxy
 
 class File(Document):
-    author = ReferenceField('Account')
+    author = ReferenceField('User')
     type = StringField(regex='^\w+$', required=True)
     ctime = DateTimeField()
     file = FileField()
@@ -96,7 +96,7 @@ class File(Document):
 
 
 class FileSet(Document):
-    author = ReferenceField('Account')
+    author = ReferenceField('User')
     name = StringField()
     type = StringField(regex='^\w+$', required=True)
     files = ListField(ReferenceField(File))

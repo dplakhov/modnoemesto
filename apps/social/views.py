@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
 from django.template.loader import render_to_string
-from django.contrib.auth import (authenticate, login as django_login,
+from django.contrib.auth import (login as django_login,
     logout as django_logout)
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
@@ -9,24 +9,26 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from django.contrib import messages
 
 from mongoengine.django.shortcuts import get_document_or_404
 
-from documents import (Account, FriendshipOffer, Group,
-        LimitsViolationException)
-from forms import ( UserCreationForm, LoginForm,
-    GroupCreationForm, ChangeAvatarForm)
+from documents import (User, FriendshipOffer, LimitsViolationException)
+from forms import ( UserCreationForm, LoginForm, ChangeAvatarForm)
 
 from apps.user_messages.forms import MessageTextForm 
 
-from django.core.urlresolvers import reverse
-
 from apps.media.documents import File
 from apps.media.transformations.image import ImageResize
+from apps.groups.documents import Group
 
 from ImageFile import Parser as ImageFileParser
 
-from django.contrib import messages
+
+from apps.billing.documents import AccessCamOrder
+from apps.social.forms import ChangeProfileForm
+import re
+
 
 try:
     from cStringIO import StringIO
@@ -34,12 +36,11 @@ except ImportError:
     from StringIO import StringIO
 
 from apps.media.tasks import apply_file_transformations
-from auth import REDIRECT_FIELD_NAME
-
+from django.contrib.auth import REDIRECT_FIELD_NAME
 
 
 def index(request):
-    accs = Account.objects().only('username', 'avatar')
+    accs = User.objects().only('username', 'avatar')
     return direct_to_template(request, 'index.html', { 'accs': accs })
 
 
@@ -50,7 +51,7 @@ def register(request):
         from random import choice
         alpha = 'abcdef0123456789'
         activation_code = ''.join(choice(alpha) for _ in xrange(12))
-        user = Account(username=form.data['username'], is_active=False,
+        user = User(username=form.data['username'], is_active=False,
                                    activation_code=activation_code)
         user.set_password(form.data['password1'])
         user.save()
@@ -70,7 +71,7 @@ def register(request):
 
 
 def activation(request, code=None):
-    user = get_document_or_404(Account, is_active=False, activation_code=code)
+    user = get_document_or_404(User, is_active=False, activation_code=code)
     user.is_active = True
     # django needs a backend annotation
     from django.contrib.auth import get_backends
@@ -81,18 +82,32 @@ def activation(request, code=None):
 
 
 def login(request):
-    form = LoginForm(request.POST or None)
-    if form.is_valid():
-        username, password = form.data['username'], form.data['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                django_login(request, user)
-                redirect_to = request.REQUEST.get(REDIRECT_FIELD_NAME, 'social:home')
-                return redirect(redirect_to)
-            else:
-                return direct_to_template(request, 'disabled_account.html')
-    return direct_to_template(request, 'login.html', { 'form': form })
+    redirect_to = request.REQUEST.get(REDIRECT_FIELD_NAME, 'social:home')
+
+    if request.method == "POST":
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            if not redirect_to or ' ' in redirect_to:
+                redirect_to = settings.LOGIN_REDIRECT_URL
+
+            elif '//' in redirect_to and re.match(r'[^\?]*//', redirect_to):
+                    redirect_to = settings.LOGIN_REDIRECT_URL
+
+            django_login(request, form.get_user())
+
+            if request.session.test_cookie_worked():
+                request.session.delete_test_cookie()
+
+            return redirect(redirect_to)
+    else:
+        form = LoginForm(request)
+
+    request.session.set_test_cookie()
+
+    return direct_to_template(request, 'login.html', {
+        'form': form,
+        REDIRECT_FIELD_NAME: redirect_to,
+    })
 
 
 def logout(request):
@@ -105,11 +120,13 @@ def home(request):
     camera = request.user.get_camera()
     if camera:
         camera.show = True
+    #@todo: need filter
+    request.user.sex = dict(ChangeProfileForm.SEX_CHOICES).get(request.user.sex, ChangeProfileForm.SEX_CHOICES[0][1])
     return direct_to_template(request, 'social/home.html', { 'camera': camera, 'is_owner': True })
 
 
 def user(request, user_id=None):
-    page_user = get_document_or_404(Account, id=user_id)
+    page_user = get_document_or_404(User, id=user_id)
     if page_user == request.user:
         return redirect('social:home')
 
@@ -122,8 +139,7 @@ def user(request, user_id=None):
 
     camera = page_user.get_camera()
     if camera:
-        camera.show = camera.public or page_user.is_friend
-
+        camera.show = camera.can_show(page_user)
     msgform = MessageTextForm()
     return direct_to_template(request, 'social/user.html',
                               { 'page_user': page_user, 'msgform': msgform,
@@ -141,7 +157,7 @@ def user_friends(request):
 def friend(request, user_id):
     if request.user.id == user_id:
         return redirect('social:home')
-    some_user = get_document_or_404(Account, id=user_id)
+    some_user = get_document_or_404(User, id=user_id)
     try:
         request.user.friend(some_user)
     except LimitsViolationException:
@@ -154,7 +170,7 @@ def friend(request, user_id):
 def unfriend(request, user_id):
     if request.user.id == user_id:
         return redirect('social:home')
-    some_user = get_document_or_404(Account, id=user_id)
+    some_user = get_document_or_404(User, id=user_id)
     request.user.unfriend(some_user)
     return redirect('social:home')
 
@@ -195,53 +211,12 @@ def decline_fs_offer(request, offer_id):
     return redirect('social:view_fs_offers_inbox')
 
 @login_required
-def group_list(request):
-    #@todo: pagination
-    #@todo: partial data fetching
-    groups = Group.objects[:10]
-    return direct_to_template(request, 'social/groups/list.html',
-                              dict(groups=groups)
-                              )
-
-
-@login_required
-def group_add(request):
-    form = GroupCreationForm(request.POST or None)
-    if form.is_valid():
-        name = form.data['name']
-        group, created = Group.objects.get_or_create(name=name)
-        if created:
-            group.add_member(request.user)
-        return redirect(reverse('social:group_view', kwargs=dict(id=group.pk)))
-    return direct_to_template(request, 'social/groups/create.html', dict(form=form))
-
-
-@login_required
-def group_view(request, id):
-    group = get_document_or_404(Group, id=id)
-    return direct_to_template(request, 'social/groups/view.html',
-                              dict(group=group))
-
-@login_required
-def group_join(request, id):
-    group = get_document_or_404(Group, id=id)
-    group.add_member(request.user)
-    return redirect(reverse('social:group_view', kwargs=dict(id=id)))
-
-
-@login_required
-def group_leave(request, id):
-    group = get_document_or_404(Group, id=id)
-    group.remove_member(request.user)
-    return redirect(reverse('social:group_view', kwargs=dict(id=id)))
-
-@login_required
 def profile_edit(request):
     return direct_to_template(request, 'social/groups/view.html',
                               )
 
 def avatar(request, user_id, format):
-    user = get_document_or_404(Account, id=user_id)
+    user = get_document_or_404(User, id=user_id)
     if not user.avatar:
         return redirect('/media/img/notfound/avatar_%s.png' % format)
 
@@ -305,3 +280,15 @@ def avatar_edit(request):
                               dict(form=form, user=user)
                               )
 
+
+def profile_edit(request):
+    form = ChangeProfileForm(request.POST or None, initial=request.user._data)
+    if form.is_valid():
+        for k, v in form.cleaned_data.items():
+            setattr(request.user, k, v if v else None)
+
+        request.user.save()
+        return redirect('social:home')
+    return direct_to_template(request, 'social/profile/edit.html',
+                              dict(form=form, user=request.user)
+                              )

@@ -1,32 +1,32 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
 
-<h1>Messages history</h1>
+<h1>{% trans "Messages history" %}</h1>
 
 <div id="content-main">
 
-    {%  include "includes/left_menu.html" %}
+    {% include "includes/left_menu.html" %}
 
     <div class="messages">
-        <table summary="Your inbox" width="100%">
-            <caption>Messages: inbox</caption>
+        <table summary="{% trans "Messages: inbox" %}" width="100%">
+            <caption>{% trans "Messages: inbox" %}</caption>
             <tr>
-                <th>When</th><th>From</th>
+                <th>{% trans "When" %}</th><th>{% trans "From" %}</th>
             </tr>
             {% for msg in msgs %}
             <tr>
                 <td>
                     <a href="{% url user_messages:view_message message_id=msg.id %}">
                         {% if msg.is_read %}
-                            {{ msg.timestamp|timesince }} ago
+                            {{ msg.timestamp|timesince }} {% trans "ago" %}
                         {% else %}
-                            (unread) {{ msg.timestamp|timesince }} ago
+                            {% trans "(unread)" %} {{ msg.timestamp|timesince }} {% trans "ago" %}
                         {% endif %}
                     </a>
 
                 </td>
-                <td>
+                <td class="friendTable">
                     {% with msg.sender as user %}
                         {% include "includes/user/micro.html" %}
                     {% endwith %}

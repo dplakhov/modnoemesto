@@ -8,8 +8,8 @@ from mongoengine.django.shortcuts import get_document_or_404
 
 from .constants import AVAILABLE_COMMANDS
 
-from .models import Camera
-from .models import CameraType
+from .documents import Camera
+from .documents import CameraType
 
 from .forms import CameraTypeForm, CameraForm
 from apps.billing.documents import Tariff
@@ -23,10 +23,8 @@ def cam_list(request):
         if not data['name']:
             del data['name']
         else:
-            data['name__icontains'] = data['name'].split()
-            print data['name__icontains']
+            data['name__icontains'] = data['name']
             del data['name']
-        print data
         cams = Camera.objects(**data)
     else:
         cams = Camera.objects()

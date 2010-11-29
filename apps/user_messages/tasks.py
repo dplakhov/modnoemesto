@@ -7,21 +7,21 @@ from datetime import timedelta
 @task()
 def message_store_set_readed(message_id, timestamp=None):
     from .documents import Message
-    from apps.social.documents import Account
+    from apps.social.documents import User
     message = Message.objects.get(id=message_id)
     message.store_set_readed(timestamp)
 
 @task()
 def message_store_sender_delete(message_id, timestamp=None):
     from .documents import Message
-    from apps.social.documents import Account
+    from apps.social.documents import User
     message = Message.objects.get(id=message_id)
     message.store_sender_delete(timestamp)
 
 @task()
 def message_store_recipient_delete(message_id, timestamp=None):
     from .documents import Message
-    from apps.social.documents import Account
+    from apps.social.documents import User
     message = Message.objects.get(id=message_id)
     message.store_recipient_delete(timestamp)
 

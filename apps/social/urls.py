@@ -6,6 +6,7 @@ from django.conf import settings
 urlpatterns = patterns('apps.social.views',
    url(r'^$', 'index', name='index'),
    url(r'^home/$', 'home', name='home'),
+   url(r'^home/edit/$', 'profile_edit', name='profile_edit'),
    url(r'^home/friends/$', 'user_friends', name='user_friends'),
 
    url(r'^login/$', 'login', name='login'),
@@ -33,12 +34,6 @@ urlpatterns = patterns('apps.social.views',
        'cancel_fs_offer', name='cancel_fs_offer'),
    url(r'^friendship_offers/(?P<offer_id>[a-f0-9]{24})/decline/$',
        'decline_fs_offer', name='decline_fs_offer'),
-
-   url(r'^groups/$', 'group_list', name='group_list'),
-   url(r'^groups/add/$', 'group_add', name='group_add'),
-   url(r'^groups/(?P<id>[a-f0-9]{24})/$', 'group_view', name='group_view'),
-   url(r'^groups/(?P<id>[a-f0-9]{24})/join/$', 'group_join', name='group_join'),
-   url(r'^groups/(?P<id>[a-f0-9]{24})/leave/$', 'group_leave', name='group_leave'),
 
    url(r'^profile/$', 'profile_edit', name='profile_edit'),
    url(r'^profile/avatar/$', 'avatar_edit', name='avatar_edit'),

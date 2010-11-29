@@ -8,11 +8,16 @@ env.hosts = [
 env.user = 'root'
 
 def deploy():
-    local('git push')
+    #local('git push')
     with cd('/var/www/socnet'):
         run('git pull')
         run('/etc/init.d/nginx reload')
         run('/etc/init.d/socnet restart')
+
+def pip():
+    with cd('/var/www/socnet'):
+        run('source ./venv/bin/activate')
+        run('pip install --upgrade -r requirements.pip')
 
 def uname():
     run('uname -a')

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import login_required, permission_required
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 from mongoengine.django.shortcuts import get_document_or_404
@@ -9,13 +9,10 @@ from mongoengine.django.shortcuts import get_document_or_404
 from documents import Tariff, AccessCamOrder
 
 from forms import TariffForm, AccessCamOrderForm
-from assist.decorators import cp1251
-from assist.forms import AssistMode2Form
 from apps.billing.models import UserOrder
 from apps.billing.forms import UserOrderForm
 from django.shortcuts import get_object_or_404
-from apps.cam.models import Camera
-from datetime import datetime
+from apps.cam.documents import Camera
 
 
 @login_required
@@ -72,20 +69,11 @@ def purse(request):
 
 
 @login_required
-@cp1251
 def pay(request, order_id):
     MOD_COST = 30
     order = get_object_or_404(UserOrder, id=order_id)
     total_cost = order.total * MOD_COST
-    form = AssistMode2Form(initial={
-               'Order_IDP': order.id,
-               'Subtotal_P': total_cost,
-               'Comment': 'UserID: %r, Total mods: %r, Total cost: %r'  % (request.user.id, order.total, total_cost),
-               'LastName': request.user.last_name,
-               'FirstName': request.user.first_name,
-               'Email': request.user.email,
-               #'Phone': request.user.get_profile().phone,
-           })
+    form = None
     # for tests:
     order.is_payed = True
     order.save()
@@ -107,11 +95,8 @@ def get_access_to_camera(request, id):
                 user=request.user,
                 camera=camera,
             )
-            if camera_is_controlled:
-                order.status = 'wait'
-            else:
-                order.status = 'enable'
-                order.init_on = datetime.now()
+            if not camera_is_controlled:
+                order.set_access_period(form.cleaned_data['tariff'])
                 request.user.cash -= form.total_cost
                 request.user.save()
             order.save()

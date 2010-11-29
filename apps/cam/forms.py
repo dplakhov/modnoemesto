@@ -5,7 +5,7 @@ from itertools import chain
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Camera, CameraType
+from .documents import Camera, CameraType
 from .drivers.base import Driver as BaseDriver
 from .drivers.exceptions import ImproperlyConfigured, AccessDenied
 from apps.billing.documents import Tariff
@@ -27,16 +27,16 @@ class CameraTypeForm(forms.Form):
 
 
 class CameraForm(forms.Form):
-    name = forms.CharField()
-    type = forms.ChoiceField(choices=())
-    host = forms.CharField()
-    username = forms.CharField()
-    password = forms.CharField()
-    enabled = forms.BooleanField(required=False)
-    public = forms.BooleanField(required=False)
-    paid = forms.BooleanField(required=False)
-    operator = forms.ChoiceField(required=False, choices=())
-    tariffs =  forms.MultipleChoiceField(choices=())
+    name = forms.CharField(label=_('Name'))
+    type = forms.ChoiceField(label=_('Camera type'), choices=())
+    host = forms.CharField(label=_('Host'))
+    username = forms.CharField(label=_('Username'))
+    password = forms.CharField(label=_('Password'))
+    enabled = forms.BooleanField(label=_('Enabled'), required=False)
+    public = forms.BooleanField(label=_('Public'), required=False)
+    paid = forms.BooleanField(label=_('Paid'), required=False)
+    operator = forms.ChoiceField(label=_('Operator'), required=False, choices=())
+    tariffs =  forms.MultipleChoiceField(label=_('Tariffs'), choices=())
 
     def __init__(self, user, *args, **kwargs):
         super(CameraForm, self).__init__(*args, **kwargs)
@@ -61,7 +61,8 @@ class CameraForm(forms.Form):
 
 
 class CamFilterForm(forms.Form):
-    name = forms.CharField(required=False,label=u'Ключевые слова', widget=forms.TextInput(attrs={'class':'kay'}))
-    enabled = forms.BooleanField(required=False,initial=True,label=u'Активные')
-    public = forms.BooleanField(required=False,initial=True,label=u'Публичные')
-    paid = forms.BooleanField(required=False,initial=False,label=u'Платные')
+    name = forms.CharField(required=False, label=_('Keywords'),
+                           widget=forms.TextInput(attrs={'class':'kay'}))
+    enabled = forms.BooleanField(required=False, initial=True, label=_('Enableds'))
+    public = forms.BooleanField(required=False, initial=True, label=_('Publics'))
+    paid = forms.BooleanField(required=False, initial=False, label=_('Paids'))

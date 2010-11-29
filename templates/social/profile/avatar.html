@@ -3,7 +3,7 @@
 {% block content %}
 <h1>{% trans "Change avatar" %}</h1>
 
-        <img src="{% url social:avatar user_id=user.id format='30x30' %}" />
+        <img src="{{ user.avatar_micro }}" />
         <img src="{% url social:avatar user_id=user.id format='60x60' %}" />
         <img src="{% url social:avatar user_id=user.id format='100x100' %}" />
 

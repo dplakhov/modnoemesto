@@ -2,6 +2,7 @@
 
 from mongoengine import Document, StringField, ReferenceField, BooleanField, ListField
 from reflect import namedClass
+from apps.billing.documents import AccessCamOrder
 
 class CameraType(Document):
     name = StringField(max_length=255, unique=True)
@@ -15,7 +16,7 @@ class CameraType(Document):
 
 class Camera(Document):
     name = StringField(max_length=255)
-    owner = ReferenceField('Account')
+    owner = ReferenceField('User')
     type = ReferenceField('CameraType')
     host = StringField(max_length=255)
     username = StringField(max_length=64)
@@ -32,3 +33,19 @@ class Camera(Document):
 
     def is_user_operator(self, user):
         return user.name == self.operator
+
+    def can_show(self, user):
+        if user.is_superuser:
+            return True
+        if not (self.public or user.is_friend):
+            return False
+        if self.paid:
+            if not user.is_authenticated():
+                return False
+            order = AccessCamOrder.objects(
+                user=user,
+                camera=self,
+            ).order_by('-create_on').first()
+            if order is None or not order.can_access():
+                return False
+        return True

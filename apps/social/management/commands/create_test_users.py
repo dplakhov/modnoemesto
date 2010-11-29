@@ -1,8 +1,18 @@
 import sys
+import random
+import os
+
+
+from django.test.client import Client
+from django.contrib.webdesign import lorem_ipsum
+
+
 from django.core.management.base import BaseCommand, CommandError
 from apps.social import documents
-
-import random
+from apps.user_messages.documents import Message
+import re
+from django.core.urlresolvers import reverse
+from apps.utils.test import patch_settings
 
 class Command(BaseCommand):
     args = '[<number_of_users>]'
@@ -11,34 +21,65 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         num = int(args and args[0] or 10)
+        with_ava = len(args) > 1
 
-        documents.Account.objects.delete()
-        documents.Message.objects.delete()
+        documents.User.objects.delete()
+        Message.objects.delete()
         documents.FriendshipOffer.objects.delete()
 
+        if with_ava:
+            if not os.path.exists('faces94'):
+                raise CommandError('faces database not exists, do\n'
+                   'wget http://cswww.essex.ac.uk/mv/allfaces/faces94.zip && unzip faces94.zip')
+
+            faces = []
+
+            def visit(arg, dirname, names):
+                if len(re.split('/', dirname)) != 3:
+                    return
+                faces.append(os.path.join(dirname, random.choice(names)))
+                
+            os.path.walk('faces94', visit, None)
+            random.shuffle(faces)
+            
         # creating accounts
         print
         for i in xrange(num):
             if not i % (num/10 or 10):
                 print  '\rusers creation %002d%%' % (i*100/num),
                 sys.stdout.flush()
-            name = random.choice(('den', 'pete', 'serge', 'iren', 'mary',
+            if with_ava:
+                if faces[i].find('/female/')!=-1:
+                    name = random.choice(('iren', 'mary', 'ann',))
+                else:
+                    name = random.choice(('den', 'pete', 'serge', 'ivan', 'vladimir'))
+            else:
+                name = random.choice(('den', 'pete', 'serge', 'iren', 'mary',
                                   'dude', 'ivan', 'vladimir'))
-            acc = documents.Account.create_user(username='%s%s' % (name, i),
+
+            username = '%s%s' % (name, i)
+
+            acc = documents.User.create_user(username=username,
                                       password='123')
             acc.save()
-        print  '\rusers creation 100%'
+            if with_ava:
+                client = Client()
+                client.login(username=username, password='123')
+                file = open(faces[i])
+                with patch_settings(TASKS_ENABLED={}):
+                    client.post(reverse('social:avatar_edit'), {'file': file})
 
+        print  '\rusers creation 100%'
         # friending & messaging
         print
         for i in xrange(num):
             max_friends_count = random.randint(0, num % 25 + 25)
             friends_numbers = set([ random.randint(0, num-1) for _ in
                             xrange(max_friends_count) ]).difference(set([i]))
-            this_user = documents.Account.objects().order_by('username')[i]
+            this_user = documents.User.objects().order_by('username')[i]
 
             for fn in friends_numbers:
-                friend = documents.Account.objects().order_by('username')[fn]
+                friend = documents.User.objects().order_by('username')[fn]
                 #this_user.reload()
                 this_user.friend(friend)
                 random.randint(0,3) and friend.friend(this_user) # ~66%
@@ -50,17 +91,10 @@ class Command(BaseCommand):
             for sndr_num in msg_sndrs_numbers:
                 messages_count = random.randint(0, 3)
 
-                sndr = documents.Account.objects().order_by('username'
+                sndr = documents.User.objects().order_by('username'
                                                             )[sndr_num]
                 for _ in xrange(messages_count):
-
-                    text = ' '.join(random.choice(('hey', 'hello', 'what',
-                                                   'test', 'text', 'maybe',
-                                                   'joke', 'err', 'ohno!',
-                                                   'damn', 'cool'))
-                                  for i in xrange(5, 25))
-
-                    sndr.send_message(text, this_user)
+                    Message.send(sndr, this_user, lorem_ipsum.paragraph())
 
             if not i % (num/10 or 10):
                 print  '\rfriending and messaging %002d%%' % (i*100/num),

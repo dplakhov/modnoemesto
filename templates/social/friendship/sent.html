@@ -1,32 +1,32 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
 
-<h1>Messages history</h1>
+<h1>{% trans "Messages history" %}</h1>
 
 <div id="content-main">
 
     {%  include "includes/left_menu.html" %}
 
     <div class="messages">
-        <table summary="Your sent friendship offers" width="100%">
-            <caption>Friendship offers: sent</caption>
+        <table summary="{% trans "Your sent friendship offers" %}" width="100%">
+            <caption>{% trans "Friendship offers: sent" %}</caption>
             <tr>
-                <th>When</th><th>To</th><th>Cancel</th>
+                <th>{% trans "When" %}</th><th>{% trans "To" %}</th><th>{% trans "Cancel" %}</th>
             </tr>
             {% for offer in offers %}
             <tr>
                 <td>
-                    {{ offer.timestamp|timesince }} ago
+                    {{ offer.timestamp|timesince }} {% trans "ago" %}
                 </td>
-                <td>
+                <td class="friendTable">
                     {% with offer.recipient as user %}
                         {% include "includes/user/micro.html" %}
                     {% endwith %}
                 </td>
                 <td>
                     <a href="{% url social:cancel_fs_offer offer_id=offer.id %}">
-                        Cancel
+                        {% trans "Cancel" %}
                     </a>
                 </td>
             </tr>

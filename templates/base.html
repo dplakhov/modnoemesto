@@ -1,4 +1,6 @@
 {% load menu_tags %}
+{% load i18n %}
+{% load pytils_numeral %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <meta http-equiv="Pragma" content="no-cache" />
@@ -12,7 +14,9 @@
 
     {% block css %}
     <link href="/media/styles/common.css" rel="stylesheet" type="text/css" />
+    <link href="/media/styles/user_micro.css" rel="stylesheet" type="text/css" />
     <link href="/media/styles/jScrollPane.css" rel="stylesheet" type="text/css" />
+    <link href="/media/styles/debug.css" rel="stylesheet" type="text/css" />
     {% endblock %}
 
     {% block rss %}
@@ -71,9 +75,9 @@
             <td class="menu_but"><a class="curent" href="#">приложения</a></td>
             <td class="right_corner"></td>
             <td class="empty"></td>
-            <td class="left_corner {% active request 'social:group_list' %}"></td>
-            <td class="menu_but {% active request 'social:group_list' %}"><a href="{% url social:group_list %}">группы</a></td>
-            <td class="right_corner {% active request 'social:group_list' %}"></td>
+            <td class="left_corner {% active request 'groups:group_list' %}"></td>
+            <td class="menu_but {% active request 'groups:group_list' %}"><a href="{% url groups:group_list %}">группы</a></td>
+            <td class="right_corner {% active request 'groups:group_list' %}"></td>
             <td class="empty"></td>
 
             {% if user.is_authenticated %}
@@ -90,71 +94,74 @@
         </div>
 
 
-        <div id="mainContent">
+        <div id="mainContent" style="background:url(/media/images/bg_reg.jpg) no-repeat">
 
     {% if user.is_authenticated %}
         <p>
             {% if user.messages.unread|length %}
-                You have
-                <a href="{% url user_messages:view_inbox %}">{% spaceless %}
-                    {{ user.messages.unread|length }} unread message(s)
-                {% endspaceless %}</a>
+                {% with user.messages.unread|length as unread_messages_count %}
+                    У вас <a href="{% url user_messages:view_inbox %}">{% spaceless %}
+                        {{ unread_messages_count }}
+{{ unread_messages_count|choose_plural:"непрочитанное сообщение,непрочитанных сообщения,непрочитанных сообщений" }}
+                    {% endspaceless %}</a>
+                {% endwith %}
             {% endif %}
             {% if user.fs_offers_inbox_count %}
-                You have
-                <a href="{% url social:view_fs_offers_inbox %}">{% spaceless %}
-                    {{ user.fs_offers_inbox_count }} friendship
-                    offer(s)
-                {% endspaceless %}</a>
+                {% with user.fs_offers_inbox_count as fs_offers_inbox_count %}
+                У вас <a href="{% url social:view_fs_offers_inbox %}">{% spaceless %}
+                    {{ fs_offers_inbox_count }}
+                    {{ fs_offers_inbox_count|choose_plural:"предложение,предложения,предложений" }}  дружбы
+                    {% endspaceless %}</a>
+                {% endwith %}
             {% endif %}
             </p>
     {% endif %}
 
             <div id="leftColumn">
                 <div class="nav">
-                        <ul>
-                        {% if user.is_authenticated %}
-                            <li id="persone"><a href="{% url social:home %}">{{ user }}</a></li>
-                            <li id="money">
-                                <div class="q">
-                                    <p>На моем счету</p>
+                    <ul>
+                    {% if user.is_authenticated %}
+                        <li id="persone"><a href="{% url social:home %}">{{ user }}</a></li>
+                        <li id="money">
+                            <div class="q">
+                                <p>На моем счету</p>
 
-                                    <div><p id="amount"><span>{{ user.cash }}</span> модов</p></div>
-                                    <p id="purse"><a href="{% url billing:purse %}">Перейти в кошелек</a></p>
-                                 </div>
-                            </li>
-                            <li id="fashion_place"><a href="#">Мои Модные места</a></li>
-                            <li id="friends"><a href="{% url social:user_friends %}">Друзья</a></li>
+                                <div><p id="amount"><span>{{ user.cash }}</span> модов</p></div>
+                                <p id="purse"><a href="{% url billing:purse %}">Перейти в кошелек</a></p>
+                             </div>
+                        </li>
+                        <li id="fashion_place"><a href="#">Мои Модные места</a></li>
+                        <li id="friends"><a href="{% url social:user_friends %}">Друзья</a></li>
 
-                            <li id="mail"><a href="{% url user_messages:view_inbox %}">Сообщения</a></li>
-                            <li id="notes"><a href="{% url notes:note_list %}">Заметки</a></li>
-                            <li id="group"><a href="{% url social:group_list %}">Группы</a></li>
-                            <li id="foto"><a href="#">Фотографии</a></li>
-                            <li id="video"><a href="#">Видеозаписи</a></li>
-                            <li id="audio"><a href="#">Аудиозаписи</a></li>
+                        <li id="mail"><a href="{% url user_messages:view_inbox %}">Сообщения</a></li>
+                        <li id="notes"><a href="{% url notes:note_list %}">Заметки</a></li>
+                        <li id="group"><a href="{% url groups:group_list %}">Группы</a></li>
+                        <li id="foto"><a href="#">Фотографии</a></li>
+                        <li id="video"><a href="#">Видеозаписи</a></li>
+                        <li id="audio"><a href="#">Аудиозаписи</a></li>
 
-                            <li id="meeting"><a href="#">Встречи</a></li>
-                        {% else %}
-                            <li><a href="{% url social:register %}">регистрация</a></li>
-                            <li><a href="{% url social:login %}">вход</a></li>
-                        {% endif %}
-                        {% if request.user.is_superuser %}
-                            {% include 'includes/admin_menu.html' %}
-                        {% endif %}
-                        </ul>
+                        <li id="meeting"><a href="#">Встречи</a></li>
+                    {% else %}
+                        <li><a href="{% url social:register %}">регистрация</a></li>
+                        <li><a href="{% url social:login %}">вход</a></li>
+                    {% endif %}
+                    {% if request.user.is_superuser %}
+                        {% include 'includes/admin_menu.html' %}
+                    {% endif %}
+                    </ul>
+                </div>
+                <div id="what_new">
+                    <a href="#"><img src="/media/images/what_new.jpg" /></a>
+                </div>
+                <div id="advertising">
+                    <div>
+
+                        <img src="/media/images/ermi_pic.jpg" alt="gj" />
                     </div>
-                    <div id="what_new">
-                        <a href="#"><img src="/media/images/what_new.jpg" /></a>
-                    </div>
-                    <div id="advertising">
-                        <div>
-
-                            <img src="/media/images/ermi_pic.jpg" alt="gj" />
-                        </div>
-                        <p class="date">12 декабря 18:39</p>
-                        <p class="cam">12 камер в Эрмитаже</p>
-                        <p>Кмеры работают в режиме тестирования</p>
-                    </div>
+                    <p class="date">12 декабря 18:39</p>
+                    <p class="cam">12 камер в Эрмитаже</p>
+                    <p>Камеры работают в режиме тестирования</p>
+                </div>
             </div>
 
             <div id="centerColumn">

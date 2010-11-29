@@ -27,9 +27,9 @@ DATABASES = {
         'HOST': '',
         'PORT': '',
     },
-    'assist': {
+    'billing': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'assist',
+        'NAME': 'billing',
         'USER': 'root',
         'PASSWORD': '123',
         'HOST': 'localhost',
@@ -43,15 +43,16 @@ if 'test' in sys.argv:
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': ':memory:', #rel('default.db'),
         },
-        'assist': {
+        'billing': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': ':memory:', #rel('assist.db'),
         },
     }
 
+MONGO_DATABASE = 'social'
+MONGO_HOST = '127.0.0.1'
 
-
-DATABASE_ROUTERS = ['db_routers.AssistRouter',]
+DATABASE_ROUTERS = ['db_routers.BillingRouter',]
 
 TIME_ZONE = 'Europe/Moscow'
 
@@ -62,6 +63,10 @@ SITE_ID = 1
 USE_I18N = True
 
 USE_L10N = True
+
+LOCALE_PATHS = (
+    rel('templates/locale'),
+)
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
@@ -141,6 +146,7 @@ INSTALLED_APPS = (
     #'django.contrib.admin',
     #'mongoengine.django.auth',
     'djcelery',
+    'pytils',
     'apps.social',
     'apps.media',
     'apps.cam',
@@ -148,7 +154,7 @@ INSTALLED_APPS = (
     'apps.user_messages',
     'apps.media_library',
     'apps.billing',
-    'assist',
+    'apps.groups',
 )
 
 CELERY_RESULT_BACKEND = "mongodb"
@@ -184,13 +190,7 @@ ROBOT_EMAIL_ADDRESS = 'noreply@modnoemesto.ru'
 AVATAR_SIZES = (
     (100, 100),
     (60, 60),
-    (30, 30),
+    (47, 47),
 )
 
 MAX_USER_MESSAGES_COUNT = 500
-
-
-ASSIST_SHOP_IDP = '123456789'
-ASSIST_LOGIN = 'test'
-ASSIST_PASSWORD = 'test'
-ASSIST_TEST_MODE = True

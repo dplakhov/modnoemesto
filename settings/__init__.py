@@ -7,7 +7,11 @@ try:
 except ImportError:
     pass
 
-mongoengine.connect('social_test' if 'test' in sys.argv else 'social')
+
+mongoengine.connect(MONGO_DATABASE +
+                    ('_test' if 'test' in sys.argv else ''),
+                    host=MONGO_HOST
+    )
 
 import djcelery
 djcelery.setup_loader()

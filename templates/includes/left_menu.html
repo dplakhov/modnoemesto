@@ -1,37 +1,38 @@
+{% load i18n %}
 <div class="left-menu">
     <div class="submenu" style="float:left">
-        <p>Messages</p>
+        <p>{% trans "Messages" %}</p>
         <ul>
             <li>
                 {% if user.unread_msg_count %}
                     <strong>
                     <a href="{% url user_messages:view_inbox %}">
-                        Inbox ({{ user.messages.unread|length }})
+                        {% trans "Inbox" %} ({{ user.messages.unread|length }})
                     </a>
                     </strong>
                 {% else %}
-                    <a href="{% url user_messages:view_inbox %}">Inbox</a>
+                    <a href="{% url user_messages:view_inbox %}">{% trans "Inbox" %}</a>
                 {% endif %}
             </li>
-            <li><a href="{% url user_messages:view_sent %}">Sent</a></li>
+            <li><a href="{% url user_messages:view_sent %}">{% trans "Sent" %}</a></li>
         </ul>
     </div>
     <div class="submenu" style="float:right">
-        <p>Friendship offers</p>
+        <p>{% trans "Friendship offers" %}</p>
         <ul>
             <li>
                 {% if user.fs_offers_inbox_count %}
                     <strong>
                     <a href="{% url social:view_fs_offers_inbox %}">
-                        Inbox ({{ user.fs_offers_inbox_count }})
+                        {% trans "Inbox" %} ({{ user.fs_offers_inbox_count }})
                     </a>
                     </strong>
                 {% else %}
-                    <a href="{% url social:view_fs_offers_inbox %}">Inbox</a>
+                    <a href="{% url social:view_fs_offers_inbox %}">{% trans "Inbox" %}</a>
                 {% endif %}
             </li>
             <li>
-                <a href="{% url social:view_fs_offers_sent %}">Sent</a>
+                <a href="{% url social:view_fs_offers_sent %}">{% trans "Sent" %}</a>
             </li>
         </ul>
     </div>

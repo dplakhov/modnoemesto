@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     (r'^billing/', include('apps.billing.urls', namespace='billing')),
     (r'^library/', include('apps.media_library.urls', namespace='media_library')),
     (r'^file/', include('apps.media.urls', namespace='media')),
+    (r'^groups/', include('apps.groups.urls', namespace='groups')),
 )
 
 if settings.DEBUG:
