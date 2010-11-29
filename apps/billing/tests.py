@@ -14,11 +14,14 @@ class BillingTest(unittest.TestCase):
         self.c = Client()
         self.user = User.create_user(username='test', password='123')
         self.c.login(username='test', password='123')
+        self.order = UserOrder(user=self.user)
+        self.order.save()
 
     def tearDown(self):
         self.cleanUp()
 
     def cleanUp(self):
+        UserOrder.objects.all().delete()
         User.objects.delete()
 
     def test_pay_operator(self):
@@ -27,13 +30,12 @@ class BillingTest(unittest.TestCase):
         response = self.c.get(base_url)
         self.assertEqual(response.status_code, 200)
 
-        order = UserOrder(user=self.user)
-        order.save()
+
 
         auth_dict = {
             'duser': settings.PKSPB_DUSER,
             'dpass': settings.PKSPB_DPASS,
-            'cid': order.id,
+            'cid': self.order.id,
             'sid': '1',
         }
 
@@ -68,3 +70,6 @@ class BillingTest(unittest.TestCase):
         })
         response = self.c.get(base_url, data=data)
         self.assertEqual(response.content, 'status=%i&summa=%s' % (TRANS_STATUS.SUCCESSFUL, SUM))
+
+        self.order = UserOrder.objects.get(id=self.order.id)
+        self.assertEqual(self.order.is_payed, True)

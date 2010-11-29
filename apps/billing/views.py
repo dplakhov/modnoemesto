@@ -108,6 +108,10 @@ def operator(request):
         except (ValueError, TypeError):
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         if (order.term, order.trans, order.amount) == params:
+            order.is_payed = True
+            order.save()
+            request.user.cash += order.amount
+            request.user.save()
             return HttpResponse('status=%i&summa=%.2f' % (TRANS_STATUS.SUCCESSFUL, order.amount))
         return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
 
@@ -130,13 +134,7 @@ def operator(request):
             #@TODO: need log
             return HttpResponse('status=%i' % TRANS_STATUS.INTERNAL_SERVER_ERROR)
 
-    #print "="*80
-    #print "GET  = %s" % repr(request.GET)
-    #print "POST = %s" % repr(request.POST)
-    #print "="*80
     response = main(request)
-    #print response.content
-    #print "="*80
     return response
 
 
