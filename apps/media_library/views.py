@@ -32,7 +32,7 @@ def image_index(request):
     else:
         form = None
 
-    paginator = Paginator(library.files, 2)
+    paginator = Paginator(library.files, settings.LIBRARY_IMAGES_PER_PAGE)
 
     try:
         page = int(request.GET.get('page', '1'))
