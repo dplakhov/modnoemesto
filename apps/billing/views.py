@@ -171,7 +171,6 @@ def operator(request):
     response = main(request)
     logger.debug(response.content)
     logger.debug("="*80)
-    response = main(request)
     return response
 
 
