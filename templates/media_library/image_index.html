@@ -8,6 +8,9 @@
 <div id="content-main">
 {% for file in objects.object_list  %}
     <img src="{% media_url file library_image_thumbnail.png %}" alt="" />
+    {% if can_manage %}
+        <a href="{% url media_library:image_delete id=file.id %}">{% trans "Delete" %}</a>
+    {% endif %}
 {% endfor %}
 </div>
 

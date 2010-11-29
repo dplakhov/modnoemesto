@@ -20,6 +20,7 @@ from .forms import ImageAddForm
 
 from .constants import *
 from django.contrib.auth.decorators import login_required, user_passes_test
+from mongoengine.django.shortcuts import get_document_or_404
 
 def get_library(type):
     assert type in (LIBRARY_TYPE_IMAGE, LIBRARY_TYPE_AUDIO, LIBRARY_TYPE_VIDEO, )
@@ -94,6 +95,16 @@ def image_add(request):
             messages.add_message(request, messages.SUCCESS, _('Image successfully added'))
 
     return redirect('media_library:image_index')
+
+
+@user_passes_test(can_manage_library)
+def image_delete(request, id):
+    library = get_library(LIBRARY_TYPE_IMAGE)
+    image = get_document_or_404(File, id=id)
+    library.remove_file(image)
+    messages.add_message(request, messages.SUCCESS, _('Image successfully removed'))
+    return redirect('media_library:image_index')
+
 
 def audio_index(request):
     return HttpResponse()
