@@ -13,14 +13,12 @@ def file_view(request, file_id, transformation_name):
     try:
         modification = file.modifications[transformation_name]
     except File.DerivativeNotFound:
-        if re.match('\.', transformation_name):
+        if transformation_name.find('.') != -1:
             return redirect('/media/notfound/%s' % transformation_name)
-
         raise Http404()
 
     response = HttpResponse(modification.file.read(),
                             content_type=modification.file.content_type)
     response['Last-Modified'] = modification.file.upload_date
     return response
-
 
