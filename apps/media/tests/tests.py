@@ -54,8 +54,6 @@ class FileTest(TestCase):
 
 class FileViewTest(TestCase):
     def test_view_derivative(self):
-        print reverse('media:file_view', kwargs={'transformation_name':
-                                                 u'thumb', 'file_id': u'4ced41403633844b9e000003'})
         TRANSFORMATION_NAME = 'thumbnail'
         file = create_file()
         (derivative, ) = file.apply_transformations(ImageResize(name=TRANSFORMATION_NAME,
@@ -92,15 +90,12 @@ class FileTransformationTest(TestCase):
         self.failUnless(isinstance(derivative, File))
         self.failUnless(derivative.file.read())
 
-        self.failUnless(file.derivatives)
-
         self.failUnlessEqual(derivative.file.read(),
                              file.get_derivative(TRANSFORMATION_NAME).file.read())
 
         self.failUnlessEqual(derivative.file.content_type, 'image/png')
 
         derivative = file.get_derivative(TRANSFORMATION_NAME)
-
 
         self.failUnlessEqual(TRANSFORMATION_NAME, derivative.transformation)
 
