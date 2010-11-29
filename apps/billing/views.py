@@ -130,7 +130,10 @@ def operator(request):
             order = UserOrder.objects.get(user=user, trans=trans)
         except UserOrder.DoesNotExist:
             logger.debug('8')
-            return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
+            #@TODO: skip first steps
+            order = UserOrder(user=user)
+            order.term, order.trans, order.amount = params
+            #return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         if (order.term, order.amount) == (term, amount):
             order.is_payed = True
             order.save()
