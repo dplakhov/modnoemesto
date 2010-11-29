@@ -6,6 +6,7 @@ from django.views.generic.simple import direct_to_template
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from django.conf import settings
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
 
 from apps.media.documents import File, FileSet
 
@@ -30,9 +31,22 @@ def image_index(request):
         form = ImageAddForm()
     else:
         form = None
+
+    paginator = Paginator(library.files, 2)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    try:
+        objects = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        objects = paginator.page(paginator.num_pages)
+
     return direct_to_template(request, 'media_library/image_index.html',
                               dict(
-                                      files=library.files,
+                                      objects=objects,
                                       form=form,
                                    )
                               )
