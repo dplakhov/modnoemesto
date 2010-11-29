@@ -13,6 +13,7 @@ from apps.billing.models import UserOrder
 from apps.cam.documents import Camera
 from django.conf import settings
 from apps.billing.constans import TRANS_STATUS
+from apps.social.documents import User
 
 
 @login_required
@@ -57,11 +58,9 @@ def tariff_delete(request, id):
 
 @login_required
 def purse(request):
-    order = UserOrder(user=request.user)
-    order.save()
     return direct_to_template(request, 'billing/pay.html', {
         'service': settings.PKSPB_ID,
-        'account': order.id,
+        'account': request.user.id,
     })
 
 
@@ -77,12 +76,12 @@ def operator(request):
         if not cid or not cid.isdigit():
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         try:
-            order = UserOrder.objects.get(id=cid)
-        except UserOrder.DoesNotExist:
+            user = User.objects.get(id=cid)
+        except User.DoesNotExist:
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_CID)
-        return order
+        return user
 
-    def action_get_info(request, order):
+    def action_get_info(request, user):
         return HttpResponse('status=%i' % TRANS_STATUS.SUCCESSFUL)
 
     def get_pay_params(request):
@@ -93,32 +92,38 @@ def operator(request):
             return term, trans, amount
         raise ValueError
 
-    def action_prepayment(request, order):
+    def action_prepayment(request, user):
         try:
             params = get_pay_params(request)
         except (ValueError, TypeError):
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
+        order = UserOrder(user=user)
         order.term, order.trans, order.amount = params
         order.save()
         return HttpResponse('status=%i&summa=%.2f' % (TRANS_STATUS.SUCCESSFUL, order.amount))
 
-    def action_payment(request, order):
+    def action_payment(request, user):
         try:
             params = get_pay_params(request)
         except (ValueError, TypeError):
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
-        if (order.term, order.trans, order.amount) == params:
+        term, trans, amount = params
+        try:
+            order = UserOrder.objects.get(user=user, trans=trans)
+        except UserOrder.DoesNotExist:
+            return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
+        if (order.term, order.amount) == (term, amount):
             order.is_payed = True
             order.save()
-            request.user.cash += order.amount
-            request.user.save()
+            user.cash += order.amount
+            user.save()
             return HttpResponse('status=%i&summa=%.2f' % (TRANS_STATUS.SUCCESSFUL, order.amount))
         return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
 
     def main(request):
         try:
             result = before(request)
-            if type(result) != UserOrder:
+            if type(result) == HttpResponse:
                 return result
             if 'uact' not in request.GET:
                 return HttpResponseNotFound()
