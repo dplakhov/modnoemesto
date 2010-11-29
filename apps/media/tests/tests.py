@@ -1,30 +1,18 @@
 # -*- coding: utf-8 -*-
 
-import os
 from django.core.urlresolvers import reverse
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
 
 from django.test import TestCase
 import mongoengine
+
+from apps.utils.stringio import StringIO
 
 from ..documents import *
 from ..transformations import FileTransformation, BatchFileTransformation
 from ..transformations.image import ImageResize
 
-def file_path(file_name):
-    return os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                        'files', file_name))
-
-def create_file():
-    file = File(type='image')
-    file.file.put(open(file_path('logo-mongodb.png')),
-        content_type='image/png')
-    file.save()
-    return file
+from .common import file_path, create_file
 
 class TextTransformation(FileTransformation):
     def _apply(self, source, destination):
@@ -249,4 +237,4 @@ class FileSetTest(TestCase):
 
         file_set.reload()
         self.failUnlessEqual(1, len(file_set.files))
-        
+
