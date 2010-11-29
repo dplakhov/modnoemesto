@@ -194,6 +194,6 @@ AVATAR_SIZES = (
 
 MAX_USER_MESSAGES_COUNT = 500
 
-PKSPB_DUSER = 'test'
-PKSPB_DPASS = 'test'
+PKSPB_DUSER = 'trend_test'
+PKSPB_DPASS = 'trend_test'
 PKSPB_ID = '291'
