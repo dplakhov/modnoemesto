@@ -113,6 +113,10 @@ def operator(request):
         except (ValueError, TypeError):
             logger.debug('5')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
+        term, trans, amount = params
+        trans_count = UserOrder.objects.filter(trans=trans).count()
+        if trans_count > 0:
+            return HttpResponse('status=%i' % TRANS_STATUS.ALREADY)
         order = UserOrder(user=user)
         order.term, order.trans, order.amount = params
         order.save()
@@ -126,6 +130,9 @@ def operator(request):
             logger.debug('7')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         term, trans, amount = params
+        trans_count = UserOrder.objects.filter(trans=trans).count()
+        if trans_count > 0:
+            return HttpResponse('status=%i' % TRANS_STATUS.ALREADY)
         try:
             order = UserOrder.objects.get(user=user, trans=trans)
         except UserOrder.DoesNotExist:
@@ -134,7 +141,7 @@ def operator(request):
             order = UserOrder(user=user)
             order.term, order.trans, order.amount = params
             #return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
-        if (order.term, order.amount) == (term, amount):
+        if (int(order.term), float(order.amount)) == (term, amount):
             order.is_payed = True
             order.save()
             user.cash += order.amount
