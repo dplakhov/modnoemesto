@@ -975,5 +975,13 @@ h2.caption {
 {
     color: #027A98;
 }
-
-
+.have_message, .have_friendship_offers
+{
+	color: #838383;
+	padding-bottom: 7px;
+}
+.have_message a, .have_friendship_offers a
+{
+	color: #027A98;
+	font-size: 14px;
+}
