@@ -105,22 +105,32 @@ div#serch
 #menu .left_corner, #menuReg .left_corner
 {
 	width: 5px;
-	background:url(../images/left_corner.jpg) no-repeat;
+	background:url(../images/left_corner2.png) no-repeat;
 	height: 28px;
 	border-bottom: #d9d8bf solid 2px;
+}
+#menu .left_corner.menu_curent, #menuReg .left_corner.menu_curent
+{
+    background: url(../images/left_corner_curent.png) no-repeat;
+    border-bottom: none;
+    width: 3px;
 }
 #menu .right_corner, #menuReg .right_corner
 {
 	width: 5px;
-	background:url(../images/right_corner.jpg) no-repeat;
+	background:url(../images/right_corner.png) no-repeat;
 	height: 28px;
 	border-bottom: #d9d8bf solid 2px;
 }
-
+#menu .right_corner.menu_curent, #menuReg .right_corner.menu_curent
+{
+    background: url(../images/right_corner_curent.png) no-repeat;
+    border-bottom: none;
+}
 #menu .menu_but, #menuReg .menu_but
 {
 	height: 28px;
-	background:url(../images/menu_center_bg.jpg) repeat-x;
+	background:url(../images/menu_bg2.png) repeat-x;
 
 }
 #menu .menu_but a, #menuReg .menu_but a
