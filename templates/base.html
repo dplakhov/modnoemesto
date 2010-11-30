@@ -2,6 +2,14 @@
 {% load menu_tags %}
 {% load i18n %}
 {% load pytils_numeral %}
+    {% block js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#filter_right').selectbox();
+                                   });
+    </script>
+    {% endblock %}
 
 {% block base_content %}
 {% if user.is_authenticated %}
@@ -88,10 +96,9 @@
     <p class="fi">Найдено</p>
     <a id="quont" href="#">4567</a>
 
-    <div id="form">
+    <div id="form" class="rounded">
         <form action="" method="">
-            <select id="filter" size="1" name="ff">
-
+            <select id="filter_right" size="1" name="ff">
                 <option value="df">по популярности</option>
                 <option value="dm">по популярности</option>
                 <option value="dp">по популярности</option>
