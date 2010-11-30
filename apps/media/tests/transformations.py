@@ -81,6 +81,8 @@ class FileTransformationTest(TestCase):
         file.reload()
         self.failUnlessEqual('4', file.file.read())
 
+
+class SystemCommandFileTransformationTest(TestCase):
     def test_system_command_transformations(self):
         class TestSystemCommandFileTransformation(SystemCommandFileTransformation):
             FILE_TYPE = 'text'
@@ -99,6 +101,15 @@ class FileTransformationTest(TestCase):
         transformation.apply(file)
         derivative = file.get_derivative('test_trans')
         self.failUnlessEqual('1', derivative.file.read())
+
+    def test_unknown_command_raises_exc_(self):
+        class TestSystemCommandFileTransformation(SystemCommandFileTransformation):
+            FILE_TYPE = 'text'
+            SYSTEM_COMMAND = 'bzzzzzzzZ %(source)s %(destination)s'
+        self.failUnlessRaises(SystemCommandFileTransformation.CommandNotFound,
+                              TestSystemCommandFileTransformation, 'name')    
+
+
 
 
 class BatchFileTransformationTest(TestCase):

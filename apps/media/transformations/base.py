@@ -4,6 +4,8 @@ import tempfile
 import shlex
 import subprocess
 
+from apps.utils import which
+
 from ..documents import File
 
 class FileTransformation(object):
@@ -48,6 +50,19 @@ class BatchFileTransformation(FileTransformation):
 
 class SystemCommandFileTransformation(FileTransformation):
     SYSTEM_COMMAND = None
+
+    class CommandNotFound(Exception):
+        pass
+
+    def __init__(self, name, *args, **kwargs):
+        try:
+            command = shlex.split(self.SYSTEM_COMMAND)[0]
+            which.which(command)
+        except which.WhichError, e:
+            raise self.CommandNotFound(str(e))
+
+        super(SystemCommandFileTransformation, self).__init__(name, *args, **kwargs)
+
     def _apply(self, source, destination):
         source_tmp_file = self._write_source(source)
         destination_tmp_file = self._create_destination()
