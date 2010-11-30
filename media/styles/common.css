@@ -897,3 +897,40 @@ div.all a
     border-top: #a8a8a8 solid 1px;
 }
 .scroll-pane{width:510px;height:150px;overflow:auto}
+
+
+/* Made by Marina
+-------------------------------*/
+.messages li
+{
+	color: #00B2D5;
+	padding-bottom: 7px;
+}
+.errorlist li
+{
+	padding-bottom: 7px;
+	color: #FFF;
+	font-size: 14px;
+}
+.no_camera
+{
+	overflow: hidden;
+}
+.no_camera img
+{
+	float: left;
+	display: inline;
+	padding-right: 10px;
+}
+.no_camera p
+{
+	color: #838383;
+	margin-top: 105px;
+	padding-bottom: 10px;
+}
+.no_camera a
+{
+	color: #027A98;
+}
+
+

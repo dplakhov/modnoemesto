@@ -98,9 +98,13 @@
         {% if camera %}
         {% include "includes/camera.html" %}
         {% else %}
+        <div class="no_camera">
         <img src="/media/img/notfound/cam.png" alt=""/>
+        <p>
         {% trans "You have no registered camera." %}
+        </p>
         <a href="{% url cam:cam_add %}">{% trans "Wanna do it right now?" %}</a>
+        </div>
         {% endif %}
     </div>
 
