@@ -13,7 +13,8 @@ from apps.media.documents import File, FileSet
 from apps.utils.image import read_image_file
 from apps.utils.stringio import StringIO
 
-from apps.media.transformations import BatchFileTransformation, ImageResize
+from apps.media.transformations import BatchFileTransformation
+from apps.media.transformations.image import ImageResize
 from apps.media.tasks import apply_file_transformations
 
 from .forms import ImageAddForm
@@ -71,9 +72,11 @@ def image_add(request):
         try:
             read_image_file(buffer)
         except Exception, e:
-            messages.add_message(request, messages.ERROR, _('Invalid image file format'))
+            messages.add_message(request, messages.ERROR,
+                                 _('Invalid image file format'))
         else:
-            image = File(type=FILE_TYPE_IMAGE, author=request.user)
+            image = File(type=FILE_TYPE_IMAGE, author=request.user,
+                         title=form.title, description=form.description)
             buffer.reset()
             image.file.put(buffer, content_type=file.content_type)
             image.save()
