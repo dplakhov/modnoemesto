@@ -76,7 +76,9 @@ def image_add(request):
                                  _('Invalid image file format'))
         else:
             image = File(type=FILE_TYPE_IMAGE, author=request.user,
-                         title=form.title, description=form.description)
+                         title=form.cleaned_data['title'],
+                         description=form.cleaned_data['description'])
+
             buffer.reset()
             image.file.put(buffer, content_type=file.content_type)
             image.save()
