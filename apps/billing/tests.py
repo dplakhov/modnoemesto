@@ -27,8 +27,6 @@ class BillingTest(unittest.TestCase):
         response = self.c.get(base_url)
         self.assertEqual(response.status_code, 200)
 
-
-
         auth_dict = {
             'duser': settings.PKSPB_DUSER,
             'dpass': settings.PKSPB_DPASS,
@@ -45,28 +43,17 @@ class BillingTest(unittest.TestCase):
 
         TERM = '1'
         TRANS = '1'
-        SUM = '1.00'
-
-        auth_dict = auth_dict.copy()
-        auth_dict.update({
-            'term': TERM,
-            'trans': TRANS,
-            'sum': SUM,
-        })
-
-        data = auth_dict.copy()
-        data.update({
-            'uact': 'prepayment',
-        })
-        response = self.c.get(base_url, data=data)
-        self.assertEqual(response.content, 'status=%i&summa=%s' % (TRANS_STATUS.SUCCESSFUL, SUM))
+        SUM = '10.00'
 
         data = auth_dict.copy()
         data.update({
             'uact': 'payment',
+            'term': TERM,
+            'trans': TRANS,
+            'sum': SUM,
         })
         response = self.c.get(base_url, data=data)
         self.assertEqual(response.content, 'status=%i&summa=%s' % (TRANS_STATUS.SUCCESSFUL, SUM))
 
-        self.order = UserOrder.objects.get(user=self.user, trans=TRANS)
-        self.assertEqual(self.order.is_payed, True)
+        count = UserOrder.objects.filter(user=self.user, trans=TRANS).count()
+        self.assertEqual(count, 1)
