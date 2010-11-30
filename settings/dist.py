@@ -195,8 +195,7 @@ AVATAR_SIZES = (
 
 MAX_USER_MESSAGES_COUNT = 500
 
-PKSPB_DUSER = 'trend_test'
-PKSPB_DPASS = 'trend_test'
-PKSPB_ID = '291'
-
 LIBRARY_IMAGES_PER_PAGE = 2
+
+# settings include billing
+from billing import *
