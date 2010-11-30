@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import Image
+import tempfile
+import shlex
+import subprocess
 
-
-from ImageFile import Parser as ImageFileParser
 from ..documents import File
-
-from apps.utils.stringio import StringIO
 
 class FileTransformation(object):
     def __init__(self, name, *args, **kwargs):
@@ -46,3 +44,38 @@ class BatchFileTransformation(FileTransformation):
             if not i:
                 source = destination
 
+
+
+class SystemCommandFileTransformation(FileTransformation):
+    SYSTEM_COMMAND = None
+    def _apply(self, source, destination):
+        source_tmp_file = self._write_source(source)
+        destination_tmp_file = self._create_destination()
+        try:
+            self._run_system_command(source, destination, source_tmp_file, destination_tmp_file)
+        except:
+            raise
+
+        self._write_destination(destination, destination_tmp_file)
+        return destination
+
+    def _write_source(self, source):
+        file = tempfile.NamedTemporaryFile()
+        file.file.write(source.file.read())
+        file.file.seek(0)
+        return file
+
+    def _create_destination(self):
+        file = tempfile.NamedTemporaryFile()
+        return file
+
+    def _run_system_command(self, source, destination, source_tmp_file, destination_tmp_file):
+        command = self.SYSTEM_COMMAND % dict(source=source_tmp_file.name,
+                                             destination=destination_tmp_file.name)
+        process = subprocess.Popen(shlex.split(command))
+        process.wait()
+
+    def _write_destination(self, destination, destination_tmp_file):
+        destination_tmp_file.file.seek(0)
+        destination.file.put(destination_tmp_file.file.read(), content_type = 'image/png')
+        destination.save()

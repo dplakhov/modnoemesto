@@ -4,7 +4,7 @@ from django.test import TestCase
 from apps.utils.stringio import StringIO
 
 from ..documents import *
-from ..transformations import BatchFileTransformation
+from ..transformations import BatchFileTransformation, SystemCommandFileTransformation
 from ..transformations.image import ImageResize
 
 from .common import file_path, create_file, TextTransformation
@@ -80,6 +80,26 @@ class FileTransformationTest(TestCase):
         transformation.apply(file, file)
         file.reload()
         self.failUnlessEqual('4', file.file.read())
+
+    def test_system_command_transformations(self):
+        class TestSystemCommandFileTransformation(SystemCommandFileTransformation):
+            FILE_TYPE = 'text'
+            SYSTEM_COMMAND = 'cp %(source)s %(destination)s'
+
+
+        file = File(type='text')
+        buffer = StringIO()
+        buffer.write('1')
+        buffer.reset()
+        file.file.put(buffer, content_type='text/plain')
+        file.save()
+        file.reload()
+
+        transformation = TestSystemCommandFileTransformation('test_trans')
+        transformation.apply(file)
+        derivative = file.get_derivative('test_trans')
+        self.failUnlessEqual('1', derivative.file.read())
+
 
 class BatchFileTransformationTest(TestCase):
     def test_batch_transformation_with_single_transformation(self):
