@@ -70,15 +70,17 @@ def operator(request):
     #@TODO: fix KeyError
     from apps.groups.documents import Group
 
-    import logging
-    LOG_FILENAME = '/tmp/modnoemesto_debug.log'
-    logger = logging.getLogger("simple_example")
-    logger.setLevel(logging.DEBUG)
-    ch = logging.FileHandler(LOG_FILENAME)
-    ch.setLevel(logging.DEBUG)
-    formatter = logging.Formatter("%(asctime)s:%(message)s")
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
+    class Logger:
+        def __init__(self):
+            self.text = []
+
+        def debug(self, text):
+            self.text.append(text)
+
+        def get_text(self):
+            return '\n'.join(self.text)
+
+    logger = Logger()
 
 
     def before(request):
@@ -114,11 +116,12 @@ def operator(request):
         try:
             params = get_pay_params(request)
         except (ValueError, TypeError):
-            logger.debug('7')
+            logger.debug('5')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         term, trans, amount = params
         trans_count = UserOrder.objects.filter(trans=trans).count()
         if trans_count > 0:
+            logger.debug('6')
             return HttpResponse('status=%i' % TRANS_STATUS.ALREADY)
         order = UserOrder(
             user=user,
@@ -130,7 +133,7 @@ def operator(request):
         order.save()
         user.cash += order.amount
         user.save()
-        logger.debug('9')
+        logger.debug('7')
         return HttpResponse('status=%i&summa=%.2f' % (TRANS_STATUS.SUCCESSFUL, order.amount))
 
     def main(request):
@@ -139,18 +142,18 @@ def operator(request):
             if type(result) == HttpResponse:
                 return result
             if 'uact' not in request.GET:
-                return HttpResponseNotFound()
+                logger.debug('8')
+                return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
             uactf = {
                 'get_info': action_get_info,
                 'payment': action_payment,
             }.get(request.GET['uact'])
             if uactf:
                 return uactf(request, result)
-            logger.debug('11')
+            logger.debug('9')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_UACT)
         except:
-            #@TODO: need log
-            logger.debug('12')
+            logger.debug('10')
             import sys, traceback
             logger.debug(traceback.format_exc())
             return HttpResponse('status=%i' % TRANS_STATUS.INTERNAL_SERVER_ERROR)
@@ -162,6 +165,21 @@ def operator(request):
     response = main(request)
     logger.debug(response.content)
     logger.debug("="*80)
+    log_text = logger.get_text()
+
+    import logging
+    LOG_FILENAME = '/tmp/modnoemesto_debug.log'
+    logger = logging.getLogger("simple_example")
+    logger.setLevel(logging.DEBUG)
+    ch = logging.FileHandler(LOG_FILENAME)
+    ch.setLevel(logging.DEBUG)
+    formatter = logging.Formatter("%(asctime)s:%(message)s")
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
+    logger.debug("\n%s" % log_text)
+    logger.removeHandler(ch)
+    ch.close()
+
     return response
 
 
