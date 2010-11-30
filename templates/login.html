@@ -10,19 +10,11 @@
 <p class="errornote">{{ form.non_field_errors }}</p>
 {% endif %}
 <form action="{{ app_path }}" method="POST">
-  <p>
-    <label for="id_username">{% trans 'Username:' %}</label>
-    {% for i in form.username.errors %} {{ i }} {% endfor %}
-    <br/>
-    <input type="text" lang="en" name="username" id="id_username" />
-  </p>
-  <p>
-    <label for="id_password">{% trans 'Password:' %}</label>
-    {% for i in form.password.errors %} {{ i }} {% endfor %}
-    <br/>
-    <input type="password" name="password" id="id_password" />
-    <input type="hidden" name="this_is_the_login_form" value="1" />
-  </p>
+    {% for field in form %}
+        {{ field.errors }}
+        <p>{{ field.label }}<br/>
+            {{ field }}</p>
+    {% endfor %}
     <input type="submit" class="sub" value="Войти"/>
 </form>
 
