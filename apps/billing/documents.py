@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from mongoengine import Document, StringField, ReferenceField, BooleanField, IntField, DateTimeField
+from mongoengine import *
 from datetime import datetime, timedelta
 from apps.billing.constans import ACCESS_CAM_ORDER_STATUS
 
@@ -8,7 +8,7 @@ from apps.billing.constans import ACCESS_CAM_ORDER_STATUS
 class Tariff(Document):
     name = StringField(required=True, unique=True, max_length=255)
     description = StringField()
-    cost = IntField(required=True)
+    cost = FloatField(required=True)
     duration = IntField(required=True)
     is_controlled = BooleanField(default=False)
 

@@ -6,12 +6,7 @@ import Image
 from ImageFile import Parser as ImageFileParser
 from ..documents import File
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
-
-
+from apps.utils.stringio import StringIO
 
 class FileTransformation(object):
     def __init__(self, name, *args, **kwargs):

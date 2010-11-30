@@ -90,7 +90,6 @@ div#serch
     left: 700px !important;
     left: 690px;
 }
-    
 @media screen and (-webkit-min-device-pixel-ratio:0) {#menu{top: -48px;}  #menuReg{top: -48px;}}
 /*body:nth-of-type(1) #menu{top: -48px;} */
 #menu table td, #menuReg table td
@@ -196,7 +195,6 @@ li#money div.q
     padding: 5px 0px 5px 34px;
     background:url(../images/money.jpg) no-repeat left center;
     color: #027a98;
-    
 }
 li#money p
 {
@@ -304,7 +302,6 @@ p.create
     color: #8e8e8d;
     float: left;
     display: inline;
-    
 }
 a#name_creater
 {
@@ -485,7 +482,6 @@ h2.ent
     color: #a1a095;
     font-size: 18px;
 }
-    
 input.subEnter
 {
     background:url(../images/enter.jpg) no-repeat;
@@ -524,13 +520,11 @@ div.reg a, div.enter a
 input, textarea
 {
     /*border: #cccccc solid 1px;*/
-    
 }
 #name, #e-mail, #surname, #pass
 {
     width: 218px;
     padding: 2px;
-    
 }
 
 p.but
@@ -567,7 +561,7 @@ input.subReg
 /* For Filer
 ----------------------------------*/
 #filterColumn
-{ 
+{
     overflow: hidden;
     margin-left: 215px;
     width: 755px;
@@ -664,7 +658,7 @@ td.empty_filt
     width: 185px;
     /*padding: 12px;*/
 }
-#filt_pop ul li .pop 
+#filt_pop ul li .pop
 {
     padding: 7px;
     background: #5ac6d8;
@@ -689,7 +683,6 @@ td.empty_filt
     color: #08869d;
     font-size: 14px;
     padding: 5px 2px 2px 2px;
-    
 }
 #filt_pop p.quantity, #filt_new p.quantity
 {
@@ -701,7 +694,6 @@ td.empty_filt
 }
 #filterColumn p.all
 {
-    
     float: right;
     width: 150px;
     text-align: right;
@@ -733,7 +725,6 @@ p.fi
     color: #8e8e8d;
     float: left;
     display: inline;
-    
 }
 a#quont
 {
@@ -793,7 +784,6 @@ div#fp
     color: #08869d;
     font-size: 14px;
     padding: 2px;
-    
 }
 #fp div.news p.quantity
 {
@@ -898,6 +888,59 @@ div.all a
 }
 .scroll-pane{width:510px;height:150px;overflow:auto}
 
+.defTable {
+    border: 1px solid #DDDDDD;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.defTable table, td, th {
+    color: #585858;
+    font-size: inherit;
+}
+
+.defTable tbody td {
+    border: 1px solid #DDDDDD;
+    border-collapse: collapse;
+    padding: 4px;
+}
+
+.defTable input[type="text"] {
+    border: 1px solid #BDBDBD;
+    color: #5D5D5D;
+    font: 11px arial;
+    height: 19px;
+    padding: 2px 5px;
+    width: 97%;
+}
+
+.defTable input[type="submit"] {
+    background: url("../images/but.jpg") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    color: #FFFFFF;
+    cursor: pointer;
+    padding: 12px 8px 13px;
+    width: 84px;
+}
+
+h2.caption {
+    color: #2BACD5;
+    font-size: 18px;
+    padding: 10px 0 20px;
+}
+
+.instuction {
+    color: #08889F;
+    padding-left: 20px;
+}
+
+.instuction li span {
+    color: #585858;
+}
+
+.instuction li {
+    padding-bottom: 10px;
+}
 
 /* Made by Marina
 -------------------------------*/

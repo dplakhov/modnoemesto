@@ -220,10 +220,9 @@ def avatar(request, user_id, format):
     if not user.avatar:
         return redirect('/media/img/notfound/avatar_%s.png' % format)
 
-    image = user.avatar.get_derivative(format)
-    #image = FileDerivative.objects(transformation=format, source=user.avatar).first()
-
-    if not image:
+    try:
+        image = user.avatar.get_derivative(format)
+    except File.DerivativeNotFound:
         return redirect('/media/img/converting/avatar_%s.png' % format)
 
     response = HttpResponse(image.file.read(), content_type=image.file.content_type)

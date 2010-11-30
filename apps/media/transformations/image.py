@@ -5,11 +5,7 @@ import Image
 
 from ImageFile import Parser as ImageFileParser
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
-
+from apps.utils.stringio import StringIO
 
 class ImageResize(FileTransformation):
     FILE_TYPE = 'image'

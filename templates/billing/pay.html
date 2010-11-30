@@ -1,11 +1,136 @@
-{% extends 'base.html' %}
+{% extends 'base_mini.html' %}
 
-{% block content %}
-    <p>Стоимость одного мода {{ mod_cost }} руб.</p>
-    <p>Итого к оплате: {{ total_cost }} руб.</p>
-    <p>Оплатить {{ order.total }} модов?</p>
-    <form action="{{ form.target }}" method="POST" class="baseform">
-        <p>{{ form.as_p }}</p>
-        <p><input type="submit" name='SUBMIT' value="Оплатить"></p>
+{% load i18n %}
+
+{% block base_content %}
+<div id="content_about">
+    <h2>Как оплатить</h2>
+    <p>
+        Вы можете пополнить свой счет посредством собственных <b>банковских карт</b>.<br>
+
+        <span style="color: rgb(8, 136, 159);">К&nbsp;оплате принимаются карты, выпущенные любыми банками,
+        которые находятся на территории РФ. Совершить оплату можно с&nbsp;карт Visa / MasterCard,
+        за&nbsp;исключением Visa Electron и&nbsp;Maestro/Cirrus</span><a href="#"><span class="star">*</span></a>
+    </p>
+    <p>
+        <em>Прием платежей происходит без комиссии. Платеж поступит на&nbsp;ваш счет в&nbsp;течение
+        5&mdash;7&nbsp;минут с&nbsp;момента оплаты на странице Банка.<br>Минимальный платеж&nbsp;&mdash; 10&nbsp;рублей.</em>
+    </p>
+    <p>
+        Если Вы хотите оплатить интернет через платежную систему банка ПСКБ, заполните пожалуйста поля:
+    </p>
+    <p>
+
+    </p><form id="pay_form" method="post" action="https://pay.pskb.spb.ru/">
+        <input type="hidden" name="service" value="{{ service }}">
+
+        <table border="0" class="defTable">
+            <tbody>
+                <tr>
+                    <td colspan="2">Пополнить счет<br></td>
+                </tr>
+                <tr>
+                    <td width="30%">№ Договора</td>
+                    <td width="72%">
+                    <div><input type="text" name="account" value="{{ account }}" class="text" disabled="disabled"></div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Сумма оплаты</td>
+                    <td>
+                    <div>
+                        <input type="text" name="amount" maxlength="12" class="text"> (сумма вводится в рублях)
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td></td>
+                    <td><input type="submit" value="Оплатить" name="button" class="button"></td>
+                </tr>
+            </tbody>
+        </table>
     </form>
+
+    <p style="text-align: center;"><br><br>
+        <img alt="" src="/media/images/kred_card_02.gif"><br>
+        <img alt="" src="/media/images/kred_card_03.gif">
+    </p>
+
+
+
+
+</div>
+<div id="regColumn">
+        <h2 class="caption">Инструкция пополнения счета Банковской картой</h2>
+        <ol class="instuction">
+            <li>
+                <span>В окне слева Вы вводите Ваш номер договора (ID) и сумму платежа.</span>
+            </li>
+            <li>
+                <span>Нажимаете кнопку «Оплатить». При этом происходит загрузка страницы Банка для ввода данных
+                Вашей карты.</span>
+            </li>
+            <li>
+                <span>Вводите данные Вашей пластиковой карты, с которой будет производиться оплата, а именно:<br>
+                &ndash; Номер карты;<br>&ndash; Период действия;<br>&ndash; Код с оборотной стороны
+                Вашей карты<br>&ndash; Имя и Фамилия владельца карты (как написано на карте).</span>
+            </li>
+            <li>
+                <span>Нажимаете кнопку «Далее», после чего Вам для подтверждения платежа предлагается
+                ввести контрольное число, которое Вы увидите в открывшемся окне в последней строке.</span>
+            </li>
+            <li>
+                <span>При корректном вводе числа для подтверждения платеж сохраняется, ему присваивается
+                уникальный номер, Вам выводится аналог чека со всеми параметрами платежа, номером квитанции
+                и PIN-кодом, статусом «Создан».</span>
+            </li>
+            <li>
+                <span>По номеру квитанции и PIN-коду Вы можете в дальнейшем проверить статус платежа здесь:<br>
+                <form id="pay_form_check" method="post" action="https://pay.pskb.spb.ru/">
+                    <input type="hidden" value="91" name="service">
+
+                    <table border="0" class="defTable" style="width: 90%;">
+                    <tbody>
+                    <tr>
+                        <td colspan="2">Проверка осуществленного платежа:<br></td>
+                    </tr>
+                    <tr>
+                        <td width="17%">№ Квитанции</td>
+
+                        <td width="83%">
+                        <div><input type="text" name="id" class="text" style="width: 92%;"> </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>PIN</td>
+                        <td>
+                        <div><input type="text" name="pin" class="text" style="width: 92%;"> </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" value="Проверить" name="button" class="button"></td>
+                    </tr>
+                    </tbody>
+                    </table>
+                </form>
+
+                </span>
+            </li>
+            <li>
+                <span>После введения номера квитанции и PIN-кода платежа нажмите кнопку «Проверить»</span>
+            </li>
+            <li><span>Система производит проверку корректности переданных данных и выводит на экран аналог чека с текущим статусом платежа и его расшифровкой.</span>
+
+            </li>
+        </ol>
+        <p style="color: rgb(88, 88, 88);">
+            <span class="star"><a name="1"></a>*</span>&nbsp;В случае, если платеж не прошел, просьба обратиться в
+            техническую поддержку банка ПСКБ тел. (812)332-31-17,
+            <a href="mailto:support@pscb.ru">e-mail: support@pscb.ru</a>
+        </p>
+            </div>
 {% endblock %}

@@ -17,6 +17,9 @@ urlpatterns = patterns('',
     (r'^messages/', include('apps.user_messages.urls', namespace='user_messages')),
     (r'^notes/', include('apps.notes.urls', namespace='notes')),
     (r'^billing/', include('apps.billing.urls', namespace='billing')),
+    url(r'^pay/pskb/$', 'apps.billing.views.operator', name='operator'),
+    (r'^library/', include('apps.media_library.urls', namespace='media_library')),
+    (r'^file/', include('apps.media.urls', namespace='media')),
     (r'^groups/', include('apps.groups.urls', namespace='groups')),
 )
 

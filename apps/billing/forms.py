@@ -39,10 +39,3 @@ class AccessCamOrderForm(forms.Form):
             if self.total_cost > self.user.cash:
                 raise forms.ValidationError(_(u"Не хватает модов"))
         return duration
-
-
-class UserOrderForm(forms.ModelForm):
-    total = forms.IntegerField(min_value=1)
-    class Meta:
-        model = UserOrder
-        fields = ('total',)

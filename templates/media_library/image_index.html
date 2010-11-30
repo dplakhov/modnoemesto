@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load media %}
+{% block content %}
+
+<h1>{% trans "Images" %}</h1>
+
+<div id="content-main">
+{% for file in objects.object_list  %}
+    <img src="{% media_url file library_image_thumbnail.png %}" alt="" />
+    {% if can_manage %}
+        <a href="{% url media_library:image_delete id=file.id %}">{% trans "Delete" %}</a>
+    {% endif %}
+{% endfor %}
+</div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if objects.has_previous %}
+            <a href="?page={{ objects.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ objects.number }} of {{ objects.paginator.num_pages }}.
+        </span>
+
+        {% if objects.has_next %}
+            <a href="?page={{ objects.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+
+
+    {% if can_manage %}
+        <form action="{% url media_library:image_add %}" method="post" enctype="multipart/form-data">
+
+        <table>
+        {{ form.as_table }}
+        </table>
+        <input type="submit" value="{% trans "Add" %}"/>
+        </form>
+
+    {% endif %}
+    
+{% endblock %}
