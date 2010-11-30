@@ -45,7 +45,7 @@ class BillingTest(unittest.TestCase):
 
         TERM = '1'
         TRANS = '1'
-        SUM = '1.00'
+        SUM = '10.00'
 
         auth_dict = auth_dict.copy()
         auth_dict.update({
@@ -53,13 +53,6 @@ class BillingTest(unittest.TestCase):
             'trans': TRANS,
             'sum': SUM,
         })
-
-        data = auth_dict.copy()
-        data.update({
-            'uact': 'prepayment',
-        })
-        response = self.c.get(base_url, data=data)
-        self.assertEqual(response.content, 'status=%i&summa=%s' % (TRANS_STATUS.SUCCESSFUL, SUM))
 
         data = auth_dict.copy()
         data.update({
