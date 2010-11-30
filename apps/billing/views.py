@@ -125,7 +125,6 @@ def operator(request):
             return HttpResponse('status=%i' % TRANS_STATUS.ALREADY)
         order = UserOrder(
             user=user,
-            is_payed=True,
             term=term,
             trans=trans,
             amount=amount,
