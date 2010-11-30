@@ -86,6 +86,7 @@ class SystemCommandFileTransformationTest(TestCase):
     def test_system_command_transformations(self):
         class TestSystemCommandFileTransformation(SystemCommandFileTransformation):
             FILE_TYPE = 'text'
+            CONTENT_TYPE = 'text/plain'
             SYSTEM_COMMAND = 'cp %(source)s %(destination)s'
 
 
