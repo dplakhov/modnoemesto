@@ -50,7 +50,8 @@ class BatchFileTransformation(FileTransformation):
 
 class SystemCommandFileTransformation(FileTransformation):
     SYSTEM_COMMAND = None
-
+    CONTENT_TYPE =None
+    
     class CommandNotFound(Exception):
         pass
 
@@ -84,7 +85,8 @@ class SystemCommandFileTransformation(FileTransformation):
         file = tempfile.NamedTemporaryFile()
         return file
 
-    def _run_system_command(self, source, destination, source_tmp_file, destination_tmp_file):
+    def _run_system_command(self, source, destination, source_tmp_file,
+                            destination_tmp_file):
         command = self.SYSTEM_COMMAND % dict(source=source_tmp_file.name,
                                              destination=destination_tmp_file.name)
         process = subprocess.Popen(shlex.split(command))
@@ -92,5 +94,6 @@ class SystemCommandFileTransformation(FileTransformation):
 
     def _write_destination(self, destination, destination_tmp_file):
         destination_tmp_file.file.seek(0)
-        destination.file.put(destination_tmp_file.file.read(), content_type = 'image/png')
+        destination.file.put(destination_tmp_file.file.read(),
+                             content_type=self.CONTENT_TYPE)
         destination.save()
