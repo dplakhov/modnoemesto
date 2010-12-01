@@ -997,3 +997,45 @@ h2.caption {
 	color: #027A98;
 	font-size: 14px;
 }
+
+
+.input_holder {
+    background: none repeat scroll 0 0 #FFFFFF;
+    padding: 3px 4px;
+    width: 300px;
+}
+.input_holder input, .input_holder textarea {
+    color: #585858;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    padding-left: 2px;
+    width: 290px;
+}
+.input_holder input[type="radio"] {
+    width: auto;
+}
+.input_holder label {
+    color: #585858;
+}
+
+.filt input[type="submit"] {
+    background: url("../images/but_filter.jpg") no-repeat scroll 0 0 transparent;
+    color: #FFFFFF;
+    cursor: pointer;
+    overflow: visible;
+    padding: 2px 30px 4px;
+    width: 181px;
+}
+
+#filter_box h2 {
+    color: #5AC6D8;
+    font-size: 18px;
+    padding-bottom: 15px;
+}
+
+.group_add th {
+    color: #FFFFFF;
+    padding-top: 3px;
+    text-align: right;
+    vertical-align: top;
+}
