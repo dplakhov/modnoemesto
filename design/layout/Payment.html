@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Модное место</title>
+	<link href="content/common.css" type="text/css" rel="stylesheet"/>
+    <link href="content/jScrollPane.css" type="text/css" rel="stylesheet" />
+    <link href="content/drop_down.css" type="text/css" rel="stylesheet" />
+    
+    <script type="text/javascript" src="content/script/jquery.js"></script>
+    <script type="text/javascript" src="content/script/jquery.mousewheel.min.js"></script>
+	<script type="text/javascript" src="content/script/jScrollPane.js"></script>
+    <script type="text/javascript" src="content/script/jquery.corner.js"></script>
+    <script type="text/javascript">
+		$(document).ready(function(){
+			$('.rounded').corner();
+								   });
+	</script>
+    
+    
+    <script src="content/script/ie6fix.js" type="text/javascript"></script>
+    <script type="text/javascript">
+		DD_belatedPNG.fix('.transparent');
+	</script>
+    
+    <script src="content/script/drop_down.js" type="text/javascript"></script>
+    
+    <!--[if lte IE 8]>
+   <style type="text/css">
+    #menu .menu_but a, #menuReg  .menu_but a{
+        font-size: 13px;
+    }
+    #menu, #menuReg{
+        top: -30px;
+    }
+    .find{
+    	top: -3px;
+    }
+    .own_photo img
+{
+	border: 10px solid #eeedde;
+}
+  </style>
+  <![endif]-->
+  
+  <!--[if IE 8]>
+   <style type="text/css">
+   span#img input{
+        position:relative;
+        top:3px;
+        }
+  </style>
+  <![endif]-->
+    
+</head>
+
+<body>
+    <div id="container">
+    	<div id="subContainer">
+        	<div id="header">
+            	<a id="logo" href="#"><img src="content/images/logo_m.jpg" alt="Модное место" /></a>
+                <div id="serch">
+                    <form id="search-box" action="">
+                        <div>
+                            <input type="text" value="поиск" class="find transparent" />
+                            <span id="img"><input type="image" value="Найти" src="content/images/serch.jpg" /><span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+                            <div id="menu">
+                	<table cellspacing="0px" cellpadding="0px">
+                        <tr>
+                            <td class="left_corner"></td>
+                            <td class="menu_but"><a href="Designer.html">люди</a></td>
+                            <td class="right_corner"></td>
+                            <td class="empty"></td>
+                            <td class="left_corner menu_curent"></td>
+                            <td class="menu_but menu_curent"><a href="Coll_inside.html">модные места</a></td>
+                            <td class="right_corner menu_curent"></td>
+                            <td class="empty"></td>
+                            <td class="left_corner"></td>
+                            <td class="menu_but"><a href="#">аукцион</a></td>
+                            <td class="right_corner"></td>
+                            <td class="empty"></td>
+                            <td class="left_corner"></td>
+                            <td class="menu_but"><a class="curent" href="Contacts.html">приложения</a></td>
+                            <td class="right_corner"></td>
+                            <td class="empty"></td>
+                            <td class="left_corner"></td>
+                            <td class="menu_but"><a href="Blago.html">группы</a></td>
+                            <td class="right_corner"></td>
+                            <td class="empty"></td>
+                            <td class="left_corner"></td>
+                            <td class="menu_but"><a href="Guestbook.html">выход</a></td>
+                            <td class="right_corner"></td>
+                        </tr>
+                     </table>
+                </div>
+
+            <div id="mainContent" class="reg_bg" style="background:url(content/images/bg_reg.jpg) no-repeat">
+            	<div id="content_about">
+                	<h2>Как оплатить</h2>
+                    <p>
+                    	Вы можете пополнить свой счет посредством собственных <b>банковских карт</b>.<br />
+                    
+                    	<span style="color: #08889f;">К&nbsp;оплате принимаются карты, выпущенные любыми банками, 
+                        которые находятся на территории РФ. Совершить оплату можно с&nbsp;карт Visa / MasterCard, 
+                        за&nbsp;исключением Visa Electron и&nbsp;Maestro/Cirrus</span><a href="#1"><span class="star">*</span></a> 
+                    </p>
+                    <p>
+                        <em>Прием платежей происходит без комиссии. Платеж поступит на&nbsp;ваш счет в&nbsp;течение 
+                        5—7&nbsp;минут с&nbsp;момента оплаты на странице Банка.<br />Минимальный платеж&nbsp;— 10&nbsp;рублей.</em>
+                    </p>
+                    <p>
+                        Если Вы хотите оплатить интернет через платежную систему банка ПСКБ, заполните пожалуйста поля:
+                    </p>
+                    <p>
+
+                    <form action="https://pay.pskb.spb.ru/" method="post" id="pay_form">
+                        <input type="hidden" name="service" value="91">
+                        
+                        <table class="defTable" border="0">
+                            <tbody>
+                                <tr>
+                                    <td colspan="2">Пополнить счет<br /></td>
+                                </tr>
+                                <tr>
+                                    <td width="30%">№ Договора</td>
+                                    <td width="72%">
+                                    <div><input name="account" type="text" /> (например: 123456)</div>
+                                
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Сумма оплаты</td>
+                                    <td>
+                                    <div>
+                                        <input maxlength="12" name="amount" type="text" /> (сумма вводится в рублях)
+                                    </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                
+                                    <td></td>
+                                    <td><input name="button" type="submit" value="Оплатить" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    </p>
+                    <p style="text-align:center"><br /><br />
+                        <img src="content/images/kred_card_02.gif" alt="" /><br />
+                        <img src="content/images/kred_card_03.gif" alt="" />
+                    </p>
+
+
+
+
+                </div>
+                <div id="regColumn">
+                    	<h2 class="caption">Инструкция пополнения счета Банковской картой</h2>
+                        <ol class="instuction">
+                        	<li>
+                            	<span>В окне слева Вы вводите Ваш номер договора (ID) и сумму платежа.</span>
+                            </li>
+                            <li>
+                            	<span>Нажимаете кнопку «Оплатить». При этом происходит загрузка страницы Банка для ввода данных 
+                                Вашей карты.</span>
+                            </li>
+                            <li>
+                            	<span>Вводите данные Вашей пластиковой карты, с которой будет производиться оплата, а именно:<br />
+                                &ndash; Номер карты;<br />&ndash; Период действия;<br />&ndash; Код с оборотной стороны 
+                                Вашей карты<br />&ndash; Имя и Фамилия владельца карты (как написано на карте).</span>
+                            </li>
+                            <li>
+                            	<span>Нажимаете кнопку «Далее», после чего Вам для подтверждения платежа предлагается 
+                                ввести контрольное число, которое Вы увидите в открывшемся окне в последней строке.</span>
+                            </li>
+                            <li>
+                            	<span>При корректном вводе числа для подтверждения платеж сохраняется, ему присваивается 
+                                уникальный номер, Вам выводится аналог чека со всеми параметрами платежа, номером квитанции 
+                                и PIN-кодом, статусом «Создан».</span>
+                            </li>
+                            <li>
+                            	<span>По номеру квитанции и PIN-коду Вы можете в дальнейшем проверить статус платежа здесь:<br />
+                                <form action="https://pay.pskb.spb.ru/" method="post" id="pay_form_check">
+                                    <input type="hidden" name="service" value="91">
+                                    
+                                    <table class="defTable" border="0">
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="2">Проверка осуществленного платежа:<br /></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="17%">№ Квитанции</td>
+                                    
+                                        <td width="83%">
+                                        <div><input style="width:92%" name="id" type="text" /> </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>PIN</td>
+                                        <td>
+                                        <div><input style="width:92%" name="pin" type="text" /> </div>
+                                    
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><input name="button" type="submit" value="Проверить" /></td>
+                                    </tr>
+                                    </tbody>
+                                    </table>
+                                </form>
+
+                                </span>
+                            </li>
+                            <li>
+                            	<span>После введения номера квитанции и PIN-кода платежа нажмите кнопку «Проверить» </span>
+                            </li>
+                            <li>
+                            	<span> Система производит проверку корректности переданных данных и  выводит на экран 
+                                аналог чека с текущим статусом платежа и его расшифровкой. </span>
+                            </li>
+                        </ol>
+                        <p style="color:#585858;">
+                            <span class="star"><a name="1"></a>*</span>&nbsp;В случае, если платеж не прошел, просьба обратиться в
+                            техническую поддержку банка ПСКБ тел. (812)332-31-17, 
+                            <a href="mailto:support@pscb.ru">e-mail: support@pscb.ru</a>
+                        </p>
+
+							</div>
+                         </div>
+                </div>
+            </div>
+        </div>
+        <div id="fotter">
+            <div id="info">
+            	<ul>
+                <li style="padding-left:0"><a href="#">О сайте</a></li>
+                <li><a href="#">Техподдержка</a></li>
+                <li><a href="#">Вакансии</a></li>
+                <li><a href="#"> Блог</a></li>
+                <li><a href="#">Правила </a></li>
+                <li><a href="#">Реклама</a></li>
+                <li><a href="#">Разработчикам</a></li>
+                <li style="padding-right:0"><a href="#">Магазинам</a></li>
+                </ul>
+                <p style="width:200px">Модное место &copy; 2010</p>
+                <p id="design">Разработано в <a href="http://www.web-mark.ru/" target="_blank">Web-Mark</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
