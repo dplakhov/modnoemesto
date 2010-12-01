@@ -29,9 +29,11 @@ class CameraTypeForm(forms.Form):
 class CameraForm(forms.Form):
     name = forms.CharField(label=_('Name'))
     type = forms.ChoiceField(label=_('Camera type'), choices=())
+    stream_name = forms.CharField(label=_('Stream name'))
     host = forms.CharField(label=_('Host'))
     username = forms.CharField(label=_('Username'))
     password = forms.CharField(label=_('Password'))
+    managed = forms.BooleanField(label=_('Enabled'), required=False)
     enabled = forms.BooleanField(label=_('Enabled'), required=False)
     public = forms.BooleanField(label=_('Public'), required=False)
     paid = forms.BooleanField(label=_('Paid'), required=False)
