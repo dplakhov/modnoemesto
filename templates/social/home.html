@@ -71,14 +71,14 @@
     <div class="profileActions">
         <ul>{% url social:user_friends as friends %}
             <li><a href="{{ friends }}">{% trans "Friends" %}</a> <a href="{{ friends }}">(456)</a></li>
-            <li><a href="#">{% trans "Increase ranking" %}</a></li>
-            <li><a href="#">{% trans "Video with me" %}</a></li>
+            <li><a href="{% url in_dev %}">{% trans "Increase ranking" %}</a></li>
+            <li><a href="{% url in_dev %}">{% trans "Video with me" %}</a></li>
             <li><a href="{% url social:avatar_edit %}">{% trans "Edit photo" %}</a></li>
         </ul>
     </div>
     <div class="friend_box transparent">
         <div style="overflow: hidden;">
-            <p>Друзья онлайн</p><span><a href="#" class="change">все 78</a></span>
+            <p>Друзья онлайн</p><span><a href="{% url in_dev %}" class="change">все 78</a></span>
         </div>
         <ul class="friendTable">
 {% for user in user.mutual_friends|slice:":6" %}

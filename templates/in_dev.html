@@ -1,95 +1,16 @@
-{% extends 'base_mini.html' %}
-{% load menu_tags %}
-{% load i18n %}
-{% load pytils_numeral %}
-    {% block js %}
-    {{ block.super }}
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#filter_right').selectbox();
-                                   });
-    </script>
-    {% endblock %}
+{% extends "base_mini.html" %}
+
 
 {% block base_content %}
-{% if user.is_authenticated %}
-            {% if user.messages.unread|length %}
-            <p class="have_message">
-                {% with user.messages.unread|length as unread_messages_count %}
-                    У вас <a href="{% url user_messages:view_inbox %}">{% spaceless %}
-                        {{ unread_messages_count }}
-{{ unread_messages_count|choose_plural:"непрочитанное сообщение,непрочитанных сообщения,непрочитанных сообщений" }}
-                    {% endspaceless %}</a>
-                {% endwith %}
-            </p>
-            {% endif %}
-            {% if user.fs_offers_inbox_count %}
-            <p class="have_friendship_offers">
-                {% with user.fs_offers_inbox_count as fs_offers_inbox_count %}
-                У вас <a href="{% url social:view_fs_offers_inbox %}">{% spaceless %}
-                    {{ fs_offers_inbox_count }}
-                    {{ fs_offers_inbox_count|choose_plural:"предложение,предложения,предложений" }}  дружбы
-                    {% endspaceless %}</a>
-                {% endwith %}
-            </p>
-            {% endif %}
-{% endif %}
-
-<div id="leftColumn">
-    <div class="nav">
-        <ul>
-            {% if user.is_authenticated %}
-            <li id="persone"><a href="{% url social:home %}">{{ user }}</a></li>
-            <li id="money">
-                <div class="q">
-                    <p>На моем счету</p>
-
-                    <div><p id="amount"><span>{{ user.cash|floatformat:2 }}</span> руб.</p></div>
-                    <p id="purse"><a href="{% url billing:purse %}">Перейти в кошелек</a></p>
-                </div>
-            </li>
-            <li id="fashion_place"><a href="{% url cam:cam_bookmarks %}">Мои Модные места</a></li>
-            <li id="friends"><a href="{% url social:user_friends %}">Друзья</a></li>
-
-            <li id="mail"><a href="{% url user_messages:view_inbox %}">Сообщения</a></li>
-            <li id="notes"><a href="{% url notes:note_list %}">Заметки</a></li>
-            <li id="group"><a href="{% url groups:group_list %}">Группы</a></li>
-            <li id="foto"><a href="{% url media_library:image_index %}">Фотографии</a></li>
-            <li id="video"><a href="{% url in_dev %}">Видеозаписи</a></li>
-            <li id="audio"><a href="{% url in_dev %}">Аудиозаписи</a></li>
-
-            <li id="meeting"><a href="{% url in_dev %}">Встречи</a></li>
-            {% else %}
-            <li><a href="{% url social:register %}">регистрация</a></li>
-            <li><a href="{% url social:login %}">вход</a></li>
-            {% endif %}
-            {% if request.user.is_superuser %}
-            {% include 'includes/admin_menu.html' %}
-            {% endif %}
-        </ul>
-    </div>
-    <div id="what_new">
-        <a href="{% url in_dev %}"><img src="/media/images/what_new.jpg"/></a>
-    </div>
-    <div id="advertising">
-        <div>
-
-            <img src="/media/images/ermi_pic.jpg" alt="gj"/>
-        </div>
-        <p class="date">12 декабря 18:39</p>
-
-        <p class="cam">12 камер в Эрмитаже</p>
-
-        <p>Камеры работают в режиме тестирования</p>
-    </div>
+<div id="content_about">
+    <h2 style="font-size: 36px;">Данная страница находится в разработке</h2>
+   <p>
+    Приносим свои извинения за временные неудобства.
+   </p>
+   <p>
+    Вы можете прейти на <a href="/">главную страницу</a> сайта.
+   </p>
 </div>
-
-<div id="centerColumn">
-    {% block content %}
-    here goes the actual content
-    {% endblock %}
-</div>
-
 <div id="rightColumn">
     <h2 class="mod_places">Модные места</h2>
 
@@ -207,10 +128,9 @@
             </ul>
         </div>
     </div>
-    <div class="all">
-        <p>Все</p>
-
-        <a href="{% url in_dev %}">568</a>
-    </div>
+     <div class="all">
+            <p>Все</p>
+            <a href="{% url in_dev %}">568</a>
+        </div>
 </div>
 {% endblock %}
