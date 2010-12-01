@@ -25,6 +25,7 @@ def get_hexdigest(algorithm, salt, raw_password):
 
 
 class Profile(Document):
+    user = ReferenceField('User')
     hometown = StringField(max_length=30)
     birthday = StringField(max_length=10)
     sex = StringField(max_length=1)
@@ -72,7 +73,9 @@ class User(Document):
 
     cash = FloatField(default=0.0)
 
-    profile = ReferenceField('Profile', required=True, unique=True, default=Profile)
+    @property
+    def profile(self):
+        return Profile.objects.get_or_create(user=self)[0]
 
     meta = {
         'indexes': ['username', 'mutual_friends']
