@@ -24,6 +24,18 @@ def get_hexdigest(algorithm, salt, raw_password):
     raise ValueError('Got unknown password algorithm type in password')
 
 
+class Profile(Document):
+    hometown = StringField(max_length=30)
+    birthday = StringField(max_length=10)
+    sex = StringField(max_length=1)
+    icq = StringField(max_length=30)
+    mobile = StringField(max_length=30)
+    website = URLField()
+    university = StringField(max_length=30)
+    department = StringField(max_length=30)
+    university_status = StringField(max_length=30)
+
+
 class User(Document):
     """A User document that aims to mirror most of the API specified by Django
     at http://docs.djangoproject.com/en/dev/topics/auth/#users
@@ -60,15 +72,7 @@ class User(Document):
 
     cash = FloatField(default=0.0)
 
-    hometown = StringField(max_length=30)
-    birthday = StringField(max_length=10)
-    sex = StringField(max_length=1)
-    icq = StringField(max_length=30)
-    mobile = StringField(max_length=30)
-    website = URLField()
-    university = StringField(max_length=30)
-    department = StringField(max_length=30)
-    university_status = StringField(max_length=30)
+    profile = ReferenceField('Profile', required=True, unique=True, default=Profile)
 
     meta = {
         'indexes': ['username', 'mutual_friends']

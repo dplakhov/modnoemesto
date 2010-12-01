@@ -28,6 +28,7 @@ from ImageFile import Parser as ImageFileParser
 from apps.billing.documents import AccessCamOrder
 from apps.social.forms import ChangeProfileForm
 import re
+from apps.social.documents import Profile
 
 
 try:
@@ -121,8 +122,13 @@ def home(request):
     if camera:
         camera.show = True
     #@todo: need filter
-    request.user.sex = dict(ChangeProfileForm.SEX_CHOICES).get(request.user.sex, ChangeProfileForm.SEX_CHOICES[0][1])
-    return direct_to_template(request, 'social/home.html', { 'camera': camera, 'is_owner': True })
+    profile = request.user.profile
+    profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
+    return direct_to_template(request, 'social/home.html', {
+        'camera': camera,
+        'is_owner': True,
+        'profile': profile,
+    })
 
 
 def user(request, user_id=None):
@@ -282,13 +288,16 @@ def avatar_edit(request):
                               )
 
 
+@login_required
 def profile_edit(request):
-    form = ChangeProfileForm(request.POST or None, initial=request.user._data)
+    profile = request.user.profile
+    form = ChangeProfileForm(request.POST or None, initial=profile._data)
     if form.is_valid():
         for k, v in form.cleaned_data.items():
-            setattr(request.user, k, v if v else None)
-
-        request.user.save()
+            setattr(profile, k, v if v else None)
+        profile.save()
+        if 'id ' not in profile:
+            request.user.save()
         return redirect('social:home')
     return direct_to_template(request, 'social/profile/edit.html',
                               dict(form=form, user=request.user)
