@@ -110,8 +110,11 @@ class SystemCommandFileTransformationTest(TestCase):
         class TestSystemCommandFileTransformation(SystemCommandFileTransformation):
             FILE_TYPE = 'text'
             SYSTEM_COMMAND = 'bzzzzzzzZ %(source)s %(destination)s'
+
+        transformation = TestSystemCommandFileTransformation('test_trans')
+        file = create_image_file()
         self.failUnlessRaises(SystemCommandFileTransformation.CommandNotFound,
-                              TestSystemCommandFileTransformation, 'name')    
+                              transformation.apply, file)    
 
 
 class VideoFileTransformationTest(TestCase):

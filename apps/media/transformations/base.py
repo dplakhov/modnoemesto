@@ -55,16 +55,15 @@ class SystemCommandFileTransformation(FileTransformation):
     class CommandNotFound(Exception):
         pass
 
-    def __init__(self, name, *args, **kwargs):
+    def _check_parameters(self):
         try:
             command = shlex.split(self.SYSTEM_COMMAND)[0]
             which.which(command)
         except which.WhichError, e:
             raise self.CommandNotFound(str(e))
 
-        super(SystemCommandFileTransformation, self).__init__(name, *args, **kwargs)
-
     def _apply(self, source, destination):
+        self._check_parameters()
         tmp_source = self._write_source(source)
         tmp_destination = self._create_destination()
         try:
@@ -95,7 +94,10 @@ class SystemCommandFileTransformation(FileTransformation):
                       destination=tmp_destination.name)
         params.update(self.__dict__)
 
-        return self.SYSTEM_COMMAND % params
+        return self._get_system_command() % params
+
+    def _get_system_command(self):
+        return self.SYSTEM_COMMAND
 
     def _read_destination(self, destination, tmp_destination):
         tmp_destination.file.seek(0)
