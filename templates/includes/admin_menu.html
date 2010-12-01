@@ -1,13 +1,15 @@
+{% load i18n %}
 {% if request.user.is_superuser %}
 <div class="admin-menu">
     <div class="submenu">
-        <p>Cameras</p>
+        <p>{% trans "Cameras" %}</p>
         <ul>
-            <li><a href="{% url cam:type_list %}">Camera types</a></li>
+            <li><a href="{% url cam:type_list %}">{% trans "Camera types" %}</a></li>
         </ul>
-        <p>Billing</p>
+        <p>{% trans "Billing" %}</p>
         <ul>
-            <li><a href="{% url billing:tariff_list %}">Tariffs</a></li>
+            <li><a href="{% url billing:tariff_list %}">{% trans "Tariffs" %}</a></li>
+            <li><a href="{% url billing:order_list %}">{% trans "Orders" %}</a></li>
         </ul>
     </div>
 </div>

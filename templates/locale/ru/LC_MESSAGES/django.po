@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-01 10:58+0300\n"
+"POT-Creation-Date: 2010-12-01 12:51+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: base_mini.html:58
 msgid "search"
-msgstr ""
+msgstr "поиск"
 
 #: index.html:4
 msgid "Users online"
@@ -42,6 +42,48 @@ msgstr "Доступ к камере"
 msgid "Paid"
 msgstr "Оплатить"
 
+#: billing/order_list.html:5 includes/admin_menu.html:12
+msgid "Orders"
+msgstr "Заказы"
+
+#: billing/order_list.html:9
+#, fuzzy
+msgid "User"
+msgstr "Имя пользователя"
+
+#: billing/order_list.html:10
+msgid "Amount"
+msgstr "Сумма"
+
+#: billing/order_list.html:11
+msgid "Terminal"
+msgstr "Терминал"
+
+#: billing/order_list.html:12
+msgid "Transaction"
+msgstr "Транзакция"
+
+#: billing/order_list.html:13
+msgid "Timestamp"
+msgstr "Время создания"
+
+#: billing/order_list.html:33
+msgid "previous"
+msgstr "предыдущая"
+
+#: billing/order_list.html:37
+#, python-format
+msgid ""
+"\n"
+"Page %(number)s of %(num_pages)s.\n"
+msgstr ""
+"\n"
+"Страница %(number)s из %(num_pages)s.\n"
+
+#: billing/order_list.html:43
+msgid "next"
+msgstr "сдедующая"
+
 #: billing/tariff_edit.html:6
 msgid "Add tariff"
 msgstr "Добавить тариф"
@@ -62,13 +104,13 @@ msgstr "Добавить"
 msgid "Save"
 msgstr "Сохранить"
 
-#: billing/tariff_list.html:5
+#: billing/tariff_list.html:5 includes/admin_menu.html:11
 msgid "Tariffs"
 msgstr "Тарифы"
 
 #: cam/bookmarks.html:16
 msgid "You do not have bookmarks."
-msgstr ""
+msgstr "У Вас нет закладок."
 
 #: cam/cam_edit.html:6
 msgid "Add camera"
@@ -94,7 +136,7 @@ msgstr "Добавить тип камеры"
 msgid "Edit camera type"
 msgstr "Редактировать тип камеры"
 
-#: cam/type_list.html:5
+#: cam/type_list.html:5 includes/admin_menu.html:7
 msgid "Camera types"
 msgstr "Типы камер"
 
@@ -126,6 +168,14 @@ msgstr "Покинуть группу"
 msgid "Join group"
 msgstr "Вступить в группу"
 
+#: includes/admin_menu.html:5
+msgid "Cameras"
+msgstr "Камеры"
+
+#: includes/admin_menu.html:9
+msgid "Billing"
+msgstr "Биллинг"
+
 #: includes/camera.html:94
 msgid "This camera is not free!"
 msgstr "Просмотр этой камеры платный"
@@ -153,7 +203,7 @@ msgstr "Предложения дружбы"
 
 #: media_library/image_index.html:6
 msgid "Images"
-msgstr ""
+msgstr "Изображения"
 
 #: media_library/image_index.html:12 notes/note_list.html:13
 #: user_messages/message.html:31
