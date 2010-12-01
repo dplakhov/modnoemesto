@@ -20,13 +20,26 @@ def group_list(request):
 
 
 @login_required
-def group_add(request):
-    form = GroupCreationForm(request.POST or None)
+def group_edit(request, id=None):
+    if id:
+        group = get_document_or_404(Group, id=id)
+        initial = group._data
+    else:
+        group = None
+        initial = {}
+
+    form = GroupCreationForm(request.POST or None, initial=initial)
+
     if form.is_valid():
-        name = form.data['name']
-        group, created = Group.objects.get_or_create(name=name)
-        if created:
-            group.add_member(request.user)
+        if not group:
+            group = Group()
+            #@todo: need join user as admin
+
+        for k, v in form.cleaned_data.items():
+            if v or getattr(group, k):
+                setattr(group, k, v)
+
+        group.save()
         return redirect(reverse('groups:group_view', kwargs=dict(id=group.pk)))
     return direct_to_template(request, 'groups/create.html', dict(form=form))
 
@@ -34,8 +47,9 @@ def group_add(request):
 @login_required
 def group_view(request, id):
     group = get_document_or_404(Group, id=id)
-    return direct_to_template(request, 'groups/view.html',
-                              dict(group=group))
+    return direct_to_template(request, 'groups/view.html', {
+        'group': group,
+    })
 
 @login_required
 def group_join(request, id):

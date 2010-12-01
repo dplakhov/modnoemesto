@@ -7,6 +7,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from django.core.urlresolvers import reverse
+from apps.groups.documents import GroupUser
 
 class LimitsViolationException(Exception):
     def __init__(self, cause):
@@ -51,7 +52,6 @@ class User(Document):
     is_superuser = BooleanField(default=False)
     last_login = DateTimeField(default=datetime.now)
     date_joined = DateTimeField(default=datetime.now)
-    groups = ListField(ReferenceField('Group'))
 
     # activation stuff
     activation_code = StringField(max_length=12)
@@ -76,6 +76,10 @@ class User(Document):
     @property
     def profile(self):
         return Profile.objects.get_or_create(user=self)[0]
+
+    @property
+    def groups(self):
+        return [i.group for i in GroupUser.obects(user=self).only('group')]
 
     meta = {
         'indexes': ['username', 'mutual_friends']
