@@ -7,7 +7,7 @@ from ..documents import *
 from ..transformations import BatchFileTransformation, SystemCommandFileTransformation
 from ..transformations.image import ImageResize
 
-from .common import file_path, create_file, TextTransformation
+from .common import file_path, create_image_file, TextTransformation
 
 
 class FileTransformationTest(TestCase):
@@ -15,7 +15,7 @@ class FileTransformationTest(TestCase):
 
         TRANSFORMATION_NAME = 'thumbnail'
 
-        file = create_file()
+        file = create_image_file()
 
         file = File(id=file.id)
         file.reload()
@@ -163,7 +163,7 @@ class TransformationTasksTest(TestCase):
         print '\nthis test requres running celeryd (python manage.py celeryd test)'
         from ..tasks import apply_file_transformations
 
-        file = create_file()
+        file = create_image_file()
 
         args = [
             str(file.id),

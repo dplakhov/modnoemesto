@@ -9,7 +9,7 @@ import mongoengine
 from ..documents import *
 from ..transformations.image import ImageResize
 
-from .common import file_path, create_file
+from .common import file_path, create_image_file
 
 
 class FileTest(TestCase):
@@ -44,7 +44,7 @@ class FileTest(TestCase):
 class FileViewTest(TestCase):
     def test_view_derivative(self):
         TRANSFORMATION_NAME = 'thumbnail'
-        file = create_file()
+        file = create_image_file()
         (derivative, ) = file.apply_transformations(ImageResize(name=TRANSFORMATION_NAME,
                                              format='png', width=100, height=100))
 
@@ -62,7 +62,7 @@ class FileSetTest(TestCase):
         file_set = FileSet(type='liba')
         file_set.save()
 
-        file = create_file()
+        file = create_image_file()
 
         file_set.add_file(file)
         
@@ -76,7 +76,7 @@ class FileSetTest(TestCase):
         file_set = FileSet(type='liba')
         file_set.save()
 
-        file = create_file()
+        file = create_image_file()
 
         file_set.add_file(file)
         
@@ -89,8 +89,8 @@ class FileSetTest(TestCase):
         file_set = FileSet(type='liba')
         file_set.save()
 
-        file1 = create_file()
-        file2 = create_file()
+        file1 = create_image_file()
+        file2 = create_image_file()
 
         file_set.add_file(file1)
         file_set.add_file(file2)
