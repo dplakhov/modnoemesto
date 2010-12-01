@@ -27,15 +27,15 @@ $('a.fancy-image').fancybox({
 
 {% block content %}
 
-<h1>{% trans "Images" %}</h1>
+<h1>{% trans "Videos" %}</h1>
 
 <div id="content-main">
 {% for file in objects.object_list  %}
-    <a class="fancy-image" href="{% media_url file library_image_full.png %}">
-        <img src="{% media_url file library_image_thumbnail.png %}" alt="" />
+    <a class="fancy-image" href="{% media_url file library_video_full.png %}">
+        <img src="{% media_url file library_video_thumbnail.png %}" alt="" />
     </a>
     {% if can_manage %}
-        <a href="{% url media_library:image_delete id=file.id %}">{% trans "Delete" %}</a>
+        <a href="{% url media_library:video_delete id=file.id %}">{% trans "Delete" %}</a>
     {% endif %}
 {% endfor %}
 </div>

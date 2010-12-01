@@ -4,9 +4,12 @@ import tempfile
 import shlex
 import subprocess
 
+from django.conf import settings
+
 from apps.utils import which
 
 from ..documents import File
+import sys
 
 class FileTransformation(object):
     def __init__(self, name, *args, **kwargs):
@@ -86,7 +89,11 @@ class SystemCommandFileTransformation(FileTransformation):
 
     def _run_system_command(self, tmp_source, tmp_destination):
         command = self._format_system_command(tmp_source, tmp_destination)
-        process = subprocess.Popen(shlex.split(command))
+        process = subprocess.Popen(shlex.split(command),
+                                   stdin=subprocess.PIPE,
+                                   stdout=sys.stdout if settings.DEBUG else subprocess.PIPE,
+                                   stderr=sys.stderr if settings.DEBUG else subprocess.PIPE,
+                                   )
         process.wait()
 
     def _format_system_command(self, tmp_source, tmp_destination):
