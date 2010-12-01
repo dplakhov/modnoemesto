@@ -120,7 +120,7 @@ class SystemCommandFileTransformationTest(TestCase):
 class VideoFileTransformationTest(TestCase):
     def test_video_thumbnail(self):
         file = create_video_file()
-        transformation = VideoThumbnail(name='thumb.png', format='png')
+        transformation = VideoThumbnail(name='thumb.png', format='png', compression=9)
         thumb = transformation.apply(file)
         self.failUnlessEqual('image/png', thumb.file.content_type)
         self.failUnless(str(thumb.file.read()[1:]).startswith('PNG'))

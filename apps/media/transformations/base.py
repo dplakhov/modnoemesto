@@ -92,6 +92,7 @@ class SystemCommandFileTransformation(FileTransformation):
     def _format_system_command(self, tmp_source, tmp_destination):
         params = dict(source=tmp_source.name,
                       destination=tmp_destination.name)
+        params.update(self.__class__.__dict__)
         params.update(self.__dict__)
 
         return self._get_system_command() % params

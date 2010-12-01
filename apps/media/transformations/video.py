@@ -8,7 +8,9 @@ from .base import SystemCommandFileTransformation
 
 class VideoThumbnail(SystemCommandFileTransformation):
     FILE_TYPE = 'image'
-    SYSTEM_COMMAND = '''mplayer -ss 2 -frames 1 -vo %(format)s:outdir=%(destination)s -nosound %(source)s'''
+    SYSTEM_COMMAND = '''mplayer -ss 2 -frames 1 -vo %(format)s:outdir=%(destination)s:z=%(compression)s -nosound %(source)s'''
+
+    compression = 0
 
     def _create_destination(self):
         return tempdir.TemporaryDirectory()
