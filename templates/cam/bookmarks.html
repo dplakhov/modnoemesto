@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+{% if cameras %}
+<ul class="friendTable">
+{% for cam in cameras %}
+   <li>
+   {% with cam.owner as user %}
+      {% include "includes/user/micro.html" %}
+   {% endwith %}
+   </li>
+{% endfor %}
+</ul>
+{% else %}
+{% trans "You do not have bookmarks." %}
+{% endif %}
+{% endblock %}

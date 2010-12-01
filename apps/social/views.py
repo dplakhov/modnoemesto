@@ -144,6 +144,7 @@ def user(request, user_id=None):
     return direct_to_template(request, 'social/user.html',
                               { 'page_user': page_user, 'msgform': msgform,
                                 'show_friend_button': show_friend_button,
+                                'show_bookmark_button': camera and camera.can_bookmark_add(request.user),
                                 'camera': camera })
 
 

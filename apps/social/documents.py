@@ -226,5 +226,3 @@ class FriendshipOffer(Document):
             User.objects(id=self.recipient.id).update_one\
                     (dec__fs_offers_inbox_count=1)
         super(FriendshipOffer, self).delete()
-
-

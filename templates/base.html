@@ -48,7 +48,7 @@
                     <p id="purse"><a href="{% url billing:purse %}">Перейти в кошелек</a></p>
                 </div>
             </li>
-            <li id="fashion_place"><a href="#">Мои Модные места</a></li>
+            <li id="fashion_place"><a href="{% url cam:cam_bookmarks %}">Мои Модные места</a></li>
             <li id="friends"><a href="{% url social:user_friends %}">Друзья</a></li>
 
             <li id="mail"><a href="{% url user_messages:view_inbox %}">Сообщения</a></li>

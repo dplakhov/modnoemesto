@@ -49,3 +49,31 @@ class Camera(Document):
             if order is None or not order.can_access():
                 return False
         return True
+
+    def bookmark_add(self, user):
+        owner_camera = Camera.objects(owner=user).only('id').first()
+        if not owner_camera or owner_camera != self:
+            cam_bookmark, created = CameraBookmarks.objects.only('id').get_or_create(user=user,
+                                                                          defaults={'user': user})
+            CameraBookmarks.objects(id=cam_bookmark.id)\
+                           .update_one(add_to_set__cameras=self)
+
+    def bookmark_delete(self, user):
+        cam_bookmark, created = CameraBookmarks.objects.only('id').get_or_create(user=user,
+                                                                      defaults={'user': user})
+        if not created:
+            CameraBookmarks.objects(id=cam_bookmark.id)\
+                           .update_one(pull__cameras=self)
+
+    def can_bookmark_add(self, user):
+        cam_bookmark, created = CameraBookmarks.objects.only('cameras').get_or_create(user=user,
+                                                                      defaults={'user': user})
+        if created:
+            return True
+        return self not in cam_bookmark.cameras
+
+
+
+class CameraBookmarks(Document):
+    user = ReferenceField('User', unique=True)
+    cameras = ListField(ReferenceField('Camera'))
