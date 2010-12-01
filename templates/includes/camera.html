@@ -15,32 +15,29 @@ var nick = "{{ user.username }}";
         });
     </script>
     <div id="watch-panel">
-        <a style="display:block;width:520px;height:330px" id="flash-player"> </a>
 
         <video id="html-5-video" controls width="520" height="330" style="display:block"
         src="http://vid1.modnoemesto.ru:1935/live/mp4:{{ camera.stream_name }}/playlist.m3u8" />
 
-      {% comment %}
-      <object>
-        <embed src="/media/swf/ManageCam.1.swf" width="450" height="154"
-            flashvars="streamServer=rtmp://vid1.modnoemesto.ru/live&amp;streams={{ camera.stream_name }}" />
-      </object>
-      {% endcomment %}
+        {% if not camera.force_html5 %}
+            <a style="display:block;width:520px;height:330px" id="flash-player"> </a>
 
-        <script language='javascript'> 
-        if(navigator.userAgent.match(/iPad/i))
-        {
-            $('#flash-player').hide()
-        }
-        else
-        {
-            $('#html-5-video').hide()
-        $f("flash-player", "/media/swf/flowplayer-3.2.5.swf", { clip: { provider: 'rtmp' }, playlist: [ { netConnectionUrl: 'rtmp://vid1.modnoemesto.ru/live',
-        url:'{{ camera.stream_name }}' } ],
-                plugins: { rtmp: { url: '/media/swf/flowplayer.rtmp-3.2.3.swf', netConnectionUrl: 'rtmp://vid1.modnoemesto.ru/live' } } });
+            <script language='javascript'> 
+            if(navigator.userAgent.match(/iPad/i))
+            {
+                $('#flash-player').hide()
+            }
+            else
+            {
+                $('#html-5-video').hide()
+            $f("flash-player", "/media/swf/flowplayer-3.2.5.swf", { clip: { provider: 'rtmp' }, playlist: [ { netConnectionUrl: 'rtmp://vid1.modnoemesto.ru/live',
+            url:'{{ camera.stream_name }}' } ],
+                    plugins: { rtmp: { url: '/media/swf/flowplayer.rtmp-3.2.3.swf', netConnectionUrl: 'rtmp://vid1.modnoemesto.ru/live' } } });
 
-        }
-        </script>
+            }
+            </script>
+        {% endif %}
+
     {% if not camera.operator or camera.operator == user.username %}
       <object>
         <embed src="/media/swf/ManageCam_5.swf" width="450" height="154"

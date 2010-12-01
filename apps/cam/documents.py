@@ -22,11 +22,11 @@ class Camera(Document):
     host = StringField(max_length=255)
     username = StringField(max_length=64)
     password = StringField(max_length=64)
-    managed = BooleanField()
     enabled = BooleanField()
     public = BooleanField(default=True)
     paid = BooleanField(default=False)
     operator = StringField(max_length=64)
+    force_html5 = BooleanField()
     tariffs = ListField(ReferenceField('Tariff'))
 
     @property

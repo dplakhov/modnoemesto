@@ -33,12 +33,12 @@ class CameraForm(forms.Form):
     host = forms.CharField(label=_('Host'))
     username = forms.CharField(label=_('Username'))
     password = forms.CharField(label=_('Password'))
-    managed = forms.BooleanField(label=_('Enabled'), required=False)
     enabled = forms.BooleanField(label=_('Enabled'), required=False)
     public = forms.BooleanField(label=_('Public'), required=False)
     paid = forms.BooleanField(label=_('Paid'), required=False)
     operator = forms.ChoiceField(label=_('Operator'), required=False, choices=())
     tariffs =  forms.MultipleChoiceField(label=_('Tariffs'), choices=())
+    force_html5 = forms.BooleanField(label=_('Force html5'), required=False)
 
     def __init__(self, user, *args, **kwargs):
         super(CameraForm, self).__init__(*args, **kwargs)
