@@ -7,6 +7,8 @@ from django.conf import settings
 
 urlpatterns = patterns('apps.media_library.views',
    url(r'^video/$', 'video_index', name='video_index'),
+   url(r'^video/add/$', 'video_add', name='video_add'),
+
    url(r'^audio/$', 'audio_index', name='audio_index'),
 
    url(r'^image/$', 'image_index', name='image_index'),
