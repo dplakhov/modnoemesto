@@ -65,14 +65,15 @@ class SystemCommandFileTransformation(FileTransformation):
         super(SystemCommandFileTransformation, self).__init__(name, *args, **kwargs)
 
     def _apply(self, source, destination):
-        source_tmp_file = self._write_source(source)
-        destination_tmp_file = self._create_destination()
+        tmp_source = self._write_source(source)
+        tmp_destination = self._create_destination()
         try:
-            self._run_system_command(source, destination, source_tmp_file, destination_tmp_file)
+            self._run_system_command(tmp_source, tmp_destination)
         except:
             raise
 
-        self._write_destination(destination, destination_tmp_file)
+        self._read_destination(destination, tmp_destination)
+        self._finalize()
         return destination
 
     def _write_source(self, source):
@@ -82,18 +83,28 @@ class SystemCommandFileTransformation(FileTransformation):
         return file
 
     def _create_destination(self):
-        file = tempfile.NamedTemporaryFile()
-        return file
+        return tempfile.NamedTemporaryFile()
 
-    def _run_system_command(self, source, destination, source_tmp_file,
-                            destination_tmp_file):
-        command = self.SYSTEM_COMMAND % dict(source=source_tmp_file.name,
-                                             destination=destination_tmp_file.name)
+    def _run_system_command(self, tmp_source, tmp_destination):
+        command = self._format_system_command(tmp_source, tmp_destination)
         process = subprocess.Popen(shlex.split(command))
         process.wait()
 
-    def _write_destination(self, destination, destination_tmp_file):
-        destination_tmp_file.file.seek(0)
-        destination.file.put(destination_tmp_file.file.read(),
-                             content_type=self.CONTENT_TYPE)
+    def _format_system_command(self, tmp_source, tmp_destination):
+        params = dict(source=tmp_source.name,
+                      destination=tmp_destination.name)
+        params.update(self.__dict__)
+
+        return self.SYSTEM_COMMAND % params
+
+    def _read_destination(self, destination, tmp_destination):
+        tmp_destination.file.seek(0)
+        destination.file.put(tmp_destination.file.read(),
+                             content_type=self._get_derivative_content_type())
         destination.save()
+
+    def _get_derivative_content_type(self):
+        return self.CONTENT_TYPE
+
+    def _finalize(self):
+        pass

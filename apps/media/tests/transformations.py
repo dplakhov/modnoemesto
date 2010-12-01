@@ -6,8 +6,9 @@ from apps.utils.stringio import StringIO
 from ..documents import *
 from ..transformations import BatchFileTransformation, SystemCommandFileTransformation
 from ..transformations.image import ImageResize
+from ..transformations.video import VideoThumbnail
 
-from .common import file_path, create_image_file, TextTransformation
+from .common import file_path, create_image_file, create_video_file, TextTransformation
 
 
 class FileTransformationTest(TestCase):
@@ -86,8 +87,9 @@ class SystemCommandFileTransformationTest(TestCase):
     def test_system_command_transformations(self):
         class TestSystemCommandFileTransformation(SystemCommandFileTransformation):
             FILE_TYPE = 'text'
-            CONTENT_TYPE = 'text/plain'
             SYSTEM_COMMAND = 'cp %(source)s %(destination)s'
+            def _get_derivative_content_type(self):
+                return 'text/plain'
 
 
         file = File(type='text')
@@ -102,6 +104,7 @@ class SystemCommandFileTransformationTest(TestCase):
         transformation.apply(file)
         derivative = file.get_derivative('test_trans')
         self.failUnlessEqual('1', derivative.file.read())
+        self.failUnlessEqual('text/plain', derivative.file.content_type)
 
     def test_unknown_command_raises_exc_(self):
         class TestSystemCommandFileTransformation(SystemCommandFileTransformation):
@@ -111,6 +114,13 @@ class SystemCommandFileTransformationTest(TestCase):
                               TestSystemCommandFileTransformation, 'name')    
 
 
+class VideoFileTransformationTest(TestCase):
+    def test_video_thumbnail(self):
+        file = create_video_file()
+        transformation = VideoThumbnail(name='thumb.png', format='png')
+        thumb = transformation.apply(file)
+        self.failUnlessEqual('image/png', thumb.file.content_type)
+        self.failUnless(str(thumb.file.read()[1:]).startswith('PNG'))
 
 
 class BatchFileTransformationTest(TestCase):
