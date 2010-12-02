@@ -68,12 +68,14 @@ def cam_edit(request, id=None):
         for k, v in form.cleaned_data.items():
             setattr(cam, k, v)
 
-        cam.type = CameraType.objects.get(id=form.cleaned_data['type'])
+        cam.type = CameraType.objects.get(id=form.cleaned_data['type'][:-2])
 
         for tariff_type in Camera.TARIFF_FIELDS:
             value = form.cleaned_data[tariff_type]
             if value:
-                setattr(cam, tariff_type, Tariff.objects.get(id=value))
+                value = Tariff.objects.get(id=value)
+                assert value in getattr(Tariff, 'get_%s_list' % tariff_type)()
+                setattr(cam, tariff_type, value)
             else:
                 setattr(cam, tariff_type, None)
 

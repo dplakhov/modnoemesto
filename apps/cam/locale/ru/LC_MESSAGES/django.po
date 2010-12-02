@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-02 12:38+0300\n"
+"POT-Creation-Date: 2010-12-02 16:15+0300\n"
 "PO-Revision-Date: 2010-11-25 16:00+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: documents.py:23
+msgid "(managed)"
+msgstr "(неупр.)"
+
+#: documents.py:23
+msgid "(unmanaged)"
+msgstr "(упр.)"
 
 #: forms.py:15 forms.py:31
 msgid "Name"
@@ -39,66 +47,98 @@ msgstr "Неправильное имя драйвера камеры: %(driver)
 msgid "Camera type"
 msgstr "Тип камеры"
 
-#: forms.py:33
+#: forms.py:34
 msgid "Stream name"
 msgstr "Имя камеры"
 
-#: forms.py:34
-msgid "Host"
-msgstr "Хост"
-
-#: forms.py:35
-msgid "Username"
-msgstr "Имя пользователя"
-
 #: forms.py:36
-msgid "Password"
-msgstr "Пароль"
+msgid "Camera management host"
+msgstr "Интернет адрес управления камерой"
 
 #: forms.py:37
-msgid "Enabled"
-msgstr "Включена"
+msgid "Camera management username"
+msgstr "Имя пользователя управления камерой"
 
 #: forms.py:38
-msgid "Public"
-msgstr "Публичная"
-
-#: forms.py:39
-msgid "Paid"
-msgstr "Платная"
+msgid "Camera management password"
+msgstr "Пароль управления камерой"
 
 #: forms.py:40
+msgid "Is view enabled"
+msgstr "Просмотр включен"
+
+#: forms.py:41
+msgid "Is view public"
+msgstr "Публичный просмотр"
+
+#: forms.py:42
+msgid "Is view paid"
+msgstr "Просмотр платный"
+
+#: forms.py:44
+msgid "Is management enabled"
+msgstr "Управление включено"
+
+#: forms.py:45
+msgid "Is management public"
+msgstr "Публичное управление"
+
+#: forms.py:46
+msgid "Is management paid"
+msgstr "Платное управление"
+
+#: forms.py:48
+msgid "Management packet tariff"
+msgstr "Пакетный тариф на управление"
+
+#: forms.py:49
+msgid "Management time tariff"
+msgstr "Повременной тариф на управление"
+
+#: forms.py:50
+msgid "View packet tariff"
+msgstr "Пакетный тариф на просмотр"
+
+#: forms.py:51
+msgid "View time tariff"
+msgstr "Повременной тариф на просмотр"
+
+#: forms.py:53
 msgid "Operator"
 msgstr "Оператор"
 
-#: forms.py:41
-msgid "Tariffs"
-msgstr "Тарифы"
-
-#: forms.py:42
+#: forms.py:55
 msgid "Force html5"
 msgstr "Всегда использовать html5"
 
 #: forms.py:60
+msgid "Select camera type"
+msgstr "Выберите тип камеры"
+
+#: forms.py:71
+msgid "Select tariff"
+msgstr "Выберите тариф"
+
+#: forms.py:85
 msgid "Invalid camera credentials"
 msgstr "Неверно заданы имя пользователя и пароль"
 
-#: forms.py:62
+#: forms.py:87
 msgid "Camera improperly configured"
 msgstr "Камера неправильно сконфигрирована"
 
-#: forms.py:67
+#: forms.py:92
 msgid "Keywords"
 msgstr "Ключевые слова"
 
-#: forms.py:69
+#: forms.py:94
 msgid "Enableds"
 msgstr "Активные"
 
-#: forms.py:70
+#: forms.py:95
 msgid "Publics"
 msgstr "Публичные"
 
-#: forms.py:71
+#: forms.py:96
 msgid "Paids"
 msgstr "Платные"
