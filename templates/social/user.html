@@ -44,8 +44,12 @@
             <a href="{% url billing:get_access_to_camera camera.id %}">{% trans "Get access to camera" %}</a>
             {% include "includes/camera.html" %}
         {% else %}
+            <div class="no_camera">
             <img src="/media/img/notfound/cam.png" alt="" />
+            <p>
             {% trans "This user has no registered camera." %}
+            </p>
+            </div>
         {% endif %}
     </div>
 
