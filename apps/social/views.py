@@ -116,7 +116,7 @@ def logout(request):
     return redirect('/')
 
 
-@login_required
+#@login_required
 def home(request):
     camera = request.user.get_camera()
     if camera:
@@ -154,13 +154,13 @@ def user(request, user_id=None):
                                 'camera': camera })
 
 
-@login_required
+#@login_required
 def user_friends(request):
     return direct_to_template(request, 'social/profile/user_friends.html',
                               { 'frends': request.user })
 
 
-@login_required
+#@login_required
 def friend(request, user_id):
     if request.user.id == user_id:
         return redirect('social:home')
@@ -173,7 +173,7 @@ def friend(request, user_id):
     return redirect('social:home')
 
 
-@login_required
+#@login_required
 def unfriend(request, user_id):
     if request.user.id == user_id:
         return redirect('social:home')
@@ -182,7 +182,7 @@ def unfriend(request, user_id):
     return redirect('social:home')
 
 
-@login_required
+#@login_required
 def view_fs_offers_inbox(request):
     #@todo: pagination
     offers = FriendshipOffer.objects(recipient=request.user)\
@@ -191,7 +191,7 @@ def view_fs_offers_inbox(request):
                               { 'offers': offers })
 
 
-@login_required
+#@login_required
 def view_fs_offers_sent(request):
     #@todo: pagination
     offers = FriendshipOffer.objects(author=request.user)\
@@ -200,7 +200,7 @@ def view_fs_offers_sent(request):
                               { 'offers': offers })
 
 
-@login_required
+#@login_required
 def cancel_fs_offer(request, offer_id):
     offer = get_document_or_404(FriendshipOffer, id=offer_id)
     if offer.author.id != request.user.id:
@@ -209,7 +209,7 @@ def cancel_fs_offer(request, offer_id):
     return redirect('social:view_fs_offers_sent')
 
 
-@login_required
+#@login_required
 def decline_fs_offer(request, offer_id):
     offer = get_document_or_404(FriendshipOffer, id=offer_id)
     if offer.recipient.id != request.user.id:
@@ -217,7 +217,7 @@ def decline_fs_offer(request, offer_id):
     offer.delete()
     return redirect('social:view_fs_offers_inbox')
 
-@login_required
+#@login_required
 def profile_edit(request):
     return direct_to_template(request, 'social/groups/view.html',
                               )
@@ -237,7 +237,7 @@ def avatar(request, user_id, format):
     return response
 
 
-@login_required
+#@login_required
 def avatar_edit(request):
     user = request.user
     if request.method != 'POST':
@@ -288,7 +288,7 @@ def avatar_edit(request):
                               )
 
 
-@login_required
+#@login_required
 def profile_edit(request):
     profile = request.user.profile
     form = ChangeProfileForm(request.POST or None, initial=profile._data)

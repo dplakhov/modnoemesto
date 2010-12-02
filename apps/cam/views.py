@@ -18,7 +18,7 @@ from apps.cam.documents import CameraBookmarks
 from django.shortcuts import redirect
 
 
-@login_required
+#@login_required
 def cam_list(request):
     form = CamFilterForm(request.POST or None)
     if form.is_valid():
@@ -38,7 +38,7 @@ def is_superuser(user):
     return user.is_superuser
 
 
-@login_required
+#@login_required
 def cam_edit(request, id=None):
     user = request.user
     if id:
@@ -74,7 +74,7 @@ def cam_edit(request, id=None):
                               )
 
 
-@login_required
+#@login_required
 def cam_view(request, id):
     cam = get_document_or_404(Camera, id=id)
     return direct_to_template(request, 'cam/cam_view.html',
@@ -131,7 +131,7 @@ def type_delete(request, id):
     return HttpResponseRedirect(reverse('cam:type_list'))
 
 
-@login_required
+#@login_required
 def cam_manage(request, id, command):
     if command not in AVAILABLE_COMMANDS:
         return HttpResponseNotFound()
@@ -142,7 +142,7 @@ def cam_manage(request, id, command):
     return HttpResponse()
 
 
-@login_required
+#@login_required
 def cam_bookmarks(request):
     try:
         bookmarks = CameraBookmarks.objects.get(user=request.user)
@@ -153,7 +153,7 @@ def cam_bookmarks(request):
     return direct_to_template(request, 'cam/bookmarks.html', {'cameras': cameras})
 
 
-@login_required
+#@login_required
 def cam_bookmark_add(request, id):
     camera = get_document_or_404(Camera, id=id)
     camera.bookmark_add(request.user)
@@ -161,7 +161,7 @@ def cam_bookmark_add(request, id):
     return redirect(reverse('social:user', args=[camera.owner.id]))
 
 
-@login_required
+#@login_required
 def cam_bookmark_delete(request, id):
     camera = get_document_or_404(Camera, id=id)
     camera.bookmark_delete(request.user)

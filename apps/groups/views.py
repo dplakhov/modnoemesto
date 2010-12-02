@@ -9,7 +9,7 @@ from mongoengine.django.shortcuts import get_document_or_404
 from .forms import GroupCreationForm
 from .documents import Group
 
-@login_required
+#@login_required
 def group_list(request):
     #@todo: pagination
     #@todo: partial data fetching
@@ -19,7 +19,7 @@ def group_list(request):
                               )
 
 
-@login_required
+#@login_required
 def group_edit(request, id=None):
     if id:
         group = get_document_or_404(Group, id=id)
@@ -44,21 +44,21 @@ def group_edit(request, id=None):
     return direct_to_template(request, 'groups/create.html', dict(form=form))
 
 
-@login_required
+#@login_required
 def group_view(request, id):
     group = get_document_or_404(Group, id=id)
     return direct_to_template(request, 'groups/view.html', {
         'group': group,
     })
 
-@login_required
+#@login_required
 def group_join(request, id):
     group = get_document_or_404(Group, id=id)
     group.add_member(request.user)
     return redirect(reverse('groups:group_view', kwargs=dict(id=id)))
 
 
-@login_required
+#@login_required
 def group_leave(request, id):
     group = get_document_or_404(Group, id=id)
     group.remove_member(request.user)

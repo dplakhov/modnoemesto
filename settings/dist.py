@@ -84,6 +84,15 @@ ADMIN_MEDIA_PREFIX = '/admin-media/'
 
 LOGIN_URL = '/login/'
 
+LOGIN_EXEMPT_URLS = (
+    r'^$',
+    r'^in_dev/$',
+    r'^pay/pskb/$',
+    r'^register/$',
+    r'^[a-f0-9]{24}/[\w\.]+$',
+    r'.+\.(jpg|gif|png|swf|css|js)$', # need for ./manage.py runserver
+)
+
 # Make this unique, and don't share it with anybody.
 if not hasattr(globals(), 'SECRET_KEY'):
     SECRET_FILE = os.path.join(PROJECT_ROOT, 'settings/secret.txt')
@@ -125,6 +134,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'middleware.LoginRequiredMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
 )

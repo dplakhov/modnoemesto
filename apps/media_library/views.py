@@ -30,7 +30,7 @@ def get_library(type):
 def can_manage_library(user):
     return user.has_perm('superuser')
 
-@login_required
+#@login_required
 def image_index(request):
     library = get_library(LIBRARY_TYPE_IMAGE)
     if can_manage_library(request.user):
