@@ -107,8 +107,11 @@ def operator(request):
 
     def get_pay_params(request):
         term = int(request.GET.get('term', None))
+        if term < 0: raise ValueError
         trans = int(request.GET.get('trans', None))
+        if trans < 0: raise ValueError
         amount = float(request.GET.get('sum', None))
+        if amount < 0: raise ValueError
         if term and trans and amount:
             return term, trans, amount
         raise ValueError
