@@ -89,8 +89,8 @@ LOGIN_EXEMPT_URLS = (
     r'^in_dev/$',
     r'^pay/pskb/$',
     r'^register/$',
-    r'^[a-f0-9]{24}/[\w\.]+$',
-    r'.+\.(jpg|gif|png|swf|css|js)$', # need for ./manage.py runserver
+    r'^file/',
+    r'^media/', # need for ./manage.py runserver
 )
 
 # Make this unique, and don't share it with anybody.

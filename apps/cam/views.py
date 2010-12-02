@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.core.urlresolvers import reverse
 
@@ -97,7 +97,7 @@ def cam_view(request, id):
 
 
 
-@user_passes_test(is_superuser)
+@permission_required('superuser')
 def type_list(request):
     types = CameraType.objects()
     return direct_to_template(request, 'cam/type_list.html',
@@ -105,7 +105,7 @@ def type_list(request):
                               )
 
 
-@user_passes_test(is_superuser)
+@permission_required('superuser')
 def type_edit(request, id=None):
     if id:
         type = get_document_or_404(CameraType, id=id)
@@ -138,7 +138,7 @@ def type_edit(request, id=None):
                               )
 
 
-@user_passes_test(is_superuser)
+@permission_required('superuser')
 def type_delete(request, id):
     type = get_document_or_404(CameraType, id=id)
     type.delete()
