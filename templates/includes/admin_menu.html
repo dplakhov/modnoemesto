@@ -9,7 +9,8 @@
         <p>{% trans "Billing" %}</p>
         <ul>
             <li><a href="{% url billing:tariff_list %}">{% trans "Tariffs" %}</a></li>
-            <li><a href="{% url billing:order_list %}">{% trans "Orders" %}</a></li>
+            <li><a href="{% url billing:order_list %}">{% trans "Pay Orders" %}</a></li>
+            <li><a href="{% url billing:access_order_list %}">{% trans "Access Orders" %}</a></li>
         </ul>
     </div>
 </div>

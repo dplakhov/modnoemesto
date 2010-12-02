@@ -3,6 +3,17 @@ class ACCESS_CAM_ORDER_STATUS:
     ACTIVE = 2
     COMPLETE = 3
 
+    @staticmethod
+    def to_text(value):
+        values = [
+            'wait',
+            'active',
+            'complete'
+        ]
+        if value > len(values) or value < 1:
+            return 'error'
+        return values[value - 1]
+
 
 class TRANS_STATUS:
     SUCCESSFUL = 0

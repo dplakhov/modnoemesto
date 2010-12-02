@@ -194,7 +194,7 @@ def get_access_to_camera(request, id):
         form = AccessCamOrderForm(request.user, camera_is_controlled,request.POST)
         if form.is_valid():
             order = AccessCamOrder(
-                tarif=form.cleaned_data['tariff'],
+                tariff=form.cleaned_data['tariff'],
                 duration=form.cleaned_data['duration'],
                 user=request.user,
                 camera=camera,
@@ -203,6 +203,7 @@ def get_access_to_camera(request, id):
                 order.set_access_period(form.cleaned_data['tariff'])
                 request.user.cash -= form.total_cost
                 request.user.save()
+            order.cost = form.total_cost
             order.save()
             return HttpResponseRedirect(reverse('social:user', args=[camera.owner.id]))
     else:
@@ -220,3 +221,15 @@ def order_list(request, page=1):
     except (EmptyPage, InvalidPage):
         orders = paginator.page(paginator.num_pages)
     return direct_to_template(request, 'billing/order_list.html', {'orders':orders})
+
+
+@login_required
+@permission_required('superuser')
+def access_order_list(request, page=1):
+    q = AccessCamOrder.objects.order_by('-create_on').all()
+    paginator = Paginator(q, 25)
+    try:
+        orders = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        orders = paginator.page(paginator.num_pages)
+    return direct_to_template(request, 'billing/access_order_list.html', {'orders':orders})
