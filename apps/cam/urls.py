@@ -6,6 +6,9 @@ from .constants import AVAILABLE_COMMANDS
 urlpatterns = patterns('apps.cam.views',
     url(r'^$', 'cam_list', name='cam_list'),
     url(r'^add/$', 'cam_edit', name='cam_add'),
+    url(r'^bookmarks/$', 'cam_bookmarks', name='cam_bookmarks'),
+    url(r'^bookmarks/(?P<id>[a-f0-9]{24})/add/$', 'cam_bookmark_add', name='cam_bookmark_add'),
+    url(r'^bookmarks/(?P<id>[a-f0-9]{24})/delete/$', 'cam_bookmark_delete', name='cam_bookmark_delete'),
 
     url(r'^(?P<id>[a-f0-9]{24})/$', 'cam_view', name='cam_view'),
     url(r'^(?P<id>[a-f0-9]{24})/edit/$', 'cam_edit', name='cam_edit'),

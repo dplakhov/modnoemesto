@@ -7,6 +7,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from django.core.urlresolvers import reverse
+from apps.groups.documents import GroupUser
 
 class LimitsViolationException(Exception):
     def __init__(self, cause):
@@ -24,6 +25,19 @@ def get_hexdigest(algorithm, salt, raw_password):
     raise ValueError('Got unknown password algorithm type in password')
 
 
+class Profile(Document):
+    user = ReferenceField('User')
+    hometown = StringField(max_length=30)
+    birthday = StringField(max_length=10)
+    sex = StringField(max_length=1)
+    icq = StringField(max_length=30)
+    mobile = StringField(max_length=30)
+    website = URLField()
+    university = StringField(max_length=30)
+    department = StringField(max_length=30)
+    university_status = StringField(max_length=30)
+
+
 class User(Document):
     """A User document that aims to mirror most of the API specified by Django
     at http://docs.djangoproject.com/en/dev/topics/auth/#users
@@ -38,7 +52,6 @@ class User(Document):
     is_superuser = BooleanField(default=False)
     last_login = DateTimeField(default=datetime.now)
     date_joined = DateTimeField(default=datetime.now)
-    groups = ListField(ReferenceField('Group'))
 
     # activation stuff
     activation_code = StringField(max_length=12)
@@ -60,15 +73,13 @@ class User(Document):
 
     cash = FloatField(default=0.0)
 
-    hometown = StringField(max_length=30)
-    birthday = StringField(max_length=10)
-    sex = StringField(max_length=1)
-    icq = StringField(max_length=30)
-    mobile = StringField(max_length=30)
-    website = URLField()
-    university = StringField(max_length=30)
-    department = StringField(max_length=30)
-    university_status = StringField(max_length=30)
+    @property
+    def profile(self):
+        return Profile.objects.get_or_create(user=self)[0]
+
+    @property
+    def groups(self):
+        return [i.group for i in GroupUser.obects(user=self).only('group')]
 
     meta = {
         'indexes': ['username', 'mutual_friends']
@@ -226,5 +237,3 @@ class FriendshipOffer(Document):
             User.objects(id=self.recipient.id).update_one\
                     (dec__fs_offers_inbox_count=1)
         super(FriendshipOffer, self).delete()
-
-

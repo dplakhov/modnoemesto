@@ -29,6 +29,7 @@ class CameraTypeForm(forms.Form):
 class CameraForm(forms.Form):
     name = forms.CharField(label=_('Name'))
     type = forms.ChoiceField(label=_('Camera type'), choices=())
+    stream_name = forms.CharField(label=_('Stream name'))
     host = forms.CharField(label=_('Host'))
     username = forms.CharField(label=_('Username'))
     password = forms.CharField(label=_('Password'))
@@ -37,6 +38,7 @@ class CameraForm(forms.Form):
     paid = forms.BooleanField(label=_('Paid'), required=False)
     operator = forms.ChoiceField(label=_('Operator'), required=False, choices=())
     tariffs =  forms.MultipleChoiceField(label=_('Tariffs'), choices=())
+    force_html5 = forms.BooleanField(label=_('Force html5'), required=False)
 
     def __init__(self, user, *args, **kwargs):
         super(CameraForm, self).__init__(*args, **kwargs)

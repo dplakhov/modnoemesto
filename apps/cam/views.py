@@ -14,6 +14,9 @@ from .documents import CameraType
 from .forms import CameraTypeForm, CameraForm
 from apps.billing.documents import Tariff
 from apps.cam.forms import CamFilterForm
+from apps.cam.documents import CameraBookmarks
+from django.shortcuts import redirect
+
 
 @login_required
 def cam_list(request):
@@ -30,8 +33,10 @@ def cam_list(request):
         cams = Camera.objects()
     return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams) )
 
+
 def is_superuser(user):
     return user.is_superuser
+
 
 @login_required
 def cam_edit(request, id=None):
@@ -56,7 +61,7 @@ def cam_edit(request, id=None):
 
         for k, v in form.cleaned_data.items():
             setattr(cam, k, v)
-            
+
         cam.type = CameraType.objects.get(id=form.cleaned_data['type'])
 
         cam.tariffs = Tariff.objects(id__in=form.cleaned_data['tariffs'])
@@ -85,6 +90,7 @@ def type_list(request):
                               dict(types=types)
                               )
 
+
 @user_passes_test(is_superuser)
 def type_edit(request, id=None):
     if id:
@@ -99,7 +105,7 @@ def type_edit(request, id=None):
         initial = {}
 
     form = CameraTypeForm(request.POST or None, initial=initial)
-            
+
     if form.is_valid():
         if not type:
             type = CameraType()
@@ -124,6 +130,7 @@ def type_delete(request, id):
     type.delete()
     return HttpResponseRedirect(reverse('cam:type_list'))
 
+
 @login_required
 def cam_manage(request, id, command):
     if command not in AVAILABLE_COMMANDS:
@@ -133,3 +140,30 @@ def cam_manage(request, id, command):
     cam = Camera()
 
     return HttpResponse()
+
+
+@login_required
+def cam_bookmarks(request):
+    try:
+        bookmarks = CameraBookmarks.objects.get(user=request.user)
+    except CameraBookmarks.DoesNotExist:
+        cameras = None
+    else:
+        cameras = bookmarks.cameras
+    return direct_to_template(request, 'cam/bookmarks.html', {'cameras': cameras})
+
+
+@login_required
+def cam_bookmark_add(request, id):
+    camera = get_document_or_404(Camera, id=id)
+    camera.bookmark_add(request.user)
+    #@TODO: show message added
+    return redirect(reverse('social:user', args=[camera.owner.id]))
+
+
+@login_required
+def cam_bookmark_delete(request, id):
+    camera = get_document_or_404(Camera, id=id)
+    camera.bookmark_delete(request.user)
+    #@TODO: show message added
+    return redirect(reverse('social:user', args=[camera.owner.id]))

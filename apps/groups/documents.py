@@ -1,17 +1,41 @@
 from mongoengine.document import Document
-from mongoengine.fields import StringField, ListField, ReferenceField
+from mongoengine.fields import StringField, ReferenceField, URLField, BooleanField
+from mongoengine.queryset import OperationError
+
 
 class Group(Document):
     name = StringField(required=True, unique=True)
-    members = ListField(ReferenceField('User'))
+    description = StringField()
+    theme = ReferenceField('GroupTheme')
+    type = ReferenceField('GroupType')
+    site = URLField()
+    country = StringField()
+    city = StringField()
+    public = BooleanField(default=True)
+
+    @property
+    def members(self):
+        return [i.user for i in GroupUser.objects(group=self).only('user')]
 
     def add_member(self, user):
-        from apps.social.documents import User
-        Group.objects(id=self.id).update_one(add_to_set__members=user)
-        User.objects(id=user.id).update_one(add_to_set__groups=self)
+        obj = GroupUser(group=self, user=user)
+        try:
+            obj.save()
+        except OperationError:
+            pass
 
     def remove_member(self, user):
-        from apps.social.documents import User
-        Group.objects(id=self.id).update_one(pull__members=user)
-        User.objects(id=user.id).update_one(pull__groups=self)
+        GroupUser.objects(group=self, user=user).delete()
 
+
+class GroupTheme(Document):
+    name = StringField(required=True, unique=True)
+
+class GroupType(Document):
+    name = StringField(required=True, unique=True)
+
+
+class GroupUser(Document):
+    group = ReferenceField('Group')
+    user = ReferenceField('User', unique_with='group')
+    is_admin = BooleanField(default=False)

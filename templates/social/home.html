@@ -22,24 +22,24 @@
     <a href="{% url social:profile_edit %}" class="change_all">{% trans "edit" %}</a>
     <div class="clear"></div>
        <dl>
-        <dt>{% trans "Hometown" %}</dt>
-            <dd>{{ user.hometown }}</dd>
-        <dt>{% trans "Birthday" %}</dt>
-            <dd>{{ user.birthday }}</dd>
-        <dt>{% trans "Sex" %}</dt>
-            <dd>{{ user.sex }}</dd>
+        {% if profile.hometown %}<dt>{% trans "Hometown" %}</dt>
+            <dd>{{ profile.hometown }}</dd>{% endif %}
+        {% if profile.birthday %}<dt>{% trans "Birthday" %}</dt>
+            <dd>{{ profile.birthday }}</dd>{% endif %}
+        {% if profile.sex %}<dt>{% trans "Sex" %}</dt>
+            <dd>{{ profile.sex }}</dd>{% endif %}
     </dl>
     <div class="about_persone transparent">
         <div style="overflow: hidden;">
         <p>{% trans "Contact Information" %}</p><span><a href="{% url social:profile_edit %}" class="change">{% trans "edit" %}</a></span>
         </div>
         <dl>
-            <dt>{% trans "ICQ" %}</dt>
-                <dd>{{ user.icq }}</dd>
-            <dt>{% trans "Mobile" %}</dt>
-                <dd>{{ user.mobile }}</dd>
-            <dt>{% trans "Website" %}</dt>
-                <dd>{{ user.website }}</dd>
+            {% if profile.icq %}<dt>{% trans "ICQ" %}</dt>
+                <dd>{{ profile.icq }}</dd>{% endif %}
+            {% if profile.mobile %}<dt>{% trans "Mobile" %}</dt>
+                <dd>{{ profile.mobile }}</dd>{% endif %}
+            {% if profile.website %}<dt>{% trans "Website" %}</dt>
+                <dd>{{ profile.website }}</dd>{% endif %}
         </dl>
     </div>
     <div class="about_persone transparent">
@@ -47,12 +47,12 @@
         <p>{% trans "Education" %}</p><span><a href="{% url social:profile_edit %}" class="change">{% trans "edit" %}</a></span>
         </div>
         <dl>
-            <dt>{% trans "University" %}</dt>
-                <dd>{{ user.university }}</dd>
-            <dt>{% trans "Department" %}</dt>
-                <dd>{{ user.department }}</dd>
-            <dt>{% trans "Status" %}</dt>
-                <dd>{{ user.university_status }}</dd>
+            {% if profile.university %}<dt>{% trans "University" %}</dt>
+                <dd>{{ profile.university }}</dd>{% endif %}
+            {% if profile.department %}<dt>{% trans "Department" %}</dt>
+                <dd>{{ profile.department }}</dd>{% endif %}
+            {% if profile.university_status %}<dt>{% trans "Status" %}</dt>
+                <dd>{{ profile.university_status }}</dd>{% endif %}
         </dl>
     </div>
 </div>
@@ -71,14 +71,14 @@
     <div class="profileActions">
         <ul>{% url social:user_friends as friends %}
             <li><a href="{{ friends }}">{% trans "Friends" %}</a> <a href="{{ friends }}">(456)</a></li>
-            <li><a href="#">{% trans "Increase ranking" %}</a></li>
-            <li><a href="#">{% trans "Video with me" %}</a></li>
+            <li><a href="{% url in_dev %}">{% trans "Increase ranking" %}</a></li>
+            <li><a href="{% url in_dev %}">{% trans "Video with me" %}</a></li>
             <li><a href="{% url social:avatar_edit %}">{% trans "Edit photo" %}</a></li>
         </ul>
     </div>
     <div class="friend_box transparent">
         <div style="overflow: hidden;">
-            <p>Друзья онлайн</p><span><a href="#" class="change">все 78</a></span>
+            <p>Друзья онлайн</p><span><a href="{% url in_dev %}" class="change">все 78</a></span>
         </div>
         <ul class="friendTable">
 {% for user in user.mutual_friends|slice:":6" %}

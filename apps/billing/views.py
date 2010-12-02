@@ -14,6 +14,7 @@ from apps.cam.documents import Camera
 from django.conf import settings
 from apps.billing.constans import TRANS_STATUS
 from apps.social.documents import User
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
 
 
 @login_required
@@ -124,8 +125,7 @@ def operator(request):
             logger.debug('6')
             return HttpResponse('status=%i' % TRANS_STATUS.ALREADY)
         order = UserOrder(
-            user=user,
-            is_payed=True,
+            user_id=user.id,
             term=term,
             trans=trans,
             amount=amount,
@@ -205,3 +205,15 @@ def get_access_to_camera(request, id):
     else:
         form = AccessCamOrderForm()
     return direct_to_template(request, 'billing/get_access_to_camera.html', {'form':form})
+
+
+@login_required
+@permission_required('superuser')
+def order_list(request, page=1):
+    q = UserOrder.objects.order_by('-timestamp').all()
+    paginator = Paginator(q, 25)
+    try:
+        orders = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        orders = paginator.page(paginator.num_pages)
+    return direct_to_template(request, 'billing/order_list.html', {'orders':orders})

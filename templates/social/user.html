@@ -42,6 +42,11 @@
     <div id="camera">
         {% if camera %}
             <a href="{% url billing:get_access_to_camera camera.id %}">{% trans "Get access to camera" %}</a>
+            {% if show_bookmark_button %}
+            <a href="{% url cam:cam_bookmark_add camera.id %}">{% trans "Bookmark this camera" %}</a>
+            {% else %}
+            <a href="{% url cam:cam_bookmark_delete camera.id %}">{% trans "Remove Bookmark" %}</a>
+            {% endif %}
             {% include "includes/camera.html" %}
         {% else %}
             <div class="no_camera">
