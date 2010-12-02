@@ -31,8 +31,21 @@ class Group(Document):
 class GroupTheme(Document):
     name = StringField(required=True, unique=True)
 
+    meta = {
+        'ordering': [
+            'name',
+        ]
+    }
+
+
 class GroupType(Document):
     name = StringField(required=True, unique=True)
+
+    meta = {
+        'ordering': [
+            'name',
+        ]
+    }
 
 
 class GroupUser(Document):

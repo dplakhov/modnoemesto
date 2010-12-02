@@ -14,6 +14,36 @@ class GroupCreationForm(forms.Form):
     public = forms.BooleanField(label=_('Access'))
 
     def __init__(self, *args, **kwarg):
+        initial = kwarg.get('initial')
+        if initial:
+            if 'theme' in initial and initial['theme']:
+                initial['theme'] = GroupType.objects(id=initial['theme']).first()
+            if 'type' in initial and initial['type']:
+                initial['type'] = GroupType.objects(id=initial['type']).first()
         super(GroupCreationForm, self).__init__(*args, **kwarg)
         self.fields['theme'].choices = [('', _('none selected')),] + [(i.id, i.name) for i in GroupTheme.objects.only('id','name').all()]
         self.fields['type'].choices = [('', _('none selected')),] + [(i.id, i.name) for i in GroupType.objects.only('id','name').all()]
+
+    def clean_theme(self):
+        if not self.cleaned_data['theme']:
+            return
+        theme = GroupTheme.objects(id=self.cleaned_data['theme']).first()
+        if not theme:
+            raise forms.ValidationError(_(u"Does Not Exist"))
+        return theme
+
+    def clean_type(self):
+        if not self.cleaned_data['type']:
+            return
+        type = GroupType.objects(id=self.cleaned_data['type']).first()
+        if not type:
+            raise forms.ValidationError(_(u"Does Not Exist"))
+        return type
+
+
+class ThemeForm(forms.Form):
+    name = forms.CharField(label=_('Name'), max_length=255)
+
+
+class TypeForm(forms.Form):
+    name = forms.CharField(label=_('Name'), max_length=255)
