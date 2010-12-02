@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+from django.utils.translation import ugettext_lazy as _
 
 from mongoengine import Document, StringField, ReferenceField, BooleanField, ListField
+
 from apps.utils.reflect import namedClass
 from apps.billing.documents import AccessCamOrder
 
@@ -16,18 +18,35 @@ class CameraType(Document):
 
 class Camera(Document):
     name = StringField(max_length=255)
+
     owner = ReferenceField('User')
     type = ReferenceField('CameraType')
+
     stream_name = StringField(max_length=255)
-    host = StringField(max_length=255)
-    username = StringField(max_length=64)
-    password = StringField(max_length=64)
-    enabled = BooleanField()
-    public = BooleanField(default=True)
-    paid = BooleanField(default=False)
+
+    camera_management_host = StringField(max_length=255)
+    camera_management_username = StringField(max_length=64)
+    camera_management_password = StringField(max_length=64)
+
+    is_view_enabled = BooleanField()
+    is_view_public = BooleanField(default=True)
+    is_view_paid = BooleanField(default=False)
+
+    is_management_enabled = BooleanField()
+    is_management_public = BooleanField(default=True)
+    is_management_paid = BooleanField(default=False)
+
+    is_managed = BooleanField()
+
     operator = StringField(max_length=64)
+
     force_html5 = BooleanField()
-    tariffs = ListField(ReferenceField('Tariff'))
+
+    management_packet_tariff = ReferenceField('Tariff')
+    management_time_tariff = ReferenceField('Tariff')
+
+    view_packet_tariff = ReferenceField('Tariff')
+    view_time_tariff = ReferenceField('Tariff')
 
     @property
     def driver(self):

@@ -31,6 +31,8 @@ def cam_list(request):
         cams = Camera.objects(**data)
     else:
         cams = Camera.objects()
+    for cam in cams:
+        print cam.owner.__class__
     return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams) )
 
 

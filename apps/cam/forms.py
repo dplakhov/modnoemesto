@@ -30,24 +30,47 @@ class CameraTypeForm(forms.Form):
 class CameraForm(forms.Form):
     name = forms.CharField(label=_('Name'))
     type = forms.ChoiceField(label=_('Camera type'), choices=())
+
     stream_name = forms.CharField(label=_('Stream name'))
-    host = forms.CharField(label=_('Host'))
-    username = forms.CharField(label=_('Username'))
-    password = forms.CharField(label=_('Password'))
-    enabled = forms.BooleanField(label=_('Enabled'), required=False)
-    public = forms.BooleanField(label=_('Public'), required=False)
-    paid = forms.BooleanField(label=_('Paid'), required=False)
-    operator = forms.ChoiceField(label=_('Operator'), required=False, choices=())
-    tariffs =  forms.MultipleChoiceField(label=_('Tariffs'), choices=())
+
+    camera_management_host = forms.CharField(label=_('Host'))
+    camera_management_username = forms.CharField(label=_('Username'))
+    camera_management_password = forms.CharField(label=_('Password'))
+
+    is_view_enabled = forms.BooleanField(label=_('Is view enabled'), required=False)
+    is_view_public = forms.BooleanField(label=_('Is view public'), required=False)
+    is_view_paid = forms.BooleanField(label=_('Is view paid'), required=False)
+
+    is_management_enabled = forms.BooleanField(label=_('Is management enabled'), required=False)
+    is_management_public = forms.BooleanField(label=_('Is management public'), required=False)
+    is_management_paid = forms.BooleanField(label=_('Is management paid'), required=False)
+
+    management_packet_tariff =  forms.ChoiceField(label=_('Management packet tariff'))
+    management_time_tariff =  forms.ChoiceField(label=_('Management time tariff'))
+    view_packet_tariff =  forms.ChoiceField(label=_('View packet tariff'))
+    view_time_tariff =  forms.ChoiceField(label=_('View time tariff'))
+
+    operator = forms.ChoiceField(label=_('Operator'), required=False)
+
     force_html5 = forms.BooleanField(label=_('Force html5'), required=False)
 
     def __init__(self, user, *args, **kwargs):
+
         super(CameraForm, self).__init__(*args, **kwargs)
         self.fields['type'].choices = tuple(
                             (x.id, x.name) for x in CameraType.objects.all())
+        
         self.fields['operator'].choices = [(user.username, 'myself'),] +\
             [(x.username, x.username) for x in user.mutual_friends]
-        self.fields['tariffs'].choices = [(x.id, x.name) for x in Tariff.objects.all()]
+
+        for tariff_type in ( 'management_packet_tariff',
+                              'management_time_tariff',
+                              'view_packet_tariff',
+                              'view_time_tariff',
+                              ):
+            self.fields[tariff_type].choices = tuple(
+                                (x.id, x.name)
+                                 for x in getattr(Tariff, 'get_%s_list' % tariff_type)())
 
     def tmp_disabled_clean(self):
         data = self.cleaned_data
