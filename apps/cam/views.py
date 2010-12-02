@@ -31,6 +31,8 @@ def cam_list(request):
         cams = Camera.objects(**data)
     else:
         cams = Camera.objects()
+    for cam in cams:
+        print cam.owner.__class__
     return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams) )
 
 
@@ -46,8 +48,12 @@ def cam_edit(request, id=None):
         if not is_superuser(user) and user.id != cam.owner.id:
             return HttpResponseNotFound()
         initial = cam._data
-        initial['type'] = cam.type.id
-        initial['tariffs'] = cam.tariffs and [i.id for i in cam.tariffs] or []
+        initial['type'] = cam.type.get_option_value()
+        for tariff_type in Camera.TARIFF_FIELDS:
+            value = getattr(cam, tariff_type)
+            if value:
+                initial[tariff_type] = value.id
+
     else:
         cam = None
         initial = {}
@@ -62,11 +68,19 @@ def cam_edit(request, id=None):
         for k, v in form.cleaned_data.items():
             setattr(cam, k, v)
 
-        cam.type = CameraType.objects.get(id=form.cleaned_data['type'])
+        cam.type = CameraType.objects.get(id=form.cleaned_data['type'][:-2])
 
-        cam.tariffs = Tariff.objects(id__in=form.cleaned_data['tariffs'])
+        for tariff_type in Camera.TARIFF_FIELDS:
+            value = form.cleaned_data[tariff_type]
+            if value:
+                value = Tariff.objects.get(id=value)
+                assert value in getattr(Tariff, 'get_%s_list' % tariff_type)()
+                setattr(cam, tariff_type, value)
+            else:
+                setattr(cam, tariff_type, None)
 
         cam.save()
+
         return HttpResponseRedirect(reverse('social:home'))
 
     return direct_to_template(request, 'cam/cam_edit.html',

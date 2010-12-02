@@ -10,8 +10,8 @@ from apps.billing.models import UserOrder
 class TariffForm(forms.Form):
     name = forms.CharField()
     description = forms.CharField(max_length=500, widget=forms.Textarea, required=False)
-    cost = forms.IntegerField()
-    duration = forms.IntegerField()
+    cost = forms.FloatField()
+    duration = forms.IntegerField(required=False)
     is_controlled = forms.BooleanField(required=False)
 
 
