@@ -3,8 +3,7 @@
 from django.db.models.base import Model
 from django.db import models
 from datetime import datetime
-from documents import *
-from mongoengine.django.auth import User
+from apps.social.documents import User
 
 
 class UserOrder(Model):

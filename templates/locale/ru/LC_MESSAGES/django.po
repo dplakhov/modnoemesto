@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-01 12:51+0300\n"
+"POT-Creation-Date: 2010-12-02 14:52+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,44 +34,47 @@ msgstr "Имя пользователя"
 msgid "Password:"
 msgstr "Пароль"
 
-#: billing/get_access_to_camera.html:5
-msgid "Access to camera"
-msgstr "Доступ к камере"
+#: billing/access_order_list.html:5 includes/admin_menu.html:13
+msgid "Access Orders"
+msgstr "Заказы доступа"
 
-#: billing/get_access_to_camera.html:11
-msgid "Paid"
-msgstr "Оплатить"
-
-#: billing/order_list.html:5 includes/admin_menu.html:12
-msgid "Orders"
-msgstr "Заказы"
-
-#: billing/order_list.html:9
-#, fuzzy
+#: billing/access_order_list.html:9 billing/order_list.html:10
 msgid "User"
-msgstr "Имя пользователя"
+msgstr "Пользователь"
 
-#: billing/order_list.html:10
-msgid "Amount"
-msgstr "Сумма"
+#: billing/access_order_list.html:10 cam/cam_view.html:4
+msgid "Camera"
+msgstr "Камера"
 
-#: billing/order_list.html:11
-msgid "Terminal"
-msgstr "Терминал"
+#: billing/access_order_list.html:11
+msgid "Tariff"
+msgstr "Тарифы"
 
-#: billing/order_list.html:12
-msgid "Transaction"
-msgstr "Транзакция"
+#: billing/access_order_list.html:12
+msgid "Is controlled"
+msgstr "Управляемая"
 
-#: billing/order_list.html:13
-msgid "Timestamp"
-msgstr "Время создания"
+#: billing/access_order_list.html:13
+msgid "Begin Date"
+msgstr "Начало"
 
-#: billing/order_list.html:33
+#: billing/access_order_list.html:14
+msgid "End Date"
+msgstr "Конец"
+
+#: billing/access_order_list.html:15
+msgid "Cost"
+msgstr "Стоимость"
+
+#: billing/access_order_list.html:16 social/home.html:54
+msgid "Status"
+msgstr "Статус"
+
+#: billing/access_order_list.html:38 billing/order_list.html:34
 msgid "previous"
 msgstr "предыдущая"
 
-#: billing/order_list.html:37
+#: billing/access_order_list.html:42 billing/order_list.html:38
 #, python-format
 msgid ""
 "\n"
@@ -80,9 +83,37 @@ msgstr ""
 "\n"
 "Страница %(number)s из %(num_pages)s.\n"
 
-#: billing/order_list.html:43
+#: billing/access_order_list.html:48 billing/order_list.html:44
 msgid "next"
 msgstr "сдедующая"
+
+#: billing/get_access_to_camera.html:5
+msgid "Access to camera"
+msgstr "Доступ к камере"
+
+#: billing/get_access_to_camera.html:11
+msgid "Paid"
+msgstr "Оплатить"
+
+#: billing/order_list.html:5
+msgid "Orders"
+msgstr "Заказы"
+
+#: billing/order_list.html:11
+msgid "Amount"
+msgstr "Сумма"
+
+#: billing/order_list.html:12
+msgid "Terminal"
+msgstr "Терминал"
+
+#: billing/order_list.html:13
+msgid "Transaction"
+msgstr "Транзакция"
+
+#: billing/order_list.html:14
+msgid "Timestamp"
+msgstr "Время создания"
 
 #: billing/tariff_edit.html:6
 msgid "Add tariff"
@@ -124,10 +155,6 @@ msgstr "Редактировать камеру"
 msgid "Edit"
 msgstr "Редактировать"
 
-#: cam/cam_view.html:4
-msgid "Camera"
-msgstr "Камера"
-
 #: cam/type_edit.html:6
 msgid "Add camera type"
 msgstr "Добавить тип камеры"
@@ -144,11 +171,11 @@ msgstr "Типы камер"
 msgid "Add type"
 msgstr "Добавить тип"
 
-#: groups/create.html:4
+#: groups/create.html:17
 msgid "Group creation"
 msgstr "Создание группы"
 
-#: groups/create.html:9 groups/list.html:13
+#: groups/create.html:144 groups/list.html:13
 msgid "Create group"
 msgstr "Создать группу"
 
@@ -176,11 +203,15 @@ msgstr "Камеры"
 msgid "Billing"
 msgstr "Биллинг"
 
-#: includes/camera.html:94
+#: includes/admin_menu.html:12
+msgid "Pay Orders"
+msgstr "Заказы оплаты"
+
+#: includes/camera.html:79
 msgid "This camera is not free!"
 msgstr "Просмотр этой камеры платный"
 
-#: includes/camera.html:96
+#: includes/camera.html:81
 msgid "This camera is private."
 msgstr "Эта камера не для всеобщего просмотра"
 
@@ -281,10 +312,6 @@ msgstr "ВУЗ"
 #: social/home.html:52
 msgid "Department"
 msgstr "Факультет"
-
-#: social/home.html:54
-msgid "Status"
-msgstr "Статус"
 
 #: social/home.html:69
 msgid "Rating"
