@@ -125,7 +125,7 @@ def operator(request):
             logger.debug('6')
             return HttpResponse('status=%i' % TRANS_STATUS.ALREADY)
         order = UserOrder(
-            user=user,
+            user_id=user.id,
             term=term,
             trans=trans,
             amount=amount,
@@ -210,7 +210,7 @@ def get_access_to_camera(request, id):
 @login_required
 @permission_required('superuser')
 def order_list(request, page=1):
-    q = UserOrder.objects.order_by('timestamp').all()
+    q = UserOrder.objects.order_by('-timestamp').all()
     paginator = Paginator(q, 25)
     try:
         orders = paginator.page(page)

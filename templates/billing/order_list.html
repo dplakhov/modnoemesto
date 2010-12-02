@@ -6,6 +6,7 @@
 <table>
     <thead>
         <tr>
+            <th>CID</th>
             <th>{% trans "User" %}</th>
             <th>{% trans "Amount" %}</th>
             <th>{% trans "Terminal" %}</th>
@@ -17,8 +18,8 @@
 {% for order in orders.object_list %}
     <tr>
         <td>{{ order.user.id }}</td>
-        <td><a href="{% url social:uer order.user.id %}" >{{ order.user.username }}</a></td>
-        <td>{{ order.amount }}</td>
+        <td><a href="{% url social:user order.user.id %}" >{{ order.user.username }}</a></td>
+        <td>{{ order.amount|floatformat:2 }}</td>
         <td>{{ order.term }}</td>
         <td>{{ order.trans }}</td>
         <td>{{ order.timestamp }}</td>
