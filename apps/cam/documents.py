@@ -15,6 +15,13 @@ class CameraType(Document):
     def driver_class(self):
         return namedClass(self.driver)
 
+    def get_option_value(self):
+        return '%s_%s' % (self.id, 1 if self.is_controlled else 0)
+
+    def get_option_label(self):
+        return '%s %s' % (self.name,
+                          _('(managed)') if self.is_controlled else _('(unmanaged)'))
+
 
 class Camera(Document):
     TARIFF_FIELDS = ( 'management_packet_tariff',

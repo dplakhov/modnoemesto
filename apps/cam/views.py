@@ -48,7 +48,7 @@ def cam_edit(request, id=None):
         if not is_superuser(user) and user.id != cam.owner.id:
             return HttpResponseNotFound()
         initial = cam._data
-        initial['type'] = cam.type.id
+        initial['type'] = cam.type.get_option_value()
         for tariff_type in Camera.TARIFF_FIELDS:
             value = getattr(cam, tariff_type)
             if value:

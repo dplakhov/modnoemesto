@@ -14,7 +14,7 @@ from apps.billing.documents import Tariff
 class CameraTypeForm(forms.Form):
     name = forms.CharField(label=_('Name'))
     driver = forms.CharField(label=_('Driver name'))
-    is_controlled = forms.BooleanField(label=_('Is controlled'))
+    is_controlled = forms.BooleanField(label=_('Is controlled'), required=False)
 
     def clean_driver(self):
         driver = self.cleaned_data['driver']
@@ -33,9 +33,9 @@ class CameraForm(forms.Form):
 
     stream_name = forms.CharField(label=_('Stream name'))
 
-    camera_management_host = forms.CharField(label=_('Host'))
-    camera_management_username = forms.CharField(label=_('Username'))
-    camera_management_password = forms.CharField(label=_('Password'))
+    camera_management_host = forms.CharField(label=_('Camera management host'))
+    camera_management_username = forms.CharField(label=_('Camera management username'))
+    camera_management_password = forms.CharField(label=_('Camera management password'))
 
     is_view_enabled = forms.BooleanField(label=_('Is view enabled'), required=False)
     is_view_public = forms.BooleanField(label=_('Is view public'), required=False)
@@ -55,10 +55,14 @@ class CameraForm(forms.Form):
     force_html5 = forms.BooleanField(label=_('Force html5'), required=False)
 
     def __init__(self, user, *args, **kwargs):
-
         super(CameraForm, self).__init__(*args, **kwargs)
         self.fields['type'].choices = tuple(
-                            (x.id, x.name) for x in CameraType.objects.all())
+                [('', _('Select camera type'))] +
+                [
+                            (x.get_option_value(), x.get_option_label())
+                                   for x in CameraType.objects.all()
+                ]
+                            )
         
         self.fields['operator'].choices = [(user.username, 'myself'),] +\
             [(x.username, x.username) for x in user.mutual_friends]
