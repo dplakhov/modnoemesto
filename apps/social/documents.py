@@ -75,7 +75,7 @@ class User(Document):
 
     @property
     def profile(self):
-        return Profile.objects.get_or_create(user=self)[0]
+        return Profile.objects.get_or_create(user__id=self.id)[0]
 
     @property
     def groups(self):
