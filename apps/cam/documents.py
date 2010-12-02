@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from mongoengine import Document, StringField, ReferenceField, BooleanField, ListField
-from reflect import namedClass
+from apps.utils.reflect import namedClass
 from apps.billing.documents import AccessCamOrder
 
 class CameraType(Document):
