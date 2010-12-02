@@ -12,8 +12,9 @@ from apps.billing.documents import Tariff
 
 
 class CameraTypeForm(forms.Form):
-    name = forms.CharField()
-    driver = forms.CharField()
+    name = forms.CharField(label=_('Name'))
+    driver = forms.CharField(label=_('Driver name'))
+    is_controlled = forms.BooleanField(label=_('Is controlled'))
 
     def clean_driver(self):
         driver = self.cleaned_data['driver']
