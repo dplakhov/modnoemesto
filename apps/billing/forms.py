@@ -14,12 +14,6 @@ class TariffForm(forms.Form):
     duration = forms.IntegerField(required=False)
     is_controlled = forms.BooleanField(required=False)
 
-    meta = {
-       #'indexes': ['-timestamp', 'author'],
-       'ordering': ['name'],
-   }
-
-
 
 class AccessCamOrderForm(forms.Form):
     tariff = forms.ChoiceField(choices=())

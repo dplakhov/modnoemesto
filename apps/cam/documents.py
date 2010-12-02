@@ -17,6 +17,12 @@ class CameraType(Document):
 
 
 class Camera(Document):
+    TARIFF_FIELDS = ( 'management_packet_tariff',
+                      'management_time_tariff',
+                      'view_packet_tariff',
+                      'view_time_tariff',
+                  )
+
     name = StringField(max_length=255)
 
     owner = ReferenceField('User')

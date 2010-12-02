@@ -49,7 +49,11 @@ def cam_edit(request, id=None):
             return HttpResponseNotFound()
         initial = cam._data
         initial['type'] = cam.type.id
-        initial['tariffs'] = cam.tariffs and [i.id for i in cam.tariffs] or []
+        for tariff_type in Camera.TARIFF_FIELDS:
+            value = getattr(cam, tariff_type)
+            if value:
+                initial[tariff_type] = value.id
+
     else:
         cam = None
         initial = {}
@@ -66,9 +70,15 @@ def cam_edit(request, id=None):
 
         cam.type = CameraType.objects.get(id=form.cleaned_data['type'])
 
-        cam.tariffs = Tariff.objects(id__in=form.cleaned_data['tariffs'])
+        for tariff_type in Camera.TARIFF_FIELDS:
+            value = form.cleaned_data[tariff_type]
+            if value:
+                setattr(cam, tariff_type, Tariff.objects.get(id=value))
+            else:
+                setattr(cam, tariff_type, None)
 
         cam.save()
+
         return HttpResponseRedirect(reverse('social:home'))
 
     return direct_to_template(request, 'cam/cam_edit.html',

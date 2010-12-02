@@ -45,10 +45,10 @@ class CameraForm(forms.Form):
     is_management_public = forms.BooleanField(label=_('Is management public'), required=False)
     is_management_paid = forms.BooleanField(label=_('Is management paid'), required=False)
 
-    management_packet_tariff =  forms.ChoiceField(label=_('Management packet tariff'))
-    management_time_tariff =  forms.ChoiceField(label=_('Management time tariff'))
-    view_packet_tariff =  forms.ChoiceField(label=_('View packet tariff'))
-    view_time_tariff =  forms.ChoiceField(label=_('View time tariff'))
+    management_packet_tariff =  forms.ChoiceField(label=_('Management packet tariff'), required=False)
+    management_time_tariff =  forms.ChoiceField(label=_('Management time tariff'), required=False)
+    view_packet_tariff =  forms.ChoiceField(label=_('View packet tariff'), required=False)
+    view_time_tariff =  forms.ChoiceField(label=_('View time tariff'), required=False)
 
     operator = forms.ChoiceField(label=_('Operator'), required=False)
 
@@ -63,14 +63,12 @@ class CameraForm(forms.Form):
         self.fields['operator'].choices = [(user.username, 'myself'),] +\
             [(x.username, x.username) for x in user.mutual_friends]
 
-        for tariff_type in ( 'management_packet_tariff',
-                              'management_time_tariff',
-                              'view_packet_tariff',
-                              'view_time_tariff',
-                              ):
-            self.fields[tariff_type].choices = tuple(
-                                (x.id, x.name)
-                                 for x in getattr(Tariff, 'get_%s_list' % tariff_type)())
+        for tariff_type in Camera.TARIFF_FIELDS:
+            self.fields[tariff_type].choices = tuple([('', 'Select tariff')] +
+                                 [(x.id, x.name)
+                                 for x in getattr(Tariff,
+                                      'get_%s_list' % tariff_type)()])
+
 
     def tmp_disabled_clean(self):
         data = self.cleaned_data
