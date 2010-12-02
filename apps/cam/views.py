@@ -36,16 +36,12 @@ def cam_list(request):
     return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams) )
 
 
-def is_superuser(user):
-    return user.is_superuser
-
-
 #@login_required
 def cam_edit(request, id=None):
     user = request.user
     if id:
         cam = get_document_or_404(Camera, id=id, owner=user)
-        if not is_superuser(user) and user.id != cam.owner.id:
+        if not user.is_superuser and user.id != cam.owner.id:
             return HttpResponseNotFound()
         initial = cam._data
         initial['type'] = cam.type.get_option_value()
