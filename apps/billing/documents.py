@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from mongoengine import *
+from mongoengine import Document, ReferenceField, StringField, IntField, FloatField, DateTimeField, BooleanField
 from datetime import datetime, timedelta
 from apps.billing.constans import ACCESS_CAM_ORDER_STATUS
 
@@ -22,6 +22,7 @@ class AccessCamOrder(Document):
     user = ReferenceField('User')
     begin_date = DateTimeField()
     end_date = DateTimeField()
+    cost = FloatField()
     create_on = DateTimeField(default=datetime.now)
 
     def set_access_period(self, tariff=None):
@@ -44,3 +45,7 @@ class AccessCamOrder(Document):
                 return ACCESS_CAM_ORDER_STATUS.ACTIVE
             return ACCESS_CAM_ORDER_STATUS.COMPLETE
         return ACCESS_CAM_ORDER_STATUS.WAIT
+
+    @property
+    def status_label(self):
+        return ACCESS_CAM_ORDER_STATUS.to_text(self.status)
