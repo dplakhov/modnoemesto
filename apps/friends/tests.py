@@ -43,10 +43,16 @@ class FriendshipTestCase(BasicTestCase):
         user1 = self.user1
         user2 = self.user2
         friends = user1.friends
-        OFFER_MESSAGE = 'do it now!!'
+        OFFER_MESSAGE = u'добавь меня'
         friends.offer_send(user2, OFFER_MESSAGE)
         offer = FriendshipOffer.objects.get(author=user1, recipient=user2)
         self.failUnlessEqual(OFFER_MESSAGE, offer.message)
+
+
+        OFFER_MESSAGE2 = u'почему не добавляешь-то??'
+        friends.offer_send(user2, OFFER_MESSAGE2)
+        self.failUnlessEqual(1,
+                 FriendshipOffer.objects(author=user1, recipient=user2).count())
 
 
 

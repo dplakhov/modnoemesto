@@ -34,7 +34,7 @@ class UserFriends(Document):
         return True
 
     def offer_send(self, user, message=''):
-        FriendshipOffer.objects.create(author=self.user,
+        FriendshipOffer.objects.get_or_create(author=self.user,
                                        recipient=user,
                                        message=message
                                        )
