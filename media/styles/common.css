@@ -1094,7 +1094,78 @@ a.reference
 	margin-bottom: 5px;
 	color: #6F6F6F;
 }
+.message-menu ul
+{
+	margin-bottom: 10px;
+}
 .message-menu li
 {
 	margin-bottom: 7px;
+	float: left;
 }
+h3
+{
+	color: #2bacd5;
+	font-size: 16px;
+	width: 200px;
+	margin: 0 auto;
+/*	padding: 10px 0px 20px 0px;*/
+}
+.messages_inbox
+{
+	margin-top: 10px;
+}
+.from, p.when
+{
+	float: left;
+	font-weight: bold;
+	color: #6F6F6F;
+}
+p.from
+{
+	padding-left: 10px;
+}
+p.when
+{
+	margin-left: 400px;
+}
+.message_item
+{
+	clear: both;
+	height: 100px;
+	overflow: hidden;
+	border-bottom: 1px dotted #6F6F6F;
+}
+.message_item .friendTable table 
+{
+    margin: 0;
+	float: left;
+}
+.message_text
+{
+	float: left;
+	padding: 7px;
+	width: 350px;
+	/*cursor: pointer;*/
+}
+.readed .message_text p, .readed div.when a
+{
+	color: #6F6F6F;
+}
+.unreaded .message_text p, .unreaded div.when a
+{
+	color: #000;
+}
+div.when
+{
+	padding: 7px;
+}
+
+ 
+
+
+
+
+
+
+
