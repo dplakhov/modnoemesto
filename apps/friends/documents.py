@@ -39,9 +39,8 @@ class FriendshipOfferList(object):
         FriendshipOffer.objects(sender=user, recipient=self.user).update_one(set__accepted=True,
                                                                              set__changed=datetime.now())
 
-        self.user.friends.add(user)
-        user.friends.add(self.user)
 
+        self.user.friends.friend(user)
 
 class Friendship(Document):
     friends = ListField(ReferenceField('User'))
@@ -67,6 +66,10 @@ class UserFriends(Document):
         if self._offers is None:
             self._offers = FriendshipOfferList(self.user)
         return self._offers
+
+    def friend(self, user):
+        self.user.friends.add(user)
+        user.friends.add(self.user)
 
     def add(self, user):
         self.list.append(user)

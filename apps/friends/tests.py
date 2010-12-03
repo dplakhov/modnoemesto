@@ -79,6 +79,9 @@ class FriendshipTestCase(BasicTestCase):
         self.failIf(user1.friends.offers.sent)
         self.failIf(user1.friends.offers.incoming)
 
+        self.failIf(user2.friends.offers.sent)
+        self.failIf(user2.friends.offers.incoming)
+
         user1.reload()
         user2.reload()
 
