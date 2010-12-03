@@ -1,20 +1,20 @@
 {% load i18n %}
 <div class="message-menu">
     <div class="submenu" style="float:left">
-        <p>{% trans "Messages" %}</p>
+     <!--   <p>{% trans "Messages" %}</p> -->
         <ul>
             <li>
                 {% if user.unread_msg_count %}
                     <strong>
-                    <a href="{% url user_messages:view_inbox %}">
+                    <a class="reference" href="{% url user_messages:view_inbox %}">
                         {% trans "Inbox" %} ({{ user.messages.unread|length }})
                     </a>
                     </strong>
                 {% else %}
-                    <a href="{% url user_messages:view_inbox %}">{% trans "Inbox" %}</a>
+                    <a class="reference" href="{% url user_messages:view_inbox %}">{% trans "Inbox" %}</a>
                 {% endif %}
             </li>
-            <li><a href="{% url user_messages:view_sent %}">{% trans "Sent" %}</a></li>
+            <li><a class="reference" href="{% url user_messages:view_sent %}">{% trans "Sent" %}</a></li>
         </ul>
     </div>
   
