@@ -11,15 +11,15 @@ class GroupCreationForm(forms.Form):
     site = forms.URLField(label=_('Site'), required=False)
     country = forms.CharField(label=_('Country'), required=False)
     city = forms.CharField(label=_('City'), required=False)
-    public = forms.BooleanField(label=_('Access'))
+    public = forms.BooleanField(label=_('Access'), required=False)
 
     def __init__(self, *args, **kwarg):
         initial = kwarg.get('initial')
         if initial:
             if 'theme' in initial and initial['theme']:
-                initial['theme'] = GroupType.objects(id=initial['theme']).first()
+                initial['theme'] = initial['theme'].id
             if 'type' in initial and initial['type']:
-                initial['type'] = GroupType.objects(id=initial['type']).first()
+                initial['type'] = initial['type'].id
         super(GroupCreationForm, self).__init__(*args, **kwarg)
         self.fields['theme'].choices = [('', _('none selected')),] + [(i.id, i.name) for i in GroupTheme.objects.only('id','name').all()]
         self.fields['type'].choices = [('', _('none selected')),] + [(i.id, i.name) for i in GroupType.objects.only('id','name').all()]

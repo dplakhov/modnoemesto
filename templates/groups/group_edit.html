@@ -14,7 +14,7 @@
 
 {% block content %}
 <div id="filter_box">
-    <h2>{% trans "Group creation" %}</h2>
+    <h2>{% if is_new %}{% trans "Group creation" %}{% else %}{% trans "Group edit" %}{% endif %}</h2>
 
     <div class="filt rounded">
         <form method="post">
@@ -116,14 +116,14 @@
                     <td>
                         {{ form.public.errors }}
                         <div class="input_holder rounded">
-                            <input type="radio" id="id_public" name="public" value="1" checked="checked"><label for="id_public">Открытый</label><br/>
+                            <input type="radio" id="id_public" name="public" value="true" checked="checked"><label for="id_public">Открытый</label><br/>
 
                             <div style="color:#777; font-size:10px">Вступить в группу может любой желающий. Все могут
                                 просматривать
                                 информацию о группе, её стену и фотоальбом.
                             </div>
                             <br/>
-                            <input type="radio" id="id_private" name="public" value="0"><label for="id_private">Закрытый</label><br/>
+                            <input type="radio" id="id_private" name="public" value="false"><label for="id_private">Закрытый</label><br/>
 
                             <div style="color:#777; font-size:10px">Вступить в группу можно только после одобрения
                                 администратором.
@@ -141,7 +141,7 @@
                 </tr>
             </table>
 
-            <input type="submit" value="{% trans 'Create group' %}"/>
+            <input type="submit" value="{% if is_new %}{% trans 'Create group' %}{% else %}{% trans 'Save group' %}{% endif %}"/>
         </form>
 
     </div>

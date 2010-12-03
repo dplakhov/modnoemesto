@@ -26,6 +26,9 @@ def group_list(request):
 def group_edit(request, id=None):
     if id:
         group = get_document_or_404(Group, id=id)
+        is_admin = group.is_admin(request.user) or request.user.is_superuser
+        if not is_admin:
+            return redirect(reverse('groups:group_view', kwargs=dict(id=group.pk)))
         initial = group._data
     else:
         initial = {}
@@ -44,7 +47,7 @@ def group_edit(request, id=None):
         if not id:
             group.add_member(request.user, is_admin=True)
         return redirect(reverse('groups:group_view', kwargs=dict(id=group.pk)))
-    return direct_to_template(request, 'groups/create.html', dict(form=form))
+    return direct_to_template(request, 'groups/group_edit.html', dict(form=form))
 
 
 #@login_required
@@ -52,6 +55,7 @@ def group_view(request, id):
     group = get_document_or_404(Group, id=id)
     return direct_to_template(request, 'groups/view.html', {
         'group': group,
+        'is_admin': group.is_admin(request.user) or request.user.is_superuser,
     })
 
 #@login_required

@@ -11,7 +11,7 @@ class Group(Document):
     site = URLField()
     country = StringField()
     city = StringField()
-    public = BooleanField(default=True)
+    public = BooleanField(default=False)
 
     @property
     def members(self):
@@ -28,6 +28,9 @@ class Group(Document):
 
     def remove_member(self, user):
         GroupUser.objects(group=self, user=user).delete()
+
+    def is_admin(self, user):
+        return GroupUser.objects(group=self, user=user).only('is_admin').first()
 
 
 class GroupTheme(Document):
