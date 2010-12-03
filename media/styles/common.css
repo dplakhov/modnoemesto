@@ -1094,9 +1094,9 @@ a.reference
 	margin-bottom: 5px;
 	color: #6F6F6F;
 }
-.message-menu ul
+.messages
 {
-	margin-bottom: 10px;
+	padding-top: 20px;
 }
 .message-menu li
 {
@@ -1148,19 +1148,24 @@ p.when
 	width: 350px;
 	/*cursor: pointer;*/
 }
-.readed .message_text p, .readed div.when a
+.readed .message_text a, .readed div.opration a
 {
 	color: #6F6F6F;
 }
-.unreaded .message_text p, .unreaded div.when a
+.unreaded .message_text a, .unreaded div.opration a
 {
 	color: #000;
 }
-div.when
+div.operation
 {
 	padding: 7px;
+	width: 50px;
+	float: left;
 }
-
+div.operation p
+{
+	padding-bottom: 7px;
+}
  
 
 
