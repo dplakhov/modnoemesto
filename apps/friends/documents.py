@@ -75,4 +75,5 @@ class UserFriends(Document):
         self.list.append(user)
         UserFriends.objects(user=self.user).update_one(push__list=user)
 
-
+    def contains(self, user):
+        return user in self.list
