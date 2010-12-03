@@ -23,10 +23,14 @@ class FriendshipOfferList(object):
         self.user = user
 
     def send(self, user, message=''):
-        offer, created = FriendshipOffer.objects.get_or_create(sender=self.user,
+        if self.has_from_user(user):
+            self.accept(user)
+        else:
+            offer, created = FriendshipOffer.objects.get_or_create(sender=self.user,
                                        recipient=user,
                                        defaults=dict(message=message)
                                        )
+
     @property
     def sent(self):
         return FriendshipOffer.objects(sender=self.user, changed=None)
@@ -38,12 +42,13 @@ class FriendshipOfferList(object):
     def accept(self, user):
         FriendshipOffer.objects(sender=user, recipient=self.user).update_one(set__accepted=True,
                                                                              set__changed=datetime.now())
-
         self.user.friends.friend(user)
 
-class Friendship(Document):
-    friends = ListField(ReferenceField('User'))
-    ctime = DateTimeField(default=datetime.now)
+    def has_from_user(self, user):
+        return FriendshipOffer.objects(sender=user, recipient=self.user, changed=None).count() != 0
+
+    def has_for_user(self, user):
+        return FriendshipOffer.objects(sender=self.user, recipient=user, changed=None).count() != 0
 
 
 class UserFriends(Document):
@@ -57,11 +62,7 @@ class UserFriends(Document):
         return len(self.list)
 
     def can_add(self, user):
-        if self.contains(user):
-            return False
-        
-        has_offers = FriendshipOffer.objects(sender=self.user, recipient=user).count()
-        return not has_offers
+        return not (self.contains(user) or self.offers.has_for_user(user))
 
     @property
     def offers(self):
@@ -87,4 +88,8 @@ class UserFriends(Document):
     def _add(self, user):
         self.list.append(user)
         UserFriends.objects(user=self.user).update_one(push__list=user)
+
+class Friendship(Document):
+    friends = ListField(ReferenceField('User'))
+    ctime = DateTimeField(default=datetime.now)
 

@@ -68,6 +68,8 @@ class FriendshipTestCase(BasicTestCase):
         self.failIf(user1.friends.offers.incoming)
         self.failIf(user2.friends.offers.sent)
 
+        self.failUnless(user2.friends.offers.has_from_user(user1))
+
 
     def test_accept_offer(self):
         user1 = self.user1
@@ -131,4 +133,26 @@ class FriendshipTestCase(BasicTestCase):
         self.failUnlessEqual(0, user1.friends.count)
         self.failUnlessEqual(0, user2.friends.count)
         
+
+    def test_send_accepts_other_offer(self):
+        user1 = self.user1
+        user2 = self.user2
+
+        user1.friends.offers.send(user2)
+        user2.friends.offers.send(user1)
+
+        self.failIf(user1.friends.offers.sent)
+        self.failIf(user1.friends.offers.incoming)
+
+        self.failIf(user2.friends.offers.sent)
+        self.failIf(user2.friends.offers.incoming)
+
+        user1.reload()
+        user2.reload()
+
+        self.failUnless(user1.friends.contains(user2))
+        self.failUnless(user2.friends.contains(user1))
+
+        self.failUnlessEqual(1, user1.friends.count)
+        self.failUnlessEqual(1, user2.friends.count)
 
