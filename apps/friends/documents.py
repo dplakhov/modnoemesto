@@ -71,8 +71,16 @@ class UserFriends(Document):
         return user in self.list
 
     def friend(self, user):
-        self.user.friends._add(user)
+        self._add(user)
         user.friends._add(self.user)
+
+    def unfriend(self, user):
+        self._remove(user)
+        user.friends._remove(self.user)
+
+    def _remove(self, user):
+        self.list.remove(user)
+        UserFriends.objects(user=self.user).update_one(pop__list=user)
 
     def _add(self, user):
         self.list.append(user)

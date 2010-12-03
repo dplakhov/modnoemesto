@@ -97,3 +97,31 @@ class FriendshipTestCase(BasicTestCase):
         self.failUnlessEqual(1, user1.friends.count)
         self.failUnlessEqual(1, user2.friends.count)
 
+    def test_unfriend(self):
+        user1 = self.user1
+        user2 = self.user2
+
+        user1.friends.offers.send(user2)
+        user2.friends.offers.accept(user1)
+
+        user1.reload()
+        user2.reload()
+
+        user1.friends.unfriend(user2)
+
+        user1.reload()
+        user2.reload()
+
+        self.failIf(user1.friends.list)
+        self.failIf(user2 in user1.friends.list)
+
+        self.failIf(user2.friends.list)
+        self.failIf(user1 in user2.friends.list)
+
+        self.failIf(user1.friends.contains(user2))
+        self.failIf(user2.friends.contains(user1))
+
+        self.failUnlessEqual(0, user1.friends.count)
+        self.failUnlessEqual(0, user2.friends.count)
+        
+
