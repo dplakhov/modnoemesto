@@ -17,14 +17,14 @@ from apps.social.documents import User
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 
 
-@login_required
+#@login_required
 @permission_required('superuser')
 def tariff_list(request):
     return direct_to_template(request, 'billing/tariff_list.html',
                               {'tariffs': Tariff.objects().only('id','name') } )
 
 
-@login_required
+#@login_required
 @permission_required('superuser')
 def tariff_edit(request, id=None):
     if id:
@@ -50,14 +50,14 @@ def tariff_edit(request, id=None):
                               {'form':form, 'is_new':id is None})
 
 
-@login_required
+#@login_required
 @permission_required('superuser')
 def tariff_delete(request, id):
     get_document_or_404(Tariff, id=id).delete()
     return HttpResponseRedirect(reverse('billing:tariff_list'))
 
 
-@login_required
+#@login_required
 def purse(request):
     return direct_to_template(request, 'billing/pay.html', {
         'service': settings.PKSPB_ID,
@@ -186,7 +186,7 @@ def operator(request):
     return response
 
 
-@login_required
+#@login_required
 def get_access_to_camera(request, id):
     camera = get_document_or_404(Camera, id=id)
     camera_is_controlled = camera.type.is_controlled
@@ -211,7 +211,7 @@ def get_access_to_camera(request, id):
     return direct_to_template(request, 'billing/get_access_to_camera.html', {'form':form})
 
 
-@login_required
+#@login_required
 @permission_required('superuser')
 def order_list(request, page=1):
     q = UserOrder.objects.order_by('-timestamp').all()
@@ -223,7 +223,7 @@ def order_list(request, page=1):
     return direct_to_template(request, 'billing/order_list.html', {'orders':orders})
 
 
-@login_required
+#@login_required
 @permission_required('superuser')
 def access_order_list(request, page=1):
     q = AccessCamOrder.objects.order_by('-create_on').all()

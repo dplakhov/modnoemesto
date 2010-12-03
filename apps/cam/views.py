@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.core.urlresolvers import reverse
 
@@ -18,7 +18,7 @@ from apps.cam.documents import CameraBookmarks
 from django.shortcuts import redirect
 
 
-@login_required
+#@login_required
 def cam_list(request):
     form = CamFilterForm(request.POST or None)
     if form.is_valid():
@@ -36,16 +36,12 @@ def cam_list(request):
     return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams) )
 
 
-def is_superuser(user):
-    return user.is_superuser
-
-
-@login_required
+#@login_required
 def cam_edit(request, id=None):
     user = request.user
     if id:
         cam = get_document_or_404(Camera, id=id, owner=user)
-        if not is_superuser(user) and user.id != cam.owner.id:
+        if not user.is_superuser and user.id != cam.owner.id:
             return HttpResponseNotFound()
         initial = cam._data
         initial['type'] = cam.type.get_option_value()
@@ -88,7 +84,7 @@ def cam_edit(request, id=None):
                               )
 
 
-@login_required
+#@login_required
 def cam_view(request, id):
     cam = get_document_or_404(Camera, id=id)
     return direct_to_template(request, 'cam/cam_view.html',
@@ -97,7 +93,7 @@ def cam_view(request, id):
 
 
 
-@user_passes_test(is_superuser)
+@permission_required('superuser')
 def type_list(request):
     types = CameraType.objects()
     return direct_to_template(request, 'cam/type_list.html',
@@ -105,7 +101,7 @@ def type_list(request):
                               )
 
 
-@user_passes_test(is_superuser)
+@permission_required('superuser')
 def type_edit(request, id=None):
     if id:
         type = get_document_or_404(CameraType, id=id)
@@ -138,14 +134,14 @@ def type_edit(request, id=None):
                               )
 
 
-@user_passes_test(is_superuser)
+@permission_required('superuser')
 def type_delete(request, id):
     type = get_document_or_404(CameraType, id=id)
     type.delete()
     return HttpResponseRedirect(reverse('cam:type_list'))
 
 
-@login_required
+#@login_required
 def cam_manage(request, id, command):
     if command not in AVAILABLE_COMMANDS:
         return HttpResponseNotFound()
@@ -156,7 +152,7 @@ def cam_manage(request, id, command):
     return HttpResponse()
 
 
-@login_required
+#@login_required
 def cam_bookmarks(request):
     try:
         bookmarks = CameraBookmarks.objects.get(user=request.user)
@@ -167,7 +163,7 @@ def cam_bookmarks(request):
     return direct_to_template(request, 'cam/bookmarks.html', {'cameras': cameras})
 
 
-@login_required
+#@login_required
 def cam_bookmark_add(request, id):
     camera = get_document_or_404(Camera, id=id)
     camera.bookmark_add(request.user)
@@ -175,7 +171,7 @@ def cam_bookmark_add(request, id):
     return redirect(reverse('social:user', args=[camera.owner.id]))
 
 
-@login_required
+#@login_required
 def cam_bookmark_delete(request, id):
     camera = get_document_or_404(Camera, id=id)
     camera.bookmark_delete(request.user)

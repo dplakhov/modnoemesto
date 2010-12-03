@@ -12,6 +12,11 @@
             <li><a href="{% url billing:order_list %}">{% trans "Pay Orders" %}</a></li>
             <li><a href="{% url billing:access_order_list %}">{% trans "Access Orders" %}</a></li>
         </ul>
+        <p>{% trans "Groups" %}</p>
+        <ul>
+            <li><a href="{% url groups:theme_list %}">{% trans "Themes" %}</a></li>
+            <li><a href="{% url groups:type_list %}">{% trans "Types" %}</a></li>
+        </ul>
     </div>
 </div>
 {% endif %}

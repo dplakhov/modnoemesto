@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<h1>{% trans "Themes" %}</h1>
+<table>
+{% for theme in themes %}
+<tr><td><a href="{% url groups:theme_edit theme.id %}">{{ theme.name }}</a></td><td><a href="{% url groups:theme_delete theme.id %}">x</a></td></tr>
+{% endfor %}
+</table>
+    <hr />
+
+    <a href="{% url groups:theme_add %}">{% trans "Add" %}</a>
+{% endblock %}
