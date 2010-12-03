@@ -3,13 +3,16 @@
 from datetime import datetime
 
 from mongoengine.document import Document
-from mongoengine.fields import ReferenceField, StringField, DateTimeField, ListField
+from mongoengine.fields import ReferenceField, StringField, DateTimeField, ListField, BooleanField
 
 class FriendshipOffer(Document):
     sender = ReferenceField('User')
     recipient = ReferenceField('User')
     ctime = DateTimeField(default=datetime.now)
     message = StringField()
+    changed = DateTimeField()
+    accepted = BooleanField()
+    rejected = BooleanField()
 
     meta = {
         'indexes': ['sender', 'recipient']
@@ -26,11 +29,18 @@ class FriendshipOfferList(object):
                                        )
     @property
     def sent(self):
-        return FriendshipOffer.objects(sender=self.user)
+        return FriendshipOffer.objects(sender=self.user, changed=None)
 
     @property
     def incoming(self):
-        return FriendshipOffer.objects(recipient=self.user)
+        return FriendshipOffer.objects(recipient=self.user, changed=None)
+
+    def accept(self, user):
+        FriendshipOffer.objects(sender=user, recipient=self.user).update_one(set__accepted=True,
+                                                                             set__changed=datetime.now())
+
+        self.user.friends.add(user)
+        user.friends.add(self.user)
 
 
 class Friendship(Document):
@@ -40,7 +50,7 @@ class Friendship(Document):
 
 class UserFriends(Document):
     user = ReferenceField('User', unique=True)
-    friends = ListField(ReferenceField('User'))
+    list = ListField(ReferenceField('User'))
 
     _offers = None
 
@@ -57,5 +67,9 @@ class UserFriends(Document):
         if self._offers is None:
             self._offers = FriendshipOfferList(self.user)
         return self._offers
+
+    def add(self, user):
+        self.list.append(user)
+        UserFriends.objects(user=self.user).update_one(push__list=user)
 
 
