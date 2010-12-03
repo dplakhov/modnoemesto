@@ -38,6 +38,9 @@ class FriendshipTestCase(BasicTestCase):
         self.failUnlessEqual(0, user1.friends.count)
         self.failUnless(user1.friends.can_add(user2) is True)
         self.failUnless(isinstance(user1.friends.offers, FriendshipOfferList))
+        self.failIf(user1.friends.offers.sent)
+        self.failIf(user1.friends.offers.incoming)
+
 
     def test_send_offer(self):
         user1 = self.user1
@@ -45,7 +48,7 @@ class FriendshipTestCase(BasicTestCase):
         friends = user1.friends
         OFFER_MESSAGE1 = u'добавь меня'
         friends.offers.send(user2, OFFER_MESSAGE1)
-        offer = FriendshipOffer.objects.get(author=user1, recipient=user2)
+        offer = FriendshipOffer.objects.get(sender=user1, recipient=user2)
         self.failUnlessEqual(OFFER_MESSAGE1, offer.message)
 
         self.failUnless(friends.can_add(user2) is False)
@@ -53,15 +56,22 @@ class FriendshipTestCase(BasicTestCase):
         OFFER_MESSAGE2 = u'почему не добавляешь-то??'
         friends.offers.send(user2, OFFER_MESSAGE2)
         self.failUnlessEqual(1,
-                 FriendshipOffer.objects(author=user1, recipient=user2).count())
+                 FriendshipOffer.objects(sender=user1, recipient=user2).count())
 
-        offer = FriendshipOffer.objects.get(author=user1, recipient=user2)
+        offer = FriendshipOffer.objects.get(sender=user1, recipient=user2)
         self.failUnlessEqual(OFFER_MESSAGE1, offer.message)
 
 
     def test_accept_offer(self):
         user1 = self.user1
         user2 = self.user2
+
         user1.friends.offers.send(user2)
+
+        self.failUnless(user1.friends.offers.sent)
+        self.failUnless(user2.friends.offers.incoming)
+
+        self.failIf(user1.friends.offers.incoming)
+        self.failIf(user2.friends.offers.sent)
 
 

@@ -6,13 +6,13 @@ from mongoengine.document import Document
 from mongoengine.fields import ReferenceField, StringField, DateTimeField, ListField
 
 class FriendshipOffer(Document):
-    author = ReferenceField('User')
+    sender = ReferenceField('User')
     recipient = ReferenceField('User')
     ctime = DateTimeField(default=datetime.now)
     message = StringField()
 
     meta = {
-        'indexes': ['author', 'recipient']
+        'indexes': ['sender', 'recipient']
     }
 
 class FriendshipOfferList(object):
@@ -20,11 +20,17 @@ class FriendshipOfferList(object):
         self.user = user
 
     def send(self, user, message=''):
-        offer, created = FriendshipOffer.objects.get_or_create(author=self.user,
+        offer, created = FriendshipOffer.objects.get_or_create(sender=self.user,
                                        recipient=user,
                                        defaults=dict(message=message)
                                        )
+    @property
+    def sent(self):
+        return FriendshipOffer.objects(sender=self.user)
 
+    @property
+    def incoming(self):
+        return FriendshipOffer.objects(recipient=self.user)
 
 
 class Friendship(Document):
@@ -43,7 +49,7 @@ class UserFriends(Document):
         return 0
 
     def can_add(self, user):
-        has_offers = FriendshipOffer.objects(author=self.user, recipient=user).count()
+        has_offers = FriendshipOffer.objects(sender=self.user, recipient=user).count()
         return not has_offers
 
     @property
