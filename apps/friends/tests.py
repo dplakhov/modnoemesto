@@ -94,4 +94,6 @@ class FriendshipTestCase(BasicTestCase):
         self.failUnless(user1.friends.contains(user2))
         self.failUnless(user2.friends.contains(user1))
 
+        self.failUnlessEqual(1, user1.friends.count)
+        self.failUnlessEqual(1, user2.friends.count)
 

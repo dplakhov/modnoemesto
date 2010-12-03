@@ -55,7 +55,7 @@ class UserFriends(Document):
 
     @property
     def count(self):
-        return 0
+        return len(self.list)
 
     def can_add(self, user):
         has_offers = FriendshipOffer.objects(sender=self.user, recipient=user).count()
@@ -67,13 +67,14 @@ class UserFriends(Document):
             self._offers = FriendshipOfferList(self.user)
         return self._offers
 
-    def friend(self, user):
-        self.user.friends.add(user)
-        user.friends.add(self.user)
+    def contains(self, user):
+        return user in self.list
 
-    def add(self, user):
+    def friend(self, user):
+        self.user.friends._add(user)
+        user.friends._add(self.user)
+
+    def _add(self, user):
         self.list.append(user)
         UserFriends.objects(user=self.user).update_one(push__list=user)
 
-    def contains(self, user):
-        return user in self.list
