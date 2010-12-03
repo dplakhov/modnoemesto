@@ -97,7 +97,7 @@ class Message(Document):
         ],
 
         'ordering': [
-                'timestamp',
+                '-timestamp',
         ]
 
     }
