@@ -44,6 +44,11 @@ class FriendshipOfferList(object):
                                                                              set__changed=datetime.now())
         self.user.friends.friend(user)
 
+    def reject(self, user):
+        FriendshipOffer.objects(sender=user, recipient=self.user).update_one(set__rejected=True,
+                                                                             set__changed=datetime.now())
+
+
     def has_from_user(self, user):
         return FriendshipOffer.objects(sender=user, recipient=self.user, changed=None).count() != 0
 
