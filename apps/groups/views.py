@@ -12,6 +12,7 @@ from .documents import Group
 #@login_required
 from apps.groups.documents import GroupTheme, GroupType
 from apps.groups.forms import ThemeForm, TypeForm
+from apps.social.documents import User
 
 def group_list(request):
     #@todo: pagination
@@ -69,6 +70,26 @@ def group_join(request, id):
 def group_leave(request, id):
     group = get_document_or_404(Group, id=id)
     group.remove_member(request.user)
+    return redirect(reverse('groups:group_view', kwargs=dict(id=id)))
+
+
+#@login_required
+def group_join_user(request, id, user_id):
+    group = get_document_or_404(Group, id=id)
+    if not group.is_admin(request.user):
+        return redirect(reverse('groups:group_view', kwargs=dict(id=id)))
+    user = get_document_or_404(User, id=user_id)
+    group.add_member(user, is_invite = True)
+    return redirect(reverse('groups:group_view', kwargs=dict(id=id)))
+
+
+#@login_required
+def group_leave_user(request, id, user_id):
+    group = get_document_or_404(Group, id=id)
+    if not group.is_admin(request.user):
+        return redirect(reverse('groups:group_view', kwargs=dict(id=id)))
+    user = get_document_or_404(User, id=user_id)
+    group.remove_member(user)
     return redirect(reverse('groups:group_view', kwargs=dict(id=id)))
 
 

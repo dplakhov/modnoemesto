@@ -17,20 +17,18 @@ class Group(Document):
     def members(self):
         return [i.user for i in GroupUser.objects(group=self).only('user')]
 
-    def add_member(self, user, is_admin=None):
-        obj = GroupUser(group=self,
-                        user=user,
-                        is_admin=is_admin)
-        try:
-            obj.save()
-        except OperationError:
-            pass
+    def add_member(self, user, is_admin=False, is_invite=False):
+        return GroupUser.objects.get_or_create(group=self,
+                                               user=user,
+                                               is_admin=is_admin,
+                                               is_invite=is_invite)[0]
 
     def remove_member(self, user):
         GroupUser.objects(group=self, user=user).delete()
 
     def is_admin(self, user):
-        return GroupUser.objects(group=self, user=user).only('is_admin').first()
+        info = GroupUser.objects(group=self, user=user).only('is_admin').first()
+        return info and info.is_admin
 
 
 class GroupTheme(Document):
@@ -57,3 +55,4 @@ class GroupUser(Document):
     group = ReferenceField('Group')
     user = ReferenceField('User', unique_with='group')
     is_admin = BooleanField(default=False)
+    is_invite = BooleanField(default=False)

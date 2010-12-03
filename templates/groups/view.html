@@ -17,6 +17,7 @@
 {% for user in group.members %}
     <li>
         {% include "includes/user/micro.html" %}
+        {% if request.user.id != user.id and is_admin %}<a href="{% url groups:group_leave_user group.id,user.id %}">x</a>{% endif %}
     </li>
 {% endfor %}
 </ul>
