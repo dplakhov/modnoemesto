@@ -136,10 +136,11 @@ def user(request, user_id=None):
     if page_user == request.user:
         return redirect('social:home')
 
-    page_user.is_friend = request.user.is_authenticated() and (page_user in
-                                                 request.user.mutual_friends)
+    page_user.is_friend = request.user.is_authenticated() and \
+                          request.user.friends.contains(page_user)
 
-    show_friend_button = True
+    show_friend_button = request.user.is_authenticated() and \
+                         request.user.friends.can_add(page_user)
 
     camera = page_user.get_camera()
     if camera:
@@ -151,10 +152,6 @@ def user(request, user_id=None):
                                 'show_bookmark_button': camera and camera.can_bookmark_add(request.user),
                                 'camera': camera })
 
-@login_required
-def profile_edit(request):
-    return direct_to_template(request, 'social/groups/view.html',
-                              )
 
 def avatar(request, user_id, format):
     user = get_document_or_404(User, id=user_id)
