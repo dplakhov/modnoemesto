@@ -13,7 +13,7 @@ from django.contrib import messages
 
 from mongoengine.django.shortcuts import get_document_or_404
 
-from documents import (User, FriendshipOffer, LimitsViolationException)
+from documents import (User, LimitsViolationException)
 from forms import ( UserCreationForm, LoginForm, ChangeAvatarForm)
 
 from apps.user_messages.forms import MessageTextForm 
@@ -139,9 +139,7 @@ def user(request, user_id=None):
     page_user.is_friend = request.user.is_authenticated() and (page_user in
                                                  request.user.mutual_friends)
 
-    show_friend_button = request.user.is_authenticated() and not (
-            page_user.is_friend or FriendshipOffer.objects(author=request.user,
-                recipient=page_user).count())
+    show_friend_button = True
 
     camera = page_user.get_camera()
     if camera:
@@ -152,70 +150,6 @@ def user(request, user_id=None):
                                 'show_friend_button': show_friend_button,
                                 'show_bookmark_button': camera and camera.can_bookmark_add(request.user),
                                 'camera': camera })
-
-
-@login_required
-def user_friends(request):
-    return direct_to_template(request, 'social/profile/user_friends.html',
-                              { 'frends': request.user })
-
-
-@login_required
-def friend(request, user_id):
-    if request.user.id == user_id:
-        return redirect('social:home')
-    some_user = get_document_or_404(User, id=user_id)
-    try:
-        request.user.friend(some_user)
-    except LimitsViolationException:
-        pass #@todo: display some message, describing the situation
-
-    return redirect('social:home')
-
-
-@login_required
-def unfriend(request, user_id):
-    if request.user.id == user_id:
-        return redirect('social:home')
-    some_user = get_document_or_404(User, id=user_id)
-    request.user.unfriend(some_user)
-    return redirect('social:home')
-
-
-@login_required
-def view_fs_offers_inbox(request):
-    #@todo: pagination
-    offers = FriendshipOffer.objects(recipient=request.user)\
-        .order_by('-timestamp')[:10]
-    return direct_to_template(request, 'social/friendship/inbox.html',
-                              { 'offers': offers })
-
-
-@login_required
-def view_fs_offers_sent(request):
-    #@todo: pagination
-    offers = FriendshipOffer.objects(author=request.user)\
-        .order_by('-timestamp')[:10]
-    return direct_to_template(request, 'social/friendship/sent.html',
-                              { 'offers': offers })
-
-
-@login_required
-def cancel_fs_offer(request, offer_id):
-    offer = get_document_or_404(FriendshipOffer, id=offer_id)
-    if offer.author.id != request.user.id:
-        raise Http404()
-    offer.delete()
-    return redirect('social:view_fs_offers_sent')
-
-
-@login_required
-def decline_fs_offer(request, offer_id):
-    offer = get_document_or_404(FriendshipOffer, id=offer_id)
-    if offer.recipient.id != request.user.id:
-        raise Http404()
-    offer.delete()
-    return redirect('social:view_fs_offers_inbox')
 
 @login_required
 def profile_edit(request):

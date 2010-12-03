@@ -155,6 +155,8 @@ INSTALLED_APPS = (
     'apps.media_library',
     'apps.billing',
     'apps.groups',
+    'apps.friends',
+
 )
 
 CELERY_RESULT_BACKEND = "mongodb"
