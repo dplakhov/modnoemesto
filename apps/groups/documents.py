@@ -17,8 +17,10 @@ class Group(Document):
     def members(self):
         return [i.user for i in GroupUser.objects(group=self).only('user')]
 
-    def add_member(self, user):
-        obj = GroupUser(group=self, user=user)
+    def add_member(self, user, is_admin=None):
+        obj = GroupUser(group=self,
+                        user=user,
+                        is_admin=is_admin)
         try:
             obj.save()
         except OperationError:

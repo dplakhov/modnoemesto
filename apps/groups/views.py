@@ -28,21 +28,21 @@ def group_edit(request, id=None):
         group = get_document_or_404(Group, id=id)
         initial = group._data
     else:
-        group = None
         initial = {}
 
     form = GroupCreationForm(request.POST or None, initial=initial)
 
     if form.is_valid():
-        if not group:
+        if not id:
             group = Group()
-            #@todo: need join user as admin
 
         for k, v in form.cleaned_data.items():
             if v or getattr(group, k):
                 setattr(group, k, v)
 
         group.save()
+        if not id:
+            group.add_member(request.user, is_admin=True)
         return redirect(reverse('groups:group_view', kwargs=dict(id=group.pk)))
     return direct_to_template(request, 'groups/create.html', dict(form=form))
 
