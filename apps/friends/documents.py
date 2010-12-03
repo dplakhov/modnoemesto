@@ -39,7 +39,6 @@ class FriendshipOfferList(object):
         FriendshipOffer.objects(sender=user, recipient=self.user).update_one(set__accepted=True,
                                                                              set__changed=datetime.now())
 
-
         self.user.friends.friend(user)
 
 class Friendship(Document):
@@ -58,6 +57,9 @@ class UserFriends(Document):
         return len(self.list)
 
     def can_add(self, user):
+        if self.contains(user):
+            return False
+        
         has_offers = FriendshipOffer.objects(sender=self.user, recipient=user).count()
         return not has_offers
 

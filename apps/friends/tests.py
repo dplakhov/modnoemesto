@@ -97,6 +97,9 @@ class FriendshipTestCase(BasicTestCase):
         self.failUnlessEqual(1, user1.friends.count)
         self.failUnlessEqual(1, user2.friends.count)
 
+        self.failUnless(user1.friends.can_add(user2) is False)
+        self.failUnless(user2.friends.can_add(user1) is False)
+
     def test_unfriend(self):
         user1 = self.user1
         user2 = self.user2
