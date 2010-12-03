@@ -1,14 +1,47 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
-
-<h1>{% trans "Viewing a message" %}</h1>
+<div id="filter_box">
+<h2>{% trans "Viewing a message" %}</h2>
 
 <div id="content-main">
 
     {%  include "includes/left_menu.html" %}
 
     <div class="message">
+    	<h3>{% trans "Viewing a message" %}</h3>
+            <div class="friendTable">
+            	{% with msg.sender as user %}
+                        {% include "includes/user/micro.html" %}
+                    {% endwith %}
+                
+             <!--   {% with msg.sender as user %}
+                        {% include "includes/user/mini.html" %}
+                    {% endwith %} -->
+            </div>
+            <div class="message_text">
+            	<p> {{ msg.timestamp|timesince }} {% trans "ago" %} </p>
+                <p>Заголовок сообщения</p>
+            </div>
+            <div class="message_text_view rounded">
+            	<p>{{ msg.text }}</p>
+            </div>
+            <div class="ansewer">
+            </div>
+            
+            
+            
+            <div class="but_0">
+            	<a class="reference" href="{% url user_messages:delete_message message_id=msg.id%}">
+                        {% trans "Delete" %}
+                </a>
+                <a class="reference" href="#">Ответить</a>
+            </div>
+    
+    
+    <br />
+    <br />
+    {% comment %}
         <table summary="{% trans "Viewing a message" %}" width="100%">
             <caption>{% trans "Viewing a message" %}</caption>
             <tr>
@@ -33,8 +66,10 @@
                 </td>
             </tr>
         </table>
+        
+        {% endcomment %}
     </div>
-
+</div>
 </div>
 
 {% endblock %}

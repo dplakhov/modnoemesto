@@ -1136,7 +1136,7 @@ p.when
 	overflow: hidden;
 	border-bottom: 1px dotted #6F6F6F;
 }
-.message_item .friendTable table 
+.message_item .friendTable, .message .friendTable
 {
     margin: 0;
 	float: left;
@@ -1166,9 +1166,29 @@ div.operation p
 {
 	padding-bottom: 7px;
 }
- 
-
-
+.message .message_text p, .message .message_text_view p
+{
+	padding-bottom: 5px;
+	color: #585858;
+}
+.message_text_view
+{
+	clear: left;
+	overflow: hidden;
+	padding: 7px;
+	border: 5px solid #EEEDDE;
+	width: 420px;
+	margin-left: 80px;
+	background: #FFF;
+}
+.but_0
+{
+	margin: 10px 0 10px 80px;
+}
+.but_0 a
+{
+	padding-right: 15px;
+}
 
 
 
