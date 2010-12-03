@@ -4,19 +4,21 @@
 
 <div id="content-related">
     <div class="module" id="recent-actions-module">
-        <h2>{% trans "Your friends:" %}</h2>
-        {% if user.mutual_friends %}
-            <table>
-                {% for user in user.mutual_friends %}
-                <tr>
-		<td class="friendTable">{% include "includes/user/micro.html" %}</td>
-                <td><a href="{% url social:unfriend user_id=user.id %}">x</a></td
-                </tr>
-                {% endfor %}
-            </table>
-        {% else %}
-            <p>{% trans "None available" %}</p>
-        {% endif %}
+        <div id="filter_box">
+            <h2>{% trans "Your friends:" %}</h2>
+            {% if user.mutual_friends %}
+                <table>
+                    {% for user in user.mutual_friends %}
+                    <tr>
+            			<td class="friendTable">{% include "includes/user/micro.html" %}</td>
+                    	<td><a href="{% url social:unfriend user_id=user.id %}">x</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>{% trans "None available" %}</p>
+            {% endif %}
+        </div>
     </div>
 </div>
 

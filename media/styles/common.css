@@ -1004,12 +1004,26 @@ h2.caption {
     padding: 3px 4px;
     width: 300px;
 }
+.input_holder_short
+{
+	width: 173px;
+	 background: none repeat scroll 0 0 #FFFFFF;
+    padding: 3px 4px;
+}
 .input_holder input, .input_holder textarea {
     color: #585858;
     font-family: Arial,Helvetica,sans-serif;
     font-size: 12px;
     padding-left: 2px;
     width: 290px;
+}
+.input_holder_short input, .input_holder_short textarea
+{
+	width: 170px;
+	color: #585858;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    padding-left: 2px;
 }
 .input_holder input[type="radio"] {
     width: auto;
@@ -1038,4 +1052,45 @@ h2.caption {
     padding-top: 3px;
     text-align: right;
     vertical-align: top;
+}
+.filt
+{
+	margin-bottom: 10px;
+}
+.camera_edit th
+{
+	color: #FFF;
+	text-align: right;
+	vertical-align: top;
+	padding-top: 3px;
+	width: 200px;
+}
+div.but
+{
+	margin-top: 10px;
+}
+
+.but input[type="submit"]
+{
+	background: url("../images/but.png") no-repeat;
+	color:#FFFFFF;
+	cursor:pointer;
+	overflow:visible;
+	padding:2px 30px 4px;
+	width:181px;
+	float: right;
+}
+a.reference
+{
+	color: #027A98;
+	text-decoration: underline;
+}
+.group_list
+{
+	margin-top: 10px;
+}
+.group_list a
+{
+	margin-bottom: 5px;
+	color: #6F6F6F;
 }
