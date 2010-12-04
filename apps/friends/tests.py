@@ -70,6 +70,19 @@ class FriendshipTestCase(BasicTestCase):
 
         self.failUnless(user2.friends.offers.has_from_user(user1))
 
+    def test_offer_cancel(self):
+        user1 = self.user1
+        user2 = self.user2
+
+        user1.friends.offers.send(user2)
+
+        user1.friends.offers.cancel(user2)
+
+        self.failIf(user1.friends.offers.incoming)
+        self.failIf(user1.friends.offers.sent)
+
+        self.failIf(user2.friends.offers.incoming)
+        self.failIf(user2.friends.offers.sent)
 
     def test_offer_accept(self):
         user1 = self.user1

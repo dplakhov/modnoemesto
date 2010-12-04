@@ -10,10 +10,13 @@ class FriendshipOffer(Document):
     recipient = ReferenceField('User')
     ctime = DateTimeField(default=datetime.now)
     message = StringField()
+
     changed = DateTimeField()
+
     accepted = BooleanField()
     rejected = BooleanField()
-
+    canceled = BooleanField()
+    
     meta = {
         'indexes': ['sender', 'recipient']
     }
@@ -40,20 +43,27 @@ class FriendshipOfferList(object):
         return FriendshipOffer.objects(recipient=self.user, changed=None)
 
     def accept(self, user):
-        FriendshipOffer.objects(sender=user, recipient=self.user).update_one(set__accepted=True,
-                                                                             set__changed=datetime.now())
+        FriendshipOffer.objects(sender=user, recipient=self.user).update_one(
+                set__accepted=True, set__changed=datetime.now())
         self.user.friends.friend(user)
 
     def reject(self, user):
-        FriendshipOffer.objects(sender=user, recipient=self.user).update_one(set__rejected=True,
-                                                                             set__changed=datetime.now())
+        FriendshipOffer.objects(sender=user, recipient=self.user).update_one(
+                set__rejected=True, set__changed=datetime.now())
+
+
+    def cancel(self, user):
+        FriendshipOffer.objects(sender=self.user, recipient=user).update_one(
+                set__canceled=True, set__changed=datetime.now())
 
 
     def has_from_user(self, user):
-        return FriendshipOffer.objects(sender=user, recipient=self.user, changed=None).count() != 0
+        return FriendshipOffer.objects(sender=user, recipient=self.user,
+                                       changed=None).count() != 0
 
     def has_for_user(self, user):
-        return FriendshipOffer.objects(sender=self.user, recipient=user, changed=None).count() != 0
+        return FriendshipOffer.objects(sender=self.user, recipient=user,
+                                       changed=None).count() != 0
 
 
 class UserFriends(Document):
