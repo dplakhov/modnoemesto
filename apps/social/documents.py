@@ -11,7 +11,7 @@ from django.core.urlresolvers import reverse
 from apps.groups.documents import GroupUser
 from mongoengine.document import Document
 from mongoengine.fields import ReferenceField, StringField, URLField, BooleanField, DateTimeField, FloatField
-from apps.utils.decorators import cashed_property
+from apps.utils.decorators import cached_property
 
 class LimitsViolationException(Exception):
     def __init__(self, cause):
@@ -55,6 +55,7 @@ class User(Document):
     is_active = BooleanField(default=True)
     is_superuser = BooleanField(default=False)
     last_login = DateTimeField(default=datetime.now)
+    last_access = DateTimeField(default=datetime.now)
     date_joined = DateTimeField(default=datetime.now)
 
     # activation stuff
@@ -73,11 +74,11 @@ class User(Document):
     def profile(self):
         return Profile.objects.get_or_create(user__id=self.id)[0]
 
-    @cashed_property
+    @cached_property
     def groups(self):
         return [i.group for i in GroupUser.objects(user=self, is_invite=False).only('group')]
 
-    @cashed_property
+    @cached_property
     def groups_invite(self):
         return [i.group for i in GroupUser.objects(user=self, is_invite=True).only('group')]
 
@@ -85,6 +86,10 @@ class User(Document):
     def friends(self):
         from apps.friends.documents import UserFriends
         return UserFriends.objects.get_or_create(user=self)[0]
+
+    @cached_property
+    def friends_online(self):
+        return filter(lambda x: x.is_online(),self.friends.list)
         
     meta = {
         'indexes': ['username',]
@@ -105,6 +110,9 @@ class User(Document):
 
     def is_authenticated(self):
         return True
+
+    def is_online(self):
+        return (datetime.now() - self.last_access) < settings.TIME_IS_ONLINE
 
     def set_password(self, raw_password):
         """Sets the user's password - always use this rather than directly
