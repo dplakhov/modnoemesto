@@ -1,6 +1,19 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
+{% if groups_invite %}
+<h1>{% trans "Groups invite" %}</h1>
+    {% for group in groups_invite %}
+        <div>
+            <a href="{% url groups:group_view group.id %}">{{ group.name }}</a>
+            <a href="{% url groups:invite_take group.id %}">{% trans "take" %}</a>
+            <a href="{% url groups:invite_refuse group.id %}">{% trans "refuse" %}</a>
+        </div>
+    {% endfor %}
+
+    <hr />
+{% endif %}
+
 <h1>{% trans "My groups" %}</h1>
     {% for group in groups %}
         <div>
