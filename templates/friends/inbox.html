@@ -45,37 +45,6 @@
             </div>
             {% endfor %}
         </div>
-    
-    
-    {% comment %}
-        <table summary="{% trans "Your inbox" %}" width="100%">
-            <caption>{% trans "Friendship offers: inbox" %}</caption>
-            <tr>
-                <th>{% trans "When" %}</th><th>{% trans "From" %}</th><th>{% trans "Accept/Decline" %}</th>
-            </tr>
-            {% for offer in user.friends.offers.incoming %}
-            <tr>
-                <td>
-                    {{ offer.ctime|timesince }} {% trans "ago" %}
-                </td>
-                <td class="friendTable">
-                    {% with offer.sender as user %}
-                        {% include "includes/user/micro.html" %}
-                    {% endwith %}
-                </td>
-                <td>
-                    <a href="{% url friends:accept offer.sender.id %}">
-                        {% trans "Accept" %}
-                    </a>
-                    <a href="{% url friends:reject offer.sender.id %}">
-                        {% trans "Decline" %}
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-        
-        {% endcomment %}
     </div>
 </div>
 </div>
