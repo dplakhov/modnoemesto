@@ -37,7 +37,7 @@ def remove(request, id):
     friend = get_document_or_404(User, id=id)
 
     if user.friends.contains(friend):
-        user.friends.remove(friend)
+        user.friends.unfriend(friend)
 
     return redirect('friends:list')
 
