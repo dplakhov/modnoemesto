@@ -83,6 +83,10 @@ class Camera(Document):
             if order is None or not order.can_access():
                 return False
         return True
+    
+    def save(self, *args, **kwargs):
+        self.is_managed = self.type.is_controlled
+        super(Camera, self).save()
 
     def bookmark_add(self, user):
         owner_camera = Camera.objects(owner=user).only('id').first()
