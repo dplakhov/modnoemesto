@@ -23,7 +23,7 @@ def send_message(request, user_id):
     if msgform.is_valid():
         text = msgform.data['text']
         Message.send(request.user, recipient, text)
-        return redirect('social:home')
+        return redirect('user_messages:view_inbox')
     else:
         #@todo: use separate form and screen to handle each situation
         return direct_to_template(request, 'social/user.html',
