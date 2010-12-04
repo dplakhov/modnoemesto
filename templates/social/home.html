@@ -78,7 +78,7 @@
     </div>
     <div class="friend_box transparent">
         <div style="overflow: hidden;">
-            <p>Друзья онлайн</p><span><a href="{% url friends:friend_list %}" class="change">все {{ user.friends.count }}</a></span>
+            <p>Друзья онлайн</p><span><a href="{% url friends:list %}" class="change">все {{ user.friends.count }}</a></span>
         </div>
         <ul class="friendTable">
 {% for user in user.friends.list|slice:":6" %}
