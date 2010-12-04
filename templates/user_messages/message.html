@@ -42,7 +42,6 @@
                 </div>
                 <div class="message_text">
                     <p> {{ msg.timestamp|timesince }} {% trans "ago" %} </p>
-                    <p>Заголовок сообщения</p>
                 </div>
                 <div class="message_text_view rounded">
                     <p>{{ msg.text }}</p>
@@ -69,7 +68,7 @@
                 </div>
                 
                 <div class="but_1">
-                    <a id="back" class="reference" href="#">Отменить</a>
+                    <a id="back" class="reference" href="javascript: void(0);">Отменить</a>
                     <input type="submit" value="{% trans "Send" %}"/>
                 </div>
             </div>
