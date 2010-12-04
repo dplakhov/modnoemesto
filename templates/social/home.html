@@ -70,7 +70,7 @@
     </div>
     <div class="profileActions">
         <ul>{% url social:user_friends as friends %}
-            <li><a href="{{ friends }}">{% trans "Friends" %}</a> <a href="{{ friends }}">(456)</a></li>
+            <li><a href="{{ friends }}">{% trans "Friends" %}</a> <a href="{{ friends }}">({{ user.friends.count }})</a></li>
             <li><a href="{% url in_dev %}">{% trans "Increase ranking" %}</a></li>
             <li><a href="{% url in_dev %}">{% trans "Video with me" %}</a></li>
             <li><a href="{% url social:avatar_edit %}">{% trans "Edit photo" %}</a></li>
