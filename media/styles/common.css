@@ -1171,6 +1171,11 @@ div.operation p
 	padding-bottom: 5px;
 	color: #585858;
 }
+.message_text_reply textarea
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
 .message_text_view
 {
 	clear: left;
@@ -1185,7 +1190,12 @@ div.operation p
 {
 	margin: 10px 0 10px 80px;
 }
-.but_0 a
+.but_1
+{
+	margin: 10px 80px 10px 0;
+	text-align: right;
+}
+.but_0 a, .but_1 a
 {
 	padding-right: 15px;
 }
