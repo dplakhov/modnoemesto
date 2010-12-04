@@ -1136,7 +1136,7 @@ p.when
 	overflow: hidden;
 	border-bottom: 1px dotted #6F6F6F;
 }
-.message_item .friendTable, .message .friendTable
+.message_item .friendTable, .mess .friendTable
 {
     margin: 0;
 	float: left;
@@ -1166,7 +1166,7 @@ div.operation p
 {
 	padding-bottom: 7px;
 }
-.message .message_text p, .message .message_text_view p
+.message .message_text p, .message .message_text_view p, .message_text_reply textarea
 {
 	padding-bottom: 5px;
 	color: #585858;
@@ -1189,8 +1189,29 @@ div.operation p
 {
 	padding-right: 15px;
 }
-
-
-
+.answer
+{
+	padding-top: 20px;
+}
+.answer .friendTable
+{
+    margin: 0;
+	float: right;
+}
+.answer .message_text
+{
+	float: right;
+	text-align: right;
+}
+.message_text_reply 
+{
+	clear: right;
+	overflow: hidden;
+	padding: 7px;
+	border: 5px solid #EEEDDE;
+	width: 420px;
+	margin-right: 80px;
+	background: #FFF;
+}
 
 
