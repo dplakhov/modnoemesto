@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-03 11:37+0300\n"
+"POT-Creation-Date: 2010-12-04 12:53+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: base_mini.html:58
+#: base_mini.html:59
 msgid "search"
 msgstr "поиск"
 
@@ -152,7 +152,7 @@ msgstr "Добавить камеру"
 msgid "Edit camera"
 msgstr "Редактировать камеру"
 
-#: cam/cam_list.html:35 notes/note_list.html:12
+#: cam/cam_list.html:35 groups/view.html:6 notes/note_list.html:12
 msgid "Edit"
 msgstr "Редактировать"
 
@@ -177,83 +177,83 @@ msgid "Group creation"
 msgstr "Создание группы"
 
 #: groups/group_edit.html:17
-#, fuzzy
 msgid "Group edit"
-msgstr "Создание группы"
+msgstr "Редактирование группы"
 
 #: groups/group_edit.html:144 groups/list.html:13
+#: groups/user_group_list.html:13
 msgid "Create group"
 msgstr "Создать группу"
 
 #: groups/group_edit.html:144
-#, fuzzy
 msgid "Save group"
-msgstr "Покинуть группу"
+msgstr "Сохранить группу"
 
 #: groups/list.html:4
 msgid "Available groups"
 msgstr "Доступные группы"
 
 #: groups/theme_edit.html:6
-#, fuzzy
 msgid "Add theme"
-msgstr "Добавить тип"
+msgstr "Добавить тему"
 
 #: groups/theme_edit.html:8
-#, fuzzy
 msgid "Edit theme"
-msgstr "Редактировать заметку"
+msgstr "Редактировать тему"
 
 #: groups/theme_list.html:4 includes/admin_menu.html:17
 msgid "Themes"
 msgstr "Темы"
 
 #: groups/type_edit.html:8
-#, fuzzy
 msgid "Edit type"
-msgstr "Редактировать заметку"
+msgstr "Редактировать тип"
 
 #: groups/type_list.html:4 includes/admin_menu.html:18
 msgid "Types"
 msgstr "Типы"
 
+#: groups/user_group_list.html:4
+msgid "My groups"
+msgstr "Мои группы"
+
 #: groups/view.html:5
 msgid "Group"
 msgstr "Группа"
 
-#: groups/view.html:7
+#: groups/view.html:8
 msgid "Description"
 msgstr "Описание"
 
-#: groups/view.html:8
+#: groups/view.html:9
 msgid "Theme"
 msgstr "Тема"
 
-#: groups/view.html:9
+#: groups/view.html:10
 msgid "Type"
 msgstr "Тип"
 
-#: groups/view.html:10
+#: groups/view.html:11
 msgid "Site"
 msgstr "Веб-сайт"
 
-#: groups/view.html:11
+#: groups/view.html:12
 msgid "Country"
 msgstr "Страна"
 
-#: groups/view.html:12
+#: groups/view.html:13
 msgid "City"
 msgstr "Город"
 
-#: groups/view.html:13
+#: groups/view.html:14
 msgid "Public"
 msgstr ""
 
-#: groups/view.html:24
+#: groups/view.html:26
 msgid "Leave group"
 msgstr "Покинуть группу"
 
-#: groups/view.html:26
+#: groups/view.html:28
 msgid "Join group"
 msgstr "Вступить в группу"
 
@@ -270,9 +270,8 @@ msgid "Pay Orders"
 msgstr "Заказы оплаты"
 
 #: includes/admin_menu.html:15
-#, fuzzy
 msgid "Groups"
-msgstr "Группа"
+msgstr "Группы"
 
 #: includes/camera.html:79
 msgid "This camera is not free!"

@@ -79,7 +79,7 @@ class User(Document):
 
     @property
     def groups(self):
-        return [i.group for i in GroupUser.obects(user=self).only('group')]
+        return [i.group for i in GroupUser.objects(user=self).only('group')]
 
     meta = {
         'indexes': ['username', 'mutual_friends']
