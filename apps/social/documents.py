@@ -11,7 +11,7 @@ from django.core.urlresolvers import reverse
 from apps.groups.documents import GroupUser
 from mongoengine.document import Document
 from mongoengine.fields import ReferenceField, StringField, URLField, BooleanField, DateTimeField, FloatField
-from utils import singleton
+from apps.utils.decorators import cashed_property
 
 class LimitsViolationException(Exception):
     def __init__(self, cause):
@@ -73,13 +73,11 @@ class User(Document):
     def profile(self):
         return Profile.objects.get_or_create(user__id=self.id)[0]
 
-    @property
-    @singleton
+    @cashed_property
     def groups(self):
         return [i.group for i in GroupUser.objects(user=self, is_invite=False).only('group')]
 
-    @property
-    @singleton
+    @cashed_property
     def groups_invite(self):
         return [i.group for i in GroupUser.objects(user=self, is_invite=True).only('group')]
 
