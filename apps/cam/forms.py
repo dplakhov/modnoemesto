@@ -33,9 +33,9 @@ class CameraForm(forms.Form):
 
     stream_name = forms.CharField(label=_('Stream name'))
 
-    camera_management_host = forms.CharField(label=_('Camera management host'))
-    camera_management_username = forms.CharField(label=_('Camera management username'))
-    camera_management_password = forms.CharField(label=_('Camera management password'))
+    camera_management_host = forms.CharField(label=_('Camera management host'), required=False)
+    camera_management_username = forms.CharField(label=_('Camera management username'), required=False)
+    camera_management_password = forms.CharField(label=_('Camera management password'), required=False)
 
     is_view_enabled = forms.BooleanField(label=_('Is view enabled'), required=False)
     is_view_public = forms.BooleanField(label=_('Is view public'), required=False)
