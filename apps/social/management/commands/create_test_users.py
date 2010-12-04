@@ -10,6 +10,7 @@ from django.contrib.webdesign import lorem_ipsum
 from django.core.management.base import BaseCommand, CommandError
 from apps.social import documents
 from apps.user_messages.documents import Message
+from apps.friends.documents import FriendshipOffer, UserFriends
 import re
 from django.core.urlresolvers import reverse
 from apps.utils.test import patch_settings
@@ -25,7 +26,8 @@ class Command(BaseCommand):
 
         documents.User.objects.delete()
         Message.objects.delete()
-        documents.FriendshipOffer.objects.delete()
+        FriendshipOffer.objects.delete()
+        UserFriends.objects.delete()
 
         if with_ava:
             if not os.path.exists('faces94'):
@@ -81,8 +83,8 @@ class Command(BaseCommand):
             for fn in friends_numbers:
                 friend = documents.User.objects().order_by('username')[fn]
                 #this_user.reload()
-                this_user.friend(friend)
-                random.randint(0,3) and friend.friend(this_user) # ~66%
+                this_user.friends.offers.send(friend)
+                random.randint(0,3) and friend.friends.offers.send(this_user) # ~66%
 
             max_msg_sndrs_count = random.randint(0, num)
             msg_sndrs_numbers = set([ random.randint(0, num-1) for _ in

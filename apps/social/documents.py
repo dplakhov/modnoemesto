@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
+
 from datetime import datetime
-from mongoengine import *
 from django.utils.hashcompat import md5_constructor, sha_constructor
 from django.utils.encoding import smart_str
 
@@ -8,6 +9,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.core.urlresolvers import reverse
 from apps.groups.documents import GroupUser
+from mongoengine.document import Document
+from mongoengine.fields import ReferenceField, StringField, URLField, BooleanField, DateTimeField, FloatField
 
 class LimitsViolationException(Exception):
     def __init__(self, cause):
@@ -56,14 +59,6 @@ class User(Document):
     # activation stuff
     activation_code = StringField(max_length=12)
 
-    # subscriptions
-    mutual_friends = ListField(ReferenceField('User'))
-
-
-    # some denormalisation
-    friends_count = IntField(default=0)
-    fs_offers_inbox_count = IntField(default=0)
-
     @property
     def messages(self):
         from apps.user_messages.documents import MessageBoxFactory
@@ -81,8 +76,13 @@ class User(Document):
     def groups(self):
         return [i.group for i in GroupUser.objects(user=self).only('group')]
 
+    @property
+    def friends(self):
+        from apps.friends.documents import UserFriends
+        return UserFriends.objects.get_or_create(user=self)[0]
+        
     meta = {
-        'indexes': ['username', 'mutual_friends']
+        'indexes': ['username',]
     }
 
 
@@ -153,56 +153,9 @@ class User(Document):
             return self.is_superuser
         raise Exception
 
-
     def get_camera(self):
         from apps.cam.documents import Camera
-        #@todo: bad fix KeyError
-        from apps.billing.documents import Tariff
         return Camera.objects(owner=self).first()
-
-    def friend(self, user):
-        #@todo: maybe move whole routine to some asynchronous worker such as
-        # celery
-        if self.id == user.id:
-            return
-        if FriendshipOffer.objects(recipient=self, author=user).count():
-            #@warning: this code is non-transactional
-            # minor limits violation is possible due to requests concurrency
-
-            acc1, acc2 = User.objects(id__in=(self.id, user.id)).only('friends_count')
-
-            for acc in (acc1, acc2):
-                if acc.friends_count > 499:
-                    raise LimitsViolationException(acc)
-
-            FriendshipOffer.objects.get(recipient=self,
-                                        author=user).delete(is_accepted=True)
-
-            User.objects(id=user.id).update_one\
-                    (add_to_set__mutual_friends=self, inc__friends_count=1
-                     )
-            User.objects(id=self.id).update_one\
-                    (add_to_set__mutual_friends=user, inc__friends_count=1,
-                     dec__fs_offers_inbox_count=1)
-        else:
-            #@warning: this code is non-transactional too
-            _, created = FriendshipOffer.objects.get_or_create(recipient=user,
-                                                    author=self)
-            if created:
-                User.objects(id=user.id).update_one\
-                    (inc__fs_offers_inbox_count=1)
-
-    def unfriend(self, user):
-        #@todo: maybe move whole routine to some asynchronous worker such as
-        # celery
-        #@warning: this code is non-transactional
-
-        User.objects(id=self.id, mutual_friends=user
-            ).update_one(pull__mutual_friends=user,
-                    dec__friends_count=1)
-        User.objects(id=user.id, mutual_friends=user
-            ).update_one(pull__mutual_friends=self,
-                    dec__friends_count=1)
 
     def get_absolute_url(self):
         return reverse('social:user',  kwargs=dict(user_id=self.id))
@@ -214,26 +167,3 @@ class User(Document):
         else:
             return "/media/img/notfound/avatar_%s.png" % format
 
-
-class FriendshipOffer(Document):
-    timestamp = DateTimeField()
-    author = ReferenceField('User')
-    recipient = ReferenceField('User')
-
-    meta = {
-        'indexes': ['-timestamp', 'author', 'recipient']
-    }
-
-    def __init__(self, *args, **kwargs):
-        super(FriendshipOffer, self).__init__(*args, **kwargs)
-        self.timestamp = self.timestamp or datetime.now()
-
-    def delete(self, is_accepted=False):
-        """
-        @param is_accepted: if False (default), also decreases recipient's
-        fs_offers_inbox_count field value
-        """
-        if not is_accepted:
-            User.objects(id=self.recipient.id).update_one\
-                    (dec__fs_offers_inbox_count=1)
-        super(FriendshipOffer, self).delete()

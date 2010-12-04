@@ -108,8 +108,8 @@
         <div id="mainContent" style="background:url(/media/images/bg_reg.jpg) no-repeat">
 
 {% if messages %}
-<div class="messages">
-    <ul class="messages">
+<div class="system_messages">
+    <ul>
         {% for message in messages %}
             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
         {% endfor %}

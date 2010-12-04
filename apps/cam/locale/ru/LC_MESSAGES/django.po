@@ -20,11 +20,11 @@ msgstr ""
 
 #: documents.py:23
 msgid "(managed)"
-msgstr "(неупр.)"
+msgstr "(упр.)"
 
 #: documents.py:23
 msgid "(unmanaged)"
-msgstr "(упр.)"
+msgstr "(неупр.)"
 
 #: forms.py:15 forms.py:31
 msgid "Name"

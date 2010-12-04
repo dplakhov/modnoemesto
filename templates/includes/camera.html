@@ -7,7 +7,7 @@ var nick = "{{ user.username }}";
 </script>
   <p>&nbsp;</p>
   {% if camera.show %}
-    {% if is_owner %}<a href='{% url cam:cam_edit camera.id %}'>{% trans "Edit camera" %}</a>{% endif %}
+    {% if is_owner %}<a class="reference" href='{% url cam:cam_edit camera.id %}'>{% trans "Edit camera" %}</a>{% endif %}
     <script type="text/javascript">
         $(document).ready(function(){
             // jScrollPane conflicts with chat
@@ -19,7 +19,11 @@ var nick = "{{ user.username }}";
             <a style="display:block;width:520px;height:330px" id="flash-player"> </a>
         {% endif %}
 
-        <video id="html-5-video" controls width="520" height="330" style="display:block"
+        <video id="html-5-video"
+               autoplay="false"
+               controls width="520"
+               height="330"
+               style="display:block"
         src="http://vid1.modnoemesto.ru:1935/live/mp4:{{ camera.stream_name }}/playlist.m3u8" />
 
         {% if not camera.force_html5 %}

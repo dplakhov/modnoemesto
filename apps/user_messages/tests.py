@@ -237,10 +237,8 @@ class MassMessagingTestCase(BasicTestCase):
         self.assertEquals(self.MAX_MESSAGES_COUNT, Message.objects.count())
 
     def test_message_inbox_queue_correct_shifting(self):
-        # assert first (with #0) message is gone
-        self.assertEquals(self.acc2.messages.incoming[0].text, '%s %s' % (self.text, 1))
+        self.assertEquals(self.acc2.messages.incoming[self.MAX_MESSAGES_COUNT - 1].text, '%s %s' % (self.text, 1))
 
     def test_message_sent_queue_correct_shifting(self):
-        # assert first (with #0) message is gone
-        self.assertEquals(self.acc1.messages.sent[0].text, '%s %s' % (self.text, 1))
+        self.assertEquals(self.acc1.messages.sent[self.MAX_MESSAGES_COUNT - 1].text, '%s %s' % (self.text, 1))
 

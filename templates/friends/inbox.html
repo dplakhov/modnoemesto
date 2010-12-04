@@ -6,29 +6,27 @@
 
 <div id="content-main">
 
-    {%  include "includes/left_menu.html" %}
-
     <div class="messages">
         <table summary="{% trans "Your inbox" %}" width="100%">
             <caption>{% trans "Friendship offers: inbox" %}</caption>
             <tr>
                 <th>{% trans "When" %}</th><th>{% trans "From" %}</th><th>{% trans "Accept/Decline" %}</th>
             </tr>
-            {% for offer in offers %}
+            {% for offer in user.friends.offers.incoming %}
             <tr>
                 <td>
-                    {{ offer.timestamp|timesince }} {% trans "ago" %}
+                    {{ offer.ctime|timesince }} {% trans "ago" %}
                 </td>
                 <td class="friendTable">
-                    {% with offer.author as user %}
+                    {% with offer.sender as user %}
                         {% include "includes/user/micro.html" %}
                     {% endwith %}
                 </td>
                 <td>
-                    <a href="{% url social:friend user_id=offer.author.id %}">
+                    <a href="{% url friends:accept offer.sender.id %}">
                         {% trans "Accept" %}
                     </a>
-                    <a href="{% url social:decline_fs_offer offer.id %}">
+                    <a href="{% url friends:reject offer.sender.id %}">
                         {% trans "Decline" %}
                     </a>
                 </td>
