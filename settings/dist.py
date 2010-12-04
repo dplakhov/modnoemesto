@@ -90,6 +90,7 @@ LOGIN_EXEMPT_URLS = (
     r'^pay/pskb/$',
     r'^register/$',
     r'^file/',
+    r'^avatar/',
     r'^media/', # need for ./manage.py runserver
 )
 
