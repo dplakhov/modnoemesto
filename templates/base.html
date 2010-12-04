@@ -23,10 +23,10 @@
                 {% endwith %}
             </p>
             {% endif %}
-            {% if user.fs_offers_inbox_count %}
+            {% if user.friends.offers.incoming %}
             <p class="have_friendship_offers">
-                {% with user.fs_offers_inbox_count as fs_offers_inbox_count %}
-                У вас <a href="{% url social:view_fs_offers_inbox %}">{% spaceless %}
+                {% with user.friends.offers.incoming|length as fs_offers_inbox_count %}
+                У вас <a href="{% url friends:offers_inbox %}">{% spaceless %}
                     {{ fs_offers_inbox_count }}
                     {{ fs_offers_inbox_count|choose_plural:"предложение,предложения,предложений" }}  дружбы
                     {% endspaceless %}</a>

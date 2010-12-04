@@ -3,6 +3,8 @@ from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect
+from django.contrib import messages
+from django.utils.translation import ugettext_lazy as _
 
 from mongoengine.django.shortcuts import get_document_or_404
 
@@ -23,6 +25,7 @@ def add(request, id):
 
     if user.friends.can_add(friend):
         user.friends.offers.send(friend)
+        messages.add_message(request, messages.SUCCESS, _('Friend offer sent'))
 
     return redirect('friends:list')
 
@@ -38,6 +41,7 @@ def remove(request, id):
 
     if user.friends.contains(friend):
         user.friends.unfriend(friend)
+        messages.add_message(request, messages.SUCCESS, _('Friend removed'))
 
     return redirect('friends:list')
 
@@ -53,6 +57,7 @@ def cancel(request, id):
 
     if user.friends.offers.has_for_user(friend):
         user.friends.offers.cancel(friend)
+        messages.add_message(request, messages.SUCCESS, _('Friend offer cancelled'))
 
     return redirect('friends:list')
 
@@ -67,6 +72,7 @@ def reject(request, id):
 
     if user.friends.offers.has_from_user(friend):
         user.friends.offers.reject(friend)
+        messages.add_message(request, messages.SUCCESS, _('Friend offer rejected'))
 
     return redirect('friends:list')
 
@@ -81,6 +87,7 @@ def accept(request, id):
 
     if user.friends.offers.has_from_user(friend):
         user.friends.offers.accept(friend)
+        messages.add_message(request, messages.SUCCESS, _('Friend offer accepted'))
 
     return redirect('friends:list')
 
