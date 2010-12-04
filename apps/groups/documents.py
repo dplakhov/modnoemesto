@@ -1,7 +1,6 @@
 from mongoengine.document import Document
 from mongoengine.fields import StringField, ReferenceField, URLField, BooleanField
-from mongoengine.queryset import OperationError
-from utils import singleton
+from apps.utils.decorators import cashed_property
 
 
 class Group(Document):
@@ -14,8 +13,7 @@ class Group(Document):
     city = StringField()
     public = BooleanField(default=False)
 
-    @property
-    @singleton
+    @cashed_property
     def members(self):
         return [i.user for i in GroupUser.objects(group=self, is_invite=False).only('user')]
 
