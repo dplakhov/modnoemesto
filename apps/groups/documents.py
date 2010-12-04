@@ -1,6 +1,6 @@
 from mongoengine.document import Document
 from mongoengine.fields import StringField, ReferenceField, URLField, BooleanField
-from mongoengine.queryset import OperationError
+from apps.utils.decorators import cashed_property
 
 
 class Group(Document):
@@ -13,9 +13,9 @@ class Group(Document):
     city = StringField()
     public = BooleanField(default=False)
 
-    @property
+    @cashed_property
     def members(self):
-        return [i.user for i in GroupUser.objects(group=self).only('user')]
+        return [i.user for i in GroupUser.objects(group=self, is_invite=False).only('user')]
 
     def add_member(self, user, is_admin=False, is_invite=False):
         return GroupUser.objects.get_or_create(group=self,

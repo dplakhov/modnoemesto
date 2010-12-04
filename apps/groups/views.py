@@ -10,7 +10,7 @@ from .forms import GroupCreationForm
 from .documents import Group
 
 #@login_required
-from apps.groups.documents import GroupTheme, GroupType
+from apps.groups.documents import GroupTheme, GroupType, GroupUser
 from apps.groups.forms import ThemeForm, TypeForm
 from apps.social.documents import User
 
@@ -25,18 +25,18 @@ def group_list(request):
 
 def user_group_list(request):
     groups = request.user.groups
+    groups_invite = request.user.groups_invite
     return direct_to_template(request, 'groups/user_group_list.html',
-                              dict(groups=groups)
+                              dict(groups=groups, groups_invite=groups_invite)
                               )
 
 
-#@login_required
 def group_edit(request, id=None):
     if id:
         group = get_document_or_404(Group, id=id)
         is_admin = group.is_admin(request.user) or request.user.is_superuser
         if not is_admin:
-            return redirect(reverse('groups:group_view', kwargs=dict(id=group.pk)))
+            return redirect(reverse('groups:group_view', args=[id]))
         initial = group._data
     else:
         initial = {}
@@ -54,11 +54,45 @@ def group_edit(request, id=None):
         group.save()
         if not id:
             group.add_member(request.user, is_admin=True)
-        return redirect(reverse('groups:group_view', kwargs=dict(id=group.pk)))
+        return redirect(reverse('groups:group_view', args=[id]))
     return direct_to_template(request, 'groups/group_edit.html', dict(form=form))
 
 
-#@login_required
+def send_friends_invite(request, id):
+    group = get_document_or_404(Group, id=id)
+    is_admin = group.is_admin(request.user) or request.user.is_superuser
+    if not is_admin:
+        return redirect(reverse('groups:group_view', args=[id]))
+    friends = []
+    for user in request.user.friends.list:
+        if user not in group.members:
+            friends.append(user)
+    return direct_to_template(request, 'groups/send_friends_invite.html', dict(
+        group=group,
+        friends=friends))
+
+
+def send_invite(request, group_id, user_id):
+    group = get_document_or_404(Group, id=group_id)
+    user = get_document_or_404(User, id=user_id)
+    is_admin = group.is_admin(request.user) or request.user.is_superuser
+    if not is_admin:
+        return redirect(reverse('groups:group_view', args=[group_id]))
+    group.add_member(user, is_invite=True)
+    return redirect(reverse('groups:send_friends_invite', args=[group_id]))
+
+
+def invite_take(request, group_id):
+    GroupUser.objects(group=group_id, user=request.user.id, is_invite=True)\
+             .update_one(set__is_invite=False)
+    return redirect(reverse('groups:group_view', args=[group_id]))
+
+
+def invite_refuse(request, group_id):
+    GroupUser.objects(group=group_id, user=request.user.id, is_invite=True).delete()
+    return redirect('groups:user_group_list')
+
+
 def group_view(request, id):
     group = get_document_or_404(Group, id=id)
     return direct_to_template(request, 'groups/view.html', {
@@ -66,38 +100,35 @@ def group_view(request, id):
         'is_admin': group.is_admin(request.user) or request.user.is_superuser,
     })
 
-#@login_required
+
 def group_join(request, id):
     group = get_document_or_404(Group, id=id)
     group.add_member(request.user)
-    return redirect(reverse('groups:group_view', kwargs=dict(id=id)))
+    return redirect(reverse('groups:group_view', args=[id]))
 
 
-#@login_required
 def group_leave(request, id):
     group = get_document_or_404(Group, id=id)
     group.remove_member(request.user)
-    return redirect(reverse('groups:group_view', kwargs=dict(id=id)))
+    return redirect(reverse('groups:group_view', args=[id]))
 
 
-#@login_required
 def group_join_user(request, id, user_id):
     group = get_document_or_404(Group, id=id)
     if not group.is_admin(request.user):
-        return redirect(reverse('groups:group_view', kwargs=dict(id=id)))
+        return redirect(reverse('groups:group_view', args=[id]))
     user = get_document_or_404(User, id=user_id)
     group.add_member(user, is_invite = True)
-    return redirect(reverse('groups:group_view', kwargs=dict(id=id)))
+    return redirect(reverse('groups:group_view', args=[id]))
 
 
-#@login_required
 def group_leave_user(request, id, user_id):
     group = get_document_or_404(Group, id=id)
     if not group.is_admin(request.user):
-        return redirect(reverse('groups:group_view', kwargs=dict(id=id)))
+        return redirect(reverse('groups:group_view', args=[id]))
     user = get_document_or_404(User, id=user_id)
     group.remove_member(user)
-    return redirect(reverse('groups:group_view', kwargs=dict(id=id)))
+    return redirect(reverse('groups:group_view', args=[id]))
 
 
 @permission_required('superuser')

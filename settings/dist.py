@@ -185,6 +185,8 @@ TASKS_ENABLED = dict(
     MESSAGE_DELETE = 1,
 )
 
+TASKS_ENABLED = {}
+
 
 AUTHENTICATION_BACKENDS = (
     'apps.social.auth.MongoEngineBackend',

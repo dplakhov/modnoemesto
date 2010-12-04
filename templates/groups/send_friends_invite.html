@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+        <h2>{% trans "Your friends:" %}</h2>
+        {% if user.friends.count %}
+            <table>
+                {% for user in friends %}
+                <tr>
+		<td class="friendTable">{% include "includes/user/micro.html" %}</td>
+                <td><a href="{% url groups:send_invite group.id user.id %}">{% trans "Invite"%}</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>{% trans "None available" %}</p>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

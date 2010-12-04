@@ -96,7 +96,7 @@ class UserFriends(Document):
 
     def _remove(self, user):
         self.list.remove(user)
-        UserFriends.objects(user=self.user).update_one(pop__list=user)
+        UserFriends.objects(user=self.user).update_one(pull__list=user)
 
     def _add(self, user):
         self.list.append(user)
