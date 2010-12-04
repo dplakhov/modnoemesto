@@ -23,10 +23,10 @@
                 {% endwith %}
             </p>
             {% endif %}
-            {% if user.fs_offers_inbox_count %}
+            {% if user.friends.offers.incoming %}
             <p class="have_friendship_offers">
-                {% with user.fs_offers_inbox_count as fs_offers_inbox_count %}
-                У вас <a href="{% url social:view_fs_offers_inbox %}">{% spaceless %}
+                {% with user.friends.offers.incoming|length as fs_offers_inbox_count %}
+                У вас <a href="{% url friends:offers_inbox %}">{% spaceless %}
                     {{ fs_offers_inbox_count }}
                     {{ fs_offers_inbox_count|choose_plural:"предложение,предложения,предложений" }}  дружбы
                     {% endspaceless %}</a>
@@ -49,7 +49,7 @@
                 </div>
             </li>
             <li id="fashion_place"><a href="{% url cam:cam_bookmarks %}">Мои Модные места</a></li>
-            <li id="friends"><a href="{% url social:user_friends %}">Друзья</a></li>
+            <li id="friends"><a href="{% url friends:list %}">Друзья</a></li>
 
             <li id="mail"><a href="{% url user_messages:view_inbox %}">Сообщения</a></li>
             <li id="notes"><a href="{% url notes:note_list %}">Заметки</a></li>

@@ -18,7 +18,7 @@
     {% endwith %}
 {% if show_friend_button %}
 <p>
-    <a href="{% url social:friend user_id=page_user.id %}">
+    <a href="{% url friends:add page_user.id %}">
         {% trans "Add to my friends" %}
     </a>
 </p>
@@ -63,9 +63,9 @@
 <div id="content-related">
     <div class="module" id="recent-actions-module">
         <h2>{% blocktrans %}{{ page_user }} marked as friends:{% endblocktrans %}</h2>
-          {% if page_user.mutual_friends %}
+          {% if page_user.friends.count %}
             <ul class="friendTable">
-                {% for user in page_user.mutual_friends %}
+                {% for user in page_user.friends.list %}
                     <li>
                         {% include "includes/user/micro.html" %}
                     </li>
