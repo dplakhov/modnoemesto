@@ -59,14 +59,18 @@ $(document).ready(function(){
             </tr>
             <tr>
                 <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.name.errors }} </td>
             </tr>
             <tr>
                 <th>  {{ form.type.label_tag }}</th>
                 <td class="empty_filt"></td>
-                <td>    {{ form.type }}</td>
+                <td>    {{ form.type }} </td>
             </tr>
             <tr>
                 <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.type.errors }} </td>
             </tr>
             <tr>
                 <th>  {{ form.stream_name.label_tag }}</th>
@@ -75,6 +79,8 @@ $(document).ready(function(){
             </tr>
             <tr>
                 <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.stream_name.errors }} </td>
             </tr>
             <tr>
                 <th>  {{ form.force_html5.label_tag }}</th>
@@ -119,11 +125,18 @@ $(document).ready(function(){
             </tr>
             <tr>
                 <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.view_packet_tariff.errors }} </td>
             </tr>
             <tr class="view_tariff">
                 <th>  {{ form.view_time_tariff.label_tag }}</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.view_time_tariff }}</td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.view_time_tariff.errors }} </td>
             </tr>
         </table>
     
@@ -165,6 +178,8 @@ $(document).ready(function(){
             </tr>
             <tr>
                 <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.management_packet_tariff.errors }} </td>
             </tr>
             <tr class="management_tariff">
                 <th>  {{ form.management_time_tariff.label_tag }}</th>
@@ -173,6 +188,8 @@ $(document).ready(function(){
             </tr>
             <tr>
                 <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.management_time_tariff.errors }} </td>
             </tr>
             <tr>
                 <th>  {{ form.camera_management_host.label_tag }}</th>
@@ -181,6 +198,8 @@ $(document).ready(function(){
             </tr>
             <tr>
                 <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.camera_management_host.errors }} </td>
             </tr>
             <tr>
                 <th>  {{ form.camera_management_username.label_tag }}</th>
@@ -189,6 +208,8 @@ $(document).ready(function(){
             </tr>
             <tr>
                 <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.camera_management_username.errors }} </td>
             </tr>
             <tr>
                 <th>  {{ form.camera_management_password.label_tag }}</th>
@@ -197,6 +218,8 @@ $(document).ready(function(){
             </tr>
             <tr>
                 <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.camera_management_password.errors }} </td>
             </tr>
             <tr>
                 <th>  {{ form.operator.label_tag }}</th>

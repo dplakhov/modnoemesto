@@ -9,31 +9,28 @@
     {% include "includes/left_menu.html" %}
 
     <div class="messages">
-    	<h3>{% trans "Messages: inbox" %}</h3>
+        <h3>{% trans "Messages: inbox" %}</h3>
         <div class="messages_inbox">
-        {% comment %}
-        	<p class="from">{% trans "From" %}</p>
-            <p class="when">{% trans "When" %}</p> 
-        {% endcomment %}
+        
             {% for msg in msgs %}
-        	<div class="message_item {% if msg.is_read %}readed{% else %}unreaded{% endif %}">
-            	<div class="friendTable">
-                	{% with msg.sender as user %}
+            <div class="message_item {% if msg.is_read %}readed{% else %}unreaded{% endif %}">
+                <div class="friendTable">
+                    {% with msg.sender as user %}
                         {% include "includes/user/micro.html" %}
                     {% endwith %}
                 </div>
                 <div class="message_text">
-                	<p><a href="{% url user_messages:view_message message_id=msg.id %}">
-                       
+                    <p><a href="{% url user_messages:view_message message_id=msg.id %}">
                             {{ msg.timestamp|timesince }} {% trans "ago" %}
-                        
-                    </a></p>
-                	<p><a href="#">Заголовок сообщения</a></p>
-                    <p><a href="#">Здесь будет превая строчка из сообщения</a></p>
+                        </a>
+                    </p>
+                    <p><a href="{% url user_messages:view_message message_id=msg.id %}">{{ msg.first_line }}</a></p>
                 </div>
                 <div class="operation">
-                	 <p><a class="reference" href="{% url user_messages:view_message message_id=msg.id %}">Ответить</a></p>
+                     <p><a class="reference" href="{% url user_messages:view_message message_id=msg.id %}">Ответить</a></p>
+                     {% comment %}
                      <p><a class="reference" href="#">Спам</a></p>
+                     {% endcomment %}
                      <p><a class="reference" href="{% url user_messages:delete_message message_id=msg.id%}">
                         {% trans "Delete" %}
                     </a></p>
