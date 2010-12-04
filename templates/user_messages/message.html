@@ -1,5 +1,16 @@
 {% extends "base.html" %}
 {% load i18n %}
+
+{% block js %}
+{{ block.super }}
+<script type="text/javascript" src="/media/js/autoresize-mod.jquery.js"></script>
+<script type="text/javascript">
+		$(document).ready(function(){
+				$('textarea').autoResize({extraSpace : 0});
+								   });
+</script>
+{% endblock %}
+
 {% block content %}
 <div id="filter_box">
 <h2>{% trans "Viewing a message" %}</h2>
@@ -10,23 +21,41 @@
 
     <div class="message">
     	<h3>{% trans "Viewing a message" %}</h3>
-            <div class="friendTable">
-            	{% with msg.sender as user %}
-                        {% include "includes/user/micro.html" %}
-                    {% endwith %}
-                
-             <!--   {% with msg.sender as user %}
-                        {% include "includes/user/mini.html" %}
-                    {% endwith %} -->
+            <div class="mess">
+                <div class="friendTable">
+                    {% with msg.sender as user %}
+                            {% include "includes/user/micro.html" %}
+                        {% endwith %}
+                    
+                 <!--   {% with msg.sender as user %}
+                            {% include "includes/user/mini.html" %}
+                        {% endwith %} -->
+                </div>
+                <div class="message_text">
+                    <p> {{ msg.timestamp|timesince }} {% trans "ago" %} </p>
+                    <p>Заголовок сообщения</p>
+                </div>
+                <div class="message_text_view rounded">
+                    <p>{{ msg.text }}</p>
+                </div>
             </div>
-            <div class="message_text">
-            	<p> {{ msg.timestamp|timesince }} {% trans "ago" %} </p>
-                <p>Заголовок сообщения</p>
-            </div>
-            <div class="message_text_view rounded">
-            	<p>{{ msg.text }}</p>
-            </div>
-            <div class="ansewer">
+            
+            <div class="answer">
+            	<div class="friendTable">
+                    {% with msg.sender as user %}
+                            {% include "includes/user/micro.html" %}
+                        {% endwith %}
+                    
+                 <!--   {% with msg.sender as user %}
+                            {% include "includes/user/mini.html" %}
+                        {% endwith %} -->
+                </div>
+                <div class="message_text">
+                    <p> {{ msg.timestamp|timesince }} {% trans "ago" %} </p>
+                </div>
+                <div class="message_text_reply rounded">
+                    <textarea cols="50" rows="5"></textarea>
+                </div>
             </div>
             
             
