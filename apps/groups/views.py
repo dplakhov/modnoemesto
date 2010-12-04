@@ -23,6 +23,13 @@ def group_list(request):
                               )
 
 
+def user_group_list(request):
+    groups = request.user.groups
+    return direct_to_template(request, 'groups/user_group_list.html',
+                              dict(groups=groups)
+                              )
+
+
 #@login_required
 def group_edit(request, id=None):
     if id:

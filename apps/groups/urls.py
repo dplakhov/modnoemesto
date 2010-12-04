@@ -3,6 +3,7 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('apps.groups.views',
        url(r'^$', 'group_list', name='group_list'),
+       url(r'^my/$', 'user_group_list', name='user_group_list'),
        url(r'^add/$', 'group_edit', name='group_add'),
        url(r'^(?P<id>[a-f0-9]{24})/edit/$', 'group_edit', name='group_edit'),
        url(r'^(?P<id>[a-f0-9]{24})/$', 'group_view', name='group_view'),

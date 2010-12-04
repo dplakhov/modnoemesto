@@ -78,10 +78,10 @@
     </div>
     <div class="friend_box transparent">
         <div style="overflow: hidden;">
-            <p>Друзья онлайн</p><span><a href="{% url in_dev %}" class="change">все 78</a></span>
+            <p>Друзья онлайн</p><span><a href="{% url friends:list %}" class="change">все {{ user.friends.count }}</a></span>
         </div>
         <ul class="friendTable">
-{% for user in user.mutual_friends|slice:":6" %}
+{% for user in user.friends.list|slice:":6" %}
                 <li>
 {% include "includes/user/micro.html" %}
                 </li>

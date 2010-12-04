@@ -1,14 +1,7 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
 
-#from django.contrib import admin
-#admin.autodiscover()
-
 urlpatterns = patterns('',
-
-    # Uncomment the admin/doc line below and add 'django.contrib.admindocs'
-    # to INSTALLED_APPS to enable admin documentation:
-    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     (r'^', include('apps.social.urls', namespace='social')),
     (r'^cam/', include('apps.cam.urls', namespace='cam')),
@@ -19,6 +12,7 @@ urlpatterns = patterns('',
     (r'^library/', include('apps.media_library.urls', namespace='media_library')),
     (r'^file/', include('apps.media.urls', namespace='media')),
     (r'^groups/', include('apps.groups.urls', namespace='groups')),
+    (r'^friends/', include('apps.friends.urls', namespace='friends')),
     url(r'^in_dev/$', 'django.views.generic.simple.direct_to_template', name='in_dev', kwargs={'template': 'in_dev.html'}),
 
 )
