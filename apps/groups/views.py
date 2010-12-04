@@ -9,7 +9,6 @@ from mongoengine.django.shortcuts import get_document_or_404
 from .forms import GroupCreationForm
 from .documents import Group
 
-#@login_required
 from apps.groups.documents import GroupTheme, GroupType, GroupUser
 from apps.groups.forms import ThemeForm, TypeForm
 from apps.social.documents import User

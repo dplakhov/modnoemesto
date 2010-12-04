@@ -28,6 +28,10 @@ def cam_list(request):
         else:
             data['name__icontains'] = data['name']
             del data['name']
+        if not data['is_managed']:
+            del data['is_management_enabled']
+            del data['is_management_public']
+            del data['is_management_paid']
         cams = Camera.objects(**data)
     else:
         cams = Camera.objects()
