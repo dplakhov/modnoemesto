@@ -83,35 +83,6 @@
     </form>
     {% endif %}
     
-    <br />
-    <br />
-    {% comment %}
-        <table summary="{% trans "Viewing a message" %}" width="100%">
-            <caption>{% trans "Viewing a message" %}</caption>
-            <tr>
-                <th>{% trans "When" %}</th><th>{% trans "From" %}</th>
-            </tr>
-            <tr>
-                <td>
-                    {{ msg.timestamp|timesince }} {% trans "ago" %}
-                </td>
-                <td>
-                    {% with msg.sender as user %}
-                        {% include "includes/user/mini.html" %}
-                    {% endwith %}
-                </td>
-            </tr>
-            <tr><td colspan="2">{{ msg.text }}</td> </tr>
-            <tr>
-                <td colspan="2">
-                    <a href="{% url user_messages:delete_message message_id=msg.id%}">
-                        {% trans "Delete" %}
-                    </a>
-                </td>
-            </tr>
-        </table>
-        
-        {% endcomment %}
     </div>
 </div>
 </div>

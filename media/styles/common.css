@@ -1098,12 +1098,12 @@ a.reference
 {
 	padding-top: 20px;
 }
-.message-menu li, .user_list li
+.message-menu li, .friend_request li
 {
 	margin-bottom: 7px;
 	float: left;
 }
-.user_list
+.friend_request
 {
 	overflow: hidden;
 }
@@ -1113,6 +1113,7 @@ h3
 	font-size: 16px;
 	width: 200px;
 	margin: 0 auto;
+	text-align: center;
 /*	padding: 10px 0px 20px 0px;*/
 }
 .messages_inbox
@@ -1141,7 +1142,7 @@ p.when
 	overflow: hidden;
 	border-bottom: 1px dotted #6F6F6F;
 }
-.message_item .friendTable, .mess .friendTable
+.message_item .friendTable, .mess .friendTable, .friend_list_online .friendTable, friend_list_all .friendTable
 {
     margin: 0;
 	float: left;
@@ -1164,14 +1165,14 @@ p.when
 div.operation
 {
 	padding: 7px;
-	width: 55px;
+	width: 60px;
 	float: left;
 }
 div.operation p
 {
 	padding-bottom: 7px;
 }
-.message .message_text p, .message .message_text_view p, .message_text_reply textarea
+.message_text p, .message .message_text_view p, .message_text_reply textarea
 {
 	padding-bottom: 5px;
 	color: #585858;
@@ -1237,5 +1238,32 @@ div.operation p
 	margin-right: 80px;
 	background: #FFF;
 }
-
+.friend_list_online
+{
+    margin-top: 10px;
+    border-top: 1px dotted #6f6f6f;
+    padding-top: 10px;
+    background:url(../images/bg_more_popular.png) no-repeat top;
+	overflow: hidden;
+}
+.friend_list_online ul, .friend_list_all ul
+{
+	padding-top: 10px;
+}
+.friend_list_online li.friendTable, .friend_list_all li.friendTable
+{
+	margin: 0 13px 7px;
+	float: left;
+}
+.friend_list_all
+{
+    margin-top: 10px;
+    border-top: 1px dotted #6f6f6f;
+    padding-top: 20px;
+    background:url(../images/bg_more_new.jpg) no-repeat top;
+}
+.friend_list_all h3
+{
+    color: #7a7a76;
+}
 
