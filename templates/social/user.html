@@ -18,7 +18,7 @@
     {% endwith %}
 {% if show_friend_button %}
 <p>
-    <a href="{% url social:friend user_id=page_user.id %}">
+    <a href="{% url friends:add page_user.id %}">
         {% trans "Add to my friends" %}
     </a>
 </p>

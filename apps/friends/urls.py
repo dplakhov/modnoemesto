@@ -12,4 +12,6 @@ urlpatterns = patterns('apps.friends.views',
 
        url(r'^(?P<id>[a-f0-9]{24})/accept/$', 'accept', name='accept'),
        url(r'^(?P<id>[a-f0-9]{24})/reject/$', 'reject', name='reject'),
+
+       url(r'^(?P<id>[a-f0-9]{24})/cancel/$', 'cancel', name='cancel'),
 )

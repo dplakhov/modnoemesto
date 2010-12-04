@@ -51,11 +51,9 @@ class FriendshipOfferList(object):
         FriendshipOffer.objects(sender=user, recipient=self.user).update_one(
                 set__rejected=True, set__changed=datetime.now())
 
-
     def cancel(self, user):
         FriendshipOffer.objects(sender=self.user, recipient=user).update_one(
                 set__canceled=True, set__changed=datetime.now())
-
 
     def has_from_user(self, user):
         return FriendshipOffer.objects(sender=user, recipient=self.user,

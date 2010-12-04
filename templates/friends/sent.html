@@ -22,13 +22,11 @@
                         {% include "includes/user/micro.html" %}
                     {% endwith %}
                 </td>
-            {% comment %}
                 <td>
-                    <a href="{% url social:cancel_fs_offer offer_id=offer.id %}">
+                    <a href="{% url friends:cancel id=offer.recipient.id %}">
                         {% trans "Cancel" %}
                     </a>
                 </td>
-            {% endcomment %}    
             </tr>
             {% endfor %}
         </table>

@@ -43,7 +43,7 @@ def remove(request, id):
 
 
 @login_required
-def accept(request, id):
+def cancel(request, id):
     user = request.user
 
     if id == request.user.id:
@@ -51,8 +51,8 @@ def accept(request, id):
 
     friend = get_document_or_404(User, id=id)
 
-    if user.friends.offers.has_from_user(friend):
-        user.friends.offers.accept(friend)
+    if user.friends.offers.has_for_user(friend):
+        user.friends.offers.cancel(friend)
 
     return redirect('friends:list')
 
@@ -67,6 +67,20 @@ def reject(request, id):
 
     if user.friends.offers.has_from_user(friend):
         user.friends.offers.reject(friend)
+
+    return redirect('friends:list')
+
+@login_required
+def accept(request, id):
+    user = request.user
+
+    if id == request.user.id:
+        raise Http404()
+
+    friend = get_document_or_404(User, id=id)
+
+    if user.friends.offers.has_from_user(friend):
+        user.friends.offers.accept(friend)
 
     return redirect('friends:list')
 
