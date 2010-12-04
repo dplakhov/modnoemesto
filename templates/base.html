@@ -2,14 +2,6 @@
 {% load menu_tags %}
 {% load i18n %}
 {% load pytils_numeral %}
-    {% block js %}
-    {{ block.super }}
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#filter_right').selectbox();
-                                   });
-    </script>
-    {% endblock %}
 
 {% block base_content %}
 {% if user.is_authenticated %}
@@ -53,7 +45,7 @@
 
             <li id="mail"><a href="{% url user_messages:view_inbox %}">Сообщения</a></li>
             <li id="notes"><a href="{% url notes:note_list %}">Заметки</a></li>
-            <li id="group"><a href="{% url groups:group_list %}">Группы</a></li>
+            <li id="group"><a href="{% url groups:user_group_list %}">Группы</a></li>
             <li id="foto"><a href="{% url media_library:image_index %}">Фотографии</a></li>
             <li id="video"><a href="{% url in_dev %}">Видеозаписи</a></li>
             <li id="audio"><a href="{% url in_dev %}">Аудиозаписи</a></li>
@@ -90,127 +82,5 @@
     {% endblock %}
 </div>
 
-<div id="rightColumn">
-    <h2 class="mod_places">Модные места</h2>
-
-    <p class="fi">Найдено</p>
-    <a id="quont" href="{% url in_dev %}">4567</a>
-
-    <div id="form" class="rounded">
-        <form action="" method="">
-            <select id="filter_right" size="1" name="ff">
-                <option value="df">по популярности</option>
-                <option value="dm">по популярности</option>
-                <option value="dp">по популярности</option>
-                <option value="vop">по популярности</option>
-            </select>
-        </form>
-        <div id="fp">
-
-            <ul>
-                <li>
-                    <div class="item">
-                        <img src="/media/images/place_2.jpg" alt=""/>
-
-                        <div class="news">
-                            <p class="place">Стадион Петровский</p>
-
-                            <p class="quantity">456 908 человек</p>
-
-                            <p class="creater">Пал Палыч</p>
-
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="item">
-                        <img src="/media/images/place_1.jpg"/>
-
-                        <div class="news">
-                            <p class="place">Клуб Пурга</p>
-
-                            <p class="quantity">456 человек</p>
-
-                            <p class="creater">Маруся</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="item">
-                        <img src="/media/images/place_2.jpg"/>
-
-                        <div class="news">
-                            <p class="place">Стадион Петровский</p>
-
-                            <p class="quantity">456 908 человек</p>
-
-                            <p class="creater">Пал Палыч</p>
-                        </div>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="item">
-                        <img src="/media/images/place_1.jpg"/>
-
-                        <div class="news">
-                            <p class="place">Клуб Пурга</p>
-
-                            <p class="quantity">456 человек</p>
-
-                            <p class="creater">Маруся</p>
-
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="item">
-                        <img src="/media/images/place_2.jpg"/>
-
-                        <div class="news">
-                            <p class="place">Стадион Петровский</p>
-
-                            <p class="quantity">456 908 человек</p>
-
-                            <p class="creater">Пал Палыч</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="item">
-                        <img src="/media/images/place_1.jpg"/>
-
-                        <div class="news">
-                            <p class="place">Клуб Пурга</p>
-
-                            <p class="quantity">456 человек</p>
-
-                            <p class="creater">Маруся</p>
-                        </div>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="item">
-                        <img src="/media/images/place_2.jpg"/>
-
-                        <div class="news">
-                            <p class="place">Стадион Петровский</p>
-
-                            <p class="quantity">456 908 человек</p>
-
-                            <p class="creater">Пал Палыч</p>
-
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="all">
-        <p>Все</p>
-
-        <a href="{% url in_dev %}">568</a>
-    </div>
-</div>
+{% include "_right_box_places.html" %}
 {% endblock %}
