@@ -9,10 +9,10 @@ $(document).ready(function(){
             $('tr.view_tariff').hide();
             $('tr.management_tariff').hide();
             
-            $('li[id$=_1]').click(function(){
+            $('li[id$=.1]').click(function(){
                 $('div#management_hide').show();                           
                                            });
-            $('li[id$=_0],li[id$=_]').click(function(){
+            $('li[id$=.0],li[id$=_]').click(function(){
                 $('div#management_hide').hide();                           
                                            });
             $("input[name='is_view_paid']").click(function(){

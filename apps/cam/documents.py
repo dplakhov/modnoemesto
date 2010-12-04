@@ -16,7 +16,7 @@ class CameraType(Document):
         return namedClass(self.driver)
 
     def get_option_value(self):
-        return '%s_%s' % (self.id, 1 if self.is_controlled else 0)
+        return '%s.%s' % (self.id, 1 if self.is_controlled else 0)
 
     def get_option_label(self):
         return '%s %s' % (self.name,
