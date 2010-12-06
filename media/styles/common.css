@@ -475,6 +475,13 @@ div#content_about
 {
     color: #2bacd5;
 }
+#content_about ol {
+    padding-left: 40px;
+    padding-bottom: 20px;
+    color: #585858;
+    font-size: 14px;
+    line-height: 1.5;
+}
 #regColumn
 {
     margin-left: 730px;
