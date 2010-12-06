@@ -6,6 +6,8 @@ from fabric.contrib.files import exists, contains, comment, uncomment, append
 
 APPLICATION_DIR = '/var/socnet/appserver'
 
+APPLICATION_USER = 'appserver'
+
 '''
 env.hosts = [
     '188.93.21.226',
@@ -14,9 +16,14 @@ env.hosts = [
 '''
 env.user = 'root'
 
+def _pub_key():
+    return open(os.path.join(os.path.expanduser('~'), '.ssh/id_rsa.pub')).read()
+
 def deploy(revision):
+    env.user = 'appserver'
     assert re.match(r'[a-f0-9]{40}', revision)
-    repo = 'ssh://109.234.158.2/opt/gitrepo/repositories/modnoe.git/'
+    run('whoami')
+    repo = 'ssh://gitreader@ns1.modnoemesto.ru/opt/gitrepo/repositories/modnoe.git/'
     with cd(APPLICATION_DIR):
         if exists(revision):
             run('ln -fs %s app' % revision)
@@ -31,14 +38,14 @@ def deploy(revision):
                 run('ln -fs %s app' % revision)
                 with cd('app'):
                     run('virtualenv venv')
-                    run('source ./venv/bin/activate')
-                    run('pip install --upgrade -r requirements.pip')
+                    #run('source ./venv/bin/activate')
+                    run('source ./venv/bin/activate && pip install --upgrade -r requirements.pip')
 
                 restart_app_server()
 
 
 def install_keys():
-    key = open(os.path.join(os.path.expanduser('~'), '.ssh/id_rsa.pub')).read()
+    pub_key = _pub_key()
     with cd('/root'):
         if not exists('.ssh'):
             run('mkdir .ssh')
@@ -49,7 +56,7 @@ def install_keys():
             #if not contains(key, 'authorized_keys'):
             #    print 'need'
             #    append(key, 'authorized_keys')
-            append(key, 'authorized_keys')
+            append(pub_key, 'authorized_keys')
 
 
 def upgrade_server():
@@ -93,27 +100,45 @@ def install_uwsgi():
 
 
 def install_application():
+    pub_key = _pub_key()
+    private_key = open('deploy/id_rsa', 'r').read()
     if not exists(APPLICATION_DIR):
-        run('mkdir -p %s' % APPLICATION_DIR)
+        run('mkdir -p /var/socnet/')
+        try:
+            run('userdel  -rf %s' % (APPLICATION_USER,))
+        except:
+            pass
+        run('useradd %s --home-dir %s --create-home --shell /bin/bash' %
+            (APPLICATION_USER, APPLICATION_DIR))
+        with cd(APPLICATION_DIR):
+            if not exists('.ssh'):
+                run('mkdir .ssh')
+                run('chmod 700 .ssh')
+                append(private_key, '.ssh/id_rsa')
+                run('chmod 600 .ssh/id_rsa')
+                append(pub_key, '.ssh/authorized_keys')
+                run('chown -R %s:%s .ssh' % (APPLICATION_USER, APPLICATION_USER))
+
+
+        sudoers_str = '%s ALL=NOPASSWD: /etc/init.d/nginx, NOPASSWD: /etc/init.d/socnet' % APPLICATION_USER
+        if not contains(sudoers_str, '/etc/sudoers'):
+            append(sudoers_str, '/etc/sudoers')
+
+    # return
 
     run('ln -sf %s/app/etc/nginx/nginx.conf /etc/nginx/nginx.conf' % APPLICATION_DIR)
-    run('ln -s %s/app/etc/nginx/sites-available/socnet-uwsgi.conf /etc/nginx/sites-available/socnet-uwsgi.conf'
+    run('ln -sf %s/app/etc/nginx/sites-available/socnet-uwsgi.conf /etc/nginx/sites-available/socnet-uwsgi.conf'
         % APPLICATION_DIR)
 
-    run('ln -s /etc/nginx/sites-available/socnet-uwsgi.conf /etc/nginx/sites-enabled/socnet-uwsgi.conf')
+    run('ln -sf /etc/nginx/sites-available/socnet-uwsgi.conf /etc/nginx/sites-enabled/socnet-uwsgi.conf')
 
-    run('ln -s %s/app/etc/init.d/socnet /etc/init.d/socnet' % APPLICATION_DIR)
+    run('ln -sf %s/app/etc/init.d/socnet /etc/init.d/socnet' % APPLICATION_DIR)
 
 
 def restart_app_server():
-    run('/etc/init.d/nginx reload')
-    run('/etc/init.d/socnet restart')
+    run('sudo /etc/init.d/nginx reload')
+    run('sudo /etc/init.d/socnet restart')
 
-
-def pip():
-    with cd('/var/www/socnet'):
-        run('source ./venv/bin/activate')
-        run('pip install --upgrade -r requirements.pip')
 
 def uname():
     run('uname -a')
