@@ -4,29 +4,6 @@
 {% load pytils_numeral %}
 
 {% block base_content %}
-{% if user.is_authenticated %}
-            {% if user.messages.unread|length %}
-            <p class="have_message">
-                {% with user.messages.unread|length as unread_messages_count %}
-                    У вас <a href="{% url user_messages:view_inbox %}">{% spaceless %}
-                        {{ unread_messages_count }}
-{{ unread_messages_count|choose_plural:"непрочитанное сообщение,непрочитанных сообщения,непрочитанных сообщений" }}
-                    {% endspaceless %}</a>
-                {% endwith %}
-            </p>
-            {% endif %}
-            {% if user.friends.offers.incoming %}
-            <p class="have_friendship_offers">
-                {% with user.friends.offers.incoming|length as fs_offers_inbox_count %}
-                У вас <a href="{% url friends:offers_inbox %}">{% spaceless %}
-                    {{ fs_offers_inbox_count }}
-                    {{ fs_offers_inbox_count|choose_plural:"предложение,предложения,предложений" }}  дружбы
-                    {% endspaceless %}</a>
-                {% endwith %}
-            </p>
-            {% endif %}
-{% endif %}
-
 <div id="leftColumn">
     <div class="nav">
         <ul>
@@ -41,10 +18,14 @@
                 </div>
             </li>
             <li id="fashion_place"><a href="{% url cam:cam_bookmarks %}">Мои Модные места</a></li>
-            <li id="friends"><a href="{% url friends:list %}">Друзья</a></li>
-
-            <li id="mail"><a href="{% url user_messages:view_inbox %}">Сообщения</a></li>
+{% with user.friends.offers.incoming|length as fs_offers_inbox_count %}
+            <li id="friends"><a href="{% url friends:list %}">Друзья{% if fs_offers_inbox_count %} <b>({{ fs_offers_inbox_count }})</b>{% endif %}</a></li>
+{% endwith %}
+{% with user.messages.unread|length as unread_messages_count %}
+            <li id="mail"><a href="{% url user_messages:view_inbox %}">Сообщения{% if unread_messages_count %} <b>({{ unread_messages_count }})</b>{% endif %}</a></li>
+{% endwith %}
             <li id="notes"><a href="{% url notes:note_list %}">Заметки</a></li>
+
             <li id="group"><a href="{% url groups:user_group_list %}">Группы</a></li>
             <li id="foto"><a href="{% url media_library:image_index %}">Фотографии</a></li>
             <li id="video"><a href="{% url in_dev %}">Видеозаписи</a></li>

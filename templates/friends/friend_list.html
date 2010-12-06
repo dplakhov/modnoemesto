@@ -9,9 +9,11 @@
         	<div class="friend_request">
             <ul>
             <li>
-                 <a class="reference" href="{% url friends:offers_inbox %}">Полученные заявки в друзья</a>
+{% with user.friends.offers.incoming|length as fs_offers_inbox_count %}
+                 <a class="reference" href="{% url friends:offers_inbox %}">Полученные заявки в друзья{% if fs_offers_inbox_count %} <b>({{ fs_offers_inbox_count }})</b>{% endif %}</a>
+{% endwith %}
             </li>
-            <li style="margin-left:180px">
+            <li style="float:right">
                 <a class="reference" href="{% url friends:offers_sent %}">Отправленные заявки в друзья</a>
             </li>
         </ul>
