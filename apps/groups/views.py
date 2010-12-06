@@ -53,7 +53,7 @@ def group_edit(request, id=None):
         group.save()
         if not id:
             group.add_member(request.user, is_admin=True)
-        return redirect(reverse('groups:group_view', args=[id]))
+        return redirect(reverse('groups:group_view', args=[group.id]))
     return direct_to_template(request, 'groups/group_edit.html', dict(form=form))
 
 
