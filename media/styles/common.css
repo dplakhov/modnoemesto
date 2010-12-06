@@ -1142,7 +1142,7 @@ p.when
 	overflow: hidden;
 	border-bottom: 1px dotted #6F6F6F;
 }
-.message_item .friendTable, .mess .friendTable, .friend_list_online .friendTable, friend_list_all .friendTable
+.message_item .friendTable, .mess .friendTable
 {
     margin: 0;
 	float: left;
@@ -1250,7 +1250,7 @@ div.operation p
 {
 	padding-top: 10px;
 }
-.friend_list_online li.friendTable, .friend_list_all li.friendTable
+li.friendTable
 {
 	margin: 0 13px 7px;
 	float: left;
@@ -1266,4 +1266,29 @@ div.operation p
 {
     color: #7a7a76;
 }
+.user_group
+{
+	overflow: hidden;
+	padding-bottom: 7px;
+}
+.user_group a
+{
+	color: #838383;
+}
+.group_description th, .group_description td
+{
+	color: #FFF;
+}
+.but a
+{
+	background: url("../images/but.png") no-repeat;
+	color:#FFFFFF;
+	cursor:pointer;
+	overflow:visible;
+	padding:2px 45px 4px;
+	float: left;
+}
+
+
+
 

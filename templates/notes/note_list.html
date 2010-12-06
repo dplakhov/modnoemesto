@@ -2,8 +2,9 @@
 {% load i18n %}
 
 {% block content %}
+<div id="filter_box">
 <h2>{% trans "Notes" %}</h2>
-<p><a href="{% url notes:note_add %}">{% trans 'Create a note' %}</a></p>
+
 <p>
 {% for note in notes %}
     <div>
@@ -14,4 +15,6 @@
     </div>
 {% endfor %}
 </p>
+<p><a class="reference" href="{% url notes:note_add %}">{% trans 'Create a note' %}</a></p>
+</div>
 {% endblock %}
