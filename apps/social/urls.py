@@ -8,9 +8,9 @@ urlpatterns = patterns('apps.social.views',
    url(r'^home/$', 'home', name='home'),
    url(r'^home/edit/$', 'profile_edit', name='profile_edit'),
 
-   url(r'^login/$', 'login', name='login'),
+   url(r'^login/$', 'about', name='login'),
    url(r'^logout/$', 'logout', name='logout'),
-   url(r'^register/$', 'register', name='register'),
+   url(r'^register/$', 'about', name='register'),
    url(r'^activation/(?P<code>[a-f0-9]{12})/$', 'activation',
        name='activation'),
 

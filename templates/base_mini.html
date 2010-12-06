@@ -10,7 +10,7 @@
     {# <meta name="keywords" content="" /> #}
     {# <meta name="description" content="" /> #}
 
-    {#<link href="/favicon.ico" rel="shortcut icon" />#}
+    <link href="/favicon.ico" rel="shortcut icon" />
 
     {% block css %}
     <link href="/media/styles/common.css" rel="stylesheet" type="text/css" />
@@ -100,11 +100,11 @@
             <td class="right_corner"></td>
 {% else %}
             <td class="left_corner"></td>
-            <td class="menu_but"><a href="{% url social:register %}">регистрация</a></td>
+            <td class="menu_but"><a href="{% url social:index %}">регистрация</a></td>
             <td class="right_corner"></td>
             <td class="empty"></td>
             <td class="left_corner"></td>
-            <td class="menu_but"><a href="{% url social:login %}">вход</a></td>
+            <td class="menu_but"><a href="{% url social:index %}">вход</a></td>
             <td class="right_corner"></td>
 {% endif %}
             </tr>

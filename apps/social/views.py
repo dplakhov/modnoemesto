@@ -48,20 +48,40 @@ def index(request):
 
 
 def about(request):
+    reg_form = None
+    login_form = None
+    redirect_to = None
+    if request.method == "POST":
+        form_name = request.POST.get('form_name', None)
+        if form_name == 'register':
+            reg_form = register(request)
+            if type(reg_form) == HttpResponse:
+                return reg_form
+        elif form_name == 'login':
+            login_form = login(request)
+            if type(login_form) == HttpResponseRedirect:
+                return login_form
+    is_reg = reg_form is not None
+    reg_form = reg_form or UserCreationForm()
+    login_form = login_form or LoginForm()
+    request.session.set_test_cookie()
     return direct_to_template(request, 'about.html', {
-        'reg_form': UserCreationForm(),
-        'login_form': LoginForm(),
+        'reg_form': reg_form,
+        'login_form': login_form,
+        'is_reg': is_reg,
         })
 
 def register(request):
-    form = UserCreationForm(request.POST or None)
-
+    form = UserCreationForm(request.POST)
     if form.is_valid():
         from random import choice
         alpha = 'abcdef0123456789'
         activation_code = ''.join(choice(alpha) for _ in xrange(12))
-        user = User(username=form.data['username'], is_active=False,
-                                   activation_code=activation_code)
+        user = User(username=form.data['username'],
+                    full_name=form.data['full_name'],
+                    phone=form.data['phone'],
+                    is_active=False,
+                    activation_code=activation_code)
         user.set_password(form.data['password1'])
         user.save()
 
@@ -76,7 +96,7 @@ def register(request):
 
         return direct_to_template(request, 'registration_complete.html')
 
-    return direct_to_template(request, 'registration.html', { 'form': form })
+    return form
 
 
 def activation(request, code=None):
@@ -91,32 +111,22 @@ def activation(request, code=None):
 
 
 def login(request):
-    redirect_to = request.REQUEST.get(REDIRECT_FIELD_NAME, 'social:home')
+    form = LoginForm(request, data=request.POST)
+    if form.is_valid():
+        redirect_to = request.REQUEST.get(REDIRECT_FIELD_NAME, 'social:home')
+        if not redirect_to or ' ' in redirect_to:
+            redirect_to = settings.LOGIN_REDIRECT_URL
 
-    if request.method == "POST":
-        form = LoginForm(request, data=request.POST)
-        if form.is_valid():
-            if not redirect_to or ' ' in redirect_to:
+        elif '//' in redirect_to and re.match(r'[^\?]*//', redirect_to):
                 redirect_to = settings.LOGIN_REDIRECT_URL
 
-            elif '//' in redirect_to and re.match(r'[^\?]*//', redirect_to):
-                    redirect_to = settings.LOGIN_REDIRECT_URL
+        django_login(request, form.get_user())
 
-            django_login(request, form.get_user())
+        if request.session.test_cookie_worked():
+            request.session.delete_test_cookie()
 
-            if request.session.test_cookie_worked():
-                request.session.delete_test_cookie()
-
-            return redirect(redirect_to)
-    else:
-        form = LoginForm(request)
-
-    request.session.set_test_cookie()
-
-    return direct_to_template(request, 'login.html', {
-        'form': form,
-        REDIRECT_FIELD_NAME: redirect_to,
-    })
+        return redirect(redirect_to)
+    return form
 
 
 def logout(request):
