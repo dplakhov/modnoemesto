@@ -26,6 +26,8 @@ def deploy(revision):
     run('whoami')
     repo = 'ssh://gitreader@ns1.modnoemesto.ru/opt/gitrepo/repositories/modnoe.git/'
     with cd(APPLICATION_DIR):
+        if exists('app'):
+            run('rm app')
         if exists(revision):
             run('ln -fs %s app' % revision)
         else:
@@ -138,7 +140,6 @@ def restart_app_server():
     env.user = 'appserver'
     run('sudo /etc/init.d/nginx reload')
     run('sudo /etc/init.d/socnet restart')
-
 
 def uname():
     run('uname -a')
