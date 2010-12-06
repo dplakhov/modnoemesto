@@ -113,7 +113,7 @@ div#serch
 {
     background: url(../images/left_corner_curent.png) no-repeat;
     border-bottom: none;
-    width: 3px;
+    width: 5px;
 }
 #menu .right_corner, #menuReg .right_corner
 {
@@ -1148,7 +1148,7 @@ p.when
 	overflow: hidden;
 	border-bottom: 1px dotted #6F6F6F;
 }
-.message_item .friendTable, .mess .friendTable, .friend_list_online .friendTable, friend_list_all .friendTable
+.message_item .friendTable, .mess .friendTable
 {
     margin: 0;
 	float: left;
@@ -1160,7 +1160,7 @@ p.when
 	width: 350px;
 	/*cursor: pointer;*/
 }
-.readed .message_text a, .readed div.opration a
+.readed .message_text a, .readed div.opration a, .note_text a
 {
 	color: #6F6F6F;
 }
@@ -1178,7 +1178,7 @@ div.operation p
 {
 	padding-bottom: 7px;
 }
-.message_text p, .message .message_text_view p, .message_text_reply textarea
+.message_text p, .message .message_text_view p, .message_text_reply textarea, .note_text p
 {
 	padding-bottom: 5px;
 	color: #585858;
@@ -1196,6 +1196,14 @@ div.operation p
 	border: 5px solid #EEEDDE;
 	width: 420px;
 	margin-left: 80px;
+	background: #FFF;
+}
+.note_text_view
+{
+	clear: left;
+	overflow: hidden;
+	padding: 7px;
+	border: 5px solid #EEEDDE;
 	background: #FFF;
 }
 .but_0
@@ -1234,7 +1242,7 @@ div.operation p
 	float: right;
 	text-align: right;
 }
-.message_text_reply 
+.message_text_reply, .message_text_write
 {
 	clear: right;
 	overflow: hidden;
@@ -1243,6 +1251,10 @@ div.operation p
 	width: 420px;
 	margin-right: 80px;
 	background: #FFF;
+}
+.message_text_write
+{
+	width: 260px;
 }
 .friend_list_online
 {
@@ -1256,7 +1268,7 @@ div.operation p
 {
 	padding-top: 10px;
 }
-.friend_list_online li.friendTable, .friend_list_all li.friendTable
+li.friendTable
 {
 	margin: 0 13px 7px;
 	float: left;
@@ -1272,4 +1284,31 @@ div.operation p
 {
     color: #7a7a76;
 }
-
+.user_group
+{
+	overflow: hidden;
+	padding-bottom: 7px;
+}
+.user_group a
+{
+	color: #838383;
+}
+.group_description th, .group_description td
+{
+	color: #FFF;
+}
+.but a
+{
+	background: url("../images/but.png") no-repeat;
+	color:#FFFFFF;
+	cursor:pointer;
+	overflow:visible;
+	padding:2px 45px 5px;
+	float: left;
+}
+.note_text
+{
+	float: left;
+	padding: 7px;
+	width: 340px;
+}

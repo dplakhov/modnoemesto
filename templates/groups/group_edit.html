@@ -16,8 +16,9 @@
 <div id="filter_box">
     <h2>{% if is_new %}{% trans "Group creation" %}{% else %}{% trans "Group edit" %}{% endif %}</h2>
 
+	 <form method="post">
     <div class="filt rounded">
-        <form method="post">
+       
             <table class="group_add">
                 <tr>
                     <th><label for="id_{{ form.name.html_name }}">{{ form.name.label }}:</label></th>
@@ -141,11 +142,13 @@
                 </tr>
             </table>
 		</div>
+        
         <div class="but">
-        	<input type="submit" value="{% trans 'Create group' %}"/>
+        {% if is_new %}<input type="submit" value="{% trans 'Create group' %}"/>
+        {% else %}<input type="submit" value="Редактировать группу"/>{% endif %}
         </div>
         </form>
-
+		
    
 </div>
 {% endblock %}

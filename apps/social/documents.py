@@ -47,9 +47,11 @@ class User(Document):
     at http://docs.djangoproject.com/en/dev/topics/auth/#users
     """
     username = StringField(max_length=30, unique=True, required=True)
+    full_name = StringField(max_length=90)
     first_name = StringField(max_length=30)
     last_name = StringField(max_length=30)
     email = StringField()
+    phone = StringField(max_length=30)
     password = StringField(max_length=128)
     is_staff = BooleanField(default=False)
     is_active = BooleanField(default=True)

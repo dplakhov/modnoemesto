@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
+<div id="filter_box">
 <h2>
     {% if create %}
         {% trans "Add a note" %}
@@ -8,11 +9,45 @@
         {% trans "Edit note" %}
     {% endif %}
 </h2>
+
 <form method="post">
+<div class="filt rounded">
+	 <table class="group_add">
+        <tr>
+            <th><label for="id_title">Заголовок:</label></th>
+            <td class="empty_filt"></td>
+            <td><div class="input_holder rounded"><input id="id_title" type="text" name="title" maxlength="128" /></div></td>
+        </tr>
+        <tr>
+          	<td style="height:10px"></td>
+        </tr>
+        <tr>
+            <th><label for="id_text">Текст:</label></th>
+            <td class="empty_filt"></td>
+            <td><div class="input_holder rounded"><textarea id="id_text" rows="10" cols="40" name="text"></textarea></div></td>
+        </tr>
+                <tr>
+          	<td style="height:10px"></td>
+        </tr>
+        <tr>
+            <th><label for="id_is_public">Публичная:</label></th>
+            <td class="empty_filt"></td>
+            <td><input type="checkbox" name="is_public" id="id_is_public" /></td>
+        </tr>
+
+    </table>
+</div>
+ {% comment %}
     <table>
         {{ form.as_table }}
     </table>
-    <input type="submit"
-           value="{% if create %}{% trans 'Add' %}{% else %}{% trans 'Save' %}{% endif %}" />
+    
+    {% endcomment %}
+    <div class="but">
+        <input type="submit"
+               value="{% if create %}{% trans 'Add' %}{% else %}{% trans 'Save' %}{% endif %}" />
+    </div>
+
 </form>
+</div>
 {% endblock %}

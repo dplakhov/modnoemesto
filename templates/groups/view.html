@@ -2,31 +2,97 @@
 {% load i18n %}
 
 {% block content %}
-<h1>{% trans "Group" %} "{{ group.name }}"</h1>
+<div id="filter_box">
+<h2>{% trans "Group" %} "{{ group.name }}"</h2>
 {% if is_admin %}
-<a href="{% url groups:group_edit group.id %}">{% trans "Edit" %}</a>
-<a href="{% url groups:send_friends_invite group.id %}">{% trans "Send invite" %}</a>
+<div class="friend_request">
+            <ul>
+            <li>
+                 <a class="reference" href="{% url groups:group_edit group.id %}">{% trans "Edit" %}</a>
+            </li>
+            <li style="margin-left:290px">
+                <a class="reference" href="{% url groups:send_friends_invite group.id %}">Отправить приглашение</a>
+            </li>
+        </ul>
+        </div>
 {% endif %}
-<table>
-    {% if group.description %}<tr><th>{% trans "Description" %}</th><td>{{ group.description }}</td></tr>{% endif %}
-    {% if group.theme %}<tr><th>{% trans "Theme" %}</th><td>{{ group.theme.name }}</td></tr>{% endif %}
-    {% if group.type %}<tr><th>{% trans "Type" %}</th><td>{{ group.type.name }}</td></tr>{% endif %}
-    {% if group.site %}<tr><th>{% trans "Site" %}</th><td>{{ group.site }}</td></tr>{% endif %}
-    {% if group.country %}<tr><th>{% trans "Country" %}</th><td>{{ group.country }}</td></tr>{% endif %}
-    {% if group.city %}<tr><th>{% trans "City" %}</th><td>{{ group.city }}</td></tr>{% endif %}
+ <div class="filt rounded">
+<table class="group_description">
+    {% if group.description %}
+    <tr>
+        <th>{% trans "Description" %}:</th>
+        <td class="empty_filt"></td>
+        <td>{{ group.description }}</td>
+    </tr>
+    <tr>
+        <td style="height:10px"></td>
+    </tr>
+    {% endif %}
+    
+    {% if group.theme %}
+    <tr>
+        <th>{% trans "Theme" %}:</th>
+        <td class="empty_filt"></td>
+        <td>{{ group.theme.name }}</td>
+    </tr>
+    <tr>
+        <td style="height:10px"></td>
+    </tr>
+    {% endif %}
+    {% if group.type %}
+    <tr>
+        <th>{% trans "Type" %}:</th>
+        <td class="empty_filt"></td>
+        <td>{{ group.type.name }}</td>
+    </tr>
+    <tr>
+        <td style="height:10px"></td>
+    </tr>
+    {% endif %}
+    {% if group.site %}
+    <tr>
+        <th>{% trans "Site" %}:</th>
+        <td class="empty_filt"></td>
+        <td>{{ group.site }}</td>
+    </tr>
+    <tr>
+        <td style="height:10px"></td>
+    </tr>
+    {% endif %}
+    {% if group.country %}
+    <tr>
+        <th>{% trans "Country" %}:</th>
+        <td class="empty_filt"></td>
+        <td>{{ group.country }}</td>
+    </tr>
+    <tr>
+        <td style="height:10px"></td>
+    </tr>
+    {% endif %}
+    {% if group.city %}
+    <tr>
+        <th>{% trans "City" %}:</th>
+        <td class="empty_filt"></td>
+        <td>{{ group.city }}</td>
+    </tr>
+    {% endif %}
 </table>
+</div>
+<h3>Участники группы</h3>
 <ul class="friendTable">
 {% for user in group.members %}
-    <li>
+    <li class="friendTable">
         {% include "includes/user/micro.html" %}
         {% if request.user.id != user.id and is_admin %}<a href="{% url groups:group_leave_user group.id,user.id %}">x</a>{% endif %}
     </li>
 {% endfor %}
 </ul>
-<hr/>
+<div class="but">
 {% if request.user in group.members %}
     <a href="{% url groups:group_leave id=group.id %}">{% trans "Leave group" %}</a>
 {% else %}
     <a href="{% url groups:group_join id=group.id %}">{% trans "Join group" %}</a>
 {% endif %}
+</div>
+</div>
 {% endblock %}

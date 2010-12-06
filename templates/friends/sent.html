@@ -2,36 +2,47 @@
 {% load i18n %}
 {% block content %}
 
-<h1>{% trans "Messages history" %}</h1>
+
+<div id="filter_box">
+<h2>{% trans "Your friends:" %}</h2>
 
 <div id="content-main">
-
+	<div class="friend_request">
+            <ul>
+            <li>
+                 <a class="reference" href="{% url friends:offers_inbox %}">Полученные заявки в друзья</a>
+            </li>
+            <li style="margin-left:180px">
+                <a class="reference" href="{% url friends:offers_sent %}">Отправленные заявки в друзья</a>
+            </li>
+        </ul>
+        </div>
     <div class="messages">
-        <table summary="{% trans "Your sent friendship offers" %}" width="100%">
-            <caption>{% trans "Friendship offers: sent" %}</caption>
-            <tr>
-                <th>{% trans "When" %}</th><th>{% trans "To" %}</th><th>{% trans "Cancel" %}</th>
-            </tr>
+     <h3>{% trans "Friendship offers: sent" %}</h3>
+        <div class="messages_inbox">
+        
             {% for offer in user.friends.offers.sent %}
-            <tr>
-                <td>
-                    {{ offer.ctime|timesince }} {% trans "ago" %}
-                </td>
-                <td class="friendTable">
-                    {% with offer.recipient as user %}
+            <div class="message_item {% if msg.is_read %}readed{% else %}unreaded{% endif %}">
+                <div class="friendTable">
+                     {% with offer.recipient as user %}
                         {% include "includes/user/micro.html" %}
                     {% endwith %}
-                </td>
-                <td>
-                    <a href="{% url friends:cancel id=offer.recipient.id %}">
+                </div>
+                <div class="message_text">
+                    <p>
+                    	{{ offer.ctime|timesince }} {% trans "ago" %}
+                    </p>
+                </div>
+                <div class="operation">
+                     <p><a class="reference" href="{% url friends:cancel id=offer.recipient.id %}">
                         {% trans "Cancel" %}
-                    </a>
-                </td>
-            </tr>
+                         </a>
+                     </p>
+                </div>
+            </div>
             {% endfor %}
-        </table>
+        </div>
     </div>
-
 </div>
-
+</div>
 {% endblock %}
