@@ -63,8 +63,9 @@ def send_friends_invite(request, id):
     if not is_admin:
         return redirect(reverse('groups:group_view', args=[id]))
     friends = []
+    members = [i.user for i in GroupUser.objects(group=group).only('user')]
     for user in request.user.friends.list:
-        if user not in group.members:
+        if user not in members:
             friends.append(user)
     return direct_to_template(request, 'groups/send_friends_invite.html', dict(
         group=group,
