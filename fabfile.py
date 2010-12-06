@@ -42,7 +42,7 @@ def deploy(revision):
                 with cd('app'):
                     run('virtualenv venv')
                     #run('source ./venv/bin/activate')
-                    run('source ./venv/bin/activate && pip install --upgrade -r requirements.pip')
+                    #run('source ./venv/bin/activate && pip install --upgrade -r requirements.pip')
 
                 restart_app_server()
 
@@ -86,7 +86,7 @@ def install_mongo():
     run('echo deb http://downloads.mongodb.org/distros/ubuntu 10.10 10gen > /etc/apt/sources.list.d/mongodb.list')
     run('apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
     run('apt-get update')
-    run('apt-get install mongodb-stable')
+    run('apt-get --yes install mongodb-stable')
 
 
 def install_app_server_software():
@@ -102,8 +102,30 @@ def install_uwsgi():
     run('pip install http://projects.unbit.it/downloads/uwsgi-latest.tar.gz')
 
 
+def pip_global():
+    put('requirements.pip', '/tmp/requirements.pip')
+    run('pip install -r /tmp/requirements.pip')
+
+
+def set_sudoers():    
+    sudoers_str = '%s ALL=(ALL) NOPASSWD: /etc/init.d/nginx reload,/etc/init.d/socnet restart' % APPLICATION_USER
+    if not contains(sudoers_str, '/etc/sudoers'):
+        append(sudoers_str, '/etc/sudoers')
+
+
+def deinstall_application():
+    try:
+        run('userdel  -rf %s' % (APPLICATION_USER,))
+    except:
+        pass
+    run('rm -rf /var/socnet/')
+    run('rm -rf /etc/init.d/socnet')
+
+
 def install_application():
     pub_key = _pub_key()
+    put('etc/init.d/socnet', '/etc/init.d/socnet', mode=0755)
+
     if not exists(APPLICATION_DIR):
         run('mkdir -p /var/socnet/')
         try:
@@ -121,10 +143,6 @@ def install_application():
                 run('chown -R %s:%s .ssh' % (APPLICATION_USER, APPLICATION_USER))
 
 
-        sudoers_str = '%s ALL=(ALL) NOPASSWD: /etc/init.d/nginx reload,/etc/init.d/socnet restart' % APPLICATION_USER
-        if not contains(sudoers_str, '/etc/sudoers'):
-            append(sudoers_str, '/etc/sudoers')
-
     # return
 
     run('ln -sf %s/app/etc/nginx/nginx.conf /etc/nginx/nginx.conf' % APPLICATION_DIR)
@@ -140,6 +158,8 @@ def restart_app_server():
     env.user = 'appserver'
     run('sudo /etc/init.d/nginx reload')
     run('sudo /etc/init.d/socnet restart')
+
+
 
 def uname():
     run('uname -a')
