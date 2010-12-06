@@ -533,11 +533,6 @@ input, textarea
 {
     /*border: #cccccc solid 1px;*/
 }
-#name, #e-mail, #surname, #pass
-{
-    width: 218px;
-    padding: 2px;
-}
 
 p.but
 {
@@ -562,13 +557,17 @@ input.subReg
     overflow: hidden;
     margin-top: 20px;
 }
-#reg_form #name, #reg_form #e-mail, #reg_form #surname, #reg_form #pass
+#reg_form .reg input
 {
     background:url(../images/input.jpg) no-repeat;
+    width: 218px;
+    padding: 2px;
 }
-#enter_form #name, #enter_form #e-mail, #enter_form #surname, #enter_form #pass
+#enter_form .enter input
 {
     background:url(../images/input_ent.jpg) no-repeat;
+    width: 218px;
+    padding: 2px;
 }
 /* For Filer
 ----------------------------------*/
