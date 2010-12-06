@@ -2,6 +2,7 @@
 
 import os
 import sys
+from datetime import timedelta
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__),
     os.path.pardir))
@@ -136,6 +137,7 @@ MIDDLEWARE_CLASSES = (
     #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'middleware.LoginRequiredMiddleware',
+    'apps.social.middleware.SetLastAccessMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
 )
@@ -211,6 +213,8 @@ AVATAR_SIZES = (
 MAX_USER_MESSAGES_COUNT = 500
 
 LIBRARY_IMAGES_PER_PAGE = 2
+
+TIME_IS_ONLINE = timedelta(minutes=5)
 
 # settings include billing
 from billing import *

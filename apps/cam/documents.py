@@ -16,7 +16,7 @@ class CameraType(Document):
         return namedClass(self.driver)
 
     def get_option_value(self):
-        return '%s_%s' % (self.id, 1 if self.is_controlled else 0)
+        return '%s.%s' % (self.id, 1 if self.is_controlled else 0)
 
     def get_option_label(self):
         return '%s %s' % (self.name,
@@ -83,6 +83,10 @@ class Camera(Document):
             if order is None or not order.can_access():
                 return False
         return True
+    
+    def save(self, *args, **kwargs):
+        self.is_managed = self.type.is_controlled
+        super(Camera, self).save()
 
     def bookmark_add(self, user):
         owner_camera = Camera.objects(owner=user).only('id').first()

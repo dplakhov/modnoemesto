@@ -4,36 +4,36 @@
 {{ block.super }}
 <script type="text/javascript">
 $(document).ready(function(){
-			$('#id_type, #id_view_packet_tariff, #id_view_time_tariff, #id_management_packet_tariff, #id_management_time_tariff, #id_operator').selectbox();
-			$('div#management_hide').hide();
-			$('tr.view_tariff').hide();
-			$('tr.management_tariff').hide();
-			
-			$('li[id$=_1]').click(function(){
-				$('div#management_hide').show();						   
-										   });
-			$('li[id$=_0],li[id$=_]').click(function(){
-				$('div#management_hide').hide();						   
-										   });
-			$("input[name='is_view_paid']").click(function(){
-															
-				if ($(this).is(':checked')) {
-				$('tr.view_tariff').show();
-				}
-				else{
-				$('tr.view_tariff').hide();
-				}
-					});
-			$("input[name='is_management_paid']").click(function(){
-															
-				if ($(this).is(':checked')) {
-				$('tr.management_tariff').show();
-				}
-				else{
-				$('tr.management_tariff').hide();
-				}
-					});
-								   });
+            $('#id_type, #id_view_packet_tariff, #id_view_time_tariff, #id_management_packet_tariff, #id_management_time_tariff, #id_operator').selectbox();
+            $('div#management_hide').hide();
+            $('tr.view_tariff').hide();
+            $('tr.management_tariff').hide();
+            
+            $('li[id$=.1]').click(function(){
+                $('div#management_hide').show();                           
+                                           });
+            $('li[id$=.0],li[id$=_]').click(function(){
+                $('div#management_hide').hide();                           
+                                           });
+            $("input[name='is_view_paid']").click(function(){
+                                                            
+                if ($(this).is(':checked')) {
+                $('tr.view_tariff').show();
+                }
+                else{
+                $('tr.view_tariff').hide();
+                }
+                    });
+            $("input[name='is_management_paid']").click(function(){
+                                                            
+                if ($(this).is(':checked')) {
+                $('tr.management_tariff').show();
+                }
+                else{
+                $('tr.management_tariff').hide();
+                }
+                    });
+                                   });
 </script>
 {% endblock %}
 {% block content %}
@@ -45,7 +45,10 @@ $(document).ready(function(){
         {% trans "Edit camera" %}
     {% endif %}
 </h2>
-	<form method="post">
+{% if form.errors %}
+{{ form.errors }}
+{% endif %}
+    <form method="post">
     <div class="filt rounded">
     
         <table class="camera_edit">
@@ -79,13 +82,13 @@ $(document).ready(function(){
                 <td style="height:10px" class="empty_filt"></td>
                 <td style="height:10px"> {{ form.stream_name.errors }} </td>
             </tr>
-        	<tr>
+            <tr>
                 <th>  {{ form.force_html5.label_tag }}</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.force_html5 }}</td>
             </tr>
         </table>
-	
+    
     </div>
     <h2>Настройки просмотра камеры</h2>
     <div class="filt rounded">
@@ -115,7 +118,7 @@ $(document).ready(function(){
             <tr>
                 <td style="height:10px"></td>
             </tr>
-        	<tr class="view_tariff">
+            <tr class="view_tariff">
                 <th>  {{ form.view_packet_tariff.label_tag }}</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.view_packet_tariff }}</td>
@@ -125,7 +128,7 @@ $(document).ready(function(){
                 <td style="height:10px" class="empty_filt"></td>
                 <td style="height:10px"> {{ form.view_packet_tariff.errors }} </td>
             </tr>
-        	<tr class="view_tariff">
+            <tr class="view_tariff">
                 <th>  {{ form.view_time_tariff.label_tag }}</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.view_time_tariff }}</td>
@@ -136,7 +139,7 @@ $(document).ready(function(){
                 <td style="height:10px"> {{ form.view_time_tariff.errors }} </td>
             </tr>
         </table>
-	
+    
     </div>
     
     <div id="management_hide">
@@ -168,7 +171,7 @@ $(document).ready(function(){
             <tr>
                 <td style="height:10px"></td>
             </tr>
-        	<tr class="management_tariff">
+            <tr class="management_tariff">
                 <th>  {{ form.management_packet_tariff.label_tag }}</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.management_packet_tariff }}</td>
@@ -178,12 +181,12 @@ $(document).ready(function(){
                 <td style="height:10px" class="empty_filt"></td>
                 <td style="height:10px"> {{ form.management_packet_tariff.errors }} </td>
             </tr>
-        	<tr class="management_tariff">
+            <tr class="management_tariff">
                 <th>  {{ form.management_time_tariff.label_tag }}</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.management_time_tariff }}</td>
             </tr>
-        	<tr>
+            <tr>
                 <td style="height:10px"></td>
                 <td style="height:10px" class="empty_filt"></td>
                 <td style="height:10px"> {{ form.management_time_tariff.errors }} </td>
@@ -218,14 +221,14 @@ $(document).ready(function(){
                 <td style="height:10px" class="empty_filt"></td>
                 <td style="height:10px"> {{ form.camera_management_password.errors }} </td>
             </tr>
-        	<tr>
+            <tr>
                 <th>  {{ form.operator.label_tag }}</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.operator }}</td>
             </tr>
             
         </table>
-	</div>
+    </div>
     </div>
     <div class="but">
             <input type="submit" value="{% if is_new %}{% trans 'Add' %}{% else %}{% trans 'Save' %}{% endif %}" />
