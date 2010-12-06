@@ -1154,7 +1154,7 @@ p.when
 	width: 350px;
 	/*cursor: pointer;*/
 }
-.readed .message_text a, .readed div.opration a
+.readed .message_text a, .readed div.opration a, .note_text a
 {
 	color: #6F6F6F;
 }
@@ -1172,7 +1172,7 @@ div.operation p
 {
 	padding-bottom: 7px;
 }
-.message_text p, .message .message_text_view p, .message_text_reply textarea
+.message_text p, .message .message_text_view p, .message_text_reply textarea, .note_text p
 {
 	padding-bottom: 5px;
 	color: #585858;
@@ -1285,10 +1285,12 @@ li.friendTable
 	color:#FFFFFF;
 	cursor:pointer;
 	overflow:visible;
-	padding:2px 45px 4px;
+	padding:2px 45px 5px;
 	float: left;
 }
-
-
-
-
+.note_text
+{
+	float: left;
+	padding: 7px;
+	width: 340px;
+}

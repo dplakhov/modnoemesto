@@ -7,14 +7,38 @@
 
 <p>
 {% for note in notes %}
-    <div>
-      {{ note.timestamp }}
+    <div class="note_list">
+    	<div class="message_item {% if msg.is_read %}readed{% else %}unreaded{% endif %}">
+                <div class="friendTable">
+                    {% with msg.sender as user %}
+                        {% include "includes/user/micro.html" %}
+                    {% endwith %}
+                </div>
+                <div class="note_text">
+                    <p> {{ note.timestamp }}
+                    </p>
+                    <p><a href="{% url notes:note_view note.id %}">{{ note.title }}</a></p>
+                </div>
+                <div class="operation">
+                     <p><a class="reference" href="{% url notes:note_edit note.id %}">{% trans 'Edit' %}</a></p>
+                     <p><a class="reference" href="{% url notes:note_delete note.id %}">{% trans 'Delete' %}</a></p>
+                </div>
+          </div>
+        
+        
+        {% comment %}
+        
+     
       <a href="{% url notes:note_view note.id %}">{{ note.title }}</a>
       <a href="{% url notes:note_edit note.id %}">{% trans 'Edit' %}</a>
       <a href="{% url notes:note_delete note.id %}">{% trans 'Delete' %}</a>
+      
+      {% endcomment %}
     </div>
 {% endfor %}
 </p>
+<div class="but">
 <p><a class="reference" href="{% url notes:note_add %}">{% trans 'Create a note' %}</a></p>
+</div>
 </div>
 {% endblock %}
