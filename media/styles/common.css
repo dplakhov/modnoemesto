@@ -1242,7 +1242,7 @@ div.operation p
 	float: right;
 	text-align: right;
 }
-.message_text_reply 
+.message_text_reply, .message_text_write
 {
 	clear: right;
 	overflow: hidden;
@@ -1251,6 +1251,10 @@ div.operation p
 	width: 420px;
 	margin-right: 80px;
 	background: #FFF;
+}
+.message_text_write
+{
+	width: 260px;
 }
 .friend_list_online
 {
