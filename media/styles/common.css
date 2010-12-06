@@ -1192,6 +1192,14 @@ div.operation p
 	margin-left: 80px;
 	background: #FFF;
 }
+.note_text_view
+{
+	clear: left;
+	overflow: hidden;
+	padding: 7px;
+	border: 5px solid #EEEDDE;
+	background: #FFF;
+}
 .but_0
 {
 	margin: 10px 0 10px 80px;

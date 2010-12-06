@@ -10,7 +10,7 @@
     <div class="note_list">
     	<div class="message_item {% if msg.is_read %}readed{% else %}unreaded{% endif %}">
                 <div class="friendTable">
-                    {% with msg.sender as user %}
+                    {% with note.author as user %}
                         {% include "includes/user/micro.html" %}
                     {% endwith %}
                 </div>
