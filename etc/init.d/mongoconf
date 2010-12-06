@@ -1,0 +1,39 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          mongoconf
+# Required-Start:    
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:
+### END INIT INFO
+
+set -e
+MONGOD="/usr/bin/mongod"
+PIDFILE="/var/run/mongoconf.pid"
+
+start(){
+    $MONGOD --dbpath /var/lib/mongodb --pidfilepath $PIDFILE --logpath /var/log/mongodb/mongoconf.log --configsvr --fork --logappend
+}
+
+stop(){
+    kill -2 `cat $PIDFILE`
+}
+case "$1" in
+  start)
+  start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  *)
+    echo "Usage: /etc/init.d/mongoconf {start|stop|restart}" >&2
+    exit 1
+    ;;
+esac
+
+exit 0

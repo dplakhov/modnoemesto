@@ -82,15 +82,34 @@ def install_etckeeper():
 def install_server_software():
     run('apt-get --yes install vim-nox mc htop zip unzip exuberant-ctags screen')
 
-def install_mongo():
+
+def mongo_install():
     run('echo deb http://downloads.mongodb.org/distros/ubuntu 10.10 10gen > /etc/apt/sources.list.d/mongodb.list')
     run('apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10')
     run('apt-get update')
     run('apt-get --yes install mongodb-stable')
 
+def mongo_disable():
+    try:
+        run('service mongodb stop')
+    except:
+        pass
+    
+    run('update-rc.d -f mongodb remove')
+
+def mongos_install():
+    put('etc/init.d/mongos', '/etc/init.d/mongos', mode=0755)
+    run('update-rc.d mongos defaults')
+
+def mongoconf_install():
+    put('etc/init.d/mongoconf', '/etc/init.d/mongoconf', mode=0755)
+    run('update-rc.d mongoconf defaults')
+
+def mongoconf_restart():
+    run('service mongoconf restart')
 
 def install_app_server_software():
-    run('apt-get --yes install python-virtualenv python-pip python-imaging python-software-properties')
+    run('apt-get --yes install python-virtualenv python-pip python-imaging python-software-properties rabbitmq-server')
 
 def install_nginx():
     run('add-apt-repository ppa:nginx/stable')
