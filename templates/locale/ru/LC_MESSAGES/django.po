@@ -277,9 +277,8 @@ msgid "Types"
 msgstr "Типы"
 
 #: groups/user_group_list.html:5
-#, fuzzy
 msgid "Groups invite"
-msgstr "Редактирование группы"
+msgstr "Приглащения в группы"
 
 #: groups/user_group_list.html:9
 msgid "take"
