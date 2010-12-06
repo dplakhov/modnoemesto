@@ -76,9 +76,9 @@
 </form>
     </div>
     <div id="reg_form">
-        <h2 class="registr"><a href="#reg">Регистрация</a></h2>
+        <h2 class="registr"><a href="#reg_form">Регистрация</a></h2>
         <div class="hide" style="overflow:hidden">
-<form action="{{ app_path }}" method="post">
+<form action="{{ app_path }}#reg_form" method="post">
 <input type="hidden" name="form_name" value="register"/>
         <div class="reg rounded">
 {% for field in reg_form %}
