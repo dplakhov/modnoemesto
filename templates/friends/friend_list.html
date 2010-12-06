@@ -20,7 +20,7 @@
         <h3>Друзья On-line</h3>
         	{% if user.friends.count %}
             	<ul>
-                {% for user in user.friends.list %}
+                {% for user in user.friends_online %}
                 	<li class="friendTable">
                     	<div style="float:left">
                     	{% include "includes/user/mini.html" %}
