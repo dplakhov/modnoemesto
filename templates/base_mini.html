@@ -24,9 +24,7 @@
     {# <link href="/rss/" rel="alternate" type="application/rss+xml" /> #}
     {% endblock %}
 
-    {% block title %}
-    <title>Модное место</title>
-    {% endblock %}
+    <title>{% block title %}Модное место{% endblock %}</title>
 
     {% block js %}
     <script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>

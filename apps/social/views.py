@@ -235,6 +235,7 @@ def profile_edit(request):
         for k, v in form.cleaned_data.items():
             setattr(profile, k, v if v else None)
         profile.save()
+        messages.add_message(request, messages.SUCCESS, _('Profile successfully updated'))
         return redirect('social:home')
     return direct_to_template(request, 'social/profile/edit.html',
                               dict(form=form, user=request.user)
