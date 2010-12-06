@@ -3,6 +3,7 @@ import re
 import os
 from fabric.api import run, local, cd, env
 from fabric.contrib.files import exists, contains, comment, uncomment, append
+from fabric.operations import put
 
 APPLICATION_DIR = '/var/socnet/appserver'
 
@@ -101,7 +102,6 @@ def install_uwsgi():
 
 def install_application():
     pub_key = _pub_key()
-    private_key = open('deploy/id_rsa', 'r').read()
     if not exists(APPLICATION_DIR):
         run('mkdir -p /var/socnet/')
         try:
@@ -114,13 +114,12 @@ def install_application():
             if not exists('.ssh'):
                 run('mkdir .ssh')
                 run('chmod 700 .ssh')
-                append(private_key, '.ssh/id_rsa')
-                run('chmod 600 .ssh/id_rsa')
+                put('deploy/ssh/*', '%s/.ssh' % APPLICATION_DIR, mode=0600)
                 append(pub_key, '.ssh/authorized_keys')
                 run('chown -R %s:%s .ssh' % (APPLICATION_USER, APPLICATION_USER))
 
 
-        sudoers_str = '%s ALL=NOPASSWD: /etc/init.d/nginx, NOPASSWD: /etc/init.d/socnet' % APPLICATION_USER
+        sudoers_str = '%s ALL=(ALL) NOPASSWD: /etc/init.d/nginx reload,/etc/init.d/socnet restart' % APPLICATION_USER
         if not contains(sudoers_str, '/etc/sudoers'):
             append(sudoers_str, '/etc/sudoers')
 
@@ -136,6 +135,7 @@ def install_application():
 
 
 def restart_app_server():
+    env.user = 'appserver'
     run('sudo /etc/init.d/nginx reload')
     run('sudo /etc/init.d/socnet restart')
 
