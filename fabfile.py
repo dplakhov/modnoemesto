@@ -9,12 +9,13 @@ APPLICATION_DIR = '/var/socnet/appserver'
 
 APPLICATION_USER = 'appserver'
 
-'''
-env.hosts = [
-    '188.93.21.226',
-    #'188.93.21.227',
-]
-'''
+
+env.roledefs.update({
+    'app': [ 'as%d.modnoemesto.ru' %x for x in ( 2, 3, 4, 5, 6, 7, 8) ],
+    'db': [ 'db%d.modnoemesto.ru' %x for x in (1, 2, 3, 4, 5, 6, 7, 8) ],
+})
+
+
 env.user = 'root'
 
 def _pub_key():
@@ -23,7 +24,6 @@ def _pub_key():
 def deploy(revision):
     env.user = 'appserver'
     assert re.match(r'[a-f0-9]{40}', revision)
-    run('whoami')
     repo = 'ssh://gitreader@ns1.modnoemesto.ru/opt/gitrepo/repositories/modnoe.git/'
     with cd(APPLICATION_DIR):
         if exists('app'):
@@ -101,6 +101,14 @@ def mongos_install():
     put('etc/init.d/mongos', '/etc/init.d/mongos', mode=0755)
     run('update-rc.d mongos defaults')
 
+
+def mongos_start():
+    run('service mongos start')
+
+def mongos_restart():
+    run('service mongos restart')
+
+
 def mongoconf_install():
     put('etc/init.d/mongoconf', '/etc/init.d/mongoconf', mode=0755)
     run('update-rc.d mongoconf defaults')
@@ -115,6 +123,16 @@ def install_nginx():
     run('add-apt-repository ppa:nginx/stable')
     run('apt-get update')
     run('apt-get --yes install nginx')
+
+    put('etc/nginx/uwsgi_params', '/etc/nginx/uwsgi_params')
+    put('etc/nginx/nginx.conf', '/etc/nginx/nginx.conf')
+    put('etc/nginx/sites-available/socnet-uwsgi.conf',
+        '/etc/nginx/sites-available/socnet-uwsgi.conf')
+    run('ln -sf /etc/nginx/sites-available/socnet-uwsgi.conf /etc/nginx/sites-enabled/socnet-uwsgi.conf')
+
+
+
+
 
 def install_uwsgi():
     run('apt-get --yes install build-essential psmisc python-dev libxml2 libxml2-dev')
@@ -164,21 +182,12 @@ def install_application():
 
     # return
 
-    run('ln -sf %s/app/etc/nginx/nginx.conf /etc/nginx/nginx.conf' % APPLICATION_DIR)
-    run('ln -sf %s/app/etc/nginx/sites-available/socnet-uwsgi.conf /etc/nginx/sites-available/socnet-uwsgi.conf'
-        % APPLICATION_DIR)
-
-    run('ln -sf /etc/nginx/sites-available/socnet-uwsgi.conf /etc/nginx/sites-enabled/socnet-uwsgi.conf')
-
-    run('ln -sf %s/app/etc/init.d/socnet /etc/init.d/socnet' % APPLICATION_DIR)
 
 
 def restart_app_server():
     env.user = 'appserver'
     run('sudo /etc/init.d/nginx reload')
     run('sudo /etc/init.d/socnet restart')
-
-
 
 def uname():
     run('uname -a')
