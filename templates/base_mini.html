@@ -65,9 +65,10 @@
 -->
         </div>
 
-        <div id="menu">
+        <div id="menu{% if not user.is_authenticated %}Reg{% endif %}">
             <table cellspacing="0px" cellpadding="0px">
             <tr>
+{% if user.is_authenticated %}
             <td class="left_corner {% active request 'social:index' %}"></td>
             <td class="menu_but {% active request 'social:index' %}"><a href="/">люди</a></td>
             <td class="right_corner {% active request 'social:index' %}"></td>
@@ -91,15 +92,19 @@
             <td class="right_corner {% active request 'groups:group_list' %}"></td>
             <td class="empty"></td>
 
-            {% if user.is_authenticated %}
+
             <td class="left_corner"></td>
             <td class="menu_but"><a href="{% url social:logout %}">выход</a></td>
             <td class="right_corner"></td>
-            {% else %}
+{% else %}
+            <td class="left_corner"></td>
+            <td class="menu_but"><a href="{% url social:register %}">регистрация</a></td>
+            <td class="right_corner"></td>
+            <td class="empty"></td>
             <td class="left_corner"></td>
             <td class="menu_but"><a href="{% url social:login %}">вход</a></td>
             <td class="right_corner"></td>
-            {% endif %}
+{% endif %}
             </tr>
             </table>
         </div>

@@ -41,9 +41,15 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 
 
 def index(request):
-    accs = User.objects().only('username', 'avatar')
+    accs = User.objects.only('username', 'avatar')
     return direct_to_template(request, 'index.html', { 'accs': accs })
 
+
+def about(request):
+    return direct_to_template(request, 'about.html', {
+        'reg_form': UserCreationForm(),
+        'login_form': LoginForm(),
+        })
 
 def register(request):
     form = UserCreationForm(request.POST or None)

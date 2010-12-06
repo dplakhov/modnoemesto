@@ -33,6 +33,7 @@ def cam_list(request):
             del data['is_management_public']
             del data['is_management_paid']
         cams = Camera.objects(**data)
+        print data
     else:
         cams = Camera.objects()
     for cam in cams:

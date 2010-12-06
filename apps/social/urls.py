@@ -4,7 +4,7 @@ from django.conf.urls.defaults import patterns, url
 from django.conf import settings
 
 urlpatterns = patterns('apps.social.views',
-   url(r'^$', 'index', name='index'),
+   url(r'^$', 'about', name='index'),
    url(r'^home/$', 'home', name='home'),
    url(r'^home/edit/$', 'profile_edit', name='profile_edit'),
 
