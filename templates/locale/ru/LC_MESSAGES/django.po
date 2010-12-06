@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-04 12:53+0300\n"
+"POT-Creation-Date: 2010-12-06 14:30+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,14 +25,6 @@ msgstr "поиск"
 #: index.html:4
 msgid "Users online"
 msgstr "Пользователи онлайн"
-
-#: login.html:14
-msgid "Username:"
-msgstr "Имя пользователя"
-
-#: login.html:20
-msgid "Password:"
-msgstr "Пароль"
 
 #: billing/access_order_list.html:5 includes/admin_menu.html:13
 msgid "Access Orders"
@@ -124,13 +116,13 @@ msgid "Edit tariff"
 msgstr "Редактировать тариф"
 
 #: billing/tariff_edit.html:16 billing/tariff_list.html:14
-#: cam/cam_edit.html:16 cam/type_edit.html:16 groups/theme_edit.html:16
+#: cam/cam_edit.html:234 cam/type_edit.html:16 groups/theme_edit.html:16
 #: groups/theme_list.html:12 groups/type_edit.html:16 groups/type_list.html:12
 #: media_library/image_index.html:40 notes/note_edit.html:16
 msgid "Add"
 msgstr "Добавить"
 
-#: billing/tariff_edit.html:16 cam/cam_edit.html:16 cam/type_edit.html:16
+#: billing/tariff_edit.html:16 cam/cam_edit.html:234 cam/type_edit.html:16
 #: groups/theme_edit.html:16 groups/type_edit.html:16 notes/note_edit.html:16
 #: social/profile/avatar.html:14 social/profile/edit.html:12
 msgid "Save"
@@ -144,15 +136,15 @@ msgstr "Тарифы"
 msgid "You do not have bookmarks."
 msgstr "У Вас нет закладок."
 
-#: cam/cam_edit.html:6
+#: cam/cam_edit.html:43
 msgid "Add camera"
 msgstr "Добавить камеру"
 
-#: cam/cam_edit.html:8 includes/camera.html:10
+#: cam/cam_edit.html:45 includes/camera.html:10
 msgid "Edit camera"
 msgstr "Редактировать камеру"
 
-#: cam/cam_list.html:35 groups/view.html:6 notes/note_list.html:12
+#: cam/cam_list.html:53 groups/view.html:7 notes/note_list.html:12
 msgid "Edit"
 msgstr "Редактировать"
 
@@ -172,6 +164,77 @@ msgstr "Типы камер"
 msgid "Add type"
 msgstr "Добавить тип"
 
+#: friends/friend_list.html:8 friends/inbox.html:6
+#: groups/send_friends_invite.html:7
+msgid "Your friends:"
+msgstr "Ваши друзья"
+
+#: friends/friend_list.html:31 friends/friend_list.html.py:52
+#: media_library/image_index.html:12 notes/note_list.html:13
+#: user_messages/inbox.html:35 user_messages/message.html:78
+#: user_messages/sent.html:35
+msgid "Delete"
+msgstr "Удалить"
+
+#: friends/friend_list.html:72 groups/send_friends_invite.html:18
+#: social/user.html:75
+msgid "None available"
+msgstr "Никого нет"
+
+#: friends/inbox.html:20 friends/inbox.html.py:52
+msgid "Friendship offers: inbox"
+msgstr "Предложения дружбы: полученные"
+
+#: friends/inbox.html:32 friends/inbox.html.py:59 friends/sent.html:18
+#: user_messages/inbox.html:24 user_messages/message.html:44
+#: user_messages/message.html.py:64
+msgid "ago"
+msgstr "назад"
+
+#: friends/inbox.html:37 friends/inbox.html.py:68
+msgid "Accept"
+msgstr "Принять"
+
+#: friends/inbox.html:41 friends/inbox.html.py:71
+msgid "Decline"
+msgstr "Отклонить"
+
+#: friends/inbox.html:51
+msgid "Your inbox"
+msgstr "Полученные вами предложения дружбы"
+
+#: friends/inbox.html:54 friends/sent.html:13
+msgid "When"
+msgstr "Когда"
+
+#: friends/inbox.html:54
+msgid "From"
+msgstr "От кого"
+
+#: friends/inbox.html:54
+msgid "Accept/Decline"
+msgstr "Принять/Отклонить"
+
+#: friends/sent.html:5 user_messages/inbox.html:5 user_messages/sent.html:6
+msgid "Messages history"
+msgstr "История сообщений"
+
+#: friends/sent.html:10
+msgid "Your sent friendship offers"
+msgstr "Отправленные вами предложения дружбы"
+
+#: friends/sent.html:11
+msgid "Friendship offers: sent"
+msgstr "Предложения дружбы: отправленные"
+
+#: friends/sent.html:13
+msgid "To"
+msgstr "Кто"
+
+#: friends/sent.html:13 friends/sent.html.py:27
+msgid "Cancel"
+msgstr "Отменить"
+
 #: groups/group_edit.html:17
 msgid "Group creation"
 msgstr "Создание группы"
@@ -180,18 +243,18 @@ msgstr "Создание группы"
 msgid "Group edit"
 msgstr "Редактирование группы"
 
-#: groups/group_edit.html:144 groups/list.html:13
-#: groups/user_group_list.html:13
+#: groups/group_edit.html:145 groups/list.html:6
+#: groups/user_group_list.html:26
 msgid "Create group"
 msgstr "Создать группу"
 
-#: groups/group_edit.html:144
-msgid "Save group"
-msgstr "Сохранить группу"
-
-#: groups/list.html:4
+#: groups/list.html:5
 msgid "Available groups"
 msgstr "Доступные группы"
+
+#: groups/send_friends_invite.html:13
+msgid "Invite"
+msgstr "Пригласить"
 
 #: groups/theme_edit.html:6
 msgid "Add theme"
@@ -213,7 +276,19 @@ msgstr "Редактировать тип"
 msgid "Types"
 msgstr "Типы"
 
-#: groups/user_group_list.html:4
+#: groups/user_group_list.html:5
+msgid "Groups invite"
+msgstr "Приглащения в группы"
+
+#: groups/user_group_list.html:9
+msgid "take"
+msgstr "принять"
+
+#: groups/user_group_list.html:10
+msgid "refuse"
+msgstr "отклонить"
+
+#: groups/user_group_list.html:17
 msgid "My groups"
 msgstr "Мои группы"
 
@@ -222,38 +297,38 @@ msgid "Group"
 msgstr "Группа"
 
 #: groups/view.html:8
+msgid "Send invite"
+msgstr "Отправить приглашения"
+
+#: groups/view.html:11
 msgid "Description"
 msgstr "Описание"
 
-#: groups/view.html:9
+#: groups/view.html:12
 msgid "Theme"
 msgstr "Тема"
 
-#: groups/view.html:10
+#: groups/view.html:13
 msgid "Type"
 msgstr "Тип"
 
-#: groups/view.html:11
+#: groups/view.html:14
 msgid "Site"
 msgstr "Веб-сайт"
 
-#: groups/view.html:12
+#: groups/view.html:15
 msgid "Country"
 msgstr "Страна"
 
-#: groups/view.html:13
+#: groups/view.html:16
 msgid "City"
 msgstr "Город"
 
-#: groups/view.html:14
-msgid "Public"
-msgstr ""
-
-#: groups/view.html:26
+#: groups/view.html:28
 msgid "Leave group"
 msgstr "Покинуть группу"
 
-#: groups/view.html:28
+#: groups/view.html:30
 msgid "Join group"
 msgstr "Вступить в группу"
 
@@ -273,11 +348,11 @@ msgstr "Заказы оплаты"
 msgid "Groups"
 msgstr "Группы"
 
-#: includes/camera.html:79
+#: includes/camera.html:83
 msgid "This camera is not free!"
 msgstr "Просмотр этой камеры платный"
 
-#: includes/camera.html:81
+#: includes/camera.html:85
 msgid "This camera is private."
 msgstr "Эта камера не для всеобщего просмотра"
 
@@ -286,26 +361,16 @@ msgid "Messages"
 msgstr "Сообщения"
 
 #: includes/left_menu.html:10 includes/left_menu.html.py:14
-#: includes/left_menu.html:27 includes/left_menu.html.py:31
 msgid "Inbox"
 msgstr "Входящие"
 
-#: includes/left_menu.html:17 includes/left_menu.html.py:35
+#: includes/left_menu.html:17
 msgid "Sent"
 msgstr "Отправленные"
-
-#: includes/left_menu.html:21
-msgid "Friendship offers"
-msgstr "Предложения дружбы"
 
 #: media_library/image_index.html:6
 msgid "Images"
 msgstr "Изображения"
-
-#: media_library/image_index.html:12 notes/note_list.html:13
-#: user_messages/message.html:31
-msgid "Delete"
-msgstr "Удалить"
 
 #: notes/note_edit.html:6
 msgid "Add a note"
@@ -425,7 +490,7 @@ msgstr "Оставить сообщение %(page_user)s"
 msgid "Leave a message"
 msgstr "Оставить сообщение"
 
-#: social/user.html:36
+#: social/user.html:36 user_messages/message.html:72
 msgid "Send"
 msgstr "Отправить"
 
@@ -441,76 +506,14 @@ msgstr "Добавить закладку"
 msgid "Remove Bookmark"
 msgstr "Убрать закладку"
 
-#: social/user.html:53
+#: social/user.html:55
 msgid "This user has no registered camera."
 msgstr "У пользователя нет зарегистрированных камер"
 
-#: social/user.html:61
+#: social/user.html:65
 #, python-format
 msgid "%(page_user)s marked as friends:"
 msgstr "Друзья %(page_user)s"
-
-#: social/user.html:71 social/profile/user_friends.html:18
-msgid "None available"
-msgstr "Никого нет"
-
-#: social/friendship/inbox.html:5 social/friendship/sent.html:5
-#: user_messages/inbox.html:5 user_messages/sent.html:5
-msgid "Messages history"
-msgstr "История сообщений"
-
-#: social/friendship/inbox.html:12
-msgid "Your inbox"
-msgstr "Полученные вами предложения дружбы"
-
-#: social/friendship/inbox.html:13
-msgid "Friendship offers: inbox"
-msgstr "Предложения дружбы: полученные"
-
-#: social/friendship/inbox.html:15 social/friendship/sent.html:15
-#: user_messages/inbox.html:15 user_messages/message.html:15
-#: user_messages/sent.html:15
-msgid "When"
-msgstr "Когда"
-
-#: social/friendship/inbox.html:15 user_messages/inbox.html:15
-#: user_messages/message.html:15
-msgid "From"
-msgstr "От кого"
-
-#: social/friendship/inbox.html:15
-msgid "Accept/Decline"
-msgstr "Принять/Отклонить"
-
-#: social/friendship/inbox.html:20 social/friendship/sent.html:20
-#: user_messages/inbox.html:22 user_messages/inbox.html.py:24
-#: user_messages/message.html:19
-msgid "ago"
-msgstr "назад"
-
-#: social/friendship/inbox.html:29
-msgid "Accept"
-msgstr "Принять"
-
-#: social/friendship/inbox.html:32
-msgid "Decline"
-msgstr "Отклонить"
-
-#: social/friendship/sent.html:12
-msgid "Your sent friendship offers"
-msgstr "Отправленные вами предложения дружбы"
-
-#: social/friendship/sent.html:13
-msgid "Friendship offers: sent"
-msgstr "Предложения дружбы: отправленные"
-
-#: social/friendship/sent.html:15 user_messages/sent.html:15
-msgid "To"
-msgstr "Кто"
-
-#: social/friendship/sent.html:15 social/friendship/sent.html.py:29
-msgid "Cancel"
-msgstr "Отменить"
 
 #: social/profile/avatar.html:4
 msgid "Change avatar"
@@ -520,23 +523,29 @@ msgstr "Сменить аватар"
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
-#: social/profile/user_friends.html:7
-msgid "Your friends:"
-msgstr "Ваши друзья"
-
-#: user_messages/inbox.html:12 user_messages/inbox.html.py:13
+#: user_messages/inbox.html:12
 msgid "Messages: inbox"
 msgstr "Сообщения: входящие"
 
-#: user_messages/inbox.html:24
-msgid "(unread)"
-msgstr "(непрочитано)"
-
-#: user_messages/message.html:5 user_messages/message.html.py:12
-#: user_messages/message.html:13
+#: user_messages/message.html:25 user_messages/message.html.py:32
 msgid "Viewing a message"
 msgstr "Просмотр сообщения"
 
-#: user_messages/sent.html:12 user_messages/sent.html.py:13
+#: user_messages/sent.html:13
 msgid "Messages: sent"
 msgstr "Сообщения: отправленные"
+
+#~ msgid "Username:"
+#~ msgstr "Имя пользователя"
+
+#~ msgid "Password:"
+#~ msgstr "Пароль"
+
+#~ msgid "Save group"
+#~ msgstr "Сохранить группу"
+
+#~ msgid "Friendship offers"
+#~ msgstr "Предложения дружбы"
+
+#~ msgid "(unread)"
+#~ msgstr "(непрочитано)"

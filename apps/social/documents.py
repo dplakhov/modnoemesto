@@ -112,7 +112,11 @@ class User(Document):
         return True
 
     def is_online(self):
-        return (datetime.now() - self.last_access) < settings.TIME_IS_ONLINE
+        return User.get_delta_time() < self.last_access
+
+    @staticmethod
+    def get_delta_time():
+        return datetime.now() - settings.TIME_IS_ONLINE
 
     def set_password(self, raw_password):
         """Sets the user's password - always use this rather than directly

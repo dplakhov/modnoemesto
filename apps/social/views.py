@@ -41,9 +41,17 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 
 
 def index(request):
-    accs = User.objects().only('username', 'avatar')
+    if not request.user.is_authenticated():
+        return about(request)
+    accs = User.objects(last_access__gt=User.get_delta_time()).only('username', 'avatar')
     return direct_to_template(request, 'index.html', { 'accs': accs })
 
+
+def about(request):
+    return direct_to_template(request, 'about.html', {
+        'reg_form': UserCreationForm(),
+        'login_form': LoginForm(),
+        })
 
 def register(request):
     form = UserCreationForm(request.POST or None)
@@ -227,6 +235,7 @@ def profile_edit(request):
         for k, v in form.cleaned_data.items():
             setattr(profile, k, v if v else None)
         profile.save()
+        messages.add_message(request, messages.SUCCESS, _('Profile successfully updated'))
         return redirect('social:home')
     return direct_to_template(request, 'social/profile/edit.html',
                               dict(form=form, user=request.user)

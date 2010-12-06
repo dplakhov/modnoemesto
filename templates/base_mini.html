@@ -24,9 +24,7 @@
     {# <link href="/rss/" rel="alternate" type="application/rss+xml" /> #}
     {% endblock %}
 
-    {% block title %}
-    <title>Модное место</title>
-    {% endblock %}
+    <title>{% block title %}Модное место{% endblock %}</title>
 
     {% block js %}
     <script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
@@ -51,7 +49,11 @@
     <div id="subContainer">
 
         <div id="header">
+            {% if request.path == '/' %}
+            <span id="logo" ><img src="/media/images/logo_m.jpg" alt="Модное место" /></span>
+            {% else %}
             <a id="logo" href="/"><img src="/media/images/logo_m.jpg" alt="Модное место" /></a>
+            {% endif %}
 <!--
             <div id="serch">
                 <form id="search-box" action="">
@@ -65,9 +67,10 @@
 -->
         </div>
 
-        <div id="menu">
+        <div id="menu{% if not user.is_authenticated %}Reg{% endif %}">
             <table cellspacing="0px" cellpadding="0px">
             <tr>
+{% if user.is_authenticated %}
             <td class="left_corner {% active request 'social:index' %}"></td>
             <td class="menu_but {% active request 'social:index' %}"><a href="/">люди</a></td>
             <td class="right_corner {% active request 'social:index' %}"></td>
@@ -91,15 +94,19 @@
             <td class="right_corner {% active request 'groups:group_list' %}"></td>
             <td class="empty"></td>
 
-            {% if user.is_authenticated %}
+
             <td class="left_corner"></td>
             <td class="menu_but"><a href="{% url social:logout %}">выход</a></td>
             <td class="right_corner"></td>
-            {% else %}
+{% else %}
+            <td class="left_corner"></td>
+            <td class="menu_but"><a href="{% url social:register %}">регистрация</a></td>
+            <td class="right_corner"></td>
+            <td class="empty"></td>
             <td class="left_corner"></td>
             <td class="menu_but"><a href="{% url social:login %}">вход</a></td>
             <td class="right_corner"></td>
-            {% endif %}
+{% endif %}
             </tr>
             </table>
         </div>
