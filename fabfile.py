@@ -109,6 +109,13 @@ def mongos_restart():
     run('service mongos restart')
 
 
+def mongodb_restart():
+    run('service mongodb restart')
+
+def mongodb_start():
+    run('service mongodb start')
+
+
 def mongoconf_install():
     put('etc/init.d/mongoconf', '/etc/init.d/mongoconf', mode=0755)
     run('update-rc.d mongoconf defaults')
@@ -123,15 +130,24 @@ def install_nginx():
     run('add-apt-repository ppa:nginx/stable')
     run('apt-get update')
     run('apt-get --yes install nginx')
+    
 
     put('etc/nginx/uwsgi_params', '/etc/nginx/uwsgi_params')
+
+    if exists('/etc/nginx/nginx.conf'):
+        run('rm /etc/nginx/nginx.conf')
     put('etc/nginx/nginx.conf', '/etc/nginx/nginx.conf')
+
+    if exists('/etc/nginx/sites-enabled/default'):
+        run('rm /etc/nginx/sites-enabled/default')
+
+
+    if exists('/etc/nginx/sites-available/socnet-uwsgi.conf'):
+        run('rm /etc/nginx/sites-available/socnet-uwsgi.conf')
+
     put('etc/nginx/sites-available/socnet-uwsgi.conf',
         '/etc/nginx/sites-available/socnet-uwsgi.conf')
     run('ln -sf /etc/nginx/sites-available/socnet-uwsgi.conf /etc/nginx/sites-enabled/socnet-uwsgi.conf')
-
-
-
 
 
 def install_uwsgi():
@@ -145,7 +161,7 @@ def pip_global():
 
 
 def set_sudoers():    
-    sudoers_str = '%s ALL=(ALL) NOPASSWD: /etc/init.d/nginx reload,/etc/init.d/socnet restart' % APPLICATION_USER
+    sudoers_str = '%s ALL=(ALL) NOPASSWD: /etc/init.d/nginx reload,/etc/init.d/nginx restart,/etc/init.d/socnet restart' % APPLICATION_USER
     if not contains(sudoers_str, '/etc/sudoers'):
         append(sudoers_str, '/etc/sudoers')
 
@@ -183,6 +199,9 @@ def install_application():
     # return
 
 
+def restart_nginx():
+    env.user = 'appserver'
+    run('sudo /etc/init.d/nginx restart')
 
 def restart_app_server():
     env.user = 'appserver'
@@ -200,3 +219,8 @@ def free():
 
 def whoami():
     run('whoami')
+
+
+
+def eth1_addr():
+    run('ifconfig eth1 | grep "inet addr"')
