@@ -12,6 +12,7 @@
 {% endblock %}
 
 {% block content %}
+{{ form.errors }}
 <div id="filter_box">
 <h2>{% trans "Edit profile" %}</h2>
 <form method="post" class="baseform">
@@ -28,7 +29,7 @@
         <tr>
             <th><label for="id_birthday">День рождения:</label></th>
             <td class="empty_filt"></td>
-            <td><div class="input_holder rounded"><input id="id_birthday" type="text" name="birthday" maxlength="10" /></div></td>
+            <td><div class="input_holder rounded"><input id="id_birthday" type="text" name="birthday" maxlength="15" /></div></td>
         </tr>
         <tr>
         	<td style="height:10px"></td>
@@ -94,9 +95,16 @@
 
     </div>
     <div class="but">
-        {% if is_new %}<input type="submit" value="{% trans 'Create group' %}"/>
-        {% else %}<input type="submit" value="Сохранить"/>{% endif %}
+        <input type="submit"
+           value="{% trans 'Save' %}" />
     </div>
+    {% comment  %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit"
+           value="{% trans 'Save' %}" />
+    {% endcomment %}
     
 </form>
 </div>

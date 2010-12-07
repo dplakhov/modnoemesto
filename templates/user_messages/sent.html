@@ -27,7 +27,7 @@
                     <p><a href="{% url user_messages:view_message message_id=msg.id %}">{{ msg.first_line }}</a></p>
                 </div>
                 <div class="operation">
-                     <p><a class="reference" href="{% url user_messages:view_message message_id=msg.id %}">Ещё одно</a></p>
+                     <p><a class="reference" href="{% url user_messages:send_message user_id=msg.recipient.id %}">Ещё одно</a></p>
                      {% comment %}
                      <p><a class="reference" href="#">Спам</a></p>
                      {% endcomment %}
