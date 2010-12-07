@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
 from django.template.loader import render_to_string
-from django.contrib.auth import (login as django_login,
+
+from django.contrib.auth import (SESSION_KEY,
+    BACKEND_SESSION_KEY,
     logout as django_logout)
+
+import datetime
+
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse, HttpResponseRedirect
@@ -103,6 +108,31 @@ def register(request):
         return direct_to_template(request, 'registration_complete.html')
 
     return form
+
+def django_login(request, user):
+    """
+    Persist a user id and a backend in the request. This way a user doesn't
+    have to reauthenticate on every request.
+    """
+    if user is None:
+        user = request.user
+    # TODO: It would be nice to support different login methods, like signed cookies.
+    user.last_login = datetime.datetime.now()
+    user.save()
+
+    if SESSION_KEY in request.session:
+        if request.session[SESSION_KEY] != str(user.id):
+            # To avoid reusing another user's session, create a new, empty
+            # session if the existing session corresponds to a different
+            # authenticated user.
+            request.session.flush()
+    else:
+        request.session.cycle_key()
+    request.session[SESSION_KEY] = str(user.id)
+    request.session[BACKEND_SESSION_KEY] = user.backend
+    if hasattr(request, 'user'):
+        request.user = user
+
 
 
 def activation(request, code=None):
