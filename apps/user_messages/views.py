@@ -16,10 +16,13 @@ def send_message(request, user_id):
     
     from apps.social.documents import User
 
-    if user_id == request.user.id:
-        raise Http404()
-    msgform = MessageTextForm(request.POST or None)
     recipient = get_document_or_404(User, id=user_id)
+
+    if recipient.id == request.user.id:
+        raise Http404()
+
+    msgform = MessageTextForm(request.POST or None)
+
     if msgform.is_valid():
         text = msgform.data['text']
         Message.send(request.user, recipient, text)

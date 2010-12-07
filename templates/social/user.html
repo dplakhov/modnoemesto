@@ -80,7 +80,7 @@
         <ul>{% url social:user_friends as friends %}
             <li><a href="{{ friends }}">{% trans "Friends" %}</a> <a href="{{ friends }}">({{ user.friends.count }})</a></li>
             <li><a href="{% url in_dev %}">{% trans "Increase ranking" %}</a></li>
-            <li><a href="{% url user_messages:send_message user.id %}">Написать сообшение</a></li>
+            <li><a href="{% url user_messages:send_message page_user.id %}">Написать сообшение</a></li>
         </ul>
     </div>
     <div class="friend_box transparent">

@@ -21,7 +21,7 @@
     {%  include "includes/left_menu.html" %}
 
     <div class="message">
-        <h3>Написть новое сообщение</h3>
+        <h3>Написать новое сообщение</h3>
             
             {% if not msg.sender == user %}
             <form method="post"
@@ -38,7 +38,7 @@
                     </div>
                     
                     <div class="but_1">
-                        <a id="back" class="reference" href="javascript: void(0);">Отменить</a>
+                        <a id="back" class="reference" href="{{ page_user.get_absolute_url }}">Отменить</a>
                         <input type="submit" value="{% trans "Send" %}"/>
                     </div>
                 </div>
