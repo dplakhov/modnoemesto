@@ -12,7 +12,6 @@
 {% endblock %}
 
 {% block content %}
-{{ form.errors }}
 <div id="filter_box">
 <h2>{% trans "Edit profile" %}</h2>
 <form method="post" class="baseform">
@@ -21,7 +20,9 @@
         <tr>
             <th><label for="id_hometown">Родной город:</label></th>
             <td class="empty_filt"></td>
-            <td><div class="input_holder rounded"><input id="id_hometown" type="text" name="hometown" maxlength="30" /></div></td>
+            <td>
+                {{ form.hometown.errors }}
+                <div class="input_holder rounded">{{ form.hometown }}</div></td>
         </tr>
         <tr>
         	<td style="height:10px"></td>
@@ -29,7 +30,9 @@
         <tr>
             <th><label for="id_birthday">День рождения:</label></th>
             <td class="empty_filt"></td>
-            <td><div class="input_holder rounded"><input id="id_birthday" type="text" name="birthday" maxlength="15" /></div></td>
+            <td>
+                {{ form.birthday.errors }}
+                <div class="input_holder rounded">{{ form.birthday }}</div></td>
         </tr>
         <tr>
         	<td style="height:10px"></td>
@@ -37,11 +40,7 @@
         <tr>
             <th><label for="id_sex">Пол:</label></th>
             <td class="empty_filt"></td>
-            <td><select name="sex" id="id_sex">
-            <option value="" selected="selected">Не выбран</option>
-            <option value="f">Женский</option>
-            <option value="m">Мужской</option>
-            </select></td>
+            <td>{{ form.sex.errors }}{{ form.sex }}</td>
         </tr>
         <tr>
         	<td style="height:10px"></td>
@@ -49,7 +48,9 @@
         <tr>
             <th><label for="id_icq">ICQ:</label></th>
             <td class="empty_filt"></td>
-            <td><div class="input_holder rounded"><input id="id_icq" type="text" name="icq" maxlength="30" /></div></td>
+            <td>
+                {{ form.icq.errors }}
+                <div class="input_holder rounded">{{ form.icq }}</div></td>
         </tr>
         <tr>
         	<td style="height:10px"></td>
@@ -57,7 +58,9 @@
         <tr>
             <th><label for="id_mobile">Телефон:</label></th>
             <td class="empty_filt"></td>
-            <td><div class="input_holder rounded"><input id="id_mobile" type="text" name="mobile" maxlength="30" /></div></td>
+            <td>
+                {{ form.mobile.errors }}
+                <div class="input_holder rounded">{{ form.mobile }}</div></td>
         </tr>
         <tr>
         	<td style="height:10px"></td>
@@ -65,7 +68,9 @@
         <tr>
             <th><label for="id_website">Личный сайт:</label></th>
             <td class="empty_filt"></td>
-            <td><div class="input_holder rounded"><input type="text" name="website" id="id_website" /></div></td>
+            <td>
+                {{ form.website.errors }}
+                <div class="input_holder rounded">{{ form.website }}</div></td>
         </tr>
         <tr>
         	<td style="height:10px"></td>
@@ -73,7 +78,9 @@
         <tr>
             <th><label for="id_university">ВУЗ:</label></th>
             <td class="empty_filt"></td>
-            <td><div class="input_holder rounded"><input id="id_university" type="text" name="university" maxlength="30" /></div></td>
+            <td>
+                {{ form.university.errors }}
+                <div class="input_holder rounded">{{ form.university }}</div></td>
         </tr>
         <tr>
         	<td style="height:10px"></td>
@@ -81,7 +88,9 @@
         <tr>
             <th><label for="id_department">Факультет:</label></th>
             <td class="empty_filt"></td>
-            <td><div class="input_holder rounded"><input id="id_department" type="text" name="department" maxlength="30" /></div></td>
+            <td>
+                {{ form.department.errors }}
+                <div class="input_holder rounded">{{ form.department }}</div></td>
         </tr>
         <tr>
         	<td style="height:10px"></td>
@@ -89,7 +98,9 @@
         <tr>
             <th><label for="id_university_status">Статус:</label></th>
             <td class="empty_filt"></td>
-            <td><div class="input_holder rounded"><input id="id_university_status" type="text" name="university_status" maxlength="30" /></div></td>
+            <td>
+                {{ form.university_status.errors }}
+                <div class="input_holder rounded">{{ form.university_status }}</div></td>
         </tr>
     </table>
 
