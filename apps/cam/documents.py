@@ -71,7 +71,7 @@ class Camera(Document):
     def can_show(self, user):
         if user.is_superuser:
             return True
-        if not (self.public or user.is_friend):
+        if not (self.is_view_public or user.is_friend):
             return False
         if self.paid:
             if not user.is_authenticated():
