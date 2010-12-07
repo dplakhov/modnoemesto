@@ -13,7 +13,7 @@ class ImageResize(FileTransformation):
         parser = ImageFileParser()
         parser.feed(source.file.read())
         source_image = parser.close()
-        crop_box = self._get_crop_box((source_image.width, source_image.height),
+        crop_box = self._get_crop_box(source_image.size,
                                       (self.width, self.height))
         image = source_image.crop(crop_box)
         image = image.resize((self.width, self.height), Image.ANTIALIAS)

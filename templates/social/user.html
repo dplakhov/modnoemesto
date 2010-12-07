@@ -59,9 +59,9 @@
 	<div class="own_photo rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
         {% with page_user as user %}
             {% if user.avatar %}
-                <img src="{% url social:avatar user_id=user.id format='100x100' %}"/>
+                <img src="{% url social:avatar user_id=user.id format='200x200' %}"/>
             {% else %}
-                <img src="/media/img/notfound/avatar_100x100.png"/>
+                <img src="/media/img/notfound/avatar_200x200.png"/>
             {% endif %}
         {% endwith %}
         
