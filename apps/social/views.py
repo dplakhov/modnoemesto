@@ -28,7 +28,7 @@ from ImageFile import Parser as ImageFileParser
 from apps.billing.documents import AccessCamOrder
 from apps.social.forms import ChangeProfileForm
 import re
-from apps.social.documents import Profile
+from apps.social.documents import Profile, Setting
 
 
 try:
@@ -48,6 +48,8 @@ def index(request):
 
 
 def about(request):
+    if not Setting.is_started():
+        return direct_to_template(request, 'cap.html', )
     reg_form = None
     login_form = None
     redirect_to = None
@@ -134,7 +136,6 @@ def logout(request):
     return redirect('/')
 
 
-#@login_required
 def home(request):
     camera = request.user.get_camera()
     if camera:
@@ -186,7 +187,6 @@ def avatar(request, user_id, format):
     return response
 
 
-#@login_required
 def avatar_edit(request):
     user = request.user
     if request.method != 'POST':
@@ -237,7 +237,6 @@ def avatar_edit(request):
                               )
 
 
-#@login_required
 def profile_edit(request):
     profile = request.user.profile
     form = ChangeProfileForm(request.POST or None, initial=profile._data)
@@ -250,3 +249,14 @@ def profile_edit(request):
     return direct_to_template(request, 'social/profile/edit.html',
                               dict(form=form, user=request.user)
                               )
+
+
+def start(request):
+    if request.method == 'POST':
+        Setting.is_started(True)
+    return direct_to_template(request, 'start.html', { 'is_started': Setting.is_started() })
+
+
+def stop(request):
+    Setting.is_started(False)
+    return HttpResponse('Stop: OK!')

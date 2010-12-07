@@ -1,0 +1,18 @@
+{% extends "base_mini.html" %}
+
+{% load i18n %}
+
+{% block base_content %}
+<div id="content_about" style="float:none;width:auto">
+    <h2>Старт</h2>
+<div style="text-align:center">
+{% if is_started %}
+Проект уже запущен!
+{% else %}
+<form method="post">
+    <input type="submit" value="Старт"/>
+</form>
+{% endif %}
+</div>
+</div>
+{% endblock %}

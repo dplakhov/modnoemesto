@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     (r'^groups/', include('apps.groups.urls', namespace='groups')),
     (r'^friends/', include('apps.friends.urls', namespace='friends')),
     url(r'^in_dev/$', 'django.views.generic.simple.direct_to_template', name='in_dev', kwargs={'template': 'in_dev.html'}),
+    url(r'^agreement/$', 'django.views.generic.simple.direct_to_template', name='agreement', kwargs={'template': 'agreement.html'}),
 
 )
 
