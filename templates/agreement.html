@@ -1,9 +1,12 @@
-{% extends "base_mini.html" %}
+{% extends base_template %}
 
-{% load i18n %}
+{% block css %}
+{{ block.super }}
+<link href="/media/styles/page_info.css" rel="stylesheet" type="text/css" />
+{% endblock %}
 
-{% block base_content %}
-<div id="content_about">
+{% block content %}
+<div id="content_info">
     <h2>Пользовательское соглашение</h2>
 <p>
 Зарегистрировавшись на сайте ModnoeMesto.Ru (в дальнейшем Сайт), посетитель становится его Пользователем.

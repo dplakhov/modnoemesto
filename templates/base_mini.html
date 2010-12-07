@@ -133,15 +133,10 @@ here goes the actual content
         <div id="info">
             <ul>
 
-            <li style="padding-left:0"><a href="{% url in_dev %}">О сайте</a></li>
-            <li><a href="{% url in_dev %}">Техподдержка</a></li>
-            <li><a href="{% url in_dev %}">Вакансии</a></li>
-            <li><a href="{% url in_dev %}">Блог</a></li>
-            <li><a href="{% url in_dev %}">Правила </a></li>
-            <li><a href="{% url in_dev %}">Реклама</a></li>
-
-            <li><a href="{% url in_dev %}">Разработчикам</a></li>
-            <li style="padding-right:0"><a href="{% url in_dev %}">Магазинам</a></li>
+            <li style="padding-left:0"><a href="{% url social:about %}">О проекте</a></li>
+            <li><a href="{% url social:agreement %}">Пользовательское соглашение</a></li>
+            <li><a href="{% url cam:cam_list %}">Модные места</a></li>
+            <li><a href="{% url in_dev %}">Контакты</a></li>
             </ul>
             <p style="width:200px">Модное место &copy; 2010</p>
             <p id="design">Разработано в <a href="http://www.web-mark.ru/" target="_blank">Web-Mark</a></p>

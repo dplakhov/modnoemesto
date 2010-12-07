@@ -1,7 +1,15 @@
-{% extends "base_mini.html" %}
+{% extends base_template %}
 
 {% load i18n %}
 
+{% if is_auth %}
+{% block css %}
+{{ block.super }}
+<link href="/media/styles/page_info.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% endif %}
+
+{% if not is_auth %}
 {% block js %}
 {{ block.super }}
 <script type="text/javascript">
@@ -20,9 +28,10 @@
     });
 </script>
 {% endblock %}
+{% endif %}
 
-{% block base_content %}
-<div id="content_about">
+{% block content %}
+<div id="content_{% if is_auth %}info{% else %}about{% endif %}">
     <h2>О проекте</h2>
     <p>
 <b>Модное место</b> - это новая и уникальная социальная сеть!
@@ -53,7 +62,7 @@
 Твое <b>Модное место</b>.
     </p>
 </div>
-
+{% if not is_auth %}
 <div id="regColumn">
     <div id="enter_form">
         <h2 class="ent">Вход</h2>
@@ -94,4 +103,5 @@
         </div>
     </div>
 </div>
+{% endif %}
 {% endblock %}

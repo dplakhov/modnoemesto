@@ -50,9 +50,12 @@ def index(request):
 def about(request):
     if not Setting.is_started():
         return direct_to_template(request, 'cap.html', )
+    if request.user.is_authenticated():
+        return direct_to_template(request, 'about.html', {
+            'base_template': "base.html",
+            'is_auth': True })
     reg_form = None
     login_form = None
-    redirect_to = None
     if request.method == "POST":
         form_name = request.POST.get('form_name', None)
         if form_name == 'register':
@@ -68,6 +71,7 @@ def about(request):
     login_form = login_form or LoginForm()
     request.session.set_test_cookie()
     return direct_to_template(request, 'about.html', {
+        'base_template': "base_info.html",
         'reg_form': reg_form,
         'login_form': login_form,
         'is_reg': is_reg,
@@ -254,9 +258,15 @@ def profile_edit(request):
 def start(request):
     if request.method == 'POST':
         Setting.is_started(True)
+        return redirect('social:index')
     return direct_to_template(request, 'start.html', { 'is_started': Setting.is_started() })
 
 
 def stop(request):
     Setting.is_started(False)
     return HttpResponse('Stop: OK!')
+
+
+def agreement(request):
+    return direct_to_template(request, 'agreement.html' , {
+        'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })
