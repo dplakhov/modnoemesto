@@ -203,7 +203,7 @@ AUTHENTICATION_BACKENDS = (
     'apps.social.auth.MongoEngineBackend',
 )
 
-SESSION_ENGINE = 'mongoengine.django.sessions'
+SESSION_ENGINE = 'apps.utils.redis_session_backend'
 
 FORCE_SCRIPT_NAME = ''
 
@@ -227,3 +227,6 @@ TIME_IS_ONLINE = timedelta(minutes=5)
 
 # settings include billing
 from billing import *
+
+# settings include redis
+from redis import *

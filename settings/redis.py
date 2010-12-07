@@ -1,0 +1,4 @@
+REDIS_HOST = ""
+REDIS_PORT = ""
+REDIS_TIMEOUT = ""
+REDIS_DB = ""
