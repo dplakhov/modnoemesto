@@ -53,8 +53,6 @@ def index(request):
 
 
 def about(request):
-    if not Setting.is_started():
-        return direct_to_template(request, 'cap.html', )
     if request.user.is_authenticated():
         return direct_to_template(request, 'about.html', {
             'base_template': "base.html",
@@ -292,18 +290,6 @@ def profile_edit(request):
     return direct_to_template(request, 'social/profile/edit.html',
                               dict(form=form, user=request.user)
                               )
-
-
-def start(request):
-    if request.method == 'POST':
-        Setting.is_started(True)
-        return redirect('social:index')
-    return direct_to_template(request, 'start.html', { 'is_started': Setting.is_started() })
-
-
-def stop(request):
-    Setting.is_started(False)
-    return HttpResponse('Stop: OK!')
 
 
 def agreement(request):

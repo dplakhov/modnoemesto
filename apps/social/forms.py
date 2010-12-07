@@ -46,7 +46,7 @@ class UserCreationForm(forms.Form):
     and password.
     """
     full_name = forms.CharField(label=_("Full name"), max_length=90)
-    phone = forms.CharField(label=_("Phone"))
+    phone = forms.CharField(label=_("Phone"), required=False)
     email = forms.EmailField(label=_("Email"), help_text = _("Please enter a"
         "valid email address, it is required to complete registration process"))
     username = forms.RegexField(label=_("Login"), max_length=30,
