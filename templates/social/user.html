@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% load i18n %}
+
+{% block css %}
+{{ block.super }}
+<link href="/media/styles/profile.css" rel="stylesheet" type="text/css" />
+{% endblock %}
 {% block js %}
     {{ block.super }}
     <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
@@ -11,11 +16,115 @@
 {% endblock %}
 
 {% block content %}
+<div id="left">
+    <h2>{% blocktrans %}{{ page_user }}'s home{% endblocktrans %}</h2>
+	<div class="clear"></div>
+       <dl>
+            {% if profile.hometown %}<dt>{% trans "Hometown" %}</dt>
+                <dd>{{ profile.hometown }}</dd>{% endif %}
+            {% if profile.birthday %}<dt>{% trans "Birthday" %}</dt>
+                <dd>{{ profile.birthday }}</dd>{% endif %}
+            {% if profile.sex %}<dt>{% trans "Sex" %}</dt>
+                <dd>{{ profile.sex }}</dd>{% endif %}
+    	</dl>
+    <div class="about_persone transparent">
+        <div style="overflow: hidden;">
+            <p>{% trans "Contact Information" %}</p>
+        </div>
+        <dl>
+            {% if profile.icq %}<dt>{% trans "ICQ" %}</dt>
+                <dd>{{ profile.icq }}</dd>{% endif %}
+            {% if profile.mobile %}<dt>{% trans "Mobile" %}</dt>
+                <dd>{{ profile.mobile }}</dd>{% endif %}
+            {% if profile.website %}<dt>{% trans "Website" %}</dt>
+                <dd>{{ profile.website }}</dd>{% endif %}
+        </dl>
+    </div>
+    <div class="about_persone transparent">
+        <div style="overflow: hidden;">
+            <p>{% trans "Education" %}</p>
+        </div>
+        <dl>
+            {% if profile.university %}<dt>{% trans "University" %}</dt>
+                <dd>{{ profile.university }}</dd>{% endif %}
+            {% if profile.department %}<dt>{% trans "Department" %}</dt>
+                <dd>{{ profile.department }}</dd>{% endif %}
+            {% if profile.university_status %}<dt>{% trans "Status" %}</dt>
+                <dd>{{ profile.university_status }}</dd>{% endif %}
+        </dl>
+    </div>
+    
+</div>
+<div id="right">
+	<div class="own_photo rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+        {% with page_user as user %}
+            {% if user.avatar %}
+                <img src="{% url social:avatar user_id=user.id format='100x100' %}"/>
+            {% else %}
+                <img src="/media/img/notfound/avatar_100x100.png"/>
+            {% endif %}
+        {% endwith %}
+        
+        {% if show_friend_button %}
+        <p>
+            <a href="{% url friends:add page_user.id %}">
+                {% trans "Add to my friends" %}
+            </a>
+        </p>
+        {% endif %}
+    </div>
+     <div class="rating_persone rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+        <p>{% trans "Rating" %} <span style="color: rgb(12, 156, 183);">5565677</span></p>
+    </div>
+    <div class="profileActions">
+        <ul>{% url social:user_friends as friends %}
+            <li><a href="{{ friends }}">{% trans "Friends" %}</a> <a href="{{ friends }}">({{ user.friends.count }})</a></li>
+            <li><a href="{% url in_dev %}">{% trans "Increase ranking" %}</a></li>
+            <li><a href="#">Написать сообшение</a></li>
+        </ul>
+    </div>
+    <div class="friend_box transparent">
+        <div style="overflow: hidden;">
+            <p>Друзья онлайн</p><span><a href="{% url friends:list %}" class="change">все {{ user.friends_online|length }}</a></span>
+        </div>
+        <ul class="friendTable">
+            {% for user in page_user.friends.list %}
+                <li>
+                        {% include "includes/user/micro.html" %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+</div>
+<div id="content-main" style="clear: both;">
+     <div id="camera">
+        {% if camera %}
+            <a href="{% url billing:get_access_to_camera camera.id %}">{% trans "Get access to camera" %}</a>
+            {% if show_bookmark_button %}
+            <a href="{% url cam:cam_bookmark_add camera.id %}">{% trans "Bookmark this camera" %}</a>
+            {% else %}
+            <a href="{% url cam:cam_bookmark_delete camera.id %}">{% trans "Remove Bookmark" %}</a>
+            {% endif %}
+            {% include "includes/camera.html" %}
+        {% else %}
+            <div class="no_camera">
+            <img src="/media/img/notfound/cam.png" alt="" />
+            <p>
+            {% trans "This user has no registered camera." %}
+            </p>
+            </div>
+        {% endif %}
+    </div>
 
-<h1>{% blocktrans %}{{ page_user }}'s home{% endblocktrans %}</h1>
+</div>
+
+
+{% comment %}
     {% with page_user as user %}
         {% include "includes/user/midi.html" %}
     {% endwith %}
+
 {% if show_friend_button %}
 <p>
     <a href="{% url friends:add page_user.id %}">
@@ -76,5 +185,5 @@
           {% endif %}
     </div>
 </div>
-
+{% endcomment %}
 {% endblock %}
