@@ -177,7 +177,7 @@ def mongoconf_restart():
     run('service mongoconf restart')
 
 def install_app_server_software():
-    run('apt-get --yes install python-virtualenv python-pip python-imaging python-software-properties rabbitmq-server')
+    run('apt-get --yes install python-virtualenv python-pip python-imaging python-software-properties rabbitmq-server python-mysqldb')
 
 def install_nginx():
     run('add-apt-repository ppa:nginx/stable')
