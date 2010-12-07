@@ -4,47 +4,69 @@ import os
 from fabric.api import run, local, cd, env
 from fabric.contrib.files import exists, contains, comment, uncomment, append
 from fabric.operations import put
+from datetime import datetime
+from fabric.decorators import roles
 
 APPLICATION_DIR = '/var/socnet/appserver'
 
 APPLICATION_USER = 'appserver'
 
 
+
+
 env.roledefs.update({
     'app': [ 'as%d.modnoemesto.ru' %x for x in ( 2, 3, 4, 5, 6, 7, 8) ],
-    'db': [ 'db%d.modnoemesto.ru' %x for x in (1, 2, 3, 4, 5, 6, 7, 8) ],
+
+    'db_master': [ 'db%d.modnoemesto.ru' %x for x in (2, 4, 6, 7) ],
+    'db_slave': [ 'db%d.modnoemesto.ru' %x for x in (1, 3, 5, 8) ],
+
+    'bal': [ 'bal%d.modnoemesto.ru' %x for x in (1, 2, 3, 4) ],
 })
 
+
+env.roledefs.update({ 'db': env.roledefs['db_master'] + env.roledefs['db_slave'] })
+env.roledefs.update({ 'all': env.roledefs['app'] + env.roledefs['db'] + env.roledefs['bal'] })
 
 env.user = 'root'
 
 def _pub_key():
     return open(os.path.join(os.path.expanduser('~'), '.ssh/id_rsa.pub')).read()
 
-def deploy(revision):
+def deploy(revision, reinstall=False):
     env.user = 'appserver'
     assert re.match(r'[a-f0-9]{40}', revision)
     repo = 'ssh://gitreader@ns1.modnoemesto.ru/opt/gitrepo/repositories/modnoe.git/'
     with cd(APPLICATION_DIR):
-        if exists('app'):
-            run('rm app')
+        append('%s %s' %
+               (datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+               revision), 'revision.log')
+        need_install = True
         if exists(revision):
-            run('ln -fs %s app' % revision)
-        else:
+            if reinstall:
+                run('rm -rf %s' % revision)
+            else:
+                need_install = False
+                if exists('app'):
+                    run('rm app')
+                run('ln -fs %s app' % revision)
+
+        if need_install:
             try:
                 run('git clone %s %s' % (repo, revision))
                 with cd(revision):
                     run('git checkout %s' % (revision))
             except:
-                run('rm -rf %s' % revision) 
+                run('rm -rf %s' % revision)
             else:
+                if exists('app'):
+                    run('rm app')
                 run('ln -fs %s app' % revision)
                 with cd('app'):
                     run('virtualenv venv')
                     #run('source ./venv/bin/activate')
                     #run('source ./venv/bin/activate && pip install --upgrade -r requirements.pip')
 
-                restart_app_server()
+        restart_app_server()
 
 
 def install_keys():
@@ -80,7 +102,7 @@ def install_etckeeper():
 
 
 def install_server_software():
-    run('apt-get --yes install vim-nox mc htop zip unzip exuberant-ctags screen')
+    run('apt-get --yes install vim-nox mc htop zip unzip exuberant-ctags screen nmap')
 
 
 def mongo_install():
@@ -101,20 +123,51 @@ def mongos_install():
     put('etc/init.d/mongos', '/etc/init.d/mongos', mode=0755)
     run('update-rc.d mongos defaults')
 
-
+@roles('app')
 def mongos_start():
     run('service mongos start')
 
+@roles('app')
 def mongos_restart():
     run('service mongos restart')
-
 
 def mongodb_restart():
     run('service mongodb restart')
 
 def mongodb_start():
     run('service mongodb start')
+def mongodb_stop():
+    run('service mongodb stop')
 
+def mongodb_reset():
+    try:
+        mongodb_stop()
+    except:
+        pass
+    run('rm -rf /var/lib/mongodb/*')
+    put('etc/mongodb.conf', '/etc/mongodb.conf')
+    mongodb_start()
+
+
+
+def mongodb_set_shardsvr():
+    if not contains('shardsvr=true', '/etc/mongodb.conf'):
+        append('shardsvr=true', '/etc/mongodb.conf')
+        mongodb_restart()
+
+def mongodb_port_open():
+    if contains('#port = 27017', '/etc/mongodb.conf'):
+        uncomment('/etc/mongodb.conf', 'port = 27017')
+        mongodb_restart()
+
+def mongodb_conf_grep(str):
+    run('grep "%s" /etc/mongodb.conf' % str)
+
+def mongodb_replication_info():
+    run("echo 'db.printReplicationInfo()' | mongo")
+
+def mongodb_slave_replication_info():
+    run("echo 'db.printSlaveReplicationInfo()' | mongo")
 
 def mongoconf_install():
     put('etc/init.d/mongoconf', '/etc/init.d/mongoconf', mode=0755)
@@ -177,6 +230,9 @@ def deinstall_application():
 
 def install_application():
     pub_key = _pub_key()
+    if exists('/etc/init.d/socnet'):
+        run('rm /etc/init.d/socnet')
+
     put('etc/init.d/socnet', '/etc/init.d/socnet', mode=0755)
 
     if not exists(APPLICATION_DIR):
@@ -219,8 +275,6 @@ def free():
 
 def whoami():
     run('whoami')
-
-
 
 def eth1_addr():
     run('ifconfig eth1 | grep "inet addr"')

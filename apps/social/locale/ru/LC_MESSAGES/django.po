@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-06 18:00+0300\n"
+"POT-Creation-Date: 2010-12-07 16:10+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -141,14 +141,18 @@ msgstr "Факультет"
 msgid "Status"
 msgstr "Статус"
 
-#: views.py:210
+#: views.py:113
+msgid "Activation code corrupted or already used"
+msgstr "Код активации повреждён или уже использован"
+
+#: views.py:220
 msgid "Invalid image file format"
 msgstr "Неверный формат файла"
 
-#: views.py:231
+#: views.py:241
 msgid "Avatar successfully updated"
 msgstr "Аватар успешно обновлен"
 
-#: views.py:248
+#: views.py:257
 msgid "Profile successfully updated"
 msgstr "Профиль успешно обновлен"
