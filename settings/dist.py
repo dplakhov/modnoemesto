@@ -39,10 +39,18 @@ if 'test' in sys.argv:
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': ':memory:', #rel('default.db'),
+
         },
         'billing': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': ':memory:', #rel('assist.db'),
+#            'ENGINE': 'django.db.backends.sqlite3',
+ #           'NAME': ':memory:', #rel('assist.db'),
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'billing',
+            'USER': 'root',
+            'PASSWORD': 'Eekeilt0',
+            'HOST': '10.10.10.7',
+
+
         },
     }
 
