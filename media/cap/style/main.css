@@ -121,3 +121,17 @@ h2.subtitle {
 	width: 100%;
 	top: 60px;
 }
+.but_start input[type="submit"]
+{
+	background: url('../../images/Red_Button.png') no-repeat;
+	color:#FFFFFF;
+	cursor:pointer;
+	overflow:visible;
+	/*padding:2px 30px 4px;*/
+	width:286px;
+	height: 301px;
+}
+
+
+
+
