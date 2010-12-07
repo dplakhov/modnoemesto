@@ -29,12 +29,8 @@ DATABASES = {
         'PORT': '',
     },
     'billing': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'billing',
-        'USER': 'root',
-        'PASSWORD': '123',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
     },
 }
 
@@ -53,7 +49,7 @@ if 'test' in sys.argv:
 MONGO_DATABASE = 'social'
 MONGO_HOST = '127.0.0.1'
 
-DATABASE_ROUTERS = ['db_routers.BillingRouter',]
+DATABASE_ROUTERS = [ 'db_routers.BillingRouter', ]
 
 TIME_ZONE = 'Europe/Moscow'
 

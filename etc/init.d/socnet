@@ -27,7 +27,7 @@ case "$1" in
 	kill_if_exist "manage.py celeryd"
 	python manage.py celeryd > /dev/null 2>&1 &
 	kill_if_exist "uwsgi"
-	uwsgi -s /tmp/socnet-uwsgi.sock -C -H venv -x django.xml -M -p 16 -l 16384 > /dev/null 2>&1 &
+	uwsgi -s /tmp/socnet-uwsgi.sock -C -H venv -x django.xml -M -p 16 -l 16384 > /dev/null 2>/tmp/socnet-uwsgi.log &
 	;;
   stop)
 	kill_if_exist "uwsgi"
