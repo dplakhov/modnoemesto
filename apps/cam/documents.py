@@ -73,7 +73,7 @@ class Camera(Document):
             return True
         if not (self.is_view_public or user.is_friend):
             return False
-        if self.paid:
+        if self.is_view_paid:
             if not user.is_authenticated():
                 return False
             order = AccessCamOrder.objects(
