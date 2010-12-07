@@ -118,14 +118,9 @@
         <div id="fotter">
             <div id="info">
             	<ul>
-                <li style="padding-left:0"><a href="#">О сайте</a></li>
-                <li><a href="#">Техподдержка</a></li>
-                <li><a href="#">Вакансии</a></li>
-                <li><a href="#"> Блог</a></li>
-                <li><a href="#">Правила </a></li>
-                <li><a href="#">Реклама</a></li>
-                <li><a href="#">Разработчикам</a></li>
-                <li style="padding-right:0"><a href="#">Магазинам</a></li>
+                <li style="padding-left:0"><a href="{% url social:about %}">О проекте</a></li>
+                <li><a href="{% url social:agreement %}">Пользовательское соглашение</a></li>
+                <li><a href="{% url social:in_dev %}">Контакты</a></li>
                 </ul>
                 <p style="width:200px">Модное место &copy; 2010</p>
             </div>

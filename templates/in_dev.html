@@ -1,7 +1,12 @@
-{% extends "base.html" %}
+{% extends base_template %}
+
+{% block css %}
+{{ block.super }}
+<link href="/media/styles/page_info.css" rel="stylesheet" type="text/css" />
+{% endblock %}
 
 {% block content %}
-<div id="content_about" style="float:none;width:auto">
+<div id="content_info">
     <h2 style="font-size: 36px;">Страница в разработке</h2>
    <p>
 Данная страница находится в разработке, Вы сможете увидеть ее в ближайшее время.

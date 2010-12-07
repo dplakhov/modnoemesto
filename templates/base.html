@@ -28,10 +28,10 @@
 
             <li id="group"><a href="{% url groups:user_group_list %}">Группы</a></li>
             <li id="foto"><a href="{% url media_library:image_index %}">Фотографии</a></li>
-            <li id="video"><a href="{% url in_dev %}">Видеозаписи</a></li>
-            <li id="audio"><a href="{% url in_dev %}">Аудиозаписи</a></li>
+            <li id="video"><a href="{% url social:in_dev %}">Видеозаписи</a></li>
+            <li id="audio"><a href="{% url social:in_dev %}">Аудиозаписи</a></li>
 
-            <li id="meeting"><a href="{% url in_dev %}">Встречи</a></li>
+            <li id="meeting"><a href="{% url social:in_dev %}">Встречи</a></li>
             {% else %}
             <li><a href="{% url social:register %}">регистрация</a></li>
             <li><a href="{% url social:login %}">вход</a></li>
@@ -42,7 +42,7 @@
         </ul>
     </div>
     <div id="what_new">
-        <a href="{% url in_dev %}"><img src="/media/images/what_new.jpg"/></a>
+        <a href="{% url social:in_dev %}"><img src="/media/images/what_new.jpg"/></a>
     </div>
     <div id="advertising">
         <div>

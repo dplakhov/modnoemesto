@@ -270,3 +270,8 @@ def stop(request):
 def agreement(request):
     return direct_to_template(request, 'agreement.html' , {
         'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })
+
+
+def in_dev(request):
+    return direct_to_template(request, 'in_dev.html' , {
+        'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })

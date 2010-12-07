@@ -81,12 +81,12 @@
             <td class="right_corner {% active request 'cam:cam_list' %}"></td>
             <td class="empty"></td>
             <td class="left_corner"></td>
-            <td class="menu_but"><a href="{% url in_dev %}">аукцион</a></td>
+            <td class="menu_but"><a href="{% url social:in_dev %}">аукцион</a></td>
 
             <td class="right_corner"></td>
             <td class="empty"></td>
             <td class="left_corner"></td>
-            <td class="menu_but"><a class="curent" href="{% url in_dev %}">приложения</a></td>
+            <td class="menu_but"><a class="curent" href="{% url social:in_dev %}">приложения</a></td>
             <td class="right_corner"></td>
             <td class="empty"></td>
             <td class="left_corner {% active request 'groups:group_list' %}"></td>
@@ -136,7 +136,7 @@ here goes the actual content
             <li style="padding-left:0"><a href="{% url social:about %}">О проекте</a></li>
             <li><a href="{% url social:agreement %}">Пользовательское соглашение</a></li>
             <li><a href="{% url cam:cam_list %}">Модные места</a></li>
-            <li><a href="{% url in_dev %}">Контакты</a></li>
+            <li><a href="{% url social:in_dev %}">Контакты</a></li>
             </ul>
             <p style="width:200px">Модное место &copy; 2010</p>
             <p id="design">Разработано в <a href="http://www.web-mark.ru/" target="_blank">Web-Mark</a></p>

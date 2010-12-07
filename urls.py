@@ -13,8 +13,6 @@ urlpatterns = patterns('',
     (r'^file/', include('apps.media.urls', namespace='media')),
     (r'^groups/', include('apps.groups.urls', namespace='groups')),
     (r'^friends/', include('apps.friends.urls', namespace='friends')),
-    url(r'^in_dev/$', 'django.views.generic.simple.direct_to_template', name='in_dev', kwargs={'template': 'in_dev.html'}),
-
 )
 
 if settings.DEBUG:

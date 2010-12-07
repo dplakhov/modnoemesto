@@ -9,6 +9,7 @@ urlpatterns = patterns('apps.social.views',
    url(r'^stop/$', 'stop', name='stop'),
    url(r'^agreement/$', 'agreement', name='agreement'),
    url(r'^about/$', 'about', name='about'),
+   url(r'^in_dev/$', 'in_dev', name='in_dev'),
    url(r'^home/$', 'home', name='home'),
    url(r'^home/edit/$', 'profile_edit', name='profile_edit'),
 
