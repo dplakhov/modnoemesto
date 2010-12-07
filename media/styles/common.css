@@ -564,6 +564,9 @@ input.subReg
     overflow: hidden;
     margin-top: 20px;
 }
+#enter_form .errorlist li, #reg_form .errorlist li {
+    color: #585858;
+}
 #reg_form .reg input
 {
     background:url(../images/input.jpg) no-repeat;
