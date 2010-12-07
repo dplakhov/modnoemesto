@@ -249,13 +249,16 @@ def avatar_edit(request):
 
 def profile_edit(request):
     profile = request.user.profile
-    form = ChangeProfileForm(request.POST or None, initial=profile._data)
-    if form.is_valid():
-        for k, v in form.cleaned_data.items():
-            setattr(profile, k, v if v else None)
-        profile.save()
-        messages.add_message(request, messages.SUCCESS, _('Profile successfully updated'))
-        return redirect('social:home')
+    if request.method == 'POST':
+        form = ChangeProfileForm(request.POST)
+        if form.is_valid():
+            for k, v in form.cleaned_data.items():
+                setattr(profile, k, v if v else None)
+            profile.save()
+            messages.add_message(request, messages.SUCCESS, _('Profile successfully updated'))
+            return redirect('social:home')
+    else:
+        form = ChangeProfileForm(profile._data)
     return direct_to_template(request, 'social/profile/edit.html',
                               dict(form=form, user=request.user)
                               )
