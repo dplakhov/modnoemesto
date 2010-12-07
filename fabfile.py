@@ -104,6 +104,10 @@ def install_etckeeper():
 def install_server_software():
     run('apt-get --yes install vim-nox mc htop zip unzip exuberant-ctags screen nmap')
 
+    run('apt-get --yes install ntp')
+    run('cp /etc/cron.daily/ntp /etc/cron.hourly/ntp')
+
+
 
 def mongo_install():
     run('echo deb http://downloads.mongodb.org/distros/ubuntu 10.10 10gen > /etc/apt/sources.list.d/mongodb.list')
@@ -139,7 +143,7 @@ def mongodb_start():
 def mongodb_stop():
     run('service mongodb stop')
 
-def mongodb_reset():
+def _xxxmongodb_reset():
     try:
         mongodb_stop()
     except:
@@ -169,6 +173,13 @@ def mongodb_replication_info():
 def mongodb_slave_replication_info():
     run("echo 'db.printSlaveReplicationInfo()' | mongo")
 
+def sess():
+    run('''echo "db.django_session.find({_id: '9516493f34cbbf200e48d2790d655c58'})" | mongo social''')
+
+def date():
+    run('date')
+
+
 def mongoconf_install():
     put('etc/init.d/mongoconf', '/etc/init.d/mongoconf', mode=0755)
     run('update-rc.d mongoconf defaults')
@@ -177,7 +188,12 @@ def mongoconf_restart():
     run('service mongoconf restart')
 
 def install_app_server_software():
-    run('apt-get --yes install python-virtualenv python-pip python-imaging python-software-properties rabbitmq-server python-mysqldb')
+    run('apt-get --yes install python-virtualenv python-pip')
+    run('apt-get --yes install python-imaging python-software-properties')
+    run('apt-get --yes install rabbitmq-server python-mysqldb python-redis')
+
+def dpkg_configure_a():
+    run('dpkg --configure -a')
 
 def install_nginx():
     run('add-apt-repository ppa:nginx/stable')
@@ -278,3 +294,6 @@ def whoami():
 
 def eth1_addr():
     run('ifconfig eth1 | grep "inet addr"')
+
+def cmd(cmd):
+    run(cmd)

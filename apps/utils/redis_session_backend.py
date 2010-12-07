@@ -13,9 +13,8 @@ class SessionStore(SessionBase):
         self.redis = redis.Redis(
             host=getattr(settings, "REDIS_HOST", None),
             port=getattr(settings, "REDIS_PORT", None),
-            timeout=getattr(settings, "REDIS_TIMEOUT", None),
+            socket_timeout=getattr(settings, "REDIS_TIMEOUT", None),
             db=getattr(settings, "REDIS_DB", None))
-        self.redis.connect()
         super(SessionStore, self).__init__(session_key)
 
     def load(self):
