@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block js %}
+{{ block.super }}
+<script type="text/javascript" src="/media/js/autoresize-mod.jquery.js"></script>
+<script type="text/javascript">
+        $(document).ready(function(){
+                $('textarea').autoResize({extraSpace : 0});
+				
+                                   });
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="filter_box">
+<h2>Личные сообщения</h2>
+
+<div id="content-main">
+
+    {%  include "includes/left_menu.html" %}
+
+    <div class="message">
+        <h3>Написть новое сообщение</h3>
+            
+            {% if not msg.sender == user %}
+            <form method="post"
+              action="{% url user_messages:send_message user_id=page_user.id %}">
+                <div class="answer">
+                    <div class="friendTable">
+                        {% include "includes/user/micro.html" %}
+                    </div>
+                    <div class="message_text">
+                        <p> {{ msg.timestamp|timesince }} {% trans "ago" %} </p>
+                    </div>
+                    <div class="message_text_reply rounded">
+                        <textarea name="text" cols="78" rows="5"></textarea>
+                    </div>
+                    
+                    <div class="but_1">
+                        <a id="back" class="reference" href="javascript: void(0);">Отменить</a>
+                        <input type="submit" value="{% trans "Send" %}"/>
+                    </div>
+                </div>
+           
+            </form>
+            {% endif %}
+            
+            
+            {% comment %}
+            <div class="mess">
+                <div class="friendTable">
+                    {% with msg.sender as user %}
+                            {% include "includes/user/micro.html" %}
+                        {% endwith %}
+                    
+                 <!--   {% with msg.sender as user %}
+                            {% include "includes/user/mini.html" %}
+                        {% endwith %} -->
+                </div>
+                <div class="message_text">
+                    <p> {{ msg.timestamp|timesince }} {% trans "ago" %} </p>
+                </div>
+                <div class="message_text_view rounded">
+                    <p>{{ msg.text }}</p>
+                </div>
+            </div>
+            {% endcomment %}
+    
+    </div>
+</div>
+</div>
+
+{% endblock %}

@@ -77,7 +77,7 @@ msgstr ""
 
 #: billing/access_order_list.html:48 billing/order_list.html:44
 msgid "next"
-msgstr "сдедующая"
+msgstr "следующая"
 
 #: billing/get_access_to_camera.html:5
 msgid "Access to camera"
@@ -434,7 +434,7 @@ msgstr "Личный сайт"
 
 #: social/home.html:47
 msgid "Education"
-msgstr "Обазование"
+msgstr "Образование"
 
 #: social/home.html:50
 msgid "University"
@@ -469,7 +469,7 @@ msgid "You have no registered camera."
 msgstr "У вас нет зарегистрированных камер"
 
 #: social/home.html:103
-msgid "Wanna do it right now?"
+msgid "Waлnna do it right now?"
 msgstr "Хотите добавить камеру сейчас?"
 
 #: social/user.html:15

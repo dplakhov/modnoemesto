@@ -26,7 +26,7 @@ def send_message(request, user_id):
         return redirect('user_messages:view_inbox')
     else:
         #@todo: use separate form and screen to handle each situation
-        return direct_to_template(request, 'social/user.html',
+        return direct_to_template(request, 'user_messages/write_message.html',
                               { 'page_user': recipient, 'msgform': msgform })
 
 
