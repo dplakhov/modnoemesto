@@ -28,7 +28,7 @@ from ImageFile import Parser as ImageFileParser
 from apps.billing.documents import AccessCamOrder
 from apps.social.forms import ChangeProfileForm
 import re
-from apps.social.documents import Profile
+from apps.social.documents import Profile, Setting
 
 
 try:
@@ -48,9 +48,14 @@ def index(request):
 
 
 def about(request):
+    if not Setting.is_started():
+        return direct_to_template(request, 'cap.html', )
+    if request.user.is_authenticated():
+        return direct_to_template(request, 'about.html', {
+            'base_template': "base.html",
+            'is_auth': True })
     reg_form = None
     login_form = None
-    redirect_to = None
     if request.method == "POST":
         form_name = request.POST.get('form_name', None)
         if form_name == 'register':
@@ -66,6 +71,7 @@ def about(request):
     login_form = login_form or LoginForm()
     request.session.set_test_cookie()
     return direct_to_template(request, 'about.html', {
+        'base_template': "base_info.html",
         'reg_form': reg_form,
         'login_form': login_form,
         'is_reg': is_reg,
@@ -134,7 +140,6 @@ def logout(request):
     return redirect('/')
 
 
-#@login_required
 def home(request):
     camera = request.user.get_camera()
     if camera:
@@ -186,7 +191,6 @@ def avatar(request, user_id, format):
     return response
 
 
-#@login_required
 def avatar_edit(request):
     user = request.user
     if request.method != 'POST':
@@ -237,7 +241,6 @@ def avatar_edit(request):
                               )
 
 
-#@login_required
 def profile_edit(request):
     profile = request.user.profile
     form = ChangeProfileForm(request.POST or None, initial=profile._data)
@@ -250,3 +253,25 @@ def profile_edit(request):
     return direct_to_template(request, 'social/profile/edit.html',
                               dict(form=form, user=request.user)
                               )
+
+
+def start(request):
+    if request.method == 'POST':
+        Setting.is_started(True)
+        return redirect('social:index')
+    return direct_to_template(request, 'start.html', { 'is_started': Setting.is_started() })
+
+
+def stop(request):
+    Setting.is_started(False)
+    return HttpResponse('Stop: OK!')
+
+
+def agreement(request):
+    return direct_to_template(request, 'agreement.html' , {
+        'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })
+
+
+def in_dev(request):
+    return direct_to_template(request, 'in_dev.html' , {
+        'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })

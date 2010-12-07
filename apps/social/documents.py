@@ -74,7 +74,7 @@ class User(Document):
 
     @property
     def profile(self):
-        return Profile.objects.get_or_create(user__id=self.id)[0]
+        return Profile.objects.get_or_create(user=self)[0]
 
     @cached_property
     def groups(self):
@@ -185,4 +185,23 @@ class User(Document):
             return reverse('social:avatar',  kwargs=dict(user_id=self.id, format=format))
         else:
             return "/media/img/notfound/avatar_%s.png" % format
+
+
+class Setting(Document):
+    name = StringField(unique=True, required=True)
+    value = StringField()
+
+    @staticmethod
+    def is_started(value=None):
+        def set_is_started(value):
+            setting = Setting.objects.get_or_create(name='is_started', defaults={'value': 'false'})[0]
+            setting.value = 'true' if value else 'false'
+            setting.save()
+
+        def get_is_started():
+            setting = Setting.objects.get_or_create(name='is_started', defaults={'value': 'false'})[0]
+            return setting.value == 'true'
+        if value is None:
+            return get_is_started()
+        set_is_started(value)
 

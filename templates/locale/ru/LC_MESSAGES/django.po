@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-07 13:08+0300\n"
+"POT-Creation-Date: 2010-12-07 15:54+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,6 +25,21 @@ msgstr "поиск"
 #: index.html:4
 msgid "Users online"
 msgstr "Пользователи онлайн"
+
+#: registration_complete.html:8
+#, python-format
+msgid ""
+"\n"
+"    Thank you for registering at %(SITE_DOMAIN)s!<br/>\n"
+"    You should receive the email message with a confirmation code in a few\n"
+"    minutes, just click link with this code to complete the registration\n"
+"    process.\n"
+msgstr ""
+"\n"
+"    Благодарим вас за регистрацию на сайте %(SITE_DOMAIN)s!<br/>\n"
+"    Вы должны получить сообщение по электронной почты с кодом подтверждения в течение нескольких\n"
+"    минут, просто нажмите на ссылку с этим кодом, чтобы завершить процесс\n"
+"    регистрации.\n"
 
 #: billing/access_order_list.html:5 includes/admin_menu.html:13
 msgid "Access Orders"
@@ -124,8 +139,7 @@ msgstr "Добавить"
 
 #: billing/tariff_edit.html:16 cam/cam_edit.html:234 cam/type_edit.html:16
 #: groups/theme_edit.html:16 groups/type_edit.html:16 notes/note_edit.html:48
-#: social/profile/avatar.html:14 social/profile/edit.html:99
-#: social/profile/edit.html.py:106
+#: social/profile/avatar.html:14 social/profile/edit.html:12
 msgid "Save"
 msgstr "Сохранить"
 

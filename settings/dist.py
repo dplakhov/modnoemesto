@@ -84,10 +84,15 @@ LOGIN_URL = '/login/'
 LOGIN_EXEMPT_URLS = (
     r'^$',
     r'^in_dev/$',
+    r'^about/$',
+    r'^agreement/$',
+    r'^start/$',
+    r'^stop/$',
     r'^pay/pskb/$',
     r'^register/$',
     r'^file/',
     r'^avatar/',
+    r'^activation/',
     r'^media/', # need for ./manage.py runserver
 )
 
@@ -201,7 +206,7 @@ SITE_DOMAIN = 'modnoemesto.ru' # no slashes here, please
 ROBOT_EMAIL_ADDRESS = 'noreply@modnoemesto.ru'
 
 AVATAR_SIZES = (
-    (100, 100),
+    (200, 200),
     (60, 60),
     (47, 47),
 )
