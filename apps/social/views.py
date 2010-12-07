@@ -106,7 +106,13 @@ def register(request):
 
 
 def activation(request, code=None):
-    user = get_document_or_404(User, is_active=False, activation_code=code)
+    try:
+        user = User.objects.get(is_active=False, activation_code=code)
+    except:
+        messages.add_message(request, messages.ERROR,
+                             _('Activation code corrupted or already used'))
+        return redirect('social:index')
+        
     user.is_active = True
     # django needs a backend annotation
     from django.contrib.auth import get_backends

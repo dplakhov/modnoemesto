@@ -16,17 +16,20 @@ def send_message(request, user_id):
     
     from apps.social.documents import User
 
-    if user_id == request.user.id:
-        raise Http404()
-    msgform = MessageTextForm(request.POST or None)
     recipient = get_document_or_404(User, id=user_id)
+
+    if recipient.id == request.user.id:
+        raise Http404()
+
+    msgform = MessageTextForm(request.POST or None)
+
     if msgform.is_valid():
         text = msgform.data['text']
         Message.send(request.user, recipient, text)
         return redirect('user_messages:view_inbox')
     else:
         #@todo: use separate form and screen to handle each situation
-        return direct_to_template(request, 'social/user.html',
+        return direct_to_template(request, 'user_messages/write_message.html',
                               { 'page_user': recipient, 'msgform': msgform })
 
 

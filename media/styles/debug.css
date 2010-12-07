@@ -1,11 +1,11 @@
-.baseform input,
+/*.baseform input,
 .baseform textarea {
     border: 1px gray solid
-}
+}*/
 
-.baseform th {
+/*.baseform th {
     text-align: left;
-}
+}*/
 
 ul {
     list-style: none;

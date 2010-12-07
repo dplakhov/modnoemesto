@@ -92,7 +92,7 @@ msgstr ""
 
 #: billing/access_order_list.html:48 billing/order_list.html:44
 msgid "next"
-msgstr "сдедующая"
+msgstr "следующая"
 
 #: billing/get_access_to_camera.html:5
 msgid "Access to camera"
@@ -203,6 +203,7 @@ msgstr "Предложения дружбы: полученные"
 
 #: friends/inbox.html:34 friends/sent.html:33 user_messages/inbox.html:24
 #: user_messages/message.html:44 user_messages/message.html.py:64
+#: user_messages/write_message.html:34 user_messages/write_message.html:62
 msgid "ago"
 msgstr "назад"
 
@@ -413,7 +414,7 @@ msgstr "Личный сайт"
 
 #: social/home.html:47 social/user.html:45
 msgid "Education"
-msgstr "Обазование"
+msgstr "Образование"
 
 #: social/home.html:50 social/user.html:48
 msgid "University"
@@ -486,6 +487,7 @@ msgid "Leave a message"
 msgstr "Оставить сообщение"
 
 #: social/user.html:145 user_messages/message.html:72
+#: user_messages/write_message.html:42
 msgid "Send"
 msgstr "Отправить"
 
@@ -498,7 +500,7 @@ msgstr "Друзья %(page_user)s"
 msgid "Change avatar"
 msgstr "Сменить аватар"
 
-#: social/profile/edit.html:6
+#: social/profile/edit.html:17
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
