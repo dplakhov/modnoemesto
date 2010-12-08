@@ -73,9 +73,6 @@
         </p>
         {% endif %}
     </div>
-     <div class="rating_persone rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
-        <p>{% trans "Rating" %} <span style="color: rgb(12, 156, 183);">5565677</span></p>
-    </div>
     <div class="profileActions">
         <ul>{% url social:user_friends as friends %}
             <li><a href="{{ friends }}">{% trans "Friends" %}</a> <a href="{{ friends }}">({{ page_user.friends.count }})</a></li>
