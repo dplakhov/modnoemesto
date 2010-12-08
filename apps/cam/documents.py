@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.utils.translation import ugettext_lazy as _
 
-from mongoengine import Document, StringField, ReferenceField, BooleanField, ListField
+from mongoengine import Document, StringField, ReferenceField, BooleanField, ListField, DateTimeField
 
 from apps.utils.reflect import namedClass
 from apps.billing.documents import AccessCamOrder
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from datetime import datetime
 
 
 class CameraType(Document):
@@ -65,6 +66,8 @@ class Camera(Document):
 
     view_packet_tariff = ReferenceField('Tariff')
     view_time_tariff = ReferenceField('Tariff')
+
+    date_created = DateTimeField(default=datetime.now)
 
     @property
     def driver(self):

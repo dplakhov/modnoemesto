@@ -30,6 +30,7 @@ from apps.media.documents import File
 from apps.media.transformations.image import ImageResize
 from apps.media.tasks import apply_file_transformations
 
+
 def cam_list(request):
     form = CamFilterForm(request.POST or None)
     if form.is_valid():
@@ -46,7 +47,7 @@ def cam_list(request):
         cams = Camera.objects(**data)
         print data
     else:
-        cams = Camera.objects()
+        cams = Camera.objects.order_by('-date_created')
     return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams) )
 
 
