@@ -26,5 +26,5 @@ urlpatterns = patterns('apps.social.views',
 
    url(r'^profile/$', 'profile_edit', name='profile_edit'),
    url(r'^profile/avatar/$', 'avatar_edit', name='avatar_edit'),
-
+   url(ur'^ЕГГОГ$', 'test_error',),
 )

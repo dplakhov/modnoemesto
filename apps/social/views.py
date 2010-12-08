@@ -308,6 +308,8 @@ def in_dev(request):
     return direct_to_template(request, 'in_dev.html' , {
         'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })
 
+def test_error(request):
+    raise Exception()
 
 def server_error(request):
     exc_info = sys.exc_info()
