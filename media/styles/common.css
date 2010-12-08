@@ -1155,6 +1155,7 @@ p.when
 {
     margin: 0;
 	float: left;
+	display: inline;
 }
 .message_text
 {
