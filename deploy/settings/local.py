@@ -10,14 +10,22 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:', #rel('local.db'),
+    },
 
-DATABASES['billing'] = {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'billing',
-            'USER': 'root',
-            'PASSWORD': 'Eekeilt0',
-            'HOST': '10.10.10.7',
-        }
+    'billing': {
+        #'ENGINE': 'django.db.backends.mysql',
+        #'NAME': 'billing',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:', #rel('local.db'),
 
+        'USER': 'root',
+        'PASSWORD': 'Eekeilt0',
+        'HOST': '10.10.10.7',
+    },
+}
 
 REDIS_HOST = "10.10.10.11"

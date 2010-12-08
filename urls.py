@@ -15,10 +15,12 @@ urlpatterns = patterns('',
     (r'^friends/', include('apps.friends.urls', namespace='friends')),
 )
 
-if settings.DEBUG:
-    urlpatterns += patterns('',
+#if settings.DEBUG:
+urlpatterns += patterns('',
         (r'^media/(?P<path>.*)$', 'django.views.static.serve',
                             { 'document_root': settings.MEDIA_ROOT }),
         #(r'^admin-media/(?P<path>.*)$', 'django.views.static.serve',
         #                    {'document_root': settings.ADMIN_MEDIA_ROOT }),
     )
+    
+handler500 = 'apps.social.views.server_error'
