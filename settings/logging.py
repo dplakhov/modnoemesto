@@ -2,16 +2,17 @@
 import django
 
 # patches for django 1.2 series
-
 if django.VERSION[1] < 3:
-    LOGGING_CONFIG = 'apps.logging.patch.log.dictConfig'
-    _adminEmailHandler = 'apps.logging.patch.log.AdminEmailHandler'
-    _nullHandler = 'apps.logging.patch.log.NullHandler'
+    LOGGING_CONFIG = 'apps.logging_patch.log.dictConfig'
+    _adminEmailHandler = 'apps.logging_patch.log.AdminEmailHandler'
+    _nullHandler = 'apps.logging_patch.log.NullHandler'
+
 else:
     #for django version > 1.3.0
     LOGGING_CONFIG = 'django.utils.log.dictConfig'
     _adminEmailHandler = 'django.utils.log.AdminEmailHandler'
     _nullHandler = 'django.utils.log.NullHandler',
+
 
 LOGGING = {
     'version': 1,
@@ -40,6 +41,7 @@ LOGGING = {
             'class':'logging.StreamHandler',
             'formatter': 'simple'
         },
+
         'mail_admins': {
             'level': 'ERROR',
             'class': _adminEmailHandler,
@@ -48,17 +50,17 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers':['console'],
+            'handlers':['console', 'mail_admins'],
             'propagate': True,
             'level':'INFO',
         },
         'django.request': {
-            'handlers': ['mail_admins', 'console'],
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': False,
         },
         'myproject.custom': {
-            'handlers': ['console', 'mail_admins'],
+            'handlers': ['console'],
             'level': 'INFO',
             #'filters': ['special']
         }
