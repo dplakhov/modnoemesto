@@ -2,6 +2,14 @@
 
 DEBUG = TEMPLATE_DEBUG = False
 
+ADMINS = (
+    ('tech', 'tech@web-mark.ru'),
+    ('dgk', 'dgk@web-mark.ru'),
+    ('elias', 'elias@web-mark.ru'),
+)
+
+MANAGERS = ADMINS
+
 
 DATABASES['billing'] = {
             'ENGINE': 'django.db.backends.mysql',
@@ -12,3 +20,4 @@ DATABASES['billing'] = {
         }
 
 
+REDIS_HOST = "10.10.10.11"
