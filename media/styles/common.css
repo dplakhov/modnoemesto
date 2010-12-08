@@ -993,9 +993,13 @@ h2.caption {
     margin-top: 105px;
     padding-bottom: 10px;
 }
-.no_camera a, camera a
+.no_camera a
 {
     color: #027A98;
+}
+#camera a.reference
+{
+	padding-right: 10px;
 }
 .have_message, .have_friendship_offers
 {
@@ -1198,7 +1202,7 @@ div.operation p
 	clear: left;
 	overflow: hidden;
 	padding: 7px;
-	border: 5px solid #EEEDDE;
+	border: 7px solid #EEEDDE;
 	width: 420px;
 	margin-left: 80px;
 	background: #FFF;
@@ -1252,7 +1256,7 @@ div.operation p
 	clear: right;
 	overflow: hidden;
 	padding: 7px;
-	border: 5px solid #EEEDDE;
+	border: 7px solid #EEEDDE;
 	width: 420px;
 	margin-right: 80px;
 	background: #FFF;
