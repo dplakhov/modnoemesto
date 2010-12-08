@@ -705,10 +705,14 @@ td.empty_filt
     font-size: 14px;
     padding: 5px 2px 2px 2px;
 }
+#filt_new p.place a {
+    color: #08869d;
+}
 #filt_pop p.quantity, #filt_new p.quantity
 {
     color: #bebebe;
 }
+#filt_new p.creater a,
 #filt_pop p.creater, #filt_new p.creater
 {
     color: #00b2d5;
