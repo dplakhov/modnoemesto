@@ -53,15 +53,17 @@ $(document).ready(function(){
         {% trans "Edit camera" %}
     {% endif %}
 </h2>
+{% comment %}
 {% if form.errors %}
 {{ form.errors }}
 {% endif %}
+{% endcomment  %}
     <form method="post">
     <div class="filt rounded">
     
         <table class="camera_edit">
             <tr>
-                <th>  {{ form.name.label_tag }}</th>
+                <th>  {{ form.name.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td><div class="input_holder_short rounded">    {{ form.name }}</div></td>
             </tr>
@@ -71,7 +73,7 @@ $(document).ready(function(){
                 <td style="height:10px"> {{ form.name.errors }} </td>
             </tr>
             <tr>
-                <th>  {{ form.type.label_tag }}</th>
+                <th>  {{ form.type.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.type }} </td>
             </tr>
@@ -81,7 +83,7 @@ $(document).ready(function(){
                 <td style="height:10px"> {{ form.type.errors }} </td>
             </tr>
             <tr>
-                <th>  {{ form.stream_name.label_tag }}</th>
+                <th>  {{ form.stream_name.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td><div class="input_holder_short rounded">    {{ form.stream_name }}</div></td>
             </tr>
@@ -91,7 +93,7 @@ $(document).ready(function(){
                 <td style="height:10px"> {{ form.stream_name.errors }} </td>
             </tr>
             <tr>
-                <th>  {{ form.force_html5.label_tag }}</th>
+                <th>  {{ form.force_html5.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.force_html5 }}</td>
             </tr>
@@ -103,7 +105,7 @@ $(document).ready(function(){
     
         <table class="camera_edit">
             <tr>
-                <th>  {{ form.is_view_enabled.label_tag }}</th>
+                <th>  {{ form.is_view_enabled.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.is_view_enabled }}</td>
             </tr>
@@ -111,7 +113,7 @@ $(document).ready(function(){
                 <td style="height:10px"></td>
             </tr>
             <tr>
-                <th>  {{ form.is_view_public.label_tag }}</th>
+                <th>  {{ form.is_view_public.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.is_view_public }}</td>
             </tr>
@@ -119,7 +121,7 @@ $(document).ready(function(){
                 <td style="height:10px"></td>
             </tr>
             <tr>
-                <th>  {{ form.is_view_paid.label_tag }}</th>
+                <th>  {{ form.is_view_paid.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.is_view_paid }}</td>
             </tr>
@@ -127,7 +129,7 @@ $(document).ready(function(){
                 <td style="height:10px"></td>
             </tr>
             <tr class="view_tariff">
-                <th>  {{ form.view_packet_tariff.label_tag }}</th>
+                <th>  {{ form.view_packet_tariff.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.view_packet_tariff }}</td>
             </tr>
@@ -137,7 +139,7 @@ $(document).ready(function(){
                 <td style="height:10px"> {{ form.view_packet_tariff.errors }} </td>
             </tr>
             <tr class="view_tariff">
-                <th>  {{ form.view_time_tariff.label_tag }}</th>
+                <th>  {{ form.view_time_tariff.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.view_time_tariff }}</td>
             </tr>
@@ -156,7 +158,7 @@ $(document).ready(function(){
     
         <table class="camera_edit">
             <tr>
-                <th>  {{ form.is_management_enabled.label_tag }}</th>
+                <th>  {{ form.is_management_enabled.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.is_management_enabled }}</td>
             </tr>
@@ -164,7 +166,7 @@ $(document).ready(function(){
                 <td style="height:10px"></td>
             </tr>
             <tr>
-                <th>  {{ form.is_management_public.label_tag }}</th>
+                <th>  {{ form.is_management_public.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.is_management_public }}</td>
             </tr>
@@ -172,7 +174,7 @@ $(document).ready(function(){
                 <td style="height:10px"></td>
             </tr>
             <tr>
-                <th>  {{ form.is_management_paid.label_tag }}</th>
+                <th>  {{ form.is_management_paid.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.is_management_paid }}</td>
             </tr>
@@ -180,7 +182,7 @@ $(document).ready(function(){
                 <td style="height:10px"></td>
             </tr>
             <tr class="management_tariff">
-                <th>  {{ form.management_packet_tariff.label_tag }}</th>
+                <th>  {{ form.management_packet_tariff.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.management_packet_tariff }}</td>
             </tr>
@@ -190,7 +192,7 @@ $(document).ready(function(){
                 <td style="height:10px"> {{ form.management_packet_tariff.errors }} </td>
             </tr>
             <tr class="management_tariff">
-                <th>  {{ form.management_time_tariff.label_tag }}</th>
+                <th>  {{ form.management_time_tariff.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.management_time_tariff }}</td>
             </tr>
@@ -200,7 +202,7 @@ $(document).ready(function(){
                 <td style="height:10px"> {{ form.management_time_tariff.errors }} </td>
             </tr>
             <tr>
-                <th>  {{ form.camera_management_host.label_tag }}</th>
+                <th>  {{ form.camera_management_host.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td><div class="input_holder_short rounded">    {{ form.camera_management_host }}</div></td>
             </tr>
@@ -210,7 +212,7 @@ $(document).ready(function(){
                 <td style="height:10px"> {{ form.camera_management_host.errors }} </td>
             </tr>
             <tr>
-                <th>  {{ form.camera_management_username.label_tag }}</th>
+                <th>  {{ form.camera_management_username.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td><div class="input_holder_short rounded">    {{ form.camera_management_username }}</div></td>
             </tr>
@@ -220,7 +222,7 @@ $(document).ready(function(){
                 <td style="height:10px"> {{ form.camera_management_username.errors }} </td>
             </tr>
             <tr>
-                <th>  {{ form.camera_management_password.label_tag }}</th>
+                <th>  {{ form.camera_management_password.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td><div class="input_holder_short rounded">    {{ form.camera_management_password }}</div></td>
             </tr>
@@ -230,7 +232,7 @@ $(document).ready(function(){
                 <td style="height:10px"> {{ form.camera_management_password.errors }} </td>
             </tr>
             <tr>
-                <th>  {{ form.operator.label_tag }}</th>
+                <th>  {{ form.operator.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.operator }}</td>
             </tr>

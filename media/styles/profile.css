@@ -121,6 +121,11 @@ div#right
 	text-align: center;
 	border: 10px solid #eeedde;
 }
+.own_photo p a 
+{
+	color: #08889F;
+	text-decoration: underline;
+}
 .rating_persone
 {
 	margin-top: 4px;
