@@ -62,7 +62,9 @@ def deploy(revision, reinstall=False):
                     run('rm app')
                 run('ln -fs %s app' % revision)
                 with cd('app'):
-                    put('settings/local.py', 'settings/local.py')
+                    put('settings/local.py',
+                        '%s/app/settings/local.py' %
+                        APPLICATION_DIR)
                     run('virtualenv venv')
                     #run('source ./venv/bin/activate')
                     #run('source ./venv/bin/activate && pip install --upgrade -r requirements.pip')
@@ -144,7 +146,7 @@ def mongodb_start():
 def mongodb_stop():
     run('service mongodb stop')
 
-def _xxxmongodb_reset():
+def Dangerous_NeverCallMe_mongodb_reset():
     try:
         mongodb_stop()
     except:
@@ -193,8 +195,6 @@ def install_app_server_software():
     run('apt-get --yes install python-imaging python-software-properties')
     run('apt-get --yes install rabbitmq-server python-mysqldb python-redis')
 
-def dpkg_configure_a():
-    run('dpkg --configure -a')
 
 def install_nginx():
     run('add-apt-repository ppa:nginx/stable')
@@ -226,9 +226,11 @@ def install_uwsgi():
 
 
 def pip_global():
-    put('requirements.pip', '/tmp/requirements.pip')
-    run('pip install -r /tmp/requirements.pip')
-
+    put('../requirements.pip', '/tmp/requirements.pip')
+    try:
+        run('pip install -r /tmp/requirements.pip')
+    finally:
+        run('rm /tmp/requirements.pip')
 
 def set_sudoers():    
     sudoers_str = '%s ALL=(ALL) NOPASSWD: /etc/init.d/nginx reload,/etc/init.d/nginx restart,/etc/init.d/socnet restart' % APPLICATION_USER
