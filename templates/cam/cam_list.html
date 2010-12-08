@@ -1,14 +1,16 @@
-{% extends "base.html" %}
+{% extends "base_mini.html" %}
 {% load i18n %}
 
 {% block css %}
 {{ block.super }}
 <link href="/media/styles/drop_down.css" type="text/css" rel="stylesheet" />
-
 {% endblock %}
 
-{% block content %}
-<div id="filter">
+{% block base_content %}
+{% include "_left_box_menu.html" %}
+
+<div id="filterColumn">
+    <div id="filter">
 <h2>Фильтр модных мест</h2>
 
 <form method="post">
@@ -90,22 +92,24 @@ management_checked();
             <input type="submit" value="Фильтровать" class="button"/>
     </div>
 </form>
-<table>
+
+<div id="filt_new">
+<ul>
 {% for cam in cams %}
-    <tr>
-        <td>{{ cam.name }}</td>
-        <td class="friendTable">
-        {% with cam.owner as user %}
-            {% include "includes/user/micro.html" %}
-        {% endwith %}
-        </td>
-        <td>
-    {% if cam.owner == request.user or request.user.is_superuser %}
-        <a href="{% url cam:cam_edit cam.id %}">{% trans 'Edit' %}</a>
-    {% endif %}
-        </td>
-    </tr>
+{% url social:user cam.owner.id as user_path %}
+    <li{% cycle '' '' '' ' style="margin-right: 0pt;"' %}>
+        <div class="item">
+        <div class="pop rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+        <a href="{{ user_path }}"><img alt="{{ cam.name }}" src="{{ cam.screen_normal }}"></a>
+        </div>
+        <p class="place"><a href="{{ user_path }}">{{ cam.name }}</a></p>
+        <p class="creater"><a href="{{ user_path }}">{{ cam.owner.username }}</a></p>
+        </div>
+    </li>
+    {% if not forloop.last %}{% cycle '' '' '' '</ul><ul>' %}{% endif %}
 {% endfor %}
-</table>
+</ul>
+</div>
+    </div>
 </div>
 {% endblock %}

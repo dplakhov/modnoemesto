@@ -2,6 +2,7 @@
 from django.conf.urls.defaults import *
 
 from .constants import AVAILABLE_COMMANDS
+from django.conf import settings
 
 urlpatterns = patterns('apps.cam.views',
     url(r'^$', 'cam_list', name='cam_list'),
@@ -16,6 +17,13 @@ urlpatterns = patterns('apps.cam.views',
         'cam_manage', name='cam_manage'),
 
     #url(r'^(?P<id>[a-f0-9]{24})/enable/$', 'cam_edit', name='cam_edit'),
+
+       url(r'^(?P<cam_id>[a-f0-9]{24})/screen/(?P<format>%s)/$' %
+       '|'.join(['%dx%d' % (w, h) for (w, h) in settings.SCREEN_SIZES ]),
+
+       'screen', name='screen'),
+
+   url(r'^screen/$', 'screen_edit', name='screen_edit'),
 
 
     url(r'^types/$', 'type_list', name='type_list'),

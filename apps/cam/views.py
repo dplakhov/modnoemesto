@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 from mongoengine.django.shortcuts import get_document_or_404
 
@@ -13,12 +15,22 @@ from .documents import CameraType
 
 from .forms import CameraTypeForm, CameraForm
 from apps.billing.documents import Tariff
-from apps.cam.forms import CamFilterForm
+from apps.cam.forms import CamFilterForm, ScreenForm
 from apps.cam.documents import CameraBookmarks
 from django.shortcuts import redirect
+from ImageFile import Parser as ImageFileParser
 
 
-#@login_required
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
+from django.contrib import messages
+from apps.media.documents import File
+from apps.media.transformations.image import ImageResize
+from apps.media.tasks import apply_file_transformations
+
+
 def cam_list(request):
     form = CamFilterForm(request.POST or None)
     if form.is_valid():
@@ -35,11 +47,10 @@ def cam_list(request):
         cams = Camera.objects(**data)
         print data
     else:
-        cams = Camera.objects()
+        cams = Camera.objects.order_by('-date_created')
     return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams) )
 
 
-#@login_required
 def cam_edit(request, id=None):
     user = request.user
     if id:
@@ -87,7 +98,73 @@ def cam_edit(request, id=None):
                               )
 
 
-#@login_required
+def screen(request, cam_id, format):
+    camera = get_document_or_404(Camera, id=cam_id)
+    if not camera.screen:
+        return redirect('/media/img/notfound/screen_%s.png' % format)
+
+    try:
+        image = camera.screen.get_derivative(format)
+    except File.DerivativeNotFound:
+        return redirect('/media/img/converting/screen_%s.png' % format)
+
+    response = HttpResponse(image.file.read(), content_type=image.file.content_type)
+    response['Last-Modified'] = image.file.upload_date
+    return response
+
+
+def screen_edit(request):
+    camera = request.user.get_camera()
+    if not camera:
+        return redirect('social:home')
+    if request.method != 'POST':
+        form = ScreenForm()
+    else:
+        form = ScreenForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = request.FILES['file']
+            buffer = StringIO()
+
+            for chunk in file.chunks():
+                buffer.write(chunk)
+
+            buffer.reset()
+            try:
+                parser = ImageFileParser()
+                parser.feed(buffer.read())
+                image = parser.close()
+                image_valid = True
+            except Exception, e:
+                messages.add_message(request, messages.ERROR, _('Invalid image file format'))
+                image_valid = False
+
+            if image_valid:
+                screen = File(type='image')
+                buffer.reset()
+                screen.file.put(buffer, content_type=file.content_type)
+                screen.save()
+
+                camera.screen = screen
+                camera.save()
+
+                transformations = [ ImageResize(name='%sx%s' % (w,h), format='png', width=w, height=h)
+                                    for (w, h) in settings.SCREEN_SIZES ]
+
+                if settings.TASKS_ENABLED.get('SCREEN_RESIZE'):
+                    args = [ screen.id, ] + transformations
+                    apply_file_transformations.apply_async(args=args)
+                else:
+                    screen.apply_transformations(*transformations)
+
+                messages.add_message(request, messages.SUCCESS, _('Screen successfully updated'))
+                return HttpResponseRedirect(request.path)
+
+
+    return direct_to_template(request, 'cam/screen_edit.html',
+                              dict(form=form, camera=camera)
+                              )
+
+
 def cam_view(request, id):
     cam = get_document_or_404(Camera, id=id)
     return direct_to_template(request, 'cam/cam_view.html',
@@ -144,7 +221,6 @@ def type_delete(request, id):
     return HttpResponseRedirect(reverse('cam:type_list'))
 
 
-#@login_required
 def cam_manage(request, id, command):
     if command not in AVAILABLE_COMMANDS:
         return HttpResponseNotFound()
@@ -155,7 +231,6 @@ def cam_manage(request, id, command):
     return HttpResponse()
 
 
-#@login_required
 def cam_bookmarks(request):
     try:
         bookmarks = CameraBookmarks.objects.get(user=request.user)
@@ -166,7 +241,6 @@ def cam_bookmarks(request):
     return direct_to_template(request, 'cam/bookmarks.html', {'cameras': cameras})
 
 
-#@login_required
 def cam_bookmark_add(request, id):
     camera = get_document_or_404(Camera, id=id)
     camera.bookmark_add(request.user)
@@ -174,7 +248,6 @@ def cam_bookmark_add(request, id):
     return redirect(reverse('social:user', args=[camera.owner.id]))
 
 
-#@login_required
 def cam_bookmark_delete(request, id):
     camera = get_document_or_404(Camera, id=id)
     camera.bookmark_delete(request.user)

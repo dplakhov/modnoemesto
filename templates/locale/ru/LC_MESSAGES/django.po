@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-07 15:54+0300\n"
+"POT-Creation-Date: 2010-12-08 13:25+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,21 +25,6 @@ msgstr "поиск"
 #: index.html:4
 msgid "Users online"
 msgstr "Пользователи онлайн"
-
-#: registration_complete.html:8
-#, python-format
-msgid ""
-"\n"
-"    Thank you for registering at %(SITE_DOMAIN)s!<br/>\n"
-"    You should receive the email message with a confirmation code in a few\n"
-"    minutes, just click link with this code to complete the registration\n"
-"    process.\n"
-msgstr ""
-"\n"
-"    Благодарим вас за регистрацию на сайте %(SITE_DOMAIN)s!<br/>\n"
-"    Вы должны получить сообщение по электронной почты с кодом подтверждения в течение нескольких\n"
-"    минут, просто нажмите на ссылку с этим кодом, чтобы завершить процесс\n"
-"    регистрации.\n"
 
 #: billing/access_order_list.html:5 includes/admin_menu.html:13
 msgid "Access Orders"
@@ -137,9 +122,10 @@ msgstr "Редактировать тариф"
 msgid "Add"
 msgstr "Добавить"
 
-#: billing/tariff_edit.html:16 cam/cam_edit.html:234 cam/type_edit.html:16
-#: groups/theme_edit.html:16 groups/type_edit.html:16 notes/note_edit.html:48
-#: social/profile/avatar.html:14 social/profile/edit.html:12
+#: billing/tariff_edit.html:16 cam/cam_edit.html:234 cam/screen_edit.html:14
+#: cam/type_edit.html:16 groups/theme_edit.html:16 groups/type_edit.html:16
+#: notes/note_edit.html:48 social/profile/avatar.html:14
+#: social/profile/edit.html:110 social/profile/edit.html.py:117
 msgid "Save"
 msgstr "Сохранить"
 
@@ -155,14 +141,13 @@ msgstr "У Вас нет закладок."
 msgid "Add camera"
 msgstr "Добавить камеру"
 
-#: cam/cam_edit.html:45 includes/camera.html:10
+#: cam/cam_edit.html:45 includes/camera.html:11
 msgid "Edit camera"
 msgstr "Редактировать камеру"
 
-#: cam/cam_list.html:53 groups/view.html:11 notes/note_list.html:23
-#: notes/note_list.html.py:33
-msgid "Edit"
-msgstr "Редактировать"
+#: cam/screen_edit.html:4
+msgid "Change screen"
+msgstr "Сменить обложку"
 
 #: cam/type_edit.html:6
 msgid "Add camera type"
@@ -203,7 +188,7 @@ msgstr "Предложения дружбы: полученные"
 
 #: friends/inbox.html:34 friends/sent.html:33 user_messages/inbox.html:24
 #: user_messages/message.html:44 user_messages/message.html.py:64
-#: user_messages/write_message.html:34 user_messages/write_message.html:62
+#: user_messages/write_message.html:61
 msgid "ago"
 msgstr "назад"
 
@@ -280,6 +265,10 @@ msgstr "Мои группы"
 msgid "Group"
 msgstr "Группа"
 
+#: groups/view.html:11 notes/note_list.html:23 notes/note_list.html.py:33
+msgid "Edit"
+msgstr "Редактировать"
+
 #: groups/view.html:23
 msgid "Description"
 msgstr "Описание"
@@ -328,11 +317,15 @@ msgstr "Заказы оплаты"
 msgid "Groups"
 msgstr "Группы"
 
-#: includes/camera.html:83
+#: includes/camera.html:12
+msgid "Edit screen"
+msgstr "Редактировать обложку"
+
+#: includes/camera.html:86
 msgid "This camera is not free!"
 msgstr "Просмотр этой камеры платный"
 
-#: includes/camera.html:85
+#: includes/camera.html:88
 msgid "This camera is private."
 msgstr "Эта камера не для всеобщего просмотра"
 
@@ -487,7 +480,7 @@ msgid "Leave a message"
 msgstr "Оставить сообщение"
 
 #: social/user.html:145 user_messages/message.html:72
-#: user_messages/write_message.html:42
+#: user_messages/write_message.html:41
 msgid "Send"
 msgstr "Отправить"
 
@@ -500,7 +493,7 @@ msgstr "Друзья %(page_user)s"
 msgid "Change avatar"
 msgstr "Сменить аватар"
 
-#: social/profile/edit.html:17
+#: social/profile/edit.html:16
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
@@ -520,41 +513,18 @@ msgstr "Просмотр сообщения"
 msgid "Messages: sent"
 msgstr "Сообщения: отправленные"
 
-#~ msgid "Your inbox"
-#~ msgstr "Полученные вами предложения дружбы"
-
-#~ msgid "When"
-#~ msgstr "Когда"
-
-#~ msgid "From"
-#~ msgstr "От кого"
-
-#~ msgid "Accept/Decline"
-#~ msgstr "Принять/Отклонить"
-
-#~ msgid "Your sent friendship offers"
-#~ msgstr "Отправленные вами предложения дружбы"
-
-#~ msgid "To"
-#~ msgstr "Кто"
-
-#~ msgid "Invite"
-#~ msgstr "Пригласить"
-
-#~ msgid "Send invite"
-#~ msgstr "Отправить приглашения"
-
-#~ msgid "Username:"
-#~ msgstr "Имя пользователя"
-
-#~ msgid "Password:"
-#~ msgstr "Пароль"
-
-#~ msgid "Save group"
-#~ msgstr "Сохранить группу"
-
-#~ msgid "Friendship offers"
-#~ msgstr "Предложения дружбы"
-
-#~ msgid "(unread)"
-#~ msgstr "(непрочитано)"
+#~ msgid ""
+#~ "\n"
+#~ "    Thank you for registering at %(SITE_DOMAIN)s!<br/>\n"
+#~ "    You should receive the email message with a confirmation code in a "
+#~ "few\n"
+#~ "    minutes, just click link with this code to complete the registration\n"
+#~ "    process.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "    Благодарим вас за регистрацию на сайте %(SITE_DOMAIN)s!<br/>\n"
+#~ "    Вы должны получить сообщение по электронной почты с кодом "
+#~ "подтверждения в течение нескольких\n"
+#~ "    минут, просто нажмите на ссылку с этим кодом, чтобы завершить "
+#~ "процесс\n"
+#~ "    регистрации.\n"

@@ -192,3 +192,15 @@ class FriendshipTestCase(BasicTestCase):
         self.failUnlessEqual(1, user1.friends.count)
         self.failUnlessEqual(1, user2.friends.count)
 
+    def test_friends__add_adds_only_once_friend(self):
+        user1 = self.user1
+        user2 = self.user2
+
+        user1.friends._add(user2)
+        self.failUnless(user1.friends.contains(user2))
+        user1.friends._add(user2)
+
+        self.failUnlessEqual(1, user1.friends.count)
+
+        user1.reload()
+        self.failUnlessEqual(1, user1.friends.count)

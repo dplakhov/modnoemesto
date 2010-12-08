@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<h2 class="video_title">{% trans "Change screen" %}</h2>
+
+        <img src="{{ camera.get_screen_mini }}" />
+        <img src="{{ camera.get_screen_normal }}" />
+        <img src="{{ camera.get_screen_full }}" />
+<div class="reg rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+    <form method="post" enctype="multipart/form-data">
+    <table class="img_loader">
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="{% trans "Save" %}" />
+    </form>
+</div>
+{% endblock %}

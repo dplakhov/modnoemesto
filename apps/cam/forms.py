@@ -27,9 +27,15 @@ class CameraTypeForm(forms.Form):
         return driver
 
 
+class ScreenForm(forms.Form):
+    file = forms.FileField(label=_("Image"))
+
+
 class CameraForm(forms.Form):
     name = forms.CharField(label=_('Name'))
     type = forms.ChoiceField(label=_('Camera type'), choices=())
+
+    screen = forms.FileField(label=_("Image"), required=False)
 
     stream_name = forms.CharField(label=_('Stream name'))
 

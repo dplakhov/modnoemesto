@@ -2,6 +2,7 @@
 
 import os
 import sys
+import django
 from datetime import timedelta
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__),
@@ -23,14 +24,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': ':memory:', #rel('local.db'),
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
     },
+
     'billing': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
+           'ENGINE': 'django.db.backends.sqlite3',
+           'NAME': rel('billing.db'),
     },
 }
 
@@ -41,17 +39,12 @@ if 'test' in sys.argv:
             'NAME': ':memory:', #rel('default.db'),
 
         },
+
         'billing': {
-#            'ENGINE': 'django.db.backends.sqlite3',
- #           'NAME': ':memory:', #rel('assist.db'),
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'billing',
-            'USER': 'root',
-            'PASSWORD': 'Eekeilt0',
-            'HOST': '10.10.10.7',
-
-
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
         },
+
     }
 
 MONGO_DATABASE = 'social'
@@ -149,6 +142,7 @@ MIDDLEWARE_CLASSES = (
     'apps.social.middleware.SetLastAccessMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
+    'apps.cam.middleware.PlaceBoxMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -178,32 +172,16 @@ INSTALLED_APPS = (
     'apps.billing',
     'apps.groups',
     'apps.friends',
-
+    'apps.logging',
 )
-
-CELERY_RESULT_BACKEND = "mongodb"
-
-CELERY_MONGODB_BACKEND_SETTINGS = {
-    "host": "127.0.0.1",
-    "port": 27017,
-    "database": "celery",
-    "taskmeta_collection": "taskmeta",
-}
-
-TASKS_ENABLED = dict(
-    AVATAR_RESIZE = 1,
-    MESSAGE_STORE_READED = 1,
-    MESSAGE_DELETE = 1,
-)
-
-TASKS_ENABLED = {}
 
 
 AUTHENTICATION_BACKENDS = (
     'apps.social.auth.MongoEngineBackend',
 )
 
-SESSION_ENGINE = 'mongoengine.django.sessions'
+SESSION_ENGINE = 'apps.utils.redis_session_backend'
+
 
 FORCE_SCRIPT_NAME = ''
 
@@ -219,11 +197,20 @@ AVATAR_SIZES = (
     (47, 47),
 )
 
+SCREEN_SIZES = (
+    (515, 330),
+    (170, 102),
+    (80, 51),
+)
+
 MAX_USER_MESSAGES_COUNT = 500
 
 LIBRARY_IMAGES_PER_PAGE = 2
 
 TIME_IS_ONLINE = timedelta(minutes=5)
 
-# settings include billing
-from billing import *
+from .logging import *
+from .billing import *
+from .redis import *
+from .celery import *
+
