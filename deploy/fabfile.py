@@ -62,6 +62,7 @@ def deploy(revision, reinstall=False):
                     run('rm app')
                 run('ln -fs %s app' % revision)
                 with cd('app'):
+                    put('settings/local.py', 'settings/local.py')
                     run('virtualenv venv')
                     #run('source ./venv/bin/activate')
                     #run('source ./venv/bin/activate && pip install --upgrade -r requirements.pip')

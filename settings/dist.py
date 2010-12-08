@@ -23,15 +23,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': ':memory:', #rel('local.db'),
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
     },
     'billing': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
-    },
+           'ENGINE': 'django.db.backends.sqlite3',
+           'NAME': rel('billing.db'),
+        },
 }
 
 if 'test' in sys.argv:
@@ -41,17 +37,11 @@ if 'test' in sys.argv:
             'NAME': ':memory:', #rel('default.db'),
 
         },
+
         'billing': {
-#            'ENGINE': 'django.db.backends.sqlite3',
- #           'NAME': ':memory:', #rel('assist.db'),
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'billing',
-            'USER': 'root',
-            'PASSWORD': 'Eekeilt0',
-            'HOST': '10.10.10.7',
-
-
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
+    },
     }
 
 MONGO_DATABASE = 'social'
