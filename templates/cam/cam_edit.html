@@ -8,6 +8,14 @@ $(document).ready(function(){
             $('div#management_hide').hide();
             $('tr.view_tariff').hide();
             $('tr.management_tariff').hide();
+			
+			if ($('li[id$=.1]').is('.selected')) {
+             $('div#management_hide').show();
+                }
+                else{
+               $('div#management_hide').hide();
+                }
+
             
             $('li[id$=.1]').click(function(){
                 $('div#management_hide').show();                           
