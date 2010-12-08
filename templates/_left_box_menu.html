@@ -1,0 +1,56 @@
+{% load menu_tags %}
+{% load i18n %}
+{% load pytils_numeral %}
+
+<div id="leftColumn">
+    <div class="nav">
+        <ul>
+            {% if user.is_authenticated %}
+            <li id="persone"><a href="{% url social:home %}">{{ user }}</a></li>
+            <li id="money">
+                <div class="q">
+                    <p>На моем счету</p>
+
+                    <div><p id="amount"><span>{{ user.cash|floatformat:2 }}</span> руб.</p></div>
+                    <p id="purse"><a href="{% url billing:purse %}">Перейти в кошелек</a></p>
+                </div>
+            </li>
+            <li id="fashion_place"><a href="{% url cam:cam_bookmarks %}">Мои Модные места</a></li>
+{% with user.friends.offers.incoming|length as fs_offers_inbox_count %}
+            <li id="friends"><a href="{% url friends:list %}">Друзья{% if fs_offers_inbox_count %} <b>({{ fs_offers_inbox_count }})</b>{% endif %}</a></li>
+{% endwith %}
+{% with user.messages.unread|length as unread_messages_count %}
+            <li id="mail"><a href="{% url user_messages:view_inbox %}">Сообщения{% if unread_messages_count %} <b>({{ unread_messages_count }})</b>{% endif %}</a></li>
+{% endwith %}
+            <li id="notes"><a href="{% url notes:note_list %}">Заметки</a></li>
+
+            <li id="group"><a href="{% url groups:user_group_list %}">Группы</a></li>
+            <li id="foto"><a href="{% url media_library:image_index %}">Фотографии</a></li>
+            <li id="video"><a href="{% url social:in_dev %}">Видеозаписи</a></li>
+            <li id="audio"><a href="{% url social:in_dev %}">Аудиозаписи</a></li>
+
+            <li id="meeting"><a href="{% url social:in_dev %}">Встречи</a></li>
+            {% else %}
+            <li><a href="{% url social:register %}">регистрация</a></li>
+            <li><a href="{% url social:login %}">вход</a></li>
+            {% endif %}
+            {% if request.user.is_superuser %}
+            {% include 'includes/admin_menu.html' %}
+            {% endif %}
+        </ul>
+    </div>
+    <div id="what_new">
+        <a href="{% url social:in_dev %}"><img src="/media/images/what_new.jpg"/></a>
+    </div>
+    <div id="advertising">
+        <div>
+
+            <img src="/media/images/ermi_pic.jpg" alt="gj"/>
+        </div>
+        <p class="date">12 декабря 18:39</p>
+
+        <p class="cam">12 камер в Эрмитаже</p>
+
+        <p>Камеры работают в режиме тестирования</p>
+    </div>
+</div>
