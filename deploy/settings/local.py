@@ -17,13 +17,10 @@ DATABASES = {
     },
 
     'billing': {
-        #'ENGINE': 'django.db.backends.mysql',
-        #'NAME': 'billing',
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:', #rel('local.db'),
-
-        'USER': 'root',
-        'PASSWORD': 'Eekeilt0',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'billing',
+        'USER': 'billing',
+        'PASSWORD': 'akonEmjad2',
         'HOST': '10.10.10.7',
     },
 }
