@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.utils.translation import ugettext_lazy as _
 
-from mongoengine import Document, StringField, ReferenceField, BooleanField, ListField
+from mongoengine import Document, StringField, ReferenceField, BooleanField, ListField, DateTimeField
 
 from apps.utils.reflect import namedClass
 from apps.billing.documents import AccessCamOrder
+from django.core.urlresolvers import reverse
+from django.conf import settings
+from datetime import datetime
+
 
 class CameraType(Document):
     name = StringField(max_length=255, unique=True)
@@ -29,11 +33,13 @@ class Camera(Document):
                       'view_packet_tariff',
                       'view_time_tariff',
                   )
+    SCREEN_URL_TPL = "/media/img/notfound/screen_%ix%i.png"
 
     name = StringField(max_length=255)
 
     owner = ReferenceField('User')
     type = ReferenceField('CameraType')
+    screen = ReferenceField('File')
 
     stream_name = StringField(max_length=255)
 
@@ -60,6 +66,8 @@ class Camera(Document):
 
     view_packet_tariff = ReferenceField('Tariff')
     view_time_tariff = ReferenceField('Tariff')
+
+    date_created = DateTimeField(default=datetime.now)
 
     @property
     def driver(self):
@@ -110,6 +118,26 @@ class Camera(Document):
             return True
         return self not in cam_bookmark.cameras
 
+    def get_screen_full(self):
+        return reverse('cam:screen', args=[self.id, "%ix%i" % settings.SCREEN_SIZES[0]])
+
+    def get_screen_normal(self):
+        return reverse('cam:screen', args=[self.id, "%ix%i" % settings.SCREEN_SIZES[1]])
+
+    def get_screen_mini(self):
+        return reverse('cam:screen', args=[self.id, "%ix%i" % settings.SCREEN_SIZES[2]])
+
+    @property
+    def screen_full(self):
+        return self.get_screen_full() if self.screen else Camera.SCREEN_URL_TPL % settings.SCREEN_SIZES[0]
+
+    @property
+    def screen_normal(self):
+        return self.get_screen_normal() if self.screen else Camera.SCREEN_URL_TPL % settings.SCREEN_SIZES[1]
+
+    @property
+    def screen_mini(self):
+        return self.get_screen_mini() if self.screen else Camera.SCREEN_URL_TPL % settings.SCREEN_SIZES[2]
 
 
 class CameraBookmarks(Document):

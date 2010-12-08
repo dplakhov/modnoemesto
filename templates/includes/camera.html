@@ -7,7 +7,10 @@ var nick = "{{ user.username }}";
 </script>
   <p>&nbsp;</p>
   {% if camera.show %}
-    {% if is_owner %}<a class="reference" href='{% url cam:cam_edit camera.id %}'>{% trans "Edit camera" %}</a>{% endif %}
+    {% if is_owner %}
+    <a class="reference" href='{% url cam:cam_edit camera.id %}'>{% trans "Edit camera" %}</a>
+    <a class="reference" href='{% url cam:screen_edit %}'>{% trans "Edit screen" %}</a>
+    {% endif %}
     <script type="text/javascript">
         $(document).ready(function(){
             // jScrollPane conflicts with chat

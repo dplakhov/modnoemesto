@@ -140,6 +140,7 @@ MIDDLEWARE_CLASSES = (
     'apps.social.middleware.SetLastAccessMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
+    'apps.cam.middleware.PlaceBoxMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -192,6 +193,12 @@ AVATAR_SIZES = (
     (200, 200),
     (60, 60),
     (47, 47),
+)
+
+SCREEN_SIZES = (
+    (515, 330),
+    (170, 102),
+    (80, 51),
 )
 
 MAX_USER_MESSAGES_COUNT = 500
