@@ -42,6 +42,48 @@
     </script>
 
     {% endblock %}
+   <!--[if lte IE 8]>
+   <style type="text/css">
+    #menu .menu_but a, #menuReg  .menu_but a{
+        font-size: 13px;
+    }
+    #menu, #menuReg{
+        top: -48px;
+    }
+    .find{
+    	top: -3px;
+    }
+    .own_photo img
+{
+	border: 10px solid #eeedde;
+}
+
+	.message_text_view, .message_text_reply, .message_text_write
+    {
+    	background: #EEEDDE;
+        }
+    .message_text_view p
+    {
+    	background: #FFF;
+        padding: 7px;
+        }
+    .message_text_reply textarea
+    {
+    	width: 406px;
+        padding: 7px;
+        }
+  </style>
+  <![endif]-->
+  
+  <!--[if IE 8]>
+   <style type="text/css">
+   span#img input{
+        position:relative;
+        top:3px;
+        }
+  </style>
+  <![endif]-->
+    
 </head>
 <body>
 
@@ -66,11 +108,11 @@
             </div>
 -->
         </div>
-
-        <div id="menu{% if not user.is_authenticated %}Reg{% endif %}">
+{% if user.is_authenticated %}
+        <div id="menu">
             <table cellspacing="0px" cellpadding="0px">
             <tr>
-{% if user.is_authenticated %}
+
             <td class="left_corner {% active request 'social:index' %}"></td>
             <td class="menu_but {% active request 'social:index' %}"><a href="/">люди</a></td>
             <td class="right_corner {% active request 'social:index' %}"></td>
@@ -98,19 +140,11 @@
             <td class="left_corner"></td>
             <td class="menu_but"><a href="{% url social:logout %}">выход</a></td>
             <td class="right_corner"></td>
-{% else %}
-            <td class="left_corner"></td>
-            <td class="menu_but"><a href="{% url social:index %}">регистрация</a></td>
-            <td class="right_corner"></td>
-            <td class="empty"></td>
-            <td class="left_corner"></td>
-            <td class="menu_but"><a href="{% url social:index %}">вход</a></td>
-            <td class="right_corner"></td>
-{% endif %}
+
             </tr>
             </table>
         </div>
-
+{% endif %}
 
         <div id="mainContent" style="background:url(/media/images/bg_reg.jpg) no-repeat">
 

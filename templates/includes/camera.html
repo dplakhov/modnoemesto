@@ -3,7 +3,7 @@
 <script type="text/javascript" src="/media/js/jScrollPane.js"></script>
 <script>
 var room = "{{ camera.id }}";
-var nick = "{{ user.username }}";
+var nick = "{{ user.get_full_name }}";
 </script>
   <p>&nbsp;</p>
   {% if camera.show %}
@@ -47,7 +47,7 @@ var nick = "{{ user.username }}";
         </script>
         {% endif %}
 
-    {% if not camera.operator or camera.operator == user.username %}
+    {% if not camera.operator or camera.operator == user %}
       <object>
         <embed src="/media/swf/ManageCam_5.swf" width="450" height="154"
             flashvars="ip=modnoemesto.ru&amp;path=cgi-bin/encoder&amp;user=admin&amp;password=123456&amp;debug=0">

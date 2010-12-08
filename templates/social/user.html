@@ -17,7 +17,7 @@
 
 {% block content %}
 <div id="left">
-    <h2>{% blocktrans %}{{ page_user }}'s home{% endblocktrans %}</h2>
+    <h2>{% blocktrans with page_user.get_full_name as page_user %}{{ page_user }}'s home{% endblocktrans %}</h2>
 	<div class="clear"></div>
        <dl>
             {% if profile.hometown %}<dt>{% trans "Hometown" %}</dt>
@@ -73,22 +73,18 @@
         </p>
         {% endif %}
     </div>
-     <div class="rating_persone rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
-        <p>{% trans "Rating" %} <span style="color: rgb(12, 156, 183);">5565677</span></p>
-    </div>
     <div class="profileActions">
         <ul>{% url social:user_friends as friends %}
-            <li><a href="{{ friends }}">{% trans "Friends" %}</a> <a href="{{ friends }}">({{ user.friends.count }})</a></li>
-            <li><a href="{% url social:in_dev %}">{% trans "Increase ranking" %}</a></li>
+            <li><a href="{{ friends }}">{% trans "Friends" %}</a> <a href="{{ friends }}">({{ page_user.friends.count }})</a></li>
             <li><a href="{% url user_messages:send_message page_user.id %}">Написать сообшение</a></li>
         </ul>
     </div>
     <div class="friend_box transparent">
         <div style="overflow: hidden;">
-            <p>Друзья онлайн</p><span><a href="{% url friends:list %}" class="change">все {{ user.friends_online|length }}</a></span>
+            <p>Друзья онлайн</p><span><a href="{% url friends:list %}" class="change">все {{ page_user.friends_online|length }}</a></span>
         </div>
         <ul class="friendTable">
-            {% for user in page_user.friends.list %}
+            {% for user in page_user.friends_online|slice:":6" %}
                 <li>
                         {% include "includes/user/micro.html" %}
                 </li>
@@ -100,11 +96,11 @@
 <div id="content-main" style="clear: both;">
      <div id="camera">
         {% if camera %}
-            <a href="{% url billing:get_access_to_camera camera.id %}">{% trans "Get access to camera" %}</a>
+            <a class="reference" href="{% url billing:get_access_to_camera camera.id %}">{% trans "Get access to camera" %}</a>
             {% if show_bookmark_button %}
-            <a href="{% url cam:cam_bookmark_add camera.id %}">{% trans "Bookmark this camera" %}</a>
+            <a class="reference" href="{% url cam:cam_bookmark_add camera.id %}">{% trans "Bookmark this camera" %}</a>
             {% else %}
-            <a href="{% url cam:cam_bookmark_delete camera.id %}">{% trans "Remove Bookmark" %}</a>
+            <a class="reference" href="{% url cam:cam_bookmark_delete camera.id %}">{% trans "Remove Bookmark" %}</a>
             {% endif %}
             {% include "includes/camera.html" %}
         {% else %}
@@ -139,7 +135,7 @@
     <div class="messages">
         <form method="post"
               action="{% url user_messages:send_message user_id=page_user.id %}">
-        <table summary="{% blocktrans %}Leave a message to {{ page_user }}{% endblocktrans %}" width="100%">
+        <table summary="{% blocktrans with page_user.get_full_name as page_user%}Leave a message to {{ page_user }}{% endblocktrans %}" width="100%">
             <caption>{% trans "Leave a message" %}</caption>
             {{ msgform.as_table }}
             <tr><td colspan="2"><input type="submit" value="{% trans "Send" %}"/></td></tr>
@@ -171,7 +167,7 @@
 
 <div id="content-related">
     <div class="module" id="recent-actions-module">
-        <h2>{% blocktrans %}{{ page_user }} marked as friends:{% endblocktrans %}</h2>
+        <h2>{% blocktrans with page_user.get_full_name as page_user %}{{ page_user }} marked as friends:{% endblocktrans %}</h2>
           {% if page_user.friends.count %}
             <ul class="friendTable">
                 {% for user in page_user.friends.list %}
