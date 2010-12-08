@@ -6,7 +6,7 @@
     <div class="nav">
         <ul>
             {% if user.is_authenticated %}
-            <li id="persone"><a href="{% url social:home %}">{{ user }}</a></li>
+            <li id="persone"><a href="{% url social:home %}">{{ user.get_full_name }}</a></li>
             <li id="money">
                 <div class="q">
                     <p>На моем счету</p>

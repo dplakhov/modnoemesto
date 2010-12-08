@@ -16,9 +16,9 @@ h2, h3
 {
     font-weight: normal;
 }
-a
-{
-text-decoration: none;
+
+a {
+    color: #027A98;
 }
 
 div#container
@@ -140,6 +140,7 @@ div#serch
     font-variant: small-caps;
     font-size: 14px;
     font-weight: bold;
+    text-decoration: none;
 }
 #menu .menu_curent, #menuReg .menu_curent
 {
@@ -177,6 +178,7 @@ div#mainContent
 {
     color: #6f6f6f;
     font-size: 13px;
+    text-decoration: none;
 }
 .nav ul li a.curent
 {
@@ -699,6 +701,10 @@ td.empty_filt
     padding: 10px 0px 0px 25px;
     background:url(../images/hande_rog.png) no-repeat left bottom;
 }
+#filt_pop a, #filt_new a
+{
+    text-decoration: none;
+}
 #filt_pop  p.place, #filt_new p.place
 {
     color: #08869d;
@@ -803,6 +809,10 @@ div#fp
     margin-top: 0px !important;
     margin-top: -15px;
     height: 69px;
+}
+#fp div.news a
+{
+    text-decoration: none;
 }
 #fp div.news p.place
 {
@@ -1173,10 +1183,12 @@ p.when
 .readed .message_text a, .readed div.opration a, .note_text a
 {
 	color: #6F6F6F;
+    text-decoration: none;
 }
 .unreaded .message_text a, .unreaded div.opration a
 {
 	color: #000;
+    text-decoration: none;
 }
 div.operation
 {
@@ -1315,6 +1327,7 @@ li.friendTable
 	overflow:visible;
 	padding:2px 45px 5px;
 	float: left;
+    text-decoration: none;
 }
 .note_text
 {

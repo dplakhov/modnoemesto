@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-07 16:10+0300\n"
+"POT-Creation-Date: 2010-12-08 15:44+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,140 +19,114 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: forms.py:9
-msgid "Username"
-msgstr "Имя"
+#: forms.py:9 forms.py:51
+msgid "Email"
+msgstr "E-mail"
 
-#: forms.py:10 forms.py:57
+#: forms.py:10 forms.py:53
 msgid "Password"
 msgstr "Пароль"
 
 #: forms.py:24
-msgid ""
-"Please enter a correct username and password. Note that both fields are case-"
-"sensitive."
-msgstr ""
+msgid "Please enter a correct email and password."
+msgstr "Пожалуйста, введите верные E-mail и пароль."
 
 #: forms.py:26
 msgid "This account is inactive."
-msgstr ""
-
-#: forms.py:31
-msgid ""
-"Your Web browser doesn't appear to have cookies enabled. Cookies are "
-"required for logging in."
-msgstr ""
+msgstr "Эта учетная запись неактивна."
 
 #: forms.py:48
-msgid "Full name"
-msgstr "ФИО"
+msgid "First name"
+msgstr "Ваше Имя"
 
 #: forms.py:49
+msgid "Last name"
+msgstr "Ваша Фамилия"
+
+#: forms.py:50
 msgid "Phone"
 msgstr "Телефон"
 
-#: forms.py:50
-msgid "Email"
-msgstr "E-mail"
-
-#: forms.py:50
-msgid ""
-"Please enter avalid email address, it is required to complete registration "
-"process"
-msgstr ""
-
 #: forms.py:52
 msgid "Login"
-msgstr "Логин"
+msgstr "Ваш Никнейм"
 
-#: forms.py:53
-msgid "Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only."
-msgstr ""
-
-#: forms.py:55
-msgid "This value may contain only letters, numbers and @/./+/-/_ characters."
-msgstr ""
-
-#: forms.py:58
+#: forms.py:54
 msgid "Password confirmation"
 msgstr ""
 
 #: forms.py:59
-msgid "Enter the same password as above, for verification."
-msgstr ""
+msgid "A user with that email already exists."
+msgstr "Пользователь с таким E-mail уже существует."
 
-#: forms.py:65
-msgid "A user with that username already exists."
-msgstr ""
-
-#: forms.py:73
+#: forms.py:67
 msgid "The two password fields didn't match."
 msgstr ""
 
-#: forms.py:83
+#: forms.py:77
 msgid "Image"
 msgstr ""
 
-#: forms.py:88
+#: forms.py:82
 msgid "None selected"
 msgstr "Не выбран"
 
-#: forms.py:89
+#: forms.py:83
 msgid "Female"
 msgstr "Женский"
 
-#: forms.py:90
+#: forms.py:84
 msgid "Male"
 msgstr "Мужской"
 
-#: forms.py:93
+#: forms.py:87
 msgid "Hometown"
 msgstr "Родной город"
 
-#: forms.py:94
+#: forms.py:88
 msgid "Birthday"
 msgstr "День рождения"
 
-#: forms.py:95
+#: forms.py:89
 msgid "Sex"
 msgstr "Пол"
 
-#: forms.py:96
+#: forms.py:90
 msgid "ICQ"
 msgstr "ICQ"
 
-#: forms.py:97
+#: forms.py:91
 msgid "Mobile"
 msgstr "Телефон"
 
-#: forms.py:98
+#: forms.py:92
 msgid "Website"
 msgstr "Личный сайт"
 
-#: forms.py:99
+#: forms.py:93
 msgid "University"
 msgstr "ВУЗ"
 
-#: forms.py:100
+#: forms.py:94
 msgid "Department"
 msgstr "Факультет"
 
-#: forms.py:101
+#: forms.py:95
 msgid "Status"
 msgstr "Статус"
 
-#: views.py:113
+#: views.py:143
 msgid "Activation code corrupted or already used"
 msgstr "Код активации повреждён или уже использован"
 
-#: views.py:220
+#: views.py:250
 msgid "Invalid image file format"
 msgstr "Неверный формат файла"
 
-#: views.py:241
+#: views.py:271
 msgid "Avatar successfully updated"
 msgstr "Аватар успешно обновлен"
 
-#: views.py:257
+#: views.py:288
 msgid "Profile successfully updated"
 msgstr "Профиль успешно обновлен"

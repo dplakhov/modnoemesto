@@ -48,7 +48,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 def index(request):
     if not request.user.is_authenticated():
         return about(request)
-    accs = User.objects(last_access__gt=User.get_delta_time()).only('username', 'avatar')
+    accs = User.objects(last_access__gt=User.get_delta_time())
     return direct_to_template(request, 'index.html', { 'accs': accs })
 
 
@@ -87,7 +87,9 @@ def register(request):
         alpha = 'abcdef0123456789'
         activation_code = ''.join(choice(alpha) for _ in xrange(12))
         user = User(username=form.data['username'],
-                    full_name=form.data['full_name'],
+                    first_name=form.data['first_name'],
+                    last_name=form.data['last_name'],
+                    email=form.data['email'],
                     phone=form.data['phone'],
                     is_active=False,
                     activation_code=activation_code)
