@@ -99,8 +99,10 @@ class UserFriends(Document):
         UserFriends.objects(user=self.user).update_one(pull__list=user)
 
     def _add(self, user):
-        self.list.append(user)
-        UserFriends.objects(user=self.user).update_one(push__list=user)
+        if not self.contains(user):
+            self.list.append(user)
+            UserFriends.objects(user=self.user
+                            ).update_one(push__list=user)
 
 class Friendship(Document):
     friends = ListField(ReferenceField('User'))

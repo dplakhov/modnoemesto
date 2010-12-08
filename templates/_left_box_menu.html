@@ -26,10 +26,10 @@
 
             <li id="group"><a href="{% url groups:user_group_list %}">Группы</a></li>
             <li id="foto"><a href="{% url media_library:image_index %}">Фотографии</a></li>
-            <li id="video"><a href="{% url social:in_dev %}">Видеозаписи</a></li>
-            <li id="audio"><a href="{% url social:in_dev %}">Аудиозаписи</a></li>
+            <li id="video"><p>{% comment %}<a href="{% url social:in_dev %}">{% endcomment %}Видеозаписи{% comment %}</a>{% endcomment %}</p></li>
+            <li id="audio"><p>{% comment %}<a href="{% url social:in_dev %}">{% endcomment %}Аудиозаписи{% comment %}</a>{% endcomment %}</p></li>
 
-            <li id="meeting"><a href="{% url social:in_dev %}">Встречи</a></li>
+            <li id="meeting"><p>{% comment %}<a href="{% url social:in_dev %}">{% endcomment %}Встречи{% comment %}</a>{% endcomment %}</p></li>
             {% else %}
             <li><a href="{% url social:register %}">регистрация</a></li>
             <li><a href="{% url social:login %}">вход</a></li>

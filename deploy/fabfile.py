@@ -62,6 +62,7 @@ def deploy(revision, reinstall=False):
                     run('rm app')
                 run('ln -fs %s app' % revision)
                 with cd('app'):
+                    put('settings/local.py', 'settings/local.py')
                     run('virtualenv venv')
                     #run('source ./venv/bin/activate')
                     #run('source ./venv/bin/activate && pip install --upgrade -r requirements.pip')
@@ -263,7 +264,7 @@ def install_application():
             if not exists('.ssh'):
                 run('mkdir .ssh')
                 run('chmod 700 .ssh')
-                put('deploy/ssh/*', '%s/.ssh' % APPLICATION_DIR, mode=0600)
+                put('ssh/*', '%s/.ssh' % APPLICATION_DIR, mode=0600)
                 append(pub_key, '.ssh/authorized_keys')
                 run('chown -R %s:%s .ssh' % (APPLICATION_USER, APPLICATION_USER))
 

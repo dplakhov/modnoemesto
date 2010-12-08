@@ -256,15 +256,15 @@ li#foto
 }
 li#video
 {
-    background:url(../images/video.jpg) no-repeat left center;
+    background:url(../images/video_noactive.png) no-repeat left center;
 }
 li#audio
 {
-    background:url(../images/audio.jpg) no-repeat left center;
+    background:url(../images/audio_noactive.png) no-repeat left center;
 }
 li#meeting
 {
-    background:url(../images/meeting.jpg) no-repeat left center;
+    background:url(../images/meeting_noactive.png) no-repeat left center;
     border-bottom: none;
 }
 div#what_new
@@ -620,12 +620,12 @@ input.subReg
     background: #FFF;
     padding-bottom: 3px;
 }*/
-.filt td input.kay
+/*.filt td input.kay
 {
     background:url(../images/input_kay.jpg) no-repeat;
     width: 180px;
     padding: 3px;
-}
+}*/
 td.empty_filt
 {
     width: 50px;
@@ -991,7 +991,8 @@ h2.caption {
 {
     padding-bottom: 7px;
     color: #FFF;
-    font-size: 14px;
+    font-size: 16px;
+	text-align: center;
 }
 .no_camera
 {
@@ -1012,6 +1013,10 @@ h2.caption {
 .no_camera a
 {
     color: #027A98;
+}
+#camera a.reference
+{
+	padding-right: 10px;
 }
 .have_message, .have_friendship_offers
 {
@@ -1094,6 +1099,7 @@ h2.caption {
 div.but
 {
 	margin-top: 10px;
+	overflow: hidden;
 }
 
 .but input[type="submit"]
@@ -1172,6 +1178,7 @@ p.when
 {
     margin: 0;
 	float: left;
+	display: inline;
 }
 .message_text
 {
@@ -1215,7 +1222,7 @@ div.operation p
 	clear: left;
 	overflow: hidden;
 	padding: 7px;
-	border: 5px solid #EEEDDE;
+	border: 7px solid #EEEDDE;
 	width: 420px;
 	margin-left: 80px;
 	background: #FFF;
@@ -1269,7 +1276,7 @@ div.operation p
 	clear: right;
 	overflow: hidden;
 	padding: 7px;
-	border: 5px solid #EEEDDE;
+	border: 7px solid #EEEDDE;
 	width: 420px;
 	margin-right: 80px;
 	background: #FFF;
@@ -1335,3 +1342,12 @@ li.friendTable
 	padding: 7px;
 	width: 340px;
 }
+.nav ul li p
+{
+    color: #BFBEB2;
+    font-size: 13px;
+}
+
+
+
+
