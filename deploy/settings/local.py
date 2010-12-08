@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+DEBUG = TEMPLATE_DEBUG = False
+
+
 DATABASES['billing'] = {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'billing',
@@ -7,3 +10,5 @@ DATABASES['billing'] = {
             'PASSWORD': 'Eekeilt0',
             'HOST': '10.10.10.7',
         }
+
+

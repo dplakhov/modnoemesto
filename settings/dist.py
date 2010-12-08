@@ -25,10 +25,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': ':memory:', #rel('local.db'),
     },
+
     'billing': {
            'ENGINE': 'django.db.backends.sqlite3',
            'NAME': rel('billing.db'),
-        },
+    },
 }
 
 if 'test' in sys.argv:
@@ -40,9 +41,10 @@ if 'test' in sys.argv:
         },
 
         'billing': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
-    },
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        },
+
     }
 
 MONGO_DATABASE = 'social'
