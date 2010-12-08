@@ -1,25 +1,48 @@
-{% load i18n %}}
+{% load i18n %}
+<script type="text/javascript" src="/media/js/jquery.mousewheel.min.js"></script>
+<script type="text/javascript" src="/media/js/jScrollPane.js"></script>
 <script>
 var room = "{{ camera.id }}";
 var nick = "{{ user.username }}";
 </script>
   <p>&nbsp;</p>
   {% if camera.show %}
-    {% if is_owner %}<a href='{% url cam:cam_edit camera.id %}'>Edit camera</a>{% endif %}
+    {% if is_owner %}<a class="reference" href='{% url cam:cam_edit camera.id %}'>{% trans "Edit camera" %}</a>{% endif %}
     <script type="text/javascript">
         $(document).ready(function(){
-            $('.scroll-pane').jScrollPane({showArrows:true, autoReinitialise: true, scrollbarWidth:5});
+            // jScrollPane conflicts with chat
+            //$('.scroll-pane').jScrollPane({showArrows:true, autoReinitialise: true, scrollbarWidth:5});
         });
     </script>
     <div id="watch-panel">
-    <a
-        href="{{ camera.host }}"
-        style="display:block;width:520px;height:330px;background-color:black"
-        id="player">
-    </a>
-    <script>
-        flowplayer("player", "/media/swf/flowplayer-3.2.5.swf");
-    </script>
+        {% if not camera.force_html5 %}
+            <a style="display:block;width:520px;height:330px" id="flash-player"> </a>
+        {% endif %}
+
+        <video id="html-5-video"
+               autoplay="false"
+               controls width="520"
+               height="330"
+               style="display:block"
+        src="http://vid1.modnoemesto.ru:1935/live/mp4:{{ camera.stream_name }}/playlist.m3u8" />
+
+        {% if not camera.force_html5 %}
+
+        <script type="text/javascript">
+        if(navigator.userAgent.match(/iPad/i))
+        {
+            $('#flash-player').hide();
+        }
+        else
+        {
+            $('#html-5-video').hide();
+        $f("flash-player", "/media/swf/flowplayer-3.2.5.swf", { clip: { provider: 'rtmp' }, playlist: [ { netConnectionUrl: 'rtmp://vid1.modnoemesto.ru/live',
+        url:'{{ camera.stream_name }}' } ],
+                plugins: { rtmp: { url: '/media/swf/flowplayer.rtmp-3.2.3.swf', netConnectionUrl: 'rtmp://vid1.modnoemesto.ru/live' } } });
+
+        }
+        </script>
+        {% endif %}
 
     {% if not camera.operator or camera.operator == user.username %}
       <object>
@@ -56,7 +79,8 @@ var nick = "{{ user.username }}";
     </div>
     </div>
 
-    {% if not camera.free %}{% trans "This camera is not free!" %}{% endif %}
+    {% if camera.paid %}
+        {% trans "This camera is not free!" %}{% endif %}
   {% else %}
     {% trans "This camera is private." %}
   {% endif %}

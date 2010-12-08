@@ -4,16 +4,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Модное место</title>
 	<link href="content/common.css" type="text/css" rel="stylesheet"/>
-    <link href="content/jScrollPane.css" type="text/css" rel="stylesheet" />
-    <link href="content/drop_down.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="content/selectbox.css" />
     
     <script type="text/javascript" src="content/script/jquery.js"></script>
-    <script type="text/javascript" src="content/script/jquery.mousewheel.min.js"></script>
-	<script type="text/javascript" src="content/script/jScrollPane.js"></script>
     <script type="text/javascript" src="content/script/jquery.corner.js"></script>
+    <script type="text/javascript" src="content/script/jquery.selectbox-0.5.js"></script>
     <script type="text/javascript">
 		$(document).ready(function(){
 			$('.rounded').corner();
+			$('#razdel_1, #razdel_2, #razdel_3, #razdel_4').selectbox();
 								   });
 	</script>
     
@@ -22,14 +21,36 @@
     <script type="text/javascript">
 		DD_belatedPNG.fix('.transparent');
 	</script>
-    <script src="content/script/drop_down.js" type="text/javascript"></script>
+    
+     <!--[if lte IE 8]>
+   <style type="text/css">
+    #menu .menu_but a, #menuReg  .menu_but a{
+        font-size: 13px;
+    }
+    #menu, #menuReg{
+        top: -30px;
+    }
+    .find{
+    	top: -3px;
+    }
+  </style>
+  <![endif]-->
+  
+  <!--[if IE 8]>
+   <style type="text/css">
+   span#img input{
+        position:relative;
+        top:3px;
+        }
+  </style>
+  <![endif]-->
 </head>
 
 <body>
     <div id="container">
     	<div id="subContainer">
         	<div id="header">
-            	<a id="logo" href="Filter.html#"><img src="content/images/logo_m.jpg" alt="Ьщдное место" /></a>
+            	<a id="logo" href="#"><img src="content/images/logo_m.jpg" alt="Ьщдное место" /></a>
                 <div id="serch">
                     <form id="search-box" action="">
                         <div>
@@ -51,7 +72,7 @@
                         <td class="right_corner menu_curent"></td>
                         <td class="empty"></td>
                         <td class="left_corner"></td>
-                        <td class="menu_but"><a href="Filter.html#">аукцион</a></td>
+                        <td class="menu_but"><a href="#">аукцион</a></td>
                         <td class="right_corner"></td>
                         <td class="empty"></td>
                         <td class="left_corner"></td>
@@ -74,27 +95,27 @@
             	<div id="leftColumn">
                 	<div class="nav">
                             <ul>
-                                <li id="persone"><a href="Filter.html#">Вениамин Константинопольский</a></li>
+                                <li id="persone"><a href="#">Вениамин Константинопольский</a></li>
                                 <li id="money">
                                     <div class="q">
                                     	<p>На моем счету</p>
                                         <div><p id="amount"><span>234 904</span> модов</p></div>
-                                        <p id="purse"><a href="Filter.html#">Перейти в кошелек</a></p>
+                                        <p id="purse"><a href="#">Перейти в кошелек</a></p>
                                      </div>
                                 </li>
-                                <li id="fashion_place"><a href="Filter.html#">Мои Модные места</a></li>
-                                <li id="friends"><a href="Filter.html#">Друзья</a></li>
-                                <li id="mail"><a href="Filter.html#">Сообщения</a></li>
-                                <li id="notes"><a href="Filter.html#">Заметки</a></li>
-                                <li id="group"><a href="Filter.html#">Группы</a></li>
-                                <li id="foto"><a href="Filter.html#">Фотографии</a></li>
-                                <li id="video"><a href="Filter.html#">Видеозаписи</a></li>
-                                <li id="audio"><a href="Filter.html#">Аудиозаписи</a></li>
-                                <li id="meeting"><a href="Filter.html#">Встречи</a></li>
+                                <li id="fashion_place"><a href="#">Мои Модные места</a></li>
+                                <li id="friends"><a href="#">Друзья</a></li>
+                                <li id="mail"><a href="#">Сообщения</a></li>
+                                <li id="notes"><a href="#">Заметки</a></li>
+                                <li id="group"><a href="#">Группы</a></li>
+                                <li id="foto"><a href="#">Фотографии</a></li>
+                                <li id="video"><a href="#">Видеозаписи</a></li>
+                                <li id="audio"><a href="#">Аудиозаписи</a></li>
+                                <li id="meeting"><a href="#">Встречи</a></li>
                             </ul>
                         </div>
                         <div id="what_new">
-                        	<a href="Filter.html#"><img src="content/images/what_new.jpg" /></a>
+                        	<a href="#"><img src="content/images/what_new.jpg" /></a>
                         </div>
                         <div id="advertising">
                         	<div>
@@ -106,7 +127,7 @@
                         </div>
                 </div>
                 <div id="filterColumn">
-                	<div id="filter">
+                	<div id="filter_box">
                     	<h2>Фильтр модных мест</h2>
                         <div class="filt rounded">
                         	<table cellspacing="0" cellpadding="0">
@@ -120,7 +141,7 @@
                                 <tr>
                                 	<td>
                                     <form action="" method="">
-                                    <select id="razdel" size="1" name="mm">
+                                    <select id="razdel_1" size="1" name="mm">
                                     	<option selected value="kg">клубы</option>
                                         <option value="jf">клуб_1</option>
                                         <option value="nv">клуб_2</option>
@@ -131,7 +152,7 @@
                                     <td class="empty_filt"></td>
                                     <td>
                                     <form action="" method="">
-                                    <select id="razdel" size="1" name="mm">
+                                    <select id="razdel_2" size="1" name="mm">
                                     	<option selected value="kg">клубы</option>
                                         <option value="jf">клуб_1</option>
                                         <option value="nv">клуб_2</option>
@@ -156,7 +177,7 @@
                                 <tr>
                                 	<td>
                                     <form action="" method="">
-                                    <select id="razdel" size="1" name="mm">
+                                    <select id="razdel_3" size="1" name="mm">
                                     	<option selected value="kg">вечеринки</option>
                                         <option value="jf">клуб_1</option>
                                         <option value="nv">клуб_2</option>
@@ -166,7 +187,7 @@
                                     </td>
                                     <td class="empty_filt"></td>
                                     <td> <form action="" method="">
-                                    <select id="razdel" size="1" name="mm">
+                                    <select id="razdel_4" size="1" name="mm">
                                     	<option selected value="kg">клубы</option>
                                         <option value="jf">клуб_1</option>
                                         <option value="nv">клуб_2</option>
@@ -191,7 +212,7 @@
                                 	<div class="item">
                                     <div class="pop rounded">
                                     <img src="content/images/pop_1.jpg" alt="" />
-                                    <p class="transparent"><a href="Filter.html#">34989056892</a></p>
+                                    <p class="transparent"><a href="#">34989056892</a></p>
                                     </div>
                                 	<p class="place">Стадион Петровский</p>
                                     <p class="quantity">456 908 человек</p>
@@ -203,7 +224,7 @@
                                 	<div class="item">
                                     <div class="pop rounded">
                                     <img src="content/images/pop_2.jpg" alt="" />
-                                    <p class="transparent"><a href="Filter.html#">34989056892</a></p>
+                                    <p class="transparent"><a href="#">34989056892</a></p>
                                     </div>
                                 	<p class="place">Стадион Петровский</p>
                                     <p class="quantity">456 908 человек</p>
@@ -215,7 +236,7 @@
                                 	<div class="item">
                                     <div class="pop rounded">
                                     <img src="content/images/pop_3.jpg" alt="" />
-                                    <p class="transparent"><a href="Filter.html#">34989056892</a></p>
+                                    <p class="transparent"><a href="#">34989056892</a></p>
                                     </div>
                                 	<p class="place">Стадион Петровский</p>
                                     <p class="quantity">456 908 человек</p>
@@ -227,7 +248,7 @@
                                 	<div class="item">
                                     <div class="pop rounded">
                                     <img src="content/images/pop_4.jpg" alt="" />
-                                    <p class="transparent"><a href="Filter.html#">34989056892</a></p>
+                                    <p class="transparent"><a href="#">34989056892</a></p>
                                     </div>
                                 	<p class="place">Стадион Петровский</p>
                                     <p class="quantity">456 908 человек</p>
@@ -236,7 +257,7 @@
                                     </div>
                                 </li>
                              </ul>
-							<p class="all"><a href="Filter.html#">Все популярные</a></p>
+							<p class="all"><a href="#">Все популярные</a></p>
                         </div>
                     </div>
                     <div id="more_new">
@@ -247,7 +268,7 @@
                                 	<div class="item">
                                     <div class="pop rounded">
                                     <img src="content/images/new_1.jpg" alt="" />
-                                    <p class="transparent"><a href="Filter.html#">34989056892</a></p>
+                                    <p class="transparent"><a href="#">34989056892</a></p>
                                     </div>
                                 	<p class="place">Стадион Петровский</p>
                                     <p class="quantity">456 908 человек</p>
@@ -259,7 +280,7 @@
                                 	<div class="item">
                                     <div class="pop rounded">
                                     <img src="content/images/new_2.jpg" alt="" />
-                                    <p class="transparent"><a href="Filter.html#">34989056892</a></p>
+                                    <p class="transparent"><a href="#">34989056892</a></p>
                                     </div>
                                 	<p class="place">Стадион Петровский</p>
                                     <p class="quantity">456 908 человек</p>
@@ -271,7 +292,7 @@
                                 	<div class="item">
                                     <div class="pop rounded">
                                     <img src="content/images/new_3.jpg" alt="" />
-                                    <p class="transparent"><a href="Filter.html#">34989056892</a></p>
+                                    <p class="transparent"><a href="#">34989056892</a></p>
                                     </div>
                                 	<p class="place">Стадион Петровский</p>
                                     <p class="quantity">456 908 человек</p>
@@ -283,7 +304,7 @@
                                 	<div class="item">
                                     <div class="pop rounded">
                                     <img src="content/images/new_4.jpg" alt="" />
-                                    <p class="transparent"><a href="Filter.html#">34989056892</a></p>
+                                    <p class="transparent"><a href="#">34989056892</a></p>
                                     </div>
                                 	<p class="place">Стадион Петровский</p>
                                     <p class="quantity">456 908 человек</p>
@@ -292,7 +313,7 @@
                                     </div>
                                 </li>
                              </ul>
-							<p class="all"><a href="Filter.html#">Все новые</a></p>
+							<p class="all"><a href="#">Все новые</a></p>
                         </div>
                     </div>              	
                 </div>
@@ -301,14 +322,14 @@
         <div id="fotter">
             <div id="info">
             	<ul>
-                <li style="padding-left:0"><a href="Filter.html#">О сайте</a></li>
-                <li><a href="Filter.html#">Техподдержка</a></li>
-                <li><a href="Filter.html#">Вакансии</a></li>
-                <li><a href="Filter.html#"> Блог</a></li>
-                <li><a href="Filter.html#">Правила </a></li>
-                <li><a href="Filter.html#">Реклама</a></li>
-                <li><a href="Filter.html#">Разработчикам</a></li>
-                <li style="padding-right:0"><a href="Filter.html#">Магазинам</a></li>
+                <li style="padding-left:0"><a href="#">О сайте</a></li>
+                <li><a href="#">Техподдержка</a></li>
+                <li><a href="#">Вакансии</a></li>
+                <li><a href="#"> Блог</a></li>
+                <li><a href="#">Правила </a></li>
+                <li><a href="#">Реклама</a></li>
+                <li><a href="#">Разработчикам</a></li>
+                <li style="padding-right:0"><a href="#">Магазинам</a></li>
                 </ul>
                 <p style="width:200px">Модное место &copy; 2010</p>
                 <p id="design">Разработано в <a href="http://www.web-mark.ru/" target="_blank">Web-Mark</a></p>

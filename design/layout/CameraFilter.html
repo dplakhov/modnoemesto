@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Модное место</title>
+	<link href="content/common.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="content/selectbox.css" />
+    
+    <script type="text/javascript" src="content/script/jquery.js"></script>
+    <script type="text/javascript" src="content/script/jquery.corner.js"></script>
+    <script type="text/javascript" src="content/script/jquery.selectbox-0.5.js"></script>
+    <script type="text/javascript">
+		$(document).ready(function(){
+			$('.rounded').corner();
+			$('#razdel_1, #razdel_2, #razdel_3, #razdel_4').selectbox();
+			$('.cam_filter_hide').hide();
+						
+			$("input[name='cam_type']").change(function(){
+				if ($(this).val() == 'yes') {
+				$('.cam_filter_hide').show();
+				}
+				else{
+				$('.cam_filter_hide').hide();
+				}
+					});
+			
+			 $('il#razdel_2_input_nv').hasClass('selected');
+			
+		
+			
+								   });
+	</script>
+    
+    
+    <script src="content/script/ie6fix.js" type="text/javascript"></script>
+    <script type="text/javascript">
+		DD_belatedPNG.fix('.transparent');
+	</script>
+    
+     <!--[if lte IE 8]>
+   <style type="text/css">
+    #menu .menu_but a, #menuReg  .menu_but a{
+        font-size: 13px;
+    }
+    #menu, #menuReg{
+        top: -30px;
+    }
+    .find{
+    	top: -3px;
+    }
+  </style>
+  <![endif]-->
+  
+  <!--[if IE 8]>
+   <style type="text/css">
+   span#img input{
+        position:relative;
+        top:3px;
+        }
+  </style>
+  <![endif]-->
+</head>
+
+<body>
+    <div id="container">
+    	<div id="subContainer">
+        	<div id="header">
+            	<a id="logo" href="#"><img src="content/images/logo_m.jpg" alt="Ьщдное место" /></a>
+                <div id="serch">
+                    <form id="search-box" action="">
+                        <div>
+                            <input type="text" value="поиск" class="find transparent" />
+                            <input type="image" value="Найти" src="content/images/serch.jpg" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+                            <div id="menu">
+                	<table cellspacing="0px" cellpadding="0px">
+                        <tr>
+                        <td class="left_corner"></td><td class="menu_but"><a href="Designer.html">люди</a></td><td class="right_corner"></td>
+                        <td class="empty"></td>
+                        <td class="left_corner menu_curent"></td><td class="menu_but menu_curent"><a href="Coll_inside.html">модные места</a></td><td class="right_corner menu_curent"></td>
+                        <td class="empty"></td>
+                        <td class="left_corner"></td><td class="menu_but"><a href="#">аукцион</a></td><td class="right_corner"></td>
+                        <td class="empty"></td>
+                        <td class="left_corner"></td><td class="menu_but"><a class="curent" href="Contacts.html">приложения</a></td><td class="right_corner"></td>
+                        <td class="empty"></td>
+                        <td class="left_corner"></td><td class="menu_but"><a href="Blago.html">группы</a></td><td class="right_corner"></td>
+                        <td class="empty"></td>
+                        <td class="left_corner"></td><td class="menu_but"><a href="Guestbook.html">выход</a></td><td class="right_corner"></td>
+                        
+                        </tr>
+                     </table>
+                </div>
+
+            <div id="mainContent">
+            	<div id="leftColumn">
+                	<div class="nav">
+                            <ul>
+                                <li id="persone"><a href="#">Вениамин Константинопольский</a></li>
+                                <li id="money">
+                                    <div class="q">
+                                    	<p>На моем счету</p>
+                                        <div><p id="amount"><span>234 904</span> модов</p></div>
+                                        <p id="purse"><a href="#">Перейти в кошелек</a></p>
+                                     </div>
+                                </li>
+                                <li id="fashion_place"><a href="#">Мои Модные места</a></li>
+                                <li id="friends"><a href="#">Друзья</a></li>
+                                <li id="mail"><a href="#">Сообщения</a></li>
+                                <li id="notes"><a href="#">Заметки</a></li>
+                                <li id="group"><a href="#">Группы</a></li>
+                                <li id="foto"><a href="#">Фотографии</a></li>
+                                <li id="video"><a href="#">Видеозаписи</a></li>
+                                <li id="audio"><a href="#">Аудиозаписи</a></li>
+                                <li id="meeting"><a href="#">Встречи</a></li>
+                            </ul>
+                        </div>
+                        <div id="what_new">
+                        	<a href="#"><img src="content/images/what_new.jpg" /></a>
+                        </div>
+                        <div id="advertising">
+                        	<div>
+                            	<img src="content/images/ermi_pic.jpg" alt="gj" />
+                            </div>
+                            <p class="date">12 декабря 18:39</p>
+                            <p class="cam">12 камер в Эрмитаже</p>
+                            <p>Кмеры работают в режиме тестирования</p>
+                        </div>
+                </div>
+                <div id="filterColumn">
+                	<div id="filter_box">
+                    	<h2>Выбор тарифного плана для просмотра видео</h2>
+                        <div class="filt rounded">
+                        	<table cellspacing="0" cellpadding="0">
+                            	<tr>
+                                	<td class="name_filt">Повременной</td>
+                                    <td class="empty_filt"></td>
+                                    <td>
+                                        <form action="" method="">
+                                        <select id="razdel_1" size="1" name="mm">
+                                            <option selected value="kg">тариф</option>
+                                            <option value="jf">тариф_1</option>
+                                            <option value="nv">тариф_2</option>
+                                            <option value="kj">тариф_3</option>
+                                        </select>
+                                        </form>
+                                    </td>
+                                    <td class="empty_filt"></td>
+                                    <td class="name_filt">Тип камеры</td>
+                                    <td class="empty_filt"></td>
+                                    <td>
+                                    <form action="" method="">
+                                   <!-- <select id="razdel" size="1" name="mm">
+                                    	<option selected value="kg">тип</option>
+                                        <option value="jf">поворотный</option>
+                                        <option value="nv">не поворотный</option>
+                                    </select> -->
+                                    <input type="radio" checked="checked" name="cam_type" value="no" />
+                                    	<span> не поворотный</span><br />
+                                    <input type="radio" name="cam_type" value="yes" /><span> поворотный</span>
+                                    
+                                    </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                	<td class="name_filt">Долгосрочный</td>
+                                    <td class="empty_filt"></td>
+                                    <td>
+                                    <form action="" method="">
+                                    <select id="razdel_2" size="1" name="mm">
+                                    	<option selected value="kg">тариф</option>
+                                        <option value="jf">тариф_1</option>
+                                        <option value="nv">тариф_2</option>
+                                        <option value="kj">тариф_3</option>
+                                    </select>
+                                    </form>
+                                    </td>
+                                    <td class="empty_filt"></td>
+                                    <td>
+                                    </td>
+                                    <td class="empty_filt"></td>
+                                    <td>
+                                    <form>
+                                    <input class="submit" type="submit" value="сохранить" />
+                                    </form>
+                                    </td>
+                                </tr>
+                               
+                            </table>
+                        </div>
+                        <div class="cam_filter_hide">
+                            <h2>Выбор тарифного плана на управление камерой</h2>
+                            <div class="cam_filter rounded">
+                                <table cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td class="name_filt">настройки камеры</td>
+                                        <td class="empty_filt"></td>
+                                        <td>
+                                            <form action="" method="">
+                                            <select id="razdel_3" size="1" name="mm">
+                                                <option selected value="kg">настройки</option>
+                                                <option value="jf">настройка_1</option>
+                                                <option value="nv">настройка_2</option>
+                                                <option value="kj">настройка_3</option>
+                                            </select>
+                                            </form>
+                                        </td>
+                                        <td class="empty_filt"></td>
+                                        <td style="width:118px" class="name_filt"></td>
+                                        <td class="empty_filt"></td>
+                                        <td>
+                                        
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="name_filt">настройки камеры</td>
+                                        <td class="empty_filt"></td>
+                                        <td>
+                                        <form action="" method="">
+                                            <select id="razdel_4" size="1" name="mm">
+                                                <option selected value="kg">настройки</option>
+                                                <option value="jf">настройка_1</option>
+                                                <option value="nv">настройка_2</option>
+                                                <option value="kj">настройка_3</option>
+                                            </select>
+                                            </form>
+                                        </td>
+                                        <td class="empty_filt"></td>
+                                        <td>
+                                        </td>
+                                        <td class="empty_filt"></td>
+                                        <td>
+                                        <form>
+                                        <input class="button" type="submit" value="сохранить" />
+                                        </form>
+                                        </td>
+                                    </tr>
+                                   
+                                </table>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div id="fotter">
+            <div id="info">
+            	<ul>
+                <li style="padding-left:0"><a href="#">О сайте</a></li>
+                <li><a href="#">Техподдержка</a></li>
+                <li><a href="#">Вакансии</a></li>
+                <li><a href="#"> Блог</a></li>
+                <li><a href="#">Правила </a></li>
+                <li><a href="#">Реклама</a></li>
+                <li><a href="#">Разработчикам</a></li>
+                <li style="padding-right:0"><a href="#">Магазинам</a></li>
+                </ul>
+                <p style="width:200px">Модное место &copy; 2010</p>
+                <p id="design">Разработано в <a href="http://www.web-mark.ru/" target="_blank">Web-Mark</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

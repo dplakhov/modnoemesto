@@ -7,30 +7,37 @@
 
 {% endblock %}
 
-{% block js %}
-{{ block.super }}
-<script type="text/javascript" src="/media/js/jquery.corner.js"></script>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('.rounded').corner();
-    });
-</script>
-<script src="/media/js/drop_down.js" type="text/javascript"></script>
-{% endblock %}
-
 {% block content %}
 <div id="filter">
 <h2>Фильтр модных мест</h2>
 
 
 <div class="filt rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+<form method="post">
     <table cellspacing="0" cellpadding="0">
         <tbody>
-<form method="post">
-        {{ form.as_table }}
-        <tr><td colspan="2"><input type="submit" value="Фильтровать" class="button"/></td></tr>
-</form>
+<tr><th>{{ form.name.label_tag }}</th><td colspan="3">{{ form.name }}</td></tr>
+<tr><td colspan="2"></td><th>{{ form.is_managed.label_tag }}</th><td>{{ form.is_managed }}</td></tr>
+<tr><th>{{ form.is_view_enabled.label_tag }}</th><td>{{ form.is_view_enabled }}</td> <th>{{ form.is_management_enabled.label_tag }}</th><td>{{ form.is_management_enabled }}</td></tr>
+<tr><th>{{ form.is_view_public.label_tag }}</th><td>{{ form.is_view_public }}</td> <th>{{ form.is_management_public.label_tag }}</th><td>{{ form.is_management_public }}</td></tr>
+<tr><th>{{ form.is_view_paid.label_tag }}</th><td>{{ form.is_view_paid }}</td> <th>{{ form.is_management_paid.label_tag }}</th><td>{{ form.is_management_paid }}</td></tr>
+        <tr><td colspan="4"><input type="submit" value="Фильтровать" class="button"/></td></tr>
     </tbody></table>
+</form>
+<script type="text/javascript">
+var id_is_managed=$('#id_is_managed'),
+    id_is_management_enabled=$('#id_is_management_enabled'),
+    id_is_management_public=$('#id_is_management_public'),
+    id_is_management_paid=$('#id_is_management_paid');
+function management_checked() {
+    var checked = id_is_managed.attr('checked');
+    id_is_management_enabled.attr('disabled', !checked);
+    id_is_management_public.attr('disabled', !checked);
+    id_is_management_paid.attr('disabled', !checked);
+}
+id_is_managed.click(management_checked)
+management_checked();
+</script>
 </div>
 <table>
 {% for cam in cams %}

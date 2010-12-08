@@ -1,29 +1,18 @@
 # -*- coding: utf-8 -*-
 
-import os
+from django.core.urlresolvers import reverse
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
 
 from django.test import TestCase
 import mongoengine
+
+from apps.utils.stringio import StringIO
 
 from ..documents import *
 from ..transformations import FileTransformation, BatchFileTransformation
 from ..transformations.image import ImageResize
 
-def file_path(file_name):
-    return os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                        'files', file_name))
-
-def create_file():
-    file = File(type='image')
-    file.file.put(open(file_path('logo-mongodb.png')),
-        content_type='image/png')
-    file.save()
-    return file
+from .common import file_path, create_file
 
 class TextTransformation(FileTransformation):
     def _apply(self, source, destination):
@@ -63,6 +52,21 @@ class FileTest(TestCase):
                              file.file.read()
                              )
 
+class FileViewTest(TestCase):
+    def test_view_derivative(self):
+        TRANSFORMATION_NAME = 'thumbnail'
+        file = create_file()
+        (derivative, ) = file.apply_transformations(ImageResize(name=TRANSFORMATION_NAME,
+                                             format='png', width=100, height=100))
+
+        client = self.client
+        response = client.get(reverse('media:file_view',
+                           kwargs=dict(file_id=file.id,
+                                  transformation_name=TRANSFORMATION_NAME)))
+
+
+        self.assertEquals('image/png', response['Content-Type'])
+
 class FileTransformationTest(TestCase):
     def test_apply_transformations(self):
 
@@ -86,8 +90,6 @@ class FileTransformationTest(TestCase):
         self.failUnless(isinstance(derivative, File))
         self.failUnless(derivative.file.read())
 
-        self.failUnless(file.derivatives)
-
         self.failUnlessEqual(derivative.file.read(),
                              file.get_derivative(TRANSFORMATION_NAME).file.read())
 
@@ -95,12 +97,15 @@ class FileTransformationTest(TestCase):
 
         derivative = file.get_derivative(TRANSFORMATION_NAME)
 
-
         self.failUnlessEqual(TRANSFORMATION_NAME, derivative.transformation)
 
         self.failUnlessEqual(file, derivative.source)
 
-        self.failUnless(file.get_derivative('notfound') is None)
+        self.failUnlessRaises(File.DerivativeNotFound, file.get_derivative, 'notfound')
+
+        derivative = file.modifications[TRANSFORMATION_NAME]
+        self.failUnlessEqual(file, derivative.source)
+
 
     def test_apply_transformations_before_save_raises_exc(self):
         file = File(type='image')
@@ -227,4 +232,21 @@ class FileSetTest(TestCase):
 
         file_set.reload()
         self.failUnlessEqual(1, len(file_set.files))
-        
+
+    def test_remove_file(self):
+        file_set = FileSet(type='liba')
+        file_set.save()
+
+        file1 = create_file()
+        file2 = create_file()
+
+        file_set.add_file(file1)
+        file_set.add_file(file2)
+
+        self.failUnlessEqual(2, len(file_set.files))
+
+        file_set.remove_file(file1)
+        self.failUnlessEqual(1, len(file_set.files))
+
+        file_set.reload()
+        self.failUnlessEqual(1, len(file_set.files))

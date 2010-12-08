@@ -63,7 +63,7 @@ div.about_persone
 	color: #838383;
 	text-decoration: underline;
     float: right;
-    padding-top: 5px;
+    padding-top: 27px;
  }
 .about_persone span, .the_wall span, .friend_box span, .group_box span
 {
@@ -123,13 +123,18 @@ div#right
 }
 .rating_persone
 {
-	margin-top: 3px;
+	margin-top: 4px;
 	background: #d0f3f5;
 	padding: 13px;
 }
 .rating_persone p
 {
 	color: #575655;
+}
+.profileActions
+{
+	overflow: hidden;
+	margin-top: 5px;
 }
 .profileActions ul
 {
@@ -155,7 +160,8 @@ div#right
 	border-top: 1px dotted #6f6f6f;
 	padding: 15px 0px;
 	background: url(../images/bg_about_persone.png) no-repeat;
-    height: 220px;
+    height: 250px;
+	overflow: hidden;
 }
 .group_box
 {

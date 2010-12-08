@@ -11,26 +11,29 @@ from .forms import MessageTextForm
 from .documents import Message
 from apps.social.documents import User
 
-@login_required
+#@login_required
 def send_message(request, user_id):
     
     from apps.social.documents import User
 
-    if user_id == request.user.id:
-        raise Http404()
-    msgform = MessageTextForm(request.POST or None)
     recipient = get_document_or_404(User, id=user_id)
+
+    if recipient.id == request.user.id:
+        raise Http404()
+
+    msgform = MessageTextForm(request.POST or None)
+
     if msgform.is_valid():
         text = msgform.data['text']
         Message.send(request.user, recipient, text)
-        return redirect('social:home')
+        return redirect('user_messages:view_inbox')
     else:
         #@todo: use separate form and screen to handle each situation
-        return direct_to_template(request, 'social/user.html',
+        return direct_to_template(request, 'user_messages/write_message.html',
                               { 'page_user': recipient, 'msgform': msgform })
 
 
-@login_required
+#@login_required
 def view_inbox(request):
     #@todo: pagination
     #@todo: partial data fetching
@@ -39,7 +42,7 @@ def view_inbox(request):
                               { 'msgs': messages })
 
 
-@login_required
+#@login_required
 def view_sent(request):
     #@todo: pagination
     #@todo: partial data fetching
@@ -53,7 +56,7 @@ def _message_acl_check(message, user):
         raise Http404()
 
 
-@login_required
+#@login_required
 def view_message(request, message_id):
     from apps.social.documents import User
     message = get_document_or_404(Message, id=message_id)
@@ -68,7 +71,7 @@ def view_message(request, message_id):
                               { 'msg': message })
 
 
-@login_required
+#@login_required
 def delete_message(request, message_id):
     from apps.social.documents import User
     message = get_document_or_404(Message, id=message_id)

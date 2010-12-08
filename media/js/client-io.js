@@ -17,12 +17,14 @@ socket.on('message', function(message){
   
   switch(data[0]) {
     case "/hello":
+      console.log('hello')
       conn_id = data[1];
       //nick = "Guest " + conn_id;
       if(nick != "") socket.send("/nick " + nick);
       break;
     
     case "/msg":
+      console.log('nsg')
       var text = data.slice(1).join(" ");
         if(rooms[message.room]["last_user"] != message.from) {
           var date = new Date(),
@@ -44,6 +46,7 @@ socket.on('message', function(message){
       break;
     
     case "/your_nick":
+      console.log('/your_nick')
       nick = data.slice(1).join(" ");
       if(rooms[room] == undefined) {
         socket.send("/join " + room);
@@ -53,6 +56,7 @@ socket.on('message', function(message){
       break;
     
     case "/join":
+      console.log('/join')
       rooms[room] = {};
       rooms[room]["last_user"] = "";
       rooms[room]["nb"] = 0;
@@ -69,6 +73,7 @@ socket.on('message', function(message){
       break;
     
     case "/list":
+      console.log('/list')
       _.each(data.slice(1).join(" ").split(","), function(data) {
         n = data.split(":");
         var nh = "#n_" + room + "_" + n[0];
@@ -84,11 +89,13 @@ socket.on('message', function(message){
       break;
 
     case "/quit":
+      console.log('/quit')
       $("#n_" + msg_room + "_" + data[1]).detach();
       $('#chat_' + msg_room).append("<div class='notice'>:: " + message.from + " left the room</div>");
       break;
 
     default:
+      console.log('/default')
       break;
   }
 });

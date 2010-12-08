@@ -1,0 +1,41 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          mongos
+# Required-Start:    
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:
+### END INIT INFO
+
+set -e
+MONGOS="/usr/bin/mongos"
+PIDFILE="/var/run/mongos.pid"
+CONFIGDB="10.10.10.1:27019"
+
+start(){
+    $MONGOS --configdb $CONFIGDB --pidfilepath $PIDFILE --logpath /var/log/mongodb/mongos.log --fork --logappend
+}
+
+stop(){
+    kill -2 `cat $PIDFILE`
+}
+
+case "$1" in
+  start)
+  start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  *)
+    echo "Usage: /etc/init.d/mongos {start|stop|restart}" >&2
+    exit 1
+    ;;
+esac
+
+exit 0

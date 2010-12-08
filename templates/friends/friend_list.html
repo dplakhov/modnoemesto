@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+    <div id="filter_box">
+            <h2>{% trans "Your friends:" %}</h2>
+            <div class="friend_request">
+            <ul>
+            <li>
+{% with user.friends.offers.incoming|length as fs_offers_inbox_count %}
+                 <a class="reference" href="{% url friends:offers_inbox %}">Полученные заявки в друзья{% if fs_offers_inbox_count %} <b>({{ fs_offers_inbox_count }})</b>{% endif %}</a>
+{% endwith %}
+            </li>
+            <li style="float:right">
+                <a class="reference" href="{% url friends:offers_sent %}">Отправленные заявки в друзья</a>
+            </li>
+        </ul>
+        </div>
+        <div class="friend_list_online transpar">
+        <h3>Друзья On-line</h3>
+            {% if user.friends.count %}
+                <ul>
+                {% for user in user.friends_online %}
+                    <li class="friendTable">
+                        <div style="float:left">
+                        {% include "includes/user/mini.html" %}
+                        </div>
+                        <div class="operation">
+                             <p><a class="reference" href="{% url user_messages:send_message user.id %}">Сообщение</a></p>
+                             <p><a class="reference" href="{% url friends:remove user.id %}">
+                                {% trans "Delete" %}
+                            </a></p>
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        
+        <div class="friend_list_all transpar">
+        <h3>Все Друзья</h3>
+            {% if user.friends.count %}
+                <ul>
+                {% for user in user.friends.list %}
+                    <li class="friendTable">
+                        <div style="float:left">
+                        {% include "includes/user/mini.html" %}
+                        </div>
+                        <div class="operation">
+                             <p><a class="reference" href="#">Сообщение</a></p>
+                             <p><a class="reference" href="{% url friends:remove user.id %}">
+                                {% trans "Delete" %}
+                            </a></p>
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        
+        {% comment %}
+            {% if user.friends.count %}
+                <table>
+                    {% for user in user.friends.list %}
+                    <tr>
+            <td class="friendTable">{% include "includes/user/micro.html" %}</td>
+                    <td><a href="{% url friends:remove user.id %}">x</a></td
+                    ></tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>{% trans "None available" %}</p>
+            {% endif %}
+        {% endcomment %}
+    </div>
+    </div>
+</div>
+
+{% endblock %}

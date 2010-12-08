@@ -1,0 +1,29 @@
+div#content_info
+{
+    /*display: inline;*/
+    overflow: hidden;
+}
+#content_info h2
+{
+    color: #2bacd5;
+    font-size: 18px;
+    padding: 10px 0px 20px 0px;
+}
+#content_info p
+{
+    color: #585858;
+    font-size: 14px;
+    padding-bottom: 20px;
+    line-height: 1.5;
+}
+#content_info a
+{
+    color: #2bacd5;
+}
+#content_info ol {
+    padding-left: 40px;
+    padding-bottom: 20px;
+    color: #585858;
+    font-size: 14px;
+    line-height: 1.5;
+}

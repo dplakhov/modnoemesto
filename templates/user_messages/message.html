@@ -1,40 +1,90 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block content %}
 
-<h1>{% trans "Viewing a message" %}</h1>
+{% block js %}
+{{ block.super }}
+<script type="text/javascript" src="/media/js/autoresize-mod.jquery.js"></script>
+<script type="text/javascript">
+        $(document).ready(function(){
+                $('textarea').autoResize({extraSpace : 0});
+				$('div.answer').hide();
+				$('a#ans').click(function(){
+					$('div.answer').show();
+					$('div.but_0').hide();
+										  });
+				$('a#back').click(function(){
+					$('div.answer').hide();
+					$('div.but_0').show();
+										  });
+                                   });
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="filter_box">
+<h2>{% trans "Viewing a message" %}</h2>
 
 <div id="content-main">
 
     {%  include "includes/left_menu.html" %}
 
     <div class="message">
-        <table summary="{% trans "Viewing a message" %}" width="100%">
-            <caption>{% trans "Viewing a message" %}</caption>
-            <tr>
-                <th>{% trans "When" %}</th><th>{% trans "From" %}</th>
-            </tr>
-            <tr>
-                <td>
-                    {{ msg.timestamp|timesince }} {% trans "ago" %}
-                </td>
-                <td>
+        <h3>{% trans "Viewing a message" %}</h3>
+            <div class="mess">
+                <div class="friendTable">
                     {% with msg.sender as user %}
-                        {% include "includes/user/mini.html" %}
-                    {% endwith %}
-                </td>
-            </tr>
-            <tr><td colspan="2">{{ msg.text }}</td> </tr>
-            <tr>
-                <td colspan="2">
-                    <a href="{% url user_messages:delete_message message_id=msg.id%}">
-                        {% trans "Delete" %}
-                    </a>
-                </td>
-            </tr>
-        </table>
-    </div>
+                            {% include "includes/user/micro.html" %}
+                        {% endwith %}
+                    
+                 <!--   {% with msg.sender as user %}
+                            {% include "includes/user/mini.html" %}
+                        {% endwith %} -->
+                </div>
+                <div class="message_text">
+                    <p> {{ msg.timestamp|timesince }} {% trans "ago" %} </p>
+                </div>
+                <div class="message_text_view rounded">
+                    <p>{{ msg.text }}</p>
+                </div>
+            </div>
+            {% if not msg.sender == user %}
+             <form method="post"
+              action="{% url user_messages:send_message user_id=msg.sender.id %}">
+            <div class="answer">
+                <div class="friendTable">
 
+                            {% include "includes/user/micro.html" %}
+
+                    
+                 <!--   {% with msg.sender as user %}
+                            {% include "includes/user/mini.html" %}
+                        {% endwith %} -->
+                </div>
+                <div class="message_text">
+                    <p> {{ msg.timestamp|timesince }} {% trans "ago" %} </p>
+                </div>
+                <div class="message_text_reply rounded">
+                    <textarea name="text" cols="78" rows="5"></textarea>
+                </div>
+                
+                <div class="but_1">
+                    <a id="back" class="reference" href="javascript: void(0);">Отменить</a>
+                    <input type="submit" value="{% trans "Send" %}"/>
+                </div>
+            </div>
+            
+            <div class="but_0">
+                <a class="reference" href="{% url user_messages:delete_message message_id=msg.id%}">
+                        {% trans "Delete" %}
+                </a>
+                <a id="ans" class="reference" href="javascript: void(0);">Ответить</a>
+            </div>
+            
+    </form>
+    {% endif %}
+    
+    </div>
+</div>
 </div>
 
 {% endblock %}

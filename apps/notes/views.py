@@ -9,14 +9,14 @@ from .documents import Note
 
 from .forms import NoteForm
 
-@login_required
+#@login_required
 def note_list(request):
     notes = Note.objects.filter(author=request.user)
     return direct_to_template(request, 'notes/note_list.html',
                               { 'notes': notes })
 
 
-@login_required
+#@login_required
 def note_edit(request, note_id=None):
     fields = ('title', 'text', 'is_public')
 
@@ -47,7 +47,7 @@ def note_edit(request, note_id=None):
                               { 'form': form, 'create': not note })
 
 
-@login_required
+#@login_required
 def note_view(request, note_id):
     notes = Note.objects(id=note_id, author=request.user)[:] or \
         Note.objects(id=note_id, is_public=True)[:]
@@ -57,7 +57,7 @@ def note_view(request, note_id):
                               { 'note': notes[0] })
 
 
-@login_required
+#@login_required
 def note_delete(request, note_id):
     note = Note.objects(id=note_id, author=request.user) or \
         Note.objects(id=note_id, is_public=True)

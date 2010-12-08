@@ -41,4 +41,5 @@ ul.friendTable
 .friendTable
 {
 	margin-top: 10px;
+	overflow: hidden;
 }

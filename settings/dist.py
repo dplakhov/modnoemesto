@@ -3,6 +3,7 @@
 import os
 import sys
 import django
+from datetime import timedelta
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__),
     os.path.pardir))
@@ -23,19 +24,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': ':memory:', #rel('local.db'),
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
     },
     'billing': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'billing',
-        'USER': 'root',
-        'PASSWORD': '123',
-        'HOST': 'localhost',
-        'PORT': '',
-    },
+           'ENGINE': 'django.db.backends.sqlite3',
+           'NAME': rel('billing.db'),
+        },
 }
 
 if 'test' in sys.argv:
@@ -43,16 +36,19 @@ if 'test' in sys.argv:
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': ':memory:', #rel('default.db'),
+
         },
+
         'billing': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': ':memory:', #rel('assist.db'),
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
+    },
     }
 
+MONGO_DATABASE = 'social'
+MONGO_HOST = '127.0.0.1'
 
-
-DATABASE_ROUTERS = ['db_routers.BillingRouter',]
+DATABASE_ROUTERS = [ 'db_routers.BillingRouter', ]
 
 TIME_ZONE = 'Europe/Moscow'
 
@@ -83,6 +79,21 @@ MEDIA_URL = '/media/'
 ADMIN_MEDIA_PREFIX = '/admin-media/'
 
 LOGIN_URL = '/login/'
+
+LOGIN_EXEMPT_URLS = (
+    r'^$',
+    r'^in_dev/$',
+    r'^about/$',
+    r'^agreement/$',
+    r'^start/$',
+    r'^stop/$',
+    r'^pay/pskb/$',
+    r'^register/$',
+    r'^file/',
+    r'^avatar/',
+    r'^activation/',
+    r'^media/', # need for ./manage.py runserver
+)
 
 # Make this unique, and don't share it with anybody.
 if not hasattr(globals(), 'SECRET_KEY'):
@@ -125,6 +136,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'middleware.LoginRequiredMiddleware',
+    'apps.social.middleware.SetLastAccessMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
 )
@@ -152,24 +165,13 @@ INSTALLED_APPS = (
     'apps.cam',
     'apps.notes',
     'apps.user_messages',
+    'apps.media_library',
     'apps.billing',
     'apps.groups',
+    'apps.friends',
     'apps.logging',
 )
 
-CELERY_RESULT_BACKEND = "mongodb"
-
-CELERY_MONGODB_BACKEND_SETTINGS = {
-    "host": "127.0.0.1",
-    "port": 27017,
-    "database": "celery",
-    "taskmeta_collection": "taskmeta",
-}
-
-TASKS_ENABLED = dict(
-    AVATAR_RESIZE = 1,
-    MESSAGE_STORE_READED = 1,
-    MESSAGE_DELETE = 1,
 )
 
 
@@ -177,7 +179,7 @@ AUTHENTICATION_BACKENDS = (
     'apps.social.auth.MongoEngineBackend',
 )
 
-SESSION_ENGINE = 'mongoengine.django.sessions'
+SESSION_ENGINE = 'apps.utils.redis_session_backend'
 
 
 # patches for django 1.2 series
@@ -253,9 +255,18 @@ SITE_DOMAIN = 'modnoemesto.ru' # no slashes here, please
 ROBOT_EMAIL_ADDRESS = 'noreply@modnoemesto.ru'
 
 AVATAR_SIZES = (
-    (100, 100),
+    (200, 200),
     (60, 60),
     (47, 47),
 )
 
 MAX_USER_MESSAGES_COUNT = 500
+
+LIBRARY_IMAGES_PER_PAGE = 2
+
+TIME_IS_ONLINE = timedelta(minutes=5)
+
+from .billing import *
+from .redis import *
+from .celery import *
+

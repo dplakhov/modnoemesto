@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
+
 from datetime import datetime
-from mongoengine import *
 from django.utils.hashcompat import md5_constructor, sha_constructor
 from django.utils.encoding import smart_str
 
@@ -7,6 +8,10 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from django.core.urlresolvers import reverse
+from apps.groups.documents import GroupUser
+from mongoengine.document import Document
+from mongoengine.fields import ReferenceField, StringField, URLField, BooleanField, DateTimeField, FloatField
+from apps.utils.decorators import cached_property
 
 class LimitsViolationException(Exception):
     def __init__(self, cause):
@@ -24,42 +29,8 @@ def get_hexdigest(algorithm, salt, raw_password):
     raise ValueError('Got unknown password algorithm type in password')
 
 
-class User(Document):
-    """A User document that aims to mirror most of the API specified by Django
-    at http://docs.djangoproject.com/en/dev/topics/auth/#users
-    """
-    username = StringField(max_length=30, unique=True, required=True)
-    first_name = StringField(max_length=30)
-    last_name = StringField(max_length=30)
-    email = StringField()
-    password = StringField(max_length=128)
-    is_staff = BooleanField(default=False)
-    is_active = BooleanField(default=True)
-    is_superuser = BooleanField(default=False)
-    last_login = DateTimeField(default=datetime.now)
-    date_joined = DateTimeField(default=datetime.now)
-    groups = ListField(ReferenceField('Group'))
-
-    # activation stuff
-    activation_code = StringField(max_length=12)
-
-    # subscriptions
-    mutual_friends = ListField(ReferenceField('User'))
-
-
-    # some denormalisation
-    friends_count = IntField(default=0)
-    fs_offers_inbox_count = IntField(default=0)
-
-    @property
-    def messages(self):
-        from apps.user_messages.documents import MessageBoxFactory
-        return MessageBoxFactory(self)
-
-    avatar = ReferenceField('File')
-
-    cash = IntField(default=0)
-
+class Profile(Document):
+    user = ReferenceField('User')
     hometown = StringField(max_length=30)
     birthday = StringField(max_length=10)
     sex = StringField(max_length=1)
@@ -70,8 +41,60 @@ class User(Document):
     department = StringField(max_length=30)
     university_status = StringField(max_length=30)
 
+
+class User(Document):
+    """A User document that aims to mirror most of the API specified by Django
+    at http://docs.djangoproject.com/en/dev/topics/auth/#users
+    """
+    username = StringField(max_length=30, unique=True, required=True)
+    full_name = StringField(max_length=90)
+    first_name = StringField(max_length=30)
+    last_name = StringField(max_length=30)
+    email = StringField()
+    phone = StringField(max_length=30)
+    password = StringField(max_length=128)
+    is_staff = BooleanField(default=False)
+    is_active = BooleanField(default=True)
+    is_superuser = BooleanField(default=False)
+    last_login = DateTimeField(default=datetime.now)
+    last_access = DateTimeField(default=datetime.now)
+    date_joined = DateTimeField(default=datetime.now)
+
+    # activation stuff
+    activation_code = StringField(max_length=12)
+
+    @property
+    def messages(self):
+        from apps.user_messages.documents import MessageBoxFactory
+        return MessageBoxFactory(self)
+
+    avatar = ReferenceField('File')
+
+    cash = FloatField(default=0.0)
+
+    @property
+    def profile(self):
+        return Profile.objects.get_or_create(user=self)[0]
+
+    @cached_property
+    def groups(self):
+        return [i.group for i in GroupUser.objects(user=self, is_invite=False).only('group')]
+
+    @cached_property
+    def groups_invite(self):
+        return [i.group for i in GroupUser.objects(user=self, is_invite=True).only('group')]
+
+    @property
+    def friends(self):
+        from apps.friends.documents import UserFriends
+        return UserFriends.objects.get_or_create(user=self)[0]
+
+    @cached_property
+    def friends_online(self):
+        return filter(lambda x: x.is_online(),self.friends.list)
+        
     meta = {
-        'indexes': ['username', 'mutual_friends']
+        'indexes': ['username',]
     }
 
 
@@ -89,6 +112,13 @@ class User(Document):
 
     def is_authenticated(self):
         return True
+
+    def is_online(self):
+        return User.get_delta_time() < self.last_access
+
+    @staticmethod
+    def get_delta_time():
+        return datetime.now() - settings.TIME_IS_ONLINE
 
     def set_password(self, raw_password):
         """Sets the user's password - always use this rather than directly
@@ -113,7 +143,7 @@ class User(Document):
         return hash == get_hexdigest(algo, salt, raw_password)
 
     @classmethod
-    def create_user(cls, username, password, email=None):
+    def create_user(cls, username, password, email=None, is_superuser=False):
         """Create (and save) a new user with the given username, password and
         email address.
         """
@@ -129,7 +159,7 @@ class User(Document):
             else:
                 email = '@'.join([email_name, domain_part.lower()])
 
-        user = cls(username=username, email=email, date_joined=now)
+        user = cls(username=username, email=email, date_joined=now, is_superuser=is_superuser)
         user.set_password(password)
         user.save()
         return user
@@ -142,56 +172,9 @@ class User(Document):
             return self.is_superuser
         raise Exception
 
-
     def get_camera(self):
         from apps.cam.documents import Camera
-        #@todo: bad fix KeyError
-        from apps.billing.documents import Tariff
         return Camera.objects(owner=self).first()
-
-    def friend(self, user):
-        #@todo: maybe move whole routine to some asynchronous worker such as
-        # celery
-        if self.id == user.id:
-            return
-        if FriendshipOffer.objects(recipient=self, author=user).count():
-            #@warning: this code is non-transactional
-            # minor limits violation is possible due to requests concurrency
-
-            acc1, acc2 = User.objects(id__in=(self.id, user.id)).only('friends_count')
-
-            for acc in (acc1, acc2):
-                if acc.friends_count > 499:
-                    raise LimitsViolationException(acc)
-
-            FriendshipOffer.objects.get(recipient=self,
-                                        author=user).delete(is_accepted=True)
-
-            User.objects(id=user.id).update_one\
-                    (add_to_set__mutual_friends=self, inc__friends_count=1
-                     )
-            User.objects(id=self.id).update_one\
-                    (add_to_set__mutual_friends=user, inc__friends_count=1,
-                     dec__fs_offers_inbox_count=1)
-        else:
-            #@warning: this code is non-transactional too
-            _, created = FriendshipOffer.objects.get_or_create(recipient=user,
-                                                    author=self)
-            if created:
-                User.objects(id=user.id).update_one\
-                    (inc__fs_offers_inbox_count=1)
-
-    def unfriend(self, user):
-        #@todo: maybe move whole routine to some asynchronous worker such as
-        # celery
-        #@warning: this code is non-transactional
-
-        User.objects(id=self.id, mutual_friends=user
-            ).update_one(pull__mutual_friends=user,
-                    dec__friends_count=1)
-        User.objects(id=user.id, mutual_friends=user
-            ).update_one(pull__mutual_friends=self,
-                    dec__friends_count=1)
 
     def get_absolute_url(self):
         return reverse('social:user',  kwargs=dict(user_id=self.id))
@@ -204,27 +187,21 @@ class User(Document):
             return "/media/img/notfound/avatar_%s.png" % format
 
 
-class FriendshipOffer(Document):
-    timestamp = DateTimeField()
-    author = ReferenceField('User')
-    recipient = ReferenceField('User')
+class Setting(Document):
+    name = StringField(unique=True, required=True)
+    value = StringField()
 
-    meta = {
-        'indexes': ['-timestamp', 'author', 'recipient']
-    }
+    @staticmethod
+    def is_started(value=None):
+        def set_is_started(value):
+            setting = Setting.objects.get_or_create(name='is_started', defaults={'value': 'false'})[0]
+            setting.value = 'true' if value else 'false'
+            setting.save()
 
-    def __init__(self, *args, **kwargs):
-        super(FriendshipOffer, self).__init__(*args, **kwargs)
-        self.timestamp = self.timestamp or datetime.now()
-
-    def delete(self, is_accepted=False):
-        """
-        @param is_accepted: if False (default), also decreases recipient's
-        fs_offers_inbox_count field value
-        """
-        if not is_accepted:
-            User.objects(id=self.recipient.id).update_one\
-                    (dec__fs_offers_inbox_count=1)
-        super(FriendshipOffer, self).delete()
-
+        def get_is_started():
+            setting = Setting.objects.get_or_create(name='is_started', defaults={'value': 'false'})[0]
+            return setting.value == 'true'
+        if value is None:
+            return get_is_started()
+        set_is_started(value)
 

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 from datetime import datetime
 from mongoengine import *
 from django.conf import settings
@@ -97,7 +98,7 @@ class Message(Document):
         ],
 
         'ordering': [
-                'timestamp',
+                '-timestamp',
         ]
 
     }
@@ -105,6 +106,13 @@ class Message(Document):
     def __init__(self, *args, **kwargs):
         super(Message, self).__init__(*args, **kwargs)
         self.timestamp = self.timestamp or datetime.now()
+
+    def first_line(self):
+        try:
+            return re.split(r'[\r\n]+', self.text.strip())[0][:40] + '...'
+        except Exception, e:
+            return ''
+
 
     def set_readed(self, timestamp=None):
         if timestamp is None:

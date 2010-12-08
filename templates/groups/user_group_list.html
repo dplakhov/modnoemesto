@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<div id="filter_box">
+{% if groups_invite %}
+<h2>{% trans "Groups invite" %}</h2>
+    {% for group in groups_invite %}
+        <div>
+            <a href="{% url groups:group_view group.id %}">{{ group.name }}</a>
+            <a href="{% url groups:invite_take group.id %}">{% trans "take" %}</a>
+            <a href="{% url groups:invite_refuse group.id %}">{% trans "refuse" %}</a>
+        </div>
+    {% endfor %}
+
+    <hr />
+{% endif %}
+
+<h2>{% trans "My groups" %}</h2>
+    {% for group in groups %}
+        <div class="user_group">
+            <a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a>
+        </div>
+    {% endfor %}
+
+    <hr />
+
+    <a class="reference" href="{% url groups:group_add %}">{% trans "Create group" %}</a>
+</div>
+{% endblock %}

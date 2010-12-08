@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h2>{% trans "Access Orders" %}</h2>
+<table>
+    <thead>
+        <tr>
+            <th>{% trans "User" %}</th>
+            <th>{% trans "Camera" %}</th>
+            <th>{% trans "Tariff" %}</th>
+            <th>{% trans "Is controlled" %}</th>
+            <th>{% trans "Begin Date" %}</th>
+            <th>{% trans "End Date" %}</th>
+            <th>{% trans "Cost" %}</th>
+            <th>{% trans "Status" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for order in orders.object_list %}
+    <tr>
+        <td><a href="{% url social:user order.user.id %}" >{{ order.user.username }}</a></td>
+        <td><a href="{% url social:user order.camera.owner.id %}" >{{ order.camera.name }}</a></td>
+        <td><a href="{% url billing:tariff_edit order.tariff.id %}" >{{ order.tariff.name }}</a></td>
+        <td>{{ order.is_controlled }}</td>
+        <td>{{ order.begin_date }}</td>
+        <td>{{ order.end_date }}</td>
+        <td>{{ order.cost|floatformat:2 }}</td>
+        <td>{{ order.status_label }}</td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if orders.has_previous %}
+            <a href="{% url billing:access_order_list_page orders.previous_page_number %}">{% trans "previous" %}</a>
+        {% endif %}
+
+        <span class="current">
+{% blocktrans with orders.number as number and orders.paginator.num_pages as num_pages %}
+Page {{ number }} of {{ num_pages }}.
+{% endblocktrans %}
+        </span>
+
+        {% if orders.has_next %}
+            <a href="{% url billing:access_order_list_page orders.next_page_number %}">{% trans "next" %}</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

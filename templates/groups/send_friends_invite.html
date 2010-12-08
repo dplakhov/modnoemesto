@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+    <div id="filter_box">
+        <h2>{% trans "Your friends:" %}</h2>
+        {% if user.friends.count %}
+         <ul>
+                {% for user in user.friends.list %}
+                	<li class="friendTable">
+                    	<div style="float:left">
+                    	{% include "includes/user/mini.html" %}
+                        </div>
+                        <div class="operation">
+                             <p><a class="reference" href="{{ user.get_absolute_url }}">Пригласить в группу</a></p>
+                            </a></p>
+                		</div>
+                    </li>
+                {% endfor %}
+                </ul>  
+           
+        {% else %}
+            <p>{% trans "None available" %}</p>
+        {% endif %}
+	</div>
+    </div>
+</div>
+
+{% endblock %}
