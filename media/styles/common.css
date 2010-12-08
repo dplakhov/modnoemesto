@@ -618,12 +618,12 @@ input.subReg
     background: #FFF;
     padding-bottom: 3px;
 }*/
-.filt td input.kay
+/*.filt td input.kay
 {
     background:url(../images/input_kay.jpg) no-repeat;
     width: 180px;
     padding: 3px;
-}
+}*/
 td.empty_filt
 {
     width: 50px;
@@ -1082,6 +1082,7 @@ h2.caption {
 div.but
 {
 	margin-top: 10px;
+	overflow: hidden;
 }
 
 .but input[type="submit"]
@@ -1323,7 +1324,7 @@ li.friendTable
 }
 .nav ul li p
 {
-    color: #d4d3d4;
+    color: #BFBEB2;
     font-size: 13px;
 }
 
