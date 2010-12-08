@@ -99,15 +99,3 @@ def offers_inbox(request):
 @login_required
 def offers_sent(request):
     return direct_to_template(request, 'friends/sent.html')
-
-
-def check_data(request):
-    UserFriends.objects.delete()
-    for offer in FriendshipOffer.objects:
-        if offer.accepted:
-            user = User.objects(id=offer.recipient.id).first()
-            friend = User.objects(id=offer.sender.id).first()
-            if user is None or friend is None:
-                continue
-            user.friends.friend(friend)
-    return HttpResponse('OK')
