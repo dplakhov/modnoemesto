@@ -263,7 +263,7 @@ def install_application():
             if not exists('.ssh'):
                 run('mkdir .ssh')
                 run('chmod 700 .ssh')
-                put('deploy/ssh/*', '%s/.ssh' % APPLICATION_DIR, mode=0600)
+                put('ssh/*', '%s/.ssh' % APPLICATION_DIR, mode=0600)
                 append(pub_key, '.ssh/authorized_keys')
                 run('chown -R %s:%s .ssh' % (APPLICATION_USER, APPLICATION_USER))
 
