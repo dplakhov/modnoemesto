@@ -254,15 +254,15 @@ li#foto
 }
 li#video
 {
-    background:url(../images/video.jpg) no-repeat left center;
+    background:url(../images/video_noactive.png) no-repeat left center;
 }
 li#audio
 {
-    background:url(../images/audio.jpg) no-repeat left center;
+    background:url(../images/audio_noactive.png) no-repeat left center;
 }
 li#meeting
 {
-    background:url(../images/meeting.jpg) no-repeat left center;
+    background:url(../images/meeting_noactive.png) no-repeat left center;
     border-bottom: none;
 }
 div#what_new
@@ -1317,3 +1317,12 @@ li.friendTable
 	padding: 7px;
 	width: 340px;
 }
+.nav ul li p
+{
+    color: #d4d3d4;
+    font-size: 13px;
+}
+
+
+
+
