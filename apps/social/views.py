@@ -7,10 +7,11 @@ from django.contrib.auth import (SESSION_KEY,
     logout as django_logout)
 
 import datetime
+import logging
 
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseServerError
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -34,6 +35,10 @@ from apps.billing.documents import AccessCamOrder
 from apps.social.forms import ChangeProfileForm
 import re
 from apps.social.documents import Profile, Setting
+from django.template import Context, loader
+import sys
+from django.views.debug import ExceptionReporter
+from django.core.mail.message import EmailMessage
 
 
 try:
@@ -300,3 +305,22 @@ def agreement(request):
 def in_dev(request):
     return direct_to_template(request, 'in_dev.html' , {
         'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })
+
+
+def server_error(request):
+    exc_info = sys.exc_info()
+    reporter = ExceptionReporter(request, *exc_info)
+    html = reporter.get_traceback_html()
+    msg = EmailMessage('server_error@%s' % request.path,
+                       html, settings.ROBOT_EMAIL_ADDRESS,
+                       [ '%s <%s>' % (name, address)
+                         for name, address in settings.ADMINS])
+
+    msg.content_subtype = "html"
+
+    msg.send(fail_silently=True)
+
+    template_name='500.html'
+    t = loader.get_template(template_name)
+    #logging.getLogger('server_error').error(request)
+    return HttpResponseServerError(t.render(Context({})))
