@@ -992,7 +992,7 @@ h2.caption {
     margin-top: 105px;
     padding-bottom: 10px;
 }
-.no_camera a
+.no_camera a, camera a
 {
     color: #027A98;
 }
