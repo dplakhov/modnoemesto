@@ -1222,7 +1222,7 @@ div.operation p
 	clear: left;
 	overflow: hidden;
 	padding: 7px;
-	border: 7px solid #EEEDDE;
+	border: 7px solid #e5e4d0;
 	width: 420px;
 	margin-left: 80px;
 	background: #FFF;
@@ -1232,7 +1232,7 @@ div.operation p
 	clear: left;
 	overflow: hidden;
 	padding: 7px;
-	border: 5px solid #EEEDDE;
+	border: 7px solid #e5e4d0;
 	background: #FFF;
 }
 .but_0
@@ -1276,7 +1276,7 @@ div.operation p
 	clear: right;
 	overflow: hidden;
 	padding: 7px;
-	border: 7px solid #EEEDDE;
+	border: 7px solid #e5e4d0;
 	width: 420px;
 	margin-right: 80px;
 	background: #FFF;
