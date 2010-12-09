@@ -18,7 +18,7 @@ def statistic(request):
 @permission_required('superuser')
 def user_list(request, page=1):
     #TODO: OLOLO
-    on_page = 5
+    on_page = 25
     page = int(page)
     q = User.objects.order_by('-date_joined')
     class ItemList(list):
