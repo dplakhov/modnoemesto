@@ -18,7 +18,7 @@ urlpatterns = patterns('apps.cam.views',
 
     #url(r'^(?P<id>[a-f0-9]{24})/enable/$', 'cam_edit', name='cam_edit'),
 
-       url(r'^(?P<cam_id>[a-f0-9]{24})/screen/(?P<format>%s)/$' %
+       url(r'^screen/(?P<cam_id>[a-f0-9]{24})-(?P<format>%s).png$' %
        '|'.join(['%dx%d' % (w, h) for (w, h) in settings.SCREEN_SIZES ]),
 
        'screen', name='screen'),

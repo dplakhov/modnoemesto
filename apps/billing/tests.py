@@ -12,7 +12,7 @@ class BillingTest(unittest.TestCase):
     def setUp(self):
         self.cleanUp()
         self.c = Client()
-        self.user = User.create_user(username='test', password='123')
+        self.user = User.create_user(email='test@web-mark.ru', password='123')
         self.base_url = reverse('operator')
         self.auth_dict = {
             'duser': settings.PKSPB_DUSER,

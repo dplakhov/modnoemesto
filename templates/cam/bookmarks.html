@@ -3,15 +3,22 @@
 
 {% block content %}
 {% if cameras %}
-<ul class="friendTable">
+<div id="filt_new">
+<ul>
 {% for cam in cameras %}
-   <li>
-   {% with cam.owner as user %}
-      {% include "includes/user/micro.html" %}
-   {% endwith %}
-   </li>
+{% url social:user cam.owner.id as user_path %}
+    <li{% cycle '' ' style="margin-right: 0pt;"' %}>
+        <div class="item">
+        <div class="pop rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+        <a href="{{ user_path }}"><img alt="{{ cam.name }}" src="{{ cam.screen_normal }}"></a>
+        </div>
+        <p class="place"><a href="{{ user_path }}">{{ cam.name }}</a></p>
+        <p class="creater"><a href="{{ user_path }}">{{ cam.owner }}</a></p>
+        </div>
+    </li>
 {% endfor %}
 </ul>
+</div>
 {% else %}
 {% trans "You do not have bookmarks." %}
 {% endif %}
