@@ -19,7 +19,7 @@
     <tbody>
 {% for order in orders.object_list %}
     <tr>
-        <td><a href="{% url social:user order.user.id %}" >{{ order.user.get_full_name }}</a></td>
+        <td><a href="{% url social:user order.user.id %}" >{{ order.user }}</a></td>
         <td><a href="{% url social:user order.camera.owner.id %}" >{{ order.camera.name }}</a></td>
         <td><a href="{% url billing:tariff_edit order.tariff.id %}" >{{ order.tariff.name }}</a></td>
         <td>{{ order.is_controlled }}</td>

@@ -17,7 +17,7 @@
 
 {% block content %}
 <div id="left">
-    <h2>{% blocktrans with page_user.get_full_name as page_user %}{{ page_user }}'s home{% endblocktrans %}</h2>
+    <h2>{% blocktrans with page_user as page_user %}{{ page_user }}'s home{% endblocktrans %}</h2>
 	<div class="clear"></div>
        <dl>
             {% if profile.hometown %}<dt>{% trans "Hometown" %}</dt>
@@ -74,14 +74,14 @@
         {% endif %}
     </div>
     <div class="profileActions">
-        <ul>{% url social:user_friends as friends %}
+        <ul>{% url friends:friends_all page_user.id as friends %}
             <li><a href="{{ friends }}">{% trans "Friends" %}</a> <a href="{{ friends }}">({{ page_user.friends.count }})</a></li>
             <li><a href="{% url user_messages:send_message page_user.id %}">Написать сообшение</a></li>
         </ul>
     </div>
     <div class="friend_box transparent">
         <div style="overflow: hidden;">
-            <p>Друзья онлайн</p><span><a href="{% url friends:list %}" class="change">все {{ page_user.friends_online|length }}</a></span>
+            <p>Друзья онлайн</p><span><a href="{% url friends:friends_online page_user.id %}" class="change">все {{ page_user.friends_online|length }}</a></span>
         </div>
         <ul class="friendTable">
             {% for user in page_user.friends_online|slice:":6" %}
@@ -135,7 +135,7 @@
     <div class="messages">
         <form method="post"
               action="{% url user_messages:send_message user_id=page_user.id %}">
-        <table summary="{% blocktrans with page_user.get_full_name as page_user%}Leave a message to {{ page_user }}{% endblocktrans %}" width="100%">
+        <table summary="{% blocktrans with page_user as page_user%}Leave a message to {{ page_user }}{% endblocktrans %}" width="100%">
             <caption>{% trans "Leave a message" %}</caption>
             {{ msgform.as_table }}
             <tr><td colspan="2"><input type="submit" value="{% trans "Send" %}"/></td></tr>
@@ -167,7 +167,7 @@
 
 <div id="content-related">
     <div class="module" id="recent-actions-module">
-        <h2>{% blocktrans with page_user.get_full_name as page_user %}{{ page_user }} marked as friends:{% endblocktrans %}</h2>
+        <h2>{% blocktrans with page_user as page_user %}{{ page_user }} marked as friends:{% endblocktrans %}</h2>
           {% if page_user.friends.count %}
             <ul class="friendTable">
                 {% for user in page_user.friends.list %}

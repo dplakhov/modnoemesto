@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
-from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.contrib import messages
@@ -12,11 +11,20 @@ from apps.social.documents import User
 from apps.friends.documents import FriendshipOffer, UserFriends
 
 
-@login_required
 def list(request):
     return direct_to_template(request, 'friends/friend_list.html')
 
-@login_required
+
+def friends_online(request, id):
+    return direct_to_template(request, 'friends/friends_online.html',
+                              dict(page_user=get_document_or_404(User, id=id)))
+
+
+def friends_all(request, id):
+    return direct_to_template(request, 'friends/friends_all.html',
+                              dict(page_user=get_document_or_404(User, id=id)))
+
+
 def add(request, id):
     user = request.user
     if id == request.user.id:
@@ -31,7 +39,6 @@ def add(request, id):
     return redirect('friends:list')
 
 
-@login_required
 def remove(request, id):
     user = request.user
 
@@ -47,7 +54,6 @@ def remove(request, id):
     return redirect('friends:list')
 
 
-@login_required
 def cancel(request, id):
     user = request.user
 
@@ -62,7 +68,7 @@ def cancel(request, id):
 
     return redirect('friends:list')
 
-@login_required
+
 def reject(request, id):
     user = request.user
 
@@ -77,7 +83,7 @@ def reject(request, id):
 
     return redirect('friends:list')
 
-@login_required
+
 def accept(request, id):
     user = request.user
 
@@ -92,10 +98,10 @@ def accept(request, id):
 
     return redirect('friends:list')
 
-@login_required
+
 def offers_inbox(request):
     return direct_to_template(request, 'friends/inbox.html')
 
-@login_required
+
 def offers_sent(request):
     return direct_to_template(request, 'friends/sent.html')

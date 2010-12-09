@@ -63,6 +63,7 @@ class User(Document):
     # activation stuff
     activation_code = StringField(max_length=12)
 
+
     @property
     def messages(self):
         from apps.user_messages.documents import MessageBoxFactory
@@ -97,9 +98,8 @@ class User(Document):
         'indexes': ['email',]
     }
 
-
     def __unicode__(self):
-        return self.username if self.username else ''
+        return self.get_full_name() or self.username or self.id
 
     def get_full_name(self):
         """Returns the users first and last names, separated by a space.

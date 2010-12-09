@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+    <div id="filter_box">
+         <h2>{% blocktrans %}{{ page_user }}: friends online{% endblocktrans %}</h2>
+         {% if page_user.friends_online %}
+            <ul>
+            {% for user in page_user.friends_online %}
+                <li class="friendTable">
+                    {% include "includes/user/mini.html" %}
+                </li>
+            {% endfor %}
+            </ul>
+         {% else %}
+            <p>{% trans "None available" %}</p>
+         {% endif %}
+    </div>
+    </div>
+</div>
+
+{% endblock %}
