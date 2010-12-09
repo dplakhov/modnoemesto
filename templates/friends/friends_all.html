@@ -10,7 +10,12 @@
             <ul>
             {% for user in page_user.friends.list %}
                 <li class="friendTable">
+                    <div style="float:left">
                     {% include "includes/user/mini.html" %}
+                    </div>
+                    <div class="operation">
+                         <p><a class="reference" href="{% url user_messages:send_message user.id %}">Сообщение</a></p>
+                    </div>
                 </li>
             {% endfor %}
             </ul>
