@@ -1030,17 +1030,26 @@ h2.caption {
 }
 
 
-.input_holder {
+.input_holder, .input_holder_short, .input_holder_nowidth, .input_holder_nowidth
+{
     background: none repeat scroll 0 0 #FFFFFF;
     padding: 3px 4px;
+}
+.input_holder
+{
     width: 295px;
 }
 .input_holder_short
 {
 	width: 173px;
-	 background: none repeat scroll 0 0 #FFFFFF;
-    padding: 3px 4px;
 }
+.input_holder_nowidth a
+{
+	text-decoration: none;
+	color: #585858;
+	padding: 3px;
+}
+
 .input_holder input, .input_holder textarea {
     color: #585858;
     font-family: Arial,Helvetica,sans-serif;
@@ -1170,7 +1179,7 @@ p.when
 {
 	padding-top: 5px;
 	clear: both;
-	height: 90px;
+	height: 95px;
 	overflow: hidden;
 	border-bottom: 1px dotted #6F6F6F;
 }
