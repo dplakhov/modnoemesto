@@ -1296,6 +1296,7 @@ div.operation p
 }
 .friend_list_online
 {
+	overflow: hidden;
     margin-top: 10px;
     border-top: 1px dotted #6f6f6f;
     padding-top: 10px;
@@ -1305,6 +1306,12 @@ div.operation p
 .friend_list_online ul, .friend_list_all ul
 {
 	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.friend_list_online p, .friend_list_all p
+{
+	color: #027A98;
+	padding: 5px 0 10px 15px;
 }
 li.friendTable
 {
@@ -1315,7 +1322,7 @@ li.friendTable
 }
 .friend_list_all
 {
-    margin-top: 10px;
+	overflow: hidden;
     border-top: 1px dotted #6f6f6f;
     padding-top: 20px;
     background:url(../images/bg_more_new.jpg) no-repeat top;
@@ -1377,6 +1384,12 @@ div.system_messages li.error {
     border-color: #DD0000;
     color: #880000;
 }
-
-
+.pagination
+{
+	margin-top: 10px;
+}
+.pagination span
+{
+	color: #838383;
+}
 
