@@ -93,6 +93,7 @@ LOGIN_EXEMPT_URLS = (
     r'^register/$',
     r'^file/',
     r'^avatar/',
+    r'^cam/screen/',
     r'^activation/',
     r'^media/', # need for ./manage.py runserver
 )
