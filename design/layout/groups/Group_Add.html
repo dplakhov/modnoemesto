@@ -11,7 +11,7 @@
     <script type="text/javascript" src="../content/script/jquery.selectbox-0.5.js"></script>
     <script type="text/javascript">
 		$(document).ready(function(){
-			$('.rounded').corner();
+			$('.rounded').corner("round 8px");
 			$('#razdel_5, #razdel_6, #razdel_7, #razdel_8, #filter').selectbox();
 								   });
 	</script>
@@ -123,7 +123,7 @@
                                 <tr>
                                 	<th><label for="id_name">Название:</label></th>
                                     <td class="empty_filt"></td>
-                                    <td><div class="input_holder rounded iradius0">
+                                    <td><div class="input_holder rounded">
                                     <input id="id_name" type="text" name="name" size="50" maxlength="255" />
                                     </div></td>
                                 </tr>
@@ -133,7 +133,7 @@
                                 <tr>
                                 	<th><label for="id_name">Описание:</label></th>
                                     <td class="empty_filt"></td>
-                                    <td><div class="input_holder rounded iradius5">
+                                    <td><div class="input_holder rounded">
                                     	<textarea rows="5" cols="50"></textarea>
                                         </div></td>
                                 </tr>
@@ -226,13 +226,14 @@
                                 	<td style="height:10px"></td>
                                 </tr>
                                </table>
-                            </form>
+                           
                             </div>
                             <div class="but">
-                            <form>
+                          
                             	<input type="submit" value="Создать группу"/>
-                            </form>
+                            
                             </div>
+                            </form>
                         </div>
                     </div> 
                 <div id="rightColumn">
