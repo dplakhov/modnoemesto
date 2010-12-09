@@ -6,12 +6,15 @@
         <img src="{{ user.avatar_micro }}" />
         <img src="{% url social:avatar user_id=user.id format='60x60' %}" />
         <img src="{% url social:avatar user_id=user.id format='200x200' %}" />
-<div class="reg rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+
     <form method="post" enctype="multipart/form-data">
+    <div class="filt rounded">
     <table class="img_loader">
     {{ form.as_table }}
     </table>
+    </div>
+    <div class="but">
     <input type="submit" value="{% trans "Save" %}" />
+    </div>
     </form>
-</div>
 {% endblock %}

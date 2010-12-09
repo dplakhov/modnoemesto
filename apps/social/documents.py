@@ -143,7 +143,7 @@ class User(Document):
         return hash == get_hexdigest(algo, salt, raw_password)
 
     @classmethod
-    def create_user(cls, email, password, username=None, is_superuser=False):
+    def create_user(cls, email, password, username=None, is_superuser=False, first_name='', last_name=''):
         """Create (and save) a new user with the given username, password and
         email address.
         """
@@ -159,7 +159,8 @@ class User(Document):
             else:
                 email = '@'.join([email_name, domain_part.lower()])
 
-        user = cls(email=email, username=username, date_joined=now, is_superuser=is_superuser)
+        user = cls(username=username, email=email, date_joined=now,
+                is_superuser=is_superuser, first_name=first_name, last_name=last_name)
         user.set_password(password)
         user.save()
         return user

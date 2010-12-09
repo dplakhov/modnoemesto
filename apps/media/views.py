@@ -1,24 +1,46 @@
 # -*- coding: utf-8 -*-
-import re
+import os
 
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect
-
-from mongoengine.django.shortcuts import get_document_or_404
+from django.conf import settings
 
 from documents import File
 
-def file_view(request, file_id, transformation_name):
-    file = get_document_or_404(File, id=file_id)
-    try:
-        modification = file.modifications[transformation_name]
-    except File.DerivativeNotFound:
-        if transformation_name.find('.') != -1:
-            return redirect('/media/notfound/%s' % transformation_name)
-        raise Http404()
+def file_view(request, transformation_name, file_id=None):
+    not_found_path = '%snotfound/%s'
+    converting_path = '%sconverting/%s'
+    if file_id:
+        try:
+            file = File.objects.get(id=file_id)
+        except File.DoesNotExist:
+            file = None
+            raise Http404()
 
-    response = HttpResponse(modification.file.read(),
+        else:
+            try:
+                modification = file.modifications[transformation_name]
+            except File.DerivativeNotFound:
+                modification = None
+    else:
+        file = None
+        modification = None
+
+    if modification:
+        response = HttpResponse(modification.file.read(),
                             content_type=modification.file.content_type)
-    response['Last-Modified'] = modification.file.upload_date
-    return response
+        response['Last-Modified'] = modification.file.upload_date
+        return response
 
+    if file and os.path.exists(converting_path %
+                    (settings.MEDIA_ROOT, transformation_name)):
+        return redirect(converting_path %
+                (settings.MEDIA_URL, transformation_name))
+
+
+    if os.path.exists(not_found_path %
+                    (settings.MEDIA_ROOT, transformation_name)):
+        return redirect(not_found_path %
+                    (settings.MEDIA_URL, transformation_name))
+
+    raise Http404()

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import sys
 import random
 import os
@@ -48,25 +50,37 @@ class Command(BaseCommand):
         print
         for i in xrange(num):
             if not i % (num/10 or 10):
-                print  '\rusers creation %002d%%' % (i*100/num),
+                print  '\rusers creation %002d%%' % (i*100/num)
                 sys.stdout.flush()
             if with_ava:
                 if faces[i].find('/female/')!=-1:
                     name = random.choice(('iren', 'mary', 'ann',))
+                    first_name = random.choice((u'Ирина',  u'Мария', u'Анна') )
+                    last_name = random.choice((u'Иванова',  u'Петрова', u'Сергеева'))
                 else:
                     name = random.choice(('den', 'pete', 'serge', 'ivan', 'vladimir'))
+                    first_name = random.choice((u'Иван',  u'Пётр', u'Константин'))
+                    last_name = random.choice((u'Иванов',  u'Петров', u'Сергеев'))
             else:
-                name = random.choice(('den', 'pete', 'serge', 'iren', 'mary',
-                                  'dude', 'ivan', 'vladimir'))
+                name = random.choice(('den', 'pete', 'serge', 'dude', 'ivan', 'vladimir'))
+                first_name = random.choice((u'Иван',  u'Пётр', u'Константин'))
+                last_name = random.choice((u'Иванов',  u'Петров', u'Сергеев'))
 
             username = '%s%s' % (name, i)
+            email=username + '@ya.ru'
+            print email
 
-            acc = documents.User.create_user(username=username,
-                                      password='123')
+            acc = documents.User.create_user(
+                    username=username,
+                    first_name=first_name,
+                    last_name=last_name,
+                    email=email,
+                    password='123'
+                    )
             acc.save()
             if with_ava:
                 client = Client()
-                client.login(username=username, password='123')
+                client.login(email=email, password='123')
                 file = open(faces[i])
                 with patch_settings(TASKS_ENABLED={}):
                     client.post(reverse('social:avatar_edit'), {'file': file})
