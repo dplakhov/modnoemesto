@@ -29,6 +29,7 @@ ul.friendTable
 .friendTable td a
 {
 	color: #00b2d5;
+    text-decoration: none;
 }
 .friendTable table
 {

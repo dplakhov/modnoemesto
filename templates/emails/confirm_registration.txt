@@ -1,9 +1,7 @@
-Hello, {{ user.username }}!
+Здравствуйте, {{ user.get_full_name }}!
 
-Thank you for registering in {{ SITE_DOMAIN }}.
-To confirm your registration please visit the activation url below:
-
+Благодарим Вас за регистрацию на сайте {{ SITE_DOMAIN }}.
+Для подтверждения регистрации перейдите по этой ссылке
 http://{{ SITE_DOMAIN }}{% url social:activation code=user.activation_code %}
 
-Regards,
-{{ SITE_DOMAIN }} team
+С уважением, команда {{ SITE_DOMAIN }}

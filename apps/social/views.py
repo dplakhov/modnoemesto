@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
 from django.template.loader import render_to_string
-from django.contrib.auth import (login as django_login,
+
+from django.contrib.auth import (SESSION_KEY,
+    BACKEND_SESSION_KEY,
     logout as django_logout)
+
+import datetime
+import logging
+
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseServerError
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -29,6 +35,10 @@ from apps.billing.documents import AccessCamOrder
 from apps.social.forms import ChangeProfileForm
 import re
 from apps.social.documents import Profile, Setting
+from django.template import Context, loader
+import sys
+from django.views.debug import ExceptionReporter
+from django.core.mail.message import EmailMessage
 
 
 try:
@@ -43,13 +53,11 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 def index(request):
     if not request.user.is_authenticated():
         return about(request)
-    accs = User.objects(last_access__gt=User.get_delta_time()).only('username', 'avatar')
+    accs = User.objects(last_access__gt=User.get_delta_time())
     return direct_to_template(request, 'index.html', { 'accs': accs })
 
 
 def about(request):
-    if not Setting.is_started():
-        return direct_to_template(request, 'cap.html', )
     if request.user.is_authenticated():
         return direct_to_template(request, 'about.html', {
             'base_template': "base.html",
@@ -84,7 +92,9 @@ def register(request):
         alpha = 'abcdef0123456789'
         activation_code = ''.join(choice(alpha) for _ in xrange(12))
         user = User(username=form.data['username'],
-                    full_name=form.data['full_name'],
+                    first_name=form.data['first_name'],
+                    last_name=form.data['last_name'],
+                    email=form.data['email'],
                     phone=form.data['phone'],
                     is_active=False,
                     activation_code=activation_code)
@@ -104,9 +114,40 @@ def register(request):
 
     return form
 
+def django_login(request, user):
+    """
+    Persist a user id and a backend in the request. This way a user doesn't
+    have to reauthenticate on every request.
+    """
+    if user is None:
+        user = request.user
+    # TODO: It would be nice to support different login methods, like signed cookies.
+    user.last_login = datetime.datetime.now()
+    user.save()
+
+    if SESSION_KEY in request.session:
+        if request.session[SESSION_KEY] != str(user.id):
+            # To avoid reusing another user's session, create a new, empty
+            # session if the existing session corresponds to a different
+            # authenticated user.
+            request.session.flush()
+    else:
+        request.session.cycle_key()
+    request.session[SESSION_KEY] = str(user.id)
+    request.session[BACKEND_SESSION_KEY] = user.backend
+    if hasattr(request, 'user'):
+        request.user = user
+
+
 
 def activation(request, code=None):
-    user = get_document_or_404(User, is_active=False, activation_code=code)
+    try:
+        user = User.objects.get(is_active=False, activation_code=code)
+    except:
+        messages.add_message(request, messages.ERROR,
+                             _('Activation code corrupted or already used'))
+        return redirect('social:index')
+        
     user.is_active = True
     # django needs a backend annotation
     from django.contrib.auth import get_backends
@@ -243,28 +284,19 @@ def avatar_edit(request):
 
 def profile_edit(request):
     profile = request.user.profile
-    form = ChangeProfileForm(request.POST or None, initial=profile._data)
-    if form.is_valid():
-        for k, v in form.cleaned_data.items():
-            setattr(profile, k, v if v else None)
-        profile.save()
-        messages.add_message(request, messages.SUCCESS, _('Profile successfully updated'))
-        return redirect('social:home')
+    if request.method == 'POST':
+        form = ChangeProfileForm(request.POST)
+        if form.is_valid():
+            for k, v in form.cleaned_data.items():
+                setattr(profile, k, v if v else None)
+            profile.save()
+            messages.add_message(request, messages.SUCCESS, _('Profile successfully updated'))
+            return redirect('social:home')
+    else:
+        form = ChangeProfileForm(profile._data)
     return direct_to_template(request, 'social/profile/edit.html',
                               dict(form=form, user=request.user)
                               )
-
-
-def start(request):
-    if request.method == 'POST':
-        Setting.is_started(True)
-        return redirect('social:index')
-    return direct_to_template(request, 'start.html', { 'is_started': Setting.is_started() })
-
-
-def stop(request):
-    Setting.is_started(False)
-    return HttpResponse('Stop: OK!')
 
 
 def agreement(request):
@@ -275,3 +307,24 @@ def agreement(request):
 def in_dev(request):
     return direct_to_template(request, 'in_dev.html' , {
         'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })
+
+def test_error(request):
+    raise Exception()
+
+def server_error(request):
+    exc_info = sys.exc_info()
+    reporter = ExceptionReporter(request, *exc_info)
+    html = reporter.get_traceback_html()
+    msg = EmailMessage('server_error@%s' % request.path,
+                       html, settings.ROBOT_EMAIL_ADDRESS,
+                       [ '%s <%s>' % (name, address)
+                         for name, address in settings.ADMINS])
+
+    msg.content_subtype = "html"
+
+    msg.send(fail_silently=True)
+
+    template_name='500.html'
+    t = loader.get_template(template_name)
+    #logging.getLogger('server_error').error(request)
+    return HttpResponseServerError(t.render(Context({})))

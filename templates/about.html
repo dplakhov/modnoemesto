@@ -9,27 +9,6 @@
 {% endblock %}
 {% endif %}
 
-{% if not is_auth %}
-{% block js %}
-{{ block.super }}
-<script type="text/javascript">
-    $(document).ready(function(){
-        var reg_box = $('div.hide');
-        {% if not is_reg %}reg_box.hide();{% endif %}
-        $('h2.registr a').click(function(){
-            if(reg_box.css("display") == 'none')	{
-                reg_box.show();
-                }
-                else {
-                reg_box.hide();
-                }
-            });
-
-    });
-</script>
-{% endblock %}
-{% endif %}
-
 {% block content %}
 <div id="content_{% if is_auth %}info{% else %}about{% endif %}">
     <h2>О проекте</h2>
@@ -61,7 +40,7 @@
 <div id="regColumn">
     <div id="enter_form">
         <h2 class="ent">Вход</h2>
-<form action="{{ app_path }}" method="post">
+<form action="{{ app_path }}#enter_form" method="post">
 <input type="hidden" name="form_name" value="login"/>
         <div style="overflow:hidden"><div class="enter rounded">
 {% if login_form.non_field_errors %}
@@ -80,8 +59,8 @@
 </form>
     </div>
     <div id="reg_form">
-        <h2 class="registr"><a href="#reg_form">Регистрация</a></h2>
-        <div class="hide" style="overflow:hidden">
+        <h2 class="registr">Регистрация</h2>
+        <div>
 <form action="{{ app_path }}#reg_form" method="post">
 <input type="hidden" name="form_name" value="register"/>
         <div class="reg rounded">
@@ -92,7 +71,8 @@
 {% endfor %}
         </div>
             <p style="color:#999999; padding-top: 7px">
-            Фактом регистрации Вы соглашаетесь с <a href="#">Пользовательским соглашением.</a></p>
+            Фактом регистрации Вы соглашаетесь с
+            <a href="{% url social:agreement %}">Пользовательским соглашением</a>.</p>
             <p><input class="subReg" type="submit" value="Зарегистрироваться" /></p>
 </form>
         </div>

@@ -42,9 +42,6 @@
     </script>
 
     {% endblock %}
-    
-
-    <!--[if lte IE 8]>
    <style type="text/css">
     #menu .menu_but a, #menuReg  .menu_but a{
         font-size: 13px;
@@ -76,7 +73,6 @@
         }
   </style>
   <![endif]-->
-
   
   <!--[if IE 8]>
    <style type="text/css">
@@ -86,8 +82,6 @@
         }
   </style>
   <![endif]-->
-
-
 </head>
 <body>
 
@@ -112,11 +106,11 @@
             </div>
 -->
         </div>
-
-        <div id="menu{% if not user.is_authenticated %}Reg{% endif %}">
+{% if user.is_authenticated %}
+        <div id="menu">
             <table cellspacing="0px" cellpadding="0px">
             <tr>
-{% if user.is_authenticated %}
+
             <td class="left_corner {% active request 'social:index' %}"></td>
             <td class="menu_but {% active request 'social:index' %}"><a href="#">ника и олег</a></td>
             <td class="right_corner {% active request 'social:index' %}"></td>
@@ -151,19 +145,11 @@
             <td class="left_corner"></td>
             <td class="menu_but"><a href="{% url social:logout %}">выход</a></td>
             <td class="right_corner"></td>
-{% else %}
-            <td class="left_corner"></td>
-            <td class="menu_but"><a href="{% url social:index %}">регистрация</a></td>
-            <td class="right_corner"></td>
-            <td class="empty"></td>
-            <td class="left_corner"></td>
-            <td class="menu_but"><a href="{% url social:index %}">вход</a></td>
-            <td class="right_corner"></td>
-{% endif %}
+
             </tr>
             </table>
         </div>
-
+{% endif %}
 
         <div id="mainContent" style="background:url(/media/images/bg_reg.jpg) no-repeat">
 

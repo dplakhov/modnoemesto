@@ -1,14 +1,13 @@
-{% extends "base_mini.html" %}
-
-{% block rss %}
-{% endblock %}
-
+{% extends "base.html" %}
 {% block title %}
-smth is going wrong
+Произошла ошибка
 {% endblock %}
-    
-{% block base_content %}
 
-    <div><center><strong>Something is going wrong. Subscribe to our server errors rss feed! (just kidding)</strong></center></div>
-
+{% block content %}
+    <div id="content_info">
+    <h2 style="font-size: 36px;">Произошла ошибка</h2>
+  <p>
+    Мы уже проинформированны об ошибке и принимаем меры по её устранению.
+</p>
+</div>
 {% endblock %}

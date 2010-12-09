@@ -7,8 +7,8 @@ class MongoEngineBackend(object):
     """Authenticate using MongoEngine and mongoengine.django.auth.User.
     """
 
-    def authenticate(self, username=None, password=None):
-        user = User.objects(username=username).first()
+    def authenticate(self, email=None, password=None):
+        user = User.objects(email=email).first()
         if user:
             if password and user.check_password(password):
                 return user

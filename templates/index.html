@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
+<div id="filter">
 <h2>{% trans "Users online" %}</h2>
 <ul class="friendTable">
 {% for user in accs|slice:"20" %}
@@ -9,4 +10,5 @@
     </li>
 {% endfor %}
 </ul>
+</div>
 {% endblock %}

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from mongoengine.django.shortcuts import get_document_or_404
 
 from apps.social.documents import User
+from apps.friends.documents import FriendshipOffer, UserFriends
 
 
 @login_required

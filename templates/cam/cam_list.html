@@ -1,29 +1,77 @@
-{% extends "base.html" %}
+{% extends "base_mini.html" %}
 {% load i18n %}
 
 {% block css %}
 {{ block.super }}
 <link href="/media/styles/drop_down.css" type="text/css" rel="stylesheet" />
-
 {% endblock %}
 
-{% block content %}
-<div id="filter">
+{% block base_content %}
+{% include "_left_box_menu.html" %}
+
+<div id="filterColumn">
+    <div id="filter">
 <h2>Фильтр модных мест</h2>
 
-
-<div class="filt rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
 <form method="post">
-    <table cellspacing="0" cellpadding="0">
+<div class="filt rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+
+    <table  class="camera_edit">
         <tbody>
-<tr><th>{{ form.name.label_tag }}</th><td colspan="3">{{ form.name }}</td></tr>
-<tr><td colspan="2"></td><th>{{ form.is_managed.label_tag }}</th><td>{{ form.is_managed }}</td></tr>
-<tr><th>{{ form.is_view_enabled.label_tag }}</th><td>{{ form.is_view_enabled }}</td> <th>{{ form.is_management_enabled.label_tag }}</th><td>{{ form.is_management_enabled }}</td></tr>
-<tr><th>{{ form.is_view_public.label_tag }}</th><td>{{ form.is_view_public }}</td> <th>{{ form.is_management_public.label_tag }}</th><td>{{ form.is_management_public }}</td></tr>
-<tr><th>{{ form.is_view_paid.label_tag }}</th><td>{{ form.is_view_paid }}</td> <th>{{ form.is_management_paid.label_tag }}</th><td>{{ form.is_management_paid }}</td></tr>
-        <tr><td colspan="4"><input type="submit" value="Фильтровать" class="button"/></td></tr>
-    </tbody></table>
-</form>
+        <tr>
+            <th>{{ form.name.label_tag }}:</th>
+            <td class="empty_filt"></td>
+            <td colspan="3"><div class="input_holder rounded">{{ form.name }}</div></td>
+        </tr>
+        <tr>
+            <td style="height:10px"></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td class="empty_filt"></td>
+            <th>{{ form.is_managed.label_tag }}:</th>
+            <td class="empty_filt"></td>
+            <td>{{ form.is_managed }}</td>
+        </tr>
+        <tr>
+            <td style="height:10px"></td>
+        </tr>
+        <tr>
+            <th>{{ form.is_view_enabled.label_tag }}:</th>
+            <td class="empty_filt"></td>
+            <td>{{ form.is_view_enabled }}</td>
+            <th>{{ form.is_management_enabled.label_tag }}:</th>
+            <td class="empty_filt"></td>
+            <td>{{ form.is_management_enabled }}</td>
+        </tr>
+        <tr>
+            <td style="height:10px"></td>
+        </tr>
+        <tr>
+            <th>{{ form.is_view_public.label_tag }}:</th>
+            <td class="empty_filt"></td>
+            <td>{{ form.is_view_public }}</td>
+            <th>{{ form.is_management_public.label_tag }}:</th>
+            <td class="empty_filt"></td>
+            <td>{{ form.is_management_public }}</td>
+        </tr>
+        <tr>
+            <td style="height:10px"></td>
+        </tr>
+        <tr>
+            <th>{{ form.is_view_paid.label_tag }}:</th>
+            <td class="empty_filt"></td>
+            <td>{{ form.is_view_paid }}</td>
+            <th>{{ form.is_management_paid.label_tag }}:</th>
+            <td class="empty_filt"></td>
+            <td>{{ form.is_management_paid }}</td>
+        </tr>
+        <tr>
+            <td style="height:10px"></td>
+        </tr>
+    </tbody>
+    </table>
+    
 <script type="text/javascript">
 var id_is_managed=$('#id_is_managed'),
     id_is_management_enabled=$('#id_is_management_enabled'),
@@ -39,22 +87,29 @@ id_is_managed.click(management_checked)
 management_checked();
 </script>
 </div>
-<table>
+   
+    <div class="but">
+            <input type="submit" value="Фильтровать" class="button"/>
+    </div>
+</form>
+
+<div id="filt_new">
+<ul>
 {% for cam in cams %}
-    <tr>
-        <td>{{ cam.name }}</td>
-        <td class="friendTable">
-        {% with cam.owner as user %}
-            {% include "includes/user/micro.html" %}
-        {% endwith %}
-        </td>
-        <td>
-    {% if cam.owner == request.user or request.user.is_superuser %}
-        <a href="{% url cam:cam_edit cam.id %}">{% trans 'Edit' %}</a>
-    {% endif %}
-        </td>
-    </tr>
+{% url social:user cam.owner.id as user_path %}
+    <li{% cycle '' '' '' ' style="margin-right: 0pt;"' %}>
+        <div class="item">
+        <div class="pop rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+        <a href="{{ user_path }}"><img alt="{{ cam.name }}" src="{{ cam.screen_normal }}"></a>
+        </div>
+        <p class="place"><a href="{{ user_path }}">{{ cam.name }}</a></p>
+        <p class="creater"><a href="{{ user_path }}">{{ cam.owner.get_full_name }}</a></p>
+        </div>
+    </li>
+    {% if not forloop.last %}{% cycle '' '' '' '</ul><ul>' %}{% endif %}
 {% endfor %}
-</table>
+</ul>
+</div>
+    </div>
 </div>
 {% endblock %}
