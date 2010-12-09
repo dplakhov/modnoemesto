@@ -7,9 +7,9 @@ var nick = "{{ user }}";
 </script>
   <p>&nbsp;</p>
   {% if camera.show %}
-    {% if is_owner %}
+    {% if is_owner or user.is_superuser %}
     <a class="reference" href='{% url cam:cam_edit camera.id %}'>{% trans "Edit camera" %}</a>
-    <a class="reference" href='{% url cam:screen_edit %}'>{% trans "Edit screen" %}</a>
+    <a class="reference" href='{% url cam:screen_edit camera.id %}'>{% trans "Edit screen" %}</a>
     {% endif %}
     <script type="text/javascript">
         $(document).ready(function(){
