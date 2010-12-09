@@ -19,6 +19,7 @@ h2, h3
 
 a {
     color: #027A98;
+	outline: none;
 }
 
 div#container
