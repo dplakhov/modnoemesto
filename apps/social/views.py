@@ -57,6 +57,10 @@ def index(request):
     return direct_to_template(request, 'index.html', { 'accs': accs })
 
 
+def static(request, page):
+    return direct_to_template(request, 'static/%s.html' % page, {
+        'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })
+    
 def about(request):
     if request.user.is_authenticated():
         return direct_to_template(request, 'about.html', {
