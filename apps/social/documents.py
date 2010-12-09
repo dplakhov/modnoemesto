@@ -99,7 +99,7 @@ class User(Document):
     }
 
     def __unicode__(self):
-        return self.get_full_name() or self.username or self.id
+        return self.get_full_name() or self.username or str(self.id)
 
     def get_full_name(self):
         """Returns the users first and last names, separated by a space.
@@ -143,7 +143,7 @@ class User(Document):
         return hash == get_hexdigest(algo, salt, raw_password)
 
     @classmethod
-    def create_user(cls, username, password, email=None, is_superuser=False):
+    def create_user(cls, email, password, username=None, is_superuser=False):
         """Create (and save) a new user with the given username, password and
         email address.
         """
@@ -159,7 +159,7 @@ class User(Document):
             else:
                 email = '@'.join([email_name, domain_part.lower()])
 
-        user = cls(username=username, email=email, date_joined=now, is_superuser=is_superuser)
+        user = cls(email=email, username=username, date_joined=now, is_superuser=is_superuser)
         user.set_password(password)
         user.save()
         return user
