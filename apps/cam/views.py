@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.contrib import messages
 
 from mongoengine.django.shortcuts import get_document_or_404
 
@@ -244,12 +245,14 @@ def cam_bookmarks(request):
 def cam_bookmark_add(request, id):
     camera = get_document_or_404(Camera, id=id)
     camera.bookmark_add(request.user)
-    #@TODO: show message added
+    messages.add_message(request, messages.SUCCESS,
+                             _('Bookmark successfully added'))
     return redirect(reverse('social:user', args=[camera.owner.id]))
 
 
 def cam_bookmark_delete(request, id):
     camera = get_document_or_404(Camera, id=id)
     camera.bookmark_delete(request.user)
-    #@TODO: show message added
+    messages.add_message(request, messages.SUCCESS,
+                             _('Bookmark successfully deleted'))
     return redirect(reverse('social:user', args=[camera.owner.id]))

@@ -106,7 +106,6 @@ management_checked();
         <p class="creater"><a href="{{ user_path }}">{{ cam.owner }}</a></p>
         </div>
     </li>
-    {% if not forloop.last %}{% cycle '' '' '' '</ul><ul>' %}{% endif %}
 {% endfor %}
 </ul>
 </div>
