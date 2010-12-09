@@ -22,10 +22,10 @@ class BasicTestCase(unittest.TestCase):
 
         self.client = Client()
 
-        self.user1 = User.create_user(username='test1', password='123')
-        self.user2 = User.create_user(username='test2', password='123')
+        self.user1 = User.create_user(email='test1@web-mark.ru', password='123')
+        self.user2 = User.create_user(email='test2@web-mark.ru', password='123')
 
-        self.client.login(username='test1', password='123')
+        self.client.login(email='test1@web-mark.ru', password='123')
 
     def tearDown(self):
         self.cleanUp()

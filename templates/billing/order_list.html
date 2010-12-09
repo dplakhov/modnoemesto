@@ -18,7 +18,7 @@
 {% for order in orders.object_list %}
     <tr>
         <td>{{ order.user.id }}</td>
-        <td><a href="{% url social:user order.user.id %}" >{{ order.user.get_full_name }}</a></td>
+        <td><a href="{% url social:user order.user.id %}" >{{ order.user }}</a></td>
         <td>{{ order.amount|floatformat:2 }}</td>
         <td>{{ order.term }}</td>
         <td>{{ order.trans }}</td>

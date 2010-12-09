@@ -63,6 +63,7 @@ class User(Document):
     # activation stuff
     activation_code = StringField(max_length=12)
 
+
     @property
     def messages(self):
         from apps.user_messages.documents import MessageBoxFactory
@@ -94,12 +95,11 @@ class User(Document):
         return filter(lambda x: x.is_online(),self.friends.list)
         
     meta = {
-        'indexes': ['username',]
+        'indexes': ['email',]
     }
 
-
     def __unicode__(self):
-        return self.username if self.username else ''
+        return self.get_full_name() or self.username or str(self.id)
 
     def get_full_name(self):
         """Returns the users first and last names, separated by a space.
@@ -143,7 +143,7 @@ class User(Document):
         return hash == get_hexdigest(algo, salt, raw_password)
 
     @classmethod
-    def create_user(cls, username, password, email=None, is_superuser=False):
+    def create_user(cls, email, password, username=None, is_superuser=False, first_name='', last_name=''):
         """Create (and save) a new user with the given username, password and
         email address.
         """
@@ -159,7 +159,8 @@ class User(Document):
             else:
                 email = '@'.join([email_name, domain_part.lower()])
 
-        user = cls(username=username, email=email, date_joined=now, is_superuser=is_superuser)
+        user = cls(username=username, email=email, date_joined=now,
+                is_superuser=is_superuser, first_name=first_name, last_name=last_name)
         user.set_password(password)
         user.save()
         return user

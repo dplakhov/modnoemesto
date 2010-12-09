@@ -103,10 +103,9 @@ management_checked();
         <a href="{{ user_path }}"><img alt="{{ cam.name }}" src="{{ cam.screen_normal }}"></a>
         </div>
         <p class="place"><a href="{{ user_path }}">{{ cam.name }}</a></p>
-        <p class="creater"><a href="{{ user_path }}">{{ cam.owner.get_full_name }}</a></p>
+        <p class="creater"><a href="{{ user_path }}">{{ cam.owner }}</a></p>
         </div>
     </li>
-    {% if not forloop.last %}{% cycle '' '' '' '</ul><ul>' %}{% endif %}
 {% endfor %}
 </ul>
 </div>

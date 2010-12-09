@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from django.core.urlresolvers import reverse
-
-
 from django.test import TestCase
+from django.conf import settings
+
 import mongoengine
 
 from apps.utils.stringio import StringIO
@@ -53,19 +53,69 @@ class FileTest(TestCase):
                              )
 
 class FileViewTest(TestCase):
-    def test_view_derivative(self):
-        TRANSFORMATION_NAME = 'thumbnail'
+    TRANSFORMATION_NAME = '_test_image.png'
+    def test_view_existing_modification(self):
         file = create_file()
-        (derivative, ) = file.apply_transformations(ImageResize(name=TRANSFORMATION_NAME,
-                                             format='png', width=100, height=100))
+        (derivative, ) = file.apply_transformations(
+                ImageResize(name=self.TRANSFORMATION_NAME,
+                         format='png', width=100, height=100))
 
         client = self.client
         response = client.get(reverse('media:file_view',
                            kwargs=dict(file_id=file.id,
-                                  transformation_name=TRANSFORMATION_NAME)))
-
+                                  transformation_name=self.TRANSFORMATION_NAME)))
 
         self.assertEquals('image/png', response['Content-Type'])
+
+
+    def test_view_not_existing_file(self):
+        client = self.client
+        response = client.get(reverse('media:file_view',
+                       kwargs=dict(transformation_name=self.TRANSFORMATION_NAME)),
+                              follow=True
+                              )
+
+        self.failUnlessEqual(200, response.status_code)
+        self.failUnlessEqual('%snotfound/%s' %
+                             (settings.MEDIA_URL, self.TRANSFORMATION_NAME),
+                             response.request['PATH_INFO'])
+
+    def test_view_not_allowed_modification(self):
+        file = create_file()
+        client = self.client
+        response = client.get(reverse('media:file_view',
+                           kwargs=dict(file_id=file.id,
+                                  transformation_name='bla.jpg')))
+
+        self.failUnlessEqual(404, response.status_code)
+
+    def test_view_not_existing_modification(self):
+        file = create_file()
+        client = self.client
+        response = client.get(reverse('media:file_view',
+                           kwargs=dict(file_id=file.id,
+                                  transformation_name=self.TRANSFORMATION_NAME)),
+                              follow=True)
+
+        self.failUnlessEqual(200, response.status_code)
+
+        self.failUnlessEqual('%sconverting/%s' %
+                             (settings.MEDIA_URL, self.TRANSFORMATION_NAME),
+                             response.request['PATH_INFO'])
+
+    def test_view_incorrect_file_id(self):
+        file = create_file()
+        (derivative, ) = file.apply_transformations(
+                ImageResize(name=self.TRANSFORMATION_NAME,
+                         format='png', width=100, height=100))
+
+        client = self.client
+        response = client.get(reverse('media:file_view',
+                           kwargs=dict(file_id='1' * 24,
+                                  transformation_name=self.TRANSFORMATION_NAME)))
+
+        self.failUnlessEqual(404, response.status_code)
+        
 
 class FileTransformationTest(TestCase):
     def test_apply_transformations(self):
