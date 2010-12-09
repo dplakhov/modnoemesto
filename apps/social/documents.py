@@ -94,7 +94,7 @@ class User(Document):
         return filter(lambda x: x.is_online(),self.friends.list)
         
     meta = {
-        'indexes': ['username',]
+        'indexes': ['email',]
     }
 
 
