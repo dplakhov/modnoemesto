@@ -73,11 +73,11 @@ div#serch
 {
     padding-top: 18px;
     padding-left: 90px;
-    width: 720px;
+    width: 740px;
     overflow: hidden;
     position: relative;
     top: -46px;
-    left: 185px;
+    left: 165px;
 }
 #menuReg
 {
@@ -1301,6 +1301,8 @@ li.friendTable
 {
 	margin: 0 13px 7px;
 	float: left;
+	width: 149px;
+	height: 110px;
 }
 .friend_list_all
 {
@@ -1347,7 +1349,25 @@ li.friendTable
     color: #BFBEB2;
     font-size: 13px;
 }
+div.system_messages li
+{
+	padding: 4px 4px 4px 30px;
+	margin-bottom: 10px;
+	font-size: 1.1em;
+	border: 2px solid;
+}
 
+div.system_messages li.success {
+    background: url("../images/true.png") no-repeat scroll 8px 5px #DFFFDF;
+    border-color: #9FCF9F;
+    color: #005F00;
+}
+
+div.system_messages li.error {
+    background: url("../images/exclamation.png") no-repeat scroll 8px 50% #FFE3E3;
+    border-color: #DD0000;
+    color: #880000;
+}
 
 
 
