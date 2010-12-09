@@ -42,6 +42,52 @@
     </script>
 
     {% endblock %}
+    
+
+    <!--[if lte IE 8]>
+   <style type="text/css">
+    #menu .menu_but a, #menuReg  .menu_but a{
+        font-size: 13px;
+    }
+    #menu, #menuReg{
+        top: -48px;
+    }
+    .find{
+    	top: -3px;
+    }
+    .own_photo img
+{
+	border: 10px solid #eeedde;
+}
+
+	.message_text_view, .message_text_reply, .message_text_write
+    {
+    	background: #EEEDDE;
+        }
+    .message_text_view p
+    {
+    	background: #FFF;
+        padding: 7px;
+        }
+    .message_text_reply textarea
+    {
+    	width: 406px;
+        padding: 7px;
+        }
+  </style>
+  <![endif]-->
+
+  
+  <!--[if IE 8]>
+   <style type="text/css">
+   span#img input{
+        position:relative;
+        top:3px;
+        }
+  </style>
+  <![endif]-->
+
+
 </head>
 <body>
 
@@ -72,23 +118,30 @@
             <tr>
 {% if user.is_authenticated %}
             <td class="left_corner {% active request 'social:index' %}"></td>
+            <td class="menu_but {% active request 'social:index' %}"><a href="#">ника и олег</a></td>
+            <td class="right_corner {% active request 'social:index' %}"></td>
+            <td class="empty"></td>
+            
+            <td class="left_corner {% active request 'social:index' %}"></td>
             <td class="menu_but {% active request 'social:index' %}"><a href="/">люди</a></td>
             <td class="right_corner {% active request 'social:index' %}"></td>
-
             <td class="empty"></td>
+            
             <td class="left_corner {% active request 'cam:cam_list' %}"></td>
             <td class="menu_but {% active request 'cam:cam_list' %}"><a href="{% url cam:cam_list %}">модные места</a></td>
             <td class="right_corner {% active request 'cam:cam_list' %}"></td>
             <td class="empty"></td>
+            
             <td class="left_corner"></td>
             <td class="menu_but"><a href="{% url social:in_dev %}">аукцион</a></td>
-
             <td class="right_corner"></td>
             <td class="empty"></td>
+            
             <td class="left_corner"></td>
             <td class="menu_but"><a class="curent" href="{% url social:in_dev %}">приложения</a></td>
             <td class="right_corner"></td>
             <td class="empty"></td>
+            
             <td class="left_corner {% active request 'groups:group_list' %}"></td>
             <td class="menu_but {% active request 'groups:group_list' %}"><a href="{% url groups:group_list %}">группы</a></td>
             <td class="right_corner {% active request 'groups:group_list' %}"></td>
@@ -136,7 +189,7 @@ here goes the actual content
             <li style="padding-left:0"><a href="{% url social:about %}">О проекте</a></li>
             <li><a href="{% url social:agreement %}">Пользовательское соглашение</a></li>
             <li><a href="{% url cam:cam_list %}">Модные места</a></li>
-            <li><a href="{% url social:in_dev %}">Контакты</a></li>
+            <li><a href="{% url social:in_dev %}">Скорая техническая помощь</a></li>
             </ul>
             <p style="width:200px">Модное место &copy; 2010</p>
             <p id="design">Разработано в <a href="http://www.web-mark.ru/" target="_blank">Web-Mark</a></p>
