@@ -633,7 +633,7 @@ td.empty_filt
 }
 #more_popular
 {
-	margin-top: 10px;
+	margin-bottom: 10px;
 	border-top: 1px dotted #6f6f6f;
 	padding-top: 20px;
 	background: url(images/bg_more_popular.png) no-repeat top;
@@ -646,7 +646,7 @@ td.empty_filt
 }
 #more_new
 {
-	margin-top: 10px;
+	margin-bottom: 10px;
 	border-top: 1px dotted #6f6f6f;
 	padding-top: 20px;
 	background: url(images/bg_more_new.jpg) no-repeat top;
@@ -1122,7 +1122,101 @@ div.but
 	width:181px;
 	float: right;
 }
+/* End */
 
+/* For CameraEdit
+--------------------------------------*/
+.camera_edit th
+{
+	color: #FFF;
+	text-align: right;
+	vertical-align: top;
+	padding-top: 3px;
+}
+/* End */
+
+/* For Foto
+------------------------------*/
+#filter_box
+{
+	margin-top: 15px;
+	margin-bottom:10px;
+}
+#filt_photo, #filt_video
+{
+	/*padding: 5px;*/
+	overflow: hidden;
+	margin-top: 10px !important;
+}
+#filt_photo ul li, #filt_video ul li
+{
+	list-style-type: none;
+	float: left;
+	display: inline;
+	margin-right: 45px;
+	margin-bottom: 20px;
+	width: 240px;
+	/*padding: 12px;*/
+}
+#filt_photo ul li img, #filt_video ul li img
+{
+	width: 225px;
+	height: 180px;
+}
+#filt_photo ul li .pop
+{
+	padding: 7px;
+	background: #eeedde;
+}
+#filt_video ul li .pop
+{
+	padding: 7px;
+	background: #5AC6D8;
+}
+#filt_photo ul li .pop a, #filt_video ul li .pop a
+{
+	color: #575757;
+	text-decoration: underline;
+}
+#filt_photo ul li .pop p, #filt_video ul li .pop p
+{
+	padding: 10px 0px 0px 25px;
+	background: url(images/hande_rog.png) no-repeat left bottom;
+}
+
+#filt_photo p.place, #filt_video p.place
+{
+	color: #08869d;
+	font-size: 14px;
+	padding: 5px 2px 2px 2px;
+	
+}
+#filt_photo p.quantity, #filt_video p.quantity
+{
+	color: #bebebe;
+}
+#filt_photo p.creater, #filt_video p.creater
+{
+	color: #00b2d5;
+}
+div.page_nav
+{
+	margin-top: 20px;
+}
+.page_nav a
+{
+	float: left;
+	display: inline;
+	margin-right: 10px;
+}
+.page_nav a.pre, .page_nav a.next
+{
+	color: #bebebe;
+}
+.page_nav a.num
+{
+	color: #00b2d5;
+}
 /*@media all and (-webkit-min-device-pixel-ratio:10000),not all and (-webkit-min-device-pixel-ratio:0){.sub{padding: 12px 9px 13px;}}
 @media screen and (-webkit-min-device-pixel-ratio:0) {.sub{padding: 12px 15px 13px;}}
 /*-----------------------------------*/

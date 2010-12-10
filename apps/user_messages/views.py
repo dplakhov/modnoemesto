@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages as system_messages
 from django.http import Http404
-from django.views.generic.simple import direct_to_template
 from django.shortcuts import redirect
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic.simple import direct_to_template
 
 from mongoengine.django.shortcuts import get_document_or_404
 
@@ -26,7 +28,8 @@ def send_message(request, user_id):
     if msgform.is_valid():
         text = msgform.data['text']
         Message.send(request.user, recipient, text)
-        return redirect('user_messages:view_inbox')
+        system_messages.add_message(request, system_messages.SUCCESS, _('Message sent'))
+        return redirect('user_messages:view_sent')
     else:
         #@todo: use separate form and screen to handle each situation
         return direct_to_template(request, 'user_messages/write_message.html',
@@ -58,7 +61,6 @@ def _message_acl_check(message, user):
 
 #@login_required
 def view_message(request, message_id):
-    from apps.social.documents import User
     message = get_document_or_404(Message, id=message_id)
     user = request.user
     _message_acl_check(message, user)
@@ -73,12 +75,12 @@ def view_message(request, message_id):
 
 #@login_required
 def delete_message(request, message_id):
-    from apps.social.documents import User
     message = get_document_or_404(Message, id=message_id)
     user = request.user
     _message_acl_check(message, user)
 
     message.set_user_delete(request.user)
+    system_messages.add_message(request, system_messages.SUCCESS, _('Message deleted'))
     if message.is_sender(user):
         return redirect('user_messages:view_sent')
     elif message.is_recipient(user):

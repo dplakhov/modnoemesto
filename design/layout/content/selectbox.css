@@ -11,7 +11,7 @@ div.selectbox-wrapper {
 #rightColumn div.selectbox-wrapper {
 	width: 221px;
 }
-.group_add  div.selectbox-wrapper {
+.group_add  div.selectbox-wrapper, .camera_edit div.selectbox-wrapper {
 	width: 300px;
 }
 /*Drop down list styles*/
@@ -57,7 +57,7 @@ div.selectbox-wrapper ul li {
 	width: 221px;
 	background: url('images/input_filter_video.jpg') right no-repeat;
 }
-.group_add  .selectbox {
+.group_add  .selectbox, .camera_edit .selectbox {
 	width: 300px;
 	background: url('images/input_filter_long.jpg') right no-repeat;
 }

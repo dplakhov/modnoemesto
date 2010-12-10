@@ -16,7 +16,7 @@
                     <div class="operation">
                          <p><a class="reference" href="{% url user_messages:send_message user.id %}">Сообщение</a></p>
                          {% iffriend request.user user %}
-                         <p><a class="reference" href="{% url friends:add user.id %}">{% trans "Add to my friends" %}</a></p>
+                         <p><a href="{% url friends:add user.id %}">{% trans "Add to my friends" %}</a></p>
                          {% endiffriend %}
                     </div>
                 </li>

@@ -38,6 +38,8 @@ div.selectbox-wrapper ul li {
   margin:0;
   padding:2px;
   cursor:pointer;
+  color: #7A7A76;
+  font-size: 13px;
 }
 
 /* Look and feel of select box */

@@ -2,24 +2,28 @@
 {% load i18n %}
 
 {% block content %}
-{% if cameras %}
-<div id="filt_new">
-<ul>
-{% for cam in cameras %}
-{% url social:user cam.owner.id as user_path %}
-    <li{% cycle '' ' style="margin-right: 0pt;"' %}>
-        <div class="item">
-        <div class="pop rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
-        <a href="{{ user_path }}"><img alt="{{ cam.name }}" src="{{ cam.screen_normal }}"></a>
+<div id="filter_box">
+    {% if cameras %}
+
+	<h2>Мои модные места</h2>
+        <div id="filt_new">
+        <ul>
+        {% for cam in cameras %}
+        {% url social:user cam.owner.id as user_path %}
+            <li{% cycle '' ' style="margin-right: 0pt;"' %}>
+                <div class="item">
+                <div class="pop rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+                <a href="{{ user_path }}"><img alt="{{ cam.name }}" src="{{ cam.screen_normal }}"></a>
+                </div>
+                <p class="place"><a href="{{ user_path }}">{{ cam.name }}</a></p>
+                <p class="creater"><a href="{{ user_path }}">{{ cam.owner }}</a></p>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
         </div>
-        <p class="place"><a href="{{ user_path }}">{{ cam.name }}</a></p>
-        <p class="creater"><a href="{{ user_path }}">{{ cam.owner }}</a></p>
-        </div>
-    </li>
-{% endfor %}
-</ul>
+    {% else %}
+        <h2>{% trans "You do not have bookmarks." %}</h2>
+    {% endif %}
 </div>
-{% else %}
-{% trans "You do not have bookmarks." %}
-{% endif %}
 {% endblock %}

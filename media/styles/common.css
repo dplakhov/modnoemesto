@@ -19,6 +19,7 @@ h2, h3
 
 a {
     color: #027A98;
+	outline: none;
 }
 
 div#container
@@ -540,7 +541,7 @@ div.reg a, div.enter a
 }
 input, textarea
 {
-    /*border: #cccccc solid 1px;*/
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 p.but
@@ -1296,6 +1297,7 @@ div.operation p
 }
 .friend_list_online
 {
+	overflow: hidden;
     margin-top: 10px;
     border-top: 1px dotted #6f6f6f;
     padding-top: 10px;
@@ -1305,6 +1307,12 @@ div.operation p
 .friend_list_online ul, .friend_list_all ul
 {
 	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.friend_list_online p, .friend_list_all p
+{
+	color: #027A98;
+	padding: 5px 0 10px 15px;
 }
 li.friendTable
 {
@@ -1315,7 +1323,7 @@ li.friendTable
 }
 .friend_list_all
 {
-    margin-top: 10px;
+	overflow: hidden;
     border-top: 1px dotted #6f6f6f;
     padding-top: 20px;
     background:url(../images/bg_more_new.jpg) no-repeat top;
@@ -1343,7 +1351,7 @@ li.friendTable
 	color:#FFFFFF;
 	cursor:pointer;
 	overflow:visible;
-	padding:2px 45px 5px;
+	padding:2px 48px 5px;
 	float: left;
     text-decoration: none;
 }
@@ -1377,6 +1385,15 @@ div.system_messages li.error {
     border-color: #DD0000;
     color: #880000;
 }
-
-
-
+.pagination
+{
+	margin-top: 10px;
+}
+.pagination span
+{
+	color: #838383;
+}
+.no_bookmarcs
+{
+	
+}

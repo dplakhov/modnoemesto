@@ -2,8 +2,8 @@
 {% load i18n %}
 {% load media %}
 {% block content %}
-
-<h1>{% trans "Images" %}</h1>
+<div id="filter_box">
+<h2>{% trans "Images" %}</h2>
 
 <div id="content-main">
 {% for file in objects.object_list  %}
@@ -17,7 +17,7 @@
 <div class="pagination">
     <span class="step-links">
         {% if objects.has_previous %}
-            <a href="?page={{ objects.previous_page_number }}">previous</a>
+            <a href="?page={{ objects.previous_page_number }}">предыдущая</a>
         {% endif %}
 
         <span class="current">
@@ -25,7 +25,7 @@
         </span>
 
         {% if objects.has_next %}
-            <a href="?page={{ objects.next_page_number }}">next</a>
+            <a href="?page={{ objects.next_page_number }}">следующая</a>
         {% endif %}
     </span>
 </div>
@@ -37,9 +37,11 @@
         <table>
         {{ form.as_table }}
         </table>
+        <div class="but">
         <input type="submit" value="{% trans "Add" %}"/>
+        </div>
         </form>
 
     {% endif %}
-    
+</div>    
 {% endblock %}
