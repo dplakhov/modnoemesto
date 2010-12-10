@@ -95,5 +95,18 @@ class ChangeProfileForm(forms.Form):
     university_status = forms.CharField(label=_("Status"), max_length=30, required=False)
 
 
-class LostPassword(forms.Form):
+class LostPasswordForm(forms.Form):
     email = forms.EmailField(label=_("Email"))
+
+
+class SetNewPasswordForm(forms.Form):
+    password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput, max_length=64)
+    password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput, max_length=64)
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1", "")
+        password2 = self.cleaned_data["password2"]
+        if password1 != password2:
+            raise forms.ValidationError(_("The two password fields didn't"
+                                          " match."))
+        return password2
