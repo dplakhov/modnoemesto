@@ -48,7 +48,7 @@
 {% endif %}
 {% for field in login_form %}
     {{ field.errors }}
-    <p>{{ field.label }}<br/>
+    <p>{{ field.label }}:<br/>
         {{ field }}</p>
 {% endfor %}
 <p><a href="{% url social:lost_password %}">Забыли пароль?</a></p>
@@ -66,7 +66,7 @@
         <div class="reg rounded">
 {% for field in reg_form %}
     {{ field.errors }}
-    <p>{{ field.label }}<br/>
+    <p>{{ field.label }}:<br/>
         {{ field }}</p>
 {% endfor %}
         </div>

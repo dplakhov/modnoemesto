@@ -47,9 +47,7 @@ class UserCreationForm(forms.Form):
     """
     first_name = forms.CharField(label=_("First name"), max_length=64)
     last_name = forms.CharField(label=_("Last name"), max_length=64)
-    phone = forms.CharField(label=_("Phone"), required=False)
     email = forms.EmailField(label=_("Email"))
-    username = forms.CharField(label=_("Login"), max_length=64, required=False)
     password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput, max_length=64)
     password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput, max_length=64)
 

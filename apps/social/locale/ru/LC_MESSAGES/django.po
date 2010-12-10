@@ -45,11 +45,11 @@ msgstr "Эта учетная запись неактивна."
 
 #: forms.py:48
 msgid "First name"
-msgstr "Ваше Имя"
+msgstr "Имя"
 
 #: forms.py:49
 msgid "Last name"
-msgstr "Ваша Фамилия"
+msgstr "Фамилия"
 
 #: forms.py:50
 msgid "Phone"
