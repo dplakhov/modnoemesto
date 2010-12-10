@@ -31,7 +31,9 @@
                 </div>
                 <div class="message_text">
                     <p>
-                    	{{ offer.ctime|timesince }} {% trans "ago" %}
+                        {% with offer.ctime as datetime %}
+                            {% include 'includes/datetime.html' %}
+                        {% endwith %}
                     </p>
                 </div>
                 <div class="operation">

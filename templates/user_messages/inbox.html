@@ -21,7 +21,9 @@
                 </div>
                 <div class="message_text">
                     <p><a href="{% url user_messages:view_message message_id=msg.id %}">
-                            {{ msg.timestamp|timesince }} {% trans "ago" %}
+                        {% with msg.timestamp as datetime %}
+                            {% include 'includes/datetime.html' %}
+                        {% endwith %}
                         </a>
                     </p>
                     <p><a href="{% url user_messages:view_message message_id=msg.id %}">{{ msg.first_line }}</a></p>

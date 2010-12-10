@@ -78,7 +78,8 @@ class User(Document):
         email_body = render_to_string('emails/confirm_registration.txt',
                 { 'user': self, 'SITE_DOMAIN': settings.SITE_DOMAIN })
 
-        settings.SEND_EMAILS and send_mail(_('Confirm registration'), email_body,
+        if settings.SEND_EMAILS:
+            send_mail(_('Confirm registration'), email_body,
             settings.ROBOT_EMAIL_ADDRESS, [self.email],
             fail_silently=True)
 
@@ -87,7 +88,8 @@ class User(Document):
         email_body = render_to_string('emails/recovery_password.txt',
                         { 'user': self, 'SITE_DOMAIN': settings.SITE_DOMAIN })
 
-        settings.SEND_EMAILS and send_mail(_('Password Reset Request'), email_body,
+        if settings.SEND_EMAILS:
+            send_mail(_('Password Reset Request'), email_body,
             settings.ROBOT_EMAIL_ADDRESS, [self.email],
             fail_silently=True)
 
