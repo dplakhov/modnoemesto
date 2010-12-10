@@ -46,9 +46,10 @@ def cam_list(request):
             del data['is_management_public']
             del data['is_management_paid']
         cams = Camera.objects(**data)
-        print data
     else:
-        cams = Camera.objects.order_by('-date_created')
+        cams = Camera.objects(is_view_public=True,
+                                is_view_enabled=True).order_by('-date_created')
+
     return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams) )
 
 
