@@ -98,6 +98,7 @@ LOGIN_EXEMPT_URLS = (
     r'^media/',
     r'^lostpassword/',
     r'^recoverypassword/',
+    ur'^ЕГГОГ',
 )
 
 # Make this unique, and don't share it with anybody.
