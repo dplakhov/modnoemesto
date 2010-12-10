@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+
 {% block content %}
 
 <div id="content-related">
@@ -29,7 +30,7 @@
                         </div>
                         <div class="operation">
                              <p><a class="reference" href="{% url user_messages:send_message user.id %}">Сообщение</a></p>
-                             <p><a class="reference" href="{% url friends:remove user.id %}">
+                             <p><a class="reference del_friend" href="{% url friends:remove user.id %}1">
                                 {% trans "Delete" %}
                             </a></p>
                         </div>
@@ -52,7 +53,7 @@
                         </div>
                         <div class="operation">
                              <p><a class="reference" href="{% url user_messages:send_message user.id %}">Сообщение</a></p>
-                             <p><a class="reference" href="{% url friends:remove user.id %}">
+                             <p><a class="reference del_friend" href="{% url friends:remove user.id %}1">
                                 {% trans "Delete" %}
                             </a></p>
                         </div>
@@ -66,5 +67,17 @@
     </div>
     </div>
 </div>
+
+<script type="text/javascript">
+$('#filter_box').click(function(e) {
+    var clicked = $(e.target);
+    if (clicked.hasClass('del_friend')) {
+        if (confirm("Вы действительно желаете удалить друга?")) {
+            return true;
+        }
+        return false;
+    }
+});
+</script>
 
 {% endblock %}

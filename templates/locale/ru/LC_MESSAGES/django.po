@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-09 13:59+0300\n"
+"POT-Creation-Date: 2010-12-10 13:48+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: base_mini.html:103
+#: base_mini.html:102
 msgid "search"
 msgstr "поиск"
 
@@ -26,7 +26,59 @@ msgstr "поиск"
 msgid "Users online"
 msgstr "Пользователи онлайн"
 
-#: billing/access_order_list.html:5 includes/admin_menu.html:13
+#: admin/statistic.html:7 includes/admin_menu.html:7
+msgid "Statistic"
+msgstr "Статистика"
+
+#: admin/user_list.html:6 includes/admin_menu.html:8
+msgid "Users"
+msgstr "Пользователи"
+
+#: admin/user_list.html:10
+msgid "ID"
+msgstr ""
+
+#: admin/user_list.html:11
+msgid "E-mail"
+msgstr ""
+
+#: admin/user_list.html:12
+msgid "First Name"
+msgstr ""
+
+#: admin/user_list.html:13
+msgid "Last Name"
+msgstr ""
+
+#: admin/user_list.html:14
+msgid "Nick"
+msgstr ""
+
+#: admin/user_list.html:15
+msgid "Date Joined"
+msgstr ""
+
+#: admin/user_list.html:35 billing/access_order_list.html:38
+#: billing/order_list.html:34
+msgid "previous"
+msgstr "предыдущая"
+
+#: admin/user_list.html:39 billing/access_order_list.html:42
+#: billing/order_list.html:38
+#, python-format
+msgid ""
+"\n"
+"Page %(number)s of %(num_pages)s.\n"
+msgstr ""
+"\n"
+"Страница %(number)s из %(num_pages)s.\n"
+
+#: admin/user_list.html:45 billing/access_order_list.html:48
+#: billing/order_list.html:44
+msgid "next"
+msgstr "следующая"
+
+#: billing/access_order_list.html:5 includes/admin_menu.html:18
 msgid "Access Orders"
 msgstr "Заказы доступа"
 
@@ -62,28 +114,11 @@ msgstr "Стоимость"
 msgid "Status"
 msgstr "Статус"
 
-#: billing/access_order_list.html:38 billing/order_list.html:34
-msgid "previous"
-msgstr "предыдущая"
-
-#: billing/access_order_list.html:42 billing/order_list.html:38
-#, python-format
-msgid ""
-"\n"
-"Page %(number)s of %(num_pages)s.\n"
-msgstr ""
-"\n"
-"Страница %(number)s из %(num_pages)s.\n"
-
-#: billing/access_order_list.html:48 billing/order_list.html:44
-msgid "next"
-msgstr "следующая"
-
-#: billing/get_access_to_camera.html:5
+#: billing/get_access_to_camera.html:13
 msgid "Access to camera"
 msgstr "Доступ к камере"
 
-#: billing/get_access_to_camera.html:11
+#: billing/get_access_to_camera.html:38
 msgid "Paid"
 msgstr "Оплатить"
 
@@ -124,16 +159,16 @@ msgstr "Добавить"
 
 #: billing/tariff_edit.html:16 cam/cam_edit.html:244 cam/screen_edit.html:14
 #: cam/type_edit.html:16 groups/theme_edit.html:16 groups/type_edit.html:16
-#: notes/note_edit.html:48 social/profile/avatar.html:14
+#: notes/note_edit.html:48 social/profile/avatar.html:17
 #: social/profile/edit.html:110 social/profile/edit.html.py:117
 msgid "Save"
 msgstr "Сохранить"
 
-#: billing/tariff_list.html:5 includes/admin_menu.html:11
+#: billing/tariff_list.html:5 includes/admin_menu.html:16
 msgid "Tariffs"
 msgstr "Тарифы"
 
-#: cam/bookmarks.html:16
+#: cam/bookmarks.html:23
 msgid "You do not have bookmarks."
 msgstr "Вы ещё не добавили модные места."
 
@@ -157,7 +192,7 @@ msgstr "Добавить тип камеры"
 msgid "Edit camera type"
 msgstr "Редактировать тип камеры"
 
-#: cam/type_list.html:5 includes/admin_menu.html:7
+#: cam/type_list.html:5 includes/admin_menu.html:12
 msgid "Camera types"
 msgstr "Типы камер"
 
@@ -165,20 +200,20 @@ msgstr "Типы камер"
 msgid "Add type"
 msgstr "Добавить тип"
 
-#: friends/friend_list.html:8 friends/inbox.html:6 friends/sent.html:7
+#: friends/friend_list.html:9 friends/inbox.html:6 friends/sent.html:7
 #: groups/send_friends_invite.html:8
 msgid "Your friends:"
 msgstr "Ваши друзья"
 
-#: friends/friend_list.html:33 friends/friend_list.html.py:56
+#: friends/friend_list.html:34 friends/friend_list.html.py:57
 #: media_library/image_index.html:12 notes/note_list.html:24
 #: notes/note_list.html.py:34 user_messages/inbox.html:35
 #: user_messages/message.html:78 user_messages/sent.html:35
 msgid "Delete"
 msgstr "Удалить"
 
-#: friends/friend_list.html:40 friends/friend_list.html.py:63
-#: friends/friends_all.html:18 friends/friends_online.html:18
+#: friends/friend_list.html:41 friends/friend_list.html.py:64
+#: friends/friends_all.html:26 friends/friends_online.html:26
 #: groups/send_friends_invite.html:25 social/user.html:180
 msgid "None available"
 msgstr "Никого нет"
@@ -187,6 +222,11 @@ msgstr "Никого нет"
 #, python-format
 msgid "%(page_user)s: friends"
 msgstr "%(page_user)s: друзья"
+
+#: friends/friends_all.html:19 friends/friends_online.html:19
+#: social/user.html:71 social/user.html.py:127
+msgid "Add to my friends"
+msgstr "Добавить в друзья"
 
 #: friends/friends_online.html:8
 #, python-format
@@ -244,7 +284,7 @@ msgstr "Добавить тему"
 msgid "Edit theme"
 msgstr "Редактировать тему"
 
-#: groups/theme_list.html:4 includes/admin_menu.html:17
+#: groups/theme_list.html:4 includes/admin_menu.html:22
 msgid "Themes"
 msgstr "Темы"
 
@@ -252,7 +292,7 @@ msgstr "Темы"
 msgid "Edit type"
 msgstr "Редактировать тип"
 
-#: groups/type_list.html:4 includes/admin_menu.html:18
+#: groups/type_list.html:4 includes/admin_menu.html:23
 msgid "Types"
 msgstr "Типы"
 
@@ -313,18 +353,22 @@ msgid "Join group"
 msgstr "Вступить в группу"
 
 #: includes/admin_menu.html:5
+msgid "Admin"
+msgstr "Администрирование"
+
+#: includes/admin_menu.html:10
 msgid "Cameras"
 msgstr "Камеры"
 
-#: includes/admin_menu.html:9
+#: includes/admin_menu.html:14
 msgid "Billing"
 msgstr "Биллинг"
 
-#: includes/admin_menu.html:12
+#: includes/admin_menu.html:17
 msgid "Pay Orders"
 msgstr "Заказы оплаты"
 
-#: includes/admin_menu.html:15
+#: includes/admin_menu.html:20
 msgid "Groups"
 msgstr "Группы"
 
@@ -351,6 +395,14 @@ msgstr "Входящие"
 #: includes/left_menu.html:17
 msgid "Sent"
 msgstr "Отправленные"
+
+#: includes/paginator.html:8
+msgid "Previous page"
+msgstr "предыдущая"
+
+#: includes/paginator.html:20
+msgid "Next page"
+msgstr "следующая"
 
 #: media_library/image_index.html:6
 msgid "Images"
@@ -448,10 +500,6 @@ msgstr "Хотите добавить камеру сейчас?"
 #, python-format
 msgid "%(page_user)s's home"
 msgstr "Страница пользователя %(page_user)s"
-
-#: social/user.html:71 social/user.html.py:127
-msgid "Add to my friends"
-msgstr "Добавить в друзья"
 
 #: social/user.html:99 social/user.html.py:149
 msgid "Get access to camera"
