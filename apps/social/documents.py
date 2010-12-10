@@ -6,6 +6,8 @@ from django.utils.encoding import smart_str
 
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 from django.core.urlresolvers import reverse
 from apps.groups.documents import GroupUser
@@ -62,6 +64,32 @@ class User(Document):
 
     # activation stuff
     activation_code = StringField(max_length=12)
+
+
+    def gen_activation_code(self):
+        from random import choice
+        alpha = 'abcdef0123456789'
+        self.activation_code = ''.join(choice(alpha) for _ in xrange(12))
+
+
+    def send_activation_code(self):
+        #@todo: send email in a separate process (queue worker or smth like it)
+        #@todo: check email sending results
+        email_body = render_to_string('emails/confirm_registration.txt',
+                { 'user': self, 'SITE_DOMAIN': settings.SITE_DOMAIN })
+
+        settings.SEND_EMAILS and send_mail(_('Confirm registration'), email_body,
+            settings.ROBOT_EMAIL_ADDRESS, [self.email],
+            fail_silently=True)
+
+
+    def send_restore_password_code(self):
+        email_body = render_to_string('emails/recovery_password.txt',
+                        { 'user': self, 'SITE_DOMAIN': settings.SITE_DOMAIN })
+
+        settings.SEND_EMAILS and send_mail(_('Password Reset Request'), email_body,
+            settings.ROBOT_EMAIL_ADDRESS, [self.email],
+            fail_silently=True)
 
 
     @property

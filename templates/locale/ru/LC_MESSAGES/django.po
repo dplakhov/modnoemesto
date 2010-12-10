@@ -135,7 +135,7 @@ msgstr "Тарифы"
 
 #: cam/bookmarks.html:16
 msgid "You do not have bookmarks."
-msgstr "У Вас нет закладок."
+msgstr "Вы ещё не добавили модные места."
 
 #: cam/cam_edit.html:51
 msgid "Add camera"

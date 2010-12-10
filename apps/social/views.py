@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
-from django.template.loader import render_to_string
 
 from django.contrib.auth import (SESSION_KEY,
     BACKEND_SESSION_KEY,
@@ -10,9 +9,7 @@ import datetime
 import logging
 
 from django.shortcuts import redirect
-from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseServerError
-from django.core.mail import send_mail
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
@@ -32,7 +29,7 @@ from ImageFile import Parser as ImageFileParser
 
 
 from apps.billing.documents import AccessCamOrder
-from apps.social.forms import ChangeProfileForm
+from apps.social.forms import ChangeProfileForm, LostPassword
 import re
 from apps.social.documents import Profile, Setting
 from django.template import Context, loader
@@ -92,9 +89,6 @@ def about(request):
 def register(request):
     form = UserCreationForm(request.POST)
     if form.is_valid():
-        from random import choice
-        alpha = 'abcdef0123456789'
-        activation_code = ''.join(choice(alpha) for _ in xrange(12))
         user = User(username=form.data['username'],
                     first_name=form.data['first_name'],
                     last_name=form.data['last_name'],
@@ -102,18 +96,10 @@ def register(request):
                     phone=form.data['phone'],
                     is_active=False,
                     activation_code=activation_code)
+        user.gen_activation_code()
         user.set_password(form.data['password1'])
         user.save()
-
-        #@todo: send email in a separate process (queue worker or smth like it)
-        #@todo: check email sending results
-        email_body = render_to_string('emails/confirm_registration.txt',
-                { 'user': user, 'SITE_DOMAIN': settings.SITE_DOMAIN })
-
-        settings.SEND_EMAILS and send_mail('Confirm registration', email_body,
-            settings.ROBOT_EMAIL_ADDRESS, [form.data['email']],
-            fail_silently=True)
-
+        user.send_activation_code()
         return direct_to_template(request, 'registration_complete.html')
 
     return form
@@ -327,3 +313,38 @@ def server_error(request):
     t = loader.get_template(template_name)
     #logging.getLogger('server_error').error(request)
     return HttpResponseServerError(t.render(Context({})))
+
+
+def lost_password(request):
+    if request.method == 'POST':
+        form = LostPassword(request.POST)
+        if form.is_valid():
+            user = User.objects(email=form.cleaned_data['email']).first()
+            if user:
+                if user.is_active:
+                    user.gen_activation_code()
+                    user.save()
+                    user.send_restore_password_code()
+                else:
+                    user.send_activation_code()
+            messages.add_message(request, messages.SUCCESS, _('Email with a link sent to restore the address you specify.'))
+            return redirect('social:index')
+    else:
+        form = LostPassword()
+    return direct_to_template(request, 'social/lost_password.html' , dict(form=form))
+
+
+def recovery_password(request, code):
+    try:
+        user = User.objects.get(is_active=True, activation_code=code)
+    except:
+        messages.add_message(request, messages.ERROR,
+                             _('Recovery code corrupted or already used'))
+        return redirect('social:index')
+
+    # django needs a backend annotation
+    from django.contrib.auth import get_backends
+    backend = get_backends()[0]
+    user.backend = "%s.%s" % (backend.__module__, backend.__class__.__name__)
+    django_login(request, user)
+    return redirect('social:home')
