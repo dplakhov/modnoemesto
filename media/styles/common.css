@@ -230,6 +230,16 @@ li#money p#purse a
     color: #027a98;
     text-decoration: underline;
 }
+li.camera_off#money
+{
+    background: none;
+}
+li.camera_off#money span
+{
+    font-weight: bold;
+}
+
+
 li#fashion_place
 {
     background:url(../images/lovely.jpg) no-repeat left center;

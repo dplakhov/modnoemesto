@@ -7,6 +7,7 @@
         <ul>
             {% if user.is_authenticated %}
             <li id="persone"><a href="{% url social:home %}">{{ user }}</a></li>
+            {% if user.get_camera %}
             <li id="money">
                 <div class="q">
                     <p>На моем счету</p>
@@ -15,6 +16,11 @@
                     <p id="purse"><a style="cursor:text" href="{% comment %}{% url billing:purse %}{% endcomment %}">Перейти в кошелек</a></p>
                 </div>
             </li>
+            {% else %}
+            <li id="money" class="camera_off">
+                <div class="q"><a style="cursor:text" href="{% comment %}{% url billing:purse %}{% endcomment %}">Мой счёт <span>({{ user.cash|floatformat:2 }} руб.)</span></a></div>
+            </li>
+            {% endif %}
             <li id="fashion_place"><a href="{% url cam:cam_bookmarks %}">Мои Модные места</a></li>
 {% with user.friends.offers.incoming|length as fs_offers_inbox_count %}
             <li id="friends"><a href="{% url friends:list %}">Друзья{% if fs_offers_inbox_count %} <b>({{ fs_offers_inbox_count }})</b>{% endif %}</a></li>
