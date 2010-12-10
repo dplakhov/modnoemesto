@@ -67,7 +67,7 @@
     </div>
     <div class="profileActions">
         <ul>{% url social:user_friends as friends %}
-            <li><a href="{{ friends }}">{% trans "Friends" %} ({{ user.friends.count }})</a></li>
+            <li><a href="{% url friends:list %}">{% trans "Friends" %} ({{ user.friends.count }})</a></li>
             <li><a href="{% url social:avatar_edit %}">{% trans "Edit photo" %}</a></li>
         </ul>
     </div>
