@@ -90,11 +90,10 @@ def about(request):
 def register(request):
     form = UserCreationForm(request.POST)
     if form.is_valid():
-        user = User(username=form.data['username'],
+        user = User(
                     first_name=form.data['first_name'],
                     last_name=form.data['last_name'],
                     email=form.data['email'],
-                    phone=form.data['phone'],
                     is_active=False
                     )
         user.gen_activation_code()
