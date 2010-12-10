@@ -14,6 +14,9 @@ class LoginForm(forms.Form):
         self.user_cache = None
         super(LoginForm, self).__init__(*args, **kwargs)
 
+    def clean_email(self):
+        return self.cleaned_data["email"].lower()
+
     def clean(self):
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
@@ -52,7 +55,7 @@ class UserCreationForm(forms.Form):
     password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput, max_length=64)
 
     def clean_email(self):
-        email = self.cleaned_data["email"]
+        email = self.cleaned_data["email"].lower()
         if User.objects(email=email).count():
             raise forms.ValidationError(_("A user with that email already"
                                           " exists."))

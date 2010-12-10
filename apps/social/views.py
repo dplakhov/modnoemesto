@@ -91,13 +91,13 @@ def register(request):
     form = UserCreationForm(request.POST)
     if form.is_valid():
         user = User(
-                    first_name=form.data['first_name'],
-                    last_name=form.data['last_name'],
-                    email=form.data['email'],
+                    first_name=form.cleaned_data['first_name'],
+                    last_name=form.cleaned_data['last_name'],
+                    email=form.cleaned_data['email'],
                     is_active=False
                     )
         user.gen_activation_code()
-        user.set_password(form.data['password1'])
+        user.set_password(form.cleaned_data['password1'])
         user.save()
         user.send_activation_code()
         return direct_to_template(request, 'registration_complete.html')
@@ -356,7 +356,7 @@ def set_new_password(request, code):
     if request.method == 'POST':
         form = SetNewPasswordForm(request.POST)
         if form.is_valid():
-            request.user.set_password(form.data['password1'])
+            request.user.set_password(form.cleaned_data['password1'])
             request.user.activation_code = None
             request.user.save()
             messages.add_message(request, messages.SUCCESS, _('Password successfully updated.'))
