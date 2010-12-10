@@ -30,7 +30,7 @@
                         </div>
                         <div class="operation">
                              <p><a class="reference" href="{% url user_messages:send_message user.id %}">Сообщение</a></p>
-                             <p><a class="reference del_friend" href="{% url friends:remove user.id %}1">
+                             <p><a class="reference del_friend" href="{% url friends:remove user.id %}">
                                 {% trans "Delete" %}
                             </a></p>
                         </div>
@@ -53,7 +53,7 @@
                         </div>
                         <div class="operation">
                              <p><a class="reference" href="{% url user_messages:send_message user.id %}">Сообщение</a></p>
-                             <p><a class="reference del_friend" href="{% url friends:remove user.id %}1">
+                             <p><a class="reference del_friend" href="{% url friends:remove user.id %}">
                                 {% trans "Delete" %}
                             </a></p>
                         </div>
