@@ -41,7 +41,11 @@
                         {% endwith %} -->
                 </div>
                 <div class="message_text">
-                    <p> {{ msg.timestamp|timesince }} {% trans "ago" %} </p>
+                    <p>
+                        {% with msg.timestamp as datetime %}
+                            {% include 'includes/datetime.html' %}
+                        {% endwith %}
+                    </p>
                 </div>
                 <div class="message_text_view rounded">
                     <p>{{ msg.text }}</p>
@@ -61,7 +65,11 @@
                         {% endwith %} -->
                 </div>
                 <div class="message_text">
-                    <p> {{ msg.timestamp|timesince }} {% trans "ago" %} </p>
+                    <p>
+                        {% with msg.timestamp as datetime %}
+                            {% include 'includes/datetime.html' %}
+                        {% endwith %}
+                    </p>
                 </div>
                 <div class="message_text_reply rounded">
                     <textarea name="text" cols="78" rows="5"></textarea>
