@@ -9,7 +9,7 @@ import datetime
 import logging
 
 from django.shortcuts import redirect
-from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseServerError
+from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseServerError, HttpResponseNotFound
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
@@ -29,13 +29,14 @@ from ImageFile import Parser as ImageFileParser
 
 
 from apps.billing.documents import AccessCamOrder
-from apps.social.forms import ChangeProfileForm, LostPassword
+from apps.social.forms import ChangeProfileForm, LostPasswordForm, SetNewPasswordForm
 import re
 from apps.social.documents import Profile, Setting
 from django.template import Context, loader
 import sys
 from django.views.debug import ExceptionReporter
 from django.core.mail.message import EmailMessage
+from django.core.urlresolvers import reverse
 
 
 try:
@@ -317,7 +318,7 @@ def server_error(request):
 
 def lost_password(request):
     if request.method == 'POST':
-        form = LostPassword(request.POST)
+        form = LostPasswordForm(request.POST)
         if form.is_valid():
             user = User.objects(email=form.cleaned_data['email']).first()
             if user:
@@ -330,7 +331,7 @@ def lost_password(request):
             messages.add_message(request, messages.SUCCESS, _('Email with a link sent to restore the address you specify.'))
             return redirect('social:index')
     else:
-        form = LostPassword()
+        form = LostPasswordForm()
     return direct_to_template(request, 'social/lost_password.html' , dict(form=form))
 
 
@@ -347,4 +348,20 @@ def recovery_password(request, code):
     backend = get_backends()[0]
     user.backend = "%s.%s" % (backend.__module__, backend.__class__.__name__)
     django_login(request, user)
-    return redirect('social:home')
+    return redirect(reverse('social:set_new_password', args=[code]))
+
+
+def set_new_password(request, code):
+    if request.user.activation_code != code:
+        return HttpResponseNotFound()
+    if request.method == 'POST':
+        form = SetNewPasswordForm(request.POST)
+        if form.is_valid():
+            request.user.set_password(form.data['password1'])
+            request.user.activation_code = None
+            request.user.save()
+            messages.add_message(request, messages.SUCCESS, _('Password successfully updated.'))
+            return redirect('social:home')
+    else:
+        form = SetNewPasswordForm()
+    return direct_to_template(request, 'social/profile/set_new_password.html' , dict(form=form))
