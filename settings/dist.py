@@ -192,7 +192,7 @@ SEND_EMAILS = True
 
 SITE_DOMAIN = 'modnoemesto.ru' # no slashes here, please
 
-ROBOT_EMAIL_ADDRESS = 'noreply@modnoemesto.ru'
+ROBOT_EMAIL_ADDRESS = 'modnoemesto.ru <noreply@modnoemesto.ru>'
 
 AVATAR_SIZES = (
     (200, 200),
