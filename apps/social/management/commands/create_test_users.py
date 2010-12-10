@@ -3,7 +3,7 @@
 import sys
 import random
 import os
-
+import re
 
 from django.test.client import Client
 from django.contrib.webdesign import lorem_ipsum
@@ -13,7 +13,8 @@ from django.core.management.base import BaseCommand, CommandError
 from apps.social import documents
 from apps.user_messages.documents import Message
 from apps.friends.documents import FriendshipOffer, UserFriends
-import re
+from apps.groups.documents import GroupUser
+
 from django.core.urlresolvers import reverse
 from apps.utils.test import patch_settings
 
@@ -26,10 +27,14 @@ class Command(BaseCommand):
         num = int(args and args[0] or 10)
         with_ava = len(args) > 1
 
-        documents.User.objects.delete()
-        Message.objects.delete()
-        FriendshipOffer.objects.delete()
-        UserFriends.objects.delete()
+        for type in (
+            documents.User,
+            Message,
+            FriendshipOffer,
+            UserFriends,
+            GroupUser,
+        ):
+            type.objects.delete()
 
         if with_ava:
             if not os.path.exists('faces94'):
@@ -47,6 +52,63 @@ class Command(BaseCommand):
             random.shuffle(faces)
             
         # creating accounts
+        male_first_names = u'''
+        Сергей
+        Александр
+        Дмитрий
+        Андрей
+        Артур
+        Игорь
+        Армен
+        Алексей
+        Григорий
+        '''.split()
+
+        female_first_names = u'''
+        Анна
+        Анастасия
+        Риана
+        Елена
+        Мария
+        Дарина
+        Кристина
+        Марина
+        Ангелина
+        Полина
+        '''.split()
+
+        male_last_names = u'''
+        Смирнов
+        Иванов
+        Кузнецов
+        Соколов
+        Попов
+        Лебедев
+        Козлов
+        Новиков
+        Морозов
+        Петров
+        Волков
+        Соловьёв
+        Васильев
+        Зайцев
+        Павлов
+        Семёнов
+        Голубев
+        Виноградов
+        Богданов
+        Воробьёв
+        Фёдоров
+        Михайлов
+        Беляев
+        Тарасов
+        '''.split()
+
+        female_last_names = [u'%sа' % x for x in male_last_names]
+
+        male_names = (male_first_names, male_last_names)
+        female_names = (female_first_names, female_last_names)
+
         print
         for i in xrange(num):
             if not i % (num/10 or 10):
@@ -54,28 +116,23 @@ class Command(BaseCommand):
                 sys.stdout.flush()
             if with_ava:
                 if faces[i].find('/female/')!=-1:
-                    name = random.choice(('iren', 'mary', 'ann',))
-                    first_name = random.choice((u'Ирина',  u'Мария', u'Анна') )
-                    last_name = random.choice((u'Иванова',  u'Петрова', u'Сергеева'))
+                    names = female_names
                 else:
-                    name = random.choice(('den', 'pete', 'serge', 'ivan', 'vladimir'))
-                    first_name = random.choice((u'Иван',  u'Пётр', u'Константин'))
-                    last_name = random.choice((u'Иванов',  u'Петров', u'Сергеев'))
+                    names = male_names
             else:
-                name = random.choice(('den', 'pete', 'serge', 'dude', 'ivan', 'vladimir'))
-                first_name = random.choice((u'Иван',  u'Пётр', u'Константин'))
-                last_name = random.choice((u'Иванов',  u'Петров', u'Сергеев'))
+                names = random.choice((male_names, female_names))
 
-            username = '%s%s' % (name, i)
-            email=username + '@ya.ru'
-            print email
+            first_name = random.choice(names[0])
+            last_name = random.choice(names[1])
+
+            email='%d@ya.ru' % i
 
             acc = documents.User.create_user(
-                    username=username,
                     first_name=first_name,
                     last_name=last_name,
                     email=email,
-                    password='123'
+                    password='123',
+                    is_superuser=bool(not i)
                     )
             acc.save()
             if with_ava:
