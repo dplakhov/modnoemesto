@@ -18,7 +18,11 @@ class FriendshipOffer(Document):
     canceled = BooleanField()
     
     meta = {
-        'indexes': ['sender', 'recipient']
+        'indexes': ['sender', 'recipient'],
+
+        'ordering': [
+                '-ctime',
+        ]
     }
 
 class FriendshipOfferList(object):
