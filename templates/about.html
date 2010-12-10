@@ -51,7 +51,7 @@
     <p>{{ field.label }}<br/>
         {{ field }}</p>
 {% endfor %}
-<p><a href="#">Забыли пароль?</a></p>
+<p><a href="{% url social:lost_password %}">Забыли пароль?</a></p>
         </div>
                 <p><input class="subEnter" type="submit" value="Войти" /></p>
 

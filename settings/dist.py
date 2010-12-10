@@ -95,7 +95,9 @@ LOGIN_EXEMPT_URLS = (
     r'^avatar/',
     r'^cam/screen/',
     r'^activation/',
-    r'^media/', # need for ./manage.py runserver
+    r'^media/',
+    r'^lostpassword/',
+    r'^recoverypassword/',
 )
 
 # Make this unique, and don't share it with anybody.
