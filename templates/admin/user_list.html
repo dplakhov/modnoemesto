@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div id="content_info">
+<h2>{% trans "Users" %}</h2>
+<table>
+    <thead>
+        <tr>
+            <th>{% trans "ID" %}</th>
+            <th>{% trans "E-mail" %}</th>
+            <th>{% trans "First Name" %}</th>
+            <th>{% trans "Last Name" %}</th>
+            <th>{% trans "Nick" %}</th>
+            <th>{% trans "Date Joined" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for user in users.object_list %}
+    <tr>
+        <td><a href="{% url social:user user.id %}">{{ user.id }}</a></td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.first_name }}</td>
+        <td>{{ user.last_name }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.date_joined }}</td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if users.has_previous %}
+            <a href="{% url admin:user_list_page users.previous_page_number %}">{% trans "previous" %}</a>
+        {% endif %}
+
+        <span class="current">
+{% blocktrans with users.number as number and users.paginator.num_pages as num_pages %}
+Page {{ number }} of {{ num_pages }}.
+{% endblocktrans %}
+        </span>
+
+        {% if users.has_next %}
+            <a href="{% url admin:user_list_page users.next_page_number %}">{% trans "next" %}</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+{% endblock %}

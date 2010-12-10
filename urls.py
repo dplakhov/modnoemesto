@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     (r'^file/', include('apps.media.urls', namespace='media')),
     (r'^groups/', include('apps.groups.urls', namespace='groups')),
     (r'^friends/', include('apps.friends.urls', namespace='friends')),
+    (r'^admin/', include('apps.admin.urls', namespace='admin')),
 )
 
 #if settings.DEBUG:

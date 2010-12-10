@@ -24,6 +24,7 @@ urlpatterns = patterns('apps.cam.views',
        'screen', name='screen'),
 
    url(r'^screen/$', 'screen_edit', name='screen_edit'),
+   url(r'^(?P<id>[a-f0-9]{24})/screen/edit/$', 'screen_edit', name='screen_edit'),
 
 
     url(r'^types/$', 'type_list', name='type_list'),

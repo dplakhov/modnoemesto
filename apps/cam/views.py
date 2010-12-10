@@ -55,7 +55,7 @@ def cam_list(request):
 def cam_edit(request, id=None):
     user = request.user
     if id:
-        cam = get_document_or_404(Camera, id=id, owner=user)
+        cam = get_document_or_404(Camera, id=id)
         if not user.is_superuser and user.id != cam.owner.id:
             return HttpResponseNotFound()
         initial = cam._data
@@ -114,10 +114,16 @@ def screen(request, cam_id, format):
     return response
 
 
-def screen_edit(request):
-    camera = request.user.get_camera()
-    if not camera:
-        return redirect('social:home')
+def screen_edit(request, id=None):
+    if id:
+        camera = get_document_or_404(Camera, id=id)
+        if not request.user.is_superuser and request.user.id != camera.owner.id:
+            return HttpResponseNotFound()
+    else:
+        camera = request.user.get_camera()
+        if not camera:
+            return redirect('social:home')
+
     if request.method != 'POST':
         form = ScreenForm()
     else:

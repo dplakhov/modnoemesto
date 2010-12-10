@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+<div id="content_info">
+    <h2>{% trans "Statistic" %}</h2>
+    <table>
+        <tbody>
+        <tr><th>On-Line юзеров:</th><td>{{ users_online_count }}</td></tr>
+        <tr><th>Активных юзеров:</th><td>{{ users_active_count }}</td></tr>
+        <tr><th>Неактивных юзеров:</th><td>{{ users_inactive_count }}</td></tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
