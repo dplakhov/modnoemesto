@@ -1309,7 +1309,7 @@ div.operation p
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
-.friend_list_online p, .friend_list_all p
+.friend_list_online p.none_av, .friend_list_all p.none_av
 {
 	color: #027A98;
 	padding: 5px 0 10px 15px;
