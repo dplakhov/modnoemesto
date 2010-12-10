@@ -31,7 +31,7 @@
             <li id="notes"><a href="{% url notes:note_list %}">Заметки</a></li>
 
             <li id="group"><a href="{% url groups:user_group_list %}">Группы</a></li>
-            <li id="foto"><a href="{% url media_library:image_index %}">Фотографии</a></li>
+            <li id="foto"><p>{% comment %}<a href="{% url media_library:image_index %}">{% endcomment %}Фотографии{% comment %}</a>{% endcomment %}</p></li>
             <li id="video"><p>{% comment %}<a href="{% url social:in_dev %}">{% endcomment %}Видеозаписи{% comment %}</a>{% endcomment %}</p></li>
             <li id="audio"><p>{% comment %}<a href="{% url social:in_dev %}">{% endcomment %}Аудиозаписи{% comment %}</a>{% endcomment %}</p></li>
 
