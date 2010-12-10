@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n friends_tags %}
 {% block content %}
 
 <div id="content-related">
@@ -15,6 +15,9 @@
                     </div>
                     <div class="operation">
                          <p><a class="reference" href="{% url user_messages:send_message user.id %}">Сообщение</a></p>
+                         {% iffriend request.user user %}
+                         <p><a class="reference" href="{% url friends:add user.id %}">{% trans "Add to my friends" %}</a></p>
+                         {% endiffriend %}
                     </div>
                 </li>
             {% endfor %}
