@@ -541,7 +541,7 @@ div.reg a, div.enter a
 }
 input, textarea
 {
-    /*border: #cccccc solid 1px;*/
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 p.but

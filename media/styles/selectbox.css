@@ -21,11 +21,6 @@ div.selectbox-wrapper ul {
   margin:0px;
   padding:0px;
 }
-div.selectbox-wrapper ul li
-{
-	font-family: Arial, Helvetica, sans-serif;
-	color: #7A7A76;
-}
 /* Selected item in dropdown list*/
 div.selectbox-wrapper ul li.selected { 
   background-color: #EAF2FB;
@@ -43,6 +38,8 @@ div.selectbox-wrapper ul li {
   margin:0;
   padding:2px;
   cursor:pointer;
+  color: #7A7A76;
+  font-size: 13px;
 }
 
 /* Look and feel of select box */
