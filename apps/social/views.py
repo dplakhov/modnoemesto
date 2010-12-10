@@ -95,8 +95,8 @@ def register(request):
                     last_name=form.data['last_name'],
                     email=form.data['email'],
                     phone=form.data['phone'],
-                    is_active=False,
-                    activation_code=activation_code)
+                    is_active=False
+                    )
         user.gen_activation_code()
         user.set_password(form.data['password1'])
         user.save()
