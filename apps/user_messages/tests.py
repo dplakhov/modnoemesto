@@ -22,7 +22,7 @@ class BasicTestCase(unittest.TestCase):
         self.acc1 = User.create_user(email='test1@web-mark.ru', password='123')
         self.acc2 = User.create_user(email='test2@web-mark.ru', password='123')
 
-        self.c.login(username='test1', password='123')
+        self.c.login(email='test1@web-mark.ru', password='123')
 
     def tearDown(self):
         self.cleanUp()
@@ -169,7 +169,7 @@ class SingleMessageTestCase(BasicTestCase):
         self.failUnlessEqual(self.text, msg.text)
 
     def test_view_inbox(self):
-        self.c.login(username='test2', password='123')
+        self.c.login(email='test2@web-mark.ru', password='123')
         response = self.c.get(
             reverse('user_messages:view_inbox')
         )
@@ -179,7 +179,7 @@ class SingleMessageTestCase(BasicTestCase):
 
 
     def test_viewed_incoming_message_marks_as_read(self):
-        self.c.login(username='test2', password='123')
+        self.c.login(email='test2@web-mark.ru', password='123')
         with patch_settings(TASKS_ENABLED={}):
             resp = self.c.get(reverse('user_messages:view_message',
                                   kwargs={'message_id': self.msg.id }))
@@ -191,7 +191,7 @@ class SingleMessageTestCase(BasicTestCase):
 
     def test_viewed_incoming_message_decreases_unread_msg_count(self):
         self.assertEquals(1, len(self.acc2.messages.unread))
-        self.c.login(username='test2', password='123')
+        self.c.login(email='test2@web-mark.ru', password='123')
         with patch_settings(TASKS_ENABLED={}):
             resp = self.c.get(reverse('user_messages:view_message',
                     kwargs={'message_id': self.msg.id }))
