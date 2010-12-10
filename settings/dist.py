@@ -194,6 +194,8 @@ SITE_DOMAIN = 'modnoemesto.ru' # no slashes here, please
 
 ROBOT_EMAIL_ADDRESS = 'modnoemesto.ru <noreply@modnoemesto.ru>'
 
+SERVER_EMAIL = ROBOT_EMAIL_ADDRESS
+
 AVATAR_SIZES = (
     (200, 200),
     (60, 60),
