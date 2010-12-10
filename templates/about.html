@@ -40,7 +40,7 @@
 <div id="regColumn">
     <div id="enter_form">
         <h2 class="ent">Вход</h2>
-<form action="{{ app_path }}#enter_form" method="post">
+<form action="{{ app_path }}" method="post">
 <input type="hidden" name="form_name" value="login"/>
         <div style="overflow:hidden"><div class="enter rounded">
 {% if login_form.non_field_errors %}
@@ -61,7 +61,7 @@
     <div id="reg_form">
         <h2 class="registr">Регистрация</h2>
         <div>
-<form action="{{ app_path }}#reg_form" method="post">
+<form action="{{ app_path }}" method="post">
 <input type="hidden" name="form_name" value="register"/>
         <div class="reg rounded">
 {% for field in reg_form %}
