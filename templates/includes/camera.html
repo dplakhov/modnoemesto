@@ -41,12 +41,16 @@ var nick = "{{ user }}";
         {
             $('#html-5-video').hide();
             $f("flash-player", "/media/swf/flowplayer-3.2.5.swf", {
-                clip: { provider: 'rtmp' },
+                clip: {
+                    provider: 'rtmp'
+                },
                 playlist: [
                     {
                         url:'{{ camera.screen_full }}',
                         scaling: 'orig'
                     },{
+                        autoPlay: false,
+                        autoBuffering: false,
                         netConnectionUrl: 'rtmp://vid1.modnoemesto.ru/live',
                         url:'{{ camera.stream_name }}'
                     }
