@@ -15,6 +15,13 @@
                     </div>
                     <div class="operation">
                          <p><a class="reference" href="{% url user_messages:send_message user.id %}">Сообщение</a></p>
+                       {% if show_friend_button %}
+                        <p>
+                            <a href="{% url friends:add page_user.id %}">
+                                {% trans "Add to my friends" %}
+                            </a>
+                        </p>
+                        {% endif %}
                     </div>
                 </li>
             {% endfor %}
