@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from .exceptions import ImproperlyConfigured
+from django.template import TemplateSyntaxError
 
 class BaseInterface(object):
     def __init__(self, camera):
@@ -67,3 +68,6 @@ class Driver(object):
             self._control = self.CONTROL_INTERFACE_CLASS(self.camera)
         return self._control
 
+    def template(self):
+        raise TemplateSyntaxError('%s.template not implemented' %
+                                  self.__class__.__name__)
