@@ -17,58 +17,10 @@ var nick = "{{ user }}";
             //$('.scroll-pane').jScrollPane({showArrows:true, autoReinitialise: true, scrollbarWidth:5});
         });
     </script>
+
     <div id="watch-panel">
-        {% if not camera.force_html5 %}
-            <a style="display:block;width:515px;height:330px" id="flash-player"> </a>
-        {% endif %}
 
-        <video id="html-5-video"
-               autoplay="false"
-               controls width="515"
-               height="330"
-               style="display:block"
-               poster="{{ camera.screen_full }}"
-        src="http://vid1.modnoemesto.ru:1935/live/mp4:{{ camera.stream_name }}/playlist.m3u8" />
-
-        {% if not camera.force_html5 %}
-
-        <script type="text/javascript">
-        if(navigator.userAgent.match(/iPad/i))
-        {
-            $('#flash-player').hide();
-        }
-        else
-        {
-            $('#html-5-video').hide();
-            $f("flash-player", "/media/swf/flowplayer-3.2.5.swf", {
-                clip: {
-                    provider: 'rtmp'
-                },
-                playlist: [
-                    {
-                        url:'{{ camera.screen_full }}',
-                        scaling: 'orig'
-                    },{
-                        autoPlay: false,
-                        autoBuffering: false,
-                        netConnectionUrl: 'rtmp://vid1.modnoemesto.ru/live',
-                        url:'{{ camera.stream_name }}'
-                    }
-                ],
-                plugins: {
-                    rtmp: { url: '/media/swf/flowplayer.rtmp-3.2.3.swf', netConnectionUrl: 'rtmp://vid1.modnoemesto.ru/live' }
-                }
-            });
-        }
-        </script>
-        {% endif %}
-
-    {% if not camera.operator or camera.operator == user %}
-      <object>
-        <embed src="/media/swf/ManageCam_5.swf" width="450" height="154"
-            flashvars="ip=modnoemesto.ru&amp;path=cgi-bin/encoder&amp;user=admin&amp;password=123456&amp;debug=0">
-      </object>
-    {% endif %}
+    {% include camera.driver.template %}
 
     <div id="video_coment">
         <div id="laying">
