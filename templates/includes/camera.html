@@ -6,11 +6,17 @@ var room = "{{ camera.id }}";
 var nick = "{{ user }}";
 </script>
   <p>&nbsp;</p>
+{% if is_owner or user.is_superuser %}
+    <a class="reference" href='{% url cam:cam_edit camera.id %}'>
+        {% trans "Edit camera" %}
+    </a>
+    <a class="reference" href='{% url cam:screen_edit camera.id %}'>
+        {% trans "Edit screen" %}
+    </a>
+{% endif %}
+
   {% if camera.show %}
-    {% if is_owner or user.is_superuser %}
-    <a class="reference" href='{% url cam:cam_edit camera.id %}'>{% trans "Edit camera" %}</a>
-    <a class="reference" href='{% url cam:screen_edit camera.id %}'>{% trans "Edit screen" %}</a>
-    {% endif %}
+
     <script type="text/javascript">
         $(document).ready(function(){
             // jScrollPane conflicts with chat
