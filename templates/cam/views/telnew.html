@@ -1,0 +1,20 @@
+{% spaceless %}
+<object  width="515" height="330">
+    <embed src="/media/swf/telnew-{% ifequal request.user camera.owner %}manage{% else %}view{% endifequal %}.swf"
+        quality="high"
+        bgcolor="#869ca7"
+        flashvars="myname=&username={{ camera.id }}&ip=77.234.194.200"
+        width="515"
+        height="330"
+        name="sdo_video"
+        align="middle"
+        play="true"
+        loop="false"
+        quality="high"
+        allowScriptAccess="sameDomain"
+        type="application/x-shockwave-flash"
+        pluginspage="http://www.adobe.com/go/getflashplayer">
+    </embed>
+</object>
+{% endspaceless %}
+

@@ -35,6 +35,7 @@ class CameraTypeForm(forms.Form):
                         ('apps.cam.drivers.%s' % x, x)
                         for x in [
                             'axis.AxisDriver',
+                            'telnew.TelnewDriver',
                             ]
                     ]
                 )
