@@ -193,11 +193,7 @@ def type_list(request):
 def type_edit(request, id=None):
     if id:
         type = get_document_or_404(CameraType, id=id)
-        initial = {}
-        for k in type._fields.keys():
-            if k in ('id', ):
-                continue
-            initial[k] = getattr(type, k)
+        initial = type._data
     else:
         type = None
         initial = {}

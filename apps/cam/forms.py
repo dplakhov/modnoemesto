@@ -13,7 +13,7 @@ from apps.billing.documents import Tariff
 
 class CameraTypeForm(forms.Form):
     name = forms.CharField(label=_('Name'))
-    driver = forms.CharField(label=_('Driver name'))
+    driver = forms.ChoiceField(label=_('Driver name'))
     is_controlled = forms.BooleanField(label=_('Is controlled'), required=False)
 
     def clean_driver(self):
@@ -26,6 +26,18 @@ class CameraTypeForm(forms.Form):
             raise forms.ValidationError(_('Invalid driver name %(driver)s' % dict(driver=driver)))
         return driver
 
+    def __init__(self, *args, **kwargs):
+        super(CameraTypeForm, self).__init__(*args, **kwargs)
+
+        self.fields['driver'].choices = tuple(
+                [('', _('Select camera driver'))] +
+                    [
+                        ('apps.cam.drivers.%s' % x, x)
+                        for x in [
+                            'axis.AxisDriver',
+                            ]
+                    ]
+                )
 
 class ScreenForm(forms.Form):
     file = forms.FileField(label=_("Image"))
