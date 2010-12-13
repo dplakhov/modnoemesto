@@ -1,11 +1,11 @@
 {% spaceless %}
-<object  width="777" height="523">
+<object  width="530" height="450">
     <embed src="/media/swf/telnew-{% ifequal request.user camera.owner %}manage{% else %}view{% endifequal %}.swf"
         quality="high"
         bgcolor="#869ca7"
         flashvars="myname={{ request.user.camera.id }}&username={{ camera.id }}&ip=77.234.194.200"
-        width="777"
-        height="523"
+        width="530"
+        height="450"
         name="sdo_video"
         align="middle"
         play="true"
