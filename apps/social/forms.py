@@ -75,8 +75,17 @@ class UserCreationForm(forms.Form):
     A form that creates a user, with no privileges, from the given username
     and password.
     """
-    first_name = forms.CharField(label=_("First name"), min_length=4, max_length=64)
-    last_name = forms.CharField(label=_("Last name"), min_length=4, max_length=64)
+    NAME_REGEXP = ur'^[A-zА-я\'\`\-]+$'
+    first_name = forms.RegexField(label=_("First name"),
+                                  regex=NAME_REGEXP,
+                                  min_length=4,
+                                  max_length=64,
+                                  error_messages = {'invalid': _("This value may contain only letters, numbers and '/`/- characters.")})
+    last_name = forms.RegexField(label=_("Last name"),
+                                 regex=NAME_REGEXP,
+                                 min_length=4,
+                                 max_length=64,
+                                 error_messages = {'invalid': _("This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= characters.")})
     email = forms.EmailField(label=_("Email"), max_length=64)
     phone = forms.RegexField(label=_("Phone"),
                              required=False,
