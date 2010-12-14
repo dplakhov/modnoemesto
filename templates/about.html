@@ -89,6 +89,7 @@ $(document).ready(function(){
 {% if not is_auth %}
 
 <div id="last_news">
+    <h2 class="ent">Модные новости</h2>
     <div id="form" class="rounded">
      
         <div style="margin-top:0" id="fp">
@@ -97,7 +98,7 @@ $(document).ready(function(){
             {% for item in news_list|slice:"5" %}
                 <li>
                     <div class="item">
-                        <span class="date">{{ item.ctime }}</span>
+                        <span class="date">{{ item.ctime|date }}</span>
                         <a href="/" class="title">{{ item.title }}</a>
                         <div class="news_holder">
                         <p class="place preview">{{ item.preview_text|linebreaksbr }}</p>
