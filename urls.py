@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     (r'^groups/', include('apps.groups.urls', namespace='groups')),
     (r'^friends/', include('apps.friends.urls', namespace='friends')),
     (r'^admin/', include('apps.admin.urls', namespace='admin')),
+    (r'^news/', include('apps.news.urls', namespace='news')),
 )
 
 #if settings.DEBUG:
