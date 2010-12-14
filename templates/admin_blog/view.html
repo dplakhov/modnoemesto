@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<div id="filter_box">
+<h2>{% trans "News" %} "{{ item.title }}"</h2>
+    <div class="mess">
+       <div class="friendTable">
+           {% with item.author as user %}
+              {% include "includes/user/micro.html" %}
+           {% endwith %}
+       </div>
+       <div class="message_text">
+           <p>{% trans "Created:" %} {{ item.ctime }}</p>
+           <p>{{ item.title }}</p>
+       </div>
+       <div class="note_text_view rounded">
+          <p>{{ item.text }}</p>
+       </div>
+    </div>
+</div>
+{% endblock %}
