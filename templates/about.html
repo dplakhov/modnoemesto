@@ -54,7 +54,6 @@ $(document).ready(function(){
     id_pass2.live('input paste', check(id_pass2, ALPH_PASS));
 
     function check_phone(e){
-        console.log(e.keyCode);
         if ([8,9,13,16,35,36,37,38,39,40,45,46,48,49,50,51,52,53,54,55,56,57].indexOf(e.keyCode) != -1) return true;
         return false
     }
@@ -86,7 +85,7 @@ $(document).ready(function(){
                     <span class="date">11.11.12</span>
                         <a href="javascript: void(0);">{{ item.title }}</a>
                         <div class="news_holder">
-                        <p class="place preview">{{ item.preview_text }}</p>
+                        <p class="place preview">{{ item.preview_text|linebreaks }}</p>
                             <p class="place full">{{ item.text }}</p>
                             
                         </div>

@@ -10,10 +10,10 @@
            {% endwith %}
        </div>
        <div class="message_text">
-           <p>{% trans "Created:" %} {{ item.ctime }}</p>
+           <p>{% trans "Created:" %} {{ item.ctime|date }}</p>
        </div>
        <div class="note_text_view rounded">
-          <p>{{ item.text }}</p>
+          <p>{{ item.text|linebreaks }}</p>
        </div>
     </div>
 </div>
