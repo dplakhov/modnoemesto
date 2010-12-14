@@ -23,6 +23,46 @@ function check(id_input, alph) {
         id_input.val(check_text);
     }
 }
+
+$(document).ready(function(){
+    const ALPH_EMAIL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@';
+    const ALPH_PASS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@!#$%^&+= ";
+
+    var id_email = $('#enter_form #id_email');
+    id_email.live('input paste', check(id_email, ALPH_EMAIL));
+
+    var id_pass = $('#enter_form #id_password');
+    id_pass.live('input paste', check(id_pass, ALPH_PASS));
+
+    const ALPH_NAME = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя'`-";
+
+    var id_first_name = $('#id_first_name');
+    id_first_name.live('input paste', check(id_first_name, ALPH_NAME));
+
+    var id_last_name = $('#id_last_name');
+    id_last_name.live('input paste', check(id_last_name, ALPH_NAME));
+
+    var reg_id_email = $('#reg_form #id_email');
+    reg_id_email.live('input paste', check(reg_id_email, ALPH_EMAIL));
+
+    var id_pass1 = $('#id_password1');
+    id_pass1.live('input paste', check(id_pass1, ALPH_PASS));
+    var id_pass2 = $('#id_password2');
+    id_pass2.live('input paste', check(id_pass2, ALPH_PASS));
+
+    var id_phone = $('#id_phone');
+    id_phone.keydown(function(e){
+        if ([16,8,46,37,38,39,40,13,32].indexOf(e.keyCode) != -1) return true;
+        if (e.shiftKey) {
+            if (e.keyCode == 61) return true;
+        } else {
+            if ([109,48,49,50,51,52,53,54,55,56,57,9].indexOf(e.keyCode) != -1) return true;
+        }
+        console.log(e.keyCode);
+        return false
+    });
+});
+
 </script>
 {% endblock %}
 {% endif %}
@@ -83,21 +123,8 @@ function check(id_input, alph) {
 <p><a href="{% url social:lost_password %}">Забыли пароль?</a></p>
         </div>
                 <p><input class="subEnter" type="submit" value="Войти" /></p>
-
         </div>
 </form>
-
-<script type="text/javascript">
-const ALPH_EMAIL = 'abcdefghijklmnopqrstuvwxyz0123456789.-_@';
-const ALPH_PASS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@!#$%^&+= ";
-
-var id_email = $('#enter_form #id_email');
-id_email.live('input paste', check(id_email, ALPH_EMAIL));
-
-var id_pass = $('#enter_form #id_password');
-id_pass.live('input paste', check(id_pass, ALPH_PASS));
-</script>
-
     </div>
     <div id="reg_form">
         <h2 class="registr">Регистрация</h2>
@@ -128,26 +155,7 @@ id_pass.live('input paste', check(id_pass, ALPH_PASS));
             <a href="{% url social:static 'agreement' %}" target="_blank">Пользовательским соглашением</a>.</p>
             <p><input class="subReg" type="submit" value="Зарегистрироваться" /></p>
 </form>
-
-<script type="text/javascript">
-const ALPH_NAME = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя'`-";
-
-var id_first_name = $('#id_first_name');
-id_first_name.live('input paste', check(id_first_name, ALPH_NAME));
-
-var id_last_name = $('#id_last_name');
-id_last_name.live('input paste', check(id_last_name, ALPH_NAME));
-
-var reg_id_email = $('#reg_form #id_email');
-reg_id_email.live('input paste', check(reg_id_email, ALPH_EMAIL));
-
-var id_pass1 = $('#id_password1');
-id_pass1.live('input paste', check(id_pass1, ALPH_PASS));
-var id_pass2 = $('#id_password2');
-id_pass2.live('input paste', check(id_pass2, ALPH_PASS));
-</script>
-
-        </div>
+       </div>
     </div>
 </div>
 {% endif %}
