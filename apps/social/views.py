@@ -102,7 +102,6 @@ def register(request):
         user.save()
         user.send_activation_code()
         return direct_to_template(request, 'registration_complete.html')
-
     return form
 
 def django_login(request, user):
