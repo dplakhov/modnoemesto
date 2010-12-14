@@ -14,6 +14,7 @@
                     </p>
                 </div>
                     <p><a href="{% url news:view item.id %}">{{ item.title }}</a></p>
+                    {{ item.preview_text }}
     {% if request.user.is_superuser %}
                 <div class="operation">
                      <p><a class="reference" href="{% url news:edit item.id %}">{% trans 'Edit' %}</a></p>

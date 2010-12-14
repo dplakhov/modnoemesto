@@ -10,5 +10,6 @@ from mongoengine import StringField
 class News(Document):
     title = StringField(max_length=128, required=True)
     text = StringField(required=True)
+    preview_text = StringField(required=True)
     author = ReferenceField('User')
     ctime = DateTimeField(default=datetime.now)
