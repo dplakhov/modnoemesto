@@ -60,10 +60,13 @@ def static(request, page):
         'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })
     
 def about(request):
+    
     if request.user.is_authenticated():
         return direct_to_template(request, 'about.html', {
             'base_template': "base.html",
             'is_auth': True })
+    from apps.news.documents import News
+    news_list = list(News.objects().order_by('-ctime')[:5])
     reg_form = None
     login_form = None
     if request.method == "POST":
@@ -85,6 +88,7 @@ def about(request):
         'reg_form': reg_form,
         'login_form': login_form,
         'is_reg': is_reg,
+        'news_list': news_list,
         })
 
 def register(request):

@@ -23,7 +23,10 @@ function check(id_input, alph) {
         id_input.val(check_text);
     }
 }
-
+$(document).ready(function(){
+		$('.full').hide();
+	
+						   });
 $(document).ready(function(){
     const ALPH_EMAIL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@';
     const ALPH_PASS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@!#$%^&+= ";
@@ -65,7 +68,42 @@ $(document).ready(function(){
 {% endif %}
 
 {% block content %}
+
+
 <div id="content_{% if is_auth %}info{% else %}about{% endif %}">
+
+{% if not is_auth %}
+
+<div id="last_news">
+    <div id="form" class="rounded">
+     
+        <div style="margin-top:0" id="fp">
+
+            <ul>
+            {% for item in news_list %}
+                <li>
+                    <div class="item">
+                    <span class="date">11.11.12</span>
+                        <a href="javascript: void(0);">{{ item.title }}</a>
+                        <div class="news_holder">
+                        <p class="place preview">{{ item.preview_text }}</p>
+                            <p class="place full">{{ item.text }}</p>
+                            
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+
+{% endif %}
+
+<div style="width:450px; overflow:hidden; margin-left:250px;">
     <h2>Розыгрыш!</h2>
     <p>
 Вы участвуете в розыгрыше. Только сегодня! Стань одним из 65-ти пользователей нашей социальной сети
@@ -96,11 +134,13 @@ $(document).ready(function(){
 <ol>
     <li>Зарегистрируйся на сайте.</li>
     <li>Позвони по указанному номеру.</li>
-    <li>Получи БЕСПЛАТНО камеру и ее установку!
+    <li>Получи БЕСПЛАТНО камеру и ее установку!</li>
+    </ol>
     </p>
     <p>
 Твое <b>Модное место</b>.
     </p>
+</div>
 </div>
 {% if not is_auth %}
 <div id="regColumn">

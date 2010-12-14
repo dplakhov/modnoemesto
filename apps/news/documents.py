@@ -13,3 +13,9 @@ class News(Document):
     preview_text = StringField(required=True)
     author = ReferenceField('User')
     ctime = DateTimeField(default=datetime.now)
+
+    meta = {
+        'ordering': [
+            '-ctime',
+        ]
+    }

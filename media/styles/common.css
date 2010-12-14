@@ -580,7 +580,7 @@ input.subReg
 #enter_form .errorlist li, #reg_form .errorlist li {
     color: #585858;
 }
-#reg_form .reg input
+/*#reg_form*/ .reg input
 {
     background:url(../images/input.jpg) no-repeat;
     width: 218px;
@@ -791,7 +791,7 @@ div#fp
     height: 555px;
     overflow: hidden;
     background: #FFF;
-    margin-top: 7px !important;
+    margin-top: 7px /*!important*/;
     margin-top: 10px;
 }
 #fp ul li
@@ -1190,7 +1190,7 @@ p.when
 {
 	padding-top: 5px;
 	clear: both;
-	height: 95px;
+	/*height: 95px;*/
 	overflow: hidden;
 	border-bottom: 1px dotted #6F6F6F;
 }
@@ -1403,7 +1403,27 @@ div.system_messages li.error {
 {
 	color: #838383;
 }
-.no_bookmarcs
+#last_news
 {
-	
+	width: 235px;
+	float: left;
+	display: inline;
 }
+#id_phone_0
+{
+	background:url(../images/input_small.jpg) no-repeat;
+	width: 40px;
+	margin-left: 2px;
+}
+#id_phone_1
+{
+	background:url(../images/input_media.jpg) no-repeat;
+	width: 160px;
+}
+span.date
+{
+	display: block;
+	padding-bottom: 2px;
+}
+
+
