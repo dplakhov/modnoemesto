@@ -77,7 +77,7 @@ class UserCreationForm(forms.Form):
     """
     first_name = forms.CharField(label=_("First name"), min_length=4, max_length=64)
     last_name = forms.CharField(label=_("Last name"), min_length=4, max_length=64)
-    email = forms.EmailField(label=_("Email"))
+    email = forms.EmailField(label=_("Email"), max_length=64)
     phone = forms.RegexField(label=_("Phone"),
                              required=False,
                              regex=r'^\d{3}-\d{7}$',
@@ -89,7 +89,7 @@ class UserCreationForm(forms.Form):
                                  max_length=64,
                                  regex=r'^[\w\.\-_@!#$%^&+=]+$',
                                  error_messages = {'invalid': _("This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= characters.")})
-    password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput)
+    password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput, max_length=64)
 
     def clean_phone(self):
         return self.cleaned_data["phone"].replace('-','')
