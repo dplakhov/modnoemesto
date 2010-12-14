@@ -3,32 +3,19 @@
 {% block content %}
 <div id="filter_box">
 <h2>{% trans "Note" %} "{{ note.title }}"</h2>
-<div class="mess">
-   <div class="friendTable">
-       {% with note.author as user %}
-          {% include "includes/user/micro.html" %}
-       {% endwith %}
-                    
-                 <!--   {% with msg.sender as user %}
-                            {% include "includes/user/mini.html" %}
-                        {% endwith %} -->
-   </div>
-   <div class="message_text">
-       <p>{% trans "Created:" %} {{ note.timestamp }}</p>
-       <p>{{ note.title }}</p>
-   </div>
-   <div class="note_text_view rounded">
-      <p>{{ note.text }}</p>
-   </div>
-</div>
-
-
-{% comment %}
-
-<div>{% trans "Created:" %} {{ note.timestamp }}</div>
-<div>{% trans "Creator:" %} {{ note.author }}</div>
-<div>{{ note.text }}</div>
-
-{% endcomment %}
+    <div class="mess">
+       <div class="friendTable">
+           {% with note.author as user %}
+              {% include "includes/user/micro.html" %}
+           {% endwith %}
+       </div>
+       <div class="message_text">
+           <p>{% trans "Created:" %} {{ note.timestamp }}</p>
+           <p>{{ note.title }}</p>
+       </div>
+       <div class="note_text_view rounded">
+          <p>{{ note.text }}</p>
+       </div>
+    </div>
 </div>
 {% endblock %}
