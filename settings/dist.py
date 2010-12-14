@@ -178,6 +178,7 @@ INSTALLED_APPS = (
     'apps.friends',
     'apps.logging',
     'apps.news',
+    'apps.admin_blog',
 )
 
 
