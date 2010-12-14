@@ -2,7 +2,8 @@
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import permission_required
 from apps.social.documents import User
-from django.core.paginator import Paginator, EmptyPage, InvalidPage
+from django.core.paginator import EmptyPage, InvalidPage
+from apps.utils.paginator import Paginator
 
 
 
@@ -17,23 +18,7 @@ def statistic(request):
 
 @permission_required('superuser')
 def user_list(request, page=1):
-    #TODO: OLOLO
-    on_page = 25
-    page = int(page)
-    q = User.objects.order_by('-date_joined')
-    class ItemList(list):
-        def __init__(self, *args, **kwargs):
-            self.count = kwargs['count']
-            del kwargs['count']
-            super(ItemList, self).__init__(*args, **kwargs)
-        def __getslice__(self, i, j):
-            return self
-        def __len__(self):
-            return self.count
-    count = q.count()
-    items = ItemList(q[(page-1)*5:page*on_page], count=count)
-
-    paginator = Paginator(items, on_page)
+    paginator = Paginator(User.objects.order_by('-date_joined'), 25, User.objects.count())
     try:
         users = paginator.page(page)
     except (EmptyPage, InvalidPage):
