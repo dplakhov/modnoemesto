@@ -70,26 +70,23 @@ div#serch
     padding-left: 10px;
     color: #0888a0;
 }
-#menu
+#menu, #menuReg
 {
     padding-top: 18px;
     padding-left: 90px;
-    width: 740px;
     overflow: hidden;
     position: relative;
     top: -46px;
+}
+#menu
+{
+    width: 740px;
     left: 165px;
 }
 #menuReg
 {
-    padding-top: 18px;
-    padding-left: 90px;
-    width: 210px;
-    overflow: hidden;
-    position: relative;
-    top: -46px;
-    left: 700px !important;
-    left: 690px;
+    width: 148px;
+    left: 757px;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {#menu{top: -48px;}  #menuReg{top: -48px;}}
