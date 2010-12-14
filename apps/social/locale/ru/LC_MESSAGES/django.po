@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-10 14:43+0300\n"
+"POT-Creation-Date: 2010-12-14 12:46+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,107 +19,115 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: documents.py:81
+#: documents.py:82
 msgid "Confirm registration"
 msgstr "Подтверждение регистрации"
 
-#: documents.py:90
+#: documents.py:92
 msgid "Password Reset Request"
 msgstr "Восстановление пароля"
 
-#: forms.py:9 forms.py:51 forms.py:99
+#: forms.py:11 forms.py:55 forms.py:121
 msgid "Email"
 msgstr "E-mail"
 
-#: forms.py:10 forms.py:53 forms.py:103
+#: forms.py:12 forms.py:57 forms.py:125
 msgid "Password"
 msgstr "Пароль"
 
-#: forms.py:24
+#: forms.py:29
 msgid "Please enter a correct email and password."
 msgstr "Пожалуйста, введите верные E-mail и пароль."
 
-#: forms.py:26
+#: forms.py:31
 msgid "This account is inactive."
 msgstr "Эта учетная запись неактивна."
 
-#: forms.py:48
+#: forms.py:53
 msgid "First name"
 msgstr "Имя"
 
-#: forms.py:49
+#: forms.py:54
 msgid "Last name"
 msgstr "Фамилия"
 
-#: forms.py:50
+#: forms.py:56
 msgid "Phone"
 msgstr "Телефон"
 
-#: forms.py:52
-msgid "Login"
-msgstr "Ваш Никнейм"
+#: forms.py:62
+msgid ""
+"This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= "
+"characters."
+msgstr "Значение должно состоять только из букв, цифр и знаков ./-/_/@/!/#/$/%/^/&/+/=."
 
-#: forms.py:54 forms.py:104
+#: forms.py:63 forms.py:126
 msgid "Password confirmation"
 msgstr ""
 
-#: forms.py:59
+#: forms.py:75
+msgid ""
+"Phone number is invalid or can not be used. Check your spelling. For "
+"example: +7 916 356 43 34"
+msgstr "Телефонный номер указан неверно или не может быть использован. Проверьте правильность ввода. Например: +7 916 356 43 34"
+
+#: forms.py:81
 msgid "A user with that email already exists."
 msgstr "Пользователь с таким E-mail уже существует."
 
-#: forms.py:67 forms.py:110
+#: forms.py:89 forms.py:132
 msgid "The two password fields didn't match."
 msgstr ""
 
-#: forms.py:77
+#: forms.py:99
 msgid "Image"
 msgstr ""
 
-#: forms.py:82
+#: forms.py:104
 msgid "None selected"
 msgstr "Не выбран"
 
-#: forms.py:83
+#: forms.py:105
 msgid "Female"
 msgstr "Женский"
 
-#: forms.py:84
+#: forms.py:106
 msgid "Male"
 msgstr "Мужской"
 
-#: forms.py:87
+#: forms.py:109
 msgid "Hometown"
 msgstr "Родной город"
 
-#: forms.py:88
+#: forms.py:110
 msgid "Birthday"
 msgstr "День рождения"
 
-#: forms.py:89
+#: forms.py:111
 msgid "Sex"
 msgstr "Пол"
 
-#: forms.py:90
+#: forms.py:112
 msgid "ICQ"
 msgstr "ICQ"
 
-#: forms.py:91
+#: forms.py:113
 msgid "Mobile"
 msgstr "Телефон"
 
-#: forms.py:92
+#: forms.py:114
 msgid "Website"
 msgstr "Личный сайт"
 
-#: forms.py:93
+#: forms.py:115
 msgid "University"
 msgstr "ВУЗ"
 
-#: forms.py:94
+#: forms.py:116
 msgid "Department"
 msgstr "Факультет"
 
-#: forms.py:95
+#: forms.py:117
 msgid "Status"
 msgstr "Статус"
 

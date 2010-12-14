@@ -7,6 +7,64 @@
 {{ block.super }}
 <link href="/media/styles/page_info.css" rel="stylesheet" type="text/css" />
 {% endblock %}
+{% else %}
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+function check(id_input, alph) {
+    return function() {
+        var cur_text = id_input.val();
+        var cur_len = cur_text.length;
+        var check_text = '';
+        for (var i = 0; i < cur_len; i++) {
+            var char = cur_text[i];
+            if (alph.indexOf(char) != -1) check_text = check_text + char;
+        }
+        id_input.val(check_text);
+    }
+}
+
+$(document).ready(function(){
+    const ALPH_EMAIL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@';
+    const ALPH_PASS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@!#$%^&+= ";
+
+    var id_email = $('#enter_form #id_email');
+    id_email.live('input paste', check(id_email, ALPH_EMAIL));
+
+    var id_pass = $('#enter_form #id_password');
+    id_pass.live('input paste', check(id_pass, ALPH_PASS));
+
+    const ALPH_NAME = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя'`-";
+
+    var id_first_name = $('#id_first_name');
+    id_first_name.live('input paste', check(id_first_name, ALPH_NAME));
+
+    var id_last_name = $('#id_last_name');
+    id_last_name.live('input paste', check(id_last_name, ALPH_NAME));
+
+    var reg_id_email = $('#reg_form #id_email');
+    reg_id_email.live('input paste', check(reg_id_email, ALPH_EMAIL));
+
+    var id_pass1 = $('#id_password1');
+    id_pass1.live('input paste', check(id_pass1, ALPH_PASS));
+    var id_pass2 = $('#id_password2');
+    id_pass2.live('input paste', check(id_pass2, ALPH_PASS));
+
+    var id_phone = $('#id_phone');
+    id_phone.keydown(function(e){
+        if ([16,8,46,37,38,39,40,13,32].indexOf(e.keyCode) != -1) return true;
+        if (e.shiftKey) {
+            if (e.keyCode == 61) return true;
+        } else {
+            if ([109,48,49,50,51,52,53,54,55,56,57,9].indexOf(e.keyCode) != -1) return true;
+        }
+        console.log(e.keyCode);
+        return false
+    });
+});
+
+</script>
+{% endblock %}
 {% endif %}
 
 {% block content %}
@@ -65,7 +123,6 @@
 <p><a href="{% url social:lost_password %}">Забыли пароль?</a></p>
         </div>
                 <p><input class="subEnter" type="submit" value="Войти" /></p>
-
         </div>
 </form>
     </div>
@@ -75,18 +132,30 @@
 <form action="{{ app_path }}" method="post">
 <input type="hidden" name="form_name" value="register"/>
         <div class="reg rounded">
-{% for field in reg_form %}
-    {{ field.errors }}
-    <p>{{ field.label }}:<br/>
-        {{ field }}</p>
-{% endfor %}
+{{ reg_form.first_name.errors }}
+<p>*{{ reg_form.first_name.label }}:<br/>{{ reg_form.first_name }}</p>
+
+{{ reg_form.last_name.errors }}
+<p>*{{ reg_form.last_name.label }}:<br/>{{ reg_form.last_name }}</p>
+
+{{ reg_form.email.errors }}
+<p>*{{ reg_form.email.label }}:<br/>{{ reg_form.email }}</p>
+
+{{ reg_form.phone.errors }}
+<p>{{ reg_form.phone.label }}:<br/>{{ reg_form.phone }}</p>
+
+{{ reg_form.password1.errors }}
+<p>*{{ reg_form.password1.label }}:<br/>{{ reg_form.password1 }}</p>
+
+{{ reg_form.password2.errors }}
+<p>*{{ reg_form.password2.label }}:<br/>{{ reg_form.password2 }}</p>
         </div>
             <p style="color:#999999; padding-top: 7px">
             Фактом регистрации Вы соглашаетесь с
             <a href="{% url social:static 'agreement' %}" target="_blank">Пользовательским соглашением</a>.</p>
             <p><input class="subReg" type="submit" value="Зарегистрироваться" /></p>
 </form>
-        </div>
+       </div>
     </div>
 </div>
 {% endif %}
