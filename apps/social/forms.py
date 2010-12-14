@@ -48,8 +48,8 @@ class LoginForm(forms.Form):
 class PhoneNumberMultiWidget(forms.MultiWidget):
     def __init__(self,attrs=None):
         widgets = (
-            forms.TextInput(attrs={'size':'3','maxlength':'3', 'class':'phone'}),
-            forms.TextInput(attrs={'size':'7','maxlength':'7', 'class':'phone'}),
+            forms.TextInput(attrs={'size':'3','maxlength':'3'}),
+            forms.TextInput(attrs={'size':'7','maxlength':'7'}),
         )
         super(PhoneNumberMultiWidget, self).__init__(widgets, attrs)
 
