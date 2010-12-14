@@ -477,6 +477,12 @@ div#content_about
     font-size: 18px;
     padding: 10px 0px 20px 0px;
 }
+#content_about h2.ent
+{
+    color: #A1A095;
+    padding-bottom: 0;
+    padding-top: 20px;
+}
 #content_about p
 {
     color: #585858;
