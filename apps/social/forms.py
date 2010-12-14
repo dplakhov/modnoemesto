@@ -4,6 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from documents import User
 from django.contrib.auth import authenticate
+import re
+
 
 class LoginForm(forms.Form):
     email = forms.EmailField(label=_("Email"))
@@ -48,11 +50,30 @@ class UserCreationForm(forms.Form):
     A form that creates a user, with no privileges, from the given username
     and password.
     """
-    first_name = forms.CharField(label=_("First name"), max_length=64)
-    last_name = forms.CharField(label=_("Last name"), max_length=64)
+    first_name = forms.CharField(label=_("First name"), min_length=4, max_length=64)
+    last_name = forms.CharField(label=_("Last name"), min_length=4, max_length=64)
     email = forms.EmailField(label=_("Email"))
-    password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput, max_length=64)
-    password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput, max_length=64)
+    phone = forms.CharField(label=_("Phone"), required=False)
+    password1 = forms.RegexField(label=_("Password"),
+                                 widget=forms.PasswordInput,
+                                 min_length=4,
+                                 max_length=64,
+                                 regex=r'^[\w\.\-_@!#$%^&+=]+$',
+                                 error_messages = {'invalid': _("This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= characters.")})
+    password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput)
+
+    def clean_phone(self):
+        phone = self.cleaned_data["phone"].strip()
+        if phone != '':
+            phone = phone.replace(' ', '').replace('\t', '').replace('-', '')
+            result = re.match(r'^(?:\+7|8|)(\d{10})$', phone)
+            if result:
+                return result.group(1)
+            result = re.match(r'^(\d{6,7})$', phone)
+            if result:
+                return result.group(1)
+            raise forms.ValidationError(_("Phone number is invalid or can not be used. Check your spelling. For example: +7 916 356 43 34"))
+        return phone
 
     def clean_email(self):
         email = self.cleaned_data["email"].lower()
@@ -62,9 +83,9 @@ class UserCreationForm(forms.Form):
         return email
 
     def clean_password2(self):
-        password1 = self.cleaned_data.get("password1", "")
+        password1 = self.cleaned_data.get("password1", None)
         password2 = self.cleaned_data["password2"]
-        if password1 != password2:
+        if password1 is not None and password1 != password2:
             raise forms.ValidationError(_("The two password fields didn't"
                                           " match."))
         return password2
