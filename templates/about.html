@@ -24,10 +24,25 @@ function check(id_input, alph) {
     }
 }
 $(document).ready(function(){
-		$('.full').hide();
-	
-						   });
-$(document).ready(function(){
+    $('.preview').show();
+	$('.full').hide();
+    $('#last_news').click(function(e) {
+        var clicked = $(e.target);
+        if (clicked.hasClass('title')) {
+            var el = clicked.next();
+            var full = $('.full', el);
+            var preview = $('.preview', el);
+            if (full.css('display') == 'none'){
+                preview.hide()
+                full.show()
+            } else {
+                full.hide()
+                preview.show()
+            }
+            return false;
+        }
+    });
+
     const ALPH_EMAIL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@';
     const ALPH_PASS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@!#$%^&+= ";
 
@@ -80,15 +95,14 @@ $(document).ready(function(){
         <div style="margin-top:0" id="fp">
 
             <ul>
-            {% for item in news_list %}
+            {% for item in news_list|slice:"5" %}
                 <li>
                     <div class="item">
-                    <span class="date">11.11.12</span>
-                        <a href="javascript: void(0);">{{ item.title }}</a>
+                        <span class="date">{{ item.ctime }}</span>
+                        <a href="/" class="title">{{ item.title }}</a>
                         <div class="news_holder">
-                        <p class="place preview">{{ item.preview_text }}</p>
+                            <p class="place preview">{{ item.preview_text }}</p>
                             <p class="place full">{{ item.text }}</p>
-                            
                         </div>
                     </div>
                 </li>

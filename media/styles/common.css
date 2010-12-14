@@ -788,7 +788,6 @@ select#filter
 div#fp
 {
     /*padding: 5px;*/
-    height: 555px;
     overflow: hidden;
     background: #FFF;
     margin-top: 7px /*!important*/;
@@ -1408,6 +1407,9 @@ div.system_messages li.error {
 	width: 235px;
 	float: left;
 	display: inline;
+}
+#last_news .preview {
+    display: none;
 }
 #id_phone_0
 {
