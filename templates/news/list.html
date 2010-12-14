@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div id="filter_box">
+<h2>{% trans "News list" %}</h2>
+
+<p>
+    <div class="list list_news">
+{% for item in list %}
+    	<div class="message_item">
+                <div class="note_text">
+                    <p> {{ item.ctime }}
+                    </p>
+                </div>
+                    <p><a href="{% url news:view item.id %}">{{ item.title }}</a></p>
+    {% if request.user.is_superuser %}
+                <div class="operation">
+                     <p><a class="reference" href="{% url news:edit item.id %}">{% trans 'Edit' %}</a></p>
+                     <p><a class="reference" href="{% url news:delete item.id %}">{% trans 'Delete' %}</a></p>
+                </div>
+
+        {% endif %}
+
+          </div>
+{% endfor %}
+    </div>
+
+</p>
+<div class="but">
+<p><a class="reference" href="{% url news:add %}">{% trans 'Create a news' %}</a></p>
+</div>
+</div>
+{% endblock %}

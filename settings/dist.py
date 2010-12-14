@@ -177,6 +177,7 @@ INSTALLED_APPS = (
     'apps.groups',
     'apps.friends',
     'apps.logging',
+    'apps.news',
 )
 
 
