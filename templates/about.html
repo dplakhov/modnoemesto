@@ -50,16 +50,14 @@ $(document).ready(function(){
     var id_pass2 = $('#id_password2');
     id_pass2.live('input paste', check(id_pass2, ALPH_PASS));
 
-    var id_phone = $('#id_phone');
-    id_phone.keydown(function(e){
-        if ([16,8,46,37,38,39,40,13,32].indexOf(e.keyCode) != -1) return true;
-        if (e.shiftKey) {
-            if (e.keyCode == 61) return true;
-        } else {
-            if ([109,48,49,50,51,52,53,54,55,56,57,9].indexOf(e.keyCode) != -1) return true;
-        }
+    function check_phone(e){
+        console.log(e.keyCode);
+        if ([8,9,13,16,35,36,37,38,39,40,45,46,48,49,50,51,52,53,54,55,56,57].indexOf(e.keyCode) != -1) return true;
         return false
-    });
+    }
+
+    $('#id_phone_0').keydown(check_phone);
+    $('#id_phone_1').keydown(check_phone);
 });
 
 </script>
@@ -141,7 +139,7 @@ $(document).ready(function(){
 <p>*{{ reg_form.email.label }}:<br/>{{ reg_form.email }}</p>
 
 {{ reg_form.phone.errors }}
-<p>{{ reg_form.phone.label }}:<br/>{{ reg_form.phone }}</p>
+<p>{{ reg_form.phone.label }}:<br/>+7{{ reg_form.phone }}</p>
 
 {{ reg_form.password1.errors }}
 <p>*{{ reg_form.password1.label }}:<br/>{{ reg_form.password1 }}</p>

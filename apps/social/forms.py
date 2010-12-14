@@ -45,6 +45,31 @@ class LoginForm(forms.Form):
         return self.user_cache
 
 
+class PhoneNumberMultiWidget(forms.MultiWidget):
+    def __init__(self,attrs=None):
+        widgets = (
+            forms.TextInput(attrs={'size':'3','maxlength':'3', 'class':'phone'}),
+            forms.TextInput(attrs={'size':'7','maxlength':'7', 'class':'phone'}),
+        )
+        super(PhoneNumberMultiWidget, self).__init__(widgets, attrs)
+
+    def decompress(self, value):
+        if value:
+            return value.split('-')
+        return (None,None)
+
+    def value_from_datadict(self, data, files, name):
+        value = [u'',u'']
+        # look for keys like name_1, get the index from the end
+        # and make a new list for the string replacement values
+        for d in filter(lambda x: x.startswith(name), data):
+            index = int(d[len(name)+1:])
+            value[index] = data[d]
+        if value[0] == value[1] == u'':
+            return None
+        return u'%s-%s' % tuple(value)
+
+
 class UserCreationForm(forms.Form):
     """
     A form that creates a user, with no privileges, from the given username
@@ -53,7 +78,11 @@ class UserCreationForm(forms.Form):
     first_name = forms.CharField(label=_("First name"), min_length=4, max_length=64)
     last_name = forms.CharField(label=_("Last name"), min_length=4, max_length=64)
     email = forms.EmailField(label=_("Email"))
-    phone = forms.CharField(label=_("Phone"), required=False)
+    phone = forms.RegexField(label=_("Phone"),
+                             required=False,
+                             regex=r'^\d{3}-\d{7}$',
+                             widget=PhoneNumberMultiWidget,
+                             error_messages = {'invalid': _("Phone number is invalid or can not be used. Check your spelling. For example: +7 916 3564334")})
     password1 = forms.RegexField(label=_("Password"),
                                  widget=forms.PasswordInput,
                                  min_length=4,
@@ -63,17 +92,7 @@ class UserCreationForm(forms.Form):
     password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput)
 
     def clean_phone(self):
-        phone = self.cleaned_data["phone"].strip()
-        if phone != '':
-            phone = phone.replace(' ', '').replace('\t', '').replace('-', '')
-            result = re.match(r'^(?:\+7|8|)(\d{10})$', phone)
-            if result:
-                return result.group(1)
-            result = re.match(r'^(\d{6,7})$', phone)
-            if result:
-                return result.group(1)
-            raise forms.ValidationError(_("Phone number is invalid or can not be used. Check your spelling. For example: +7 916 356 43 34"))
-        return phone
+        return self.cleaned_data["phone"].replace('-','')
 
     def clean_email(self):
         email = self.cleaned_data["email"].lower()
