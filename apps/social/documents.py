@@ -12,7 +12,9 @@ from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse
 from apps.groups.documents import GroupUser
 from mongoengine.document import Document
-from mongoengine.fields import ReferenceField, StringField, URLField, BooleanField, DateTimeField, FloatField
+from mongoengine.fields import ReferenceField, StringField, URLField
+from mongoengine.fields import BooleanField, DateTimeField, FloatField
+from mongoengine.fields import ListField
 from apps.utils.decorators import cached_property
 
 class LimitsViolationException(Exception):
@@ -61,6 +63,7 @@ class User(Document):
     last_login = DateTimeField(default=datetime.now)
     last_access = DateTimeField(default=datetime.now)
     date_joined = DateTimeField(default=datetime.now)
+    permissions = ListField(StringField())
 
     # activation stuff
     activation_code = StringField(max_length=12)
@@ -199,9 +202,13 @@ class User(Document):
         return []
 
     def has_perm(self, perm):
+        if self.is_superuser:
+            return True
+
         if perm == 'superuser':
-            return self.is_superuser
-        raise Exception
+            return False
+        
+        return perm in self.permissions
 
     def get_camera(self):
         from apps.cam.documents import Camera

@@ -178,6 +178,7 @@ INSTALLED_APPS = (
     'apps.friends',
     'apps.logging',
     'apps.news',
+    'apps.admin_blog',
 )
 
 
@@ -215,7 +216,7 @@ MAX_USER_MESSAGES_COUNT = 500
 LIBRARY_IMAGES_PER_PAGE = 2
 
 TIME_IS_ONLINE = timedelta(minutes=5)
-
+LAST_ACCESS_UPDATE_INTERVAL = timedelta(minutes=5)
 from .logging import *
 from .billing import *
 from .redis import *

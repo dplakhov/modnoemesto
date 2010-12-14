@@ -13,8 +13,9 @@ urlpatterns = patterns('',
     (r'^file/', include('apps.media.urls', namespace='media')),
     (r'^groups/', include('apps.groups.urls', namespace='groups')),
     (r'^friends/', include('apps.friends.urls', namespace='friends')),
-    (r'^admin/', include('apps.admin.urls', namespace='admin')),
+    (r'^modmin/', include('apps.admin.urls', namespace='admin')),
     (r'^news/', include('apps.news.urls', namespace='news')),
+    (r'^owner/', include('apps.admin_blog.urls', namespace='admin_blog')),
 )
 
 #if settings.DEBUG:
