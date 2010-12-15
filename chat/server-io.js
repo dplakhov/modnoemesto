@@ -154,12 +154,14 @@ socket.on("connection", function(client){
     
     client.on("message", function(message) {
         var allowed = false;
-		
+		/*
         for(domain in allowed_domains) {
             if(allowed_domains[domain] == client.request.headers.host){
 				allowed = true;
 			} 
         }
+        */
+        allowed = true;
 
         sys.puts("Message: "+message);
         if(allowed) {
