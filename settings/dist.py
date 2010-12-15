@@ -98,7 +98,6 @@ LOGIN_EXEMPT_URLS = (
     r'^lostpassword/',
     r'^recoverypassword/',
     ur'^ЕГГОГ',
-    r'^captcha/',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -221,5 +220,4 @@ LAST_ACCESS_UPDATE_INTERVAL = timedelta(minutes=5)
 from .logging import *
 from .billing import *
 from .celery import *
-from .captcha import *
-
+from .chat import *

@@ -2,19 +2,18 @@
 
 {% load i18n %}
 
+
+{% block js %}
+{{ block.super }}
+<script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
+{% endblock %}
+
 {% block css %}
 {{ block.super }}
 <link href="/media/styles/profile.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
-{% block js %}
-{{ block.super }}
-<script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
-{% if user.is_authenticated %}
-<script src="/media/js/socket.io.js"></script>
-<script src="/media/js/client-io.js"></script>
-{% endif %}
-{% endblock %}
+
 
 {% block content %}
 <div id="left">
@@ -98,6 +97,8 @@
         <a href="{% url cam:cam_add %}">{% trans "Wanna do it right now?" %}</a>
         </div>
         {% endif %}
+		
+		
     </div>
 
 </div>

@@ -176,13 +176,6 @@ def mongodb_replication_info():
 def mongodb_slave_replication_info():
     run("echo 'db.printSlaveReplicationInfo()' | mongo")
 
-def sess():
-    run('''echo "db.django_session.find({_id: '9516493f34cbbf200e48d2790d655c58'})" | mongo social''')
-
-def date():
-    run('date')
-
-
 def mongoconf_install():
     put('etc/init.d/mongoconf', '/etc/init.d/mongoconf', mode=0755)
     run('update-rc.d mongoconf defaults')
@@ -283,20 +276,34 @@ def restart_app_server():
     run('sudo /etc/init.d/nginx reload')
     run('sudo /etc/init.d/socnet restart')
 
+# chat server
+def install_chat_server_software():
+    run('apt-get --yes install nodejs')
+
+# chat server end
 def uname():
     run('uname -a')
+
 
 def uptime():
     run('uptime')
 
+
 def free():
     run('free')
+
 
 def whoami():
     run('whoami')
 
+
 def eth1_addr():
     run('ifconfig eth1 | grep "inet addr"')
+
+
+def date():
+    run('date')
+
 
 def cmd(cmd):
     run(cmd)
