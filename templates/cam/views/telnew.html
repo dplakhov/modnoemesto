@@ -3,7 +3,7 @@
     <embed src="/media/swf/telnew-{% ifequal request.user camera.owner %}manage{% else %}view{% endifequal %}.swf"
         quality="high"
         bgcolor="#869ca7"
-        flashvars="myname={% if request.user.get_camera %}{{ request.user.get_camera.id }}{% endif %}&username={{ camera.id }}&ip=77.234.194.200"
+        flashvars="myname={% if request.user.get_camera %}{{ request.user.get_camera.id }}{% endif %}&username={{ camera.id }}&streamname={{ camera.id }}&ip=77.234.194.200"
         width="530"
         height="450"
         name="sdo_video"
