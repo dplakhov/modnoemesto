@@ -23,8 +23,26 @@ function check(id_input, alph) {
         id_input.val(check_text);
     }
 }
-
 $(document).ready(function(){
+    $('.preview').show();
+	$('.full').hide();
+    $('#last_news').click(function(e) {
+        var clicked = $(e.target);
+        if (clicked.hasClass('title')) {
+            var el = clicked.next();
+            var full = $('.full', el);
+            var preview = $('.preview', el);
+            if (full.css('display') == 'none'){
+                preview.hide()
+                full.show()
+            } else {
+                full.hide()
+                preview.show()
+            }
+            return false;
+        }
+    });
+
     const ALPH_EMAIL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@';
     const ALPH_PASS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_@!#$%^&+= ";
 
@@ -50,16 +68,13 @@ $(document).ready(function(){
     var id_pass2 = $('#id_password2');
     id_pass2.live('input paste', check(id_pass2, ALPH_PASS));
 
-    var id_phone = $('#id_phone');
-    id_phone.keydown(function(e){
-        if ([16,8,46,37,38,39,40,13,32].indexOf(e.keyCode) != -1) return true;
-        if (e.shiftKey) {
-            if (e.keyCode == 61) return true;
-        } else {
-            if ([109,48,49,50,51,52,53,54,55,56,57,9].indexOf(e.keyCode) != -1) return true;
-        }
+    function check_phone(e){
+        if ([8,9,13,16,35,36,37,38,39,40,45,46,48,49,50,51,52,53,54,55,56,57].indexOf(e.keyCode) != -1) return true;
         return false
-    });
+    }
+
+    $('#id_phone_0').keydown(check_phone);
+    $('#id_phone_1').keydown(check_phone);
 });
 
 </script>
@@ -67,7 +82,42 @@ $(document).ready(function(){
 {% endif %}
 
 {% block content %}
+
+
 <div id="content_{% if is_auth %}info{% else %}about{% endif %}">
+
+{% if not is_auth %}
+
+<div id="last_news">
+    <h2 class="ent">Модные новости</h2>
+    <div id="form" class="rounded">
+     
+        <div style="margin-top:0" id="fp">
+
+            <ul>
+            {% for item in news_list|slice:"5" %}
+                <li>
+                    <div class="item">
+                        <span class="date">{{ item.ctime|date }}</span>
+                        <a href="/" class="title">{{ item.title }}</a>
+                        <div class="news_holder">
+                        <p class="place preview">{{ item.preview_text|linebreaksbr }}</p>
+                            <p class="place full">{{ item.text|linebreaksbr }}</p>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+
+{% endif %}
+
+<div style="width:450px; overflow:hidden; margin-left:250px;">
     <h2>Розыгрыш!</h2>
     <p>
 Вы участвуете в розыгрыше. Только сегодня! Стань одним из 65-ти пользователей нашей социальной сети
@@ -98,11 +148,13 @@ $(document).ready(function(){
 <ol>
     <li>Зарегистрируйся на сайте.</li>
     <li>Позвони по указанному номеру.</li>
-    <li>Получи БЕСПЛАТНО камеру и ее установку!
+    <li>Получи БЕСПЛАТНО камеру и ее установку!</li>
+    </ol>
     </p>
     <p>
 Твое <b>Модное место</b>.
     </p>
+</div>
 </div>
 {% if not is_auth %}
 <div id="regColumn">
@@ -141,7 +193,7 @@ $(document).ready(function(){
 <p>*{{ reg_form.email.label }}:<br/>{{ reg_form.email }}</p>
 
 {{ reg_form.phone.errors }}
-<p>{{ reg_form.phone.label }}:<br/>{{ reg_form.phone }}</p>
+<p>{{ reg_form.phone.label }}:<br/>+7{{ reg_form.phone }}</p>
 
 {{ reg_form.password1.errors }}
 <p>*{{ reg_form.password1.label }}:<br/>{{ reg_form.password1 }}</p>

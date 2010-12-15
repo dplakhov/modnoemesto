@@ -70,26 +70,23 @@ div#serch
     padding-left: 10px;
     color: #0888a0;
 }
-#menu
+#menu, #menuReg
 {
     padding-top: 18px;
     padding-left: 90px;
-    width: 620px;
     overflow: hidden;
     position: relative;
     top: -46px;
-    left: 283px;
+}
+#menu
+{
+    width: 740px;
+    left: 165px;
 }
 #menuReg
 {
-    padding-top: 18px;
-    padding-left: 90px;
-    width: 210px;
-    overflow: hidden;
-    position: relative;
-    top: -46px;
-    left: 700px !important;
-    left: 690px;
+    width: 148px;
+    left: 757px;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {#menu{top: -48px;}  #menuReg{top: -48px;}}
@@ -477,6 +474,12 @@ div#content_about
     font-size: 18px;
     padding: 10px 0px 20px 0px;
 }
+#content_about h2.ent
+{
+    color: #A1A095;
+    padding-bottom: 0;
+    padding-top: 20px;
+}
 #content_about p
 {
     color: #585858;
@@ -580,7 +583,7 @@ input.subReg
 #enter_form .errorlist li, #reg_form .errorlist li {
     color: #585858;
 }
-#reg_form .reg input
+/*#reg_form*/ .reg input
 {
     background:url(../images/input.jpg) no-repeat;
     width: 218px;
@@ -788,10 +791,9 @@ select#filter
 div#fp
 {
     /*padding: 5px;*/
-    height: 555px;
     overflow: hidden;
     background: #FFF;
-    margin-top: 7px !important;
+    margin-top: 7px /*!important*/;
     margin-top: 10px;
 }
 #fp ul li
@@ -1190,7 +1192,7 @@ p.when
 {
 	padding-top: 5px;
 	clear: both;
-	height: 95px;
+	/*height: 95px;*/
 	overflow: hidden;
 	border-bottom: 1px dotted #6F6F6F;
 }
@@ -1403,7 +1405,30 @@ div.system_messages li.error {
 {
 	color: #838383;
 }
-.no_bookmarcs
+#last_news
 {
-	
+	width: 235px;
+	float: left;
+	display: inline;
 }
+#last_news .preview {
+    display: none;
+}
+#id_phone_0
+{
+	background:url(../images/input_small.jpg) no-repeat;
+	width: 40px;
+	margin-left: 2px;
+}
+#id_phone_1
+{
+	background:url(../images/input_media.jpg) no-repeat;
+	width: 160px;
+}
+span.date
+{
+	display: block;
+	padding-bottom: 2px;
+}
+
+

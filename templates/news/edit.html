@@ -4,15 +4,19 @@
 <div id="filter_box">
 <h2>
     {% if create %}
-        {% trans "Add a news" %}
+        Создание Новости
     {% else %}
-        {% trans "Edit news" %}
+        Редактирование Новости
     {% endif %}
 </h2>
-
 <form method="post">
 <div class="filt rounded">
      <table class="group_add">
+           <tr>
+            <td style="height:10px"></td>
+            <td style="height:10px" class="empty_filt"></td>
+            <td style="height:10px"></td>
+        </tr>
         <tr>
             <th><label for="id_title">Заголовок:</label></th>
             <td class="empty_filt"></td>
@@ -20,6 +24,8 @@
         </tr>
         <tr>
             <td style="height:10px"></td>
+            <td style="height:10px" class="empty_filt"></td>
+            <td style="height:10px">{{ form.title.errors }}</td>
         </tr>
         <tr>
             <th><label for="id_text">Текст:</label></th>
@@ -28,7 +34,20 @@
         </tr>
                 <tr>
             <td style="height:10px"></td>
+            <td style="height:10px" class="empty_filt"></td>
+            <td style="height:10px">{{ form.text.errors }}</td>
         </tr>
+        <tr>
+            <th><label for="id_text">Текст для предварительного просмотра:</label></th>
+            <td class="empty_filt"></td>
+            <td><div class="input_holder rounded">{{ form.preview_text }}</div></td>
+        </tr>
+        <tr>
+            <td style="height:10px"></td>
+            <td style="height:10px" class="empty_filt"></td>
+            <td style="height:10px">{{ form.preview_text.errors }}</td>
+        </tr>
+          
     </table>
 </div>
     <div class="but">

@@ -107,11 +107,10 @@
             </div>
 -->
         </div>
-{% if user.is_authenticated %}
-        <div id="menu">
+        <div id="menu{% if not user.is_authenticated %}Reg{% endif %}">
             <table cellspacing="0px" cellpadding="0px">
             <tr>
-
+{% if user.is_authenticated %}
             <td class="left_corner {% active request 'social:index' %}"></td>
             <td class="menu_but {% active request 'social:index' %}"><a href="/">люди</a></td>
             <td class="right_corner {% active request 'social:index' %}"></td>
@@ -136,16 +135,19 @@
             <td class="menu_but {% active request 'groups:group_list' %}"><a href="{% url groups:group_list %}">группы</a></td>
             <td class="right_corner {% active request 'groups:group_list' %}"></td>
             <td class="empty"></td>
-
-
+{% endif %}
+            <td class="left_corner"></td>
+            <td class="menu_but"><a href="http://blog.modnoemesto.ru/blog/">администрация</a></td>
+            <td class="right_corner"></td>
+            <td class="empty"></td>
+{% if user.is_authenticated %}
             <td class="left_corner"></td>
             <td class="menu_but"><a href="{% url social:logout %}">выход</a></td>
             <td class="right_corner"></td>
-
+{% endif %}
             </tr>
             </table>
         </div>
-{% endif %}
 
         <div id="mainContent" style="background:url(/media/images/bg_reg.jpg) no-repeat">
 
