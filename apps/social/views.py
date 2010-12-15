@@ -181,10 +181,12 @@ def home(request):
     #@todo: need filter
     profile = request.user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
+    
     return direct_to_template(request, 'social/home.html', {
         'camera': camera,
         'is_owner': True,
         'profile': profile,
+        'settings': settings
     })
 
 
@@ -207,7 +209,8 @@ def user(request, user_id=None):
                               { 'page_user': page_user, 'msgform': msgform,
                                 'show_friend_button': show_friend_button,
                                 'show_bookmark_button': camera and camera.can_bookmark_add(request.user),
-                                'camera': camera })
+                                'camera': camera, 
+                                'settings': settings})
 
 
 def avatar(request, user_id, format):

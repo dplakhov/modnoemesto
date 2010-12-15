@@ -9,9 +9,6 @@
     {{ block.super }}
     <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
     {% if user.is_authenticated and camera.show %}
-    <script src="/media/js/underscore-min.js"></script>
-    <script src="/media/js/socket.io.js"></script>
-    <script src="/media/js/client-io.js"></script>
     {% endif %}
 {% endblock %}
 
