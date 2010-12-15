@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from documents import User
 from django.contrib.auth import authenticate
-import re
+from apps.supercaptcha import CaptchaField
 
 
 class LoginForm(forms.Form):
@@ -99,6 +99,9 @@ class UserCreationForm(forms.Form):
                                  regex=r'^[\w\.\-_@!#$%^&+=]+$',
                                  error_messages = {'invalid': _("This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= characters.")})
     password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput, max_length=64)
+
+    captcha = CaptchaField(label=_('Captcha'))
+
 
     def clean_phone(self):
         return self.cleaned_data["phone"].replace('-','')

@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     (r'^modmin/', include('apps.admin.urls', namespace='admin')),
     (r'^news/', include('apps.news.urls', namespace='news')),
     (r'^owner/', include('apps.admin_blog.urls', namespace='admin_blog')),
+    (r'^captcha/(?P<code>[\da-f]{32})/$', 'apps.supercaptcha.draw')
 )
 
 #if settings.DEBUG:

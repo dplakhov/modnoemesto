@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-14 16:46+0300\n"
+"POT-Creation-Date: 2010-12-15 12:17+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,11 +27,11 @@ msgstr "Подтверждение регистрации"
 msgid "Password Reset Request"
 msgstr "Восстановление пароля"
 
-#: forms.py:11 forms.py:80 forms.py:140
+#: forms.py:11 forms.py:89 forms.py:152
 msgid "Email"
 msgstr "E-mail"
 
-#: forms.py:12 forms.py:86 forms.py:144
+#: forms.py:12 forms.py:95 forms.py:156
 msgid "Password"
 msgstr "Пароль"
 
@@ -43,27 +43,19 @@ msgstr "Пожалуйста, введите верные E-mail и пароль
 msgid "This account is inactive."
 msgstr "Эта учетная запись неактивна."
 
-#: forms.py:78
+#: forms.py:79
 msgid "First name"
 msgstr "Имя"
 
-#: forms.py:79
+#: forms.py:83
+msgid "This value may contain only letters, numbers and '/`/- characters."
+msgstr "Значение должно состоять только из букв и знаков '/`/-."
+
+#: forms.py:84
 msgid "Last name"
 msgstr "Фамилия"
 
-#: forms.py:81
-msgid "Phone"
-msgstr "Телефон"
-
-#: forms.py:85
-msgid ""
-"Phone number is invalid or can not be used. Check your spelling. For "
-"example: +7 916 3564334"
-msgstr ""
-"Телефонный номер указан неверно или не может быть использован. Проверьте "
-"правильность ввода. Например: +7 916 3564334"
-
-#: forms.py:91
+#: forms.py:88 forms.py:100
 msgid ""
 "This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= "
 "characters."
@@ -71,94 +63,110 @@ msgstr ""
 "Значение должно состоять только из букв, цифр и знаков ./-/_/@/!/#/$/%/^/&/+/"
 "=."
 
-#: forms.py:92 forms.py:145
+#: forms.py:90
+msgid "Phone"
+msgstr "Телефон"
+
+#: forms.py:94
+msgid ""
+"Phone number is invalid or can not be used. Check your spelling. For "
+"example: +7 916 3564334"
+msgstr ""
+"Телефонный номер указан неверно или не может быть использован. Проверьте "
+"правильность ввода. Например: +7 916 3564334"
+
+#: forms.py:101 forms.py:157
 msgid "Password confirmation"
 msgstr ""
 
-#: forms.py:100
+#: forms.py:103
+msgid "Captcha"
+msgstr "Введите код на картинке"
+
+#: forms.py:112
 msgid "A user with that email already exists."
 msgstr "Пользователь с таким E-mail уже существует."
 
-#: forms.py:108 forms.py:151
+#: forms.py:120 forms.py:163
 msgid "The two password fields didn't match."
 msgstr ""
 
-#: forms.py:118
+#: forms.py:130
 msgid "Image"
 msgstr ""
 
-#: forms.py:123
+#: forms.py:135
 msgid "None selected"
 msgstr "Не выбран"
 
-#: forms.py:124
+#: forms.py:136
 msgid "Female"
 msgstr "Женский"
 
-#: forms.py:125
+#: forms.py:137
 msgid "Male"
 msgstr "Мужской"
 
-#: forms.py:128
+#: forms.py:140
 msgid "Hometown"
 msgstr "Родной город"
 
-#: forms.py:129
+#: forms.py:141
 msgid "Birthday"
 msgstr "День рождения"
 
-#: forms.py:130
+#: forms.py:142
 msgid "Sex"
 msgstr "Пол"
 
-#: forms.py:131
+#: forms.py:143
 msgid "ICQ"
 msgstr "ICQ"
 
-#: forms.py:132
+#: forms.py:144
 msgid "Mobile"
 msgstr "Телефон"
 
-#: forms.py:133
+#: forms.py:145
 msgid "Website"
 msgstr "Личный сайт"
 
-#: forms.py:134
+#: forms.py:146
 msgid "University"
 msgstr "ВУЗ"
 
-#: forms.py:135
+#: forms.py:147
 msgid "Department"
 msgstr "Факультет"
 
-#: forms.py:136
+#: forms.py:148
 msgid "Status"
 msgstr "Статус"
 
-#: views.py:138
+#: views.py:141
 msgid "Activation code corrupted or already used"
 msgstr "Код активации повреждён или уже использован"
 
-#: views.py:245
+#: views.py:248
 msgid "Invalid image file format"
 msgstr "Неверный формат файла"
 
-#: views.py:266
+#: views.py:269
 msgid "Avatar successfully updated"
 msgstr "Аватар успешно обновлен"
 
-#: views.py:283
+#: views.py:286
 msgid "Profile successfully updated"
 msgstr "Профиль успешно обновлен"
 
-#: views.py:330
+#: views.py:333
 msgid "Email with a link sent to restore the address you specify."
 msgstr "Письмо со ссылкой восстановления выслано на указанный Вами адрес."
 
-#: views.py:342
+#: views.py:345
 msgid "Recovery code corrupted or already used"
 msgstr "Код востановления пароля повреждён или уже использован"
 
-#: views.py:362
+#: views.py:365
 msgid "Password successfully updated."
 msgstr "Пароль успешно обновлен"

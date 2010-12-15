@@ -99,6 +99,7 @@ LOGIN_EXEMPT_URLS = (
     r'^lostpassword/',
     r'^recoverypassword/',
     ur'^ЕГГОГ',
+    r'^captcha/',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -221,4 +222,5 @@ from .logging import *
 from .billing import *
 from .redis import *
 from .celery import *
+from .captcha import *
 
