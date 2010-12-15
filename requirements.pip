@@ -14,3 +14,4 @@ pyparsing==1.5.5
 python-dateutil==1.5
 pytils==0.2.3
 wsgiref==0.1.2
+python-memcached==1.45

@@ -19,6 +19,14 @@ from django.views.decorators.cache import never_cache
 import settings
 
 
+try:
+    from threading import local
+except ImportError:
+    from django.utils._threading_local import local
+
+_thread_locals = local()
+
+
 WIDTH = settings.SIZE[0]
 HEIGHT = settings.SIZE[1]
 SYMBOLS = ugettext_lazy(settings.SYMBOLS)
@@ -38,11 +46,10 @@ REFRESH_LINK_TEXT = ugettext_lazy(settings.REFRESH_LINK_TEXT)
 
 
 def get_current_code():
-
-    if not hasattr(request.session, CODE_ATTR_NAME):
+    if not hasattr(_thread_locals, CODE_ATTR_NAME):
         code = os.urandom(16).encode('hex')
-        setattr(request.session, CODE_ATTR_NAME, code)
-    return getattr(request.session, CODE_ATTR_NAME)
+        setattr(_thread_locals, CODE_ATTR_NAME, code)
+    return getattr(_thread_locals, CODE_ATTR_NAME)
 
 
 def set_current_code(value):

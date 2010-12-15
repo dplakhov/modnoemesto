@@ -25,4 +25,4 @@ DATABASES = {
     },
 }
 
-REDIS_HOST = "10.10.10.11"
+CACHE_BACKEND = 'memcached://10.10.10.11:11211/'

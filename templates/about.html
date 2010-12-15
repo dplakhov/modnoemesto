@@ -201,8 +201,8 @@ $(document).ready(function(){
 {{ reg_form.password2.errors }}
 <p>*{{ reg_form.password2.label }}:<br/>{{ reg_form.password2 }}</p>
 
-{% comment %}{{ reg_form.captcha.errors }}
-<p>*{{ reg_form.captcha.label }}:<br/>{{ reg_form.captcha }}</p>{% endcomment %}
+{{ reg_form.captcha.errors }}
+<p>*{{ reg_form.captcha.label }}:<br/>{{ reg_form.captcha }}</p>
         </div>
             <p style="color:#999999; padding-top: 7px">
             Фактом регистрации Вы соглашаетесь с

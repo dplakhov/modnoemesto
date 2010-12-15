@@ -2,7 +2,6 @@
 
 import os
 import sys
-import django
 from datetime import timedelta
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__),
@@ -186,8 +185,9 @@ AUTHENTICATION_BACKENDS = (
     'apps.social.auth.MongoEngineBackend',
 )
 
-SESSION_ENGINE = 'apps.utils.redis_session_backend'
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
+CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 
 FORCE_SCRIPT_NAME = ''
 
@@ -219,6 +219,5 @@ TIME_IS_ONLINE = timedelta(minutes=5)
 LAST_ACCESS_UPDATE_INTERVAL = timedelta(minutes=5)
 from .logging import *
 from .billing import *
-from .redis import *
 from .celery import *
 from .chat import *
