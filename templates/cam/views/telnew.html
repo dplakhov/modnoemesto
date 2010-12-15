@@ -6,7 +6,7 @@
         bgcolor="#869ca7"
         flashvars="myname={% if request.user.get_camera %}{{ request.user.get_camera.id }}{% endif %}&username={{ camera.id }}&stream={{ camera.id }}&ip=77.234.194.200"
         width="530"
-        height="450"
+        height="{% ifequal request.user camera.owner %}450{% else %}400{% endifequal %}"
         name="sdo_video"
         align="middle"
         play="true"
