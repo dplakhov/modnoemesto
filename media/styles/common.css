@@ -468,7 +468,7 @@ div#content_about
     /*display: inline;*/
     overflow: hidden;
 }
-#content_about h2
+#content_about h2, #content_about h1
 {
     color: #2bacd5;
     font-size: 18px;
