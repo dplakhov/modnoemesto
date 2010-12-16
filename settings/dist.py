@@ -196,7 +196,7 @@ SEND_EMAILS = True
 
 SITE_DOMAIN = 'modnoemesto.ru' # no slashes here, please
 
-ROBOT_EMAIL_ADDRESS = 'modnoemesto.ru <noreply@modnoemesto.ru>'
+ROBOT_EMAIL_ADDRESS = 'modnoemesto.ru <modnoemesto@modnoemesto.ru>'
 
 SERVER_EMAIL = ROBOT_EMAIL_ADDRESS
 
