@@ -215,7 +215,7 @@ $(document).ready(function(){
 {% for error in reg_form.email.errors %}
     <li>{% if error == 'inactive' %}
         Заявка на регистрацию уже была принята.<br/><a href="{% url social:resend_activation_code %}">{% trans "Resend activation code." %}</a>
-        {% else %}{{ error }}1{% endif %}</li>
+        {% else %}{{ error }}{% endif %}</li>
 {% endfor %}
 </ul>
 {% endif %}
