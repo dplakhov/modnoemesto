@@ -459,6 +459,10 @@ p.send_mass
     border: none;
     width: 84px;
 }
+div.step
+{
+	margin-bottom: 15px;
+}
 /* For Reg
 ------------------------------------*/
 div#content_about
