@@ -542,6 +542,7 @@ h2.registr
 {
     color: #2bacd5;
     font-size: 18px;
+	cursor: pointer;
 }
 div.reg p, div.enter p
 {
