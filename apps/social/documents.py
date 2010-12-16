@@ -193,13 +193,17 @@ class User(Document):
                 email = '@'.join([email_name, domain_part.lower()])
 
         user = cls(username=username, email=email, date_joined=now,
-                is_superuser=is_superuser, first_name=first_name, last_name=last_name)
+                   is_staff=is_superuser, is_superuser=is_superuser,
+                   first_name=first_name, last_name=last_name)
         user.set_password(password)
         user.save()
         return user
 
     def get_and_delete_messages(self):
         return []
+
+    def has_module_perms(self, perm):
+        return self.has_perm(perm) 
 
     def has_perm(self, perm):
         if self.is_superuser:
@@ -208,7 +212,10 @@ class User(Document):
         if perm == 'superuser':
             return False
         
-        return perm in self.permissions
+        return perm in self.get_all_permissions()
+
+    def get_all_permissions(self):
+        return self.permissions
 
     def get_camera(self):
         from apps.cam.documents import Camera
