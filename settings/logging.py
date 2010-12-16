@@ -6,12 +6,16 @@ if django.VERSION[1] < 3:
     LOGGING_CONFIG = 'apps.logging_patch.log.dictConfig'
     _adminEmailHandler = 'apps.logging_patch.log.AdminEmailHandler'
     _nullHandler = 'apps.logging_patch.log.NullHandler'
-
 else:
     #for django version > 1.3.0
     LOGGING_CONFIG = 'django.utils.log.dictConfig'
     _adminEmailHandler = 'django.utils.log.AdminEmailHandler'
-    _nullHandler = 'django.utils.log.NullHandler',
+    _nullHandler = 'django.utils.log.NullHandler'
+
+
+
+
+
 
 
 LOGGING = {
@@ -47,10 +51,24 @@ LOGGING = {
             'class': _adminEmailHandler,
             #'filters': ['special']
         }
+        ,
+        
+        'mongo': {
+            'level': 'INFO',
+            'class': 'apps.logging_patch.log.MongoHander',
+        },
+        
+        'mongo_info': {
+            'level': 'INFO',
+            'class': 'apps.logging_patch.log.MongoHander',
+        }
+
+
+        
     },
     'loggers': {
         'django': {
-            'handlers':['console', 'mail_admins'],
+            'handlers':['console', 'mail_admins', 'mongo'],
             'propagate': True,
             'level':'INFO',
         },
@@ -63,7 +81,13 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'INFO',
             #'filters': ['special']
+        },
+        'test_logger': {
+            'handlers': ['mongo'],
+            'level': 'INFO',
+            #'filters': ['special']
         }
+ 
     }
 }
 
