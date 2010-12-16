@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-16 14:47+0300\n"
+"POT-Creation-Date: 2010-12-16 16:07+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: about.html:173
+#: about.html:182
 msgid "This account is inactive."
 msgstr "Эта учетная запись неактивна."
 
-#: about.html:173 about.html.py:208
+#: about.html:182 about.html.py:217
 msgid "Resend activation code."
 msgstr "Отправить код активации."
 
@@ -34,44 +34,44 @@ msgstr "поиск"
 msgid "Users online"
 msgstr "Пользователи онлайн"
 
-#: admin/statistic.html:7 includes/admin_menu.html:7
+#: admin/statistic.html:7 includes/admin_menu.html:8
 msgid "Statistic"
 msgstr "Статистика"
 
-#: admin/user_list.html:6 includes/admin_menu.html:8
+#: admin/user_list.html:6 includes/admin_menu.html:9
 msgid "Users"
 msgstr "Пользователи"
 
 #: admin/user_list.html:10
-msgid "ID"
-msgstr ""
-
-#: admin/user_list.html:11
-msgid "E-mail"
-msgstr ""
-
-#: admin/user_list.html:12
 msgid "First Name"
 msgstr "Имя"
 
-#: admin/user_list.html:13
+#: admin/user_list.html:11
 msgid "Last Name"
 msgstr "Фамилия"
 
-#: admin/user_list.html:14
-msgid "Nick"
-msgstr "Ник"
+#: admin/user_list.html:12
+msgid "E-mail"
+msgstr ""
 
-#: admin/user_list.html:15
+#: admin/user_list.html:13
 msgid "Date Joined"
 msgstr "Дата регистрации"
 
-#: admin/user_list.html:35 billing/access_order_list.html:38
+#: admin/user_list.html:14 admin/user_list.html.py:27
+msgid "Confirmed"
+msgstr "Подтверждён"
+
+#: admin/user_list.html:27
+msgid "Not confirmed"
+msgstr "Не подтверждён"
+
+#: admin/user_list.html:38 billing/access_order_list.html:38
 #: billing/order_list.html:34
 msgid "previous"
 msgstr "предыдущая"
 
-#: admin/user_list.html:39 billing/access_order_list.html:42
+#: admin/user_list.html:42 billing/access_order_list.html:42
 #: billing/order_list.html:38
 #, python-format
 msgid ""
@@ -81,7 +81,7 @@ msgstr ""
 "\n"
 "Страница %(number)s из %(num_pages)s.\n"
 
-#: admin/user_list.html:45 billing/access_order_list.html:48
+#: admin/user_list.html:48 billing/access_order_list.html:48
 #: billing/order_list.html:44
 msgid "next"
 msgstr "следующая"
@@ -139,7 +139,7 @@ msgstr "Новость"
 msgid "Created:"
 msgstr "Создана:"
 
-#: billing/access_order_list.html:5 includes/admin_menu.html:18
+#: billing/access_order_list.html:5 includes/admin_menu.html:23
 msgid "Access Orders"
 msgstr "Заказы доступа"
 
@@ -211,7 +211,7 @@ msgstr "Добавить тариф"
 msgid "Edit tariff"
 msgstr "Редактировать тариф"
 
-#: billing/tariff_list.html:5 includes/admin_menu.html:16
+#: billing/tariff_list.html:5 includes/admin_menu.html:21
 msgid "Tariffs"
 msgstr "Тарифы"
 
@@ -239,7 +239,7 @@ msgstr "Добавить тип камеры"
 msgid "Edit camera type"
 msgstr "Редактировать тип камеры"
 
-#: cam/type_list.html:5 includes/admin_menu.html:12
+#: cam/type_list.html:5 includes/admin_menu.html:15
 msgid "Camera types"
 msgstr "Типы камер"
 
@@ -318,7 +318,7 @@ msgstr "Добавить тему"
 msgid "Edit theme"
 msgstr "Редактировать тему"
 
-#: groups/theme_list.html:4 includes/admin_menu.html:22
+#: groups/theme_list.html:4 includes/admin_menu.html:29
 msgid "Themes"
 msgstr "Темы"
 
@@ -326,7 +326,7 @@ msgstr "Темы"
 msgid "Edit type"
 msgstr "Редактировать тип"
 
-#: groups/type_list.html:4 includes/admin_menu.html:23
+#: groups/type_list.html:4 includes/admin_menu.html:30
 msgid "Types"
 msgstr "Типы"
 
@@ -382,23 +382,23 @@ msgstr "Покинуть группу"
 msgid "Join group"
 msgstr "Вступить в группу"
 
-#: includes/admin_menu.html:5
+#: includes/admin_menu.html:6
 msgid "Admin"
 msgstr "Администрирование"
 
-#: includes/admin_menu.html:10
+#: includes/admin_menu.html:13
 msgid "Cameras"
 msgstr "Камеры"
 
-#: includes/admin_menu.html:14
+#: includes/admin_menu.html:19
 msgid "Billing"
 msgstr "Биллинг"
 
-#: includes/admin_menu.html:17
+#: includes/admin_menu.html:22
 msgid "Pay Orders"
 msgstr "Заказы оплаты"
 
-#: includes/admin_menu.html:20
+#: includes/admin_menu.html:27
 msgid "Groups"
 msgstr "Группы"
 
@@ -585,3 +585,6 @@ msgstr "Просмотр сообщения"
 #: user_messages/sent.html:13
 msgid "Messages: sent"
 msgstr "Сообщения: отправленные"
+
+#~ msgid "Nick"
+#~ msgstr "Ник"
