@@ -25,4 +25,8 @@ DATABASES = {
     },
 }
 
+
 CACHE_BACKEND = 'memcached://10.10.10.11:11211/'
+
+CHAT_HOST = 's021.modnoemesto.ru'
+CHAT_PORT = '80'
