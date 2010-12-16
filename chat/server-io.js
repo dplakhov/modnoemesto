@@ -168,7 +168,7 @@ socket.on("connection", function(client){
             var msg = message.split(" ");
             sys.puts(msg);
 			
-			var sid = client.sessionId.toString();
+			var sid = String(client.sessionId);
 			
             switch (msg[0]) { 
                 case "/whoami": 
@@ -199,10 +199,10 @@ socket.on("connection", function(client){
 //						);
 						
 					} else {
-//						client.send(json({ 
-//								msg: "/notice Login " + nick + " already used"
-//							})
-//						);
+						client.send(json({ 
+								msg: "/notice Login " + nick + " already used"
+							})
+						);
 					}
                     break;
 					
