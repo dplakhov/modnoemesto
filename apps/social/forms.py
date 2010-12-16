@@ -100,7 +100,7 @@ class UserCreationForm(forms.Form):
                                  error_messages = {'invalid': _("This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= characters.")})
     password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput, max_length=64)
 
-    #captcha = CaptchaField(label=_('Captcha'))
+    captcha = CaptchaField(label=_('Captcha'))
 
 
     def clean_phone(self):
