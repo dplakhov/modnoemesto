@@ -69,8 +69,6 @@ def deploy(revision, reinstall=False):
                     #run('source ./venv/bin/activate')
                     #run('source ./venv/bin/activate && pip install --upgrade -r requirements.pip')
 
-        restart_app_server()
-
 
 def install_keys():
     pub_key = _pub_key()
@@ -221,7 +219,7 @@ def install_uwsgi():
 def pip_global():
     put('../requirements.pip', '/tmp/requirements.pip')
     try:
-        run('pip install -r /tmp/requirements.pip')
+        run('pip install --upgrade -r /tmp/requirements.pip')
     finally:
         run('rm /tmp/requirements.pip')
 
@@ -279,6 +277,19 @@ def restart_app_server():
 # chat server
 def install_chat_server_software():
     run('apt-get --yes install nodejs')
+    if exists('/etc/init.d/chat_server'):
+        run('rm /etc/init.d/chat_server')
+
+    put('etc/init.d/chat_server', '/etc/init.d/chat_server', mode=0755)
+
+def set_chat_server_sudoers():
+    sudoers_str = '%s ALL=(ALL) NOPASSWD: /etc/init.d/chat_server' % APPLICATION_USER
+    if not contains(sudoers_str, '/etc/sudoers'):
+        append(sudoers_str, '/etc/sudoers')
+
+def restart_chat_server():
+    env.user = 'appserver'
+    run('sudo /etc/init.d/chat_server restart')
 
 # chat server end
 def uname():

@@ -7,7 +7,7 @@ from apps.utils.paginator import Paginator
 
 
 
-@permission_required('superuser')
+@permission_required('statistic')
 def statistic(request):
     return direct_to_template(request, 'admin/statistic.html', {
         'users_active_count': User.objects(is_active=True).count(),
@@ -16,7 +16,7 @@ def statistic(request):
     })
 
 
-@permission_required('superuser')
+@permission_required('statistic')
 def user_list(request, page=1):
     paginator = Paginator(User.objects.order_by('-date_joined'), 25, User.objects.count())
     try:

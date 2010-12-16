@@ -197,7 +197,7 @@ SEND_EMAILS = True
 
 SITE_DOMAIN = 'modnoemesto.ru' # no slashes here, please
 
-ROBOT_EMAIL_ADDRESS = 'modnoemesto.ru <noreply@modnoemesto.ru>'
+ROBOT_EMAIL_ADDRESS = 'modnoemesto.ru <modnoemesto@modnoemesto.ru>'
 
 SERVER_EMAIL = ROBOT_EMAIL_ADDRESS
 
@@ -219,7 +219,10 @@ LIBRARY_IMAGES_PER_PAGE = 2
 
 TIME_IS_ONLINE = timedelta(minutes=5)
 LAST_ACCESS_UPDATE_INTERVAL = timedelta(minutes=5)
+
+
 from .logging import *
 from .billing import *
 from .celery import *
 from .captcha import *
+from .chat import *

@@ -19,9 +19,6 @@ kill_if_exist () {
 
 case "$1" in
   start|restart)
-	kill_if_exist "node server-io.js"
-	cd /var/socnet/appserver/app/chat
-	node server-io.js > /dev/null 2>&1 &
 	cd /var/socnet/appserver/app
 	. venv/bin/activate
 	kill_if_exist "manage.py celeryd"
@@ -32,7 +29,6 @@ case "$1" in
   stop)
 	kill_if_exist "uwsgi"
 	kill_if_exist "manage.py celeryd"
-	kill_if_exist "node server-io.js"
 	;;
   *)
 	echo "Usage: /etc/init.d/socnet {start|stop|restart}" >&2
