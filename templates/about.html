@@ -11,6 +11,7 @@
 {% block js %}
 {{ block.super }}
 <script type="text/javascript">
+
 function check(id_input, alph) {
     return function() {
         var cur_text = id_input.val();
@@ -24,6 +25,14 @@ function check(id_input, alph) {
     }
 }
 $(document).ready(function(){
+    var reg_box = $('#reg_form div');
+    {% if not is_reg %}reg_box.hide();{% endif %}
+    $('#reg_form h2.registr a').click(function(){
+        if (reg_box.css("display") == 'none') reg_box.show();
+        else reg_box.hide();
+        return false;
+    });
+
     $('.preview').show();
 	$('.full').hide();
     $('#last_news').click(function(e) {
@@ -161,24 +170,37 @@ $(document).ready(function(){
     <div id="enter_form">
         <h2 class="ent">Вход</h2>
 <form action="{{ app_path }}" method="post">
-<input type="hidden" name="form_name" value="login"/>
-        <div style="overflow:hidden"><div class="enter rounded">
+    <input type="hidden" name="form_name" value="login"/>
+
+<div style="overflow:hidden">
+
+    <div class="enter rounded">
 {% if login_form.non_field_errors %}
-<p class="errornote">{{ login_form.non_field_errors }}</p>
+<ul class="errorlist">
+{% for error in login_form.non_field_errors %}
+    <li>{% if error == 'inactive' %}
+        {% trans "This account is inactive." %}<br/><a href="{% url social:resend_activation_code %}">{% trans "Resend activation code." %}</a>
+        {% else %}{{ error }}1{% endif %}</li>
+{% endfor %}
+</ul>
 {% endif %}
+
 {% for field in login_form %}
     {{ field.errors }}
     <p>{{ field.label }}:<br/>
         {{ field }}</p>
 {% endfor %}
+
 <p><a href="{% url social:lost_password %}">Забыли пароль?</a></p>
-        </div>
-                <p><input class="subEnter" type="submit" value="Войти" /></p>
-        </div>
+    </div>
+
+    <p><input class="subEnter" type="submit" value="Войти" /></p>
+</div>
+
 </form>
     </div>
     <div id="reg_form">
-        <h2 class="registr">Регистрация</h2>
+        <h2 class="registr"><a href="/">Регистрация</a></h2>
         <div>
 <form action="{{ app_path }}" method="post">
 <input type="hidden" name="form_name" value="register"/>
@@ -189,7 +211,14 @@ $(document).ready(function(){
 {{ reg_form.last_name.errors }}
 <p>*{{ reg_form.last_name.label }}:<br/>{{ reg_form.last_name }}</p>
 
-{{ reg_form.email.errors }}
+{% if reg_form.email.errors %}<ul class="errorlist">
+{% for error in reg_form.email.errors %}
+    <li>{% if error == 'inactive' %}
+        Заявка на регистрацию уже была принята.<br/><a href="{% url social:resend_activation_code %}">{% trans "Resend activation code." %}</a>
+        {% else %}{{ error }}1{% endif %}</li>
+{% endfor %}
+</ul>
+{% endif %}
 <p>*{{ reg_form.email.label }}:<br/>{{ reg_form.email }}</p>
 
 {{ reg_form.phone.errors }}

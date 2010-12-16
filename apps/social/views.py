@@ -321,7 +321,7 @@ def server_error(request):
     return HttpResponseServerError(t.render(Context({})))
 
 
-def lost_password(request):
+def lost_password(request, template='social/lost_password.html'):
     if request.method == 'POST':
         form = LostPasswordForm(request.POST)
         if form.is_valid():
@@ -337,7 +337,7 @@ def lost_password(request):
             return redirect('social:index')
     else:
         form = LostPasswordForm()
-    return direct_to_template(request, 'social/lost_password.html' , dict(form=form))
+    return direct_to_template(request, template , dict(form=form))
 
 
 def recovery_password(request, code):

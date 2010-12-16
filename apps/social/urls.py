@@ -16,6 +16,7 @@ urlpatterns = patterns('apps.social.views',
    url(r'^register/$', 'about', name='register'),
    url(r'^activation/(?P<code>[a-f0-9]{12})/$', 'activation', name='activation'),
    url(r'^lostpassword/$', 'lost_password', name='lost_password'),
+   url(r'^resendactivationcode/$', 'lost_password', name='resend_activation_code', kwargs={'template': 'social/resend_activation_code.html'}),
    url(r'^recoverypassword/(?P<code>[a-f0-9]{12})/$', 'recovery_password', name='recovery_password'),
    url(r'^changepassword/(?P<code>[a-f0-9]{12})/$', 'set_new_password', name='set_new_password'),
 

@@ -96,6 +96,7 @@ LOGIN_EXEMPT_URLS = (
     r'^activation/',
     r'^media/',
     r'^lostpassword/',
+    r'^resendactivationcode/',
     r'^recoverypassword/',
     ur'^ЕГГОГ',
     r'^captcha/',
