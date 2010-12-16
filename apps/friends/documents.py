@@ -79,7 +79,7 @@ class UserFriends(Document):
         return len(self.list)
 
     def can_add(self, user):
-        return not (self.contains(user) or self.offers.has_for_user(user))
+        return not (self.contains(user) or self.offers.has_for_user(user) or self.user == user)
 
     @property
     def offers(self):
