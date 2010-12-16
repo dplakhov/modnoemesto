@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 import re
 import os
+from datetime import datetime
+
+import git
+
 from fabric.api import run, local, cd, env
 from fabric.contrib.files import exists, contains, comment, uncomment, append
 from fabric.operations import put
-from datetime import datetime
 from fabric.decorators import roles
 
 APPLICATION_DIR = '/var/socnet/appserver'
@@ -68,6 +71,13 @@ def deploy(revision, reinstall=False):
                     run('virtualenv venv')
                     #run('source ./venv/bin/activate')
                     #run('source ./venv/bin/activate && pip install --upgrade -r requirements.pip')
+
+
+def deploy_head(reinstall=False):
+    local('git pull')
+    repo = git.Repo(os.path.normpath('..'))
+    revision = repo.commit('master').id
+    deploy(revision, reinstall=reinstall)
 
 
 def install_keys():
