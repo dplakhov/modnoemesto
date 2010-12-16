@@ -218,7 +218,10 @@ LIBRARY_IMAGES_PER_PAGE = 2
 
 TIME_IS_ONLINE = timedelta(minutes=5)
 LAST_ACCESS_UPDATE_INTERVAL = timedelta(minutes=5)
+
+
 from .logging import *
 from .billing import *
 from .celery import *
 from .captcha import *
+from .chat import *
