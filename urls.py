@@ -16,7 +16,8 @@ urlpatterns = patterns('',
     (r'^modmin/', include('apps.admin.urls', namespace='admin')),
     (r'^news/', include('apps.news.urls', namespace='news')),
     (r'^owner/', include('apps.admin_blog.urls', namespace='admin_blog')),
-    (r'^captcha/(?P<code>[\da-f]{32})/$', 'apps.supercaptcha.draw')
+    (r'^captcha/(?P<code>[\da-f]{32})/$', 'apps.supercaptcha.draw'),
+    url(r'^robots.txt$', 'django.views.generic.simple.direct_to_template', name='robots_txt', kwargs={'template': 'robots.txt'}),
 )
 
 #if settings.DEBUG:

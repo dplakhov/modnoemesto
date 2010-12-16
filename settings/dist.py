@@ -100,6 +100,7 @@ LOGIN_EXEMPT_URLS = (
     r'^recoverypassword/',
     ur'^ЕГГОГ',
     r'^captcha/',
+    r'^robots.txt$',
 )
 
 # Make this unique, and don't share it with anybody.
