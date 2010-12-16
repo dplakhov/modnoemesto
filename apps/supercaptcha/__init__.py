@@ -142,7 +142,9 @@ class CaptchaImageWidget(forms.Widget):
     def render(self, name, value, attrs=None):
         code = get_current_code()
         empty_current_code()
-        input_attrs = self.build_attrs(attrs, type='text', name=name)
+        input_attrs = attrs.copy()
+        input_attrs.update({'autocomplete':'off'})
+        input_attrs = self.build_attrs(input_attrs, type='text', name=name)
         src = reverse(draw, kwargs={'code': code})
         return mark_safe(self.template % {'src': src, 'input_attrs': flatatt(input_attrs),
                                           'alt': settings.ALT, 'width': WIDTH, 'length': LENGTH,

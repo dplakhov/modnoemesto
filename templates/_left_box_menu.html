@@ -40,8 +40,8 @@
             <li><a href="{% url social:register %}">регистрация</a></li>
             <li><a href="{% url social:login %}">вход</a></li>
             {% endif %}
-            {% if request.user.is_superuser %}
-            {% include 'includes/admin_menu.html' %}
+            {% if request.user.is_staff %}
+                {% include 'includes/admin_menu.html' %}
             {% endif %}
         </ul>
     </div>

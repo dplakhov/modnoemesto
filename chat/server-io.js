@@ -6,7 +6,7 @@ var http = require("http"),
     url = require('url'),
     nicks = {},
     rooms = {},
-    ignore_uniq = false,
+    ignore_uniq = true,
     allowed_domains = ["localhost:8090", 'modnoemesto.ru:8090'];
 
 
@@ -168,7 +168,7 @@ socket.on("connection", function(client){
             var msg = message.split(" ");
             sys.puts(msg);
 			
-			var sid = client.sessionId.toString();
+			var sid = String(client.sessionId);
 			
             switch (msg[0]) { 
                 case "/whoami": 
@@ -187,22 +187,12 @@ socket.on("connection", function(client){
 						
 						nicks[sid]["nick"] = nick;
 						sys.puts("Nick added: - " + nick);
-//						for(var i in nicks){
-//							if(nicks[i].hasOwnProperty("nick")){
-//								sys.puts("nicks: "+nicks[i]["nick"]);
-//							}
-//							
-//						}
-//						client.send(json({
-//								msg: "/your_nick " + nick
-//							})
-//						);
 						
 					} else {
-//						client.send(json({ 
-//								msg: "/notice Login " + nick + " already used"
-//							})
-//						);
+						client.send(json({ 
+								msg: "/notice Login " + nick + " already used"
+							})
+						);
 					}
                     break;
 					
