@@ -98,7 +98,7 @@ $(document).ready(function(){
             {% for item in news_list|slice:"5" %}
                 <li>
                     <div class="item">
-                        <span class="date">{{ item.ctime|date }}</span>
+                        <span class="date">{{ item.ctime|date:"d.m.Y" }}</span>
                         <a href="/" class="title">{{ item.title }}</a>
                         <div class="news_holder">
                         <p class="place preview">{{ item.preview_text|linebreaksbr }}</p>
