@@ -17,4 +17,4 @@ wsgiref==0.1.2
 python-memcached==1.45
 orbited==0.7.10
 stomp.py==3.0.2
-Twisted-Core==10.1.0
+twisted==10.1.0
