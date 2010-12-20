@@ -14,7 +14,7 @@
 
 {% block content %}
 <div id="left">
-    <h2>{% blocktrans with page_user as page_user %}{{ page_user }}'s home{% endblocktrans %}</h2>
+    <h2>{{ page_user }}</h2>
 	<div class="clear"></div>
        <dl>
             {% if profile.hometown %}<dt>{% trans "Hometown" %}</dt>

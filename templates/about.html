@@ -25,17 +25,6 @@ function check(id_input, alph) {
     }
 }
 $(document).ready(function(){
-    {% comment %}   
-                           $('div.hide').css({'visibility':'hidden'});
-    $('h2.registr').click(function(){
-                if($('div.hide').css("visibility")=="hidden")   {
-                    $('div.hide').css({'visibility':'visible'});
-                    }
-                    else {
-                    $('div.hide').css({'visibility':'hidden'});
-                    }
-                });                    
-    {% endcomment %}   
     var reg_box = $('#reg_form div');
     {% if not is_reg %}reg_box.hide();{% endif %}
     $('#reg_form h2.registr a').click(function(){
