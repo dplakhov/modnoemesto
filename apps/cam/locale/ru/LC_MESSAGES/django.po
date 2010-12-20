@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-20 16:06+0300\n"
+"POT-Creation-Date: 2010-12-20 17:06+0300\n"
 "PO-Revision-Date: 2010-11-25 16:00+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,17 +18,17 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: documents.py:28
+#: documents.py:29
 msgid "(managed)"
 msgstr "(упр.)"
 
-#: documents.py:28
+#: documents.py:29
 msgid "(unmanaged)"
 msgstr "(неупр.)"
 
-#: documents.py:39
-msgid "Unnamed camera"
-msgstr "Безымянная камера"
+#: documents.py:40
+msgid "New camera"
+msgstr "Новая камера"
 
 #: forms.py:14 forms.py:48
 msgid "Name"
