@@ -93,61 +93,17 @@
 <div id="content-main" style="clear: both;">
      <div id="camera">
         {% if camera %}
-            <a class="reference" href="{% url billing:get_access_to_camera camera.id %}">{% trans "Get access to camera" %}</a>
+            {% if camera.is_view_paid or camera.is_management_paid %}
+                <a class="reference" href="{% url billing:get_access_to_camera camera.id %}">{% trans "Get access to camera" %}</a>
+            {% endif %}
             {% if show_bookmark_button %}
             <a class="reference" href="{% url cam:cam_bookmark_add camera.id %}">{% trans "Bookmark this camera" %}</a>
             {% else %}
             <a class="reference" href="{% url cam:cam_bookmark_delete camera.id %}">{% trans "Remove Bookmark" %}</a>
             {% endif %}
-            {% include "includes/camera.html" %}
-        {% else %}
-            <div class="no_camera">
-            <img src="/media/img/notfound/cam.png" alt="" />
-            <p>
-            {% trans "This user has no registered camera." %}
-            </p>
-            </div>
-        {% endif %}
-    </div>
-
-</div>
-
-
-{% comment %}
-    {% with page_user as user %}
-        {% include "includes/user/midi.html" %}
-    {% endwith %}
-
-{% if show_friend_button %}
-<p>
-    <a href="{% url friends:add page_user.id %}">
-        {% trans "Add to my friends" %}
-    </a>
-</p>
-{% endif %}
-
-<div id="content-main">
-
-    {% if user.is_authenticated %}
-    <div class="messages">
-        <form method="post"
-              action="{% url user_messages:send_message user_id=page_user.id %}">
-        <table summary="{% blocktrans with page_user as page_user%}Leave a message to {{ page_user }}{% endblocktrans %}" width="100%">
-            <caption>{% trans "Leave a message" %}</caption>
-            {{ msgform.as_table }}
-            <tr><td colspan="2"><input type="submit" value="{% trans "Send" %}"/></td></tr>
-        </table>
-        </form>
-    </div>
-    {% endif %}
-
-    <div id="camera">
-        {% if camera %}
-            <a href="{% url billing:get_access_to_camera camera.id %}">{% trans "Get access to camera" %}</a>
-            {% if show_bookmark_button %}
-            <a href="{% url cam:cam_bookmark_add camera.id %}">{% trans "Bookmark this camera" %}</a>
-            {% else %}
-            <a href="{% url cam:cam_bookmark_delete camera.id %}">{% trans "Remove Bookmark" %}</a>
+            {% if camera.is_view_paid and camera.show %}
+                <p>{% trans "The remaining time on the show" %}
+                    {{ camera.show.hours }}:{{ camera.show.minutes }}:{{ camera.show.seconds }}</p>
             {% endif %}
             {% include "includes/camera.html" %}
         {% else %}
@@ -161,22 +117,4 @@
     </div>
 
 </div>
-
-<div id="content-related">
-    <div class="module" id="recent-actions-module">
-        <h2>{% blocktrans with page_user as page_user %}{{ page_user }} marked as friends:{% endblocktrans %}</h2>
-          {% if page_user.friends.count %}
-            <ul class="friendTable">
-                {% for user in page_user.friends.list %}
-                    <li>
-                        {% include "includes/user/micro.html" %}
-                    </li>
-                {% endfor %}
-            </ul>
-          {% else %}
-            <p>{% trans "None available" %}</p>
-          {% endif %}
-    </div>
-</div>
-{% endcomment %}
 {% endblock %}

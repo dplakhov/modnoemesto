@@ -90,18 +90,24 @@ class Camera(Document):
         if self.is_view_paid:
             if not owner_user.is_authenticated():
                 return False
-            orders = AccessCamOrder.objects(
+            now = datetime.now()
+            order = AccessCamOrder.objects(
                 is_controlled=False,
                 user=access_user,
                 camera=self,
-            )
-            can_access = False
-            for order in orders:
-                if order.can_access():
-                    can_access = True
-                    break
-            if not can_access:
+                end_date__gt=now,
+            ).order_by('-end_date').only('end_date').first()
+            if not order:
                 return False
+            time_left = order.end_date - now
+            data = {}
+            data['days'] = time_left.days
+            data['hours'] = time_left.seconds / 3600
+            data['minutes'] = (time_left.seconds % 3600) / 60
+            data['seconds'] = time_left.seconds - data['minutes'] * 60
+            for k, v in data.items():
+                data[k] = "%2i" % v
+            return data
         return True
     
     def save(self, *args, **kwargs):

@@ -200,7 +200,9 @@ def get_access_to_camera(request, id):
                 user=request.user,
                 camera=camera,
             )
-            if not camera_is_controlled:
+            if camera_is_controlled:
+                pass
+            else:
                 last_order = AccessCamOrder.objects(user=request.user,
                                                     camera=camera,
                                                     is_controlled=camera_is_controlled,
