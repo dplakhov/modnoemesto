@@ -7,7 +7,7 @@
         <ul>
             {% if user.is_authenticated %}
             <li id="persone"><a href="{% url social:home %}">{{ user }}</a></li>
-            {% if user.get_camera %}
+            {% if not user.get_camera.type.is_default %}
             <li id="money">
                 <div class="q">
                     <p>На моем счету</p>
