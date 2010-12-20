@@ -35,9 +35,7 @@
     </a>
 {% endif %}
 
-  {% if camera.show %}
-
-  {% if camera.show.id %}{{ camera.show.begin_date }} - {{ camera.show.end_date }}{% endif %}
+  {% if camera.show or user.is_superuser %}
 
     <script type="text/javascript">
         $(document).ready(function(){

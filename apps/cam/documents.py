@@ -80,8 +80,6 @@ class Camera(Document):
     def can_show(self, owner_user, access_user):
         if not self.is_view_enabled:
             return False
-        if access_user.is_superuser:
-            return True
         if not self.is_view_public:
             is_friend = access_user.is_authenticated() and \
                         access_user.friends.contains(owner_user)
