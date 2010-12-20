@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 
-from itertools import chain
-
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+
+from apps.billing.documents import Tariff
 
 from .documents import Camera, CameraType
 from .drivers.base import Driver as BaseDriver
 from .drivers.exceptions import ImproperlyConfigured, AccessDenied
-from apps.billing.documents import Tariff
 
 
 class CameraTypeForm(forms.Form):
     name = forms.CharField(label=_('Name'))
     driver = forms.ChoiceField(label=_('Driver name'))
     is_controlled = forms.BooleanField(label=_('Is controlled'), required=False)
+    is_default = forms.BooleanField(label=_('Is default'), required=False)
 
     def clean_driver(self):
         driver = self.cleaned_data['driver']
@@ -50,24 +50,33 @@ class CameraForm(forms.Form):
 
     screen = forms.FileField(label=_("Image"), required=False)
 
-    stream_name = forms.CharField(label=_('Stream name'))
+    stream_name = forms.CharField(label=_('Stream name'), required=False)
 
-    camera_management_host = forms.CharField(label=_('Camera management host'), required=False)
-    camera_management_username = forms.CharField(label=_('Camera management username'), required=False)
-    camera_management_password = forms.CharField(label=_('Camera management password'), required=False)
+    camera_management_host = forms.CharField(label=_('Camera management host'),
+                                             required=False)
+    camera_management_username = forms.CharField(label=_('Camera management username'),
+                                                 required=False)
+    camera_management_password = forms.CharField(label=_('Camera management password'),
+                                                 required=False)
 
     is_view_enabled = forms.BooleanField(label=_('Is view enabled'), required=False)
     is_view_public = forms.BooleanField(label=_('Is view public'), required=False)
     is_view_paid = forms.BooleanField(label=_('Is view paid'), required=False)
 
     is_management_enabled = forms.BooleanField(label=_('Is management enabled'), required=False)
-    is_management_public = forms.BooleanField(label=_('Is management public'), required=False)
-    is_management_paid = forms.BooleanField(label=_('Is management paid'), required=False)
+    is_management_public = forms.BooleanField(label=_('Is management public'),
+                                              required=False)
+    is_management_paid = forms.BooleanField(label=_('Is management paid'),
+                                            required=False)
 
-    management_packet_tariff =  forms.ChoiceField(label=_('Management packet tariff'), required=False)
-    management_time_tariff =  forms.ChoiceField(label=_('Management time tariff'), required=False)
-    view_packet_tariff =  forms.ChoiceField(label=_('View packet tariff'), required=False)
-    view_time_tariff =  forms.ChoiceField(label=_('View time tariff'), required=False)
+    management_packet_tariff =  forms.ChoiceField(label=_('Management packet tariff'),
+                                                  required=False)
+    management_time_tariff =  forms.ChoiceField(label=_('Management time tariff'),
+                                                required=False)
+    view_packet_tariff =  forms.ChoiceField(label=_('View packet tariff'),
+                                            required=False)
+    view_time_tariff =  forms.ChoiceField(label=_('View time tariff'),
+                                          required=False)
 
     operator = forms.ChoiceField(label=_('Operator'), required=False)
 
@@ -75,13 +84,21 @@ class CameraForm(forms.Form):
 
     def __init__(self, user, *args, **kwargs):
         super(CameraForm, self).__init__(*args, **kwargs)
-        self.fields['type'].choices = tuple(
+        if user.has_perm('camera'):
+            self.fields['type'].choices = tuple(
                 [('', _('Select camera type'))] +
                 [
-                            (x.get_option_value(), x.get_option_label())
+                        (x.get_option_value(), x.get_option_label())
                                    for x in CameraType.objects.all()
                 ]
-        )
+            )
+        else:
+            self.fields['type'].choices = tuple(
+                [
+                        (x.get_option_value(), x.get_option_label())
+                               for x in CameraType.objects(is_default=True)
+                ]
+            )
         
         self.fields['operator'].choices = [('', _('None')), (user.id, user),] + [(x.id, x) for x in user.friends.list]
 
@@ -109,12 +126,19 @@ class CameraForm(forms.Form):
 class CamFilterForm(forms.Form):
     name = forms.CharField(required=False, label=_('Keywords'),
                            widget=forms.TextInput(attrs={'class':'kay'}))
-    is_view_enabled = forms.BooleanField(required=False, initial=True, label=_('View Enabled'))
-    is_view_public = forms.BooleanField(required=False, initial=True, label=_('View Public'))
-    is_view_paid = forms.BooleanField(required=False, initial=False, label=_('View Paid'))
+    is_view_enabled = forms.BooleanField(required=False, initial=True,
+                                         label=_('View Enabled'))
+    is_view_public = forms.BooleanField(required=False, initial=True,
+                                        label=_('View Public'))
+    is_view_paid = forms.BooleanField(required=False, initial=False,
+                                      label=_('View Paid'))
 
-    is_managed = forms.BooleanField(required=False, initial=False, label=_('Managed'))
+    is_managed = forms.BooleanField(required=False, initial=False,
+                                    label=_('Managed'))
 
-    is_management_enabled = forms.BooleanField(required=False, initial=False, label=_('Management Enabled'))
-    is_management_public = forms.BooleanField(required=False, initial=False, label=_('Management Public'))
-    is_management_paid = forms.BooleanField(required=False, initial=False, label=_('Management Paid'))
+    is_management_enabled = forms.BooleanField(required=False, initial=False,
+                                               label=_('Management Enabled'))
+    is_management_public = forms.BooleanField(required=False, initial=False,
+                                              label=_('Management Public'))
+    is_management_paid = forms.BooleanField(required=False, initial=False,
+                                            label=_('Management Paid'))

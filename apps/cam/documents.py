@@ -15,6 +15,7 @@ class CameraType(Document):
     name = StringField(max_length=255, unique=True)
     driver = StringField(max_length=255)
     is_controlled = BooleanField(default=False)
+    is_default = BooleanField(default=False)
 
     @property
     def driver_class(self):
@@ -36,7 +37,7 @@ class Camera(Document):
                   )
     SCREEN_URL_TPL = "/media/img/notfound/screen_%ix%i.png"
 
-    name = StringField(max_length=255)
+    name = StringField(max_length=255, default=unicode(_('Unnamed camera')))
 
     owner = ReferenceField('User')
     type = ReferenceField('CameraType')
