@@ -105,6 +105,30 @@
                 <p>{% trans "The remaining time on the show" %}
                     {{ camera.show.hours }}:{{ camera.show.minutes }}:{{ camera.show.seconds }}</p>
             {% endif %}
+            {% if camera.is_management_paid and camera.manage %}
+                <p>{% trans "The remaining time on the show" %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Пользователь</th>
+                                <th>Начало</th>
+                                <th>Окончание</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in camera.manage %}
+                        <tr>
+                            <td><a href="{% url social:user i.user.id %}">{{ i.user }}</a></td>
+                            <td>{{ i.begin_date|date:"H:i:s" }}</td>
+                            <td>{{ i.end_date|date:"H:i:s" }}</td>
+                            <td>{% if forloop.first %}оператор{% endif %}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </p>
+            {% endif %}
             {% include "includes/camera.html" %}
         {% else %}
             <div class="no_camera">

@@ -29,6 +29,7 @@ from apps.utils.stringio import StringIO
 from apps.media.documents import File
 from apps.media.transformations.image import ImageResize
 from apps.media.tasks import apply_file_transformations
+from apps.social.documents import User
 
 
 def cam_list(request):
@@ -60,6 +61,7 @@ def cam_edit(request, id=None):
             return HttpResponseNotFound()
         initial = cam._data
         initial['type'] = cam.type.get_option_value()
+        initial['operator'] = initial['operator'] and initial['operator'].id
         for tariff_type in Camera.TARIFF_FIELDS:
             value = getattr(cam, tariff_type)
             if value:
@@ -80,6 +82,7 @@ def cam_edit(request, id=None):
             setattr(cam, k, v)
 
         cam.type = CameraType.objects.get(id=form.cleaned_data['type'][:-2])
+        cam.operator = cam.operator and User.objects(id=cam.operator).first()
 
         for tariff_type in Camera.TARIFF_FIELDS:
             value = form.cleaned_data[tariff_type]

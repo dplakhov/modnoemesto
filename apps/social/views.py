@@ -201,6 +201,7 @@ def user(request, user_id=None):
     camera = page_user.get_camera()
     if camera:
         camera.show = camera.can_show(page_user, request.user)
+        camera.manage = camera.can_manage(page_user, request.user)
     msgform = MessageTextForm()
     return direct_to_template(request, 'social/user.html',
                               { 'page_user': page_user, 'msgform': msgform,
