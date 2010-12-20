@@ -6,6 +6,9 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.contrib import messages
+from django.shortcuts import redirect
+from django.contrib import messages
+
 
 from mongoengine.django.shortcuts import get_document_or_404
 
@@ -16,17 +19,13 @@ from .documents import CameraType
 
 from .forms import CameraTypeForm, CameraForm
 from apps.billing.documents import Tariff
-from apps.cam.forms import CamFilterForm, ScreenForm
-from apps.cam.documents import CameraBookmarks
-from django.shortcuts import redirect
+from .forms import CamFilterForm, ScreenForm
+from .documents import CameraBookmarks
+
 from ImageFile import Parser as ImageFileParser
 
+from apps.utils.stringio import StringIO
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
-from django.contrib import messages
 from apps.media.documents import File
 from apps.media.transformations.image import ImageResize
 from apps.media.tasks import apply_file_transformations
