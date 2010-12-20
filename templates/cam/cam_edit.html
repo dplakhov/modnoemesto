@@ -82,6 +82,7 @@ $(document).ready(function(){
                 <td style="height:10px" class="empty_filt"></td>
                 <td style="height:10px"> {{ form.type.errors }} </td>
             </tr>
+            {% if perms.camera %}
             <tr>
                 <th>  {{ form.stream_name.label_tag }}:</th>
                 <td class="empty_filt"></td>
@@ -92,6 +93,7 @@ $(document).ready(function(){
                 <td style="height:10px" class="empty_filt"></td>
                 <td style="height:10px"> {{ form.stream_name.errors }} </td>
             </tr>
+            {% endif %}
             <tr>
                 <th>  {{ form.force_html5.label_tag }}:</th>
                 <td class="empty_filt"></td>
