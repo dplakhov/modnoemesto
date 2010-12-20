@@ -36,7 +36,7 @@ class Camera(Document):
                   )
     SCREEN_URL_TPL = "/media/img/notfound/screen_%ix%i.png"
 
-    name = StringField(max_length=255, default=_('Unnamed camera'))
+    name = StringField(max_length=255, default=unicode(_('Unnamed camera')))
 
     owner = ReferenceField('User')
     type = ReferenceField('CameraType')
