@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-16 16:07+0300\n"
+"POT-Creation-Date: 2010-12-20 14:22+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: about.html:182
+#: about.html:209
 msgid "This account is inactive."
 msgstr "Эта учетная запись неактивна."
 
-#: about.html:182 about.html.py:217
+#: about.html:209 about.html.py:245
 msgid "Resend activation code."
 msgstr "Отправить код активации."
 
@@ -179,7 +179,7 @@ msgstr "Статус"
 msgid "Access to camera"
 msgstr "Доступ к камере"
 
-#: billing/get_access_to_camera.html:38
+#: billing/get_access_to_camera.html:40
 msgid "Paid"
 msgstr "Оплатить"
 
@@ -254,7 +254,7 @@ msgstr "Ваши друзья"
 
 #: friends/friend_list.html:41 friends/friend_list.html.py:64
 #: friends/friends_all.html:26 friends/friends_online.html:26
-#: groups/send_friends_invite.html:25 social/user.html:177
+#: groups/send_friends_invite.html:25
 msgid "None available"
 msgstr "Никого нет"
 
@@ -264,7 +264,7 @@ msgid "%(page_user)s: friends"
 msgstr "%(page_user)s: друзья"
 
 #: friends/friends_all.html:19 friends/friends_online.html:19
-#: social/user.html:68 social/user.html.py:124
+#: social/user.html:68
 msgid "Add to my friends"
 msgstr "Добавить в друзья"
 
@@ -406,11 +406,11 @@ msgstr "Группы"
 msgid "Edit screen"
 msgstr "Редактировать обложку"
 
-#: includes/camera.html:57
+#: includes/camera.html:59
 msgid "This camera is not free!"
 msgstr "Просмотр этой камеры платный"
 
-#: includes/camera.html:59
+#: includes/camera.html:61
 msgid "This camera is private."
 msgstr "Эта камера не для всеобщего просмотра"
 
@@ -527,40 +527,25 @@ msgstr "Хотите добавить камеру сейчас?"
 msgid "%(page_user)s's home"
 msgstr "Страница пользователя %(page_user)s"
 
-#: social/user.html:96 social/user.html.py:146
+#: social/user.html:97
 msgid "Get access to camera"
 msgstr "Получить доступ к камере"
 
-#: social/user.html:98 social/user.html.py:148
+#: social/user.html:100
 msgid "Bookmark this camera"
 msgstr "Добавить закладку"
 
-#: social/user.html:100 social/user.html.py:150
+#: social/user.html:102
 msgid "Remove Bookmark"
 msgstr "Убрать закладку"
 
-#: social/user.html:107 social/user.html.py:157
+#: social/user.html:105
+msgid "The remaining time on the show"
+msgstr "Оставшееся время просмотра"
+
+#: social/user.html:113
 msgid "This user has no registered camera."
 msgstr "У пользователя нет зарегистрированных камер"
-
-#: social/user.html:135
-#, python-format
-msgid "Leave a message to %(page_user)s"
-msgstr "Оставить сообщение %(page_user)s"
-
-#: social/user.html:136
-msgid "Leave a message"
-msgstr "Оставить сообщение"
-
-#: social/user.html:138 user_messages/message.html:80
-#: user_messages/write_message.html:41
-msgid "Send"
-msgstr "Отправить"
-
-#: social/user.html:167
-#, python-format
-msgid "%(page_user)s marked as friends:"
-msgstr "Друзья %(page_user)s"
 
 #: social/profile/avatar.html:4
 msgid "Change avatar"
@@ -582,9 +567,22 @@ msgstr "Сообщения: входящие"
 msgid "Viewing a message"
 msgstr "Просмотр сообщения"
 
+#: user_messages/message.html:80 user_messages/write_message.html:41
+msgid "Send"
+msgstr "Отправить"
+
 #: user_messages/sent.html:13
 msgid "Messages: sent"
 msgstr "Сообщения: отправленные"
+
+#~ msgid "Leave a message to %(page_user)s"
+#~ msgstr "Оставить сообщение %(page_user)s"
+
+#~ msgid "Leave a message"
+#~ msgstr "Оставить сообщение"
+
+#~ msgid "%(page_user)s marked as friends:"
+#~ msgstr "Друзья %(page_user)s"
 
 #~ msgid "Nick"
 #~ msgstr "Ник"

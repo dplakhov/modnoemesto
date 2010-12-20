@@ -15,6 +15,7 @@ class CameraType(Document):
     name = StringField(max_length=255, unique=True)
     driver = StringField(max_length=255)
     is_controlled = BooleanField(default=False)
+    is_default = BooleanField(default=False)
 
     @property
     def driver_class(self):
@@ -36,7 +37,7 @@ class Camera(Document):
                   )
     SCREEN_URL_TPL = "/media/img/notfound/screen_%ix%i.png"
 
-    name = StringField(max_length=255)
+    name = StringField(max_length=255, default=unicode(_('Unnamed camera')))
 
     owner = ReferenceField('User')
     type = ReferenceField('CameraType')
@@ -80,8 +81,6 @@ class Camera(Document):
     def can_show(self, owner_user, access_user):
         if not self.is_view_enabled:
             return False
-        if access_user.is_superuser:
-            return True
         if not self.is_view_public:
             is_friend = access_user.is_authenticated() and \
                         access_user.friends.contains(owner_user)
@@ -90,18 +89,24 @@ class Camera(Document):
         if self.is_view_paid:
             if not owner_user.is_authenticated():
                 return False
-            orders = AccessCamOrder.objects(
+            now = datetime.now()
+            order = AccessCamOrder.objects(
                 is_controlled=False,
                 user=access_user,
                 camera=self,
-            )
-            can_access = False
-            for order in orders:
-                if order.can_access():
-                    can_access = True
-                    break
-            if not can_access:
+                end_date__gt=now,
+            ).order_by('-end_date').only('end_date').first()
+            if not order:
                 return False
+            time_left = order.end_date - now
+            data = {}
+            data['days'] = time_left.days
+            data['hours'] = time_left.seconds / 3600
+            data['minutes'] = (time_left.seconds % 3600) / 60
+            data['seconds'] = time_left.seconds - data['minutes'] * 60
+            for k, v in data.items():
+                data[k] = "%2i" % v
+            return data
         return True
     
     def save(self, *args, **kwargs):

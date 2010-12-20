@@ -218,8 +218,16 @@ class User(Document):
         return self.permissions
 
     def get_camera(self):
-        from apps.cam.documents import Camera
-        return Camera.objects(owner=self).first()
+        from apps.cam.documents import Camera, CameraType
+        cam = Camera.objects(owner=self).first()
+        if not cam:
+            cam = Camera(owner=self,
+                         type=CameraType.objects(is_default=True).first(),
+                         is_view_enabled=True,
+                         is_view_public=True,
+                         )
+            cam.save()
+        return cam
 
     def get_absolute_url(self):
         return reverse('social:user',  kwargs=dict(user_id=self.id))
