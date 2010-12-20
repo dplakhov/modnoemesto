@@ -15,8 +15,12 @@ urlpatterns = patterns('',
     (r'^friends/', include('apps.friends.urls', namespace='friends')),
     (r'^modmin/', include('apps.admin.urls', namespace='admin')),
     (r'^news/', include('apps.news.urls', namespace='news')),
+    
+    (r'^chat/', include('apps.chat.urls', namespace='chat')),
+    
     (r'^owner/', include('apps.admin_blog.urls', namespace='admin_blog')),
     (r'^captcha/(?P<code>[\da-f]{32})/$', 'apps.supercaptcha.draw')
+    
 )
 
 #if settings.DEBUG:
