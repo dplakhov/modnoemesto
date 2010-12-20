@@ -14,6 +14,7 @@ class CameraType(Document):
     name = StringField(max_length=255, unique=True)
     driver = StringField(max_length=255)
     is_controlled = BooleanField(default=False)
+    is_default = BooleanField(default=False)
 
     @property
     def driver_class(self):
