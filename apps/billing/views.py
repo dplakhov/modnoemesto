@@ -15,6 +15,7 @@ from django.conf import settings
 from apps.billing.constans import TRANS_STATUS
 from apps.social.documents import User
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
+from datetime import datetime
 
 
 #@login_required
@@ -199,8 +200,16 @@ def get_access_to_camera(request, id):
                 user=request.user,
                 camera=camera,
             )
-            if not camera_is_controlled:
-                order.set_access_period(form.cleaned_data['tariff'])
+            if camera_is_controlled:
+                pass
+            else:
+                last_order = AccessCamOrder.objects(user=request.user,
+                                                    camera=camera,
+                                                    is_controlled=camera_is_controlled,
+                                                    end_date__gt=datetime.now()).\
+                                            order_by('-end_date').only('end_date').first()
+                begin_date = last_order and last_order.end_date
+                order.set_access_period(form.cleaned_data['tariff'], begin_date)
                 request.user.cash -= form.total_cost
                 request.user.save()
             order.cost = form.total_cost

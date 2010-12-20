@@ -35,7 +35,7 @@
     </a>
 {% endif %}
 
-  {% if camera.show %}
+  {% if camera.show or user.is_superuser %}
 
     <script type="text/javascript">
         $(document).ready(function(){

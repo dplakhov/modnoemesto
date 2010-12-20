@@ -14,23 +14,25 @@
     <form method="post" class="baseform">
     <div class="filt rounded">
         <table class="camera_edit">
+{% with form.tariff as field %}
             <tr>
                 <th><label for="id_tariff">Тариф:</label></th>
                 <td class="empty_filt"></td>
-                <td><select name="tariff" id="id_tariff">
-                	<option></option>
-                    <option></option>
-                    <option></option>
-                    </select></td>
+                <td>{{ field.errors }}
+                    {{ field }}</td>
             </tr>
+{% endwith %}
             <tr>
             	<td style="height:10px" class="empty_filt"></td>
             </tr>
+{% with form.duration as field %}
             <tr>
                 <th><label for="id_duration">Длительность:</label></th>
                 <td class="empty_filt"></td>
-                <td><div class="input_holder_short rounded"><input type="text" name="duration" id="id_duration" /></div></td>
+                <td>{{ field.errors }}
+                    <div class="input_holder_short rounded">{{ field }}</div></td>
             </tr>
+{% endwith %}
         </table>
       
     </div>

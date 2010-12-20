@@ -8,6 +8,7 @@ from apps.billing.documents import AccessCamOrder
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from datetime import datetime
+from apps.billing.constans import ACCESS_CAM_ORDER_STATUS
 
 
 class CameraType(Document):
@@ -77,20 +78,35 @@ class Camera(Document):
     def is_user_operator(self, user):
         return user.name == self.operator
 
-    def can_show(self, user):
-        if user.is_superuser:
-            return True
-        if not (self.is_view_public or user.is_friend):
+    def can_show(self, owner_user, access_user):
+        if not self.is_view_enabled:
             return False
+        if not self.is_view_public:
+            is_friend = access_user.is_authenticated() and \
+                        access_user.friends.contains(owner_user)
+            if not is_friend:
+                return False
         if self.is_view_paid:
-            if not user.is_authenticated():
+            if not owner_user.is_authenticated():
                 return False
+            now = datetime.now()
             order = AccessCamOrder.objects(
-                user=user,
+                is_controlled=False,
+                user=access_user,
                 camera=self,
-            ).order_by('-create_on').first()
-            if order is None or not order.can_access():
+                end_date__gt=now,
+            ).order_by('-end_date').only('end_date').first()
+            if not order:
                 return False
+            time_left = order.end_date - now
+            data = {}
+            data['days'] = time_left.days
+            data['hours'] = time_left.seconds / 3600
+            data['minutes'] = (time_left.seconds % 3600) / 60
+            data['seconds'] = time_left.seconds - data['minutes'] * 60
+            for k, v in data.items():
+                data[k] = "%2i" % v
+            return data
         return True
     
     def save(self, *args, **kwargs):
