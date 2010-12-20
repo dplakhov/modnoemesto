@@ -75,7 +75,7 @@ class AccessCamOrder(Document):
             return ACCESS_CAM_ORDER_STATUS.WAIT
         dnow = datetime.now()
         if self.begin_date <= dnow:
-            if dnow <= self.end_date:
+            if dnow < self.end_date:
                 return ACCESS_CAM_ORDER_STATUS.ACTIVE
             return ACCESS_CAM_ORDER_STATUS.COMPLETE
         return ACCESS_CAM_ORDER_STATUS.WAIT

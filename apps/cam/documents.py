@@ -59,7 +59,7 @@ class Camera(Document):
 
     is_managed = BooleanField()
 
-    operator = StringField(max_length=64)
+    operator = ReferenceField('User')
 
     force_html5 = BooleanField()
 
@@ -74,9 +74,6 @@ class Camera(Document):
     @property
     def driver(self):
         return self.type.driver_class(self)
-
-    def is_user_operator(self, user):
-        return user.name == self.operator
 
     def can_show(self, owner_user, access_user):
         if not self.is_view_enabled:
@@ -107,6 +104,34 @@ class Camera(Document):
             for k, v in data.items():
                 data[k] = "%2i" % v
             return data
+        return True
+
+    def can_manage(self, owner_user, access_user):
+        if not self.is_management_enabled:
+            return False
+        if not self.is_management_public:
+            is_friend = access_user.is_authenticated() and \
+                        access_user.friends.contains(owner_user)
+            if not is_friend:
+                return False
+        if self.is_management_paid:
+            if not owner_user.is_authenticated():
+                return False
+            now = datetime.now()
+            orders = list(AccessCamOrder.objects(
+                is_controlled=True,
+                camera=self,
+                end_date__gt=now,
+            ).order_by('end_date'))
+            if not orders:
+                if self.operator:
+                    self.operator = None
+                    self.save()
+                return False
+            if orders[0].user == access_user:
+                self.operator = access_user
+                self.save()
+            return orders
         return True
     
     def save(self, *args, **kwargs):

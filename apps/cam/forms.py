@@ -100,8 +100,7 @@ class CameraForm(forms.Form):
                 ]
             )
         
-        self.fields['operator'].choices = [(user.username, 'myself'),] +\
-            [(x.username, x.username) for x in user.friends.list]
+        self.fields['operator'].choices = [('', _('None')), (user.id, user),] + [(x.id, x) for x in user.friends.list]
 
         for tariff_type in Camera.TARIFF_FIELDS:
             self.fields[tariff_type].choices = tuple([('', _('Select tariff'))] +
