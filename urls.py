@@ -19,8 +19,8 @@ urlpatterns = patterns('',
     (r'^chat/', include('apps.chat.urls', namespace='chat')),
     
     (r'^owner/', include('apps.admin_blog.urls', namespace='admin_blog')),
-    (r'^captcha/(?P<code>[\da-f]{32})/$', 'apps.supercaptcha.draw')
-    
+    (r'^captcha/(?P<code>[\da-f]{32})/$', 'apps.supercaptcha.draw'),
+    url(r'^robots.txt$', 'django.views.generic.simple.direct_to_template', name='robots_txt', kwargs={'template': 'robots.txt'}),
 )
 
 #if settings.DEBUG:

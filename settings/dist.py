@@ -96,9 +96,11 @@ LOGIN_EXEMPT_URLS = (
     r'^activation/',
     r'^media/',
     r'^lostpassword/',
+    r'^resendactivationcode/',
     r'^recoverypassword/',
     ur'^ЕГГОГ',
     r'^captcha/',
+    r'^robots.txt$',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -196,7 +198,7 @@ SEND_EMAILS = True
 
 SITE_DOMAIN = 'modnoemesto.ru' # no slashes here, please
 
-ROBOT_EMAIL_ADDRESS = 'modnoemesto.ru <noreply@modnoemesto.ru>'
+ROBOT_EMAIL_ADDRESS = 'modnoemesto.ru <modnoemesto@modnoemesto.ru>'
 
 SERVER_EMAIL = ROBOT_EMAIL_ADDRESS
 

@@ -195,15 +195,12 @@ def user(request, user_id=None):
     if page_user == request.user:
         return redirect('social:home')
 
-    page_user.is_friend = request.user.is_authenticated() and \
-                          request.user.friends.contains(page_user)
-
     show_friend_button = request.user.is_authenticated() and \
                          request.user.friends.can_add(page_user)
 
     camera = page_user.get_camera()
     if camera:
-        camera.show = camera.can_show(page_user)
+        camera.show = camera.can_show(page_user, request.user)
     msgform = MessageTextForm()
     return direct_to_template(request, 'social/user.html',
                               { 'page_user': page_user, 'msgform': msgform,
@@ -321,7 +318,7 @@ def server_error(request):
     return HttpResponseServerError(t.render(Context({})))
 
 
-def lost_password(request):
+def lost_password(request, template='social/lost_password.html'):
     if request.method == 'POST':
         form = LostPasswordForm(request.POST)
         if form.is_valid():
@@ -337,7 +334,7 @@ def lost_password(request):
             return redirect('social:index')
     else:
         form = LostPasswordForm()
-    return direct_to_template(request, 'social/lost_password.html' , dict(form=form))
+    return direct_to_template(request, template , dict(form=form))
 
 
 def recovery_password(request, code):

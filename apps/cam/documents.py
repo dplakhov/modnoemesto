@@ -8,6 +8,7 @@ from apps.billing.documents import AccessCamOrder
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from datetime import datetime
+from apps.billing.constans import ACCESS_CAM_ORDER_STATUS
 
 
 class CameraType(Document):
@@ -76,19 +77,30 @@ class Camera(Document):
     def is_user_operator(self, user):
         return user.name == self.operator
 
-    def can_show(self, user):
-        if user.is_superuser:
-            return True
-        if not (self.is_view_public or user.is_friend):
+    def can_show(self, owner_user, access_user):
+        if not self.is_view_enabled:
             return False
-        if self.is_view_paid:
-            if not user.is_authenticated():
+        if access_user.is_superuser:
+            return True
+        if not self.is_view_public:
+            is_friend = access_user.is_authenticated() and \
+                        access_user.friends.contains(owner_user)
+            if not is_friend:
                 return False
-            order = AccessCamOrder.objects(
-                user=user,
+        if self.is_view_paid:
+            if not owner_user.is_authenticated():
+                return False
+            orders = AccessCamOrder.objects(
+                is_controlled=False,
+                user=access_user,
                 camera=self,
-            ).order_by('-create_on').first()
-            if order is None or not order.can_access():
+            )
+            can_access = False
+            for order in orders:
+                if order.can_access():
+                    can_access = True
+                    break
+            if not can_access:
                 return False
         return True
     

@@ -28,7 +28,7 @@ class LoginForm(forms.Form):
             if self.user_cache is None:
                 raise forms.ValidationError(_("Please enter a correct email and password."))
             elif not self.user_cache.is_active:
-                raise forms.ValidationError(_("This account is inactive."))
+                raise forms.ValidationError("inactive")
 
         # TODO: determine whether this should move to its own method.
         #if self.request:
@@ -108,9 +108,13 @@ class UserCreationForm(forms.Form):
 
     def clean_email(self):
         email = self.cleaned_data["email"].lower()
-        if User.objects(email=email).count():
-            raise forms.ValidationError(_("A user with that email already"
-                                          " exists."))
+        user = User.objects(email=email).only('is_active').first()
+        if user:
+            if user.is_active:
+                raise forms.ValidationError(_("A user with that email already"
+                                              " exists."))
+            else:
+                raise forms.ValidationError("inactive")
         return email
 
     def clean_password2(self):

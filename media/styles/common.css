@@ -459,6 +459,10 @@ p.send_mass
     border: none;
     width: 84px;
 }
+div.step
+{
+	margin-bottom: 15px;
+}
 /* For Reg
 ------------------------------------*/
 div#content_about
@@ -468,7 +472,7 @@ div#content_about
     /*display: inline;*/
     overflow: hidden;
 }
-#content_about h2
+#content_about h2, #content_about h1
 {
     color: #2bacd5;
     font-size: 18px;
@@ -542,6 +546,7 @@ h2.registr
 {
     color: #2bacd5;
     font-size: 18px;
+	cursor: pointer;
 }
 div.reg p, div.enter p
 {

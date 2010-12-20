@@ -9,7 +9,7 @@
         </form>
         <div id="fp">
             <ul>
-{% for camera in request.places|slice:"7" %}
+{% for camera in request.places %}
 {% url social:user camera.owner.id as user_path %}
                 <li>
                     <div class="item">
