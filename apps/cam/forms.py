@@ -50,7 +50,7 @@ class CameraForm(forms.Form):
 
     screen = forms.FileField(label=_("Image"), required=False)
 
-    stream_name = forms.CharField(label=_('Stream name'))
+    stream_name = forms.CharField(label=_('Stream name'), required=False)
 
     camera_management_host = forms.CharField(label=_('Camera management host'),
                                              required=False)
