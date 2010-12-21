@@ -59,11 +59,20 @@ class AccessCamOrder(Document):
     cost = FloatField()
     create_on = DateTimeField(default=datetime.now)
 
-    def set_access_period(self, tariff=None, begin_date=None):
-        if tariff is None:
-            tariff = self.tariff
-        self.begin_date = begin_date or datetime.now()
-        duration_complete = self.duration * tariff.duration
+    def set_access_period(self, is_controlled):
+        now = datetime.now()
+        if is_controlled:
+            last_order = AccessCamOrder.objects(camera=self.camera,
+                                                is_controlled=is_controlled,
+                                                end_date__gt=now)
+        else:
+            last_order = AccessCamOrder.objects(user=self.user,
+                                                camera=self.camera,
+                                                is_controlled=is_controlled,
+                                                end_date__gt=now)
+        last_order = last_order.order_by('-end_date').only('end_date').first()
+        self.begin_date = last_order and last_order.end_date or now
+        duration_complete = self.duration * self.tariff.duration
         self.end_date = self.begin_date + timedelta(minutes=duration_complete)
 
     def can_access(self):

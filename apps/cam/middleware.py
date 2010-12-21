@@ -5,7 +5,7 @@ class PlaceBoxMiddleware:
     def process_request(self, request):
         request.places = Camera.objects(is_view_public=True,
                                         is_view_enabled=True
-                                        ).order_by('-date_created')[:7]
+                                        ).order_by('date_created')[:10]
         request.places = list(request.places)
         request.places_all_count = Camera.objects.count()
         

@@ -36,19 +36,19 @@ def cam_list(request):
     form = CamFilterForm(request.POST or None)
     if form.is_valid():
         data = dict(form.cleaned_data)
-        if not data['name']:
-            del data['name']
-        else:
+        if data['name']:
             data['name__icontains'] = data['name']
-            del data['name']
+        del data['name']
         if not data['is_managed']:
             del data['is_management_enabled']
             del data['is_management_public']
             del data['is_management_paid']
+        for k, v in data.items():
+            if not v: del data[k]
         cams = Camera.objects(**data)
     else:
         cams = list(Camera.objects(is_view_public=True,
-                                is_view_enabled=True).order_by('-date_created'))
+                                is_view_enabled=True).order_by('date_created'))
 
     return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams) )
 
@@ -82,7 +82,7 @@ def cam_edit(request, id=None):
             setattr(cam, k, v)
 
         cam.type = CameraType.objects.get(id=form.cleaned_data['type'][:-2])
-        cam.operator = cam.operator and User.objects(id=cam.operator).first()
+        cam.operator = form.cleaned_data['operator'] and User.objects(id=form.cleaned_data['operator']).first() or None
 
         for tariff_type in Camera.TARIFF_FIELDS:
             value = form.cleaned_data[tariff_type]

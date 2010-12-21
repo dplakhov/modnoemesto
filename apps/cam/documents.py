@@ -88,7 +88,6 @@ class Camera(Document):
                 return False
             now = datetime.now()
             order = AccessCamOrder.objects(
-                is_controlled=False,
                 user=access_user,
                 camera=self,
                 end_date__gt=now,
