@@ -339,7 +339,7 @@ div#player
 {
     border: #eeedde solid 5px;
     margin-top: 10px;
-    width: 530px;
+   /* width: 530px;*/
 }
 #video_coment
 {
@@ -1434,6 +1434,10 @@ span.date
 {
 	display: block;
 	padding-bottom: 2px;
+}
+.cam_list li
+{
+	height: 180px;
 }
 
 
