@@ -2,11 +2,13 @@
 {{ block.super }}
 {% if user.is_authenticated %}
 <script>
-	var chat_settings = {
-		nick: "{{ request.user.get_full_name }}",
-		room: "{{ camera.pk }}",
-		host: "{{ settings.CHAT_HOST }}",
-		port: "{{ settings.CHAT_PORT }}",
+	var CHAT_SETTINGS = {
+		NICK: "{{ request.user.get_full_name }}",
+		ROOM: "{{ camera.pk }}",
+		ORBITED_HOST: "{{ settings.CHAT_ORBITED_HOST }}",
+		ORBITED_PORT: "{{ settings.CHAT_ORBITED_PORT }}",
+		STOMP_HOST: "{{ settings.CHAT_STOMP_HOST }}",
+		STOMP_PORT: "{{ settings.CHAT_STOMP_PORT }}"
 	};	
 </script>
 
@@ -15,12 +17,12 @@
         <script src="/media/js/orbited/Orbited.js"></script>
         <script>
 	        // set the orbited settings and port
-	        Orbited.settings.port = window.chat_settings.port;
-	        Orbited.settings.hostname = window.chat_settings.host;
+	        Orbited.settings.hostname = window.CHAT_SETTINGS.ORBITED_HOST;
+	        Orbited.settings.port = window.CHAT_SETTINGS.ORBITED_PORT;
 			
-		    Orbited.util.chooseTransport = function() {
-		        return Orbited.CometTransports.LongPoll;
-		    }
+//		    Orbited.util.chooseTransport = function() {
+//		        return Orbited.CometTransports.LongPoll;
+//		    }
 			
 	        //Orbited.settings.streaming = false;
 	        TCPSocket = Orbited.TCPSocket;
@@ -42,9 +44,9 @@
                     //console.log("opening stomp client");
                 };
                 stomp.onclose = function(c){
-                    stomp.unsubscribe(window.chat_settings.room);
+                    stomp.unsubscribe(window.CHAT_SETTINGS.ROOM);
                     $.post("/chat/unsubscribe/", {
-						"cam_id": window.chat_settings.room
+						"cam_id": window.CHAT_SETTINGS.ROOM
 					});					
                     alert('Lost Connection, Code: ' + c);
                 };
@@ -58,9 +60,9 @@
                     //console.log("Connected. Subscribing");
                     //alert("subscribing");
 					//stomp.subscribe("/messages");
-                    stomp.subscribe(window.chat_settings.room);
+                    stomp.subscribe(window.CHAT_SETTINGS.ROOM);
                     $.post("/chat/subscribe/", {
-						"cam_id": window.chat_settings.room
+						"cam_id": window.CHAT_SETTINGS.ROOM
 					});					
                 };
                 stomp.onmessageframe = function(frame){
@@ -70,13 +72,17 @@
                     // would have to check frame.headers.destination.
                     add_message(JSON.parse(frame.body));
                 };
-                stomp.connect('localhost', 61613);
+				
+                stomp.connect(
+					window.CHAT_SETTINGS.STOMP_HOST,
+					window.CHAT_SETTINGS.STOMP_PORT
+				);
 
                 $("#send_comment").click(function(data) {
                     var message = $("#message").val()
                     $.post("/chat/send/", {
 						"message":message, 
-						"cam_id": window.chat_settings.room
+						"cam_id": window.CHAT_SETTINGS.ROOM
 					});
 					$("#message").val("");
                 })
