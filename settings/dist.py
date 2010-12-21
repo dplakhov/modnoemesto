@@ -84,7 +84,6 @@ LOGIN_URL = '/login/'
 LOGIN_EXEMPT_URLS = (
     r'^$',
     r'^in_dev/$',
-    r'^about/$',
     r'^static',
     r'^start/$',
     r'^stop/$',

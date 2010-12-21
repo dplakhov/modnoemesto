@@ -5,15 +5,14 @@ from django.conf import settings
 
 urlpatterns = patterns('apps.social.views',
    url(r'^$', 'index', name='index'),
-   url(r'^about/$', 'about', name='about'),
    url(r'^static/(?P<page>[a-z]+)/$', 'static', name='static'),
    url(r'^in_dev/$', 'in_dev', name='in_dev'),
    url(r'^home/$', 'home', name='home'),
    url(r'^home/edit/$', 'profile_edit', name='profile_edit'),
 
-   url(r'^login/$', 'about', name='login'),
    url(r'^logout/$', 'logout', name='logout'),
-   url(r'^register/$', 'about', name='register'),
+   url(r'^login/$', 'index', name='login'),
+
    url(r'^activation/(?P<code>[a-f0-9]{12})/$', 'activation', name='activation'),
    url(r'^lostpassword/$', 'lost_password', name='lost_password'),
    url(r'^resendactivationcode/$', 'lost_password', name='resend_activation_code', kwargs={'template': 'social/resend_activation_code.html'}),
