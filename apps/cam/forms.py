@@ -126,9 +126,9 @@ class CameraForm(forms.Form):
 class CamFilterForm(forms.Form):
     name = forms.CharField(required=False, label=_('Keywords'),
                            widget=forms.TextInput(attrs={'class':'kay'}))
-    is_view_enabled = forms.BooleanField(required=False, initial=True,
+    is_view_enabled = forms.BooleanField(required=False, initial=False,
                                          label=_('View Enabled'))
-    is_view_public = forms.BooleanField(required=False, initial=True,
+    is_view_public = forms.BooleanField(required=False, initial=False,
                                         label=_('View Public'))
     is_view_paid = forms.BooleanField(required=False, initial=False,
                                       label=_('View Paid'))

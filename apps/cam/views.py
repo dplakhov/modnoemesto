@@ -36,15 +36,15 @@ def cam_list(request):
     form = CamFilterForm(request.POST or None)
     if form.is_valid():
         data = dict(form.cleaned_data)
-        if not data['name']:
-            del data['name']
-        else:
+        if data['name']:
             data['name__icontains'] = data['name']
-            del data['name']
+        del data['name']
         if not data['is_managed']:
             del data['is_management_enabled']
             del data['is_management_public']
             del data['is_management_paid']
+        for k, v in data.items():
+            if not v: del data[k]
         cams = Camera.objects(**data)
     else:
         cams = list(Camera.objects(is_view_public=True,
