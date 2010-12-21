@@ -82,7 +82,7 @@ def cam_edit(request, id=None):
             setattr(cam, k, v)
 
         cam.type = CameraType.objects.get(id=form.cleaned_data['type'][:-2])
-        cam.operator = cam.operator and User.objects(id=cam.operator).first()
+        cam.operator = form.cleaned_data['operator'] and User.objects(id=form.cleaned_data['operator']).first() or None
 
         for tariff_type in Camera.TARIFF_FIELDS:
             value = form.cleaned_data[tariff_type]
