@@ -2,12 +2,6 @@
 
 {% load i18n %}
 
-{% if is_auth %}
-{% block css %}
-{{ block.super }}
-<link href="/media/styles/page_info.css" rel="stylesheet" type="text/css" />
-{% endblock %}
-{% else %}
 {% block js %}
 {{ block.super }}
 <script type="text/javascript">
@@ -88,14 +82,10 @@ $(document).ready(function(){
 
 </script>
 {% endblock %}
-{% endif %}
-
 {% block content %}
 
 
-<div id="content_{% if is_auth %}info{% else %}about{% endif %}">
-
-{% if not is_auth %}
+<div id="content_about">
 
 <div id="last_news">
     <h2 class="ent">Модные новости</h2>
@@ -123,9 +113,6 @@ $(document).ready(function(){
 
 </div>
 
-
-{% endif %}
-
 <div style="width:454px; overflow:hidden; margin-left:246px;">
  <h2>Хочешь посмотреть видео, всё просто:</h2>
  <div class="step">
@@ -152,36 +139,8 @@ $(document).ready(function(){
  </div>
  
  
- {% comment %}   
-    <h1>Модное место</h1>
-    <p>
-<b>Модное место</b> - это новая и уникальная социальная <b>видеосеть</b>! Как и прочие социальные сети, Модное место предоставляет весь спектр пользовательских услуг.
-    </p>
-    <p>
-Но главное отличие Модного место от других социальных <b>видеосетей</b> - возможность заработать. <br/><b>Модное место</b> - это первая социальная <b>видеосеть</b>, которая платит участникам!
-    </p>
-    <p>
-Если ты уникален - не стесняйся этого, это принесет большой доход. Как это работает? Все очень просто: пользователь устанавливает у себя камеру видео наблюдения (на кухне или в спальне, дома или в офисе). Чтобы повысить свой рейтинг, возможно высылать приглашения о дружбе знакомым, друзьям или совершенно незнакомым людям. Другие пользователи подключаются к камере, и... деньги начинают идти на твой счет. Конечно, чтобы трафик шел постоянно, и нужно суметь заинтересовать "свою аудиторию". Одна камера - до 500 просмотров одновременно. Можно поставить и несколько камер, тебе это будет абсолютно БЕСПЛАТНО. Главное, заинтересуй своей жизнью! Наиболее интересные участники приглашаются порталом к сотрудничеству на особых условиях...
-    </p>
-    <p>
-Также на нашем портале Ты можешь посмотреть интересующие Тебя заведения в режиме онлайн. Теперь не возникнут такие вопросы, как : "куда пойти?", "какой интерьер у этого заведения?", "какая публика?", "где весело?". Все это ты сможешь узнать на нашем сайте в режиме настоящего времени. Трафик с камеры - платный и....до 90% зарабатывает площадка. А пользователь, после увиденного, может оставить свой комментарий.
-    </p>
-    <p>
-Как подключить камеру? Все очень просто!
-
-<ol>
-    <li>Зарегистрируйся на сайте.</li>
-    <li>Позвони по указанному номеру.</li>
-    <li>Получи БЕСПЛАТНО камеру и ее установку!</li>
-    </ol>
-    </p>
-    <p>
-Твое <b>Модное место</b>.
-    </p>
-    {% endcomment %} 
 </div>
 </div>
-{% if not is_auth %}
 <div id="regColumn">
     <div id="enter_form">
         <h2 class="ent">Вход</h2>
@@ -196,7 +155,7 @@ $(document).ready(function(){
 {% for error in login_form.non_field_errors %}
     <li>{% if error == 'inactive' %}
         {% trans "This account is inactive." %}<br/><a href="{% url social:resend_activation_code %}">{% trans "Resend activation code." %}</a>
-        {% else %}{{ error }}1{% endif %}</li>
+        {% else %}{{ error }}{% endif %}</li>
 {% endfor %}
 </ul>
 {% endif %}
@@ -227,7 +186,6 @@ $(document).ready(function(){
 
 {{ reg_form.last_name.errors }}
 <p>*{{ reg_form.last_name.label }}:<br/>{{ reg_form.last_name }}</p>
-
 {% if reg_form.email.errors %}<ul class="errorlist">
 {% for error in reg_form.email.errors %}
     <li>{% if error == 'inactive' %}
@@ -259,5 +217,4 @@ $(document).ready(function(){
        </div>
     </div>
 </div>
-{% endif %}
 {% endblock %}

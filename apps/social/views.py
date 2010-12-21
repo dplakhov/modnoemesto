@@ -50,21 +50,12 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 
 def index(request):
     if not request.user.is_authenticated():
-        return about(request)
+        return _index_unreg(request)
     accs = User.objects(last_access__gt=User.get_delta_time())
     return direct_to_template(request, 'index.html', { 'accs': accs })
 
 
-def static(request, page):
-    return direct_to_template(request, 'static/%s.html' % page, {
-        'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })
-    
-def about(request):
-    
-    if request.user.is_authenticated():
-        return direct_to_template(request, 'about.html', {
-            'base_template': "base.html",
-            'is_auth': True })
+def _index_unreg(request):
     from apps.news.documents import News
     reg_form = None
     login_form = None
@@ -82,7 +73,7 @@ def about(request):
     reg_form = reg_form or UserCreationForm()
     login_form = login_form or LoginForm()
     request.session.set_test_cookie()
-    return direct_to_template(request, 'about.html', {
+    return direct_to_template(request, 'index_unreg.html', {
         'base_template': "base_info.html",
         'reg_form': reg_form,
         'login_form': login_form,
@@ -90,6 +81,10 @@ def about(request):
         'news_list': News.objects,
         })
 
+def static(request, page):
+    return direct_to_template(request, 'static/%s.html' % page, {
+        'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })
+    
 def register(request):
     form = UserCreationForm(request.POST)
     if form.is_valid():
