@@ -48,7 +48,7 @@ def cam_list(request):
         cams = Camera.objects(**data)
     else:
         cams = list(Camera.objects(is_view_public=True,
-                                is_view_enabled=True).order_by('-date_created'))
+                                is_view_enabled=True).order_by('date_created'))
 
     return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams) )
 
