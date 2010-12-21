@@ -190,9 +190,9 @@ def operator(request):
 #@login_required
 def get_access_to_camera(request, id):
     camera = get_document_or_404(Camera, id=id)
-    camera_is_controlled = camera.type.is_controlled
     if request.POST:
-        form = AccessCamOrderForm(request.user, camera_is_controlled,request.POST)
+        camera_is_controlled = camera.type.is_controlled
+        form = AccessCamOrderForm(request.user, camera_is_controlled, request.POST)
         if form.is_valid():
             order = AccessCamOrder(
                 tariff=form.cleaned_data['tariff'],
@@ -201,25 +201,16 @@ def get_access_to_camera(request, id):
                 camera=camera,
                 is_controlled=camera_is_controlled,
             )
-            if camera_is_controlled:
-                last_order = AccessCamOrder.objects(camera=camera,
-                                                    is_controlled=camera_is_controlled,
-                                                    end_date__gt=datetime.now())
-            else:
-                last_order = AccessCamOrder.objects(user=request.user,
-                                                    camera=camera,
-                                                    is_controlled=camera_is_controlled,
-                                                    end_date__gt=datetime.now())
-            last_order = last_order.order_by('-end_date').only('end_date').first()
-            begin_date = last_order and last_order.end_date
-            order.set_access_period(form.cleaned_data['tariff'], begin_date)
+            order.set_access_period(order.is_controlled)
             request.user.cash -= form.total_cost
             request.user.save()
             order.cost = form.total_cost
             order.save()
-            if camera_is_controlled and order.status == ACCESS_CAM_ORDER_STATUS.ACTIVE:
-                camera.operator = request.user
-                camera.save()
+            if order.is_controlled:
+                if order.status == ACCESS_CAM_ORDER_STATUS.ACTIVE:
+                    camera.operator = request.user
+                    camera.save()
+
             return HttpResponseRedirect(reverse('social:user', args=[camera.owner.id]))
     else:
         form = AccessCamOrderForm()
