@@ -6,7 +6,6 @@ from mongoengine.fields import DateTimeField, StringField, IntField
 from datetime import datetime
 
 from django.utils.encoding import smart_unicode
-from apps.utils.enum import Enumeration
 
 
 class LogEntry(Document):
