@@ -94,7 +94,7 @@ management_checked();
 </form>
 
 <div id="filt_new">
-<ul>
+<ul class="cam_list">
 {% for cam in cams %}
 {% url social:user cam.owner.id as user_path %}
     <li{% cycle '' '' '' ' style="margin-right: 0pt;"' %}>
