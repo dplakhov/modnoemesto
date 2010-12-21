@@ -1,4 +1,9 @@
-CHAT_HOST = "localhost"
-CHAT_PORT = "80"
+CHAT_CONNECTIONS = {}
+
+CHAT_ORBITED_HOST = "localhost"
+CHAT_ORBITED_PORT = "9999"
+
+CHAT_STOMP_HOST = "localhost"
+CHAT_STOMP_PORT = "61613"
+
 CHAT_DEBUG = "false"
-CHAT_SOCKET_LIB_PATH = "/media/swf/"

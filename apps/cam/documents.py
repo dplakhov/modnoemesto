@@ -8,12 +8,14 @@ from apps.billing.documents import AccessCamOrder
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from datetime import datetime
+from apps.billing.constans import ACCESS_CAM_ORDER_STATUS
 
 
 class CameraType(Document):
     name = StringField(max_length=255, unique=True)
     driver = StringField(max_length=255)
     is_controlled = BooleanField(default=False)
+    is_default = BooleanField(default=False)
 
     @property
     def driver_class(self):
@@ -35,7 +37,7 @@ class Camera(Document):
                   )
     SCREEN_URL_TPL = "/media/img/notfound/screen_%ix%i.png"
 
-    name = StringField(max_length=255)
+    name = StringField(max_length=255, default=unicode(_('New camera')))
 
     owner = ReferenceField('User')
     type = ReferenceField('CameraType')
@@ -57,7 +59,7 @@ class Camera(Document):
 
     is_managed = BooleanField()
 
-    operator = StringField(max_length=64)
+    operator = ReferenceField('User')
 
     force_html5 = BooleanField()
 
@@ -73,23 +75,63 @@ class Camera(Document):
     def driver(self):
         return self.type.driver_class(self)
 
-    def is_user_operator(self, user):
-        return user.name == self.operator
-
-    def can_show(self, user):
-        if user.is_superuser:
-            return True
-        if not (self.is_view_public or user.is_friend):
+    def can_show(self, owner_user, access_user):
+        if not self.is_view_enabled:
             return False
+        if not self.is_view_public:
+            is_friend = access_user.is_authenticated() and \
+                        access_user.friends.contains(owner_user)
+            if not is_friend:
+                return False
         if self.is_view_paid:
-            if not user.is_authenticated():
+            if not owner_user.is_authenticated():
                 return False
+            now = datetime.now()
             order = AccessCamOrder.objects(
-                user=user,
+                is_controlled=False,
+                user=access_user,
                 camera=self,
-            ).order_by('-create_on').first()
-            if order is None or not order.can_access():
+                end_date__gt=now,
+            ).order_by('-end_date').only('end_date').first()
+            if not order:
                 return False
+            time_left = order.end_date - now
+            data = {}
+            data['days'] = time_left.days
+            data['hours'] = time_left.seconds / 3600
+            data['minutes'] = (time_left.seconds % 3600) / 60
+            data['seconds'] = time_left.seconds - data['minutes'] * 60
+            for k, v in data.items():
+                data[k] = "%2i" % v
+            return data
+        return True
+
+    def can_manage(self, owner_user, access_user):
+        if not self.is_management_enabled:
+            return False
+        if not self.is_management_public:
+            is_friend = access_user.is_authenticated() and \
+                        access_user.friends.contains(owner_user)
+            if not is_friend:
+                return False
+        if self.is_management_paid:
+            if not owner_user.is_authenticated():
+                return False
+            now = datetime.now()
+            orders = list(AccessCamOrder.objects(
+                is_controlled=True,
+                camera=self,
+                end_date__gt=now,
+            ).order_by('end_date'))
+            if not orders:
+                if self.operator:
+                    self.operator = None
+                    self.save()
+                return False
+            if orders[0].user == access_user:
+                self.operator = access_user
+                self.save()
+            return orders
         return True
     
     def save(self, *args, **kwargs):

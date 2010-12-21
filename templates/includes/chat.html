@@ -1,0 +1,137 @@
+{% block js %}
+{{ block.super }}
+{% if user.is_authenticated %}
+<script>
+	var CHAT_SETTINGS = {
+		NICK: "{{ request.user.get_full_name }}",
+		ROOM: "{{ camera.pk }}",
+		ORBITED_HOST: "{{ settings.CHAT_ORBITED_HOST }}",
+		ORBITED_PORT: "{{ settings.CHAT_ORBITED_PORT }}",
+		STOMP_HOST: "{{ settings.CHAT_STOMP_HOST }}",
+		STOMP_PORT: "{{ settings.CHAT_STOMP_PORT }}"
+	};	
+</script>
+
+
+        <script src="/media/js/json2.min.js"></script>
+        <script src="/media/js/orbited/Orbited.js"></script>
+        <script>
+	        // set the orbited settings and port
+	        Orbited.settings.hostname = window.CHAT_SETTINGS.ORBITED_HOST;
+	        Orbited.settings.port = window.CHAT_SETTINGS.ORBITED_PORT;
+			
+//		    Orbited.util.chooseTransport = function() {
+//		        return Orbited.CometTransports.LongPoll;
+//		    }
+			
+	        //Orbited.settings.streaming = false;
+	        TCPSocket = Orbited.TCPSocket;
+			
+        </script>
+		
+		<script>document.domain = document.domain;</script>
+		
+        <script src="/media/js/orbited/protocols/stomp/stomp.js"></script>
+
+        <script type="text/javascript" charset="utf-8">
+
+            function add_message(msg) {
+                $("<p>" + msg["user"] + ": " + msg["message"] + "</p>").appendTo("#chat")
+            };
+            $(document).ready(function() {
+                var stomp = new STOMPClient();
+                stomp.onopen = function(){
+                    //console.log("opening stomp client");
+                };
+                stomp.onclose = function(c){
+                    stomp.unsubscribe(window.CHAT_SETTINGS.ROOM);
+                    $.post("/chat/unsubscribe/", {
+						"cam_id": window.CHAT_SETTINGS.ROOM
+					});					
+                    alert('Lost Connection, Code: ' + c);
+                };
+                stomp.onerror = function(error){
+                    alert("Error: " + error);
+                };
+                stomp.onerrorframe = function(frame){
+                    alert("Error: " + frame.body);
+                };
+                stomp.onconnectedframe = function(){
+                    //console.log("Connected. Subscribing");
+                    //alert("subscribing");
+					//stomp.subscribe("/messages");
+                    stomp.subscribe(window.CHAT_SETTINGS.ROOM);
+                    $.post("/chat/subscribe/", {
+						"cam_id": window.CHAT_SETTINGS.ROOM
+					});					
+                };
+                stomp.onmessageframe = function(frame){
+                    // Presumably we should only receive message frames with the
+                    // destination "/topic/message" because that's the only destination
+                    // to which we've subscribed. To handle multiple destinations we
+                    // would have to check frame.headers.destination.
+                    add_message(JSON.parse(frame.body));
+                };
+				
+                stomp.connect(
+					window.CHAT_SETTINGS.STOMP_HOST,
+					window.CHAT_SETTINGS.STOMP_PORT
+				);
+
+                $("#send_comment").click(function(data) {
+                    var message = $("#message").val()
+                    $.post("/chat/send/", {
+						"message":message, 
+						"cam_id": window.CHAT_SETTINGS.ROOM
+					});
+					$("#message").val("");
+                })
+				
+				stomp.debug = function(str) {
+					// append the debug log to a #debug div somewhere in the page using JQuery:
+					// $("#debug").append(str + "\n");
+				};
+            });
+
+        </script>
+
+
+
+
+{% endif %}
+{% endblock %}
+
+
+  
+  		<!-- comments -->
+		
+	    <div id="video_coment">
+	        <div id="laying">
+	            <div class="tab_chat">
+	                <span class="tab_chat">Чат</span>
+	            </div>
+	            <div class="tab_comment">
+	                <span class="tab_comment">
+	                	<p>Комментарии</p>
+						<img src="/media/images/hand_up.jpg" alt="hand_up" />
+					</span>
+					
+	                <p class="hand_up">47671</p>
+					<img src="/media/images/hand_down.jpg" alt="hand_down" />
+	                <p class="hand_down">481</p>
+					<p class="rating">Рейтинг</p>
+					<p class="rat">648</p>
+	                
+	            </div>
+	        </div>
+	        <div class="scroll-wrap">
+	            <div class="scroll-pane">
+	                <div id="chat"></div>
+	            </div>
+	        </div>
+	        <div class="send">
+	        <p class="send_mass">Отправить собщение в чат:</p>
+	        	<textarea id="message" class="com" name="message"></textarea>
+	            <input id="send_comment" type="submit" class="sub" value="отправить" />
+	        </div>
+	    </div>

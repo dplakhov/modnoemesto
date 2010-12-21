@@ -7,12 +7,11 @@ from django.conf import settings
 SELF_DIR = dirname(abspath(__file__))
 FONTS_DIR = join(SELF_DIR, 'fonts')
 
-SYMBOLS = getattr(settings, 'CAPTCHA_SYMBOLS', '123456789ABCDEFGHJKLMNPQRSTVXYZ')
+SYMBOLS = getattr(settings, 'CAPTCHA_SYMBOLS', '123456789abcdefghjklmnpqrstvxyz')
 LENGTH = getattr(settings, 'CAPTCHA_LENGTH', 6)
 
 AVAIL_FONTS = getattr(settings, 'CAPTCHA_FONTS', [
-        ('boneca', join(FONTS_DIR, 'boneca.ttf')),
-        ('acidic', join(FONTS_DIR, 'acidic.ttf')),
+        ('acoustic_bass', join(FONTS_DIR, 'acoustic_bass.ttf')),
 ])
 
 FOREGROUND_COLORS = getattr(settings, 'CAPTCHA_FOREGROUND_COLORS', (

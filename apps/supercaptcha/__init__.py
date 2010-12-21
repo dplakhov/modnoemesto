@@ -2,6 +2,7 @@
 
 import os
 from random import choice, random
+from .transform_image import SineWarp
 
 try:
     import Image, ImageDraw, ImageFont, ImageFilter
@@ -105,7 +106,7 @@ def draw(request, code):
         else:
             color = choice(FG_COLORS)
             get_color = lambda: color
-        position = [(WIDTH - text_size[0]) / 2, 0]
+        position = [(WIDTH - text_size[0] + 8) / 2, 0]
         shift_max = HEIGHT - text_size[1]
         shift_min = shift_max / 4
         shift_max = shift_max * 3 / 4
@@ -116,7 +117,7 @@ def draw(request, code):
             except IndexError:
                 position[1] = shift_min
             d.text(position, char, font=font, fill=get_color())
-            position[0] += l_size[0]
+            position[0] += l_size[0] - 8
     else:
         position = [(WIDTH - text_size[0]) / 2,
                     (HEIGHT - text_size[1]) / 2]
@@ -126,6 +127,8 @@ def draw(request, code):
     
     response['cache-control'] = 'no-store, no-cache, must-revalidate, proxy-revalidate'
     
+
+    im = SineWarp().render(im)
     for f in settings.FILTER_CHAIN:
         im = im.filter(getattr(ImageFilter, f))
     

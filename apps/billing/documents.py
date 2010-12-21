@@ -59,10 +59,10 @@ class AccessCamOrder(Document):
     cost = FloatField()
     create_on = DateTimeField(default=datetime.now)
 
-    def set_access_period(self, tariff=None):
+    def set_access_period(self, tariff=None, begin_date=None):
         if tariff is None:
             tariff = self.tariff
-        self.begin_date = datetime.now()
+        self.begin_date = begin_date or datetime.now()
         duration_complete = self.duration * tariff.duration
         self.end_date = self.begin_date + timedelta(minutes=duration_complete)
 
@@ -75,11 +75,7 @@ class AccessCamOrder(Document):
             return ACCESS_CAM_ORDER_STATUS.WAIT
         dnow = datetime.now()
         if self.begin_date <= dnow:
-            if dnow <= self.end_date:
+            if dnow < self.end_date:
                 return ACCESS_CAM_ORDER_STATUS.ACTIVE
             return ACCESS_CAM_ORDER_STATUS.COMPLETE
         return ACCESS_CAM_ORDER_STATUS.WAIT
-
-    @property
-    def status_label(self):
-        return ACCESS_CAM_ORDER_STATUS.to_text(self.status)

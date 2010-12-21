@@ -74,7 +74,6 @@ def deploy(revision, reinstall=False):
 
 
 def deploy_head(reinstall=False):
-    local('git pull')
     repo = git.Repo(os.path.normpath('..'))
     revision = repo.commit('master').id
     deploy(revision, reinstall=reinstall)
