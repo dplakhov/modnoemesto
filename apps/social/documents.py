@@ -223,8 +223,8 @@ class User(Document):
         if not cam:
             cam = Camera(owner=self,
                          type=CameraType.objects(is_default=True).first(),
-                         is_view_enabled=False,
-                         is_view_public=True,
+                         is_view_enabled=True,
+                         is_view_public=False,
                          )
             cam.save()
         return cam
