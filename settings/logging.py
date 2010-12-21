@@ -61,7 +61,23 @@ LOGGING = {
         'mongo_info': {
             'level': 'INFO',
             'class': 'apps.logging_patch.log.MongoHander',
-        }
+        },
+        'mongo_debug': {
+            'level': 'DEBUG',
+            'class': 'apps.logging_patch.log.MongoHander',
+        },
+        'mongo_warning': {
+            'level': 'WARNING',
+            'class': 'apps.logging_patch.log.MongoHander',
+        },
+        'mongo_error': {
+            'level': 'ERROR',
+            'class': 'apps.logging_patch.log.MongoHander',
+        },
+        'mongo_critical': {
+            'level': 'CRITICAL',
+            'class': 'apps.logging_patch.log.MongoHander',
+        },
 
 
         
@@ -82,11 +98,26 @@ LOGGING = {
             'level': 'INFO',
             #'filters': ['special']
         },
-        'test_logger': {
-            'handlers': ['mongo'],
+        'test_logger_info': {
+            'handlers': ['mongo_info'],
             'level': 'INFO',
-            #'filters': ['special']
-        }
+        },
+        'test_logger_debug': {
+            'handlers': ['mongo_debug'],
+            'level': 'DEBUG',
+        },
+        'test_logger_warning': {
+            'handlers': ['mongo_warning'],
+            'level': 'WARNING',
+        },
+        'test_logger_error': {
+            'handlers': ['mongo_error'],
+            'level': 'ERROR',
+        },
+        'test_logger_critical': {
+            'handlers': ['mongo_critical'],
+            'level': 'CRITICAL',
+        },
  
     }
 }

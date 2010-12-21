@@ -82,6 +82,13 @@ class MongoHander(logging.Handler):
         from apps.logging.models import LogEntry
         entry = LogEntry()
         entry.message = message
+        entry.levelname = record.levelname
+        entry.levelnum = record.levelno
+        entry.pathname = record.pathname
+        entry.logger_name = record.name
+        entry.func = record.funcName
+        entry.lineno = record.lineno
+        
         entry.save() 
         
 
