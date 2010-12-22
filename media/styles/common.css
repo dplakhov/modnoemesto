@@ -431,9 +431,9 @@ div#player
 }
 .send
 {
-    padding-top:5px;
+    padding: 5px 7px 10px;
     background:none repeat scroll 0 0 #EFEEDF;
-    width: 515px;
+   /* width: 515px;*/
 }
 p.send_mass
 {
