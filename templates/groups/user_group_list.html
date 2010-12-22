@@ -3,9 +3,23 @@
 {% block content %}
 
 <div id="filter_box">
-{% if groups_invite %}
-<h2>{% trans "Groups invite" %}</h2>
-    {% for group in groups_invite %}
+{% if groups_requests %}
+<h2>{% trans "Groups requests" %}</h2>
+    {% for info in groups_requests %}
+        <div>
+            <a href="{% url groups:group_view info.group.id %}">{{ info.group.name }}</a>
+            <a href="{{ info.user.get_absolute_url }}">{{ info.user }}</a>
+            <a href="{% url groups:request_take info.id %}">{% trans "take" %}</a>
+            <a href="{% url groups:request_refuse info.id %}">{% trans "refuse" %}</a>
+        </div>
+    {% endfor %}
+
+    <hr />
+{% endif %}
+
+{% if groups_invites %}
+<h2>{% trans "Groups invites" %}</h2>
+    {% for group in groups_invites %}
         <div>
             <a href="{% url groups:group_view group.id %}">{{ group.name }}</a>
             <a href="{% url groups:invite_take group.id %}">{% trans "take" %}</a>

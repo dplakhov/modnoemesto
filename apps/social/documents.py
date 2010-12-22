@@ -112,11 +112,25 @@ class User(Document):
 
     @cached_property
     def groups(self):
-        return [i.group for i in GroupUser.objects(user=self, is_invite=False).only('group')]
+        return [i.group for i in GroupUser.objects(user=self, status=GroupUser.STATUS.ACTIVE).only('group')]
 
     @cached_property
-    def groups_invite(self):
-        return [i.group for i in GroupUser.objects(user=self, is_invite=True).only('group')]
+    def groups_invites(self):
+        return [i.group for i in GroupUser.objects(user=self, status=GroupUser.STATUS.INVITE).only('group')]
+
+    @cached_property
+    def groups_requests(self):
+        requests = []
+        for i in GroupUser.objects(user=self, status=GroupUser.STATUS.ACTIVE, is_admin=True).only('group'):
+            requests += GroupUser.objects(group=i.group, status=GroupUser.STATUS.REQUEST).all()
+        return requests
+
+    @cached_property
+    def groups_events_count(self):
+        invites = GroupUser.objects(user=self, status=GroupUser.STATUS.INVITE).count()
+        for i in GroupUser.objects(user=self, status=GroupUser.STATUS.ACTIVE, is_admin=True).only('group'):
+            invites += GroupUser.objects(group=i.group, status=GroupUser.STATUS.REQUEST).count()
+        return invites
 
     @property
     def friends(self):
