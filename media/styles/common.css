@@ -151,7 +151,7 @@ div#serch
 ---------------------------------------------------------------*/
 div#mainContent
 {
-    padding: 0em 1em 1em; /* bottom padding for footer */
+    padding: 0 1em 1em; /* bottom padding for footer */
     overflow: hidden;
     position: relative
 }
@@ -161,6 +161,7 @@ div#mainContent
     width: 190px;
     float: left;
     display: inline;
+	padding-top:30px;
 }
 .nav ul
 {
@@ -311,6 +312,7 @@ div#what_new
     display: inline;
     width: 525px;
     margin-left: 15px;
+	padding-top:30px;
 }
 h2.video_title
 {
@@ -471,6 +473,7 @@ div#content_about
     float: left;
     /*display: inline;*/
     overflow: hidden;
+	padding-top:30px;
 }
 #content_about h2, #content_about h1
 {
@@ -495,6 +498,11 @@ div#content_about
 {
     color: #2bacd5;
 }
+h2.registr a
+{
+	font-weight: bold;
+	font-size: 20px;
+}
 #content_about ol {
     padding-left: 40px;
     padding-bottom: 20px;
@@ -507,6 +515,7 @@ div#content_about
     margin-left: 730px;
     width: 240px;
     overflow: hidden;
+	padding-top:30px;
 }
 div.enter
 {
@@ -764,6 +773,7 @@ td.empty_filt
 {
     float: right;
     width: 235px;
+	padding-top:30px;
 }
 h2.mod_places
 {
