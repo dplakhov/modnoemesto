@@ -50,27 +50,34 @@ class Profile(Document):
     announce = StringField(max_length=512,
                            default=_('No upcoming events'))
 
+    inviter = ReferenceField('User')
 
 class User(Document):
     """A User document that aims to mirror most of the API specified by Django
     at http://docs.djangoproject.com/en/dev/topics/auth/#users
     """
     username = StringField(max_length=64)
-    full_name = StringField(max_length=90)
+
     first_name = StringField(max_length=64)
     last_name = StringField(max_length=64)
+
     email = StringField(unique=True, required=True)
+
     phone = StringField(max_length=30)
+
     password = StringField(max_length=64)
-    is_staff = BooleanField(default=False)
+
     is_active = BooleanField(default=True)
+
+    is_staff = BooleanField(default=False)
     is_superuser = BooleanField(default=False)
+
     last_login = DateTimeField(default=datetime.now)
     last_access = DateTimeField(default=datetime.now)
     date_joined = DateTimeField(default=datetime.now)
+
     permissions = ListField(StringField())
 
-    # activation stuff
     activation_code = StringField(max_length=12)
 
 

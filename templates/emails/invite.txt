@@ -1,0 +1,3 @@
+Здравствуйте, {{ form_data.name }}!
+Ваш друг {{ inviter.get_full_name }} приглашает Вас
+http://{{ SITE_DOMAIN }}{% url social:invite inviter.id %}

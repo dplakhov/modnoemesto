@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<h2 class="video_title">{% trans "Send invite" %}</h2>
+    <form method="post">
+    <div class="filt rounded">
+    <table class="form_as_table">
+        {{ form.as_table }}
+    </table>
+    </div>
+    <div class="but">
+    <input type="submit" value="{% trans "Send" %}" />
+    </div>
+    </form>
+{% endblock %}
