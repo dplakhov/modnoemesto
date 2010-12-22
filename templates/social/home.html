@@ -79,7 +79,7 @@
         <ul>{% url social:user_friends as friends %}
             <li><a href="{% url friends:list %}">{% trans "Friends" %} ({{ user.friends.count }})</a></li>
             <li><a href="{% url social:avatar_edit %}">{% trans "Edit photo" %}</a></li>
-            <li><a href="#">Пригласить друга</a></li>
+            <li><a href="{% url social:invite_send %}">Пригласить друзей к участию в видеосети</a></li>
         </ul>
     </div>
     <div class="friend_box transparent">
