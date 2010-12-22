@@ -68,6 +68,7 @@
         <ul>{% url social:user_friends as friends %}
             <li><a href="{% url friends:list %}">{% trans "Friends" %} ({{ user.friends.count }})</a></li>
             <li><a href="{% url social:avatar_edit %}">{% trans "Edit photo" %}</a></li>
+            <li><a href="#">Пригласить друга</a></li>
         </ul>
     </div>
     <div class="friend_box transparent">
@@ -85,7 +86,7 @@
 </div>
 
 <div id="content-main" style="clear: both;">
-    <div id="camera">
+    <div id="camera"><a name="cam"></a>
         {% if camera %}
         {% include "includes/camera.html" %}
         {% else %}
