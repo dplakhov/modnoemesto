@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-22 15:30+0300\n"
+"POT-Creation-Date: 2010-12-22 15:47+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -254,7 +254,7 @@ msgstr "Ваши друзья"
 
 #: friends/friend_list.html:41 friends/friend_list.html.py:64
 #: friends/friends_all.html:26 friends/friends_online.html:26
-#: groups/send_friends_invite.html:25
+#: groups/send_friends_invite.html:29
 msgid "None available"
 msgstr "Никого нет"
 
@@ -302,7 +302,7 @@ msgid "Group edit"
 msgstr "Редактирование группы"
 
 #: groups/group_edit.html:147 groups/list.html:6
-#: groups/user_group_list.html:27
+#: groups/user_group_list.html:41
 msgid "Create group"
 msgstr "Создать группу"
 
@@ -331,18 +331,22 @@ msgid "Types"
 msgstr "Типы"
 
 #: groups/user_group_list.html:7
-msgid "Groups invite"
-msgstr "Приглащения в группы"
+msgid "Groups requests"
+msgstr "Запросы на вступление в группы"
 
-#: groups/user_group_list.html:11
+#: groups/user_group_list.html:12 groups/user_group_list.html.py:25
 msgid "take"
 msgstr "принять"
 
-#: groups/user_group_list.html:12
+#: groups/user_group_list.html:13 groups/user_group_list.html.py:26
 msgid "refuse"
 msgstr "отклонить"
 
-#: groups/user_group_list.html:19
+#: groups/user_group_list.html:21
+msgid "Groups invites"
+msgstr "Приглащения в группы"
+
+#: groups/user_group_list.html:33
 msgid "My groups"
 msgstr "Мои группы"
 
@@ -374,13 +378,17 @@ msgstr "Страна"
 msgid "City"
 msgstr "Город"
 
-#: groups/view.html:92
+#: groups/view.html:96
 msgid "Leave group"
 msgstr "Покинуть группу"
 
-#: groups/view.html:94
+#: groups/view.html:99
 msgid "Join group"
 msgstr "Вступить в группу"
+
+#: groups/view.html:101
+msgid "Cancel request"
+msgstr "Отменить заявку"
 
 #: includes/admin_menu.html:6
 msgid "Admin"

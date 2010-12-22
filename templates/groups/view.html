@@ -79,6 +79,7 @@
 </table>
 </div>
 <h3>Участники группы</h3>
+{% if can_view_private %}
 <ul class="friendTable">
 {% for user in group.members %}
     <li class="friendTable">
@@ -87,11 +88,18 @@
     </li>
 {% endfor %}
 </ul>
+{% else %}
+<p>Информация скрыта.</p>
+{% endif %}
 <div class="but">
 {% if request.user in group.members %}
     <a href="{% url groups:group_leave id=group.id %}">{% trans "Leave group" %}</a>
 {% else %}
-    <a href="{% url groups:group_join id=group.id %}">{% trans "Join group" %}</a>
+    {% if is_status_request %}
+        <a href="{% url groups:cancel_request group.id %}">{% trans "Cancel request" %}</a>
+    {% else %}
+        <a href="{% url groups:group_join id=group.id %}">{% trans "Join group" %}</a>
+    {% endif %}
 {% endif %}
 </div>
 </div>

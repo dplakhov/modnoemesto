@@ -2,7 +2,7 @@
 
 import unittest
 
-from apps.logging.documents import LogEntry
+from apps.logging.models import LogEntry
 import logging
 
 LEVELS = {'debug': logging.DEBUG,
