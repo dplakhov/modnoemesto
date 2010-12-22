@@ -4,12 +4,36 @@
 {% block css %}
 {{ block.super }}
 <link href="/media/styles/drop_down.css" type="text/css" rel="stylesheet" />
+<style>
+	.logging-filter {
+		1border: 1px solid #CCC;
+		padding: 20px 20px;
+	}
+</style>
 {% endblock %}
 
 {% block base_content %}
 {% include "_left_box_menu.html" %}
 
 <h2>{% trans "Log" %}</h2>
+<div class="logging-filter">
+	<b>{% trans "Logging filter" %}:</b><br />
+	{% if curren_logger %}
+		<a href="{% url logging:log_list %}">{% trans "All" %}</a> |
+	{% else %}
+		<b>{% trans "All" %}</b> | 
+	{% endif %}
+	{% for logger in loggers %}
+		{% ifequal logger curren_logger %}
+			<b>{{ logger }}</b>
+		{% else %}
+			<a href="{% url logging:log_list %}?logger={{ logger }}">{{ logger }}</a> 
+		{% endifequal %}
+		{% if not forloop.last %}
+		|
+		{% endif %}
+	{% endfor %}
+</div>
 <table border="1" cellpadding="1" style="border-collapse:collapse;">
     <thead>
         <tr>
