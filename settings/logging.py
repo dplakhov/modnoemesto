@@ -13,8 +13,7 @@ else:
     _nullHandler = 'django.utils.log.NullHandler'
 
 
-
-
+LOGS_PER_PAGE = 50
 
 
 
@@ -55,13 +54,29 @@ LOGGING = {
         
         'mongo': {
             'level': 'INFO',
-            'class': 'apps.logging_patch.log.MongoHander',
+            'class': 'apps.logging.log.MongoHander',
         },
         
         'mongo_info': {
             'level': 'INFO',
-            'class': 'apps.logging_patch.log.MongoHander',
-        }
+            'class': 'apps.logging.log.MongoHander',
+        },
+        'mongo_debug': {
+            'level': 'DEBUG',
+            'class': 'apps.logging.log.MongoHander',
+        },
+        'mongo_warning': {
+            'level': 'WARNING',
+            'class': 'apps.logging.log.MongoHander',
+        },
+        'mongo_error': {
+            'level': 'ERROR',
+            'class': 'apps.logging.log.MongoHander',
+        },
+        'mongo_critical': {
+            'level': 'CRITICAL',
+            'class': 'apps.logging.log.MongoHander',
+        },
 
 
         
@@ -77,17 +92,46 @@ LOGGING = {
             'level': 'INFO',
             'propagate': False,
         },
-        'myproject.custom': {
-            'handlers': ['console'],
+        'test_logger_info': {
+            'handlers': ['mongo_info'],
             'level': 'INFO',
-            #'filters': ['special']
+            'propagate': True,
         },
-        'test_logger': {
-            'handlers': ['mongo'],
-            'level': 'INFO',
-            #'filters': ['special']
-        }
+        'test_logger_debug': {
+            'handlers': ['mongo_debug'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'test_logger_warning': {
+            'handlers': ['mongo_warning'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+        'test_logger_error': {
+            'handlers': ['mongo_error'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'test_logger_critical': {
+            'handlers': ['mongo_critical'],
+            'level': 'CRITICAL',
+            'propagate': True,
+        },
  
     }
 }
+
+import importlib
+import django
+
+# patches for django 1.2 series
+if django.VERSION[1] < 3:
+    if LOGGING_CONFIG:
+        # First find the logging configuration function ...
+        logging_config_path, logging_config_func_name = LOGGING_CONFIG.rsplit('.', 1)
+        logging_config_module = importlib.import_module(logging_config_path)
+        logging_config_func = getattr(logging_config_module, logging_config_func_name)
+
+        # ... then invoke it with the logging settings
+        logging_config_func(LOGGING)
 

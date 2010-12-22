@@ -20,10 +20,13 @@ function check(id_input, alph) {
 }
 $(document).ready(function(){
     var reg_box = $('#reg_form div');
+    var captcha_lazy = $('#captcha_lazy');
     {% if not is_reg %}reg_box.hide();{% endif %}
     $('#reg_form h2.registr a').click(function(){
-        if (reg_box.css("display") == 'none') reg_box.show();
-        else reg_box.hide();
+        if (reg_box.css("display") == 'none') {
+            {% if not is_reg %}if (captcha_lazy.html() == '') captcha_lazy.html('{{ reg_form.captcha }}');{% endif %}
+            reg_box.show();
+        } else reg_box.hide();
         return false;
     });
 
@@ -217,7 +220,7 @@ height="150px">
 <p>*{{ reg_form.password2.label }}:<br/>{{ reg_form.password2 }}</p>
 
 {{ reg_form.captcha.errors }}
-<p>*{{ reg_form.captcha.label }}:<br/>{{ reg_form.captcha }}</p>
+<p>*{{ reg_form.captcha.label }}:<br/>{% if not is_reg %}<span id="captcha_lazy"></span>{% else %}{{ reg_form.captcha }}{% endif %}</p>
         </div>
             <p style="color:#999999; padding-top: 7px">
             Фактом регистрации Вы соглашаетесь с

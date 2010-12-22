@@ -41,14 +41,14 @@ REFRESH_LINK_TEXT = getattr(settings, 'CAPTCHA_REFRESH_LINK_TEXT', u'refresh')
 
 REFRESH = getattr(settings, 'CAPTCHA_REFRESH', False)
 
-HTML_TEMPLATE = getattr(settings, 'CAPTCHA_HTML_TEMPLATE', """
+HTML_TEMPLATE = getattr(settings, 'CAPTCHA_HTML_TEMPLATE', ' '.join("""
 <noindex><img src="%(src)s?%(rnd)s" alt="%(alt)s" width="%(width)s" height="%(height)s" /></noindex>
 <input%(input_attrs)s maxlength="%(length)s" />
-""")
+""".split('\n')))
 
-HTML_TEMPLATE_WITH_REFRESH = getattr(settings, 'CAPTCHA_HTML_TEMPLATE_WITH_REFRESH', """
+HTML_TEMPLATE_WITH_REFRESH = getattr(settings, 'CAPTCHA_HTML_TEMPLATE_WITH_REFRESH', ' '.join("""
 <noindex><img src="%(src)s?%(rnd)s" alt="%(alt)s" width="%(width)s" height="%(height)s" /></noindex>
 <a onclick="var img=this.previousSibling;if(img.nodeType==document.TEXT_NODE){img=img.previousSibling};img.src=img.src.substring(0,img.src.indexOf('?')+1)+Math.random();return false;"
    href="#refresh" class="supercaptcha-refresh">%(refresh_text)s</a>
 <input%(input_attrs)s maxlength="%(length)s" />
-""")
+""".split('\n')))

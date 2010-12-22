@@ -39,33 +39,45 @@ class Profile(Document):
     birthday = StringField(max_length=10)
     sex = StringField(max_length=1)
     icq = StringField(max_length=30)
+
     mobile = StringField(max_length=30)
     website = URLField()
+
     university = StringField(max_length=30)
     department = StringField(max_length=30)
     university_status = StringField(max_length=30)
 
+    announce = StringField(max_length=512,
+                           default=unicode(_('No upcoming events')))
+
+    inviter = ReferenceField('User')
 
 class User(Document):
     """A User document that aims to mirror most of the API specified by Django
     at http://docs.djangoproject.com/en/dev/topics/auth/#users
     """
     username = StringField(max_length=64)
-    full_name = StringField(max_length=90)
+
     first_name = StringField(max_length=64)
     last_name = StringField(max_length=64)
+
     email = StringField(unique=True, required=True)
+
     phone = StringField(max_length=30)
+
     password = StringField(max_length=64)
-    is_staff = BooleanField(default=False)
+
     is_active = BooleanField(default=True)
+
+    is_staff = BooleanField(default=False)
     is_superuser = BooleanField(default=False)
+
     last_login = DateTimeField(default=datetime.now)
     last_access = DateTimeField(default=datetime.now)
     date_joined = DateTimeField(default=datetime.now)
+
     permissions = ListField(StringField())
 
-    # activation stuff
     activation_code = StringField(max_length=12)
 
 
@@ -112,11 +124,25 @@ class User(Document):
 
     @cached_property
     def groups(self):
-        return [i.group for i in GroupUser.objects(user=self, is_invite=False).only('group')]
+        return [i.group for i in GroupUser.objects(user=self, status=GroupUser.STATUS.ACTIVE).only('group')]
 
     @cached_property
-    def groups_invite(self):
-        return [i.group for i in GroupUser.objects(user=self, is_invite=True).only('group')]
+    def groups_invites(self):
+        return [i.group for i in GroupUser.objects(user=self, status=GroupUser.STATUS.INVITE).only('group')]
+
+    @cached_property
+    def groups_requests(self):
+        requests = []
+        for i in GroupUser.objects(user=self, status=GroupUser.STATUS.ACTIVE, is_admin=True).only('group'):
+            requests += GroupUser.objects(group=i.group, status=GroupUser.STATUS.REQUEST).all()
+        return requests
+
+    @cached_property
+    def groups_events_count(self):
+        invites = GroupUser.objects(user=self, status=GroupUser.STATUS.INVITE).count()
+        for i in GroupUser.objects(user=self, status=GroupUser.STATUS.ACTIVE, is_admin=True).only('group'):
+            invites += GroupUser.objects(group=i.group, status=GroupUser.STATUS.REQUEST).count()
+        return invites
 
     @property
     def friends(self):

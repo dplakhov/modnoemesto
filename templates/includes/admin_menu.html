@@ -30,6 +30,19 @@
             <li><a href="{% url groups:type_list %}">{% trans "Types" %}</a></li>
         </ul>
         {% endif %}
+		
+        {% if perms.logging %}
+        <p>{% trans "Logging" %}</p>
+        <ul>
+            <li><a href="{% url logging:log_list %}">{% trans "All" %}</a></li>
+            <li><a href="{% url logging:log_list_level level='INFO' %}">{% trans "Info" %}</a></li>
+			<li><a href="{% url logging:log_list_level level='DEBUG' %}">{% trans "Debug" %}</a></li>
+			<li><a href="{% url logging:log_list_level level='WARNING' %}">{% trans "Warning" %}</a></li>
+			<li><a href="{% url logging:log_list_level level='ERROR' %}">{% trans "Error" %}</a></li>
+			<li><a href="{% url logging:log_list_level level='CRITICAL' %}">{% trans "Critical" %}</a></li>
+        </ul>
+        {% endif %}
+		
     </div>
 </div>
 {% endif %}
