@@ -39,11 +39,16 @@ class Profile(Document):
     birthday = StringField(max_length=10)
     sex = StringField(max_length=1)
     icq = StringField(max_length=30)
+
     mobile = StringField(max_length=30)
     website = URLField()
+
     university = StringField(max_length=30)
     department = StringField(max_length=30)
     university_status = StringField(max_length=30)
+
+    announce = StringField(max_length=512,
+                           default=_('No upcoming events'))
 
 
 class User(Document):

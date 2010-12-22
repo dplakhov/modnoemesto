@@ -198,8 +198,12 @@ def user(request, user_id=None):
         camera.show = camera.can_show(page_user, request.user)
         camera.manage = camera.can_manage(page_user, request.user)
     msgform = MessageTextForm()
+    profile = page_user.profile
+    profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
     return direct_to_template(request, 'social/user.html',
-                              { 'page_user': page_user, 'msgform': msgform,
+                              { 'page_user': page_user,
+                                'profile': profile,
+                                'msgform': msgform,
                                 'show_friend_button': show_friend_button,
                                 'show_bookmark_button': camera and camera.can_bookmark_add(request.user),
                                 'camera': camera, 

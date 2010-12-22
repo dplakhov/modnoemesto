@@ -50,7 +50,17 @@
                 <dd>{{ profile.university_status }}</dd>{% endif %}
         </dl>
     </div>
-    
+    <div class="about_persone transparent">
+        <div style="overflow: hidden;">
+            <p>{% trans "Announce" %}</p>
+        </div>
+        <p class="event_announce">
+            {{ profile.announce }}
+        </p>
+    </div>
+
+
+
 </div>
 <div id="right">
 	<div class="own_photo rounded" style="-moz-border-radius: 10px 10px 10px 10px;">

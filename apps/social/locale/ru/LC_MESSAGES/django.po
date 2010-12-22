@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-15 12:17+0300\n"
+"POT-Creation-Date: 2010-12-22 15:28+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,29 +19,29 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: documents.py:85
+#: documents.py:51
+msgid "No upcoming events"
+msgstr "Нет предстоящих событий"
+
+#: documents.py:90
 msgid "Confirm registration"
 msgstr "Подтверждение регистрации"
 
-#: documents.py:95
+#: documents.py:100
 msgid "Password Reset Request"
 msgstr "Восстановление пароля"
 
-#: forms.py:11 forms.py:89 forms.py:152
+#: forms.py:11 forms.py:89 forms.py:158
 msgid "Email"
 msgstr "E-mail"
 
-#: forms.py:12 forms.py:95 forms.py:156
+#: forms.py:12 forms.py:95 forms.py:162
 msgid "Password"
 msgstr "Пароль"
 
 #: forms.py:29
 msgid "Please enter a correct email and password."
 msgstr "Пожалуйста, введите верные E-mail и пароль."
-
-#: forms.py:31
-msgid "This account is inactive."
-msgstr "Эта учетная запись неактивна."
 
 #: forms.py:79
 msgid "First name"
@@ -75,98 +75,105 @@ msgstr ""
 "Телефонный номер указан неверно или не может быть использован. Проверьте "
 "правильность ввода. Например: +7 916 3564334"
 
-#: forms.py:101 forms.py:157
+#: forms.py:101 forms.py:163
 msgid "Password confirmation"
-msgstr ""
+msgstr "Подтверждение пароля"
 
 #: forms.py:103
 msgid "Captcha"
 msgstr "Введите код на картинке"
 
-#: forms.py:112
+#: forms.py:114
 msgid "A user with that email already exists."
 msgstr "Пользователь с таким E-mail уже существует."
 
-#: forms.py:120 forms.py:163
+#: forms.py:124 forms.py:169
 msgid "The two password fields didn't match."
 msgstr ""
 
-#: forms.py:130
+#: forms.py:134
 msgid "Image"
 msgstr ""
 
-#: forms.py:135
+#: forms.py:139
 msgid "None selected"
 msgstr "Не выбран"
 
-#: forms.py:136
+#: forms.py:140
 msgid "Female"
 msgstr "Женский"
 
-#: forms.py:137
+#: forms.py:141
 msgid "Male"
 msgstr "Мужской"
 
-#: forms.py:140
+#: forms.py:144
 msgid "Hometown"
 msgstr "Родной город"
 
-#: forms.py:141
+#: forms.py:145
 msgid "Birthday"
 msgstr "День рождения"
 
-#: forms.py:142
+#: forms.py:146
 msgid "Sex"
 msgstr "Пол"
 
-#: forms.py:143
+#: forms.py:147
 msgid "ICQ"
 msgstr "ICQ"
 
-#: forms.py:144
+#: forms.py:148
 msgid "Mobile"
 msgstr "Телефон"
 
-#: forms.py:145
+#: forms.py:149
 msgid "Website"
 msgstr "Личный сайт"
 
-#: forms.py:146
+#: forms.py:150
 msgid "University"
 msgstr "ВУЗ"
 
-#: forms.py:147
+#: forms.py:151
 msgid "Department"
 msgstr "Факультет"
 
-#: forms.py:148
+#: forms.py:152
 msgid "Status"
 msgstr "Статус"
 
-#: views.py:141
+#: forms.py:153
+msgid "Announce"
+msgstr "Анонс"
+
+#: views.py:136
 msgid "Activation code corrupted or already used"
 msgstr "Код активации повреждён или уже использован"
 
-#: views.py:248
+#: views.py:244
 msgid "Invalid image file format"
 msgstr "Неверный формат файла"
 
-#: views.py:269
+#: views.py:265
 msgid "Avatar successfully updated"
 msgstr "Аватар успешно обновлен"
 
-#: views.py:286
+#: views.py:282
 msgid "Profile successfully updated"
 msgstr "Профиль успешно обновлен"
 
-#: views.py:333
+#: views.py:329
 msgid "Email with a link sent to restore the address you specify."
 msgstr "Письмо со ссылкой восстановления выслано на указанный Вами адрес."
 
-#: views.py:345
+#: views.py:341
 msgid "Recovery code corrupted or already used"
 msgstr "Код востановления пароля повреждён или уже использован"
 
-#: views.py:365
+#: views.py:361
 msgid "Password successfully updated."
 msgstr "Пароль успешно обновлен"
+
+#~ msgid "This account is inactive."
+#~ msgstr "Эта учетная запись неактивна."

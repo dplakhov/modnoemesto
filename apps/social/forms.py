@@ -150,6 +150,8 @@ class ChangeProfileForm(forms.Form):
     university = forms.CharField(label=_("University"), max_length=30, required=False)
     department = forms.CharField(label=_("Department"), max_length=30, required=False)
     university_status = forms.CharField(label=_("Status"), max_length=30, required=False)
+    announce = forms.CharField(label=_("Announce"), max_length=512,
+                               required=True, widget=forms.Textarea)
 
 
 class LostPasswordForm(forms.Form):

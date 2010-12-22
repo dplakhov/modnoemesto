@@ -105,8 +105,8 @@ msgstr "Добавить"
 #: admin_blog/edit.html:36 billing/tariff_edit.html:16 cam/cam_edit.html:246
 #: cam/screen_edit.html:25 cam/type_edit.html:16 groups/theme_edit.html:16
 #: groups/type_edit.html:16 news/edit.html:55 notes/note_edit.html:42
-#: social/profile/avatar.html:17 social/profile/edit.html:110
-#: social/profile/edit.html.py:117
+#: social/profile/avatar.html:17 social/profile/edit.html:120
+#: social/profile/edit.html.py:127
 msgid "Save"
 msgstr "Сохранить"
 
@@ -264,7 +264,7 @@ msgid "%(page_user)s: friends"
 msgstr "%(page_user)s: друзья"
 
 #: friends/friends_all.html:19 friends/friends_online.html:19
-#: social/user.html:68
+#: social/user.html:78
 msgid "Add to my friends"
 msgstr "Добавить в друзья"
 
@@ -514,39 +514,43 @@ msgstr "ВУЗ"
 msgid "Department"
 msgstr "Факультет"
 
-#: social/home.html:69 social/user.html:75
+#: social/home.html:59 social/user.html:55
+msgid "Announce"
+msgstr "Анонс"
+
+#: social/home.html:78 social/user.html:85
 msgid "Friends"
 msgstr "Друзья"
 
-#: social/home.html:70
+#: social/home.html:79
 msgid "Edit photo"
 msgstr "Изменить фотографию"
 
-#: social/home.html:95
+#: social/home.html:104
 msgid "You have no registered camera."
 msgstr "У вас нет зарегистрированных камер"
 
-#: social/home.html:97
+#: social/home.html:106
 msgid "Wanna do it right now?"
 msgstr "Хотите добавить камеру сейчас?"
 
-#: social/user.html:97
+#: social/user.html:107
 msgid "Get access to camera"
 msgstr "Получить доступ к камере"
 
-#: social/user.html:100
+#: social/user.html:110
 msgid "Bookmark this camera"
 msgstr "Добавить закладку"
 
-#: social/user.html:102
+#: social/user.html:112
 msgid "Remove Bookmark"
 msgstr "Убрать закладку"
 
-#: social/user.html:105 social/user.html.py:109
+#: social/user.html:115 social/user.html.py:119
 msgid "The remaining time on the show"
 msgstr "Оставшееся время просмотра"
 
-#: social/user.html:137
+#: social/user.html:147
 msgid "This user has no registered camera."
 msgstr "У пользователя нет зарегистрированных камер"
 
