@@ -94,6 +94,7 @@ LOGIN_EXEMPT_URLS = (
     r'^cam/screen/',
     r'^activation/',
     r'^media/',
+    r'^invite/',
     r'^lostpassword/',
     r'^resendactivationcode/',
     r'^recoverypassword/',

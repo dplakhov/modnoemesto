@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-22 15:28+0300\n"
+"POT-Creation-Date: 2010-12-22 18:23+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,15 +23,15 @@ msgstr ""
 msgid "No upcoming events"
 msgstr "Нет предстоящих событий"
 
-#: documents.py:90
+#: documents.py:97
 msgid "Confirm registration"
 msgstr "Подтверждение регистрации"
 
-#: documents.py:100
+#: documents.py:107
 msgid "Password Reset Request"
 msgstr "Восстановление пароля"
 
-#: forms.py:11 forms.py:89 forms.py:158
+#: forms.py:11 forms.py:89 forms.py:158 forms.py:176
 msgid "Email"
 msgstr "E-mail"
 
@@ -147,33 +147,46 @@ msgstr "Статус"
 msgid "Announce"
 msgstr "Анонс"
 
-#: views.py:136
+#: forms.py:174
+#, fuzzy
+msgid "Friend name"
+msgstr "Имя"
+
+#: views.py:144
 msgid "Activation code corrupted or already used"
 msgstr "Код активации повреждён или уже использован"
 
-#: views.py:244
+#: views.py:256
 msgid "Invalid image file format"
 msgstr "Неверный формат файла"
 
-#: views.py:265
+#: views.py:277
 msgid "Avatar successfully updated"
 msgstr "Аватар успешно обновлен"
 
-#: views.py:282
+#: views.py:294
 msgid "Profile successfully updated"
 msgstr "Профиль успешно обновлен"
 
-#: views.py:329
+#: views.py:341
 msgid "Email with a link sent to restore the address you specify."
 msgstr "Письмо со ссылкой восстановления выслано на указанный Вами адрес."
 
-#: views.py:341
+#: views.py:353
 msgid "Recovery code corrupted or already used"
 msgstr "Код востановления пароля повреждён или уже использован"
 
-#: views.py:361
+#: views.py:373
 msgid "Password successfully updated."
 msgstr "Пароль успешно обновлен"
+
+#: views.py:389
+msgid "Site invite"
+msgstr "Приглашение на сайт"
+
+#: views.py:395
+msgid "Invite sent"
+msgstr "Приглашение отправлено"
 
 #~ msgid "This account is inactive."
 #~ msgstr "Эта учетная запись неактивна."

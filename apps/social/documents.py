@@ -52,6 +52,13 @@ class Profile(Document):
 
     inviter = ReferenceField('User')
 
+    meta = {
+        'indexes': [
+            'user',
+            'inviter',
+        ]
+    }
+
 class User(Document):
     """A User document that aims to mirror most of the API specified by Django
     at http://docs.djangoproject.com/en/dev/topics/auth/#users

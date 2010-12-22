@@ -84,6 +84,7 @@
         <ul>{% url friends:friends_all page_user.id as friends %}
             <li><a href="{{ friends }}">{% trans "Friends" %} ({{ page_user.friends.count }})</a></li>
             <li><a href="{% url user_messages:send_message page_user.id %}">Написать сообшение</a></li>
+            <li>Приглашённые: {{ invitee_count }}</li>
         </ul>
     </div>
     <div class="friend_box transparent">

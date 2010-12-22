@@ -103,8 +103,9 @@ def register(request):
         user.save()
         user.send_activation_code()
 
-        if request.session['inviter_id']:
-            user.profile.inviter = User.objects.get(id=request.session['inviter_id'])
+        inviter_id = request.session.get('inviter_id')
+        if inviter_id:
+            user.profile.inviter = User.objects.get(id=inviter_id)
             user.profile.save()
 
         return direct_to_template(request, 'registration_complete.html')
@@ -184,8 +185,11 @@ def home(request):
     #@todo: need filter
     profile = request.user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
-    
+
+    invitee_count = Profile.objects(inviter=request.user).count()
+
     return direct_to_template(request, 'social/home.html', {
+        'invitee_count': invitee_count,
         'camera': camera,
         'is_owner': True,
         'profile': profile,
@@ -208,9 +212,13 @@ def user(request, user_id=None):
     msgform = MessageTextForm()
     profile = page_user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
+
+    invitee_count = Profile.objects(inviter=page_user).count()
+
     return direct_to_template(request, 'social/user.html',
                               { 'page_user': page_user,
                                 'profile': profile,
+                                'invitee_count': invitee_count,
                                 'msgform': msgform,
                                 'show_friend_button': show_friend_button,
                                 'show_bookmark_button': camera and camera.can_bookmark_add(request.user),
@@ -390,7 +398,6 @@ def invite_send(request):
             settings.ROBOT_EMAIL_ADDRESS, (form.cleaned_data['email'], ),
             fail_silently=True)
 
-        print email_body    
         messages.add_message(request, messages.SUCCESS,
                              _('Invite sent'))
 
