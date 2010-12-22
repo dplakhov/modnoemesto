@@ -54,6 +54,17 @@
                 <dd>{{ profile.university_status }}</dd>{% endif %}
         </dl>
     </div>
+    <div class="about_persone transparent">
+         <div style="overflow: hidden;">
+             <p>{% trans "Announce" %}</p>
+             <span><a href="{% url social:profile_edit %}"
+                      class="change">{% trans "edit" %}</a></span>
+         </div>
+         <p class="event_announce">
+             {{ profile.announce }}
+         </p>
+     </div>
+
 </div>
 
 <div id="right">

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-20 14:22+0300\n"
+"POT-Creation-Date: 2010-12-22 15:30+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,14 +18,6 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: about.html:209
-msgid "This account is inactive."
-msgstr "Эта учетная запись неактивна."
-
-#: about.html:209 about.html.py:245
-msgid "Resend activation code."
-msgstr "Отправить код активации."
-
 #: base_mini.html:102
 msgid "search"
 msgstr "поиск"
@@ -33,6 +25,14 @@ msgstr "поиск"
 #: index.html:5
 msgid "Users online"
 msgstr "Пользователи онлайн"
+
+#: index_unreg.html:160
+msgid "This account is inactive."
+msgstr "Эта учетная запись неактивна."
+
+#: index_unreg.html:160 index_unreg.html.py:195
+msgid "Resend activation code."
+msgstr "Отправить код активации."
 
 #: admin/statistic.html:7 includes/admin_menu.html:8
 msgid "Statistic"
@@ -95,18 +95,18 @@ msgid "Edit news"
 msgstr "Редактировать новость"
 
 #: admin_blog/edit.html:36 billing/tariff_edit.html:16
-#: billing/tariff_list.html:14 cam/cam_edit.html:244 cam/type_edit.html:16
+#: billing/tariff_list.html:14 cam/cam_edit.html:246 cam/type_edit.html:16
 #: groups/theme_edit.html:16 groups/theme_list.html:12
 #: groups/type_edit.html:16 groups/type_list.html:12
 #: media_library/image_index.html:41 news/edit.html:55 notes/note_edit.html:42
 msgid "Add"
 msgstr "Добавить"
 
-#: admin_blog/edit.html:36 billing/tariff_edit.html:16 cam/cam_edit.html:244
-#: cam/screen_edit.html:14 cam/type_edit.html:16 groups/theme_edit.html:16
+#: admin_blog/edit.html:36 billing/tariff_edit.html:16 cam/cam_edit.html:246
+#: cam/screen_edit.html:25 cam/type_edit.html:16 groups/theme_edit.html:16
 #: groups/type_edit.html:16 news/edit.html:55 notes/note_edit.html:42
-#: social/profile/avatar.html:17 social/profile/edit.html:110
-#: social/profile/edit.html.py:117
+#: social/profile/avatar.html:17 social/profile/edit.html:120
+#: social/profile/edit.html.py:127
 msgid "Save"
 msgstr "Сохранить"
 
@@ -223,7 +223,7 @@ msgstr "Вы ещё не добавили модные места."
 msgid "Add camera"
 msgstr "Добавить камеру"
 
-#: cam/cam_edit.html:53 includes/camera.html:31
+#: cam/cam_edit.html:53 includes/camera.html:8
 msgid "Edit camera"
 msgstr "Редактировать камеру"
 
@@ -264,7 +264,7 @@ msgid "%(page_user)s: friends"
 msgstr "%(page_user)s: друзья"
 
 #: friends/friends_all.html:19 friends/friends_online.html:19
-#: social/user.html:68
+#: social/user.html:78
 msgid "Add to my friends"
 msgstr "Добавить в друзья"
 
@@ -402,15 +402,15 @@ msgstr "Заказы оплаты"
 msgid "Groups"
 msgstr "Группы"
 
-#: includes/camera.html:34
+#: includes/camera.html:11
 msgid "Edit screen"
 msgstr "Редактировать обложку"
 
-#: includes/camera.html:59
+#: includes/camera.html:34
 msgid "This camera is not free!"
 msgstr "Просмотр этой камеры платный"
 
-#: includes/camera.html:61
+#: includes/camera.html:36
 msgid "This camera is private."
 msgstr "Эта камера не для всеобщего просмотра"
 
@@ -506,44 +506,43 @@ msgstr "ВУЗ"
 msgid "Department"
 msgstr "Факультет"
 
-#: social/home.html:69 social/user.html:75
+#: social/home.html:59 social/user.html:55
+msgid "Announce"
+msgstr "Анонс"
+
+#: social/home.html:78 social/user.html:85
 msgid "Friends"
 msgstr "Друзья"
 
-#: social/home.html:70
+#: social/home.html:79
 msgid "Edit photo"
 msgstr "Изменить фотографию"
 
-#: social/home.html:95
+#: social/home.html:104
 msgid "You have no registered camera."
 msgstr "У вас нет зарегистрированных камер"
 
-#: social/home.html:97
+#: social/home.html:106
 msgid "Wanna do it right now?"
 msgstr "Хотите добавить камеру сейчас?"
 
-#: social/user.html:17
-#, python-format
-msgid "%(page_user)s's home"
-msgstr "Страница пользователя %(page_user)s"
-
-#: social/user.html:97
+#: social/user.html:107
 msgid "Get access to camera"
 msgstr "Получить доступ к камере"
 
-#: social/user.html:100
+#: social/user.html:110
 msgid "Bookmark this camera"
 msgstr "Добавить закладку"
 
-#: social/user.html:102
+#: social/user.html:112
 msgid "Remove Bookmark"
 msgstr "Убрать закладку"
 
-#: social/user.html:105
+#: social/user.html:115 social/user.html.py:119
 msgid "The remaining time on the show"
 msgstr "Оставшееся время просмотра"
 
-#: social/user.html:113
+#: social/user.html:147
 msgid "This user has no registered camera."
 msgstr "У пользователя нет зарегистрированных камер"
 
@@ -574,6 +573,9 @@ msgstr "Отправить"
 #: user_messages/sent.html:13
 msgid "Messages: sent"
 msgstr "Сообщения: отправленные"
+
+#~ msgid "%(page_user)s's home"
+#~ msgstr "Страница пользователя %(page_user)s"
 
 #~ msgid "Leave a message to %(page_user)s"
 #~ msgstr "Оставить сообщение %(page_user)s"
