@@ -6,15 +6,19 @@
 <h2>{% trans "Group" %} "{{ group.name }}"</h2>
 {% if is_admin %}
 <div class="friend_request">
-            <ul>
-            <li>
+        <table style="width:100%"><tr>
+            <td style="width:33%">
                  <a class="reference" href="{% url groups:group_edit group.id %}">{% trans "Edit" %}</a>
-            </li>
-            <li style="margin-left:290px">
+            </td>
+            <td style="text-align:center;width:33%">
+                <a class="reference" href="{% url groups:members_manage group.id %}">Управление участниками</a>
+            </td>
+            <td style="text-align:right;width:33%">
                 <a class="reference" href="{% url groups:send_friends_invite group.id %}">Отправить приглашение</a>
-            </li>
-        </ul>
+            </td>
+        </tr></table>
         </div>
+        <br />
 {% endif %}
  <div class="filt rounded">
 <table class="group_description">
@@ -78,13 +82,24 @@
     {% endif %}
 </table>
 </div>
+<h3>Руководство</h3>
+{% if can_view_private %}
+<ul class="friendTable">
+{% for user in admins %}
+    <li>
+        {% include "includes/user/micro.html" %}
+    </li>
+{% endfor %}
+</ul>
+{% else %}
+<p>Информация скрыта.</p>
+{% endif %}
 <h3>Участники группы</h3>
 {% if can_view_private %}
 <ul class="friendTable">
-{% for user in group.members %}
-    <li class="friendTable">
+{% for user in members %}
+    <li>
         {% include "includes/user/micro.html" %}
-        {% if request.user.id != user.id and is_admin %}<a href="{% url groups:group_leave_user group.id,user.id %}">x</a>{% endif %}
     </li>
 {% endfor %}
 </ul>

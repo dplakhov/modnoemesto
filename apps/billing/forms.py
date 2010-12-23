@@ -27,7 +27,7 @@ class AccessCamOrderForm(forms.Form):
 
     def clean_tariff(self):
         tariff = Tariff.objects.get(id=self.cleaned_data['tariff'])
-        if self.camera_is_controlled != tariff.is_controlled:
+        if not self.camera_is_controlled and tariff.is_controlled:
             raise forms.ValidationError(_(u"Ошибка выбора тарифа"))
         return tariff
 

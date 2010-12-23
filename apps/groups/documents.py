@@ -46,6 +46,24 @@ class Group(Document):
                                  user=user,
                                  status=GroupUser.STATUS.REQUEST).count() > 0
 
+    def give_admin_right(self, user):
+        info = GroupUser.objects(group=self,
+                                 user=user,
+                                 is_admin=False,
+                                 status=GroupUser.STATUS.ACTIVE).first()
+        if info:
+            info.is_admin = True
+            info.save()
+
+    def remove_admin_right(self, user):
+        info = GroupUser.objects(group=self,
+                                 user=user,
+                                 is_admin=True,
+                                 status=GroupUser.STATUS.ACTIVE).first()
+        if info:
+            info.is_admin = False
+            info.save()
+
     def can_remove_member(self, user):
         cnt = GroupUser.objects(group=self,
                                 status=GroupUser.STATUS.ACTIVE,
