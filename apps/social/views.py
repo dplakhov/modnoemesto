@@ -50,7 +50,7 @@ from documents import (User, LimitsViolationException)
 def index(request):
     if not request.user.is_authenticated():
         return _index_unreg(request)
-    accs = User.objects(last_access__gt=User.get_delta_time())
+    accs = User.objects(last_access__gt=User.get_delta_time(), is_active=True)
     return direct_to_template(request, 'index.html', { 'accs': accs })
 
 
