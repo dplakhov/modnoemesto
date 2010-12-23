@@ -29,5 +29,5 @@ class LogEntry(Document):
         'ordering':[
             '-date',
         ],
-        'max_documents': 1000
+        'max_documents': 100000
     }

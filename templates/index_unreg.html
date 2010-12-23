@@ -86,7 +86,16 @@ $(document).ready(function(){
 </script>
 {% endblock %}
 {% block content %}
+<div style="clear:both;">
+<object width="970px" height="150px">
+<embed src="../media/swf/banner_11.swf"
+quality="high"
+width="970px"
+height="150px">
+</embed>
 
+</object>
+</div>
 
 <div id="content_about">
 
@@ -124,10 +133,10 @@ $(document).ready(function(){
  <div class="step">
     <img src="../media/images/step2.jpg" />
  </div>
- <div class="step">
+<!-- <div class="step">
     <img src="../media/images/step3.jpg" />
- </div>
-  <h2 style="margin-top: 10px">Хочешь заработать сам:</h2>
+ </div> -->
+  <h2 style="margin-top: 10px">Хочешь заработать:</h2>
   <div class="step">
     <img src="../media/images/step4.jpg" />
  </div>
@@ -178,7 +187,9 @@ $(document).ready(function(){
 </form>
     </div>
     <div id="reg_form">
-        <h2 class="registr"><a href="/">Регистрация</a></h2>
+    <h2 class="registr"><a href="/">Регистрация</a></h2> 
+   
+
         <div>
 <form action="{{ app_path }}" method="post">
 <input type="hidden" name="form_name" value="register"/>

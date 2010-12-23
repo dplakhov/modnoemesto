@@ -29,7 +29,8 @@ from ImageFile import Parser as ImageFileParser
 
 
 from apps.billing.documents import AccessCamOrder
-from apps.social.forms import ChangeProfileForm, LostPasswordForm, SetNewPasswordForm
+from apps.social.forms import ChangeProfileForm, LostPasswordForm
+from apps.social.forms import SetNewPasswordForm, InviteForm
 import re
 from apps.social.documents import Profile, Setting
 from django.template import Context, loader
@@ -37,6 +38,8 @@ import sys
 from django.views.debug import ExceptionReporter
 from django.core.mail.message import EmailMessage
 from django.core.urlresolvers import reverse
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
 
 
 try:
@@ -99,6 +102,12 @@ def register(request):
         user.set_password(form.cleaned_data['password1'])
         user.save()
         user.send_activation_code()
+
+        inviter_id = request.session.get('inviter_id')
+        if inviter_id:
+            user.profile.inviter = User.objects.get(id=inviter_id)
+            user.profile.save()
+
         return direct_to_template(request, 'registration_complete.html')
     return form
 
@@ -176,8 +185,11 @@ def home(request):
     #@todo: need filter
     profile = request.user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
-    
+
+    invitee_count = Profile.objects(inviter=request.user).count()
+
     return direct_to_template(request, 'social/home.html', {
+        'invitee_count': invitee_count,
         'camera': camera,
         'is_owner': True,
         'profile': profile,
@@ -200,9 +212,13 @@ def user(request, user_id=None):
     msgform = MessageTextForm()
     profile = page_user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
+
+    invitee_count = Profile.objects(inviter=page_user).count()
+
     return direct_to_template(request, 'social/user.html',
                               { 'page_user': page_user,
                                 'profile': profile,
+                                'invitee_count': invitee_count,
                                 'msgform': msgform,
                                 'show_friend_button': show_friend_button,
                                 'show_bookmark_button': camera and camera.can_bookmark_add(request.user),
@@ -367,3 +383,36 @@ def set_new_password(request, code):
     else:
         form = SetNewPasswordForm()
     return direct_to_template(request, 'social/profile/set_new_password.html' , dict(form=form))
+
+def invite_send(request):
+    form = InviteForm(request.POST or None)
+    if form.is_valid():
+        email_body = render_to_string('emails/invite.txt',
+                dict(inviter=request.user,
+                  SITE_DOMAIN=settings.SITE_DOMAIN,
+                  form_data=form.cleaned_data,
+                  ))
+
+        if settings.SEND_EMAILS:
+            send_mail(_('Site invite'), email_body,
+            settings.ROBOT_EMAIL_ADDRESS, (form.cleaned_data['email'], ),
+            fail_silently=True)
+
+        messages.add_message(request, messages.SUCCESS,
+                             _('Invite sent'))
+
+        return redirect('social:index')
+
+    return direct_to_template(request, 'social/invite_send.html',
+                              dict(form=form))
+
+
+def invite(request, inviter_id):
+    if request.user.is_authenticated:
+        return redirect('social:index')
+
+    if User.objects.count(id=inviter_id):
+        request.session['inviter_id'] = inviter_id
+
+    return redirect('social:index')
+

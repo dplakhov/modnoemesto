@@ -1,0 +1,84 @@
+{% extends "base_mini.html" %}
+{% load i18n %}
+
+{% block css %}
+{{ block.super }}
+<link href="/media/styles/drop_down.css" type="text/css" rel="stylesheet" />
+<style>
+	.logging-filter {
+		1border: 1px solid #CCC;
+		padding: 20px 20px;
+	}
+</style>
+{% endblock %}
+
+{% block base_content %}
+{% include "_left_box_menu.html" %}
+
+<h2>{% trans "Log" %}</h2>
+<div class="logging-filter">
+	<b>{% trans "Logging filter" %}:</b><br />
+	{% if curren_logger %}
+		<a href="{% url logging:log_list %}">{% trans "All" %}</a> |
+	{% else %}
+		<b>{% trans "All" %}</b> | 
+	{% endif %}
+	{% for logger in loggers %}
+		{% ifequal logger curren_logger %}
+			<b>{{ logger }}</b>
+		{% else %}
+			<a href="{% url logging:log_list %}?logger={{ logger }}">{{ logger }}</a> 
+		{% endifequal %}
+		{% if not forloop.last %}
+		|
+		{% endif %}
+	{% endfor %}
+</div>
+<table border="1" cellpadding="1" style="border-collapse:collapse;">
+    <thead>
+        <tr>
+            <th>{% trans "Date" %}</th>
+            <th>{% trans "Level name" %}</th>
+            <th>{% trans "Level num" %}</th>
+            <th>{% trans "Message" %}</th>
+            <th>{% trans "Path name" %}</th>
+            <th>{% trans "Logger name" %}</th>
+            <th>{% trans "Function" %}</th>
+            <th>{% trans "Line number" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for entry in page_entries.object_list %}
+    <tr>
+        <td>{{ entry.date }}</td>
+        <td>{{ entry.levelname }}</td>
+        <td>{{ entry.levelnum }}</td>
+        <td>{{ entry.message }}</td>
+        <td>{{ entry.pathname }}</td>
+        <td>{{ entry.logger_name }}</td>
+        <td>{{ entry.func }}</td>
+        <td>{{ entry.lineno }}</td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_entries.has_previous %}
+            <a href="{% url logging:log_list_level_page page_entries.previous_page_number %}">{% trans "previous" %}</a>
+        {% endif %}
+
+        <span class="current">
+			{% blocktrans with page_entries.number as number and page_entries.paginator.num_pages as num_pages %}
+			Page {{ number }} of {{ num_pages }}.
+			{% endblocktrans %}
+        </span>
+
+        {% if page_entries.has_next %}
+            <a href="{% url logging:log_list_level_page page_entries.next_page_number %}">{% trans "next" %}</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

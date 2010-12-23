@@ -169,3 +169,8 @@ class SetNewPasswordForm(forms.Form):
             raise forms.ValidationError(_("The two password fields didn't"
                                           " match."))
         return password2
+
+class InviteForm(forms.Form):
+    name = forms.CharField(label=_("Friend name"),
+                           max_length=50)
+    email = forms.EmailField(label=_("Email"))

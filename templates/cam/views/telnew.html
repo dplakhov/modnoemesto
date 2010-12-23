@@ -1,6 +1,6 @@
 {% spaceless %}
 <object width="530"
-        height="{% ifequal request.user camera.owner %}450{% else %}400{% endifequal %}">
+        height="{% ifequal request.user camera.owner %}450{% else %}400{% endifequal %}" style="position:relative; left:-5px;">
     <embed src="/media/swf/telnew-{% ifequal request.user camera.owner %}manage{% else %}view{% endifequal %}.swf"
         quality="high"
         bgcolor="#869ca7"
@@ -11,7 +11,6 @@
         align="middle"
         play="true"
         loop="false"
-        quality="high"
         allowScriptAccess="sameDomain"
         type="application/x-shockwave-flash"
         pluginspage="http://www.adobe.com/go/getflashplayer">

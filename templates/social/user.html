@@ -84,6 +84,7 @@
         <ul>{% url friends:friends_all page_user.id as friends %}
             <li><a href="{{ friends }}">{% trans "Friends" %} ({{ page_user.friends.count }})</a></li>
             <li><a href="{% url user_messages:send_message page_user.id %}">Написать сообшение</a></li>
+            <li>Приглашённые: {{ invitee_count }}</li>
         </ul>
     </div>
     <div class="friend_box transparent">
@@ -101,7 +102,7 @@
     
 </div>
 <div id="content-main" style="clear: both;">
-     <div id="camera">
+     <div id="camera"><a name="cam"></a>
         {% if camera %}
             {% if camera.is_view_paid or camera.is_management_paid %}
                 <a class="reference" href="{% url billing:get_access_to_camera camera.id %}">{% trans "Get access to camera" %}</a>

@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     (r'^friends/', include('apps.friends.urls', namespace='friends')),
     (r'^modmin/', include('apps.admin.urls', namespace='admin')),
     (r'^news/', include('apps.news.urls', namespace='news')),
-    
+    (r'^log/', include('apps.logging.urls', namespace='logging')),
     (r'^chat/', include('apps.chat.urls', namespace='chat')),
     
     (r'^owner/', include('apps.admin_blog.urls', namespace='admin_blog')),
