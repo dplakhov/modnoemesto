@@ -148,6 +148,11 @@ def activation(request, code=None):
     backend = get_backends()[0]
     user.backend = "%s.%s" % (backend.__module__, backend.__class__.__name__)
     django_login(request, user)
+
+    profile = user.profile
+    profile.is_active = True
+    profile.save()
+
     return redirect('social:home')
 
 
@@ -183,7 +188,7 @@ def home(request):
     profile = request.user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
 
-    invitee_count = Profile.objects(inviter=request.user).count()
+    invitee_count = Profile.objects(inviter=request.user, is_active=True).count()
 
     return direct_to_template(request, 'social/home.html', {
         'invitee_count': invitee_count,
@@ -210,7 +215,7 @@ def user(request, user_id=None):
     profile = page_user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
 
-    invitee_count = Profile.objects(inviter=page_user).count()
+    invitee_count = Profile.objects(inviter=page_user, is_active=True).count()
 
     return direct_to_template(request, 'social/user.html',
                               { 'page_user': page_user,
