@@ -101,8 +101,9 @@ def register(request):
 
         inviter_id = request.session.get('inviter_id')
         if inviter_id:
-            user.profile.inviter = User.objects.get(id=inviter_id)
-            user.profile.save()
+            profile = user.profile 
+            profile.inviter = User.objects.get(id=inviter_id)
+            profile.save()
 
         return direct_to_template(request, 'registration_complete.html')
     return form
