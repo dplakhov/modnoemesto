@@ -96,14 +96,14 @@ class Camera(Document):
                 return False
             time_left = order.end_date - now
             data = {}
-            data['days'] = time_left.days
-            seconds = time_left.seconds - time_left.days * 3600 * 24
+            seconds = time_left.seconds
             data['hours'] = seconds / 3600
             seconds -= data['hours'] * 3600
             data['minutes'] = seconds / 60
             data['seconds'] = seconds - data['minutes'] * 60
-            for k, v in data.items():
-                data[k] = "%2i" % v
+            #for k, v in data.items():
+            #    data[k] = "%02i" % v
+            data['days'] = time_left.days
             return data
         return True
 

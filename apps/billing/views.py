@@ -191,15 +191,13 @@ def operator(request):
 def get_access_to_camera(request, id):
     camera = get_document_or_404(Camera, id=id)
     if request.POST:
-        camera_is_controlled = camera.type.is_controlled
-        form = AccessCamOrderForm(request.user, camera_is_controlled, request.POST)
+        form = AccessCamOrderForm(request.user, camera.type.is_controlled, request.POST)
         if form.is_valid():
             order = AccessCamOrder(
                 tariff=form.cleaned_data['tariff'],
                 duration=form.cleaned_data['duration'],
                 user=request.user,
                 camera=camera,
-                is_controlled=camera_is_controlled,
             )
             order.set_access_period(order.is_controlled)
             request.user.cash -= form.total_cost
