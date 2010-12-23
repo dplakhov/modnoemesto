@@ -59,6 +59,10 @@ class AccessCamOrder(Document):
     cost = FloatField()
     create_on = DateTimeField(default=datetime.now)
 
+    def __init__(self, *args, **kwargs):
+        super(AccessCamOrder, self).__init__(*args, **kwargs)
+        self.is_controlled = self.tariff.is_controlled
+
     def set_access_period(self, is_controlled):
         now = datetime.now()
         if is_controlled:
