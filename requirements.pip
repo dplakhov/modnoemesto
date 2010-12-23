@@ -18,3 +18,4 @@ python-memcached==1.45
 orbited==0.7.10
 stomp.py==3.0.2
 twisted==10.1.0
+django-celery-email==0.1.1

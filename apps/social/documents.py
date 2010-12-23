@@ -46,6 +46,8 @@ class Profile(Document):
     university = StringField(max_length=30)
     department = StringField(max_length=30)
     university_status = StringField(max_length=30)
+    
+    get_news = BooleanField()
 
     announce = StringField(max_length=512,
                            default=unicode(_('No upcoming events')))
