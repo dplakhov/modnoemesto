@@ -44,6 +44,13 @@ div.about_persone
 	display: inline;
 	padding-left: 5px;
 }
+p.event_announce
+{
+ 	/*text-align: justify;*/
+    width: 285px;
+	color: #575655;
+	padding-top: 5px;
+}
 .friend_box p, .group_box p
 {
 	color: #08889f;
