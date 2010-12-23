@@ -1,54 +1,50 @@
 # -*- coding: utf-8 -*-
+
+import sys
+import re
+
+import datetime
+import logging
+
+from ImageFile import Parser as ImageFileParser
+
 from django.views.generic.simple import direct_to_template
 
 from django.contrib.auth import (SESSION_KEY,
     BACKEND_SESSION_KEY,
     logout as django_logout)
 
-import datetime
-import logging
-
 from django.shortcuts import redirect
 from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseServerError, HttpResponseNotFound
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
-
-from mongoengine.django.shortcuts import get_document_or_404
-
-from documents import (User, LimitsViolationException)
-from forms import ( UserCreationForm, LoginForm, ChangeAvatarForm)
-
-from apps.user_messages.forms import MessageTextForm 
-
-from apps.media.documents import File
-from apps.media.transformations.image import ImageResize
-from apps.groups.documents import Group
-
-from ImageFile import Parser as ImageFileParser
-
-
-from apps.billing.documents import AccessCamOrder
-from apps.social.forms import ChangeProfileForm, LostPasswordForm
-from apps.social.forms import SetNewPasswordForm, InviteForm
-import re
-from apps.social.documents import Profile, Setting
 from django.template import Context, loader
-import sys
+
 from django.views.debug import ExceptionReporter
 from django.core.mail.message import EmailMessage
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
-
-
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
-
-from apps.media.tasks import apply_file_transformations
 from django.contrib.auth import REDIRECT_FIELD_NAME
+
+
+from mongoengine.django.shortcuts import get_document_or_404
+
+
+from apps.user_messages.forms import MessageTextForm 
+from apps.media.documents import File
+from apps.media.transformations.image import ImageResize
+from apps.groups.documents import Group
+from apps.billing.documents import AccessCamOrder
+from apps.social.forms import ChangeProfileForm, LostPasswordForm
+from apps.social.forms import SetNewPasswordForm, InviteForm
+from apps.social.documents import Profile, Setting
+from apps.utils.stringio import StringIO
+from apps.media.tasks import apply_file_transformations
+
+from forms import ( UserCreationForm, LoginForm, ChangeAvatarForm)
+from documents import (User, LimitsViolationException)
 
 
 def index(request):
@@ -105,8 +101,9 @@ def register(request):
 
         inviter_id = request.session.get('inviter_id')
         if inviter_id:
-            user.profile.inviter = User.objects.get(id=inviter_id)
-            user.profile.save()
+            profile = user.profile 
+            profile.inviter = User.objects.get(id=inviter_id)
+            profile.save()
 
         return direct_to_template(request, 'registration_complete.html')
     return form
@@ -408,10 +405,10 @@ def invite_send(request):
 
 
 def invite(request, inviter_id):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated():
         return redirect('social:index')
 
-    if User.objects.count(id=inviter_id):
+    if User.objects(id=inviter_id).count():
         request.session['inviter_id'] = inviter_id
 
     return redirect('social:index')

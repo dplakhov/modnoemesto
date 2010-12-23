@@ -12,7 +12,7 @@
                 <div style="float:left">
                 {% include "includes/user/micro.html" %}
                 </div>
-                <div class="operation">
+                <div class="operation" style="padding-left:0">
                     <p>{% if is_admin %}
                         <a class="reference" href="{% url groups:remove_admin_right group.id user.id %}">Разжаловать</a>
                         {% else %}
@@ -31,7 +31,7 @@
                 <div style="float:left">
                 {% include "includes/user/micro.html" %}
                 </div>
-                <div class="operation">
+                <div class="operation" style="padding-left:0">
                     <p>{% if is_admin %}
                         <a class="reference" href="{% url groups:remove_admin_right group.id user.id %}">Разжаловать</a>
                         {% else %}

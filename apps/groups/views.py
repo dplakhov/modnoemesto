@@ -260,7 +260,7 @@ def group_leave_user(request, id, user_id):
     return redirect(reverse('groups:group_view', args=[id]))
 
 
-@permission_required('superuser')
+@permission_required('groups')
 def theme_list(request):
     themes = GroupTheme.objects.all()
     return direct_to_template(request, 'groups/theme_list.html',
@@ -268,7 +268,7 @@ def theme_list(request):
                               )
 
 
-@permission_required('superuser')
+@permission_required('groups')
 def theme_edit(request, id=None):
     if id:
         theme = get_document_or_404(GroupTheme, id=id)
@@ -293,13 +293,21 @@ def theme_edit(request, id=None):
                               {'form':form, 'is_new':id is None})
 
 
-@permission_required('superuser')
+@permission_required('groups')
 def theme_delete(request, id):
-    get_document_or_404(GroupTheme, id=id).delete()
+    theme = get_document_or_404(GroupTheme, id=id)
+    if Group.objects(theme=theme).count():
+        messages.add_message(request, messages.ERROR,
+                             _('You can not delete this group theme.'))
+    else:
+        theme.delete()
+        messages.add_message(request, messages.SUCCESS,
+                             _('Group theme deleted.'))
+            
     return redirect('groups:theme_list')
 
 
-@permission_required('superuser')
+@permission_required('groups')
 def type_list(request):
     types = GroupType.objects.all()
     return direct_to_template(request, 'groups/type_list.html',
@@ -307,7 +315,7 @@ def type_list(request):
                               )
 
 
-@permission_required('superuser')
+@permission_required('groups')
 def type_edit(request, id=None):
     if id:
         type = get_document_or_404(GroupType, id=id)
@@ -332,7 +340,15 @@ def type_edit(request, id=None):
                               {'form':form, 'is_new':id is None})
 
 
-@permission_required('superuser')
+@permission_required('groups')
 def type_delete(request, id):
-    get_document_or_404(GroupType, id=id).delete()
+    type = get_document_or_404(GroupType, id=id)
+    if Group.objects(type=type).count():
+        messages.add_message(request, messages.ERROR,
+                             _('You can not delete this group type.'))
+    else:
+        type.delete()
+        messages.add_message(request, messages.SUCCESS,
+                             _('Group type deleted.'))
+
     return redirect('groups:type_list')

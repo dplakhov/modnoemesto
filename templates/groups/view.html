@@ -18,6 +18,7 @@
             </td>
         </tr></table>
         </div>
+        <br />
 {% endif %}
  <div class="filt rounded">
 <table class="group_description">
@@ -85,7 +86,7 @@
 {% if can_view_private %}
 <ul class="friendTable">
 {% for user in admins %}
-    <li class="friendTable">
+    <li>
         {% include "includes/user/micro.html" %}
     </li>
 {% endfor %}
@@ -97,7 +98,7 @@
 {% if can_view_private %}
 <ul class="friendTable">
 {% for user in members %}
-    <li class="friendTable">
+    <li>
         {% include "includes/user/micro.html" %}
     </li>
 {% endfor %}

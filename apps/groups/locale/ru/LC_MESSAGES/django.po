@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-22 14:25+0300\n"
+"POT-Creation-Date: 2010-12-23 17:25+0300\n"
 "PO-Revision-Date: 2010-11-25 17:20+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,13 +58,47 @@ msgstr "не выбрано"
 msgid "Does Not Exist"
 msgstr ""
 
-#: views.py:104 views.py:115 views.py:150 views.py:160
+#: forms.py:54
+msgid "Give admin right"
+msgstr ""
+
+#: forms.py:55
+msgid "Remove admin right"
+msgstr ""
+
+#: forms.py:56
+msgid "Remove member"
+msgstr ""
+
+#: forms.py:58
+msgid "Action"
+msgstr ""
+
+#: views.py:61 views.py:81 views.py:92 views.py:107 views.py:123 views.py:152
+#: views.py:171 views.py:182 views.py:208 views.py:219 views.py:246
+#: views.py:256
 msgid "You are not allowed."
 msgstr "У вас недостаточно прав."
 
-#: views.py:143
+#: views.py:99 views.py:114 views.py:239
 msgid ""
 "You can not leave the group. Give the administrator rights to another party."
 msgstr ""
 "Вы не можете покинуть группу. Передайте права администратора другому "
 "участнику."
+
+#: views.py:301
+msgid "You can not delete this group theme."
+msgstr "Вы не можете удалить эту тему, она используется одной или несколькими группами."
+
+#: views.py:305
+msgid "Group theme deleted."
+msgstr "Тема удалена."
+
+#: views.py:348
+msgid "You can not delete this group type."
+msgstr "Вы не можете удалить этот тип, он используется одной или несколькими группами."
+
+#: views.py:352
+msgid "Group type deleted."
+msgstr "Тип удалён."
