@@ -35,6 +35,8 @@ def get_hexdigest(algorithm, salt, raw_password):
 
 class Profile(Document):
     user = ReferenceField('User')
+    is_active = BooleanField(default=False)
+
     hometown = StringField(max_length=30)
     birthday = StringField(max_length=10)
     sex = StringField(max_length=1)
