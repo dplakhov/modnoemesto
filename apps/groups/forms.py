@@ -47,3 +47,12 @@ class ThemeForm(forms.Form):
 
 class TypeForm(forms.Form):
     name = forms.CharField(label=_('Name'), max_length=255)
+
+
+class MemberManageForm(forms.Form):
+    ACTIONS = (
+        ('give_admin_right', _('Give admin right')),
+        ('remove_admin_right', _('Remove admin right')),
+        ('remove_member', _('Remove member')),
+    )
+    action = forms.ChoiceField(label=_('Action'), choices=ACTIONS)

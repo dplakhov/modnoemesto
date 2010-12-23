@@ -12,7 +12,7 @@ from .forms import GroupCreationForm
 from .documents import Group
 
 from apps.groups.documents import GroupTheme, GroupType, GroupUser
-from apps.groups.forms import ThemeForm, TypeForm
+from apps.groups.forms import ThemeForm, TypeForm, MemberManageForm
 from apps.social.documents import User
 
 def group_list(request):
@@ -33,6 +33,86 @@ def user_group_list(request):
                                    groups_invites=groups_invites,
                                    groups_requests=groups_requests)
                               )
+
+
+def group_view(request, id):
+    group = get_document_or_404(Group, id=id)
+    admins = []
+    members = []
+    for info in GroupUser.objects(group=group, status=GroupUser.STATUS.ACTIVE):
+        if info.is_admin:
+            admins.append(info.user)
+        else:
+            members.append(info.user)
+    return direct_to_template(request, 'groups/view.html', {
+        'group': group,
+        'admins': admins,
+        'members': members,
+        'is_admin': group.is_admin(request.user) or request.user.is_superuser,
+        'can_view_private': group.public or group.is_active(request.user) or request.user.is_superuser,
+        'is_status_request': group.is_request(request.user),
+    })
+
+
+def members_manage(request, id):
+    group = get_document_or_404(Group, id=id)
+    is_admin = group.is_admin(request.user) or request.user.is_superuser
+    if not is_admin:
+        messages.add_message(request, messages.ERROR, _('You are not allowed.'))
+        return redirect(reverse('groups:group_view', args=[id]))
+    admins = []
+    members = []
+    for info in GroupUser.objects(group=group, status=GroupUser.STATUS.ACTIVE):
+        if info.is_admin:
+            admins.append((info.user, info.is_admin))
+        else:
+            members.append((info.user, info.is_admin))
+    return direct_to_template(request, 'groups/members_manage.html', {
+        'group': group,
+        'admins': admins,
+        'members': members,
+    })
+
+
+def give_admin_right(request, group_id, user_id):
+    group = get_document_or_404(Group, id=group_id)
+    is_admin = group.is_admin(request.user) or request.user.is_superuser
+    if not is_admin:
+        messages.add_message(request, messages.ERROR, _('You are not allowed.'))
+        return redirect(reverse('groups:group_view', args=[group_id]))
+    user = get_document_or_404(User, id=user_id)
+    group.give_admin_right(user)
+    return redirect(reverse('groups:members_manage', args=[group.id]))
+
+
+def remove_admin_right(request, group_id, user_id):
+    group = get_document_or_404(Group, id=group_id)
+    is_admin = group.is_admin(request.user) or request.user.is_superuser
+    if not is_admin:
+        messages.add_message(request, messages.ERROR, _('You are not allowed.'))
+        return redirect(reverse('groups:group_view', args=[group_id]))
+    user = get_document_or_404(User, id=user_id)
+    if group.can_remove_member(user):
+        group.remove_admin_right(user)
+    else:
+        messages.add_message(request, messages.ERROR,
+                             _('You can not leave the group. Give the administrator rights to another party.'))
+    return redirect(reverse('groups:members_manage', args=[group.id]))
+
+
+def remove_member(request, group_id, user_id):
+    group = get_document_or_404(Group, id=group_id)
+    is_admin = group.is_admin(request.user) or request.user.is_superuser
+    if not is_admin:
+        messages.add_message(request, messages.ERROR, _('You are not allowed.'))
+        return redirect(reverse('groups:group_view', args=[group_id]))
+    user = get_document_or_404(User, id=user_id)
+    if group.can_remove_member(user):
+        group.remove_member(user)
+    else:
+        messages.add_message(request, messages.ERROR,
+                             _('You can not leave the group. Give the administrator rights to another party.'))
+    return redirect(reverse('groups:members_manage', args=[group.id]))
 
 
 def group_edit(request, id=None):
@@ -141,16 +221,6 @@ def request_refuse(request, id):
         if info.status == GroupUser.STATUS.REQUEST:
             info.delete()
     return redirect(reverse('groups:user_group_list'))
-
-
-def group_view(request, id):
-    group = get_document_or_404(Group, id=id)
-    return direct_to_template(request, 'groups/view.html', {
-        'group': group,
-        'is_admin': group.is_admin(request.user) or request.user.is_superuser,
-        'can_view_private': group.public or group.is_active(request.user) or request.user.is_superuser,
-        'is_status_request': group.is_request(request.user),
-    })
 
 
 def group_join(request, id):
