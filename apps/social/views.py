@@ -199,28 +199,39 @@ def user(request, user_id=None):
     if page_user == request.user:
         return redirect('social:home')
 
-    show_friend_button = request.user.is_authenticated() and \
-                         request.user.friends.can_add(page_user)
-
     camera = page_user.get_camera()
-    if camera:
-        camera.show = camera.can_show(page_user, request.user)
-        camera.manage = camera.can_manage(page_user, request.user)
-    msgform = MessageTextForm()
     profile = page_user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
-
+    msgform = MessageTextForm()
     invitee_count = Profile.objects(inviter=page_user).count()
+    is_friend = not request.user.friends.can_add(page_user)
 
-    return direct_to_template(request, 'social/user.html',
-                              { 'page_user': page_user,
-                                'profile': profile,
-                                'invitee_count': invitee_count,
-                                'msgform': msgform,
-                                'show_friend_button': show_friend_button,
-                                'show_bookmark_button': camera and camera.can_bookmark_add(request.user),
-                                'camera': camera, 
-                                'settings': settings})
+    data = {
+        'page_user': page_user,
+        'profile': profile,
+        'invitee_count': invitee_count,
+        'msgform': msgform,
+        'show_friend_button': not is_friend,
+        'camera': camera,
+        'settings': settings
+    }
+
+    if camera:
+        data.update({
+            'show_bookmark_button': camera.can_bookmark_add(request.user),
+            'show_view_access_link': camera.is_view_enabled and
+                                     camera.is_view_paid and
+                                     camera.is_view_public or
+                                     is_friend,
+            'show_manage_access_link': camera.is_management_enabled and
+                                       camera.is_managed and
+                                       camera.is_management_paid and
+                                       camera.is_management_public or
+                                       is_friend,
+        })
+        camera.show = camera.can_show(page_user, request.user)
+        camera.manage = camera.can_manage(page_user, request.user)
+    return direct_to_template(request, 'social/user.html', data)
 
 
 def avatar(request, user_id, format):
