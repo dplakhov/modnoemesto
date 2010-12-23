@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load pytils_numeral %}
 
 {% block css %}
 {{ block.super }}
@@ -113,8 +114,11 @@
             <a class="reference" href="{% url cam:cam_bookmark_delete camera.id %}">{% trans "Remove Bookmark" %}</a>
             {% endif %}
             {% if camera.is_view_paid and camera.show %}
-                <p>{% trans "The remaining time on the show" %}
-                    {{ camera.show.hours }}:{{ camera.show.minutes }}:{{ camera.show.seconds }}</p>
+                <p>{% trans "The remaining time on the show" %}:
+                    {% if camera.show.days %}{{ camera.show.days}} {{ camera.show.days|choose_plural:"день,дня,дней" }}{% endif %}
+                    {{ camera.show.hours }} {{ camera.show.hours|choose_plural:"час,часа,часов" }}
+                    {{ camera.show.minutes }} {{ camera.show.minutes|choose_plural:"минута,минуты,минут" }}
+                    {{ camera.show.seconds }} {{ camera.show.seconds|choose_plural:"секунда,секунды,секунд" }}</p>
             {% endif %}
             {% if camera.is_management_paid and camera.manage %}
                     <table>
