@@ -88,7 +88,7 @@ class GroupMessage(Document):
     group = ReferenceField('Group')
     sender = ReferenceField('User')
     text = StringField(required=True)
-    timestamp = DateTimeField(default=datetime.now())
+    timestamp = DateTimeField(default=datetime.now)
 
     meta = {
         'ordering': [

@@ -44,7 +44,7 @@ from apps.utils.stringio import StringIO
 from apps.media.tasks import apply_file_transformations
 
 from forms import ( UserCreationForm, LoginForm, ChangeAvatarForm)
-from documents import (User, LimitsViolationException)
+from documents import (User, LimitsViolationException, Invite)
 
 
 def index(request):
@@ -99,13 +99,30 @@ def register(request):
         user.save()
         user.send_activation_code()
 
-        inviter_id = request.session.get('inviter_id')
-        if inviter_id:
-            profile = user.profile 
-            profile.inviter = User.objects.get(id=inviter_id)
-            profile.save()
+        invite_id = request.session.get('invite_id')
+
+        if invite_id:
+            invite = Invite.objects.with_id(invite_id)
+
+            # временная заглушка для неуникальных приглашений
+            inviter = User.objects.with_id(invite_id)
+            if not invite and inviter:
+                invite = Invite(sender=inviter)
+                invite.save()
+            # временная заглушка для неуникальных приглашений end
+
+            if invite:
+                if invite.recipient:
+                    messages.add_message(request, messages.WARNING,
+                             _('The invitation has already been used by another user'))
+                else:
+                    invite.register(user)
+            else:
+                messages.add_message(request, messages.WARNING,
+                             _('Incorrect reference to an invitation'))
 
         return direct_to_template(request, 'registration_complete.html')
+
     return form
 
 def django_login(request, user):
@@ -149,9 +166,9 @@ def activation(request, code=None):
     user.backend = "%s.%s" % (backend.__module__, backend.__class__.__name__)
     django_login(request, user)
 
-    profile = user.profile
-    profile.is_active = True
-    profile.save()
+    invite = Invite.objects(recipient=user).first()
+    if invite:
+        invite.on_activate()
 
     return redirect('social:home')
 
@@ -188,7 +205,7 @@ def home(request):
     profile = request.user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
 
-    invitee_count = Profile.objects(inviter=request.user, is_active=True).count()
+    invitee_count = Invite.invitee_count(request.user)
 
     return direct_to_template(request, 'social/home.html', {
         'invitee_count': invitee_count,
@@ -208,7 +225,7 @@ def user(request, user_id=None):
     profile = page_user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
     msgform = MessageTextForm()
-    invitee_count = Profile.objects(inviter=page_user, is_active=True).count()
+    invitee_count = Invite.invitee_count(page_user)
     is_friend = not request.user.friends.can_add(page_user)
 
     data = {
@@ -328,6 +345,14 @@ def in_dev(request):
 def test_error(request):
     raise Exception()
 
+def test_messages(request):
+    messages.add_message(request, messages.SUCCESS, 'Успех')
+    messages.add_message(request, messages.ERROR, 'Ошибка')
+    messages.add_message(request, messages.WARNING, 'Предупреждение')
+
+    return redirect('social:index')
+
+
 def server_error(request):
     exc_info = sys.exc_info()
     reporter = ExceptionReporter(request, *exc_info)
@@ -400,16 +425,11 @@ def set_new_password(request, code):
 def invite_send(request):
     form = InviteForm(request.POST or None)
     if form.is_valid():
-        email_body = render_to_string('emails/invite.txt',
-                dict(inviter=request.user,
-                  SITE_DOMAIN=settings.SITE_DOMAIN,
-                  form_data=form.cleaned_data,
-                  ))
-
-        if settings.SEND_EMAILS:
-            send_mail(_('Site invite'), email_body,
-            settings.ROBOT_EMAIL_ADDRESS, (form.cleaned_data['email'], ),
-            fail_silently=True)
+        invite = Invite(sender=request.user,
+                        recipient_email=form.cleaned_data['email'],
+                        recipient_name=form.cleaned_data['name'])
+        invite.save()
+        invite.send()
 
         messages.add_message(request, messages.SUCCESS,
                              _('Invite sent'))
@@ -420,12 +440,14 @@ def invite_send(request):
                               dict(form=form))
 
 
-def invite(request, inviter_id):
+def invite(request, invite_id):
     if request.user.is_authenticated():
+        messages.add_message(request, messages.ERROR,
+                     _('The invitation is intended only for unregistered users'))
+
         return redirect('social:index')
 
-    if User.objects(id=inviter_id).count():
-        request.session['inviter_id'] = inviter_id
+    request.session['invite_id'] = invite_id
 
     return redirect('social:index')
 
