@@ -5,7 +5,8 @@
 <div id="content-related">
     <div class="module" id="recent-actions-module">
     <div id="filter_box">
-        <h2>{% trans "Your friends:" %}</h2>
+        <h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>
+        <h3>{% trans "Your friends" %}</h3>
         {% if friends %}
          <ul>
                 {% for user, can_invite in friends %}

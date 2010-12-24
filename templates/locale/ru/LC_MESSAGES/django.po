@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-23 19:24+0300\n"
+"POT-Creation-Date: 2010-12-24 11:08+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,7 +72,7 @@ msgid "previous"
 msgstr "предыдущая"
 
 #: admin/user_list.html:42 billing/access_order_list.html:42
-#: billing/order_list.html:38
+#: billing/order_list.html:38 logging/log_list.html:74
 #, python-format
 msgid ""
 "\n"
@@ -248,13 +248,12 @@ msgid "Add type"
 msgstr "Добавить тип"
 
 #: friends/friend_list.html:9 friends/inbox.html:6 friends/sent.html:7
-#: groups/send_friends_invite.html:8
 msgid "Your friends:"
 msgstr "Ваши друзья"
 
 #: friends/friend_list.html:41 friends/friend_list.html.py:64
 #: friends/friends_all.html:26 friends/friends_online.html:26
-#: groups/send_friends_invite.html:29
+#: groups/send_friends_invite.html:30
 msgid "None available"
 msgstr "Никого нет"
 
@@ -293,15 +292,20 @@ msgstr "Предложения дружбы: отправленные"
 msgid "Cancel"
 msgstr "Отменить"
 
-#: groups/group_edit.html:17
+#: groups/group_edit.html:17 groups/members_manage.html:8
+#: groups/send_friends_invite.html:8 groups/view.html:6
+msgid "Group"
+msgstr "Группа"
+
+#: groups/group_edit.html:18
 msgid "Group creation"
 msgstr "Создание группы"
 
-#: groups/group_edit.html:17
+#: groups/group_edit.html:18
 msgid "Group edit"
 msgstr "Редактирование группы"
 
-#: groups/group_edit.html:147 groups/list.html:6
+#: groups/group_edit.html:148 groups/list.html:6
 #: groups/user_group_list.html:41
 msgid "Create group"
 msgstr "Создать группу"
@@ -309,6 +313,10 @@ msgstr "Создать группу"
 #: groups/list.html:5
 msgid "Available groups"
 msgstr "Доступные группы"
+
+#: groups/send_friends_invite.html:9
+msgid "Your friends"
+msgstr "Ваши друзья"
 
 #: groups/theme_edit.html:6
 msgid "Add theme"
@@ -349,10 +357,6 @@ msgstr "Приглащения в группы"
 #: groups/user_group_list.html:33
 msgid "My groups"
 msgstr "Мои группы"
-
-#: groups/view.html:6
-msgid "Group"
-msgstr "Группа"
 
 #: groups/view.html:27
 msgid "Description"
@@ -515,11 +519,6 @@ msgstr ""
 msgid "Line number"
 msgstr ""
 
-#: logging/log_list.html:74
-#, python-format
-msgid "Page %(number)s of %(num_pages)s.\n"
-msgstr "Страница %(number)s из %(num_pages)s.\n"
-
 #: media_library/image_index.html:6
 msgid "Images"
 msgstr "Изображения"
@@ -661,18 +660,3 @@ msgstr "Просмотр сообщения"
 #: user_messages/sent.html:13
 msgid "Messages: sent"
 msgstr "Сообщения: отправленные"
-
-#~ msgid "%(page_user)s's home"
-#~ msgstr "Страница пользователя %(page_user)s"
-
-#~ msgid "Leave a message to %(page_user)s"
-#~ msgstr "Оставить сообщение %(page_user)s"
-
-#~ msgid "Leave a message"
-#~ msgstr "Оставить сообщение"
-
-#~ msgid "%(page_user)s marked as friends:"
-#~ msgstr "Друзья %(page_user)s"
-
-#~ msgid "Nick"
-#~ msgstr "Ник"

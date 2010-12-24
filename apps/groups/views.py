@@ -142,7 +142,8 @@ def group_edit(request, id=None):
         return redirect(reverse('groups:group_view', args=[group.id]))
     return direct_to_template(request, 'groups/group_edit.html', dict(form=form,
                                                                       is_new=id is None,
-                                                                      is_public=group.public if id else True))
+                                                                      is_public=group.public if id else True,
+                                                                      group=group))
 
 
 def send_friends_invite(request, id):
