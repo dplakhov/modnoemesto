@@ -33,6 +33,8 @@ urlpatterns = patterns('apps.social.views',
 
    url(r'^invite/(?P<invite_id>[a-f0-9]{24})/$', 'invite', name='invite'),
 
+   
+   # тестовые страницы
    url(ur'^ЕГГОГ$', 'test_error',),
-
+   url(ur'^СООБЩ$', 'test_messages',),
 )

@@ -103,6 +103,14 @@ def register(request):
 
         if invite_id:
             invite = Invite.objects.with_id(invite_id)
+
+            # временная заглушка для неуникальных приглашений
+            inviter = User.objects.with_id(invite_id)
+            if not invite and inviter:
+                invite = Invite(sender=inviter)
+                invite.save()
+            # временная заглушка для неуникальных приглашений end
+
             if invite:
                 if invite.recipient:
                     messages.add_message(request, messages.WARNING,
@@ -112,7 +120,7 @@ def register(request):
             else:
                 messages.add_message(request, messages.WARNING,
                              _('Incorrect reference to an invitation'))
-                    
+
         return direct_to_template(request, 'registration_complete.html')
 
     return form
@@ -336,6 +344,14 @@ def in_dev(request):
 
 def test_error(request):
     raise Exception()
+
+def test_messages(request):
+    messages.add_message(request, messages.SUCCESS, 'Успех')
+    messages.add_message(request, messages.ERROR, 'Ошибка')
+    messages.add_message(request, messages.WARNING, 'Предупреждение')
+
+    return redirect('social:index')
+
 
 def server_error(request):
     exc_info = sys.exc_info()
