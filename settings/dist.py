@@ -149,6 +149,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
     'apps.cam.middleware.PlaceBoxMiddleware',
+    'apps.news.middleware.LastNewsMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
