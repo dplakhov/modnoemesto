@@ -28,11 +28,14 @@
 
     {% block js %}
     <script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
+    
+    <script type="text/javascript" src="/media/js/jquery.crawlLine.js"></script>
     <script type="text/javascript" src="/media/js/jquery.corner.js"></script>
     <script type="text/javascript" src="/media/js/jquery.selectbox-0.5.js"></script>
     
     <script type="text/javascript">
         $(document).ready(function(){
+			$('.marquee').crawlLine({crawElement:'.move'});
             $('.rounded').corner();
                                    });
     </script>
@@ -150,6 +153,18 @@
         </div>
 
         <div id="mainContent" style="background:url(/media/images/bg_reg.jpg) no-repeat; position:relative; top:-30px">
+        
+        <div class="marquee" style="color:#08889F; font-size: 18px; height:30px; width:970px; overflow:hidden;">
+			<div class="move" style="overflow:hidden; width:99999px;">
+				<p style="float:left; margin:0;">
+					Сегодня в 19:00 прямая трансляция с презентации проекта в кинотеатре "Художественный". 
+                    Смотрите в нашей видеосети!&nbsp;
+				</p>
+			</div>
+		</div>
+        
+        
+        
 
 {% if messages %}
 <div class="system_messages">

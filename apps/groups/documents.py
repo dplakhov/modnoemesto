@@ -1,6 +1,7 @@
 from mongoengine.document import Document
-from mongoengine.fields import StringField, ReferenceField, URLField, BooleanField
+from mongoengine.fields import StringField, ReferenceField, URLField, BooleanField, DateTimeField
 from apps.utils.decorators import cached_property
+from datetime import datetime
 
 
 class GroupUser(Document):
@@ -81,6 +82,20 @@ class Group(Document):
     def is_admin(self, user):
         info = GroupUser.objects(group=self, user=user).only('is_admin').first()
         return info and info.is_admin
+
+
+class GroupMessage(Document):
+    group = ReferenceField('Group')
+    sender = ReferenceField('User')
+    text = StringField(required=True)
+    timestamp = DateTimeField(default=datetime.now())
+
+    meta = {
+        'ordering': [
+                '-timestamp',
+        ]
+
+    }
 
 
 class GroupTheme(Document):
