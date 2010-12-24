@@ -3,7 +3,8 @@ from django.conf.urls.defaults import *
 
 
 urlpatterns = patterns('apps.billing.views',
-    url(r'^camera/(?P<id>[a-f0-9]{24})/access/$', 'get_access_to_camera', name='get_access_to_camera'),
+    url(r'^camera/(?P<id>[a-f0-9]{24})/access/view/$', 'get_access_to_camera', name='get_view_access_to_camera', kwargs={'is_controlled': False}),
+    url(r'^camera/(?P<id>[a-f0-9]{24})/access/manage/$', 'get_access_to_camera', name='get_manage_access_to_camera', kwargs={'is_controlled': True}),
     url(r'^purse/$', 'purse', name='purse'),
     url(r'^tariffs/$', 'tariff_list', name='tariff_list'),
     url(r'^tariffs/add/$', 'tariff_edit', name='tariff_add'),

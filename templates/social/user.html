@@ -105,8 +105,11 @@
 <div id="content-main" style="clear: both;">
      <div id="camera"><a name="cam"></a>
         {% if camera %}
-            {% if camera.is_view_paid or camera.is_management_paid %}
-                <a class="reference" href="{% url billing:get_access_to_camera camera.id %}">{% trans "Get access to camera" %}</a>
+            {% if show_view_access_link %}
+                <a class="reference" href="{% url billing:get_view_access_to_camera camera.id %}">{% trans "Get view access to camera" %}</a>
+            {% endif %}
+            {% if show_manage_access_link %}
+                <a class="reference" href="{% url billing:get_manage_access_to_camera camera.id %}">{% trans "Get manage access to camera" %}</a>
             {% endif %}
             {% if show_bookmark_button %}
             <a class="reference" href="{% url cam:cam_bookmark_add camera.id %}">{% trans "Bookmark this camera" %}</a>

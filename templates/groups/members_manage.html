@@ -5,6 +5,7 @@
 <div id="content-related">
     <div class="module" id="recent-actions-module">
     <div id="filter_box">
+        <h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>
         <h3>Руководство</h3>
         <ul class="friendTable">
             {% for user, is_admin in admins %}

@@ -14,7 +14,8 @@
 
 {% block content %}
 <div id="filter_box">
-    <h2>{% if is_new %}{% trans "Group creation" %}{% else %}{% trans "Group edit" %}{% endif %}</h2>
+    {% if not is_new %}<h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>{% endif %}
+    <h3>{% if is_new %}{% trans "Group creation" %}{% else %}{% trans "Group edit" %}{% endif %}</h3>
 
 	 <form method="post">
     <div class="filt rounded">

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
-from django.contrib.auth.decorators import login_required, permission_required
-from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponse
+from django.contrib.auth.decorators import permission_required
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 
 from mongoengine.django.shortcuts import get_document_or_404
@@ -15,17 +15,14 @@ from django.conf import settings
 from apps.billing.constans import TRANS_STATUS, ACCESS_CAM_ORDER_STATUS
 from apps.social.documents import User
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
-from datetime import datetime
 
 
-#@login_required
 @permission_required('superuser')
 def tariff_list(request):
     return direct_to_template(request, 'billing/tariff_list.html',
                               {'tariffs': Tariff.objects().only('id','name') } )
 
 
-#@login_required
 @permission_required('superuser')
 def tariff_edit(request, id=None):
     if id:
@@ -51,14 +48,12 @@ def tariff_edit(request, id=None):
                               {'form':form, 'is_new':id is None})
 
 
-#@login_required
 @permission_required('superuser')
 def tariff_delete(request, id):
     get_document_or_404(Tariff, id=id).delete()
     return HttpResponseRedirect(reverse('billing:tariff_list'))
 
 
-#@login_required
 def purse(request):
     return direct_to_template(request, 'billing/pay.html', {
         'service': settings.PKSPB_ID,
@@ -187,11 +182,10 @@ def operator(request):
     return response
 
 
-#@login_required
-def get_access_to_camera(request, id):
+def get_access_to_camera(request, id, is_controlled):
     camera = get_document_or_404(Camera, id=id)
     if request.POST:
-        form = AccessCamOrderForm(request.user, camera.type.is_controlled, request.POST)
+        form = AccessCamOrderForm(is_controlled, request.user, request.POST)
         if form.is_valid():
             order = AccessCamOrder(
                 tariff=form.cleaned_data['tariff'],
@@ -211,11 +205,10 @@ def get_access_to_camera(request, id):
 
             return HttpResponseRedirect(reverse('social:user', args=[camera.owner.id]))
     else:
-        form = AccessCamOrderForm()
+        form = AccessCamOrderForm(is_controlled)
     return direct_to_template(request, 'billing/get_access_to_camera.html', {'form':form})
 
 
-#@login_required
 @permission_required('superuser')
 def order_list(request, page=1):
     q = UserOrder.objects.order_by('-timestamp').all()
@@ -227,7 +220,6 @@ def order_list(request, page=1):
     return direct_to_template(request, 'billing/order_list.html', {'orders':orders})
 
 
-#@login_required
 @permission_required('superuser')
 def access_order_list(request, page=1):
     q = AccessCamOrder.objects.order_by('-create_on').all()
