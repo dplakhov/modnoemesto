@@ -4,11 +4,27 @@
 <div id="filter_box">
     <h2>{% trans "Available groups" %}</h2>
         <a class="reference" href="{% url groups:group_add %}">{% trans "Create group" %}</a>
-        
-        {% for group in groups %}
-            <div class="group_list">
-                <a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a>
-            </div>
+
+        {% for group in groups.object_list %}
+            <div class="group_list"><a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a></div>
         {% endfor %}
+</div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if groups.has_previous %}
+            <a href="{% url groups:group_list_page groups.previous_page_number %}">{% trans "previous" %}</a>
+        {% endif %}
+
+        <span class="current">
+{% blocktrans with groups.number as number and groups.paginator.num_pages as num_pages %}
+Page {{ number }} of {{ num_pages }}.
+{% endblocktrans %}
+        </span>
+
+        {% if groups.has_next %}
+            <a href="{% url groups:group_list_page groups.next_page_number %}">{% trans "next" %}</a>
+        {% endif %}
+    </span>
 </div>
 {% endblock %}
