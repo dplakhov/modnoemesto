@@ -31,7 +31,7 @@ urlpatterns = patterns('apps.social.views',
 
    url(r'^invite/send/$', 'invite_send', name='invite_send'),
 
-   url(r'^invite/(?P<inviter_id>[a-f0-9]{24})/$', 'invite', name='invite'),
+   url(r'^invite/(?P<invite_id>[a-f0-9]{24})/$', 'invite', name='invite'),
 
    url(ur'^ЕГГОГ$', 'test_error',),
 

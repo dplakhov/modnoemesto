@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-22 18:23+0300\n"
+"POT-Creation-Date: 2010-12-24 15:51+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,15 +19,19 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: documents.py:51
+#: documents.py:53
 msgid "No upcoming events"
 msgstr "Нет предстоящих событий"
 
-#: documents.py:97
+#: documents.py:88
+msgid "Site invite"
+msgstr "Приглашение на сайт"
+
+#: documents.py:156
 msgid "Confirm registration"
 msgstr "Подтверждение регистрации"
 
-#: documents.py:107
+#: documents.py:166
 msgid "Password Reset Request"
 msgstr "Восстановление пароля"
 
@@ -148,45 +152,53 @@ msgid "Announce"
 msgstr "Анонс"
 
 #: forms.py:174
-#, fuzzy
 msgid "Friend name"
-msgstr "Имя"
+msgstr "Имя друга"
 
-#: views.py:144
+#: views.py:109
+msgid "The invitation has already been used by another user"
+msgstr "Приглашение уже было использовано другим пользователем"
+
+#: views.py:114
+msgid "Incorrect reference to an invitation"
+msgstr "Ссылка приглашения некорректна"
+
+#: views.py:151
 msgid "Activation code corrupted or already used"
 msgstr "Код активации повреждён или уже использован"
 
-#: views.py:256
+#: views.py:286
 msgid "Invalid image file format"
 msgstr "Неверный формат файла"
 
-#: views.py:277
+#: views.py:307
 msgid "Avatar successfully updated"
 msgstr "Аватар успешно обновлен"
 
-#: views.py:294
+#: views.py:324
 msgid "Profile successfully updated"
 msgstr "Профиль успешно обновлен"
 
-#: views.py:341
+#: views.py:371
 msgid "Email with a link sent to restore the address you specify."
 msgstr "Письмо со ссылкой восстановления выслано на указанный Вами адрес."
 
-#: views.py:353
+#: views.py:383
 msgid "Recovery code corrupted or already used"
 msgstr "Код востановления пароля повреждён или уже использован"
 
-#: views.py:373
+#: views.py:403
 msgid "Password successfully updated."
 msgstr "Пароль успешно обновлен"
 
-#: views.py:389
-msgid "Site invite"
-msgstr "Приглашение на сайт"
-
-#: views.py:395
+#: views.py:419
 msgid "Invite sent"
 msgstr "Приглашение отправлено"
+
+#: views.py:430
+msgid "The invitation is intended only for unregistered users"
+msgstr ""
+"Приглашение предназначено только для незарегистрированных пользователей"
 
 #~ msgid "This account is inactive."
 #~ msgstr "Эта учетная запись неактивна."
