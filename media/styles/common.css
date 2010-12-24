@@ -161,7 +161,7 @@ div#mainContent
     width: 190px;
     float: left;
     display: inline;
-	padding-top:30px;
+	padding-top:10px;
 }
 .nav ul
 {
@@ -312,7 +312,7 @@ div#what_new
     display: inline;
     width: 525px;
     margin-left: 15px;
-	padding-top:30px;
+	padding-top:10px;
 }
 h2.video_title
 {
@@ -473,7 +473,7 @@ div#content_about
     float: left;
     /*display: inline;*/
     overflow: hidden;
-	padding-top:30px;
+	padding-top:10px;
 }
 #content_about h2, #content_about h1
 {
@@ -515,7 +515,7 @@ h2.registr a
     margin-left: 730px;
     width: 240px;
     overflow: hidden;
-	padding-top:30px;
+	padding-top:10px;
 }
 div.enter
 {
@@ -773,7 +773,7 @@ td.empty_filt
 {
     float: right;
     width: 235px;
-	padding-top:30px;
+	padding-top:10px;
 }
 h2.mod_places
 {
@@ -1282,6 +1282,7 @@ div.operation p
 	margin: 10px 80px 10px 0;
 	text-align: right;
 }
+
 .but_1 input[type="submit"]
 {
 	background: #FFF;
@@ -1309,7 +1310,7 @@ div.operation p
 	float: right;
 	text-align: right;
 }
-.message_text_reply, .message_text_write
+.message_text_reply, .message_text_write, .message_text_group
 {
 	clear: right;
 	overflow: hidden;
@@ -1322,6 +1323,11 @@ div.operation p
 .message_text_write
 {
 	width: 260px;
+}
+.message_text_group
+{
+	width: 500px;
+	margin-right: 0;
 }
 .friend_list_online
 {
@@ -1412,6 +1418,12 @@ div.system_messages li.error {
     background: url("../images/exclamation.png") no-repeat scroll 8px 50% #FFE3E3;
     border-color: #DD0000;
     color: #880000;
+}
+div.system_messages li.warning {
+   background: url("../images/warning.png") no-repeat scroll 8px 5px #FFEBC1;
+    border-color: #FDBF3B;
+    color: #A6750C;
+    text-align: left;
 }
 .pagination
 {
