@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
 from django.views.generic.simple import direct_to_template
@@ -10,12 +10,12 @@ from apps.utils.paginator import Paginator
 
 from mongoengine.django.shortcuts import get_document_or_404
 
-from .forms import GroupCreationForm
+from .forms import GroupCreationForm, MessageTextForm
 from .documents import Group
 from .decorators import check_admin_right
 
-from apps.groups.documents import GroupTheme, GroupType, GroupUser
-from apps.groups.forms import ThemeForm, TypeForm, MemberManageForm
+from apps.groups.documents import GroupTheme, GroupType, GroupUser, GroupMessage
+from apps.groups.forms import ThemeForm, TypeForm
 from apps.social.documents import User
 
 
@@ -39,8 +39,10 @@ def user_group_list(request):
                               )
 
 
-def group_view(request, id):
+def group_view(request, id, page=1):
     group = get_document_or_404(Group, id=id)
+    is_active = group.is_active(request.user)
+
     admins = []
     members = []
     for info in GroupUser.objects(group=group, status=GroupUser.STATUS.ACTIVE):
@@ -48,13 +50,40 @@ def group_view(request, id):
             admins.append(info.user)
         else:
             members.append(info.user)
+
+    paginator = Paginator(GroupMessage.objects, 25, GroupMessage.objects.count())
+    try:
+        group_messages = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        group_messages = paginator.page(paginator.num_pages)
+
+    if request.POST:
+        if not is_active:
+            messages.add_message(request, messages.ERROR,
+                             _('To send a message, you need to join the group.'))
+            return redirect(reverse('groups:group_view', args=[id]))
+        form = MessageTextForm(request.POST)
+        if form.is_valid():
+            message = GroupMessage(
+                group=group,
+                sender=request.user,
+                text=form.cleaned_data['text'],
+            )
+            message.save()
+            return redirect(reverse('groups:group_view', args=[id]))
+    else:
+        form = MessageTextForm()
+
     return direct_to_template(request, 'groups/view.html', {
         'group': group,
         'admins': admins,
         'members': members,
         'is_admin': group.is_admin(request.user) or request.user.is_superuser,
-        'can_view_private': group.public or group.is_active(request.user) or request.user.is_superuser,
+        'can_view_private': group.public or is_active or request.user.is_superuser,
+        'can_send_message': is_active,
         'is_status_request': group.is_request(request.user),
+        'group_messages': group_messages,
+        'form': form,
     })
 
 
@@ -229,6 +258,19 @@ def group_leave_user(request, group, user_id):
     user = get_document_or_404(User, id=user_id)
     group.remove_member(user)
     return redirect(reverse('groups:group_view', args=[id]))
+
+
+@check_admin_right
+def delete_message(request, group, message_id):
+    get_document_or_404(GroupMessage, id=message_id).delete()
+    return redirect(reverse('groups:group_view', args=[group.id]))
+
+
+def send_message(request, id):
+    group = get_document_or_404(Group, id=id)
+
+    return direct_to_template(request, 'user_messages/write_message.html',
+                              { 'form': form })
 
 
 @permission_required('groups')
