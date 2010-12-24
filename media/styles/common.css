@@ -1282,6 +1282,7 @@ div.operation p
 	margin: 10px 80px 10px 0;
 	text-align: right;
 }
+
 .but_1 input[type="submit"]
 {
 	background: #FFF;
@@ -1309,7 +1310,7 @@ div.operation p
 	float: right;
 	text-align: right;
 }
-.message_text_reply, .message_text_write
+.message_text_reply, .message_text_write, .message_text_group
 {
 	clear: right;
 	overflow: hidden;
@@ -1322,6 +1323,11 @@ div.operation p
 .message_text_write
 {
 	width: 260px;
+}
+.message_text_group
+{
+	width: 500px;
+	margin-right: 0;
 }
 .friend_list_online
 {
