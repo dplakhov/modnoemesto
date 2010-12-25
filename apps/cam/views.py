@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from apps.media.utils import upload
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
@@ -7,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.conf import settings
 
 
 from mongoengine.django.shortcuts import get_document_or_404
@@ -125,7 +125,7 @@ def screen_edit(request, id=None):
     else:
         form = ScreenForm(request.POST, request.FILES)
         if form.is_valid():
-            camera.screen = form.fields['file'].save()
+            camera.screen = form.fields['file'].save('camera_screen', settings.SCREEN_SIZES, 'SCREEN_RESIZE')
             camera.save()
             messages.add_message(request, messages.SUCCESS, _('Screen successfully updated'))
             return HttpResponseRedirect(request.path)

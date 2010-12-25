@@ -15,8 +15,8 @@ class ImageField(FileField):
     }
 
     def __init__(self, *args, **kwargs):
-        self.sizes = kwargs.pop('sizes')
-        self.task_name = kwargs.pop('task_name')
+        self.sizes = kwargs.pop('sizes', None)
+        self.task_name = kwargs.pop('task_name', None)
         super(ImageField, self).__init__(*args, **kwargs)
 
     def to_python(self, data):
@@ -43,8 +43,11 @@ class ImageField(FileField):
         self.content_type = f.content_type
         return data
 
-    def save(self):
-        screen = File(type='image')
+    def save(self, type='image', sizes=None, task_name=None):
+        self.sizes = sizes or self.sizes
+        self.task_name = task_name or self.task_name
+
+        screen = File(type=type)
         self.buffer.reset()
         screen.file.put(self.buffer, content_type=self.content_type)
         screen.save()
