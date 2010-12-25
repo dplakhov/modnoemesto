@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+from apps.media.fields import ImageField
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 from apps.billing.documents import Tariff
 
@@ -41,7 +43,9 @@ class CameraTypeForm(forms.Form):
                 )
 
 class ScreenForm(forms.Form):
-    file = forms.FileField(label=_("Image"))
+    file = ImageField(label=_("Image"),
+                      sizes=settings.SCREEN_SIZES,
+                      task_name='SCREEN_RESIZE')
 
 
 class CameraForm(forms.Form):

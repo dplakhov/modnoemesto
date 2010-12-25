@@ -13,12 +13,11 @@
     <tr>
     	<th><label for="id_file">Изображение:</label></th>
                     <td class="empty_filt"></td>
-                    <td>
-                            <input type="file" name="file" id="id_file" />
+                    <td>{{ form.file.errors }}
+                        <input type="file" name="file" id="id_file" />
                     </td>
 
     </tr>
-   {% comment %} {{ form.as_table }} {% endcomment %}
     </table>
 </div>
 <div class="but">
