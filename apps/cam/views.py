@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
@@ -18,7 +19,8 @@ from .documents import CameraType
 
 from .forms import CameraTypeForm, CameraForm
 from apps.billing.documents import Tariff
-from .forms import CamFilterForm, ScreenForm
+from .forms import CamFilterForm
+from apps.media.forms import PhotoForm
 from .documents import CameraBookmarks
 
 from apps.media.documents import File
@@ -121,9 +123,9 @@ def screen_edit(request, id=None):
             return redirect('social:home')
 
     if request.method != 'POST':
-        form = ScreenForm()
+        form = PhotoForm()
     else:
-        form = ScreenForm(request.POST, request.FILES)
+        form = PhotoForm(request.POST, request.FILES)
         if form.is_valid():
             camera.screen = form.fields['file'].save('camera_screen', settings.SCREEN_SIZES, 'SCREEN_RESIZE')
             camera.save()
