@@ -26,6 +26,7 @@ class Group(Document):
     country = StringField()
     city = StringField()
     public = BooleanField(default=False)
+    photo = ReferenceField('File')
 
     @cached_property
     def members(self):

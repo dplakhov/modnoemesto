@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load media %}
 
 {% block content %}
 <div id="filter_box">
@@ -7,19 +8,25 @@
 {% if is_admin %}
 <div class="friend_request">
         <table style="width:100%"><tr>
-            <td style="width:33%">
+            <td style="width:25%">
                  <a class="reference" href="{% url groups:group_edit group.id %}">{% trans "Edit" %}</a>
             </td>
-            <td style="text-align:center;width:33%">
+            <td style="text-align:center;width:25%">
+                 <a class="reference" href="{% url groups:photo_edit group.id %}">Фотография</a>
+            </td>
+            <td style="text-align:center;width:25%">
                 <a class="reference" href="{% url groups:members_manage group.id %}">Управление участниками</a>
             </td>
-            <td style="text-align:right;width:33%">
+            <td style="text-align:right;width:25%">
                 <a class="reference" href="{% url groups:send_friends_invite group.id %}">Отправить приглашение</a>
             </td>
         </tr></table>
         </div>
         <br />
 {% endif %}
+
+<img src="{% media_url group.photo group_photo_full.png %}" />
+
 <div class="filt rounded">
 <table class="group_description">
     {% if group.description %}

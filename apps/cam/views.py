@@ -97,21 +97,6 @@ def cam_edit(request, id=None):
                               )
 
 
-def screen(request, cam_id, format):
-    camera = get_document_or_404(Camera, id=cam_id)
-    if not camera.screen:
-        return redirect('/media/img/notfound/screen_%s.png' % format)
-
-    try:
-        image = camera.screen.get_derivative(format)
-    except File.DerivativeNotFound:
-        return redirect('/media/img/converting/screen_%s.png' % format)
-
-    response = HttpResponse(image.file.read(), content_type=image.file.content_type)
-    response['Last-Modified'] = image.file.upload_date
-    return response
-
-
 def screen_edit(request, id=None):
     if id:
         camera = get_document_or_404(Camera, id=id)
@@ -127,12 +112,12 @@ def screen_edit(request, id=None):
     else:
         form = PhotoForm(request.POST, request.FILES)
         if form.is_valid():
-            camera.screen = form.fields['file'].save('camera_screen', settings.SCREEN_SIZES, 'SCREEN_RESIZE')
+            camera.screen = form.fields['file'].save('camera_screen', settings.SCREEN_SIZES, 'CAM_SCREEN_RESIZE')
             camera.save()
             messages.add_message(request, messages.SUCCESS, _('Screen successfully updated'))
             return HttpResponseRedirect(request.path)
     return direct_to_template(request, 'cam/screen_edit.html',
-                              dict(form=form, camera=camera)
+                              dict(form=form, screen=camera.screen)
                               )
 
 

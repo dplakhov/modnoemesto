@@ -52,8 +52,7 @@ class ImageField(FileField):
         screen.file.put(self.buffer, content_type=self.content_type)
         screen.save()
 
-        transformations = [ ImageResize(name='%sx%s' % (w,h), format='png', width=w, height=h)
-                            for (w, h) in self.sizes ]
+        transformations = [ ImageResize(name=name, format='png', **params) for name, params in self.sizes.items() ]
 
         if settings.TASKS_ENABLED.get(self.task_name):
             args = [ screen.id, ] + transformations
