@@ -10,11 +10,7 @@
 {% if group.has_video_conference %}
 <object  width="745" height="515">
     <embed src="/media/swf/group_{% if is_admin %}admin{% else %}user{% endif %}.swf" quality="high" bgcolor="#869ca7"
-           {% if is_admin %}
-             flashvars="myname=aa&ip=192.168.0.211&username=aa&stream=streamname"
-           {% else %}
-               flashvars="myname=aa&ip=192.168.0.211&username=aa&stream=streamname"
-           {% endif %}
+        flashvars="myname={{ user.id }}&ip=188.93.21.227&group={{ group.id }}"
         width="745" height="515" name="sdo_video" align="middle"
         play="true"
         loop="false"
