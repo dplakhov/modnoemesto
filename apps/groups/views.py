@@ -114,31 +114,31 @@ def member_list(request, id, format):
 def can_manage(request):
     def calc():
         session_key = request.GET.get('session_key')
-        user_id = request.GET.get('user_id')
         group_id = request.GET.get('group_id')
-        if not (session_key and user_id and group_id):
+        if not (session_key and group_id):
             return 'BAD PARAMS'
         engine = import_module(settings.SESSION_ENGINE)
         session = engine.SessionStore(session_key)
         user_id = session.get(SESSION_KEY, None)
         if not user_id:
             return 'BAD SESSION KEY'
-        user = User.objects.with_id(id=user_id)
+        user = User.objects.with_id(user_id)
         if not user:
             return 'BAD SESSION KEY'
 
-        group = Group.objects.with_id(id=group_id)
+        group = Group.objects.with_id(group_id)
         if not group:
             return 'BAD PARAMS'
 
         group_user = GroupUser.objects(user=user, group=group).first()
 
-        if not group_user or not group_user.is_admin:
-            return 'ACCESS_DENIED'
+        if user.is_superuser or (group_user and group_user.is_admin):
+            return 'OK'
 
-        return 'OK'
+        return 'ACCESS_DENIED'
 
-    return HttpResponse(calc(), m)
+
+    return HttpResponse(calc(), mimetype='text/plain')
 
 
 @check_admin_right
