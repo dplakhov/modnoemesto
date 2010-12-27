@@ -227,4 +227,4 @@ def cam_view_notify(request):
         return 'OK', 0, int(user.cash/order.tariff.cost)
     result = calc()
     result = ["%s=%s" % (k, urllib.quote(str(v))) for k, v in zip(('info', 'status', 'cash'), result)]
-    return HttpResponse('&'.join(result))
+    return HttpResponse('&%s' % ('&'.join(result)))
