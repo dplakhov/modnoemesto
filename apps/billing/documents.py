@@ -90,6 +90,10 @@ class AccessCamOrder(Document):
     def can_access(self):
         return self.status == ACCESS_CAM_ORDER_STATUS.ACTIVE
 
+    def get_time_left(self, user_cash=None):
+        user_cash = user_cash or self.user.cash
+        return int(user_cash/self.tariff.cost)
+
     @property
     def status(self):
         if self.begin_date is None or self.end_date is None:

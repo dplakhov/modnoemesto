@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.utils.translation import ugettext_lazy as _
+from django.db.models import Q
 
 from mongoengine import Document, StringField, ReferenceField, BooleanField, ListField, DateTimeField
 
@@ -87,18 +88,20 @@ class Camera(Document):
             order = AccessCamOrder.objects(
                 user=access_user,
                 camera=self,
-                end_date__gt=now,
-            ).order_by('-end_date').only('end_date').first()
-            if not order:
+            ).order_by('-create_on').first()
+            if not order or order.end_date < now:
                 return False
-            time_left = order.end_date - now
             data = {}
-            seconds = time_left.seconds
+            if order.tariff.is_packet:
+                time_left = order.end_date - now
+                seconds = time_left.seconds
+                data['days'] = time_left.days
+            else:
+                seconds = order.get_time_left()
             data['hours'] = seconds / 3600
             seconds -= data['hours'] * 3600
             data['minutes'] = seconds / 60
             data['seconds'] = seconds - data['minutes'] * 60
-            data['days'] = time_left.days
             return data
         return True
 
@@ -115,18 +118,23 @@ class Camera(Document):
                 return False
             now = datetime.now()
             orders = list(AccessCamOrder.objects(
+                end_date__gt=now,
                 is_controlled=True,
                 camera=self,
-                end_date__gt=now,
-            ).order_by('end_date'))
+            ).order_by('create_on'))
             if not orders:
                 if self.operator:
                     self.operator = None
                     self.save()
                 return False
-            if orders[0].user == access_user:
-                self.operator = access_user
-                self.save()
+            order = orders[0]
+            if order.tariff.is_packet:
+                if order.user == access_user:
+                    self.operator = access_user
+                    self.save()
+            else:
+                #todo: need code...
+                pass
             return orders
         return True
     
