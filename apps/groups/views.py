@@ -137,8 +137,7 @@ def can_manage(request):
 
         return 'ACCESS_DENIED'
 
-
-    return HttpResponse(calc(), mimetype='text/plain')
+    return HttpResponse('&result=%s' % calc(), mimetype='text/plain')
 
 
 @check_admin_right
