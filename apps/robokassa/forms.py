@@ -154,6 +154,6 @@ class SuccessRedirectForm(_RedirectPageForm):
         data = super(SuccessRedirectForm, self).clean()
         if STRICT_CHECK:
             user = UserId.get_user_by_id(data['InvId'])
-            if not user or not UserOrder.objects.filter(id=str(user.id)).count():
+            if not user or not UserOrder.objects.filter(user=ser).count():
                 raise forms.ValidationError(u'От ROBOKASSA не было предварительного уведомления')
         return data
