@@ -15,18 +15,21 @@ function init_chat(chat_id, time) {
 	chat_room_id = chat_id;
 	chat_polling_time = time;
 	sync_messages();
-	$('#chat').jScrollPane();
+	//$('#chat').jScrollPane();
 
 }
 
 var img_dir = "/static/img/";
 
+
 function add_messages(messages){
 	var html_messages = [];
 	for(var i in messages){
 		var current = messages[i];
+		var date_str = String(current.date).split(".")[0];
+		date_str = date_str.split(" ")[1];
 		var html_message = "<p>"+
-		"("+String(current.date).split(".")[0]+") <b>"+current.user_name+":</b> "+current.text+"</p>";
+		"("+date_str+") <b>"+current.user_name+":</b> "+current.text+"</p>";
 		html_messages.push(html_message);
 	}
 	$("#chat").append(html_messages.join(""));
@@ -77,7 +80,8 @@ function get_messages() {
 		success: function (json) {
 			// add messages
 			add_messages(json);
-			set_last_message(json)
+			set_last_message(json);
+			$('.scroll-pane').scrollTop($('#chat p:last').offset().top);
 		}        
     });
     
