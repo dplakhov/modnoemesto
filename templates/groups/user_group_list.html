@@ -32,14 +32,17 @@
 {% endif %}
 
 <h2>{% trans "My groups" %}</h2>
-    {% for group in groups %}
-        <div class="user_group">
-            <a href="{% url groups:group_view id=group.id %}"><img src="{% media_url group.photo group_photo_mini.png %}" />
-            {{ group.name }}</a></div>
-    {% endfor %}
-
-	<div class="but">
+<div class="but">
     <p><a class="reference" href="{% url groups:group_add %}">{% trans "Create group" %}</a></p>
     </div>
+    <br />
+    {% for group in groups %}
+        <div class="user_group">
+            <div class="group_ava"><a href="{% url groups:group_view id=group.id %}"><img src="{% media_url group.photo group_photo_mini.png %}" /></a></div>
+            <div class="group_info"><a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a></div>
+           </div> 
+    {% endfor %}
+
+	
 </div>
 {% endblock %}

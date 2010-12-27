@@ -1393,6 +1393,7 @@ li.friendTable
 {
 	overflow: hidden;
 	padding-bottom: 7px;
+	float:left;
 }
 .user_group a
 {
