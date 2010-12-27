@@ -93,7 +93,7 @@ def cam_edit(request, id=None):
         return HttpResponseRedirect(reverse('social:home'))
 
     return direct_to_template(request, 'cam/cam_edit.html',
-                              dict(form=form, is_new=id is None)
+                              dict(form=form, camera=cam)
                               )
 
 

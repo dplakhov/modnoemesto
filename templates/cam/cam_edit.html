@@ -5,9 +5,9 @@
 <script type="text/javascript">
 $(document).ready(function(){
             $('#id_type, #id_view_packet_tariff, #id_view_time_tariff, #id_management_packet_tariff, #id_management_time_tariff, #id_operator').selectbox();
-            $('div#management_hide').hide();
-            $('tr.view_tariff').hide();
-            $('tr.management_tariff').hide();
+            {% if not camera.is_management_enabled %}$('div#management_hide').hide();{% endif %}
+            {% if not camera.is_view_paid %}$('tr.view_tariff').hide();{% endif %}
+            {% if not camera.is_management_paid %}$('tr.management_tariff').hide();{% endif %}
 			
 			if ($('li[id$=.1]').is('.selected')) {
              $('div#management_hide').show();
@@ -47,10 +47,10 @@ $(document).ready(function(){
 {% block content %}
 <div id="filter_box">
 <h2>
-    {% if is_new %}
-        {% trans "Add camera" %}
-    {% else %}
+    {% if camera %}
         {% trans "Edit camera" %}
+    {% else %}
+        {% trans "Add camera" %}
     {% endif %}
 </h2>
 {% comment %}
@@ -243,7 +243,7 @@ $(document).ready(function(){
     </div>
     </div>
     <div class="but">
-            <input type="submit" value="{% if is_new %}{% trans 'Add' %}{% else %}{% trans 'Save' %}{% endif %}" />
+            <input type="submit" value="{% if camera %}{% trans 'Save' %}{% else %}{% trans 'Add' %}{% endif %}" />
     </div>
     </form>
  
