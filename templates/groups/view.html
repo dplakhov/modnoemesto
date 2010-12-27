@@ -8,10 +8,15 @@
 <div id="filter_box">
 <h2>{% trans "Group" %} "{{ group.name }}"</h2>
 {% if group.has_video_conference %}
-<object  width="750" height="515">
+<object  width="{% if is_admin %}745{% else %}650{% endif %}"
+         height="{% if is_admin %}515{% else %}423{% endif %}"
+        >
     <embed src="/media/swf/group_{% if is_admin %}admin{% else %}user{% endif %}.swf" quality="high" bgcolor="#869ca7"
         flashvars="myname={{ user.id }}&ip=188.93.21.227&group_id={{ group.id }}&session_key={{ request.session.session_key }}"
-        width="750" height="515" name="sdo_video" align="middle"
+        width="{% if is_admin %}745{% else %}650{% endif %}"
+        height="{% if is_admin %}515{% else %}423{% endif %}"
+        name="sdo_video"
+        align="middle"
         play="true"
         loop="false"
         quality="high"
