@@ -29,7 +29,7 @@ $(document).ready(function(){
 <div id="centerColumn" style="width:760px">
 <div id="filter_box">
 <h2>{% trans "Group" %} "{{ group.name }}"</h2>
-{% if group.has_video_conference %}
+{% if group.has_video_conference and can_view_conference %}
 <object  width="{% if is_admin %}745{% else %}650{% endif %}"
          height="{% if is_admin %}515{% else %}423{% endif %}"
         >
