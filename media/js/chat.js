@@ -15,6 +15,8 @@ function init_chat(chat_id, time) {
 	chat_room_id = chat_id;
 	chat_polling_time = time;
 	sync_messages();
+	$('#chat').jScrollPane();
+
 }
 
 var img_dir = "/static/img/";
@@ -73,23 +75,9 @@ function get_messages() {
         url:'/chat/receive/',
 		dataType: 'json',
 		success: function (json) {
-			var scroll = false;
-		
-			// first check if we are at the bottom of the div, if we are, we shall scroll once the content is added
-			var $containter = $("#chat");
-			if ($containter.scrollTop() == $containter.attr("scrollHeight") - $containter.height())
-				scroll = true;
-
 			// add messages
 			add_messages(json);
 			set_last_message(json)
-			
-			
-			// scroll to bottom
-			if (scroll)
-				$("#chat").animate({ 
-					scrollTop: $("#chat").attr("scrollHeight") 
-					}, 500);
 		}        
     });
     
