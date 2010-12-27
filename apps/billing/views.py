@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
+import urllib
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+from django.conf import settings
+from django.contrib.auth import SESSION_KEY
+from django.utils.importlib import import_module
 
 from mongoengine.django.shortcuts import get_document_or_404
 
@@ -143,15 +148,17 @@ def get_access_to_camera(request, id, is_controlled):
     if request.POST:
         form = AccessCamOrderForm(is_controlled, request.user, request.POST)
         if form.is_valid():
+            tariff = form.cleaned_data['tariff']
             order = AccessCamOrder(
-                tariff=form.cleaned_data['tariff'],
+                tariff=tariff,
                 duration=form.cleaned_data['duration'],
                 user=request.user,
                 camera=camera,
             )
             order.set_access_period(order.is_controlled)
-            request.user.cash -= form.total_cost
-            request.user.save()
+            if tariff.is_packet:
+                request.user.cash -= form.total_cost
+                request.user.save()
             order.cost = form.total_cost
             order.save()
             if order.is_controlled:
@@ -187,3 +194,37 @@ def access_order_list(request, page=1):
     return direct_to_template(request, 'billing/access_order_list.html', {'orders':orders})
 
 
+def cam_view_notify(request):
+    def calc():
+        session_key = request.GET.get('session_key', None)
+        order_id = request.GET.get('order_id', None)
+        extra_time = request.GET.get('time', None)
+        if not (session_key and order_id and extra_time):
+            return 'BAD PARAMS',-1
+        if not extra_time.isdigit():
+            return 'BAD TIME', -2
+        extra_time = int(extra_time)
+        if extra_time > settings.TIME_INTERVAL_NOTIFY or extra_time < 0:
+            return 'BAD TIME', -2
+        engine = import_module(settings.SESSION_ENGINE)
+        session = engine.SessionStore(session_key)
+        user_id = session.get(SESSION_KEY, None)
+        if not user_id:
+            return 'BAD SESSION KEY', -3
+        user = User.objects(id=user_id).first()
+        if not user:
+            return 'BAD SESSION KEY', -3
+        order = AccessCamOrder.objects(id=order_id).first()
+        if not order:
+            return 'DOES NOT EXIST ORDER', -4
+        if order.user != user:
+            return 'BAD USER', -5
+        if order.end_date or order.tariff.is_packet:
+            return 'BAD ORDER', -6
+        total_cost = order.tariff.cost * (settings.TIME_INTERVAL_NOTIFY - extra_time)
+        user.cash -= total_cost
+        user.save()
+        return 'OK', 0, float(user.cash)/order.tariff.cost
+    result = calc()
+    result = ["%s=%s" % (k, urllib.quote(str(v))) for k, v in zip(('info', 'status', 'cash'), result)]
+    return HttpResponse('&'.join(result))

@@ -101,6 +101,7 @@ LOGIN_EXEMPT_URLS = (
     ur'^ЕГГОГ',
     r'^captcha/',
     r'^robots.txt$',
+    r'^billing/camera/notify/',
 )
 
 # Make this unique, and don't share it with anybody.

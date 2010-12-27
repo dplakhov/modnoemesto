@@ -98,8 +98,6 @@ class Camera(Document):
             seconds -= data['hours'] * 3600
             data['minutes'] = seconds / 60
             data['seconds'] = seconds - data['minutes'] * 60
-            #for k, v in data.items():
-            #    data[k] = "%02i" % v
             data['days'] = time_left.days
             return data
         return True
