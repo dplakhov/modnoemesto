@@ -6,7 +6,7 @@ from django import forms
 
 from .conf import LOGIN, PASSWORD1, PASSWORD2
 from .conf import STRICT_CHECK, FORM_TARGET, EXTRA_PARAMS
-from apps.billing.models import UserOrder
+from apps.billing.models import UserOrder, UserId
 
 class BaseRobokassaForm(forms.Form):
 
@@ -153,6 +153,7 @@ class SuccessRedirectForm(_RedirectPageForm):
     def clean(self):
         data = super(SuccessRedirectForm, self).clean()
         if STRICT_CHECK:
-            if not UserOrder.objects.filter(InvId=data['InvId']).count():
+            user = UserId.get_user_by_id(data['InvId'])
+            if not user or not UserOrder.objects.filter(id=user.id).count():
                 raise forms.ValidationError(u'От ROBOKASSA не было предварительного уведомления')
         return data
