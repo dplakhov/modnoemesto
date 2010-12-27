@@ -54,7 +54,7 @@ def group_view(request, id, page=1):
         else:
             members.append(info.user)
 
-    paginator = Paginator(GroupMessage.objects, 25, GroupMessage.objects.count())
+    paginator = Paginator(GroupMessage.objects(group=group), 25, GroupMessage.objects(group=group).count())
     try:
         group_messages = paginator.page(page)
     except (EmptyPage, InvalidPage):
