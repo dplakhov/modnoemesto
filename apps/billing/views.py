@@ -163,6 +163,7 @@ def get_access_to_camera(request, id, is_controlled):
                 user=request.user,
                 camera=camera,
             )
+            #todo: need transaction
             order.set_access_period(order.is_controlled)
             if tariff.is_packet:
                 request.user.cash -= form.total_cost
@@ -232,7 +233,10 @@ def cam_view_notify(request):
         total_cost = order.tariff.cost * (settings.TIME_INTERVAL_NOTIFY - extra_time)
         user.cash -= total_cost
         user.save()
-        return 'OK', 0, int(user.cash/order.tariff.cost)
+        time_left = order.get_time_left(user.cash)
+        if time_left > settings.TIME_INTERVAL_NOTIFY:
+            time_left = settings.TIME_INTERVAL_NOTIFY
+        return 'OK', 0, time_left
     result = calc()
     result = ["%s=%s" % (k, urllib.quote(str(v))) for k, v in zip(('info', 'status', 'cash'), result)]
     return HttpResponse('&%s' % ('&'.join(result)))
