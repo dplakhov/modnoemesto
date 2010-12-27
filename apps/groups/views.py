@@ -59,7 +59,8 @@ def group_view(request, id, page=1):
         else:
             members.append(info.user)
 
-    paginator = Paginator(GroupMessage.objects(group=group), 25, GroupMessage.objects(group=group).count())
+    MESSAGES_ON_PAGE = 25
+    paginator = Paginator(GroupMessage.objects(group=group), MESSAGES_ON_PAGE, GroupMessage.objects(group=group).count())
     try:
         group_messages = paginator.page(page)
     except (EmptyPage, InvalidPage):
@@ -93,7 +94,27 @@ def group_view(request, id, page=1):
         'is_status_request': group.is_request(request.user),
         'group_messages': group_messages,
         'form': form,
+        'messages_on_page': MESSAGES_ON_PAGE,
     })
+
+
+def send_message(request, id):
+    if not request.POST:
+        return ''
+    group = get_document_or_404(Group, id=id)
+    if not group.is_active(request.user):
+        return ''
+    form = MessageTextForm(request.POST)
+    if form.is_valid():
+        message = GroupMessage(
+            group=group,
+            sender=request.user,
+            text=form.cleaned_data['text'],
+        )
+        message.save()
+        return direct_to_template(request, 'groups/_comment.html',
+                                  { 'group': group, 'msg': message })
+    return ''
 
 
 def member_list(request, id, format):
@@ -333,13 +354,6 @@ def group_leave_user(request, group, user_id):
 def delete_message(request, group, message_id):
     get_document_or_404(GroupMessage, id=message_id).delete()
     return redirect(reverse('groups:group_view', args=[group.id]))
-
-
-def send_message(request, id):
-    group = get_document_or_404(Group, id=id)
-
-    return direct_to_template(request, 'user_messages/write_message.html',
-                              { 'form': form })
 
 
 @permission_required('groups')
