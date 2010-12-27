@@ -90,6 +90,7 @@ def group_view(request, id, page=1):
         'members': members,
         'is_admin': group.is_admin(request.user) or request.user.is_superuser,
         'can_view_private': group.public or is_active or request.user.is_superuser,
+        'can_view_conference': is_active or request.user.is_superuser,
         'can_send_message': is_active,
         'is_status_request': group.is_request(request.user),
         'group_messages': group_messages,
