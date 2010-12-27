@@ -1495,5 +1495,9 @@ span.date
 {
 	height: 180px;
 }
-
+.hide_info
+{
+	padding: 8px 0 0 10px;
+	color: #666;
+}
 

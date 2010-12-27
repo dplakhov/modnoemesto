@@ -51,7 +51,9 @@
 <div style="width:510px;float:left">
 <div class="messages">
     <h3>Комментарии</h3>
-
+{% if not can_view_private %}
+<p class="hide_info">Информация скрыта.</p>
+{% endif %}
 {% if can_send_message %}
     <form method="post" action="">
         <div class="answer">
@@ -74,7 +76,7 @@
                     {% include "includes/user/micro.html" %}
                 {% endwith %}
             </div>
-            <div class="message_text">
+            <div class="message_text" style="width:340px;">
                 <p>{{ msg.timestamp|timesince }}</p>
                 <p>{{ msg.text }}</p>
             </div>
@@ -195,7 +197,7 @@ Page {{ number }} of {{ num_pages }}.
 {% endfor %}
 </ul>
 {% else %}
-<p>Информация скрыта.</p>
+<p class="hide_info">Информация скрыта.</p>
 {% endif %}
 <br />
 <h3>Участники группы</h3>
@@ -208,7 +210,7 @@ Page {{ number }} of {{ num_pages }}.
 {% endfor %}
 </ul>
 {% else %}
-<p>Информация скрыта.</p>
+<p class="hide_info">Информация скрыта.</p>
 {% endif %}
 
 </div>
