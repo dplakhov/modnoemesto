@@ -89,7 +89,7 @@ $(document).ready(function(){
     </form>
 {% endif %}
 
-{% if group_messages.object_list and can_view_private %}
+{% if can_view_private %}
     <div class="messages_inbox wall">
         {% for msg in group_messages.object_list %}
 {% include "groups/_comment.html" %}
