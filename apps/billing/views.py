@@ -224,7 +224,7 @@ def cam_view_notify(request):
         total_cost = order.tariff.cost * (settings.TIME_INTERVAL_NOTIFY - extra_time)
         user.cash -= total_cost
         user.save()
-        return 'OK', 0, float(user.cash)/order.tariff.cost
+        return 'OK', 0, int(user.cash/order.tariff.cost)
     result = calc()
     result = ["%s=%s" % (k, urllib.quote(str(v))) for k, v in zip(('info', 'status', 'cash'), result)]
     return HttpResponse('&'.join(result))
