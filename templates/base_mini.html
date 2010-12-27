@@ -154,9 +154,9 @@
 
         <div id="mainContent" style="background:url(/media/images/bg_reg.jpg) no-repeat; position:relative; top:-30px">
         
-        {% if user.is_authenticated %}<div class="marquee" style="color:#08889F; font-size: 18px; height:30px; width:970px; overflow:hidden;">
+        {% if user.is_authenticated %}<div class="marquee" style="color:#08889F; font-size: 18px; height:25px; width:970px; overflow:hidden;">
 			<div class="move" style="overflow:hidden; width:99999px;">
-				<p style="float:left; margin:0; width:970px;">
+				<p style="float:left; margin:0;">
 					{{ request.last_news.text }}&nbsp;
 				</p>
 			</div>
