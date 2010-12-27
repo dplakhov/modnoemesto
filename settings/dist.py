@@ -180,6 +180,7 @@ INSTALLED_APPS = (
     'apps.logging',
     'apps.news',
     'apps.admin_blog',
+    'apps.chat',
 )
 
 
