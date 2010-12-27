@@ -2,11 +2,13 @@
 
 from datetime import datetime
 import time
+import hashlib
 
 from django.core.cache import cache
 from django.utils.encoding import smart_str
 
 from apps.social.documents import User
+from apps.utils.lock import CacheLock
 
 try:
     import json
@@ -27,9 +29,12 @@ class ChatStorage(object):
         return json.dumps(data, ensure_ascii=False)
 
     def all(self):
-        messages = cache.get_many([
+        messages_keys = [
             '%s_%d' % (self.id, i) for i in range(MAX_ITEMS)
-        ])
+        ]
+        lock_key = hashlib.md5("".join(messages_keys)).hexdigest()
+        with CacheLock(lock_key):        
+            messages = cache.get_many(messages_keys)
         
         messages = messages.values()         
         messages.sort()
@@ -46,7 +51,8 @@ class ChatStorage(object):
     
     def put(self, message):
         pointer_key = '%s_p' % (self.id,)
-        pointer = cache.get(pointer_key)
+        with CacheLock(pointer_key):
+            pointer = cache.get(pointer_key)
 
         if pointer is None:
             pointer = 0
@@ -54,10 +60,13 @@ class ChatStorage(object):
             pointer += 1
             pointer = pointer % MAX_ITEMS
         
-        cache.set(pointer_key, pointer)
+        with CacheLock(pointer_key):
+            cache.set(pointer_key, pointer)
         
         message_key = "%s_%d" % (self.id, pointer)
-        cache.set(message_key, message)
+        
+        with CacheLock(message_key):
+            cache.set(message_key, message)
 
 class Chat(object):
     def __init__(self, id):

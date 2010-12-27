@@ -59,12 +59,12 @@ def receive(request):
 
     from models import DATE_FORMAT
     offset = post['offset']
-    json_data = "[]"
+
     if offset == u'0':
-        offset = datetime.now().strftime(DATE_FORMAT)
-    else:
-        storage = ChatStorage(chat_id)
-        json_data = storage.get_by_offset_json(offset)
+        offset = datetime(2000, 01, 01).strftime(DATE_FORMAT)
+
+    storage = ChatStorage(chat_id)
+    json_data = storage.get_by_offset_json(offset)
     
     
     
