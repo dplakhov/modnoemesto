@@ -4,14 +4,14 @@
 
 {% block base_content %}
 {% include "_left_box_menu.html" %}
-<div id="centerColumn">
+<div id="centerColumn" style="width:760px">
 <div id="filter_box">
 <h2>{% trans "Group" %} "{{ group.name }}"</h2>
 {% if group.has_video_conference %}
-<object  width="530" height="515">
+<object  width="750" height="515">
     <embed src="/media/swf/group_{% if is_admin %}admin{% else %}user{% endif %}.swf" quality="high" bgcolor="#869ca7"
         flashvars="myname={{ user.id }}&ip=188.93.21.227&group_id={{ group.id }}&session_key={{ request.session.session_key }}"
-        width="530" height="515" name="sdo_video" align="middle"
+        width="750" height="515" name="sdo_video" align="middle"
         play="true"
         loop="false"
         quality="high"
@@ -21,6 +21,8 @@
     </embed>
 </object>
 {% endif %}
+
+<div style="width:525px;float:left">
 
 {% if is_admin %}
 <div class="friend_request">
@@ -105,7 +107,7 @@ Page {{ number }} of {{ num_pages }}.
 {% endif %}
 </div>
 </div>
-</div>
+
 <div id="rightColumn">
 <div style="padding-top:30px;">
 <table class="group_description">
@@ -119,7 +121,7 @@ Page {{ number }} of {{ num_pages }}.
         <td style="height:10px"></td>
     </tr>
     {% endif %}
-    
+
     {% if group.theme %}
     <tr>
         <th>{% trans "Theme" %}:</th>
@@ -207,5 +209,8 @@ Page {{ number }} of {{ num_pages }}.
 <p>Информация скрыта.</p>
 {% endif %}
 
+</div>
+
+</div>
 </div>
 {% endblock %}
