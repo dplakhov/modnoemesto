@@ -73,7 +73,9 @@ $(document).ready(function(){
 <div style="width:510px;float:left">
 <div class="messages">
     <h3>Комментарии</h3>
-
+{% if not can_view_private %}
+<p class="hide_info">Информация скрыта.</p>
+{% endif %}
 {% if can_send_message %}
     <form method="post" action="" id="send_message_form">
         <div class="answer">
@@ -200,7 +202,7 @@ Page {{ number }} of {{ num_pages }}.
 {% endfor %}
 </ul>
 {% else %}
-<p>Информация скрыта.</p>
+<p class="hide_info">Информация скрыта.</p>
 {% endif %}
 <br />
 <h3>Участники группы</h3>
@@ -213,7 +215,7 @@ Page {{ number }} of {{ num_pages }}.
 {% endfor %}
 </ul>
 {% else %}
-<p>Информация скрыта.</p>
+<p class="hide_info">Информация скрыта.</p>
 {% endif %}
 
 </div>
