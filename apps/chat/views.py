@@ -10,10 +10,19 @@ from django.contrib.auth.models import User
 
 from apps.chat.models import Chat, ChatStorage, Message, MAX_ITEMS
 
+from BeautifulSoup import BeautifulSoup
 
 @login_required
 def send(request):
     message = request.POST.get("message", "")
+    soup = BeautifulSoup(message)
+    message = ''.join(soup.findAll(text=True))
+    words = message.split(' ')     
+    if len(words) >= 500:
+        words = words[:500]
+        message = ' '.join(words)
+         
+    
     chat_id = request.POST.get("chat_id", "")
     
     storage = ChatStorage(chat_id)
