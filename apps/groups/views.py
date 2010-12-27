@@ -159,7 +159,7 @@ def group_edit(request, id=None):
             return redirect(reverse('groups:group_view', args=[id]))
         initial = group._data
     else:
-        initial = {}
+        initial = Group()._data
 
     form = GroupCreationForm(request.POST or None, initial=initial)
 
