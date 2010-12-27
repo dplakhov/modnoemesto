@@ -96,6 +96,25 @@ def group_view(request, id, page=1):
     })
 
 
+def send_message(request, id):
+    if not request.POST:
+        return ''
+    group = get_document_or_404(Group, id=id)
+    if not group.is_active(request.user):
+        return ''
+    form = MessageTextForm(request.POST)
+    if form.is_valid():
+        message = GroupMessage(
+            group=group,
+            sender=request.user,
+            text=form.cleaned_data['text'],
+        )
+        message.save()
+        return direct_to_template(request, 'groups/_comment.html',
+                                  { 'group': group, 'msg': message })
+    return ''
+
+
 def member_list(request, id, format):
     group = get_document_or_404(Group, id=id)
     mimetypes = dict(
@@ -333,13 +352,6 @@ def group_leave_user(request, group, user_id):
 def delete_message(request, group, message_id):
     get_document_or_404(GroupMessage, id=message_id).delete()
     return redirect(reverse('groups:group_view', args=[group.id]))
-
-
-def send_message(request, id):
-    group = get_document_or_404(Group, id=id)
-
-    return direct_to_template(request, 'user_messages/write_message.html',
-                              { 'form': form })
 
 
 @permission_required('groups')
