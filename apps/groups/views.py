@@ -113,7 +113,10 @@ def send_message(request, id):
         )
         message.save()
         return direct_to_template(request, 'groups/_comment.html',
-                                  { 'group': group, 'msg': message })
+                                  { 'group': group,
+                                    'msg': message,
+                                    'is_admin': group.is_admin(request.user) or request.user.is_superuser,
+                                  })
     return ''
 
 
