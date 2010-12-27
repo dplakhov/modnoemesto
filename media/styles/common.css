@@ -1186,6 +1186,11 @@ h3
 	text-align: center;
 /*	padding: 10px 0px 20px 0px;*/
 }
+#rightColumn h3
+{
+	/*text-align: left;*/
+	width: 235px;
+}
 .messages_inbox
 {
 	margin-top: 10px;
@@ -1211,6 +1216,12 @@ p.when
 	/*height: 95px;*/
 	overflow: hidden;
 	border-bottom: 1px dotted #6F6F6F;
+}
+.wall .message_item
+{
+	background: url(../images/bg_about_persone.jpg) repeat-x;
+	border-top: 1px dotted #6F6F6F;
+	border-bottom: none;
 }
 .message_item .friendTable, .mess .friendTable
 {
@@ -1260,8 +1271,8 @@ div.operation p
 	clear: left;
 	overflow: hidden;
 	padding: 7px;
-	border: 7px solid #e5e4d0;
-	width: 420px;
+	border: 2px solid #5AC6D8;
+	width: 430px;
 	margin-left: 80px;
 	background: #FFF;
 }
@@ -1270,7 +1281,7 @@ div.operation p
 	clear: left;
 	overflow: hidden;
 	padding: 7px;
-	border: 7px solid #e5e4d0;
+	border: 2px solid #5AC6D8;
 	background: #FFF;
 }
 .but_0
@@ -1315,18 +1326,18 @@ div.operation p
 	clear: right;
 	overflow: hidden;
 	padding: 7px;
-	border: 7px solid #e5e4d0;
-	width: 420px;
+	border: 3px solid #d9d8bf;
+	width: 430px;
 	margin-right: 80px;
 	background: #FFF;
 }
 .message_text_write
 {
-	width: 260px;
+	width: 270px;
 }
 .message_text_group
 {
-	width: 500px;
+	width: 510px;
 	margin-right: 0;
 }
 .friend_list_online
@@ -1377,7 +1388,15 @@ li.friendTable
 }
 .group_description th, .group_description td
 {
-	color: #FFF;
+	color: #666;
+	text-align: left;
+}
+.group_description th
+{
+	padding-left: 10px;
+}
+.group_description td.empty_filt {
+    width: 10px;
 }
 .but a
 {
