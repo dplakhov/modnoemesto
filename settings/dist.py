@@ -84,7 +84,6 @@ LOGIN_URL = '/login/'
 LOGIN_EXEMPT_URLS = (
     r'^$',
     r'^in_dev/$',
-    r'^about/$',
     r'^static',
     r'^start/$',
     r'^stop/$',
@@ -94,13 +93,18 @@ LOGIN_EXEMPT_URLS = (
     r'^file/',
     r'^avatar/',
     r'^cam/screen/',
+    r'^groups/.*/members\.(xml|txt)',
+    r'^groups/can_manage/',
     r'^activation/',
     r'^media/',
+    r'^invite/',
     r'^lostpassword/',
     r'^resendactivationcode/',
     r'^recoverypassword/',
     ur'^ЕГГОГ',
     r'^captcha/',
+    r'^robots.txt$',
+    r'^billing/camera/notify/',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -149,6 +153,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
     'apps.cam.middleware.PlaceBoxMiddleware',
+    'apps.news.middleware.LastNewsMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -182,6 +187,7 @@ INSTALLED_APPS = (
     'apps.logging',
     'apps.news',
     'apps.admin_blog',
+    'apps.chat',
 )
 
 
@@ -209,11 +215,17 @@ AVATAR_SIZES = (
     (47, 47),
 )
 
-SCREEN_SIZES = (
-    (515, 330),
-    (170, 109),
-    (80, 51),
-)
+SCREEN_SIZES = {
+    'camera_screen_full.png': { 'width': 515, 'height': 330 },
+    'camera_screen_normal.png': { 'width': 170, 'height': 109 },
+    'camera_screen_mini.png': { 'width': 80, 'height': 51 },
+}
+
+GROUP_PHOTO_SIZES = {
+    'group_photo_full.png': { 'width': 200, 'height': 200 },
+    'group_photo_normal.png': { 'width': 60, 'height': 60 },
+    'group_photo_mini.png': { 'width': 47, 'height': 47 },
+}
 
 MAX_USER_MESSAGES_COUNT = 500
 

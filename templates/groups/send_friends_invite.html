@@ -5,17 +5,22 @@
 <div id="content-related">
     <div class="module" id="recent-actions-module">
     <div id="filter_box">
-        <h2>{% trans "Your friends:" %}</h2>
-        {% if user.friends.count %}
+        <h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>
+        <h3>{% trans "Your friends" %}</h3>
+        {% if friends %}
          <ul>
-                {% for user in user.friends.list %}
+                {% for user, can_invite in friends %}
                 	<li class="friendTable">
                     	<div style="float:left">
                     	{% include "includes/user/mini.html" %}
                         </div>
                         <div class="operation">
-                             <p><a class="reference" href="{{ user.get_absolute_url }}">Пригласить в группу</a></p>
-                            </a></p>
+                             <p>{% if can_invite %}
+                                 <a class="reference" href="{% url groups:send_invite group.id user.id %}">Пригласить в группу</a>
+                                 {% else %}
+                                 <a class="reference" href="{% url groups:cancel_invite group.id user.id %}">Отменить приглашение</a>
+                                 {% endif %}
+                             </p>
                 		</div>
                     </li>
                 {% endfor %}

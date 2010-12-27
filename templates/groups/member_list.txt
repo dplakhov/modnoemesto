@@ -1,0 +1,2 @@
+{% for info in list %}{{ info.user.id }} {{ info.user.get_full_name }}
+{% endfor %}

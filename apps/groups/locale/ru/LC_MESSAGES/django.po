@@ -7,18 +7,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-02 12:51+0300\n"
+"POT-Creation-Date: 2010-12-25 19:12+0300\n"
 "PO-Revision-Date: 2010-11-25 17:20+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Language: \n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: forms.py:7
+#: decorators.py:14 views.py:158 views.py:248 views.py:259
+msgid "You are not allowed."
+msgstr "У вас недостаточно прав."
+
+#: forms.py:7 forms.py:47 forms.py:51
 msgid "Name"
 msgstr "Название"
 
@@ -48,8 +52,51 @@ msgstr "Город"
 
 #: forms.py:14
 msgid "Access"
-msgstr "Адрес"
+msgstr "Доступ"
 
-#: forms.py:18 forms.py:19
+#: forms.py:15
+msgid "Has video conference"
+msgstr "Включена видеоконференция"
+
+#: forms.py:26 forms.py:27
 msgid "none selected"
 msgstr "не выбрано"
+
+#: forms.py:34 forms.py:42
+msgid "Does Not Exist"
+msgstr ""
+
+#: views.py:67
+msgid "To send a message, you need to join the group."
+msgstr "Для отправки сообщения, вам нужно вступить в группу."
+
+#: views.py:138 views.py:149 views.py:279
+msgid ""
+"You can not leave the group. Give the administrator rights to another party."
+msgstr ""
+"Вы не можете покинуть группу. Передайте права администратора другому "
+"участнику."
+
+#: views.py:193
+msgid "Photo successfully updated"
+msgstr ""
+
+#: views.py:348
+msgid "You can not delete this group theme."
+msgstr ""
+"Вы не можете удалить эту тему, она используется одной или несколькими "
+"группами."
+
+#: views.py:352
+msgid "Group theme deleted."
+msgstr "Тема удалена."
+
+#: views.py:395
+msgid "You can not delete this group type."
+msgstr ""
+"Вы не можете удалить этот тип, он используется одной или несколькими "
+"группами."
+
+#: views.py:399
+msgid "Group type deleted."
+msgstr "Тип удалён."

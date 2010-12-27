@@ -12,6 +12,8 @@ class GroupCreationForm(forms.Form):
     country = forms.CharField(label=_('Country'), required=False)
     city = forms.CharField(label=_('City'), required=False)
     public = forms.BooleanField(label=_('Access'), required=False)
+    has_video_conference = forms.BooleanField(label=_('Has video conference'),
+                                              required=False)
 
     def __init__(self, *args, **kwarg):
         initial = kwarg.get('initial')
@@ -47,3 +49,7 @@ class ThemeForm(forms.Form):
 
 class TypeForm(forms.Form):
     name = forms.CharField(label=_('Name'), max_length=255)
+
+
+class MessageTextForm(forms.Form):
+    text = forms.CharField(max_length=500, widget=forms.Textarea, required=True)

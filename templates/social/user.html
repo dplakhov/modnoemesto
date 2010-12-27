@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load pytils_numeral %}
 
 {% block css %}
 {{ block.super }}
@@ -14,7 +15,7 @@
 
 {% block content %}
 <div id="left">
-    <h2>{% blocktrans with page_user as page_user %}{{ page_user }}'s home{% endblocktrans %}</h2>
+    <h2>{{ page_user }}</h2>
 	<div class="clear"></div>
        <dl>
             {% if profile.hometown %}<dt>{% trans "Hometown" %}</dt>
@@ -50,7 +51,17 @@
                 <dd>{{ profile.university_status }}</dd>{% endif %}
         </dl>
     </div>
-    
+    <div class="about_persone transparent">
+        <div style="overflow: hidden;">
+            <p>{% trans "Announce" %}</p>
+        </div>
+        <p class="event_announce">
+            {{ profile.announce }}
+        </p>
+    </div>
+
+
+
 </div>
 <div id="right">
 	<div class="own_photo rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
@@ -74,6 +85,7 @@
         <ul>{% url friends:friends_all page_user.id as friends %}
             <li><a href="{{ friends }}">{% trans "Friends" %} ({{ page_user.friends.count }})</a></li>
             <li><a href="{% url user_messages:send_message page_user.id %}">Написать сообшение</a></li>
+            <li>Приглашённые: {{ invitee_count }}</li>
         </ul>
     </div>
     <div class="friend_box transparent">
@@ -91,63 +103,47 @@
     
 </div>
 <div id="content-main" style="clear: both;">
-     <div id="camera">
+     <div id="camera"><a name="cam"></a>
         {% if camera %}
-            <a class="reference" href="{% url billing:get_access_to_camera camera.id %}">{% trans "Get access to camera" %}</a>
+            {% if show_view_access_link %}
+                <a class="reference" href="{% url billing:get_view_access_to_camera camera.id %}">{% trans "Get view access to camera" %}</a>
+            {% endif %}
+            {% if show_manage_access_link %}
+                <a class="reference" href="{% url billing:get_manage_access_to_camera camera.id %}">{% trans "Get manage access to camera" %}</a>
+            {% endif %}
             {% if show_bookmark_button %}
             <a class="reference" href="{% url cam:cam_bookmark_add camera.id %}">{% trans "Bookmark this camera" %}</a>
             {% else %}
             <a class="reference" href="{% url cam:cam_bookmark_delete camera.id %}">{% trans "Remove Bookmark" %}</a>
             {% endif %}
-            {% include "includes/camera.html" %}
-        {% else %}
-            <div class="no_camera">
-            <img src="/media/img/notfound/cam.png" alt="" />
-            <p>
-            {% trans "This user has no registered camera." %}
-            </p>
-            </div>
-        {% endif %}
-    </div>
-
-</div>
-
-
-{% comment %}
-    {% with page_user as user %}
-        {% include "includes/user/midi.html" %}
-    {% endwith %}
-
-{% if show_friend_button %}
-<p>
-    <a href="{% url friends:add page_user.id %}">
-        {% trans "Add to my friends" %}
-    </a>
-</p>
-{% endif %}
-
-<div id="content-main">
-
-    {% if user.is_authenticated %}
-    <div class="messages">
-        <form method="post"
-              action="{% url user_messages:send_message user_id=page_user.id %}">
-        <table summary="{% blocktrans with page_user as page_user%}Leave a message to {{ page_user }}{% endblocktrans %}" width="100%">
-            <caption>{% trans "Leave a message" %}</caption>
-            {{ msgform.as_table }}
-            <tr><td colspan="2"><input type="submit" value="{% trans "Send" %}"/></td></tr>
-        </table>
-        </form>
-    </div>
-    {% endif %}
-
-    <div id="camera">
-        {% if camera %}
-            <a href="{% url billing:get_access_to_camera camera.id %}">{% trans "Get access to camera" %}</a>
-            {% if show_bookmark_button %}
-            <a href="{% url cam:cam_bookmark_add camera.id %}">{% trans "Bookmark this camera" %}</a>
-            {% else %}
-            <a href="{% url cam:cam_bookmark_delete camera.id %}">{% trans "Remove Bookmark" %}</a>
+            {% if camera.is_view_paid and camera.show %}
+                <p>{% trans "The remaining time on the show" %}:
+                    {% if camera.show.days %}{{ camera.show.days}} {{ camera.show.days|choose_plural:"день,дня,дней" }}{% endif %}
+                    {{ camera.show.hours }} {{ camera.show.hours|choose_plural:"час,часа,часов" }}
+                    {{ camera.show.minutes }} {{ camera.show.minutes|choose_plural:"минута,минуты,минут" }}
+                    {{ camera.show.seconds }} {{ camera.show.seconds|choose_plural:"секунда,секунды,секунд" }}</p>
+            {% endif %}
+            {% if camera.is_management_paid and camera.manage %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Пользователь</th>
+                                <th>Начало</th>
+                                <th>Окончание</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in camera.manage %}
+                        <tr>
+                            <td><a href="{% url social:user i.user.id %}">{{ i.user }}</a></td>
+                            <td>{{ i.begin_date|date:"H:i:s" }}</td>
+                            <td>{{ i.end_date|date:"H:i:s" }}</td>
+                            <td>{% if forloop.first %}оператор{% endif %}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
             {% endif %}
             {% include "includes/camera.html" %}
         {% else %}
@@ -161,22 +157,4 @@
     </div>
 
 </div>
-
-<div id="content-related">
-    <div class="module" id="recent-actions-module">
-        <h2>{% blocktrans with page_user as page_user %}{{ page_user }} marked as friends:{% endblocktrans %}</h2>
-          {% if page_user.friends.count %}
-            <ul class="friendTable">
-                {% for user in page_user.friends.list %}
-                    <li>
-                        {% include "includes/user/micro.html" %}
-                    </li>
-                {% endfor %}
-            </ul>
-          {% else %}
-            <p>{% trans "None available" %}</p>
-          {% endif %}
-    </div>
-</div>
-{% endcomment %}
 {% endblock %}

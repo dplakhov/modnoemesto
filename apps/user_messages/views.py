@@ -13,7 +13,7 @@ from .forms import MessageTextForm
 from .documents import Message
 from apps.social.documents import User
 
-#@login_required
+
 def send_message(request, user_id):
     
     from apps.social.documents import User
@@ -36,7 +36,6 @@ def send_message(request, user_id):
                               { 'page_user': recipient, 'msgform': msgform })
 
 
-#@login_required
 def view_inbox(request):
     #@todo: pagination
     #@todo: partial data fetching
@@ -45,7 +44,6 @@ def view_inbox(request):
                               { 'msgs': messages })
 
 
-#@login_required
 def view_sent(request):
     #@todo: pagination
     #@todo: partial data fetching
@@ -59,7 +57,6 @@ def _message_acl_check(message, user):
         raise Http404()
 
 
-#@login_required
 def view_message(request, message_id):
     message = get_document_or_404(Message, id=message_id)
     user = request.user
@@ -73,7 +70,6 @@ def view_message(request, message_id):
                               { 'msg': message })
 
 
-#@login_required
 def delete_message(request, message_id):
     message = get_document_or_404(Message, id=message_id)
     user = request.user

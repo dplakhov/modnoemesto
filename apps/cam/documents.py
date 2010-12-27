@@ -5,8 +5,6 @@ from mongoengine import Document, StringField, ReferenceField, BooleanField, Lis
 
 from apps.utils.reflect import namedClass
 from apps.billing.documents import AccessCamOrder
-from django.core.urlresolvers import reverse
-from django.conf import settings
 from datetime import datetime
 
 
@@ -14,6 +12,7 @@ class CameraType(Document):
     name = StringField(max_length=255, unique=True)
     driver = StringField(max_length=255)
     is_controlled = BooleanField(default=False)
+    is_default = BooleanField(default=False)
 
     @property
     def driver_class(self):
@@ -35,7 +34,7 @@ class Camera(Document):
                   )
     SCREEN_URL_TPL = "/media/img/notfound/screen_%ix%i.png"
 
-    name = StringField(max_length=255)
+    name = StringField(max_length=255, default=unicode(_('New camera')))
 
     owner = ReferenceField('User')
     type = ReferenceField('CameraType')
@@ -57,7 +56,7 @@ class Camera(Document):
 
     is_managed = BooleanField()
 
-    operator = StringField(max_length=64)
+    operator = ReferenceField('User')
 
     force_html5 = BooleanField()
 
@@ -73,23 +72,62 @@ class Camera(Document):
     def driver(self):
         return self.type.driver_class(self)
 
-    def is_user_operator(self, user):
-        return user.name == self.operator
-
-    def can_show(self, user):
-        if user.is_superuser:
-            return True
-        if not (self.is_view_public or user.is_friend):
+    def can_show(self, owner_user, access_user):
+        if not self.is_view_enabled:
             return False
+        if not self.is_view_public:
+            is_friend = access_user.is_authenticated() and \
+                        access_user.friends.contains(owner_user)
+            if not is_friend:
+                return False
         if self.is_view_paid:
-            if not user.is_authenticated():
+            if not owner_user.is_authenticated():
                 return False
+            now = datetime.now()
             order = AccessCamOrder.objects(
-                user=user,
+                user=access_user,
                 camera=self,
-            ).order_by('-create_on').first()
-            if order is None or not order.can_access():
+                end_date__gt=now,
+            ).order_by('-end_date').only('end_date').first()
+            if not order:
                 return False
+            time_left = order.end_date - now
+            data = {}
+            seconds = time_left.seconds
+            data['hours'] = seconds / 3600
+            seconds -= data['hours'] * 3600
+            data['minutes'] = seconds / 60
+            data['seconds'] = seconds - data['minutes'] * 60
+            data['days'] = time_left.days
+            return data
+        return True
+
+    def can_manage(self, owner_user, access_user):
+        if not self.is_management_enabled:
+            return False
+        if not self.is_management_public:
+            is_friend = access_user.is_authenticated() and \
+                        access_user.friends.contains(owner_user)
+            if not is_friend:
+                return False
+        if self.is_management_paid:
+            if not owner_user.is_authenticated():
+                return False
+            now = datetime.now()
+            orders = list(AccessCamOrder.objects(
+                is_controlled=True,
+                camera=self,
+                end_date__gt=now,
+            ).order_by('end_date'))
+            if not orders:
+                if self.operator:
+                    self.operator = None
+                    self.save()
+                return False
+            if orders[0].user == access_user:
+                self.operator = access_user
+                self.save()
+            return orders
         return True
     
     def save(self, *args, **kwargs):
@@ -117,27 +155,6 @@ class Camera(Document):
         if created:
             return True
         return self not in cam_bookmark.cameras
-
-    def get_screen_full(self):
-        return reverse('cam:screen', args=[self.id, "%ix%i" % settings.SCREEN_SIZES[0]])
-
-    def get_screen_normal(self):
-        return reverse('cam:screen', args=[self.id, "%ix%i" % settings.SCREEN_SIZES[1]])
-
-    def get_screen_mini(self):
-        return reverse('cam:screen', args=[self.id, "%ix%i" % settings.SCREEN_SIZES[2]])
-
-    @property
-    def screen_full(self):
-        return self.get_screen_full() if self.screen else Camera.SCREEN_URL_TPL % settings.SCREEN_SIZES[0]
-
-    @property
-    def screen_normal(self):
-        return self.get_screen_normal() if self.screen else Camera.SCREEN_URL_TPL % settings.SCREEN_SIZES[1]
-
-    @property
-    def screen_mini(self):
-        return self.get_screen_mini() if self.screen else Camera.SCREEN_URL_TPL % settings.SCREEN_SIZES[2]
 
 
 class CameraBookmarks(Document):

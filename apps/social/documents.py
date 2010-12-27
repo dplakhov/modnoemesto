@@ -14,7 +14,7 @@ from apps.groups.documents import GroupUser
 from mongoengine.document import Document
 from mongoengine.fields import ReferenceField, StringField, URLField
 from mongoengine.fields import BooleanField, DateTimeField, FloatField
-from mongoengine.fields import ListField
+from mongoengine.fields import ListField, DateTimeField
 from apps.utils.decorators import cached_property
 
 class LimitsViolationException(Exception):
@@ -35,15 +35,79 @@ def get_hexdigest(algorithm, salt, raw_password):
 
 class Profile(Document):
     user = ReferenceField('User')
+    is_active = BooleanField(default=False)
+
     hometown = StringField(max_length=30)
     birthday = StringField(max_length=10)
     sex = StringField(max_length=1)
     icq = StringField(max_length=30)
+
     mobile = StringField(max_length=30)
     website = URLField()
+
     university = StringField(max_length=30)
     department = StringField(max_length=30)
     university_status = StringField(max_length=30)
+
+    announce = StringField(max_length=512,
+                           default=unicode(_('No upcoming events')))
+
+    inviter = ReferenceField('User')
+
+    meta = {
+        'indexes': [
+            'user',
+            'inviter',
+        ]
+    }
+
+class Invite(Document):
+    sender = ReferenceField('User')
+
+    creation_time = DateTimeField(default=datetime.now)
+    registration_time = DateTimeField()
+    activation_time = DateTimeField()
+
+    recipient = ReferenceField('User')
+
+    recipient_email = StringField()
+    recipient_name = StringField()
+    recipient_active = BooleanField(default=False)
+
+    def send(self):
+        email_body = render_to_string('emails/invite.txt',
+                dict(
+                        invite=self,
+                        SITE_DOMAIN=settings.SITE_DOMAIN,
+                     ))
+
+        if settings.DEBUG:
+            print email_body
+
+        if settings.SEND_EMAILS:
+            send_mail(_('Site invite'), email_body,
+            settings.ROBOT_EMAIL_ADDRESS, (self.recipient_email, ),
+            fail_silently=True)
+
+    def register(self, user):
+        self.registration_time = datetime.now()
+        self.recipient = user
+        self.save()
+
+    def on_activate(self):
+        self.activation_time = datetime.now()
+        self.recipient_active = True
+        self.save()
+
+    @classmethod
+    def invitee_count(cls, sender):
+        return cls.objects(sender=sender,
+                           recipient_active=True,
+                           ).count()
+
+    @classmethod
+    def invites_count(cls, sender):
+        return cls.objects(sender=sender).count()
 
 
 class User(Document):
@@ -51,21 +115,27 @@ class User(Document):
     at http://docs.djangoproject.com/en/dev/topics/auth/#users
     """
     username = StringField(max_length=64)
-    full_name = StringField(max_length=90)
+
     first_name = StringField(max_length=64)
     last_name = StringField(max_length=64)
+
     email = StringField(unique=True, required=True)
+
     phone = StringField(max_length=30)
+
     password = StringField(max_length=64)
-    is_staff = BooleanField(default=False)
+
     is_active = BooleanField(default=True)
+
+    is_staff = BooleanField(default=False)
     is_superuser = BooleanField(default=False)
+
     last_login = DateTimeField(default=datetime.now)
     last_access = DateTimeField(default=datetime.now)
     date_joined = DateTimeField(default=datetime.now)
+
     permissions = ListField(StringField())
 
-    # activation stuff
     activation_code = StringField(max_length=12)
 
 
@@ -80,6 +150,9 @@ class User(Document):
         #@todo: check email sending results
         email_body = render_to_string('emails/confirm_registration.txt',
                 { 'user': self, 'SITE_DOMAIN': settings.SITE_DOMAIN })
+
+        if settings.DEBUG:
+            print email_body
 
         if settings.SEND_EMAILS:
             send_mail(_('Confirm registration'), email_body,
@@ -112,11 +185,25 @@ class User(Document):
 
     @cached_property
     def groups(self):
-        return [i.group for i in GroupUser.objects(user=self, is_invite=False).only('group')]
+        return [i.group for i in GroupUser.objects(user=self, status=GroupUser.STATUS.ACTIVE).only('group')]
 
     @cached_property
-    def groups_invite(self):
-        return [i.group for i in GroupUser.objects(user=self, is_invite=True).only('group')]
+    def groups_invites(self):
+        return [i.group for i in GroupUser.objects(user=self, status=GroupUser.STATUS.INVITE).only('group')]
+
+    @cached_property
+    def groups_requests(self):
+        requests = []
+        for i in GroupUser.objects(user=self, status=GroupUser.STATUS.ACTIVE, is_admin=True).only('group'):
+            requests += GroupUser.objects(group=i.group, status=GroupUser.STATUS.REQUEST).all()
+        return requests
+
+    @cached_property
+    def groups_events_count(self):
+        invites = GroupUser.objects(user=self, status=GroupUser.STATUS.INVITE).count()
+        for i in GroupUser.objects(user=self, status=GroupUser.STATUS.ACTIVE, is_admin=True).only('group'):
+            invites += GroupUser.objects(group=i.group, status=GroupUser.STATUS.REQUEST).count()
+        return invites
 
     @property
     def friends(self):
@@ -218,8 +305,16 @@ class User(Document):
         return self.permissions
 
     def get_camera(self):
-        from apps.cam.documents import Camera
-        return Camera.objects(owner=self).first()
+        from apps.cam.documents import Camera, CameraType
+        cam = Camera.objects(owner=self).first()
+        if not cam:
+            cam = Camera(owner=self,
+                         type=CameraType.objects(is_default=True).first(),
+                         is_view_enabled=True,
+                         is_view_public=False,
+                         )
+            cam.save()
+        return cam
 
     def get_absolute_url(self):
         return reverse('social:user',  kwargs=dict(user_id=self.id))

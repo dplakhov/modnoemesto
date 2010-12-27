@@ -7,12 +7,11 @@ from django.conf import settings
 SELF_DIR = dirname(abspath(__file__))
 FONTS_DIR = join(SELF_DIR, 'fonts')
 
-SYMBOLS = getattr(settings, 'CAPTCHA_SYMBOLS', '123456789ABCDEFGHJKLMNPQRSTVXYZ')
+SYMBOLS = getattr(settings, 'CAPTCHA_SYMBOLS', '123456789abcdefghjklmnpqrstvxyz')
 LENGTH = getattr(settings, 'CAPTCHA_LENGTH', 6)
 
 AVAIL_FONTS = getattr(settings, 'CAPTCHA_FONTS', [
-        ('boneca', join(FONTS_DIR, 'boneca.ttf')),
-        ('acidic', join(FONTS_DIR, 'acidic.ttf')),
+        ('acoustic_bass', join(FONTS_DIR, 'acoustic_bass.ttf')),
 ])
 
 FOREGROUND_COLORS = getattr(settings, 'CAPTCHA_FOREGROUND_COLORS', (
@@ -42,14 +41,14 @@ REFRESH_LINK_TEXT = getattr(settings, 'CAPTCHA_REFRESH_LINK_TEXT', u'refresh')
 
 REFRESH = getattr(settings, 'CAPTCHA_REFRESH', False)
 
-HTML_TEMPLATE = getattr(settings, 'CAPTCHA_HTML_TEMPLATE', """
-<img src="%(src)s?%(rnd)s" alt="%(alt)s" width="%(width)s" height="%(height)s" />
+HTML_TEMPLATE = getattr(settings, 'CAPTCHA_HTML_TEMPLATE', ' '.join("""
+<noindex><img src="%(src)s?%(rnd)s" alt="%(alt)s" width="%(width)s" height="%(height)s" /></noindex>
 <input%(input_attrs)s maxlength="%(length)s" />
-""")
+""".split('\n')))
 
-HTML_TEMPLATE_WITH_REFRESH = getattr(settings, 'CAPTCHA_HTML_TEMPLATE_WITH_REFRESH', """
-<img src="%(src)s?%(rnd)s" alt="%(alt)s" width="%(width)s" height="%(height)s" />
+HTML_TEMPLATE_WITH_REFRESH = getattr(settings, 'CAPTCHA_HTML_TEMPLATE_WITH_REFRESH', ' '.join("""
+<noindex><img src="%(src)s?%(rnd)s" alt="%(alt)s" width="%(width)s" height="%(height)s" /></noindex>
 <a onclick="var img=this.previousSibling;if(img.nodeType==document.TEXT_NODE){img=img.previousSibling};img.src=img.src.substring(0,img.src.indexOf('?')+1)+Math.random();return false;"
    href="#refresh" class="supercaptcha-refresh">%(refresh_text)s</a>
 <input%(input_attrs)s maxlength="%(length)s" />
-""")
+""".split('\n')))

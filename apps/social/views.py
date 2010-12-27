@@ -1,70 +1,60 @@
 # -*- coding: utf-8 -*-
+
+import sys
+import re
+
+import datetime
+import logging
+
+from ImageFile import Parser as ImageFileParser
+
 from django.views.generic.simple import direct_to_template
 
 from django.contrib.auth import (SESSION_KEY,
     BACKEND_SESSION_KEY,
     logout as django_logout)
 
-import datetime
-import logging
-
 from django.shortcuts import redirect
 from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseServerError, HttpResponseNotFound
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
-
-from mongoengine.django.shortcuts import get_document_or_404
-
-from documents import (User, LimitsViolationException)
-from forms import ( UserCreationForm, LoginForm, ChangeAvatarForm)
-
-from apps.user_messages.forms import MessageTextForm 
-
-from apps.media.documents import File
-from apps.media.transformations.image import ImageResize
-from apps.groups.documents import Group
-
-from ImageFile import Parser as ImageFileParser
-
-
-from apps.billing.documents import AccessCamOrder
-from apps.social.forms import ChangeProfileForm, LostPasswordForm, SetNewPasswordForm
-import re
-from apps.social.documents import Profile, Setting
 from django.template import Context, loader
-import sys
+
 from django.views.debug import ExceptionReporter
 from django.core.mail.message import EmailMessage
 from django.core.urlresolvers import reverse
-
-
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
-
-from apps.media.tasks import apply_file_transformations
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
 from django.contrib.auth import REDIRECT_FIELD_NAME
+
+
+from mongoengine.django.shortcuts import get_document_or_404
+
+
+from apps.user_messages.forms import MessageTextForm 
+from apps.media.documents import File
+from apps.media.transformations.image import ImageResize
+from apps.groups.documents import Group
+from apps.billing.documents import AccessCamOrder
+from apps.social.forms import ChangeProfileForm, LostPasswordForm
+from apps.social.forms import SetNewPasswordForm, InviteForm
+from apps.social.documents import Profile, Setting
+from apps.utils.stringio import StringIO
+from apps.media.tasks import apply_file_transformations
+
+from forms import ( UserCreationForm, LoginForm, ChangeAvatarForm)
+from documents import (User, LimitsViolationException, Invite)
 
 
 def index(request):
     if not request.user.is_authenticated():
-        return about(request)
-    accs = User.objects(last_access__gt=User.get_delta_time())
+        return _index_unreg(request)
+    accs = User.objects(last_access__gt=User.get_delta_time(), is_active=True)
     return direct_to_template(request, 'index.html', { 'accs': accs })
 
 
-def static(request, page):
-    return direct_to_template(request, 'static/%s.html' % page, {
-        'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })
-    
-def about(request):
-    
-    if request.user.is_authenticated():
-        return direct_to_template(request, 'about.html', {
-            'base_template': "base.html",
-            'is_auth': True })
+def _index_unreg(request):
     from apps.news.documents import News
     reg_form = None
     login_form = None
@@ -82,7 +72,7 @@ def about(request):
     reg_form = reg_form or UserCreationForm()
     login_form = login_form or LoginForm()
     request.session.set_test_cookie()
-    return direct_to_template(request, 'about.html', {
+    return direct_to_template(request, 'index_unreg.html', {
         'base_template': "base_info.html",
         'reg_form': reg_form,
         'login_form': login_form,
@@ -90,6 +80,10 @@ def about(request):
         'news_list': News.objects,
         })
 
+def static(request, page):
+    return direct_to_template(request, 'static/%s.html' % page, {
+        'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })
+    
 def register(request):
     form = UserCreationForm(request.POST)
     if form.is_valid():
@@ -104,7 +98,31 @@ def register(request):
         user.set_password(form.cleaned_data['password1'])
         user.save()
         user.send_activation_code()
+
+        invite_id = request.session.get('invite_id')
+
+        if invite_id:
+            invite = Invite.objects.with_id(invite_id)
+
+            # временная заглушка для неуникальных приглашений
+            inviter = User.objects.with_id(invite_id)
+            if not invite and inviter:
+                invite = Invite(sender=inviter)
+                invite.save()
+            # временная заглушка для неуникальных приглашений end
+
+            if invite:
+                if invite.recipient:
+                    messages.add_message(request, messages.WARNING,
+                             _('The invitation has already been used by another user'))
+                else:
+                    invite.register(user)
+            else:
+                messages.add_message(request, messages.WARNING,
+                             _('Incorrect reference to an invitation'))
+
         return direct_to_template(request, 'registration_complete.html')
+
     return form
 
 def django_login(request, user):
@@ -147,6 +165,11 @@ def activation(request, code=None):
     backend = get_backends()[0]
     user.backend = "%s.%s" % (backend.__module__, backend.__class__.__name__)
     django_login(request, user)
+
+    invite = Invite.objects(recipient=user).first()
+    if invite:
+        invite.on_activate()
+
     return redirect('social:home')
 
 
@@ -181,8 +204,11 @@ def home(request):
     #@todo: need filter
     profile = request.user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
-    
+
+    invitee_count = Invite.invitee_count(request.user)
+
     return direct_to_template(request, 'social/home.html', {
+        'invitee_count': invitee_count,
         'camera': camera,
         'is_owner': True,
         'profile': profile,
@@ -195,22 +221,39 @@ def user(request, user_id=None):
     if page_user == request.user:
         return redirect('social:home')
 
-    page_user.is_friend = request.user.is_authenticated() and \
-                          request.user.friends.contains(page_user)
-
-    show_friend_button = request.user.is_authenticated() and \
-                         request.user.friends.can_add(page_user)
-
     camera = page_user.get_camera()
-    if camera:
-        camera.show = camera.can_show(page_user)
+    profile = page_user.profile
+    profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
     msgform = MessageTextForm()
-    return direct_to_template(request, 'social/user.html',
-                              { 'page_user': page_user, 'msgform': msgform,
-                                'show_friend_button': show_friend_button,
-                                'show_bookmark_button': camera and camera.can_bookmark_add(request.user),
-                                'camera': camera, 
-                                'settings': settings})
+    invitee_count = Invite.invitee_count(page_user)
+    is_friend = not request.user.friends.can_add(page_user)
+
+    data = {
+        'page_user': page_user,
+        'profile': profile,
+        'invitee_count': invitee_count,
+        'msgform': msgform,
+        'show_friend_button': not is_friend,
+        'camera': camera,
+        'settings': settings
+    }
+
+    if camera:
+        data.update({
+            'show_bookmark_button': camera.can_bookmark_add(request.user),
+            'show_view_access_link': camera.is_view_enabled and
+                                     camera.is_view_paid and
+                                     camera.is_view_public or
+                                     is_friend,
+            'show_manage_access_link': camera.is_management_enabled and
+                                       camera.is_managed and
+                                       camera.is_management_paid and
+                                       camera.is_management_public or
+                                       is_friend,
+        })
+        camera.show = camera.can_show(page_user, request.user)
+        camera.manage = camera.can_manage(page_user, request.user)
+    return direct_to_template(request, 'social/user.html', data)
 
 
 def avatar(request, user_id, format):
@@ -302,6 +345,14 @@ def in_dev(request):
 def test_error(request):
     raise Exception()
 
+def test_messages(request):
+    messages.add_message(request, messages.SUCCESS, 'Успех')
+    messages.add_message(request, messages.ERROR, 'Ошибка')
+    messages.add_message(request, messages.WARNING, 'Предупреждение')
+
+    return redirect('social:index')
+
+
 def server_error(request):
     exc_info = sys.exc_info()
     reporter = ExceptionReporter(request, *exc_info)
@@ -370,3 +421,33 @@ def set_new_password(request, code):
     else:
         form = SetNewPasswordForm()
     return direct_to_template(request, 'social/profile/set_new_password.html' , dict(form=form))
+
+def invite_send(request):
+    form = InviteForm(request.POST or None)
+    if form.is_valid():
+        invite = Invite(sender=request.user,
+                        recipient_email=form.cleaned_data['email'],
+                        recipient_name=form.cleaned_data['name'])
+        invite.save()
+        invite.send()
+
+        messages.add_message(request, messages.SUCCESS,
+                             _('Invite sent'))
+
+        return redirect('social:index')
+
+    return direct_to_template(request, 'social/invite_send.html',
+                              dict(form=form))
+
+
+def invite(request, invite_id):
+    if request.user.is_authenticated():
+        messages.add_message(request, messages.ERROR,
+                     _('The invitation is intended only for unregistered users'))
+
+        return redirect('social:index')
+
+    request.session['invite_id'] = invite_id
+
+    return redirect('social:index')
+

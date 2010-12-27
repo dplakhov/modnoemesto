@@ -9,6 +9,7 @@ class Tariff(Document):
     name = StringField(required=True, unique=True, max_length=255)
     description = StringField()
     cost = FloatField(required=True)
+    # in seconds
     duration = IntField(required=False)
 
     # тариф на управление
@@ -50,7 +51,7 @@ class Tariff(Document):
 class AccessCamOrder(Document):
     is_controlled = BooleanField(default=False)
     tariff = ReferenceField('Tariff')
-    # in minutes
+    # in seconds
     duration = IntField(required=True)
     camera = ReferenceField('Camera')
     user = ReferenceField('User')
@@ -59,12 +60,32 @@ class AccessCamOrder(Document):
     cost = FloatField()
     create_on = DateTimeField(default=datetime.now)
 
-    def set_access_period(self, tariff=None):
-        if tariff is None:
-            tariff = self.tariff
-        self.begin_date = datetime.now()
-        duration_complete = self.duration * tariff.duration
-        self.end_date = self.begin_date + timedelta(minutes=duration_complete)
+    def __init__(self, *args, **kwargs):
+        super(AccessCamOrder, self).__init__(*args, **kwargs)
+        self.is_controlled = self.tariff.is_controlled
+
+    def set_access_period(self, is_controlled):
+        now = datetime.now()
+        if is_controlled:
+            last_order = AccessCamOrder.objects(camera=self.camera,
+                                                is_controlled=is_controlled,
+                                                end_date__gt=now)
+        elif self.tariff.is_packet:
+            last_order = AccessCamOrder.objects(user=self.user,
+                                                camera=self.camera,
+                                                is_controlled=is_controlled,
+                                                end_date__gt=now)
+        if self.tariff.is_packet:
+            last_order = last_order.order_by('-end_date').only('end_date').first()
+            self.begin_date = last_order and last_order.end_date or now
+            duration_complete = self.duration * self.tariff.duration
+            self.end_date = self.begin_date + timedelta(seconds=duration_complete)
+        else:
+            if is_controlled:
+                last_order = last_order.order_by('-end_date').only('end_date').first()
+                self.begin_date = last_order and last_order.end_date or now
+            else:
+                self.begin_date = now
 
     def can_access(self):
         return self.status == ACCESS_CAM_ORDER_STATUS.ACTIVE
@@ -75,11 +96,7 @@ class AccessCamOrder(Document):
             return ACCESS_CAM_ORDER_STATUS.WAIT
         dnow = datetime.now()
         if self.begin_date <= dnow:
-            if dnow <= self.end_date:
+            if dnow < self.end_date:
                 return ACCESS_CAM_ORDER_STATUS.ACTIVE
             return ACCESS_CAM_ORDER_STATUS.COMPLETE
         return ACCESS_CAM_ORDER_STATUS.WAIT
-
-    @property
-    def status_label(self):
-        return ACCESS_CAM_ORDER_STATUS.to_text(self.status)

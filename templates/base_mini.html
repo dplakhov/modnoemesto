@@ -7,9 +7,8 @@
     <meta http-equiv="expires" content="0" />
     <meta http-equiv="Cache-control" content="no-cache" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="image_src" href="http://modnoemesto.ru/media/images/logo_m.jpg" />
-    {# <meta name="keywords" content="" /> #}
-    {# <meta name="description" content="" /> #}
+    <meta name="description" content="Модное место - это современная уникальная социальная сеть! Модное место гарантирует весь спектр пользовательских сервисов. Главное достоинство Модного места от других соцсетей - возможность заработка. Это единственная социальная сеть, которая платит пользователям!">
+    <meta name="keywords" content="модное место социальная сеть соцсеть">
 
     <link href="/media/images/favicon.ico" rel="shortcut icon" />
 
@@ -25,15 +24,18 @@
     {# <link href="/rss/" rel="alternate" type="application/rss+xml" /> #}
     {% endblock %}
 
-    <title>{% block title %}Модное место{% endblock %}</title>
+    <title>{% block title %}Модное место - уникальная социальная сеть! Модное место платит участникам!{% endblock %}</title>
 
     {% block js %}
     <script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
+    
+    <script type="text/javascript" src="/media/js/jquery.crawlLine.js"></script>
     <script type="text/javascript" src="/media/js/jquery.corner.js"></script>
     <script type="text/javascript" src="/media/js/jquery.selectbox-0.5.js"></script>
     
     <script type="text/javascript">
         $(document).ready(function(){
+			$('.marquee').crawlLine({crawElement:'.move'});
             $('.rounded').corner();
                                    });
     </script>
@@ -92,9 +94,9 @@
 
         <div id="header">
             {% if request.path == '/' %}
-            <span id="logo" ><img src="/media/images/logo_m.jpg" alt="Модное место" /></span>
+            <span id="logo" ><img src="/media/images/logo_bg.jpg" alt="Модное место" /></span>
             {% else %}
-            <a id="logo" href="/"><img src="/media/images/logo_m.jpg" alt="Модное место" /></a>
+            <a id="logo" href="/"><img src="/media/images/logo_bg.jpg" alt="Модное место" /></a>
             {% endif %}
 <!--
             <div id="serch">
@@ -150,7 +152,19 @@
             </table>
         </div>
 
-        <div id="mainContent" style="background:url(/media/images/bg_reg.jpg) no-repeat">
+        <div id="mainContent" style="background:url(/media/images/bg_reg.jpg) no-repeat; position:relative; top:-30px">
+        
+        {% if user.is_authenticated %}<div class="marquee" style="color:#08889F; font-size: 18px; height:30px; width:970px; overflow:hidden;">
+			<div class="move" style="overflow:hidden; width:99999px;">
+				<p style="float:left; margin:0; width:970px;">
+					{{ request.last_news.text }}&nbsp;
+				</p>
+			</div>
+		</div>
+        {% endif %}
+        
+        
+        
 
 {% if messages %}
 <div class="system_messages">
@@ -171,7 +185,7 @@ here goes the actual content
         <div id="info">
             <ul>
 
-            <li style="padding-left:0"><a href="{% url social:about %}">О проекте</a></li>
+            <li style="padding-left:0"><a href="{% url social:static 'about' %}">О проекте</a></li>
             <li><a href="{% url social:static 'agreement' %}">Пользовательское соглашение</a></li>
             <li><a href="{% url cam:cam_list %}">Модные места</a></li>
             <li><a href="{% url social:static 'support' %}">Скорая техническая помощь</a></li>
@@ -180,8 +194,19 @@ here goes the actual content
             <p id="design">Разработано в <a href="http://www.web-mark.ru/" target="_blank">Web-Mark</a></p>
 
         </div>
+       <div class="counter" style="text-indent:-9000px"> 
+        <!--LiveInternet counter--><script type="text/javascript"><!--
+document.write("<a href='http://www.liveinternet.ru/click' "+
+"target=_blank><img src='//counter.yadro.ru/hit?t44.6;r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random()+
+"' alt='' title='LiveInternet' "+
+"border='0' width='31' height='31'><\/a>")
+//--></script><!--/LiveInternet-->
     </div>
-
+    </div>
 </div>
 
 </body>

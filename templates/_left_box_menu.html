@@ -7,7 +7,7 @@
         <ul>
             {% if user.is_authenticated %}
             <li id="persone"><a href="{% url social:home %}">{{ user }}</a></li>
-            {% if user.get_camera %}
+            {% if not user.get_camera.type.is_default %}
             <li id="money">
                 <div class="q">
                     <p>На моем счету</p>
@@ -30,15 +30,12 @@
 {% endwith %}
             <li id="notes"><a href="{% url notes:note_list %}">Заметки</a></li>
 
-            <li id="group"><a href="{% url groups:user_group_list %}">Группы</a></li>
+            <li id="group"><a href="{% url groups:user_group_list %}">Группы{% if user.groups_events_count %} <b>({{ user.groups_events_count }})</b>{% endif %}</a></li>
             <li id="foto"><p>{% comment %}<a href="{% url media_library:image_index %}">{% endcomment %}Фотографии{% comment %}</a>{% endcomment %}</p></li>
             <li id="video"><p>{% comment %}<a href="{% url social:in_dev %}">{% endcomment %}Видеозаписи{% comment %}</a>{% endcomment %}</p></li>
             <li id="audio"><p>{% comment %}<a href="{% url social:in_dev %}">{% endcomment %}Аудиозаписи{% comment %}</a>{% endcomment %}</p></li>
 
             <li id="meeting"><p>{% comment %}<a href="{% url social:in_dev %}">{% endcomment %}Встречи{% comment %}</a>{% endcomment %}</p></li>
-            {% else %}
-            <li><a href="{% url social:register %}">регистрация</a></li>
-            <li><a href="{% url social:login %}">вход</a></li>
             {% endif %}
             {% if request.user.is_staff %}
                 {% include 'includes/admin_menu.html' %}

@@ -1,3 +1,5 @@
+{% load media %}
+
  {% if not camera.force_html5 %}
             <a style="display:block;width:515px;height:330px" id="flash-player"> </a>
         {% endif %}
@@ -7,7 +9,7 @@
                controls width="515"
                height="330"
                style="display:block"
-               poster="{{ camera.screen_full }}"
+               poster="{% media_url camera.screen camera_screen_full.png %}"
         src="http://vid1.modnoemesto.ru:1935/live/mp4:{{ camera.stream_name }}/playlist.m3u8" />
 
         {% if not camera.force_html5 %}
@@ -26,7 +28,7 @@
                 },
                 playlist: [
                     {
-                        url:'{{ camera.screen_full }}',
+                        url:'{% media_url camera.screen camera_screen_full.png %}',
                         scaling: 'orig'
                     },{
                         autoPlay: false,

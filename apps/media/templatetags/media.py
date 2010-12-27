@@ -16,7 +16,15 @@ class MediaURLNode(Node):
         self.transformation_name = transformation_name
 
     def render(self, context):
-        file = context.get(self.file_obj)
+        path = self.file_obj.split('.')
+        file = context.get(path[0])
+        if file:
+            try:
+                for obj in path[1:]:
+                    file = getattr(file, obj)
+            except AttributeError:
+                file = None
+
         not_found_path = '%snotfound/%s'
         transformation_name = self.transformation_name
         if file:
