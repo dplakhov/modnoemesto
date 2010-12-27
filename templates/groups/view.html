@@ -5,7 +5,6 @@
 {% block js %}
 {{ block.super }}
 <script type="text/javascript">
-var messages_inbox = $('.messages_inbox');
 $(document).ready(function(){
     $("#send_message_form").ajaxForm({
         url: "{% url groups:send_message group.id %}",
@@ -14,8 +13,10 @@ $(document).ready(function(){
             if (data != '') {
                 var messages_inbox = $('.messages_inbox');
                 messages_inbox.prepend(data);
-                var last = $('.message_item:last', messages_inbox);
-                last.remove();
+                if (messages_inbox.children().length > {{ messages_on_page }} ) {
+                    var last = $('.message_item:last', messages_inbox);
+                    last.remove();
+                }
             }
         }
     });

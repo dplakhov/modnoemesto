@@ -59,7 +59,8 @@ def group_view(request, id, page=1):
         else:
             members.append(info.user)
 
-    paginator = Paginator(GroupMessage.objects(group=group), 25, GroupMessage.objects(group=group).count())
+    MESSAGES_ON_PAGE = 25
+    paginator = Paginator(GroupMessage.objects(group=group), MESSAGES_ON_PAGE, GroupMessage.objects(group=group).count())
     try:
         group_messages = paginator.page(page)
     except (EmptyPage, InvalidPage):
@@ -93,6 +94,7 @@ def group_view(request, id, page=1):
         'is_status_request': group.is_request(request.user),
         'group_messages': group_messages,
         'form': form,
+        'messages_on_page': MESSAGES_ON_PAGE,
     })
 
 
