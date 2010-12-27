@@ -141,6 +141,19 @@
                 <tr>
                     <td style="height:10px"></td>
                 </tr>
+                <tr>
+                    <th><label for="id_{{ form.has_video_conference.html_name }}">{{ form.has_video_conference.label }}:</label></th>
+                    <td class="empty_filt"></td>
+                    <td>
+                        {{ form.has_video_conference.errors }}
+                        <div class="input_holder rounded">
+                            {{ form.has_video_conference }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height:10px"></td>
+                </tr>
             </table>
 		</div>
         

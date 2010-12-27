@@ -92,6 +92,20 @@ def group_view(request, id, page=1):
 
 
 @check_admin_right
+def member_list(request, group, format):
+    mimetypes = dict(
+            txt='text/plain',
+            xml='xml/plain',
+                     )
+
+    return direct_to_template(request,
+                              'groups/member_list.%s' % format,
+                              dict(list=GroupUser.objects(group=group,
+                                                          status=GroupUser.STATUS.ACTIVE)),
+                              mimetype=mimetypes[format]
+                              )
+
+@check_admin_right
 def members_manage(request, group):
     admins = []
     members = []
