@@ -26,6 +26,8 @@ class Group(Document):
     country = StringField()
     city = StringField()
     public = BooleanField(default=False)
+    photo = ReferenceField('File')
+    has_video_conference = BooleanField(default=True)
 
     @cached_property
     def members(self):

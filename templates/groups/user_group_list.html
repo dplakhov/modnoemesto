@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load media %}
 {% block content %}
 
 <div id="filter_box">
@@ -33,8 +34,8 @@
 <h2>{% trans "My groups" %}</h2>
     {% for group in groups %}
         <div class="user_group">
-            <a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a>
-        </div>
+            <a href="{% url groups:group_view id=group.id %}"><img src="{% media_url group.photo group_photo_mini.png %}" />
+            {{ group.name }}</a></div>
     {% endfor %}
 
 	<div class="but">

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
@@ -39,9 +38,6 @@ class CameraTypeForm(forms.Form):
                             ]
                     ]
                 )
-
-class ScreenForm(forms.Form):
-    file = forms.FileField(label=_("Image"))
 
 
 class CameraForm(forms.Form):

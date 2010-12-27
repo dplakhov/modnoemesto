@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load media %}
 
 {% block content %}
 <div id="filter_box">
@@ -13,7 +14,7 @@
             <li{% cycle '' ' style="margin-right: 0pt;"' %}>
                 <div class="item">
                 <div class="pop rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
-                <a href="{{ user_path }}"><img alt="{{ cam.name }}" src="{{ cam.screen_normal }}"></a>
+                <a href="{{ user_path }}"><img alt="{{ cam.name }}" src="{% media_url cam.screen camera_screen_normal.png %}"></a>
                 </div>
                 <p class="place"><a href="{{ user_path }}">{{ cam.name }}</a></p>
                 <p class="creater"><a href="{{ user_path }}">{{ cam.owner }}</a></p>

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+from apps.media.forms import PhotoForm
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.views.generic.simple import direct_to_template
 from django.contrib import messages
@@ -17,6 +19,7 @@ from .decorators import check_admin_right
 from apps.groups.documents import GroupTheme, GroupType, GroupUser, GroupMessage
 from apps.groups.forms import ThemeForm, TypeForm
 from apps.social.documents import User
+from django.conf import settings
 
 
 def group_list(request, page=1):
@@ -51,11 +54,12 @@ def group_view(request, id, page=1):
         else:
             members.append(info.user)
 
-    paginator = Paginator(GroupMessage.objects, 25, GroupMessage.objects.count())
+    paginator = Paginator(GroupMessage.objects(group=group), 25, GroupMessage.objects(group=group).count())
     try:
         group_messages = paginator.page(page)
     except (EmptyPage, InvalidPage):
         group_messages = paginator.page(paginator.num_pages)
+
 
     if request.POST:
         if not is_active:
@@ -86,6 +90,20 @@ def group_view(request, id, page=1):
         'form': form,
     })
 
+
+@check_admin_right
+def member_list(request, group, format):
+    mimetypes = dict(
+            txt='text/plain',
+            xml='xml/plain',
+                     )
+
+    return direct_to_template(request,
+                              'groups/member_list.%s' % format,
+                              dict(list=GroupUser.objects(group=group,
+                                                          status=GroupUser.STATUS.ACTIVE)),
+                              mimetype=mimetypes[format]
+                              )
 
 @check_admin_right
 def members_manage(request, group):
@@ -161,6 +179,22 @@ def group_edit(request, id=None):
                                                                       is_new=id is None,
                                                                       is_public=group.public if id else True,
                                                                       group=id and group))
+
+
+@check_admin_right
+def photo_edit(request, group):
+    if request.method != 'POST':
+        form = PhotoForm()
+    else:
+        form = PhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            group.photo = form.fields['file'].save('group_photo', settings.GROUP_PHOTO_SIZES, 'GROUP_PHOTO_RESIZE')
+            group.save()
+            messages.add_message(request, messages.SUCCESS, _('Photo successfully updated'))
+            return HttpResponseRedirect(request.path)
+    return direct_to_template(request, 'groups/photo_edit.html',
+                              dict(form=form, photo=group.photo)
+                              )
 
 
 @check_admin_right

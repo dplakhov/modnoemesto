@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
+
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-from django.conf import settings
-from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.conf import settings
 
 
 from mongoengine.django.shortcuts import get_document_or_404
@@ -19,16 +19,11 @@ from .documents import CameraType
 
 from .forms import CameraTypeForm, CameraForm
 from apps.billing.documents import Tariff
-from .forms import CamFilterForm, ScreenForm
+from .forms import CamFilterForm
+from apps.media.forms import PhotoForm
 from .documents import CameraBookmarks
 
-from ImageFile import Parser as ImageFileParser
-
-from apps.utils.stringio import StringIO
-
 from apps.media.documents import File
-from apps.media.transformations.image import ImageResize
-from apps.media.tasks import apply_file_transformations
 from apps.social.documents import User
 
 
@@ -102,21 +97,6 @@ def cam_edit(request, id=None):
                               )
 
 
-def screen(request, cam_id, format):
-    camera = get_document_or_404(Camera, id=cam_id)
-    if not camera.screen:
-        return redirect('/media/img/notfound/screen_%s.png' % format)
-
-    try:
-        image = camera.screen.get_derivative(format)
-    except File.DerivativeNotFound:
-        return redirect('/media/img/converting/screen_%s.png' % format)
-
-    response = HttpResponse(image.file.read(), content_type=image.file.content_type)
-    response['Last-Modified'] = image.file.upload_date
-    return response
-
-
 def screen_edit(request, id=None):
     if id:
         camera = get_document_or_404(Camera, id=id)
@@ -128,50 +108,16 @@ def screen_edit(request, id=None):
             return redirect('social:home')
 
     if request.method != 'POST':
-        form = ScreenForm()
+        form = PhotoForm()
     else:
-        form = ScreenForm(request.POST, request.FILES)
+        form = PhotoForm(request.POST, request.FILES)
         if form.is_valid():
-            file = request.FILES['file']
-            buffer = StringIO()
-
-            for chunk in file.chunks():
-                buffer.write(chunk)
-
-            buffer.reset()
-            try:
-                parser = ImageFileParser()
-                parser.feed(buffer.read())
-                image = parser.close()
-                image_valid = True
-            except Exception, e:
-                messages.add_message(request, messages.ERROR, _('Invalid image file format'))
-                image_valid = False
-
-            if image_valid:
-                screen = File(type='image')
-                buffer.reset()
-                screen.file.put(buffer, content_type=file.content_type)
-                screen.save()
-
-                camera.screen = screen
-                camera.save()
-
-                transformations = [ ImageResize(name='%sx%s' % (w,h), format='png', width=w, height=h)
-                                    for (w, h) in settings.SCREEN_SIZES ]
-
-                if settings.TASKS_ENABLED.get('SCREEN_RESIZE'):
-                    args = [ screen.id, ] + transformations
-                    apply_file_transformations.apply_async(args=args)
-                else:
-                    screen.apply_transformations(*transformations)
-
-                messages.add_message(request, messages.SUCCESS, _('Screen successfully updated'))
-                return HttpResponseRedirect(request.path)
-
-
+            camera.screen = form.fields['file'].save('camera_screen', settings.SCREEN_SIZES, 'CAM_SCREEN_RESIZE')
+            camera.save()
+            messages.add_message(request, messages.SUCCESS, _('Screen successfully updated'))
+            return HttpResponseRedirect(request.path)
     return direct_to_template(request, 'cam/screen_edit.html',
-                              dict(form=form, camera=camera)
+                              dict(form=form, screen=camera.screen)
                               )
 
 
@@ -180,7 +126,6 @@ def cam_view(request, id):
     return direct_to_template(request, 'cam/cam_view.html',
                               dict(cam=cam)
                               )
-
 
 
 @permission_required('superuser')

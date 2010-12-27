@@ -5,10 +5,7 @@ from mongoengine import Document, StringField, ReferenceField, BooleanField, Lis
 
 from apps.utils.reflect import namedClass
 from apps.billing.documents import AccessCamOrder
-from django.core.urlresolvers import reverse
-from django.conf import settings
 from datetime import datetime
-from apps.billing.constans import ACCESS_CAM_ORDER_STATUS
 
 
 class CameraType(Document):
@@ -160,27 +157,6 @@ class Camera(Document):
         if created:
             return True
         return self not in cam_bookmark.cameras
-
-    def get_screen_full(self):
-        return reverse('cam:screen', args=[self.id, "%ix%i" % settings.SCREEN_SIZES[0]])
-
-    def get_screen_normal(self):
-        return reverse('cam:screen', args=[self.id, "%ix%i" % settings.SCREEN_SIZES[1]])
-
-    def get_screen_mini(self):
-        return reverse('cam:screen', args=[self.id, "%ix%i" % settings.SCREEN_SIZES[2]])
-
-    @property
-    def screen_full(self):
-        return self.get_screen_full() if self.screen else Camera.SCREEN_URL_TPL % settings.SCREEN_SIZES[0]
-
-    @property
-    def screen_normal(self):
-        return self.get_screen_normal() if self.screen else Camera.SCREEN_URL_TPL % settings.SCREEN_SIZES[1]
-
-    @property
-    def screen_mini(self):
-        return self.get_screen_mini() if self.screen else Camera.SCREEN_URL_TPL % settings.SCREEN_SIZES[2]
 
 
 class CameraBookmarks(Document):

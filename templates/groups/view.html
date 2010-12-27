@@ -1,27 +1,53 @@
 {% extends "base_mini.html" %}
 {% load i18n %}
+{% load media %}
 
 {% block base_content %}
 {% include "_left_box_menu.html" %}
 <div id="centerColumn">
 <div id="filter_box">
 <h2>{% trans "Group" %} "{{ group.name }}"</h2>
+{% if group.has_video_conference %}
+<object  width="745" height="515">
+    <embed src="/media/swf/group_{% if is_admin %}admin{% else %}user{% endif %}.swf" quality="high" bgcolor="#869ca7"
+           {% if is_admin %}
+             flashvars="myname=aa&ip=192.168.0.211&username=aa&stream=streamname"
+           {% else %}
+               flashvars="myname=aa&ip=192.168.0.211&username=aa&stream=streamname"
+           {% endif %}
+        width="745" height="515" name="sdo_video" align="middle"
+        play="true"
+        loop="false"
+        quality="high"
+        allowScriptAccess="modnoemesto.ru"
+        type="application/x-shockwave-flash"
+        pluginspage="http://www.adobe.com/go/getflashplayer">
+    </embed>
+</object>
+{% endif %}
+
 {% if is_admin %}
 <div class="friend_request">
         <table style="width:100%"><tr>
-            <td style="width:33%">
+            <td style="width:25%">
                  <a class="reference" href="{% url groups:group_edit group.id %}">{% trans "Edit" %}</a>
             </td>
-            <td style="text-align:center;width:33%">
+            <td style="text-align:center;width:25%">
+                 <a class="reference" href="{% url groups:photo_edit group.id %}">Фотография</a>
+            </td>
+            <td style="text-align:center;width:25%">
                 <a class="reference" href="{% url groups:members_manage group.id %}">Управление участниками</a>
             </td>
-            <td style="text-align:right;width:33%">
+            <td style="text-align:right;width:25%">
                 <a class="reference" href="{% url groups:send_friends_invite group.id %}">Отправить приглашение</a>
             </td>
         </tr></table>
         </div>
         <br />
 {% endif %}
+
+<img src="{% media_url group.photo group_photo_full.png %}" />
+
 
 <div class="messages">
     <h3>{% trans "Messages" %}</h3>
@@ -85,6 +111,7 @@ Page {{ number }} of {{ num_pages }}.
 </div>
 </div>
 <div id="rightColumn">
+
 <table class="group_description">
     {% if group.description %}
     <tr>
