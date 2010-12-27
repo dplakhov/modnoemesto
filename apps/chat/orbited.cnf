@@ -1,9 +1,0 @@
-[listen]
-http://:9999
-stomp://:61613
-
-[access]
-* -> localhost:61613
-
-[global]
-session.ping_interval = 300

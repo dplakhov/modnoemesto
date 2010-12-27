@@ -9,6 +9,7 @@ class Tariff(Document):
     name = StringField(required=True, unique=True, max_length=255)
     description = StringField()
     cost = FloatField(required=True)
+    # in seconds
     duration = IntField(required=False)
 
     # тариф на управление
@@ -50,7 +51,7 @@ class Tariff(Document):
 class AccessCamOrder(Document):
     is_controlled = BooleanField(default=False)
     tariff = ReferenceField('Tariff')
-    # in minutes
+    # in seconds
     duration = IntField(required=True)
     camera = ReferenceField('Camera')
     user = ReferenceField('User')
@@ -69,15 +70,22 @@ class AccessCamOrder(Document):
             last_order = AccessCamOrder.objects(camera=self.camera,
                                                 is_controlled=is_controlled,
                                                 end_date__gt=now)
-        else:
+        elif self.tariff.is_packet:
             last_order = AccessCamOrder.objects(user=self.user,
                                                 camera=self.camera,
                                                 is_controlled=is_controlled,
                                                 end_date__gt=now)
-        last_order = last_order.order_by('-end_date').only('end_date').first()
-        self.begin_date = last_order and last_order.end_date or now
-        duration_complete = self.duration * self.tariff.duration
-        self.end_date = self.begin_date + timedelta(minutes=duration_complete)
+        if self.tariff.is_packet:
+            last_order = last_order.order_by('-end_date').only('end_date').first()
+            self.begin_date = last_order and last_order.end_date or now
+            duration_complete = self.duration * self.tariff.duration
+            self.end_date = self.begin_date + timedelta(seconds=duration_complete)
+        else:
+            if is_controlled:
+                last_order = last_order.order_by('-end_date').only('end_date').first()
+                self.begin_date = last_order and last_order.end_date or now
+            else:
+                self.begin_date = now
 
     def can_access(self):
         return self.status == ACCESS_CAM_ORDER_STATUS.ACTIVE

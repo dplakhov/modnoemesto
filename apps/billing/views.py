@@ -1,20 +1,27 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
+import urllib
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+from django.conf import settings
+from django.contrib.auth import SESSION_KEY
+from django.utils.importlib import import_module
 
 from mongoengine.django.shortcuts import get_document_or_404
 
 from documents import Tariff, AccessCamOrder
 
 from forms import TariffForm, AccessCamOrderForm
-from apps.billing.models import UserOrder
+from apps.billing.models import UserOrder, UserId
 from apps.cam.documents import Camera
 from django.conf import settings
 from apps.billing.constans import TRANS_STATUS, ACCESS_CAM_ORDER_STATUS
 from apps.social.documents import User
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
+from apps.robokassa.forms import RobokassaForm
+
 
 
 @permission_required('superuser')
@@ -55,9 +62,15 @@ def tariff_delete(request, id):
 
 
 def purse(request):
+    robokassa_form = RobokassaForm(initial={
+                         'InvId': UserId.get_id_by_user(request.user),
+                         'Desc': request.user,
+                         'Email': request.user.email,
+                     })
     return direct_to_template(request, 'billing/pay.html', {
         'service': settings.PKSPB_ID,
         'account': request.user.id,
+        'robokassa_form': robokassa_form,
     })
 
 
@@ -67,38 +80,22 @@ def operator(request):
     #@TODO: fix KeyError
     from apps.groups.documents import Group
 
-    class Logger:
-        def __init__(self):
-            self.text = []
-
-        def debug(self, text):
-            self.text.append(text)
-
-        def get_text(self):
-            return '\n'.join(self.text)
-
-    logger = Logger()
-
 
     def before(request):
         if request.GET.get('duser', None) != settings.PKSPB_DUSER or\
            request.GET.get('dpass', None) != settings.PKSPB_DPASS or\
            request.GET.get('sid', None) != '1':
-            logger.debug('1')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         cid = request.GET.get('cid', None)
         if not cid:
-            logger.debug('2')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         try:
             user = User.objects.get(id=cid)
         except User.DoesNotExist:
-            logger.debug('3')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_CID)
         return user
 
     def action_get_info(request, user):
-        logger.debug('4')
         return HttpResponse('status=%i' % TRANS_STATUS.SUCCESSFUL)
 
     def get_pay_params(request):
@@ -116,12 +113,10 @@ def operator(request):
         try:
             params = get_pay_params(request)
         except (ValueError, TypeError):
-            logger.debug('5')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         term, trans, amount = params
         trans_count = UserOrder.objects.filter(trans=trans).count()
         if trans_count > 0:
-            logger.debug('6')
             return HttpResponse('status=%i' % TRANS_STATUS.ALREADY)
         order = UserOrder(
             user_id=user.id,
@@ -132,7 +127,6 @@ def operator(request):
         order.save()
         user.cash += order.amount
         user.save()
-        logger.debug('7')
         return HttpResponse('status=%i&summa=%.2f' % (TRANS_STATUS.SUCCESSFUL, order.amount))
 
     def main(request):
@@ -141,7 +135,6 @@ def operator(request):
             if type(result) == HttpResponse:
                 return result
             if 'uact' not in request.GET:
-                logger.debug('8')
                 return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
             uactf = {
                 'get_info': action_get_info,
@@ -149,36 +142,12 @@ def operator(request):
             }.get(request.GET['uact'])
             if uactf:
                 return uactf(request, result)
-            logger.debug('9')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_UACT)
         except:
-            logger.debug('10')
-            import sys, traceback
-            logger.debug(traceback.format_exc())
+            #import sys, traceback
             return HttpResponse('status=%i' % TRANS_STATUS.INTERNAL_SERVER_ERROR)
 
-    logger.debug("="*80)
-    logger.debug("GET  = %s" % repr(request.GET))
-    logger.debug("POST = %s" % repr(request.POST))
-    logger.debug("="*80)
     response = main(request)
-    logger.debug(response.content)
-    logger.debug("="*80)
-    log_text = logger.get_text()
-
-    import logging
-    LOG_FILENAME = '/tmp/modnoemesto_debug.log'
-    logger = logging.getLogger("simple_example")
-    logger.setLevel(logging.DEBUG)
-    ch = logging.FileHandler(LOG_FILENAME)
-    ch.setLevel(logging.DEBUG)
-    formatter = logging.Formatter("%(asctime)s:%(message)s")
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
-    logger.debug("\n%s" % log_text)
-    logger.removeHandler(ch)
-    ch.close()
-
     return response
 
 
@@ -187,15 +156,18 @@ def get_access_to_camera(request, id, is_controlled):
     if request.POST:
         form = AccessCamOrderForm(is_controlled, request.user, request.POST)
         if form.is_valid():
+            tariff = form.cleaned_data['tariff']
             order = AccessCamOrder(
-                tariff=form.cleaned_data['tariff'],
+                tariff=tariff,
                 duration=form.cleaned_data['duration'],
                 user=request.user,
                 camera=camera,
             )
+            #todo: need transaction
             order.set_access_period(order.is_controlled)
-            request.user.cash -= form.total_cost
-            request.user.save()
+            if tariff.is_packet:
+                request.user.cash -= form.total_cost
+                request.user.save()
             order.cost = form.total_cost
             order.save()
             if order.is_controlled:
@@ -229,3 +201,42 @@ def access_order_list(request, page=1):
     except (EmptyPage, InvalidPage):
         orders = paginator.page(paginator.num_pages)
     return direct_to_template(request, 'billing/access_order_list.html', {'orders':orders})
+
+
+def cam_view_notify(request):
+    def calc():
+        session_key = request.GET.get('session_key', None)
+        order_id = request.GET.get('order_id', None)
+        extra_time = request.GET.get('time', None)
+        if not (session_key and order_id and extra_time):
+            return 'BAD PARAMS',-1
+        if not extra_time.isdigit():
+            return 'BAD TIME', -2
+        extra_time = int(extra_time)
+        if extra_time > settings.TIME_INTERVAL_NOTIFY or extra_time < 0:
+            return 'BAD TIME', -2
+        engine = import_module(settings.SESSION_ENGINE)
+        session = engine.SessionStore(session_key)
+        user_id = session.get(SESSION_KEY, None)
+        if not user_id:
+            return 'BAD SESSION KEY', -3
+        user = User.objects(id=user_id).first()
+        if not user:
+            return 'BAD SESSION KEY', -3
+        order = AccessCamOrder.objects(id=order_id).first()
+        if not order:
+            return 'DOES NOT EXIST ORDER', -4
+        if order.user != user:
+            return 'BAD USER', -5
+        if order.end_date or order.tariff.is_packet:
+            return 'BAD ORDER', -6
+        total_cost = order.tariff.cost * (settings.TIME_INTERVAL_NOTIFY - extra_time)
+        user.cash -= total_cost
+        user.save()
+        time_left = order.get_time_left(user.cash)
+        if time_left > settings.TIME_INTERVAL_NOTIFY:
+            time_left = settings.TIME_INTERVAL_NOTIFY
+        return 'OK', 0, time_left
+    result = calc()
+    result = ["%s=%s" % (k, urllib.quote(str(v))) for k, v in zip(('info', 'status', 'cash'), result)]
+    return HttpResponse('&%s' % ('&'.join(result)))

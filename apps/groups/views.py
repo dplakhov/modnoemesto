@@ -1,25 +1,30 @@
 # -*- coding: utf-8 -*-
-from apps.media.forms import PhotoForm
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponseNotFound, HttpResponseRedirect, HttpResponse
 from django.shortcuts import redirect
+from django.utils.importlib import import_module
 from django.views.generic.simple import direct_to_template
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.core.paginator import EmptyPage, InvalidPage
-from apps.utils.paginator import Paginator
+from django.conf import settings
+from django.contrib.auth import SESSION_KEY
 
 from mongoengine.django.shortcuts import get_document_or_404
 
-from .forms import GroupCreationForm, MessageTextForm
-from .documents import Group
-from .decorators import check_admin_right
-
-from apps.groups.documents import GroupTheme, GroupType, GroupUser, GroupMessage
-from apps.groups.forms import ThemeForm, TypeForm
+from apps.utils.paginator import Paginator
 from apps.social.documents import User
-from django.conf import settings
+from apps.media.forms import PhotoForm
+
+
+from .forms import GroupCreationForm, MessageTextForm
+from .forms import ThemeForm, TypeForm
+
+from .documents import Group
+from .documents import GroupTheme, GroupType, GroupUser, GroupMessage
+
+from .decorators import check_admin_right
 
 
 def group_list(request, page=1):
@@ -91,8 +96,8 @@ def group_view(request, id, page=1):
     })
 
 
-@check_admin_right
-def member_list(request, group, format):
+def member_list(request, id, format):
+    group = get_document_or_404(Group, id=id)
     mimetypes = dict(
             txt='text/plain',
             xml='xml/plain',
@@ -104,6 +109,36 @@ def member_list(request, group, format):
                                                           status=GroupUser.STATUS.ACTIVE)),
                               mimetype=mimetypes[format]
                               )
+
+
+def can_manage(request):
+    def calc():
+        session_key = request.GET.get('session_key')
+        group_id = request.GET.get('group_id')
+        if not (session_key and group_id):
+            return 'BAD PARAMS'
+        engine = import_module(settings.SESSION_ENGINE)
+        session = engine.SessionStore(session_key)
+        user_id = session.get(SESSION_KEY, None)
+        if not user_id:
+            return 'BAD SESSION KEY'
+        user = User.objects.with_id(user_id)
+        if not user:
+            return 'BAD SESSION KEY'
+
+        group = Group.objects.with_id(group_id)
+        if not group:
+            return 'BAD PARAMS'
+
+        group_user = GroupUser.objects(user=user, group=group).first()
+
+        if user.is_superuser or (group_user and group_user.is_admin):
+            return 'OK'
+
+        return 'ACCESS_DENIED'
+
+    return HttpResponse('&result=%s' % calc(), mimetype='text/plain')
+
 
 @check_admin_right
 def members_manage(request, group):
@@ -159,7 +194,7 @@ def group_edit(request, id=None):
             return redirect(reverse('groups:group_view', args=[id]))
         initial = group._data
     else:
-        initial = {}
+        initial = Group()._data
 
     form = GroupCreationForm(request.POST or None, initial=initial)
 

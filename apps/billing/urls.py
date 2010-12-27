@@ -14,4 +14,5 @@ urlpatterns = patterns('apps.billing.views',
     url(r'^orders/(?P<page>\d+)/$', 'order_list', name='order_list_page'),
     url(r'^access_orders/$', 'access_order_list', name='access_order_list'),
     url(r'^access_orders/(?P<page>\d+)/$', 'access_order_list', name='access_order_list_page'),
+    url(r'^camera/notify/$', 'cam_view_notify', name='cam_view_notify'),
 )
