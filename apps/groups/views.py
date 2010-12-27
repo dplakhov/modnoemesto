@@ -116,19 +116,19 @@ def can_manage(request):
         session_key = request.GET.get('session_key')
         group_id = request.GET.get('group_id')
         if not (session_key and group_id):
-            return 'BAD PARAMS'
+            return 'BAD_PARAMS'
         engine = import_module(settings.SESSION_ENGINE)
         session = engine.SessionStore(session_key)
         user_id = session.get(SESSION_KEY, None)
         if not user_id:
-            return 'BAD SESSION KEY'
+            return 'BAD_SESSION KEY'
         user = User.objects.with_id(user_id)
         if not user:
-            return 'BAD SESSION KEY'
+            return 'BAD_USER'
 
         group = Group.objects.with_id(group_id)
         if not group:
-            return 'BAD PARAMS'
+            return 'BAD_GROUP'
 
         group_user = GroupUser.objects(user=user, group=group).first()
 
