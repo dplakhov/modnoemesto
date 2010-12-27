@@ -91,8 +91,8 @@ def group_view(request, id, page=1):
     })
 
 
-@check_admin_right
-def member_list(request, group, format):
+def member_list(request, id, format):
+    group = get_document_or_404(Group, id=id)
     mimetypes = dict(
             txt='text/plain',
             xml='xml/plain',
@@ -159,7 +159,7 @@ def group_edit(request, id=None):
             return redirect(reverse('groups:group_view', args=[id]))
         initial = group._data
     else:
-        initial = {}
+        initial = Group()._data
 
     form = GroupCreationForm(request.POST or None, initial=initial)
 
