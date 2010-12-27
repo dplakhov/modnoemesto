@@ -19,7 +19,6 @@ def send(request):
     storage = ChatStorage(chat_id)
     message = Message(request.user.pk, message)
     storage.put(message)
-    print storage.all() 
     return HttpResponse('')
 
 def mock_messages(request):
