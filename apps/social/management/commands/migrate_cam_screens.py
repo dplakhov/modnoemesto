@@ -5,18 +5,19 @@ from apps.media.documents import File
 from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):
-
     def handle(self, *args, **options):
         for cam in Camera.objects:
             if cam.screen:
+                print cam.name
                 for old_label, new_label in (
-                    ('screen_515x330.png','camera_screen_full.png'),
-                    ('screen_170x109.png','camera_screen_normal.png'),
-                    ('screen_80x51.png','camera_screen_mini.png'),
-                ):
+                    ('515x330','camera_screen_full.png'),
+                    ('170x109','camera_screen_normal.png'),
+                    ('80x51','camera_screen_mini.png'),
+                    ):
                     try:
                         derivative = cam.screen.modifications[old_label]
                     except File.DerivativeNotFound:
+                        print old_label, 'not found'
                         continue
                     derivative.transformation = new_label
                     derivative.save()
