@@ -1,103 +1,32 @@
 {% block js %}
 {{ block.super }}
 {% if user.is_authenticated %}
-<script>
-	var CHAT_SETTINGS = {
-		NICK: "{{ request.user.get_full_name }}",
-		ROOM: "{{ camera.pk }}",
-		ORBITED_HOST: "{{ settings.CHAT_ORBITED_HOST }}",
-		ORBITED_PORT: "{{ settings.CHAT_ORBITED_PORT }}",
-		STOMP_HOST: "{{ settings.CHAT_STOMP_HOST }}",
-		STOMP_PORT: "{{ settings.CHAT_STOMP_PORT }}"
-	};	
-</script>
-
-
-        <script src="/media/js/json2.min.js"></script>
-        <script src="/media/js/orbited/Orbited.js"></script>
-        <script>
-	        // set the orbited settings and port
-	        Orbited.settings.hostname = window.CHAT_SETTINGS.ORBITED_HOST;
-	        Orbited.settings.port = window.CHAT_SETTINGS.ORBITED_PORT;
-			
-//		    Orbited.util.chooseTransport = function() {
-//		        return Orbited.CometTransports.LongPoll;
-//		    }
-			
-	        //Orbited.settings.streaming = false;
-	        TCPSocket = Orbited.TCPSocket;
-			
-        </script>
+	<script>
+	$(document).ready(function(){
+        init_chat("{{ camera.id }}", {{ settings.CHAT_POLLING_TIME }});
+		$('#send_comment').click(function(event){
+		    $.ajax({
+		        type: 'POST',
+		        data: {
+					chat_id: window.chat_room_id,
+					message: $('#message').val()
+				},
+		        url:'/chat/send/',
+				dataType: 'json',
+				success: function (json) {
+					$('#message').val("");
+				}        
+		    });			
+		});
 		
-		<script>document.domain = document.domain;</script>
+		$('#receive').click(function(event){
+			get_messages();
+		});
 		
-        <script src="/media/js/orbited/protocols/stomp/stomp.js"></script>
-
-        <script type="text/javascript" charset="utf-8">
-
-            function add_message(msg) {
-                $("<p>" + msg["user"] + ": " + msg["message"] + "</p>").appendTo("#chat")
-            };
-            $(document).ready(function() {
-                var stomp = new STOMPClient();
-                stomp.onopen = function(){
-                    //console.log("opening stomp client");
-                };
-                stomp.onclose = function(c){
-                    stomp.unsubscribe(window.CHAT_SETTINGS.ROOM);
-                    $.post("/chat/unsubscribe/", {
-						"cam_id": window.CHAT_SETTINGS.ROOM
-					});					
-                    alert('Lost Connection, Code: ' + c);
-                };
-                stomp.onerror = function(error){
-                    alert("Error: " + error);
-                };
-                stomp.onerrorframe = function(frame){
-                    alert("Error: " + frame.body);
-                };
-                stomp.onconnectedframe = function(){
-                    //console.log("Connected. Subscribing");
-                    //alert("subscribing");
-					//stomp.subscribe("/messages");
-                    stomp.subscribe(window.CHAT_SETTINGS.ROOM);
-                    $.post("/chat/subscribe/", {
-						"cam_id": window.CHAT_SETTINGS.ROOM
-					});					
-                };
-                stomp.onmessageframe = function(frame){
-                    // Presumably we should only receive message frames with the
-                    // destination "/topic/message" because that's the only destination
-                    // to which we've subscribed. To handle multiple destinations we
-                    // would have to check frame.headers.destination.
-                    add_message(JSON.parse(frame.body));
-                };
-				
-                stomp.connect(
-					window.CHAT_SETTINGS.STOMP_HOST,
-					window.CHAT_SETTINGS.STOMP_PORT
-				);
-
-                $("#send_comment").click(function(data) {
-                    var message = $("#message").val()
-                    $.post("/chat/send/", {
-						"message":message, 
-						"cam_id": window.CHAT_SETTINGS.ROOM
-					});
-					$("#message").val("");
-                })
-				
-				stomp.debug = function(str) {
-					// append the debug log to a #debug div somewhere in the page using JQuery:
-					// $("#debug").append(str + "\n");
-				};
-            });
-
-        </script>
-
-
-
-
+		
+	})
+	</script>
+	<script src="/media/js/chat.js"></script>
 {% endif %}
 {% endblock %}
 
@@ -133,5 +62,6 @@
 	        <p class="send_mass">Отправить собщение в чат:</p>
 	        	<textarea id="message" class="com" name="message"></textarea>
 	            <input id="send_comment" type="submit" class="sub" value="отправить" />
+				<!--input id="receive" type="submit" class="sub" value="receive" /-->
 	        </div>
 	    </div>

@@ -1,61 +1,120 @@
+# -*- encoding: UTF-8 -*-
+
 from datetime import datetime
-import json
 
+from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response
-from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.template import RequestContext
+from django.contrib.auth.models import User 
 
-#from models import Message
-
-import stomp
-from django.conf import settings
+from apps.chat.models import Chat, ChatStorage, Message, MAX_ITEMS
 
 
-def get_destination(request):
-    cam_id = request.POST.get("cam_id", "")
-#    destination = '/queue/%s' % (cam_id, )
-#    destination = '/messages'
-    return cam_id
-    
-
-def subscribe(request):
-    cam_id = request.POST.get("cam_id", "")
-    if cam_id in settings.CHAT_CONNECTIONS:
-        conn = settings.CHAT_CONNECTIONS[cam_id]
-    else:
-        conn = stomp.Connection()
-        conn.start()
-        conn.connect()
-        destination = get_destination(request)
-        conn.subscribe(destination=destination, ack='auto')
-        settings.CHAT_CONNECTIONS[cam_id] = conn
-    
-    return HttpResponse("ok") 
-    
-def unsubscribe(request):
-    cam_id = request.POST.get("cam_id", "")
-    if cam_id in settings.CHAT_CONNECTIONS:
-        conn = settings.CHAT_CONNECTIONS[cam_id]
-        destination = get_destination(request)
-        conn.unsubscribe(destination=destination)
-        del settings.CHAT_CONNECTIONS[cam_id]
-    
-    return HttpResponse("ok")
-
+@login_required
 def send(request):
-    user = request.user.get_full_name()
-    cam_id = request.POST.get("cam_id", "")
     message = request.POST.get("message", "")
-    destination = get_destination(request)
-    time = datetime.now()
+    chat_id = request.POST.get("chat_id", "")
     
-    msg_to_send = json.dumps({
-        "user":user,
-        "message":message, 
-        "time":time.strftime("%H:%S-%d/%m/%Y")
-    })
+    storage = ChatStorage(chat_id)
+    message = Message(request.user.pk, message)
+    storage.put(message)
+    print storage.all() 
+    return HttpResponse('')
+
+def mock_messages(request):
+    chat_id = request.POST.get('id')
+    user_id = request.user.pk
+    storage = ChatStorage(chat_id)
     
-    if cam_id in settings.CHAT_CONNECTIONS:
-        conn = settings.CHAT_CONNECTIONS[cam_id]
-        conn.send(msg_to_send, destination=destination)
-        
-    return HttpResponse("ok")
+    text = "test message %d"
+    messages = []
+    for i in range(MAX_ITEMS + 7):
+        message = Message(user_id, text % i)
+        messages.append(message)
+        storage.put(message)    
+    
+
+@login_required
+def sync(request):
+    chat_id = request.POST.get('id')
+    storage = ChatStorage(chat_id)
+    
+    #mock_messages(request)
+    
+    return HttpResponse(storage.all_json())
+
+@login_required
+def receive(request):
+    if request.method != 'POST':
+        raise Http404
+    post = request.POST
+
+    if not post.get('chat_id', None) or not post.get('offset', None):
+        raise Http404
+    
+    try:
+        chat_id = post['chat_id']
+    except:
+        raise Http404
+
+    from models import DATE_FORMAT
+    offset = post['offset']
+    json_data = "[]"
+    if offset == u'0':
+        offset = datetime.now().strftime(DATE_FORMAT)
+    else:
+        storage = ChatStorage(chat_id)
+        json_data = storage.get_by_offset_json(offset)
+    
+    
+    
+    return HttpResponse(json_data)
+
+
+@login_required
+def join(request):
+    p = request.POST
+    return HttpResponse('')
+
+
+@login_required
+def leave(request):
+    p = request.POST
+    return HttpResponse('')
+
+
+@login_required
+def index(request):
+    messages = []
+    return render_to_response('chat/chat.html', 
+                              {
+                               'messages': messages
+                              }, 
+                              context_instance=RequestContext(request))
+
+
+def jsonify(object, fields=None, to_dict=False):
+    '''Simple convert model to json'''
+    try:
+        import json
+    except:
+        import django.utils.simplejson as json
+ 
+    out = []
+    if type(object) not in [dict,list,tuple] :
+        for i in object:
+            tmp = {}
+            if fields:
+                for field in fields:
+                    tmp[field] = unicode(i.__getattribute__(field))
+            else:
+                for attr, value in i.__dict__.iteritems():
+                    tmp[attr] = value
+            out.append(tmp)
+    else:
+        out = object
+    if to_dict:
+        return out
+    else:
+        return json.dumps(out)
