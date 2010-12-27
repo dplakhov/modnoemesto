@@ -2,14 +2,14 @@
 {% load i18n %}
 \{% load media %}
 {% block content %}
-<div id="filter_box">
+<div id="filter_box" style="overflow:hidden">
     <h2>{% trans "Available groups" %}</h2>
-        <a class="reference" href="{% url groups:group_add %}">{% trans "Create group" %}</a>
+        <div><a class="reference" href="{% url groups:group_add %}">{% trans "Create group" %}</a></div>
 
         {% for group in groups.object_list %}
             <div class="group_list">
-                <a href="{% url groups:group_view id=group.id %}"><img src="{% media_url group.photo group_photo_mini.png %}" />
-                {{ group.name }}</a></div>
+                <div class="group_ava"><a href="{% url groups:group_view id=group.id %}"><img src="{% media_url group.photo group_photo_mini.png %}" /></a></div>
+                <div class="group_info"><a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a></div></div>
         {% endfor %}
 </div>
 

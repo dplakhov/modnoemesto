@@ -1158,11 +1158,23 @@ a.reference
 .group_list
 {
 	margin-top: 10px;
+	float: left;
+	overflow: hidden;
 }
 .group_list a
 {
 	margin-bottom: 5px;
 	color: #6F6F6F;
+}
+.group_ava
+{
+	width:70px; 
+	float:left;
+}
+.group_info
+{
+	width:180px; 
+	margin-left: 70px;
 }
 .messages
 {
@@ -1394,6 +1406,7 @@ li.friendTable
 .group_description th
 {
 	padding-left: 10px;
+	vertical-align: top;
 }
 .group_description td.empty_filt {
     width: 10px;
@@ -1447,6 +1460,7 @@ div.system_messages li.warning {
 .pagination
 {
 	margin-top: 10px;
+	clear: both;
 }
 .pagination span
 {
