@@ -88,11 +88,13 @@ LOGIN_EXEMPT_URLS = (
     r'^start/$',
     r'^stop/$',
     r'^pay/pskb/$',
+    r'^pay/robokassa/',
     r'^register/$',
     r'^file/',
     r'^avatar/',
     r'^cam/screen/',
     r'^groups/.*/members\.(xml|txt)',
+    r'^groups/can_manage/',
     r'^activation/',
     r'^media/',
     r'^invite/',
@@ -172,6 +174,7 @@ INSTALLED_APPS = (
     #'mongoengine.django.auth',
     'djcelery',
     'pytils',
+    'apps.robokassa',
     'apps.social',
     'apps.media',
     'apps.cam',
@@ -184,6 +187,7 @@ INSTALLED_APPS = (
     'apps.logging',
     'apps.news',
     'apps.admin_blog',
+    'apps.chat',
 )
 
 

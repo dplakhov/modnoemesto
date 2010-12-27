@@ -16,6 +16,8 @@ urlpatterns = patterns('apps.groups.views',
        url(r'^(?P<id>[a-f0-9]{24})/edit/$', 'group_edit', name='group_edit'),
        url(r'^(?P<id>[a-f0-9]{24})/manage/$', 'members_manage', name='members_manage'),
 
+       url(r'^can_manage/$', 'can_manage', name='can_manage'),
+
        url(r'^(?P<id>[a-f0-9]{24})/photo/edit/$', 'photo_edit', name='photo_edit'),
 
        url(r'^(?P<id>[a-f0-9]{24})/give_admin_right/(?P<user_id>[a-f0-9]{24})/$', 'give_admin_right', name='give_admin_right'),
@@ -48,4 +50,5 @@ urlpatterns = patterns('apps.groups.views',
        url(r'^types/add/$', 'type_edit', name='type_add'),
        url(r'^types/(?P<id>[a-f0-9]{24})/edit/$', 'type_edit', name='type_edit'),
        url(r'^types/(?P<id>[a-f0-9]{24})/delete/$', 'type_delete', name='type_delete'),
+
 )
