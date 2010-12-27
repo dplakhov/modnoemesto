@@ -93,6 +93,7 @@ LOGIN_EXEMPT_URLS = (
     r'^avatar/',
     r'^cam/screen/',
     r'^groups/.*/members\.(xml|txt)',
+    r'^groups/can_manage/',
     r'^activation/',
     r'^media/',
     r'^invite/',
