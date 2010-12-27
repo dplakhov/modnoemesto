@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.utils.translation import ugettext_lazy as _
-from django.db.models import Q
+from mongoengine import Q
 
 from mongoengine import Document, StringField, ReferenceField, BooleanField, ListField, DateTimeField
 
@@ -118,7 +118,7 @@ class Camera(Document):
                 return False
             now = datetime.now()
             orders = list(AccessCamOrder.objects(
-                end_date__gt=now,
+                Q(end_date__gt=now) | Q(end_date__exists=True),
                 is_controlled=True,
                 camera=self,
             ).order_by('create_on'))
@@ -127,14 +127,9 @@ class Camera(Document):
                     self.operator = None
                     self.save()
                 return False
-            order = orders[0]
-            if order.tariff.is_packet:
-                if order.user == access_user:
-                    self.operator = access_user
-                    self.save()
-            else:
-                #todo: need code...
-                pass
+            if orders[0].user == access_user:
+                self.operator = access_user
+                self.save()
             return orders
         return True
     
