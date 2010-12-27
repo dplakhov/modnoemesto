@@ -15,17 +15,22 @@
 {% block content %}
 <div id="filter_box">
     {% if not is_new %}<h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>{% endif %}
-    <h3>{% if is_new %}{% trans "Group creation" %}{% else %}{% trans "Group edit" %}{% endif %}</h3>
+    <h2>{% if is_new %}{% trans "Group creation" %}{% else %}{% trans "Group edit" %}{% endif %}</h2>
 
 	 <form method="post">
     <div class="filt rounded">
        
             <table class="group_add">
                 <tr>
+                    <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px">{{ form.name.errors }}</td>
+                </tr>
+                <tr>
                     <th><label for="id_{{ form.name.html_name }}">{{ form.name.label }}:</label></th>
                     <td class="empty_filt"></td>
                     <td>
-                        {{ form.name.errors }}
+                        
                         <div class="input_holder rounded">
                             {{ form.name }}
                         </div>
@@ -33,12 +38,14 @@
                 </tr>
                 <tr>
                     <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px">{{ form.description.errors }}</td>
                 </tr>
                 <tr>
                     <th><label for="id_{{ form.description.html_name }}">{{ form.description.label }}:</label></th>
                     <td class="empty_filt"></td>
                     <td>
-                        {{ form.description.errors }}
+                        
                         <div class="input_holder rounded">
                             {{ form.description }}
                         </div>
@@ -46,38 +53,43 @@
                 </tr>
                 <tr>
                     <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px">{{ form.theme.errors }}</td>
                 </tr>
                 <tr>
                     <th><label for="id_{{ form.theme.html_name }}">{{ form.theme.label }}:</label></th>
                     <td class="empty_filt"></td>
                     <td>
-                        {{ form.theme.errors }}
+                        
                         <div>
                             {{ form.theme }}
                         </div>
                     </td>
                 </tr>
-                <tr>
+                 <tr>
                     <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px">{{ form.type.errors }}</td>
                 </tr>
                 <tr>
                     <th><label for="id_{{ form.type.html_name }}">{{ form.type.label }}:</label></th>
                     <td class="empty_filt"></td>
                     <td>
-                        {{ form.type.errors }}
                         <div>
                             {{ form.type }}
                         </div>
                     </td>
                 </tr>
-                <tr>
+                 <tr>
                     <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px">{{ form.site.errors }}</td>
                 </tr>
                 <tr>
                     <th><label for="id_{{ form.site.html_name }}">{{ form.site.label }}:</label></th>
                     <td class="empty_filt"></td>
                     <td>
-                        {{ form.site.errors }}
+                        
                         <div class="input_holder rounded">
                             {{ form.site }}
                         </div>
@@ -85,12 +97,14 @@
                 </tr>
                 <tr>
                     <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px">{{ form.country.errors }}</td>
                 </tr>
                 <tr>
                     <th><label for="id_{{ form.country.html_name }}">{{ form.country.label }}:</label></th>
                     <td class="empty_filt"></td>
                     <td>
-                        {{ form.country.errors }}
+                        
                         <div class="input_holder rounded">
                             {{ form.country }}
                         </div>
@@ -98,12 +112,14 @@
                 </tr>
                 <tr>
                     <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px"> {{ form.city.errors }}</td>
                 </tr>
                 <tr>
                     <th><label for="id_{{ form.city.html_name }}">{{ form.city.label }}:</label></th>
                     <td class="empty_filt"></td>
                     <td>
-                        {{ form.city.errors }}
+                       
                         <div class="input_holder rounded">
                             {{ form.city }}
                         </div>
@@ -111,6 +127,8 @@
                 </tr>
                 <tr>
                     <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px"> {{ form.public.errors }}</td>
                 </tr>
                 <tr>
                     <th><label for="id_{{ form.public.html_name }}">{{ form.public.label }}:</label></th>
@@ -140,15 +158,14 @@
                 </tr>
                 <tr>
                     <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px"> {{ form.has_video_conference.errors }}</td>
                 </tr>
                 <tr>
                     <th><label for="id_{{ form.has_video_conference.html_name }}">{{ form.has_video_conference.label }}:</label></th>
                     <td class="empty_filt"></td>
                     <td>
-                        {{ form.has_video_conference.errors }}
-                        <div class="input_holder rounded">
                             {{ form.has_video_conference }}
-                        </div>
                     </td>
                 </tr>
                 <tr>

@@ -8,10 +8,10 @@
 <div id="filter_box">
 <h2>{% trans "Group" %} "{{ group.name }}"</h2>
 {% if group.has_video_conference %}
-<object  width="745" height="515">
+<object  width="530" height="515">
     <embed src="/media/swf/group_{% if is_admin %}admin{% else %}user{% endif %}.swf" quality="high" bgcolor="#869ca7"
         flashvars="myname={{ user.id }}&ip=188.93.21.227&group={{ group.id }}&session_key={{ request.session.session_key }}"
-        width="745" height="515" name="sdo_video" align="middle"
+        width="530" height="515" name="sdo_video" align="middle"
         play="true"
         loop="false"
         quality="high"
@@ -46,13 +46,13 @@
 
 
 <div class="messages">
-    <h3>{% trans "Messages" %}</h3>
+    <h3>Комментарии</h3>
 
 {% if can_send_message %}
     <form method="post" action="">
         <div class="answer">
             <div class="message_text_group rounded">
-                <textarea name="text" cols="78" rows="5"></textarea>
+                <textarea name="text" cols="93" rows="5"></textarea>
             </div>
             <div class="but" style="margin-right:0;">
                 <input type="submit" value="{% trans "Send" %}"/>
@@ -107,7 +107,7 @@ Page {{ number }} of {{ num_pages }}.
 </div>
 </div>
 <div id="rightColumn">
-
+<div style="padding-top:30px;">
 <table class="group_description">
     {% if group.description %}
     <tr>
@@ -168,6 +168,7 @@ Page {{ number }} of {{ num_pages }}.
     </tr>
     {% endif %}
 </table>
+</div>
 <div class="but" style="margin-left:30px;">
 {% if request.user in group.members %}
     <a href="{% url groups:group_leave id=group.id %}">{% trans "Leave group" %}</a>
