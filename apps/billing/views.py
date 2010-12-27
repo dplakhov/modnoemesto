@@ -14,12 +14,14 @@ from mongoengine.django.shortcuts import get_document_or_404
 from documents import Tariff, AccessCamOrder
 
 from forms import TariffForm, AccessCamOrderForm
-from apps.billing.models import UserOrder
+from apps.billing.models import UserOrder, UserId
 from apps.cam.documents import Camera
 from django.conf import settings
 from apps.billing.constans import TRANS_STATUS, ACCESS_CAM_ORDER_STATUS
 from apps.social.documents import User
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
+from apps.robokassa.forms import RobokassaForm
+
 
 
 @permission_required('superuser')
@@ -60,9 +62,15 @@ def tariff_delete(request, id):
 
 
 def purse(request):
+    robokassa_form = RobokassaForm(initial={
+                         'InvId': UserId.get_id_by_user(request.user),
+                         'Desc': request.user,
+                         'Email': request.user.email,
+                     })
     return direct_to_template(request, 'billing/pay.html', {
         'service': settings.PKSPB_ID,
         'account': request.user.id,
+        'robokassa_form': robokassa_form,
     })
 
 
