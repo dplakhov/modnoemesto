@@ -10,8 +10,11 @@ from django.utils.translation import ugettext as _
 from django.core.paginator import EmptyPage, InvalidPage
 from django.conf import settings
 from django.contrib.auth import SESSION_KEY
+from django.template import loader, RequestContext
 
 from mongoengine.django.shortcuts import get_document_or_404
+from datetime import datetime
+import time
 
 from apps.utils.paginator import Paginator
 from apps.social.documents import User
@@ -59,8 +62,7 @@ def group_view(request, id, page=1):
         else:
             members.append(info.user)
 
-    MESSAGES_ON_PAGE = 25
-    paginator = Paginator(GroupMessage.objects(group=group), MESSAGES_ON_PAGE, GroupMessage.objects(group=group).count())
+    paginator = Paginator(GroupMessage.objects(group=group), settings.MESSAGES_ON_PAGE, GroupMessage.objects(group=group).count())
     try:
         group_messages = paginator.page(page)
     except (EmptyPage, InvalidPage):
@@ -83,42 +85,45 @@ def group_view(request, id, page=1):
             return redirect(reverse('groups:group_view', args=[id]))
     else:
         form = MessageTextForm()
-
-    return direct_to_template(request, 'groups/view.html', {
-        'group': group,
-        'admins': admins,
-        'members': members,
-        'is_admin': group.is_admin(request.user) or request.user.is_superuser,
-        'can_view_private': group.public or is_active or request.user.is_superuser,
-        'can_view_conference': is_active or request.user.is_superuser,
-        'can_send_message': is_active,
-        'is_status_request': group.is_request(request.user),
-        'group_messages': group_messages,
-        'form': form,
-        'messages_on_page': MESSAGES_ON_PAGE,
-    })
+    return direct_to_template(request, 'groups/view.html', dict(
+        group=group,
+        admins=admins,
+        members=members,
+        is_admin=group.is_admin(request.user) or request.user.is_superuser,
+        can_view_private=group.public or is_active or request.user.is_superuser,
+        can_view_conference=is_active or request.user.is_superuser,
+        can_send_message=is_active,
+        is_status_request=group.is_request(request.user),
+        group_messages=group_messages,
+        form=form,
+    ))
 
 
 def send_message(request, id):
-    if not request.POST:
-        return ''
     group = get_document_or_404(Group, id=id)
     if not group.is_active(request.user):
-        return ''
-    form = MessageTextForm(request.POST)
-    if form.is_valid():
-        message = GroupMessage(
-            group=group,
-            sender=request.user,
-            text=form.cleaned_data['text'],
-        )
-        message.save()
-        return direct_to_template(request, 'groups/_comment.html',
-                                  { 'group': group,
-                                    'msg': message,
-                                    'is_admin': group.is_admin(request.user) or request.user.is_superuser,
-                                  })
-    return ''
+        return HttpResponse('')
+    if request.POST:
+        form = MessageTextForm(request.POST)
+        if form.is_valid():
+            message = GroupMessage(
+                group=group,
+                sender=request.user,
+                text=form.cleaned_data['text'],
+            )
+            message.save()
+        else:
+            return HttpResponse('')
+    is_admin = group.is_admin(request.user) or request.user.is_superuser
+    html = []
+    for message in GroupMessage.objects(group=group)[:settings.MESSAGES_ON_PAGE ]:
+        c = RequestContext(request, { 'group': group,
+                                      'msg': message,
+                                      'is_admin': is_admin,
+                                    })
+        t = loader.get_template('groups/_comment.html')
+        html.append(t.render(c))
+    return HttpResponse('\n'.join(html))
 
 
 def member_list(request, id, format):

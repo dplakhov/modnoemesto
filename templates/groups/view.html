@@ -9,17 +9,20 @@ $(document).ready(function(){
     $("#send_message_form").ajaxForm({
         url: "{% url groups:send_message group.id %}",
         clearForm: true,
+        //dataType: 'xml',
         success: function(data) {
             if (data != '') {
-                var messages_inbox = $('.messages_inbox');
-                messages_inbox.prepend(data);
-                if (messages_inbox.children().length > {{ messages_on_page }} ) {
-                    var last = $('.message_item:last', messages_inbox);
-                    last.remove();
-                }
+                $('.messages_inbox').html(data);
             }
         }
     });
+    window.setInterval(function(){
+        $.get('{% url groups:send_message group.id %}', function(data) {
+            if (data != '') {
+                $('.messages_inbox').html(data);
+            }
+        });
+    }, 30 * 1000);
 });
 </script>
 {% endblock %}
