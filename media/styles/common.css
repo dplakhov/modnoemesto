@@ -1572,12 +1572,13 @@ a.toollip_mail:hover
 }
 a.toollip_video
 {
-	background: url(../images/videochat_ico.png);
+	background: url(../images/videochat_ico_noactive.png);
+	cursor: default;
 }
-a.toollip_video:hover
+/*a.toollip_video:hover
 {
 	background: url(../images/videochat_ico_hover.png);
-}
+}*/
 
 
 

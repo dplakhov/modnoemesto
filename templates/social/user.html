@@ -88,8 +88,8 @@
        		<img src="/media/images/toollip_mail.png" width="206px" height="69px" /></span></a>
        
        <a class="tooltip toollip_video" href="">
-       		<span class="toollip_video">
-       		<img src="/media/images/toollip_video.png" width="206px" height="69px" /></span></a>
+       		<!--<span class="toollip_video">
+       		<img src="/media/images/toollip_video.png" width="206px" height="69px" /></span>--></a>
      </div> <div style="clear:both"></div>
     {% comment %}
         {% if show_friend_button %}
@@ -116,7 +116,7 @@
         </div>
         <ul class="friendTable">
             {% for user in page_user.friends_online|slice:":6" %}
-                <li>
+                <li style="height:110px;">
                         {% include "includes/user/micro.html" %}
                 </li>
             {% endfor %}
