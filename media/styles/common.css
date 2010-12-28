@@ -1507,6 +1507,7 @@ span.date
 a.tooltip
 {
 	margin: 8px;
+	margin-bottom: 0px;
 	display: inline-block;
 	width: 31px;
 	height: 31px;
@@ -1525,29 +1526,32 @@ a.tooltip
 }
 .tooltip:hover span.toollip_friend
 {
-	left: -0.1em; 
-	top: -6.5em; 
+	left: -0.8em; 
+	top: -6.0em; 
 }
 .tooltip:hover span.toollip_group
 {
-	left: -4.5em; 
+	left: -5.1em; 
 	top: -6em; 
 }
 .tooltip:hover span.toollip_mail
 {
-	left: -8.8em; 
-	top: -6.5em; 
+	left: -9.5em; 
+	top: -6.0em; 
 }
 .tooltip:hover span.toollip_video
 {
-	left: -13.2em; 
-	top: -6.5em; 
+	left: -13.8em; 
+	top: -6.0em; 
 }
 a.toollip_friend
 {
 	background: url(../images/friendship_ico.png);
 }
-
+a.toollip_friend:hover
+{
+	background: url(../images/friendship_ico_hover.png);
+}
 a.toollip_group
 {
 	background: url(../images/groupship_ico.png);
@@ -1560,10 +1564,17 @@ a.toollip_mail
 {
 	background: url(../images/sendmail_ico.png);
 }
+a.toollip_mail:hover
+{
+	background: url(../images/sendmail_ico_hover.png);
+}
 a.toollip_video
 {
 	background: url(../images/videochat_ico.png);
 }
-
+a.toollip_video:hover
+{
+	background: url(../images/videochat_ico_hover.png);
+}
 
 
