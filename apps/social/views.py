@@ -45,6 +45,19 @@ from apps.media.tasks import apply_file_transformations
 
 from forms import ( UserCreationForm, LoginForm, ChangeAvatarForm)
 from documents import (User, LimitsViolationException, Invite)
+from forms import PeopleFilterForm
+
+def filter(request):
+    form = PeopleFilterForm(request.POST or None)
+    if form.is_valid():
+        data = dict(form.cleaned_data)
+    else:
+        accounts = User.objects(last_access__gt=User.get_delta_time(), is_active=True)
+    return direct_to_template(request, 'index.html', {
+        'form': form,
+        'accounts': accounts,
+    })
+    
 
 
 def index(request):

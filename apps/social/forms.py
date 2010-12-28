@@ -7,6 +7,27 @@ from django.contrib.auth import authenticate
 from apps.supercaptcha import CaptchaField
 
 
+GENDER_CHOICES = (
+    ('m', _('Male')),
+    ('f', _('Female')), 
+)
+
+class PeopleFilterForm(forms.Form):
+    first_name = forms.CharField(label=_("People filter: first name"), required=False)
+    last_name = forms.CharField(label=_("People filter: last name"), required=False)
+    birthday = forms.CharField(label=_("People filter: birthday"), required=False)
+    icq = forms.CharField(label=_("People filter: icq"), required=False)
+    mobile = forms.CharField(label=_("People filter: mobile"), required=False)
+    website = forms.CharField(label=_("People filter: website"), required=False)
+    gender = forms.CharField(label=_("People filter: gender"), widget=forms.RadioSelect(choices=GENDER_CHOICES), required=False)
+    city = forms.CharField(label=_("People filter: city"), required=False)
+    university_name = forms.CharField(label=_("People filter: university name"), required=False)
+    university_department = forms.CharField(label=_("People filter: university department"), required=False) 
+    university_status = forms.CharField(label=_("People filter: university status"), required=False)
+    is_online = forms.BooleanField(label=_('People filter: is online'), required=False)
+    has_photo = forms.BooleanField(label=_('People filter: has photo'), required=False)
+    
+
 class LoginForm(forms.Form):
     email = forms.EmailField(label=_("Email"))
     password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
