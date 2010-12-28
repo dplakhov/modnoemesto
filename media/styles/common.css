@@ -1501,4 +1501,69 @@ span.date
 	padding: 8px 0 0 10px;
 	color: #666;
 }
+.tooltip {
+			position: relative;
+}
+a.tooltip
+{
+	margin: 8px;
+	display: inline-block;
+	width: 31px;
+	height: 31px;
+}
+.tooltip span 
+{
+	margin-left: -999em;
+	position: absolute;
+}
+.tooltip:hover span
+{
+	position: absolute; 
+	z-index: 99;
+	margin-left: 0;
+	width: 206px;
+}
+.tooltip:hover span.toollip_friend
+{
+	left: -0.1em; 
+	top: -6.5em; 
+}
+.tooltip:hover span.toollip_group
+{
+	left: -4.5em; 
+	top: -6em; 
+}
+.tooltip:hover span.toollip_mail
+{
+	left: -8.8em; 
+	top: -6.5em; 
+}
+.tooltip:hover span.toollip_video
+{
+	left: -13.2em; 
+	top: -6.5em; 
+}
+a.toollip_friend
+{
+	background: url(../images/friendship_ico.png);
+}
+
+a.toollip_group
+{
+	background: url(../images/groupship_ico.png);
+}
+a.toollip_group:hover
+{
+	background: url(../images/groupship_ico_hover.png);
+}
+a.toollip_mail
+{
+	background: url(../images/sendmail_ico.png);
+}
+a.toollip_video
+{
+	background: url(../images/videochat_ico.png);
+}
+
+
 
