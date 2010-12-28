@@ -7,9 +7,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $("#send_message_form").ajaxForm({
-        url: "{% url groups:group_view_ajax group.id %}",
         clearForm: true,
-        //dataType: 'xml',
         success: function(data) {
             if (data != '') {
                 $('.messages_inbox').html(data);
@@ -17,7 +15,7 @@ $(document).ready(function(){
         }
     });
     window.setInterval(function(){
-        $.get('{% url groups:group_view_ajax group.id %}', function(data) {
+        $.get('{% url groups:group_view group.id %}', function(data) {
             if (data != '') {
                 $('.messages_inbox').html(data);
             }
@@ -80,7 +78,7 @@ $(document).ready(function(){
 <p class="hide_info">Информация скрыта.</p>
 {% endif %}
 {% if can_send_message %}
-    <form method="post" action="" id="send_message_form">
+    <form method="post" action="{% url groups:group_view group.id %}" id="send_message_form">
         <div class="answer">
             <div class="message_text_group rounded">
                 <textarea name="text" cols="93" rows="5"></textarea>
