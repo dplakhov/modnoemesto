@@ -1175,6 +1175,8 @@ a.reference
 {
 	width:180px; 
 	margin-left: 70px;
+	position: relative;
+	height: 51px;
 }
 .messages
 {
@@ -1231,7 +1233,7 @@ p.when
 }
 .wall .message_item
 {
-	background: url(../images/bg_about_persone.jpg) repeat-x;
+	background: url(../images/bg_about_persone.png) repeat-x;
 	border-top: 1px dotted #6F6F6F;
 	border-bottom: none;
 }
@@ -1392,7 +1394,7 @@ li.friendTable
 .user_group
 {
 	overflow: hidden;
-	padding-bottom: 7px;
+	margin-top: 10px;
 	float:left;
 }
 .user_group a
@@ -1527,22 +1529,22 @@ a.tooltip
 .tooltip:hover span.toollip_friend
 {
 	left: -0.8em; 
-	top: -6.0em; 
+	top: -5.8em; 
 }
 .tooltip:hover span.toollip_group
 {
 	left: -5.1em; 
-	top: -6em; 
+	top: -5.8em; 
 }
 .tooltip:hover span.toollip_mail
 {
 	left: -9.5em; 
-	top: -6.0em; 
+	top: -5.8em; 
 }
 .tooltip:hover span.toollip_video
 {
 	left: -13.8em; 
-	top: -6.0em; 
+	top: -5.8em; 
 }
 a.toollip_friend
 {
@@ -1576,5 +1578,9 @@ a.toollip_video:hover
 {
 	background: url(../images/videochat_ico_hover.png);
 }
+
+
+
+
 
 
