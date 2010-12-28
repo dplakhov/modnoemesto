@@ -99,7 +99,7 @@ def group_view(request, id, page=1):
     ))
 
 
-def send_message(request, id):
+def group_view_ajax(request, id):
     group = get_document_or_404(Group, id=id)
     if not group.is_active(request.user):
         return HttpResponse('')
@@ -114,16 +114,18 @@ def send_message(request, id):
             message.save()
         else:
             return HttpResponse('')
-    is_admin = group.is_admin(request.user) or request.user.is_superuser
-    html = []
-    for message in GroupMessage.objects(group=group)[:settings.MESSAGES_ON_PAGE ]:
-        c = RequestContext(request, { 'group': group,
-                                      'msg': message,
-                                      'is_admin': is_admin,
-                                    })
-        t = loader.get_template('groups/_comment.html')
-        html.append(t.render(c))
-    return HttpResponse('\n'.join(html))
+
+    paginator = Paginator(GroupMessage.objects(group=group), settings.MESSAGES_ON_PAGE, GroupMessage.objects(group=group).count())
+    try:
+        group_messages = paginator.page(1)
+    except (EmptyPage, InvalidPage):
+        group_messages = paginator.page(paginator.num_pages)
+
+    return direct_to_template(request, 'groups/_comments.html', dict(
+        group=group,
+        is_admin=group.is_admin(request.user) or request.user.is_superuser,
+        group_messages=group_messages,
+    ))
 
 
 def member_list(request, id, format):

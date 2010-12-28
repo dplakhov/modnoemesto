@@ -7,7 +7,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $("#send_message_form").ajaxForm({
-        url: "{% url groups:send_message group.id %}",
+        url: "{% url groups:group_view_ajax group.id %}",
         clearForm: true,
         //dataType: 'xml',
         success: function(data) {
@@ -17,7 +17,7 @@ $(document).ready(function(){
         }
     });
     window.setInterval(function(){
-        $.get('{% url groups:send_message group.id %}', function(data) {
+        $.get('{% url groups:group_view_ajax group.id %}', function(data) {
             if (data != '') {
                 $('.messages_inbox').html(data);
             }
@@ -94,27 +94,7 @@ $(document).ready(function(){
 
 {% if can_view_private %}
     <div class="messages_inbox wall">
-        {% for msg in group_messages.object_list %}
-{% include "groups/_comment.html" %}
-        {% endfor %}
-    </div>
-
-    <div class="pagination">
-        <span class="step-links">
-            {% if group_messages.has_previous %}
-                <a href="{% url groups:group_view_page group.id group_messages.previous_page_number %}">{% trans "previous" %}</a>
-            {% endif %}
-
-            <span class="current">
-{% blocktrans with group_messages.number as number and group_messages.paginator.num_pages as num_pages %}
-Page {{ number }} of {{ num_pages }}.
-{% endblocktrans %}
-            </span>
-
-            {% if group_messages.has_next %}
-                <a href="{% url groups:group_view_page group.id group_messages.next_page_number %}">{% trans "next" %}</a>
-            {% endif %}
-        </span>
+{% include "groups/_comments.html" %}
     </div>
 {% endif %}
 </div>
