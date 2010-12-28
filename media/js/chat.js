@@ -81,7 +81,11 @@ function get_messages() {
 			// add messages
 			add_messages(json);
 			set_last_message(json);
-			$('.scroll-pane').scrollTop($('#chat p:last').offset().top);
+			var $p_last = $('#chat p:last');
+			if($p_last){
+				$('.scroll-pane').scrollTop($p_last.offset().top);
+			}
+			
 		}        
     });
     
