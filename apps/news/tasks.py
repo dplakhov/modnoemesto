@@ -23,7 +23,7 @@ def send_notification(id):
         messages = [] 
         for profile in profiles:
             recipient = profile.user.email
-            messages.append((subject, message, sender, recipient))
+            messages.append((subject, message, sender, [recipient]))
             
         send_mass_mail(messages)
     except News.DoesNotExist, News.MultipleObjectsReturned:

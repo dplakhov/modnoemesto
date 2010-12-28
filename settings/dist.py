@@ -45,6 +45,7 @@ if 'test' in sys.argv:
         },
 
     }
+    TEST_RUNNER = 'djcelery.contrib.test_runner.run_tests'
 
 MONGO_DATABASE = 'social'
 MONGO_HOST = '127.0.0.1'
