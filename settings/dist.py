@@ -239,8 +239,9 @@ TIME_IS_ONLINE = timedelta(minutes=5)
 LAST_ACCESS_UPDATE_INTERVAL = timedelta(minutes=5)
 
 
-from .logging import *
 from .billing import *
-from .celery import *
 from .captcha import *
+from .celery import *
 from .chat import *
+from .logging import *
+from .redis import *
