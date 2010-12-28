@@ -165,16 +165,8 @@ def get_access_to_camera(request, id, is_controlled):
             )
             #todo: need transaction
             order.set_access_period(order.is_controlled)
-            if tariff.is_packet:
-                request.user.cash -= form.total_cost
-                request.user.save()
-            order.cost = form.total_cost
             order.save()
-            if order.is_controlled:
-                if order.status == ACCESS_CAM_ORDER_STATUS.ACTIVE:
-                    camera.operator = request.user
-                    camera.save()
-
+            camera.check_operator(order)
             return HttpResponseRedirect(reverse('social:user', args=[camera.owner.id]))
     else:
         form = AccessCamOrderForm(is_controlled)
@@ -205,11 +197,12 @@ def access_order_list(request, page=1):
 
 def cam_view_notify(request):
     def calc():
+        status = request.GET.get('status', None)
         session_key = request.GET.get('session_key', None)
         order_id = request.GET.get('order_id', None)
         extra_time = request.GET.get('time', None)
-        if not (session_key and order_id and extra_time):
-            return 'BAD PARAMS',-1
+        if not (status and session_key and order_id and extra_time):
+            return 'BAD PARAMS', -1
         if not extra_time.isdigit():
             return 'BAD TIME', -2
         extra_time = int(extra_time)
@@ -236,6 +229,9 @@ def cam_view_notify(request):
         time_left = order.get_time_left(user.cash)
         if time_left > settings.TIME_INTERVAL_NOTIFY:
             time_left = settings.TIME_INTERVAL_NOTIFY
+        if status == 'disconnect':
+            order.set_access_period(order.is_controlled)
+            order.save()
         return 'OK', 0, time_left
     result = calc()
     result = ["%s=%s" % (k, urllib.quote(str(v))) for k, v in zip(('info', 'status', 'cash'), result)]
