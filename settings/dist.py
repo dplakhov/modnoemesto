@@ -45,6 +45,7 @@ if 'test' in sys.argv:
         },
 
     }
+    TEST_RUNNER = 'djcelery.contrib.test_runner.run_tests'
 
 MONGO_DATABASE = 'social'
 MONGO_HOST = '127.0.0.1'
@@ -173,6 +174,7 @@ INSTALLED_APPS = (
     #'django.contrib.admin',
     #'mongoengine.django.auth',
     'djcelery',
+    'djcelery_email',
     'pytils',
     'apps.robokassa',
     'apps.social',
