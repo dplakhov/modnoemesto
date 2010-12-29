@@ -81,9 +81,10 @@ $(document).ready(function(){
     <form method="post" action="{% url groups:group_view group.id %}" id="send_message_form">
         <div class="answer">
             <div class="message_text_group rounded">
-                <textarea name="text" cols="93" rows="5"></textarea>
+                <textarea name="text" cols="93" rows="5" maxlength="500"></textarea>
             </div>
             <div class="but" style="margin-right:0;">
+                <span class="charsRemaining" style="color: #3C3C3C"></span>
                 <input type="submit" value="{% trans "Send" %}"/>
             </div>
         </div>

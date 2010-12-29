@@ -38,7 +38,15 @@
         $(document).ready(function(){
 			$('.marquee').crawlLine({crawElement:'.move'});
             $('.rounded').corner();
-                                   });
+            $('textarea[maxlength]').keyup(function(){
+                var max = parseInt($(this).attr('maxlength'));
+                if($(this).val().length > max){
+                    $(this).val($(this).val().substr(0, $(this).attr('maxlength')));
+                }
+
+                $(this).parent().parent().find('.charsRemaining').html('Осталось ' + (max - $(this).val().length) + ' символов');
+            });
+        });
     </script>
     <script src="/media/js/ie6fix.js" type="text/javascript"></script>
     <script type="text/javascript">
