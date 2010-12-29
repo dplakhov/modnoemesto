@@ -78,7 +78,7 @@ def group_view(request, id, page=1):
             return HttpResponse('')
     elif not is_ajax:
         form = MessageTextForm()
-        
+
     paginator = Paginator(GroupMessage.objects(group=group), settings.MESSAGES_ON_PAGE, GroupMessage.objects(group=group).count())
     try:
         group_messages = paginator.page(page)
@@ -267,7 +267,10 @@ def send_friends_invite(request, group):
 def send_invite(request, group, user_id):
     user = get_document_or_404(User, id=user_id)
     group.add_member(user, status=GroupUser.STATUS.INVITE)
-    return redirect(reverse('groups:send_friends_invite', args=[group.id]))
+    if request.is_ajax():
+        return HttpResponse('OK')
+    else:
+        return redirect(reverse('groups:send_friends_invite', args=[group.id]))
 
 
 @check_admin_right
@@ -350,6 +353,18 @@ def group_leave_user(request, group, user_id):
 def delete_message(request, group, message_id):
     get_document_or_404(GroupMessage, id=message_id).delete()
     return redirect(reverse('groups:group_view', args=[group.id]))
+
+
+def send_my_invites_to_user(request, user_id):
+    user = get_document_or_404(User, id=user_id)
+    user_groups = [i.group.id for i in GroupUser.objects(user=user).only('group')]
+    groups = []
+    for info in GroupUser.objects(user=request.user, is_admin=True).only('group'):
+        group = info.group
+        if group.id not in user_groups:
+            groups.append(group)
+    return direct_to_template(request, 'groups/send_my_invites_to_user.html',
+                              dict(groups=groups, invite_user=user))
 
 
 @permission_required('groups')

@@ -2,6 +2,7 @@ from mongoengine.document import Document
 from mongoengine.fields import StringField, ReferenceField, URLField, BooleanField, DateTimeField
 from apps.utils.decorators import cached_property
 from datetime import datetime
+from mongoengine.queryset import OperationError
 
 
 class GroupUser(Document):
@@ -34,10 +35,14 @@ class Group(Document):
         return [i.user for i in GroupUser.objects(group=self, status=GroupUser.STATUS.ACTIVE).only('user')]
 
     def add_member(self, user, is_admin=False, status=GroupUser.STATUS.ACTIVE):
-        return GroupUser.objects.get_or_create(group=self,
-                                               user=user,
-                                               is_admin=is_admin,
-                                               status=status)
+        try:
+            GroupUser.objects.get_or_create(group=self,
+                                            user=user,
+                                            is_admin=is_admin,
+                                            status=status)
+        except OperationError:
+            return False
+        return True
 
     def is_active(self, user):
         return GroupUser.objects(group=self,

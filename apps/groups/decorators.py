@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.utils.translation import ugettext as _
 from django.contrib import messages
 from django.core.urlresolvers import reverse
@@ -11,7 +12,10 @@ def check_admin_right(func):
         group = get_document_or_404(Group, id=id)
         is_admin = group.is_admin(request.user) or request.user.is_superuser
         if not is_admin:
-            messages.add_message(request, messages.ERROR, _('You are not allowed.'))
-            return redirect(reverse('groups:group_view', args=[id]))
+            if request.is_ajax():
+                return HttpResponse(_('You are not allowed.'))
+            else:
+                messages.add_message(request, messages.ERROR, _('You are not allowed.'))
+                return redirect(reverse('groups:group_view', args=[id]))
         return func(request, group, *args, **kwargs)
     return wrapper

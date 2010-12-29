@@ -32,6 +32,7 @@ urlpatterns = patterns('apps.groups.views',
        url(r'^(?P<id>[a-f0-9]{24})/leave/(?P<user_id>[a-f0-9]{24})/$', 'group_leave_user', name='group_leave_user'),
 
        url(r'^(?P<id>[a-f0-9]{24})/invite/$', 'send_friends_invite', name='send_friends_invite'),
+       url(r'^(?P<user_id>[a-f0-9]{24})/invites/$', 'send_my_invites_to_user', name='send_my_invites_to_user'),
        url(r'^(?P<id>[a-f0-9]{24})/invite/(?P<user_id>[a-f0-9]{24})/$', 'send_invite', name='send_invite'),
        url(r'^(?P<id>[a-f0-9]{24})/invite/(?P<user_id>[a-f0-9]{24})/cancel/$', 'cancel_invite', name='cancel_invite'),
        url(r'^(?P<id>[a-f0-9]{24})/invite/take/$', 'invite_take', name='invite_take'),
