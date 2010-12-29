@@ -116,7 +116,7 @@
         </div>
         <ul class="friendTable">
             {% for user in page_user.friends_online|slice:":6" %}
-                <li style="height:110px;">
+                <li>
                         {% include "includes/user/micro.html" %}
                 </li>
             {% endfor %}

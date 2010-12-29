@@ -5,7 +5,7 @@
 <h2>{% trans "Users online" %}</h2>
 <ul class="friendTable">
 {% for user in accs|slice:"20" %}
-    <li style="height:110px;">
+    <li>
     {% include "includes/user/mini.html" %}
     </li>
 {% endfor %}
