@@ -7,19 +7,20 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $("#send_message_form").ajaxForm({
-        url: "{% url groups:send_message group.id %}",
         clearForm: true,
         success: function(data) {
             if (data != '') {
-                var messages_inbox = $('.messages_inbox');
-                messages_inbox.prepend(data);
-                if (messages_inbox.children().length > {{ messages_on_page }} ) {
-                    var last = $('.message_item:last', messages_inbox);
-                    last.remove();
-                }
+                $('.messages_inbox').html(data);
             }
         }
     });
+    window.setInterval(function(){
+        $.get('{% url groups:group_view group.id %}', function(data) {
+            if (data != '') {
+                $('.messages_inbox').html(data);
+            }
+        });
+    }, 30 * 1000);
 });
 </script>
 {% endblock %}
@@ -77,7 +78,7 @@ $(document).ready(function(){
 <p class="hide_info">Информация скрыта.</p>
 {% endif %}
 {% if can_send_message %}
-    <form method="post" action="" id="send_message_form">
+    <form method="post" action="{% url groups:group_view group.id %}" id="send_message_form">
         <div class="answer">
             <div class="message_text_group rounded">
                 <textarea name="text" cols="93" rows="5"></textarea>
@@ -91,27 +92,7 @@ $(document).ready(function(){
 
 {% if can_view_private %}
     <div class="messages_inbox wall">
-        {% for msg in group_messages.object_list %}
-{% include "groups/_comment.html" %}
-        {% endfor %}
-    </div>
-
-    <div class="pagination">
-        <span class="step-links">
-            {% if group_messages.has_previous %}
-                <a href="{% url groups:group_view_page group.id group_messages.previous_page_number %}">{% trans "previous" %}</a>
-            {% endif %}
-
-            <span class="current">
-{% blocktrans with group_messages.number as number and group_messages.paginator.num_pages as num_pages %}
-Page {{ number }} of {{ num_pages }}.
-{% endblocktrans %}
-            </span>
-
-            {% if group_messages.has_next %}
-                <a href="{% url groups:group_view_page group.id group_messages.next_page_number %}">{% trans "next" %}</a>
-            {% endif %}
-        </span>
+{% include "groups/_comments.html" %}
     </div>
 {% endif %}
 </div>

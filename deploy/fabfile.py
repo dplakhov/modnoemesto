@@ -65,7 +65,12 @@ def deploy(revision, reinstall=False):
                     run('rm app')
                 run('ln -fs %s app' % revision)
                 with cd('app'):
-                    put('settings/local.py',
+                    if env.host.startswith('as1'):
+                        settings_local = 'settings/local_test.py'
+                    else:
+                        settings_local = 'settings/local.py'
+                        
+                    put(settings_local,
                         '%s/app/settings/local.py' %
                         APPLICATION_DIR)
                     run('virtualenv venv')

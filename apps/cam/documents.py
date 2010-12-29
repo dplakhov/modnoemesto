@@ -33,7 +33,6 @@ class Camera(Document):
                       'view_packet_tariff',
                       'view_time_tariff',
                   )
-    SCREEN_URL_TPL = "/media/img/notfound/screen_%ix%i.png"
 
     name = StringField(max_length=255, default=unicode(_('New camera')))
 
@@ -132,7 +131,12 @@ class Camera(Document):
                 self.save()
             return orders
         return True
-    
+
+    def check_operator(self, order):
+        if order.is_controlled and order.can_access():
+            self.operator = order.user
+            self.save()
+
     def save(self, *args, **kwargs):
         self.is_managed = self.type.is_controlled
         super(Camera, self).save()

@@ -152,6 +152,7 @@ class ChangeProfileForm(forms.Form):
     university_status = forms.CharField(label=_("Status"), max_length=30, required=False)
     announce = forms.CharField(label=_("Announce"), max_length=512,
                                required=True, widget=forms.Textarea)
+    get_news = forms.BooleanField(label=_("Get news"), required=False, initial=True)
 
 
 class LostPasswordForm(forms.Form):
