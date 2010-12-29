@@ -28,3 +28,8 @@ DATABASES = {
 
 
 CACHE_BACKEND = 'memcached://10.10.10.11:11211/'
+
+REDIS_DATABASES = dict(
+    streamed_users=dict(host='10.10.10.11', port=6379),
+
+)
