@@ -106,6 +106,7 @@ LOGIN_EXEMPT_URLS = (
     r'^captcha/',
     r'^robots.txt$',
     r'^billing/camera/notify/',
+    r'^srv/',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -190,6 +191,7 @@ INSTALLED_APPS = (
     'apps.news',
     'apps.admin_blog',
     'apps.chat',
+    'apps.server_api',
 )
 
 
@@ -237,6 +239,8 @@ MESSAGES_ON_PAGE = 10
 
 TIME_IS_ONLINE = timedelta(minutes=5)
 LAST_ACCESS_UPDATE_INTERVAL = timedelta(minutes=5)
+
+ALLOWED_SERVER_IPS = ('127.0.0.1', )
 
 
 from .billing import *
