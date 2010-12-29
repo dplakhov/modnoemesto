@@ -106,6 +106,7 @@
     </div>
     <div class="profileActions">
         <ul>{% url friends:friends_all page_user.id as friends %}
+            <li><a href="{% url groups:send_my_invites_to_user page_user.id %}">пригласить в группу</a></li>
             <li><a href="{{ friends }}">{% trans "Friends" %} ({{ page_user.friends.count }})</a></li>
             <li>Приглашённые: {{ invitee_count }}</li>
         </ul>
