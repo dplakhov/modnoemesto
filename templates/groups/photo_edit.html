@@ -3,10 +3,9 @@
 {% load media %}
 
 {% block content %}
-<h2 class="video_title">{% trans "Change photo" %}</h2>
+<h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>
+<h3 class="video_title">{% trans "Change photo" %}</h3>
 
-        <img src="{% media_url photo group_photo_mini.png %}" />
-        <img src="{% media_url photo group_photo_normal.png %}" />
         <img src="{% media_url photo group_photo_full.png %}" />
 <form method="post" enctype="multipart/form-data">
 <div class="filt rounded" style="-moz-border-radius: 10px 10px 10px 10px; margin-top: 10px; padding-bottom: 10px;">

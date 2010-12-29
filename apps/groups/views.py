@@ -245,7 +245,7 @@ def photo_edit(request, group):
             messages.add_message(request, messages.SUCCESS, _('Photo successfully updated'))
             return HttpResponseRedirect(request.path)
     return direct_to_template(request, 'groups/photo_edit.html',
-                              dict(form=form, photo=group.photo)
+                              dict(form=form, photo=group.photo, group=group)
                               )
 
 
