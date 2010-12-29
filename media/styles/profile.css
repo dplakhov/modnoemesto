@@ -34,7 +34,7 @@ div.about_persone
 {
 	border-top: 1px dotted #6f6f6f;
 	padding: 15px 0px;
-	background: url(../images/bg_about_persone.png) no-repeat;
+	/*background: url(../images/bg_about_persone.png) no-repeat;*/
 }
 .about_persone p, .the_wall p
 {
