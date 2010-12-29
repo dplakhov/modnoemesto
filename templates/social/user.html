@@ -85,7 +85,7 @@
        		<img src="/media/images/toollip_friend_remove.png" width="206px" height="69px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
       {% endif %}
        
-       <a class="tooltip toollip_group" href="">
+       <a class="tooltip toollip_group" href="{% url groups:send_my_invites_to_user page_user.id %}">
             <span class="toollip_group">
        		<img src="/media/images/toollip_group.png" width="206px" height="69px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
        
@@ -97,22 +97,12 @@
        		<!--<span class="toollip_video">
        		<img src="/media/images/toollip_video.png" width="206px" height="69px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" />--></a>
      </div> <div style="clear:both"></div>
-    {% comment %}
-        {% if show_friend_button %}
-        <p>
-            <a href="{% url friends:add page_user.id %}">
-                {% trans "Add to my friends" %}
-            </a>
-        </p>
-        {% endif %}
-    {% endcomment %}
 
         
         
     </div>
     <div class="profileActions">
         <ul>{% url friends:friends_all page_user.id as friends %}
-            <li><a href="{% url groups:send_my_invites_to_user page_user.id %}">пригласить в группу</a></li>
             <li><a href="{{ friends }}">{% trans "Friends" %} ({{ page_user.friends.count }})</a></li>
             <li>Приглашённые: {{ invitee_count }}</li>
         </ul>
