@@ -1,0 +1,7 @@
+<users>
+    {% for user in list %}
+    <user id="{{ user.id }}" online="{% if user.is_online %}true{% else %}false{% endif %}">
+        <name>{{ user.get_full_name }}</name>
+    </user>
+    {% endfor %}
+</users>
