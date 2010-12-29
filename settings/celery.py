@@ -22,9 +22,9 @@ TASKS_ENABLED = {}
 
 
 # celery email
-CELERY_ALWAYS_EAGER = True
-CELERY_EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
-EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+#CELERY_ALWAYS_EAGER = True
+#CELERY_EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+#EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 # for tests
 CELERY_EMAIL_TASK_CONFIG = {
     'queue' : 'django_email',
