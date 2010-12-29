@@ -27,7 +27,7 @@ class Tariff(Document):
     }
 
     def save(self, *args, **kwargs):
-        self.is_packet = not bool(self.duration)
+        self.is_packet = bool(self.duration)
         return super(Tariff, self).save(*args, **kwargs)
 
 
@@ -52,7 +52,7 @@ class AccessCamOrder(Document):
     is_controlled = BooleanField(default=False)
     tariff = ReferenceField('Tariff')
     # in seconds
-    duration = IntField(required=True)
+    duration = IntField()
     camera = ReferenceField('Camera')
     user = ReferenceField('User')
     begin_date = DateTimeField()
@@ -63,6 +63,10 @@ class AccessCamOrder(Document):
     def __init__(self, *args, **kwargs):
         super(AccessCamOrder, self).__init__(*args, **kwargs)
         self.is_controlled = self.tariff.is_controlled
+        if self.tariff.is_packet:
+            self.cost = self.tariff.cost * self.duration
+            self.user.cash -= self.cost
+            self.user.save()
 
     def set_access_period(self, is_controlled):
         now = datetime.now()

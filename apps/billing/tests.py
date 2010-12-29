@@ -1,10 +1,117 @@
+from apps.billing.documents import AccessCamOrder, Tariff
+from apps.cam.documents import Camera, CameraType
 from django.core.urlresolvers import reverse
 from apps.billing.models import UserOrder
 from django.conf import settings
 from django.test.client import Client
-from apps.billing.constans import TRANS_STATUS
-import unittest
+from apps.billing.constans import TRANS_STATUS, ACCESS_CAM_ORDER_STATUS, ACCESS_CAM_ORDER_STATUS
 from apps.social.documents import User
+import unittest
+import time
+
+
+class AcessCameraTest(unittest.TestCase):
+
+    def setUp(self):
+        self.tearDown()
+        self.client = Client()
+        user = User.create_user(email='test@web-mark.ru', password='123')
+        user.cash = 1000000.0
+        user.save()
+        self.client.login(email='test1@web-mark.ru', password='123')
+        
+        self.camera_type_axis = CameraType(
+            name='Axis',
+            driver='axis.AxisDriver',
+            is_controlled=False,
+        )
+        self.camera_type_axis.save()
+        self.camera_type_axis_manage = CameraType(
+            name='Axis Manage',
+            driver='axis.AxisDriver',
+            is_controlled=True,
+        )
+        self.camera_type_axis_manage.save()
+
+        self.tariff_view_package = Tariff(
+            name='View Package 1 min',
+            description='View Package Description...',
+            cost=1.0,
+            duration=2,
+            is_controlled=False,
+        )
+        self.tariff_view_package.save()
+
+        self.tariff_view_time = Tariff(
+            name='View Package Time',
+            description='View Package Description...',
+            cost=1.0,
+            is_controlled=False,
+        )
+        self.tariff_view_time.save()
+
+        self.tariff_manage_package = Tariff(
+            name='Manage Package 1 min',
+            description='Manage Package Description...',
+            cost=2.0,
+            duration=2,
+            is_controlled=False,
+        )
+        self.tariff_manage_package.save()
+
+        self.tariff_manage_time = Tariff(
+            name='Manage Package Time',
+            description='Manage Package Description...',
+            cost=2.0,
+            is_controlled=False,
+        )
+        self.tariff_manage_time.save()
+
+        camera = Camera(
+            name='Test Billing Camera',
+            owner=user,
+            type=self.camera_type_axis_manage,
+            stream_name='boston',
+            camera_management_host='localhost.boston.com',
+            camera_management_username='test',
+            camera_management_password='321',
+            is_view_enabled=True,
+            is_view_public=True,
+            is_view_paid=True,
+            is_management_enabled=True,
+            is_management_public=True,
+            is_management_paid=True,
+            is_managed=True,
+            management_packet_tariff=self.tariff_manage_package,
+            management_time_tariff=self.tariff_manage_time,
+            view_packet_tariff=self.tariff_view_package,
+            view_time_tariff=self.tariff_view_time,
+        )
+        camera.save()
+
+    def tearDown(self):
+        CameraType.objects.delete()
+        Tariff.objects.delete()
+        Camera.objects.delete()
+        AccessCamOrder.objects.delete()
+        User.objects.delete()
+
+    def test_access_view_package(self):
+        user = User.objects.get(email='test@web-mark.ru')
+        camera = Camera.objects.get(name='Test Billing Camera')
+        order = AccessCamOrder(
+            tariff=self.tariff_view_package,
+            duration=1,
+            user=user,
+            camera=camera,
+        )
+        order.set_access_period(order.is_controlled)
+        order.save()
+        self.assertEqual(order.can_access(), True)
+        time.sleep(1)
+        self.assertEqual(order.can_access(), True)
+        time.sleep(1)
+        self.assertEqual(order.can_access(), False)
 
 
 class BillingTest(unittest.TestCase):
