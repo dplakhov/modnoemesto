@@ -10,8 +10,11 @@ from django.utils.translation import ugettext as _
 from django.core.paginator import EmptyPage, InvalidPage
 from django.conf import settings
 from django.contrib.auth import SESSION_KEY
+from django.template import loader, RequestContext
 
 from mongoengine.django.shortcuts import get_document_or_404
+from datetime import datetime
+import time
 
 from apps.utils.paginator import Paginator
 from apps.social.documents import User
@@ -51,27 +54,16 @@ def group_view(request, id, page=1):
     group = get_document_or_404(Group, id=id)
     is_active = group.is_active(request.user)
 
-    admins = []
-    members = []
-    for info in GroupUser.objects(group=group, status=GroupUser.STATUS.ACTIVE):
-        if info.is_admin:
-            admins.append(info.user)
-        else:
-            members.append(info.user)
-
-    MESSAGES_ON_PAGE = 25
-    paginator = Paginator(GroupMessage.objects(group=group), MESSAGES_ON_PAGE, GroupMessage.objects(group=group).count())
-    try:
-        group_messages = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        group_messages = paginator.page(paginator.num_pages)
-
+    is_ajax = request.is_ajax()
 
     if request.POST:
         if not is_active:
-            messages.add_message(request, messages.ERROR,
-                             _('To send a message, you need to join the group.'))
-            return redirect(reverse('groups:group_view', args=[id]))
+            if is_ajax:
+                return HttpResponse('')
+            else:
+                messages.add_message(request, messages.ERROR,
+                                 _('To send a message, you need to join the group.'))
+                return redirect(reverse('groups:group_view', args=[id]))
         form = MessageTextForm(request.POST)
         if form.is_valid():
             message = GroupMessage(
@@ -80,45 +72,45 @@ def group_view(request, id, page=1):
                 text=form.cleaned_data['text'],
             )
             message.save()
-            return redirect(reverse('groups:group_view', args=[id]))
-    else:
+            if not is_ajax:
+                return redirect(reverse('groups:group_view', args=[id]))
+        elif is_ajax:
+            return HttpResponse('')
+    elif not is_ajax:
         form = MessageTextForm()
+        
+    paginator = Paginator(GroupMessage.objects(group=group), settings.MESSAGES_ON_PAGE, GroupMessage.objects(group=group).count())
+    try:
+        group_messages = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        group_messages = paginator.page(paginator.num_pages)
 
-    return direct_to_template(request, 'groups/view.html', {
-        'group': group,
-        'admins': admins,
-        'members': members,
-        'is_admin': group.is_admin(request.user) or request.user.is_superuser,
-        'can_view_private': group.public or is_active or request.user.is_superuser,
-        'can_view_conference': is_active or request.user.is_superuser,
-        'can_send_message': is_active,
-        'is_status_request': group.is_request(request.user),
-        'group_messages': group_messages,
-        'form': form,
-        'messages_on_page': MESSAGES_ON_PAGE,
-    })
-
-
-def send_message(request, id):
-    if not request.POST:
-        return ''
-    group = get_document_or_404(Group, id=id)
-    if not group.is_active(request.user):
-        return ''
-    form = MessageTextForm(request.POST)
-    if form.is_valid():
-        message = GroupMessage(
+    if is_ajax:
+        return direct_to_template(request, 'groups/_comments.html', dict(
             group=group,
-            sender=request.user,
-            text=form.cleaned_data['text'],
-        )
-        message.save()
-        return direct_to_template(request, 'groups/_comment.html',
-                                  { 'group': group,
-                                    'msg': message,
-                                    'is_admin': group.is_admin(request.user) or request.user.is_superuser,
-                                  })
-    return ''
+            is_admin=group.is_admin(request.user) or request.user.is_superuser,
+            group_messages=group_messages,
+        ))
+    else:
+        admins = []
+        members = []
+        for info in GroupUser.objects(group=group, status=GroupUser.STATUS.ACTIVE):
+            if info.is_admin:
+                admins.append(info.user)
+            else:
+                members.append(info.user)
+        return direct_to_template(request, 'groups/view.html', dict(
+            group=group,
+            admins=admins,
+            members=members,
+            is_admin=group.is_admin(request.user) or request.user.is_superuser,
+            can_view_private=group.public or is_active or request.user.is_superuser,
+            can_view_conference=is_active or request.user.is_superuser,
+            can_send_message=is_active,
+            is_status_request=group.is_request(request.user),
+            group_messages=group_messages,
+            form=form,
+        ))
 
 
 def member_list(request, id, format):

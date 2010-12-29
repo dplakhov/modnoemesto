@@ -45,6 +45,7 @@ if 'test' in sys.argv:
         },
 
     }
+    TEST_RUNNER = 'djcelery.contrib.test_runner.run_tests'
 
 MONGO_DATABASE = 'social'
 MONGO_HOST = '127.0.0.1'
@@ -105,6 +106,7 @@ LOGIN_EXEMPT_URLS = (
     r'^captcha/',
     r'^robots.txt$',
     r'^billing/camera/notify/',
+    r'^srv/',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -173,6 +175,7 @@ INSTALLED_APPS = (
     #'django.contrib.admin',
     #'mongoengine.django.auth',
     'djcelery',
+    'djcelery_email',
     'pytils',
     'apps.robokassa',
     'apps.social',
@@ -188,6 +191,7 @@ INSTALLED_APPS = (
     'apps.news',
     'apps.admin_blog',
     'apps.chat',
+    'apps.server_api',
 )
 
 
@@ -231,12 +235,17 @@ MAX_USER_MESSAGES_COUNT = 500
 
 LIBRARY_IMAGES_PER_PAGE = 2
 
+MESSAGES_ON_PAGE = 10
+
 TIME_IS_ONLINE = timedelta(minutes=5)
 LAST_ACCESS_UPDATE_INTERVAL = timedelta(minutes=5)
 
+ALLOWED_SERVER_IPS = ('127.0.0.1', )
 
-from .logging import *
+
 from .billing import *
-from .celery import *
 from .captcha import *
+from .celery import *
 from .chat import *
+from .logging import *
+from .redis import *

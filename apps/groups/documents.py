@@ -22,7 +22,7 @@ class Group(Document):
     description = StringField()
     theme = ReferenceField('GroupTheme')
     type = ReferenceField('GroupType')
-    site = URLField()
+    site = StringField()
     country = StringField()
     city = StringField()
     public = BooleanField(default=False)
