@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+    <div id="filter_box">
+        <h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>
+        <h3>Участники группы</h3>
+        <ul class="friendTable">
+            {% for info in groups_users.object_list %}
+            <li>
+                {% with info.user as user %}
+                {% include "includes/user/micro.html" %}
+                {% endwith %}
+            </li>
+            {% endfor %}
+        </ul>
+
+{% if groups_users.object_list %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if groups_users.has_previous %}
+                <a href="{% url groups:member_list group.id %}?page={{ groups_users.previous_page_number }}">{% trans "previous" %}</a>
+            {% endif %}
+
+            <span class="current">
+{% blocktrans with groups_users.number as number and groups_users.paginator.num_pages as num_pages %}
+Page {{ number }} of {{ num_pages }}.
+{% endblocktrans %}
+            </span>
+
+            {% if groups_users.has_next %}
+                <a href="{% url groups:member_list group.id %}?page={{ groups_users.next_page_number }}">{% trans "next" %}</a>
+            {% endif %}
+        </span>
+    </div>
+{% endif %}
+
+	</div>
+    </div>
+</div>
+
+{% endblock %}

@@ -106,10 +106,11 @@ def group_view(request, id):
             is_status_request=group.is_request(request.user),
             group_messages=group_messages,
             form=form,
+            members_count=GroupUser.objects(group=group, status=GroupUser.STATUS.ACTIVE).count(),
         ))
 
 
-def member_list(request, id, format):
+def api_member_list(request, id, format):
     group = get_document_or_404(Group, id=id)
     mimetypes = dict(
             txt='text/plain',
@@ -121,6 +122,32 @@ def member_list(request, id, format):
                               dict(list=GroupUser.objects(group=group,
                                                           status=GroupUser.STATUS.ACTIVE)),
                               mimetype=mimetypes[format]
+                              )
+
+
+def member_list(request, id):
+    group = get_document_or_404(Group, id=id)
+    can_view = group.public or group.is_active(request.user) or request.user.is_superuser
+    if not can_view:
+        messages.add_message(request, messages.ERROR, _('You are not allowed.'))
+        return redirect(reverse('groups:group_view', args=[id]))
+
+    page = request.GET.get('page', None)
+    try:
+        page = int(page)
+    except:
+        page = 1
+    paginator = Paginator(GroupUser.objects(group=group, status=GroupUser.STATUS.ACTIVE),
+                          settings.GROUP_USERS_ON_PAGE,
+                          GroupUser.objects(group=group, status=GroupUser.STATUS.ACTIVE).count())
+    try:
+        groups_users = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        groups_users = paginator.page(paginator.num_pages)
+    return direct_to_template(request,
+                              'groups/member_list.html',
+                              dict(group=group,
+                                   groups_users=groups_users),
                               )
 
 
@@ -159,9 +186,9 @@ def members_manage(request, group):
     members = []
     for info in GroupUser.objects(group=group, status=GroupUser.STATUS.ACTIVE):
         if info.is_admin:
-            admins.append((info.user, info.is_admin))
+            admins.append(info.user)
         else:
-            members.append((info.user, info.is_admin))
+            members.append(info.user)
     return direct_to_template(request, 'groups/members_manage.html', {
         'group': group,
         'admins': admins,

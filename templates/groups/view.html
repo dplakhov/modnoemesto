@@ -204,12 +204,13 @@ $(document).ready(function(){
 <h3>Участники группы</h3>
 {% if can_view_private %}
 <ul class="friendTable">
-{% for user in members %}
+{% for user in members|slice:":6" %}
     <li>
         {% include "includes/user/micro.html" %}
     </li>
 {% endfor %}
 </ul>
+<a href="{% url groups:member_list group.id %}">все {{ members_count }}</a>
 {% else %}
 <p class="hide_info">Информация скрыта.</p>
 {% endif %}

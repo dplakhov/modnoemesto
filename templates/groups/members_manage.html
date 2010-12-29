@@ -8,17 +8,13 @@
         <h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>
         <h3>Руководство</h3>
         <ul class="friendTable">
-            {% for user, is_admin in admins %}
+            {% for user in admins %}
             <li class="friendTable">
                 <div style="float:left">
                 {% include "includes/user/micro.html" %}
                 </div>
                 <div class="operation" style="padding-left:0">
-                    <p>{% if is_admin %}
-                        <a class="reference" href="{% url groups:remove_admin_right group.id user.id %}">Разжаловать</a>
-                        {% else %}
-                        <a class="reference" href="{% url groups:give_admin_right group.id user.id %}">Назначить руководителем</a>
-                        {% endif %}</p>
+                    <p><a class="reference" href="{% url groups:remove_admin_right group.id user.id %}">Разжаловать</a></p>
                     <p><a class="reference" href="{% url groups:remove_member group.id user.id %}">Удалить</a></p>
                 </div>
             </li>
@@ -27,17 +23,13 @@
         {% if members %}
         <h3>Участники группы</h3>
         <ul class="friendTable">
-            {% for user, is_admin in members %}
+            {% for user in members %}
             <li class="friendTable">
                 <div style="float:left">
                 {% include "includes/user/micro.html" %}
                 </div>
                 <div class="operation" style="padding-left:0">
-                    <p>{% if is_admin %}
-                        <a class="reference" href="{% url groups:remove_admin_right group.id user.id %}">Разжаловать</a>
-                        {% else %}
-                        <a class="reference" href="{% url groups:give_admin_right group.id user.id %}">Назначить руководителем</a>
-                        {% endif %}</p>
+                    <p><a class="reference" href="{% url groups:give_admin_right group.id user.id %}">Назначить руководителем</a></p>
                     <p><a class="reference" href="{% url groups:remove_member group.id user.id %}">Удалить</a></p>
                 </div>
             </li>

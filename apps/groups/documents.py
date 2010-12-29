@@ -94,7 +94,6 @@ class Group(Document):
         return info and info.is_admin
 
     def paginate_messages(self, page=1):
-        print type(page), page
         if type(page) != int:
             try:
                 page = int(page)
