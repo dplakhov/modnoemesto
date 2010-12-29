@@ -4,8 +4,8 @@
 {% block content %}
 <div id="filter_box" style="overflow:hidden">
     <h2>{% trans "Available groups" %}</h2>
-        <div><a class="reference" href="{% url groups:group_add %}">{% trans "Create group" %}</a></div>
-
+        <div class="but"><a class="reference" href="{% url groups:group_add %}">{% trans "Create group" %}</a></div>
+	<br />
         {% for group in groups.object_list %}
             <div class="group_list">
                 <div class="group_ava"><a href="{% url groups:group_view id=group.id %}"><img src="{% media_url group.photo group_photo_mini.png %}" /></a></div>
