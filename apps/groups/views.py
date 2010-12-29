@@ -50,7 +50,7 @@ def user_group_list(request):
                               )
 
 
-def group_view(request, id, page=1):
+def group_view(request, id):
     group = get_document_or_404(Group, id=id)
     is_active = group.is_active(request.user)
 
@@ -79,11 +79,7 @@ def group_view(request, id, page=1):
     elif not is_ajax:
         form = MessageTextForm()
 
-    paginator = Paginator(GroupMessage.objects(group=group), settings.MESSAGES_ON_PAGE, GroupMessage.objects(group=group).count())
-    try:
-        group_messages = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        group_messages = paginator.page(paginator.num_pages)
+    group_messages = group.paginate_messages(request.GET.get('page', None))
 
     if is_ajax:
         return direct_to_template(request, 'groups/_comments.html', dict(
@@ -352,7 +348,15 @@ def group_leave_user(request, group, user_id):
 @check_admin_right
 def delete_message(request, group, message_id):
     get_document_or_404(GroupMessage, id=message_id).delete()
-    return redirect(reverse('groups:group_view', args=[group.id]))
+    if request.is_ajax():
+        group_messages = group.paginate_messages(request.GET.get('page', None))
+        return direct_to_template(request, 'groups/_comments.html', dict(
+            group=group,
+            is_admin=group.is_admin(request.user) or request.user.is_superuser,
+            group_messages=group_messages,
+        ))
+    else:
+        return redirect(reverse('groups:group_view', args=[group.id]))
 
 
 def send_my_invites_to_user(request, user_id):

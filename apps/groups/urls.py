@@ -10,7 +10,6 @@ urlpatterns = patterns('apps.groups.views',
        url(r'^(?P<id>[a-f0-9]{24})/$', 'group_view', name='group_view'),
        url(r'^(?P<id>[a-f0-9]{24})/members\.(?P<format>(txt|xml))$', 'member_list', name='member_list'),
 
-       url(r'^(?P<id>[a-f0-9]{24})/page/(?P<page>\d+)/$', 'group_view', name='group_view_page'),
        url(r'^(?P<id>[a-f0-9]{24})/message/(?P<message_id>[a-f0-9]{24})/delete/$', 'delete_message', name='delete_message'),
 
        url(r'^(?P<id>[a-f0-9]{24})/edit/$', 'group_edit', name='group_edit'),
