@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-DEBUG = TEMPLATE_DEBUG = False
+DEBUG = TEMPLATE_DEBUG = True
 
 ADMINS = (
     ('tech', 'tech@web-mark.ru'),
@@ -19,9 +19,9 @@ DATABASES = {
 
     'billing': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'billing',
-        'USER': 'billing',
-        'PASSWORD': 'akonEmjad2',
+        'NAME': 'billing_test',
+        'USER': 'billing_test',
+        'PASSWORD': 'akonEsdfsdfd2',
         'HOST': '10.10.10.7',
     },
 }
