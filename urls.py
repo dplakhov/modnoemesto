@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     (r'^news/', include('apps.news.urls', namespace='news')),
     (r'^log/', include('apps.logging.urls', namespace='logging')),
     (r'^chat/', include('apps.chat.urls', namespace='chat')),
-    
+    (r'^srv/', include('apps.server_api.urls', namespace='server_api')),
     (r'^owner/', include('apps.admin_blog.urls', namespace='admin_blog')),
     (r'^captcha/(?P<code>[\da-f]{32})/$', 'apps.supercaptcha.draw'),
     url(r'^robots.txt$', 'django.views.generic.simple.direct_to_template', name='robots_txt', kwargs={'template': 'robots.txt'}),

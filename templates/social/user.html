@@ -64,7 +64,7 @@
 
 </div>
 <div id="right">
-	<div class="own_photo rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+	<div class="own_photo rounded" style="-moz-border-radius: 10px 10px 10px 10px; background:#eeedde;">
         {% with page_user as user %}
             {% if user.avatar %}
                 <img src="{% url social:avatar user_id=user.id format='200x200' %}"/>
@@ -72,7 +72,26 @@
                 <img src="/media/img/notfound/avatar_200x200.png"/>
             {% endif %}
         {% endwith %}
-        
+     <div style="margin-top:8px; text-align:center">
+     
+     	{% if show_friend_button %}
+       <a class="tooltip toollip_friend" href="{% url friends:add page_user.id %}">
+       		<span class="toollip_friend">
+       		<img src="/media/images/toollip_friend.png" width="206px" height="69px" /></span></a>
+       {% endif %}
+       <a class="tooltip toollip_group" href="">
+            <span class="toollip_group">
+       		<img src="/media/images/toollip_group.png" width="206px" height="69px" /></span></a>
+       
+       <a class="tooltip toollip_mail" href="{% url user_messages:send_message page_user.id %}">
+       		<span class="toollip_mail">
+       		<img src="/media/images/toollip_mail.png" width="206px" height="69px" /></span></a>
+       
+       <a class="tooltip toollip_video" href="">
+       		<!--<span class="toollip_video">
+       		<img src="/media/images/toollip_video.png" width="206px" height="69px" /></span>--></a>
+     </div> <div style="clear:both"></div>
+    {% comment %}
         {% if show_friend_button %}
         <p>
             <a href="{% url friends:add page_user.id %}">
@@ -80,12 +99,15 @@
             </a>
         </p>
         {% endif %}
+    {% endcomment %}
+
+        
+        
     </div>
     <div class="profileActions">
         <ul>{% url friends:friends_all page_user.id as friends %}
             <li><a href="{% url groups:send_my_invites_to_user page_user.id %}">пригласить в группу</a></li>
             <li><a href="{{ friends }}">{% trans "Friends" %} ({{ page_user.friends.count }})</a></li>
-            <li><a href="{% url user_messages:send_message page_user.id %}">Написать сообшение</a></li>
             <li>Приглашённые: {{ invitee_count }}</li>
         </ul>
     </div>
