@@ -7,7 +7,11 @@
         {% endwith %}
     </div>
     <div class="message_text" style="width:340px;">
-        <p>{{ msg.timestamp|timesince }}</p>
+        <p>
+            {% with msg.timestamp as datetime %}
+                    {% include 'includes/datetime.html' %}
+            {% endwith %}
+        </p>
         <p>{{ msg.text }}</p>
     </div>
     {% if is_admin %}
