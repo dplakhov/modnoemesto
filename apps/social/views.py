@@ -35,11 +35,8 @@ from mongoengine.django.shortcuts import get_document_or_404
 from apps.user_messages.forms import MessageTextForm 
 from apps.media.documents import File
 from apps.media.transformations.image import ImageResize
-from apps.groups.documents import Group
-from apps.billing.documents import AccessCamOrder
 from apps.social.forms import ChangeProfileForm, LostPasswordForm
 from apps.social.forms import SetNewPasswordForm, InviteForm
-from apps.social.documents import Profile, Setting
 from apps.utils.stringio import StringIO
 from apps.media.tasks import apply_file_transformations
 
@@ -450,4 +447,3 @@ def invite(request, invite_id):
     request.session['invite_id'] = invite_id
 
     return redirect('social:index')
-

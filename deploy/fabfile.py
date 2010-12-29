@@ -65,7 +65,12 @@ def deploy(revision, reinstall=False):
                     run('rm app')
                 run('ln -fs %s app' % revision)
                 with cd('app'):
-                    put('settings/local.py',
+                    if env.host.startswith('as1'):
+                        settings_local = 'settings/local_test.py'
+                    else:
+                        settings_local = 'settings/local.py'
+                        
+                    put(settings_local,
                         '%s/app/settings/local.py' %
                         APPLICATION_DIR)
                     run('virtualenv venv')
@@ -79,19 +84,22 @@ def deploy_head(reinstall=False):
     deploy(revision, reinstall=reinstall)
 
 
-def install_keys():
-    pub_key = _pub_key()
-    with cd('/root'):
-        if not exists('.ssh'):
-            run('mkdir .ssh')
-            run('chmod 700 .ssh')
-        with cd('.ssh'):
-            #run('cat authorized_keys')
-            #print key
-            #if not contains(key, 'authorized_keys'):
-            #    print 'need'
-            #    append(key, 'authorized_keys')
-            append(pub_key, 'authorized_keys')
+def install_keys(user='root', key_file=None):
+    if key_file:
+       pub_key = open(key_file).read()
+    else:
+       pub_key = _pub_key()
+    env.user = user
+    if not exists('.ssh'):
+        run('mkdir .ssh')
+        run('chmod 700 .ssh')
+    with cd('.ssh'):
+        #run('cat authorized_keys')
+        #print key
+        #if not contains(key, 'authorized_keys'):
+        #    print 'need'
+        #    append(key, 'authorized_keys')
+        append(pub_key, 'authorized_keys')
 
 
 def upgrade_server():
@@ -228,7 +236,8 @@ def install_uwsgi():
 def pip_global():
     put('../requirements.pip', '/tmp/requirements.pip')
     try:
-        run('pip install --upgrade -r /tmp/requirements.pip')
+        run('pip install -r /tmp/requirements.pip')
+        #run('pip install --upgrade -r /tmp/requirements.pip')
     finally:
         run('rm /tmp/requirements.pip')
 
