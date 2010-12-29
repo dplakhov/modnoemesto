@@ -16,7 +16,7 @@
     </div>
     {% if is_admin %}
     <div class="operation">
-         <p><a class="reference" href="{% url groups:delete_message group.id msg.id %}">
+         <p><a class="reference ajax" href="{% url groups:delete_message group.id msg.id %}">
             {% trans "Delete" %}
         </a></p>
     </div>
@@ -28,7 +28,7 @@
     <div class="pagination">
         <span class="step-links">
             {% if group_messages.has_previous %}
-                <a href="{% url groups:group_view_page group.id group_messages.previous_page_number %}">{% trans "previous" %}</a>
+                <a href="{% url groups:group_view group.id %}?page={{ group_messages.previous_page_number }}" class="ajax">{% trans "previous" %}</a>
             {% endif %}
 
             <span class="current">
@@ -38,7 +38,7 @@ Page {{ number }} of {{ num_pages }}.
             </span>
 
             {% if group_messages.has_next %}
-                <a href="{% url groups:group_view_page group.id group_messages.next_page_number %}">{% trans "next" %}</a>
+                <a href="{% url groups:group_view group.id %}?page={{ group_messages.next_page_number }}" class="ajax">{% trans "next" %}</a>
             {% endif %}
         </span>
     </div>

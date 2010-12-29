@@ -15,13 +15,26 @@ $(document).ready(function(){
             $('.charsRemaining').html('');
         }
     });
-    window.setInterval(function(){
-        $.get('{% url groups:group_view group.id %}', function(data) {
+
+    function update_messages(url){
+        $.get(url, function(data) {
             if (data != '') {
                 $('.messages_inbox').html(data);
             }
         });
-    }, 30 * 1000);
+    }
+
+    window.setInterval(function(e){
+        update_messages('{% url groups:group_view group.id %}');
+    } , 30 * 1000);
+
+    $('.messages_inbox').click(function(e){
+        var link = $(e.target);
+        if (link.hasClass('ajax')) {
+            update_messages(link.attr('href'))
+            return false;
+        }
+    });
 });
 </script>
 {% endblock %}
