@@ -16,9 +16,9 @@ $(document).ready(function(){
                     alert(data);
                 }
             });
+            return false;
         }
-        return false;
-    }, 30 * 1000);
+    });
 });
 </script>
 {% endblock %}
@@ -27,14 +27,33 @@ $(document).ready(function(){
 
 <div id="filter_box">
 <h2>{% trans "My groups" %}</h2>
+<ul>
 {% for group in groups %}
-    <div class="user_group">
-        <div class="group_ava"><a href="{% url groups:group_view group.id %}"><img src="{% media_url group.photo group_photo_mini.png %}" /></a></div>
-        <div class="group_info"><a href="{% url groups:group_view group.id %}">{{ group.name }}</a></div>
-        <div class="group_info"><a href="{% url groups:send_invite group.id invite_user.id %}" class="invite">пригласить</a></div>
-    </div>
+    <li class="friendTable">
+        <div style="float:left">
+<table border="0" height="100%">
+ <tbody><tr>
+  <td height="100%" style="vertical-align: middle;">
+   <a href="{% url groups:group_view group.id %}">
+       <img src="{% media_url group.photo group_photo_mini.png %}" style="border:none" /></a>
+  </td>
+ </tr>
+
+ <tr>
+  <td><div>
+   <a href="{% url groups:group_view group.id %}">{{ group.name }}</a>
+   </div>
+  </td>
+ </tr>
+</tbody></table>
+        </div>
+        <div class="operation">
+             <p><a class="reference invite" href="{% url groups:send_invite group.id invite_user.id %}">Пригласить</a></p>
+        </div>
+    </li>
 {% empty %}
 У вас нет групп, в которую можно пригласить пользователя <a href="{% url social:user invite_user.id %}">{{ invite_user }}</a>.
 {% endfor %}
+</ul>
 </div>
 {% endblock %}

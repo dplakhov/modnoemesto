@@ -236,7 +236,8 @@ def install_uwsgi():
 def pip_global():
     put('../requirements.pip', '/tmp/requirements.pip')
     try:
-        run('pip install --upgrade -r /tmp/requirements.pip')
+        run('pip install -r /tmp/requirements.pip')
+        #run('pip install --upgrade -r /tmp/requirements.pip')
     finally:
         run('rm /tmp/requirements.pip')
 
