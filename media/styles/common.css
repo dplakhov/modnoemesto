@@ -1532,22 +1532,22 @@ a.tooltip
 .tooltip:hover span.toollip_friend
 {
 	left: -0.9em; 
-	top: -5.6em; 
+	top: -5.1em; 
 }
 .tooltip:hover span.toollip_group
 {
 	left: -5.1em; 
-	top: -5.6em; 
+	top: -5.1em; 
 }
 .tooltip:hover span.toollip_mail
 {
 	left: -9.3em; 
-	top: -5.6em; 
+	top: -5.1em; 
 }
 .tooltip:hover span.toollip_video
 {
 	left: -13.8em; 
-	top: -5.6em; 
+	top: -5.1em; 
 }
 a.toollip_friend
 {
