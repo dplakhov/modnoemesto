@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from apps.groups.documents import GroupTheme, GroupType
+from apps.groups.documents import GroupTheme, GroupType, Group
 
 class GroupCreationForm(forms.Form):
     name = forms.CharField(label=_('Name'), max_length=255)
@@ -25,6 +25,12 @@ class GroupCreationForm(forms.Form):
         super(GroupCreationForm, self).__init__(*args, **kwarg)
         self.fields['theme'].choices = [('', _('none selected')),] + [(i.id, i.name) for i in GroupTheme.objects.only('id','name').all()]
         self.fields['type'].choices = [('', _('none selected')),] + [(i.id, i.name) for i in GroupType.objects.only('id','name').all()]
+
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        if Group.objects(name__iexact=name).count() > 0:
+            raise forms.ValidationError(_(u"Group with that name already exists"))
+        return name
 
     def clean_theme(self):
         if not self.cleaned_data['theme']:
