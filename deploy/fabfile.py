@@ -79,19 +79,22 @@ def deploy_head(reinstall=False):
     deploy(revision, reinstall=reinstall)
 
 
-def install_keys():
-    pub_key = _pub_key()
-    with cd('/root'):
-        if not exists('.ssh'):
-            run('mkdir .ssh')
-            run('chmod 700 .ssh')
-        with cd('.ssh'):
-            #run('cat authorized_keys')
-            #print key
-            #if not contains(key, 'authorized_keys'):
-            #    print 'need'
-            #    append(key, 'authorized_keys')
-            append(pub_key, 'authorized_keys')
+def install_keys(user='root', key_file=None):
+    if key_file:
+       pub_key = open(key_file).read()
+    else:
+       pub_key = _pub_key()
+    env.user = user
+    if not exists('.ssh'):
+        run('mkdir .ssh')
+        run('chmod 700 .ssh')
+    with cd('.ssh'):
+        #run('cat authorized_keys')
+        #print key
+        #if not contains(key, 'authorized_keys'):
+        #    print 'need'
+        #    append(key, 'authorized_keys')
+        append(pub_key, 'authorized_keys')
 
 
 def upgrade_server():
