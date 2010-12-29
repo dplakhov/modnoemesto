@@ -5,12 +5,14 @@
 {% block js %}
 {{ block.super }}
 <script type="text/javascript">
+var is_first_page = true;
 $(document).ready(function(){
     $("#send_message_form").ajaxForm({
         clearForm: true,
         success: function(data) {
             if (data != '') {
                 $('.messages_inbox').html(data);
+                is_first_page = true;
             }
             $('.charsRemaining').html('');
         }
@@ -25,13 +27,17 @@ $(document).ready(function(){
     }
 
     window.setInterval(function(e){
-        update_messages('{% url groups:group_view group.id %}');
+        if (is_first_page) update_messages('{% url groups:group_view group.id %}');
     } , 30 * 1000);
 
     $('.messages_inbox').click(function(e){
         var link = $(e.target);
         if (link.hasClass('ajax')) {
-            update_messages(link.attr('href'))
+            var href = link.attr('href');
+            update_messages(href);
+            var n = href.match(/\?page=(\d+)$/);
+            if (n && parseInt(n[1]) != 1) is_first_page = false;
+            else is_first_page = true;
             return false;
         }
     });
