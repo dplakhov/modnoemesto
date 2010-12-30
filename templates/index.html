@@ -1,69 +1,62 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n media %}
 {% block content %}
-<div id="filter">
-<h2>{% trans "Users online" %}</h2>
 
 
 <!-- filter -->
-<div id="filterColumn">
+<div id="filterPeople">
     <div id="filter">
-<h2>Фильтр людей</h2>
+<h2>Поиск людей</h2>
 
-{% comment %}
-<form method="post">
+<form method="post" action="/filter/">
 <div class="filt rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
 
     <table class="camera_edit">
         <tbody>
         <tr>
-            <th>{{ form.name.label_tag }}:</th>
-            <td class="empty_filt"></td>
-            <td colspan="3"><div class="input_holder rounded">{{ form.name }}</div></td>
+            <td>{{ form.first_name.label_tag }}:</td>
+            <td>
+            	<div class="rounded" style="background: white none repeat scroll 0px 0px; padding: 3px 4px;">
+            		{{ form.first_name }}
+				</div>
+            </td>
+            <td>{{ form.last_name.label_tag }}:</td>
+            <td>
+            	<div class="rounded" style="background: white none repeat scroll 0px 0px; padding: 3px 4px;">
+            		{{ form.last_name }}
+				</div>
+            </td>
         </tr>
         <tr>
             <td style="height:10px"></td>
         </tr>
         <tr>
-            <td colspan="2"></td>
-            <td class="empty_filt"></td>
-            <th>{{ form.is_managed.label_tag }}:</th>
-            <td class="empty_filt"></td>
-            <td>{{ form.is_managed }}</td>
+            <td>
+            	{{ form.gender.label_tag }}:
+            </td>
+			<td colspan="3">
+				{{ form.gender }}
+			</td>
         </tr>
         <tr>
-            <td style="height:10px"></td>
+            <td colspan="4" style="height:10px"></td>
         </tr>
+		
         <tr>
-            <th>{{ form.is_view_enabled.label_tag }}:</th>
-            <td class="empty_filt"></td>
-            <td>{{ form.is_view_enabled }}</td>
-            <th>{{ form.is_management_enabled.label_tag }}:</th>
-            <td class="empty_filt"></td>
-            <td>{{ form.is_management_enabled }}</td>
-        </tr>
-        <tr>
-            <td style="height:10px"></td>
-        </tr>
-        <tr>
-            <th>{{ form.is_view_public.label_tag }}:</th>
-            <td class="empty_filt"></td>
-            <td>{{ form.is_view_public }}</td>
-            <th>{{ form.is_management_public.label_tag }}:</th>
-            <td class="empty_filt"></td>
-            <td>{{ form.is_management_public }}</td>
-        </tr>
-        <tr>
-            <td style="height:10px"></td>
-        </tr>
-        <tr>
-            <th>{{ form.is_view_paid.label_tag }}:</th>
-            <td class="empty_filt"></td>
-            <td>{{ form.is_view_paid }}</td>
-            <th>{{ form.is_management_paid.label_tag }}:</th>
-            <td class="empty_filt"></td>
-            <td>{{ form.is_management_paid }}</td>
-        </tr>
+            <td>
+            	{{ form.is_online.label_tag }}:
+            </td>
+			<td>
+				{{ form.is_online }}
+			</td>
+            <td>
+            	{{ form.has_photo.label_tag }}:
+            </td>
+			<td>
+				{{ form.has_photo }}
+			</td>
+        </tr>		
+		
         <tr>
             <td style="height:10px"></td>
         </tr>
@@ -71,18 +64,18 @@
     </table>
     
 <script type="text/javascript">
-var id_is_managed=$('#id_is_managed'),
-    id_is_management_enabled=$('#id_is_management_enabled'),
-    id_is_management_public=$('#id_is_management_public'),
-    id_is_management_paid=$('#id_is_management_paid');
-function management_checked() {
-    var checked = id_is_managed.attr('checked');
-    id_is_management_enabled.attr('disabled', !checked);
-    id_is_management_public.attr('disabled', !checked);
-    id_is_management_paid.attr('disabled', !checked);
-}
-id_is_managed.click(management_checked)
-management_checked();
+//var id_is_managed=$('#id_is_managed'),
+//    id_is_management_enabled=$('#id_is_management_enabled'),
+//    id_is_management_public=$('#id_is_management_public'),
+//    id_is_management_paid=$('#id_is_management_paid');
+//function management_checked() {
+//    var checked = id_is_managed.attr('checked');
+//    id_is_management_enabled.attr('disabled', !checked);
+//    id_is_management_public.attr('disabled', !checked);
+//    id_is_management_paid.attr('disabled', !checked);
+//}
+//id_is_managed.click(management_checked)
+//management_checked();
 </script>
 </div>
    
@@ -90,6 +83,8 @@ management_checked();
             <input type="submit" value="Фильтровать" class="button"/>
     </div>
 </form>
+
+
 
 <div id="filt_new">
 <ul class="cam_list">
@@ -107,18 +102,25 @@ management_checked();
 {% endfor %}
 </ul>
 </div>
+
+
     </div>
 </div>
-{% endcomment %}
+
 
 <!-- /filter -->
 
+
 <ul class="friendTable">
-{% for user in accs|slice:"20" %}
+{% for user in accounts %}
     <li>
     {% include "includes/user/mini.html" %}
     </li>
 {% endfor %}
 </ul>
+
+
+
 </div>
+
 {% endblock %}
