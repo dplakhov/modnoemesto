@@ -56,7 +56,7 @@ def notify_reset(request):
 
     return HttpResponse()
 
-@server_only_access()
+#@server_only_access()
 def friend_list(request, id, format, state):
     logger.debug('friend_list request %s' % id)
 
