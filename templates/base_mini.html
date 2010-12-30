@@ -38,7 +38,16 @@
         $(document).ready(function(){
 			$('.marquee').crawlLine({crawElement:'.move'});
             $('.rounded').corner();
-                                   });
+            $('textarea[maxlength]').live('input paste',function(e){
+                var text = $(e.target);
+                var max = parseInt(text.attr('maxlength'));
+                if(text.val().length > max){
+                    text.val(text.val().substr(0, text.attr('maxlength')));
+                }
+
+                text.parent().parent().find('.charsRemaining').html('Осталось ' + (max - text.val().length) + ' символов');
+            });
+        });
     </script>
     <script src="/media/js/ie6fix.js" type="text/javascript"></script>
     <script type="text/javascript">
@@ -192,7 +201,7 @@ here goes the actual content
             <li><a href="{% url social:static 'support' %}">Скорая техническая помощь</a></li>
             </ul>
             <p style="width:200px">Модное место &copy; 2010</p>
-            <p id="design">Разработано в <a href="http://www.web-mark.ru/" target="_blank">Web-Mark</a></p>
+            <p id="design"><a href="http://www.web-mark.ru">Разработка сайта</a> – <a href="http://www.web-mark.ru/clients.html">Web-Mark</a></p>
 
         </div>
        <div class="counter" style="text-indent:-9000px"> 

@@ -1,5 +1,5 @@
 {% load media %}
-
+<div id="flowplayer-panel">
  {% if not camera.force_html5 %}
             <a style="display:block;width:515px;height:330px" id="flash-player"> </a>
         {% endif %}
@@ -10,7 +10,8 @@
                height="330"
                style="display:block"
                poster="{% media_url camera.screen camera_screen_full.png %}"
-        src="http://vid1.modnoemesto.ru:1935/live/mp4:{{ camera.stream_name }}/playlist.m3u8" />
+        src="http://vid1.modnoemesto.ru:1935/live/mp4:{{ camera.stream_name }}/playlist.m3u8" >
+        </video>
 
         {% if not camera.force_html5 %}
 
@@ -51,3 +52,4 @@
             flashvars="ip=modnoemesto.ru&amp;path=cgi-bin/encoder&amp;user=admin&amp;password=123456&amp;debug=0">
       </object>
     {% endif %}
+</div>

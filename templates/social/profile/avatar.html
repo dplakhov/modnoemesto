@@ -3,8 +3,6 @@
 {% block content %}
 <h2 class="video_title">{% trans "Change avatar" %}</h2>
 
-        <img src="{{ user.avatar_micro }}" />
-        <img src="{% url social:avatar user_id=user.id format='60x60' %}" />
         <img src="{% url social:avatar user_id=user.id format='200x200' %}" />
 
     <form method="post" enctype="multipart/form-data">
