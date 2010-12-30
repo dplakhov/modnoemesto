@@ -14,12 +14,7 @@ class AcessCameraTest(unittest.TestCase):
 
     def setUp(self):
         self.tearDown()
-        self.client = Client()
-        user = User.create_user(email='test@web-mark.ru', password='123')
-        user.cash = 1000000.0
-        user.save()
-        self.client.login(email='test1@web-mark.ru', password='123')
-        
+
         self.camera_type_axis = CameraType(
             name='Axis',
             driver='axis.AxisDriver',
@@ -55,7 +50,7 @@ class AcessCameraTest(unittest.TestCase):
             description='Manage Package Description...',
             cost=2.0,
             duration=2,
-            is_controlled=False,
+            is_controlled=True,
         )
         self.tariff_manage_package.save()
 
@@ -63,31 +58,35 @@ class AcessCameraTest(unittest.TestCase):
             name='Manage Package Time',
             description='Manage Package Description...',
             cost=2.0,
-            is_controlled=False,
+            is_controlled=True,
         )
         self.tariff_manage_time.save()
 
-        camera = Camera(
-            name='Test Billing Camera',
-            owner=user,
-            type=self.camera_type_axis_manage,
-            stream_name='boston',
-            camera_management_host='localhost.boston.com',
-            camera_management_username='test',
-            camera_management_password='321',
-            is_view_enabled=True,
-            is_view_public=True,
-            is_view_paid=True,
-            is_management_enabled=True,
-            is_management_public=True,
-            is_management_paid=True,
-            is_managed=True,
-            management_packet_tariff=self.tariff_manage_package,
-            management_time_tariff=self.tariff_manage_time,
-            view_packet_tariff=self.tariff_view_package,
-            view_time_tariff=self.tariff_view_time,
-        )
-        camera.save()
+        for i in xrange(1, 4):
+            user = User.create_user(email='test%i@web-mark.ru' % i, password='123')
+            user.cash = 1000000.0
+            user.save()
+            camera = Camera(
+                name='Test Billing Camera %i' % i,
+                owner=user,
+                type=self.camera_type_axis_manage,
+                stream_name='boston',
+                camera_management_host='localhost.boston.com',
+                camera_management_username='test',
+                camera_management_password='321',
+                is_view_enabled=True,
+                is_view_public=True,
+                is_view_paid=True,
+                is_management_enabled=True,
+                is_management_public=True,
+                is_management_paid=True,
+                is_managed=True,
+                management_packet_tariff=self.tariff_manage_package,
+                management_time_tariff=self.tariff_manage_time,
+                view_packet_tariff=self.tariff_view_package,
+                view_time_tariff=self.tariff_view_time,
+            )
+            camera.save()
 
     def tearDown(self):
         CameraType.objects.delete()
@@ -97,21 +96,47 @@ class AcessCameraTest(unittest.TestCase):
         User.objects.delete()
 
     def test_access_view_package(self):
-        user = User.objects.get(email='test@web-mark.ru')
-        camera = Camera.objects.get(name='Test Billing Camera')
-        order = AccessCamOrder(
-            tariff=self.tariff_view_package,
-            duration=1,
-            user=user,
-            camera=camera,
-        )
-        order.set_access_period(order.is_controlled)
-        order.save()
+        def get_access():
+            user = User.objects.get(email='test1@web-mark.ru')
+            camera = Camera.objects.get(name='Test Billing Camera 2')
+            order = AccessCamOrder(
+                tariff=self.tariff_view_package,
+                duration=1,
+                user=user,
+                camera=camera,
+            )
+            order.set_access_period(order.is_controlled)
+            order.save()
+            return order
+
+        order = get_access()
+
         self.assertEqual(order.can_access(), True)
         time.sleep(1)
         self.assertEqual(order.can_access(), True)
         time.sleep(1)
         self.assertEqual(order.can_access(), False)
+
+        get_access()#2
+        get_access()#4
+        get_access()#6
+
+        camera = Camera.objects.get(name='Test Billing Camera 2')
+        user_payed = User.objects.get(email='test1@web-mark.ru')
+        user_owner = User.objects.get(email='test2@web-mark.ru')
+        user_other = User.objects.get(email='test3@web-mark.ru')
+
+        self.assertEqual(type(camera.can_show(camera.owner, user_payed)), dict)
+        self.assertEqual(camera.can_show(camera.owner, user_owner), False)
+        self.assertEqual(camera.can_show(camera.owner, user_other), False)
+        time.sleep(4)
+        self.assertEqual(type(camera.can_show(camera.owner, user_payed)), dict)
+        self.assertEqual(camera.can_show(camera.owner, user_owner), False)
+        self.assertEqual(camera.can_show(camera.owner, user_other), False)
+        time.sleep(4)
+        self.assertEqual(camera.can_show(camera.owner, user_payed), False)
+        self.assertEqual(camera.can_show(camera.owner, user_owner), False)
+        self.assertEqual(camera.can_show(camera.owner, user_other), False)
 
 
 class BillingTest(unittest.TestCase):

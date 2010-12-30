@@ -52,7 +52,8 @@ class AccessCamOrder(Document):
     is_controlled = BooleanField(default=False)
     tariff = ReferenceField('Tariff')
     # in seconds
-    duration = IntField()
+    duration = FloatField()
+    count_packets = IntField()
     camera = ReferenceField('Camera')
     user = ReferenceField('User')
     begin_date = DateTimeField()
@@ -64,9 +65,20 @@ class AccessCamOrder(Document):
         super(AccessCamOrder, self).__init__(*args, **kwargs)
         self.is_controlled = self.tariff.is_controlled
         if self.tariff.is_packet:
-            self.cost = self.tariff.cost * self.duration
+            self.cost = self.tariff.cost * self.count_packets
             self.user.cash -= self.cost
             self.user.save()
+
+    @property
+    def is_packet(self):
+        return self.tariff.is_packet
+
+    @property
+    def duration_complete(self):
+        return self.count_packets * self.tariff.duration
+
+    def set_end_date(self):
+        self.end_date = self.begin_date + timedelta(seconds=self.duration_complete)
 
     def set_access_period(self, is_controlled):
         now = datetime.now()
@@ -74,22 +86,44 @@ class AccessCamOrder(Document):
             last_order = AccessCamOrder.objects(camera=self.camera,
                                                 is_controlled=is_controlled,
                                                 end_date__gt=now)
-        elif self.tariff.is_packet:
+        elif self.is_packet:
             last_order = AccessCamOrder.objects(user=self.user,
                                                 camera=self.camera,
                                                 is_controlled=is_controlled,
                                                 end_date__gt=now)
-        if self.tariff.is_packet:
+        if self.is_packet:
             last_order = last_order.order_by('-end_date').only('end_date').first()
             self.begin_date = last_order and last_order.end_date or now
-            duration_complete = self.duration * self.tariff.duration
-            self.end_date = self.begin_date + timedelta(seconds=duration_complete)
+            self.set_end_date()
         else:
             if is_controlled:
-                last_order = last_order.order_by('-end_date').only('end_date').first()
+                last_order = last_order.order_by('-create_on').only('end_date').first()
                 self.begin_date = last_order and last_order.end_date or now
             else:
                 self.begin_date = now
+
+    def set_end_time(self):
+        if self.end_date is not None:
+            return False
+        self.end_date = self.begin_date + timedelta(seconds=self.count_packets)
+        if self.is_controlled:
+            orders = AccessCamOrder.objects(camera=self.camera,
+                                            is_controlled=self.is_controlled,
+                                            create_on__gt=self.create_on).order_by('create_on'),all()
+            if orders:
+                last_end_date = self.end_date
+                for order in orders:
+                    order.begin_date = last_end_date + timedelta(seconds=1)
+                    if not order.is_packet:
+                        order.save()
+                        break
+                    order.set_end_date()
+                    order.save()
+                    last_end_date = order.end_date
+                self.camera.operator = orders[0].user
+            else:
+                self.camera.operator = None
+            self.camera.save()
 
     def can_access(self):
         return self.status == ACCESS_CAM_ORDER_STATUS.ACTIVE
