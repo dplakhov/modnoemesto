@@ -10,7 +10,7 @@ class MongoHander(logging.Handler):
         from django.conf import settings
 
         try:
-            if sys.version_info < (2,5):
+            if sys.version_info < (2, 5):
                 # A nasty workaround required because Python 2.4's logging
                 # module doesn't support passing in extra context.
                 # For this handler, the only extra data we need is the
@@ -34,18 +34,18 @@ class MongoHander(logging.Handler):
         else:
             stack_trace = 'No stack trace available'
 
-        message = "%s\n\n%s" % (stack_trace, request_repr)
-        
+        message = "%s\n%s\n%s" % (self.format(record), stack_trace, request_repr)
+
         from apps.logging.models import LogEntry
         entry = LogEntry()
-        entry.message = message
+        entry.message = record.message
         entry.levelname = record.levelname
         entry.levelnum = record.levelno
         entry.pathname = record.pathname
         entry.logger_name = record.name
         entry.func = record.funcName
         entry.lineno = record.lineno
-        
-        entry.save() 
-        
+
+        entry.save()
+
 

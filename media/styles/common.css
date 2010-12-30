@@ -339,10 +339,20 @@ div#player
 }
 #watch-panel
 {
+    /*
     border: #eeedde solid 5px;
     margin-top: 10px;
-   /* width: 530px;*/
+    width: 530px;
+    */
 }
+#flowplayer-panel
+{
+    border: #eeedde solid 5px;
+    margin-top: 10px;
+    width: 530px;
+}
+
+
 #video_coment
 {
     overflow: hidden;
@@ -1176,7 +1186,8 @@ a.reference
 	width:180px; 
 	margin-left: 70px;
 	position: relative;
-	height: 51px;
+	height: 47px;
+	overflow:hidden;
 }
 .messages
 {
@@ -1396,10 +1407,12 @@ li.friendTable
 	overflow: hidden;
 	margin-top: 10px;
 	float:left;
+	width: 250px;
 }
-.user_group a
+.user_group .group_info a
 {
 	color: #838383;
+	text-decoration: none;
 }
 .group_description th, .group_description td
 {
