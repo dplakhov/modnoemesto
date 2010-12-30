@@ -26,9 +26,11 @@ $(document).ready(function(){
 {% block content %}
 
 <div id="filter_box">
-<h2>{% trans "My groups" %}</h2>
+<h2>Пригласить в мои группы</h2>
 <ul>
 {% for group in groups %}
+   
+   {% comment %}
     <li class="friendTable">
         <div style="float:left">
 <table border="0" height="100%">
@@ -51,8 +53,22 @@ $(document).ready(function(){
              <p><a class="reference invite" href="{% url groups:send_invite group.id invite_user.id %}">Пригласить</a></p>
         </div>
     </li>
+    
+    {% endcomment %}
+    
+    <div class="user_group">
+            <div class="group_ava"><a href="{% url groups:group_view id=group.id %}"><img src="{% media_url group.photo group_photo_normal.png %}" /></a></div>
+            <div style="overflow:hidden; height:55px">
+            <div class="operation" style="padding:0;">
+             <p><a class="reference invite" href="{% url groups:send_invite group.id invite_user.id %}">Пригласить</a></p>
+        </div>
+            <div class="group_info" style="clear:left; margin-left:0"><a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a></div>
+           </div>
+           
+        </div> 
+    
 {% empty %}
-У вас нет групп, в которую можно пригласить пользователя <a href="{% url social:user invite_user.id %}">{{ invite_user }}</a>.
+<p style="color:#575655">У вас нет групп, в которую можно пригласить пользователя <a href="{% url social:user invite_user.id %}">{{ invite_user }}</a>.</p>
 {% endfor %}
 </ul>
 </div>
