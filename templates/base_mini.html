@@ -38,13 +38,14 @@
         $(document).ready(function(){
 			$('.marquee').crawlLine({crawElement:'.move'});
             $('.rounded').corner();
-            $('textarea[maxlength]').change(function(){
-                var max = parseInt($(this).attr('maxlength'));
-                if($(this).val().length > max){
-                    $(this).val($(this).val().substr(0, $(this).attr('maxlength')));
+            $('textarea[maxlength]').live('input paste',function(e){
+                var text = $(e.target);
+                var max = parseInt(text.attr('maxlength'));
+                if(text.val().length > max){
+                    text.val(text.val().substr(0, text.attr('maxlength')));
                 }
 
-                $(this).parent().parent().find('.charsRemaining').html('Осталось ' + (max - $(this).val().length) + ' символов');
+                text.parent().parent().find('.charsRemaining').html('Осталось ' + (max - text.val().length) + ' символов');
             });
         });
     </script>
