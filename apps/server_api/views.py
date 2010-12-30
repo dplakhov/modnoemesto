@@ -68,7 +68,8 @@ def friend_list(request, id, format, state):
 
     else:
         raise NotImplementedError()
-
+    _list = list(_list)
+    _list.insert(0, user)
     return direct_to_template(request,
                               'server_api/user_friend_list.%s' % format,
                               dict(list=_list),
