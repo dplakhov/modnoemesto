@@ -24,7 +24,7 @@
     {# <link href="/rss/" rel="alternate" type="application/rss+xml" /> #}
     {% endblock %}
 
-    <title>{% block title %}Модное место - уникальная социальная видеосеть! Модное место платит участникам!{% endblock %}</title>
+    <title>{% block title %}Модное место – новая социальная сеть. Модное место – социальная сеть которая платит за видео!{% endblock %}</title>
 
     {% block js %}
     <script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
@@ -103,8 +103,9 @@
     <div id="subContainer">
 
         <div id="header">
-            {% if request.path == '/' %}
-            <span id="logo" ><img src="/media/images/logo_bg.jpg" alt="Модное место" /></span>
+        
+            {% if not user.is_authenticated %}
+            <h1 id="logo_index" >Модное место – новая социальная сеть</h1>
             {% else %}
             <a id="logo" href="/"><img src="/media/images/logo_bg.jpg" alt="Модное место" /></a>
             {% endif %}
