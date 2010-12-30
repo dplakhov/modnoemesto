@@ -4,6 +4,8 @@ import sys
 import random
 import os
 import re
+from apps.billing.documents import Tariff
+from apps.cam.documents import CameraType
 
 from django.test.client import Client
 from django.contrib.webdesign import lorem_ipsum
@@ -173,3 +175,54 @@ class Command(BaseCommand):
                 print  '\rfriending and messaging %002d%%' % (i*100/num),
                 sys.stdout.flush()
         print  '\rfriending and messaging 100%'
+        print
+
+        CameraType(
+            name='Telnew only view (Def)',
+            driver='apps.cam.drivers.telnew.TelnewDriver',
+            is_default=True,
+        ).save()
+        CameraType(
+            name='Telnew manage',
+            driver='apps.cam.drivers.telnew.TelnewDriver',
+            is_controlled=True,
+        ).save()
+        CameraType(
+            name='Axis only view',
+            driver='apps.cam.drivers.axis.AxisDriver',
+        ).save()
+        CameraType(
+            name='Axis manage',
+            driver='apps.cam.drivers.axis.AxisDriver',
+            is_controlled=True,
+        ).save()
+        print '\rCemeras 100%'
+        print
+
+        Tariff(
+            name='View Package 1 min',
+            description='View Package Description...',
+            cost=1.0,
+            duration=2,
+            is_controlled=False,
+        ).save()
+        Tariff(
+            name='View Package Time',
+            description='View Package Description...',
+            cost=1.0,
+            is_controlled=False,
+        ).save()
+        Tariff(
+            name='Manage Package 1 min',
+            description='Manage Package Description...',
+            cost=2.0,
+            duration=2,
+            is_controlled=True,
+        ).save()
+        Tariff(
+            name='Manage Package Time',
+            description='Manage Package Description...',
+            cost=2.0,
+            is_controlled=True,
+        ).save()
+        print '\rTariffs 100%'
