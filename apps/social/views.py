@@ -32,7 +32,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from mongoengine.django.shortcuts import get_document_or_404
 
 
-from apps.user_messages.forms import MessageTextForm 
+from apps.user_messages.forms import MessageTextForm
 from apps.media.documents import File
 from apps.media.transformations.image import ImageResize
 from apps.social.forms import ChangeProfileForm, LostPasswordForm
@@ -40,15 +40,62 @@ from apps.social.forms import SetNewPasswordForm, InviteForm
 from apps.utils.stringio import StringIO
 from apps.media.tasks import apply_file_transformations
 
-from forms import ( UserCreationForm, LoginForm, ChangeAvatarForm)
-from documents import (User, LimitsViolationException, Invite)
+from forms import UserCreationForm, LoginForm, ChangeAvatarForm
+from documents import User, LimitsViolationException, Invite
+from forms import PeopleFilterForm
+from apps.social.documents import Profile
+
+def filter(request):
+    form = PeopleFilterForm(request.POST or None)
+    filter_user_data = {}
+    filter_profile_data = {}
+
+    if form.is_valid():
+        data = dict(form.cleaned_data)
+        if data['first_name']:
+            filter_user_data['first_name__icontains'] = data['first_name']
+
+        if data['last_name']:
+            filter_user_data['last_name__icontains'] = data['last_name']
+
+        if data['gender']:
+            filter_profile_data['sex'] = data['gender']
+
+        if data['is_online']:
+            filter_user_data['is_active'] = data['is_online']
+
+        if data['has_photo']:
+            filter_user_data['avatar__exists'] = True
+
+    filter_user_data.update(
+        {'last_access__gt': User.get_delta_time()
+    })
+
+    users = User.objects.filter(**filter_user_data)
+
+    if filter_profile_data:
+        pks = [user.pk for user in users]
+        profiles = Profile.objects.filter(user__in=pks, **filter_profile_data)
+        accounts = [profile.user for profile in profiles]
+    else:
+        accounts = users
+
+    return direct_to_template(request, 'index.html', {
+        'form': form,
+        'accounts': accounts,
+    })
+
 
 
 def index(request):
     if not request.user.is_authenticated():
         return _index_unreg(request)
-    accs = User.objects(last_access__gt=User.get_delta_time(), is_active=True)
-    return direct_to_template(request, 'index.html', { 'accs': accs })
+    form = PeopleFilterForm()
+    accounts = User.objects(last_access__gt=User.get_delta_time(), is_active=True)
+    return direct_to_template(request, 'index.html', {
+        'accounts': accounts,
+        'form': form
+    })
 
 
 def _index_unreg(request):
@@ -80,7 +127,7 @@ def _index_unreg(request):
 def static(request, page):
     return direct_to_template(request, 'static/%s.html' % page, {
         'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })
-    
+
 def register(request):
     form = UserCreationForm(request.POST)
     if form.is_valid():
@@ -155,7 +202,7 @@ def activation(request, code=None):
         messages.add_message(request, messages.ERROR,
                              _('Activation code corrupted or already used'))
         return redirect('social:index')
-        
+
     user.is_active = True
     # django needs a backend annotation
     from django.contrib.auth import get_backends
@@ -300,7 +347,7 @@ def avatar_edit(request):
                 user.avatar = avatar
                 user.save()
 
-                transformations = [ ImageResize(name='%sx%s' % (w,h), format='png', width=w, height=h)
+                transformations = [ ImageResize(name='%sx%s' % (w, h), format='png', width=w, height=h)
                                     for (w, h) in settings.AVATAR_SIZES ]
 
                 if settings.TASKS_ENABLED.get('AVATAR_RESIZE'):
@@ -363,7 +410,7 @@ def server_error(request):
 
     msg.send(fail_silently=True)
 
-    template_name='500.html'
+    template_name = '500.html'
     t = loader.get_template(template_name)
     #logging.getLogger('server_error').error(request)
     return HttpResponseServerError(t.render(Context({})))

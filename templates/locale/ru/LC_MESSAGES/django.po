@@ -7,7 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2010-12-29 16:16+0300\n"
+=======
+"POT-Creation-Date: 2010-12-29 17:51+0300\n"
+>>>>>>> people_filter
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,9 +26,9 @@ msgstr ""
 msgid "search"
 msgstr "поиск"
 
-#: index.html:5
-msgid "Users online"
-msgstr "Пользователи онлайн"
+#: index.html:9
+msgid "People filter"
+msgstr "Поиск людей"
 
 #: index_unreg.html:169
 msgid "This account is inactive."
@@ -107,9 +111,15 @@ msgstr "Добавить"
 
 #: admin_blog/edit.html:36 billing/tariff_edit.html:16 cam/cam_edit.html:246
 #: cam/screen_edit.html:26 cam/type_edit.html:16 groups/group_edit.html:179
+<<<<<<< HEAD
 #: groups/photo_edit.html:25 groups/theme_edit.html:16
 #: groups/type_edit.html:16 news/edit.html:55 notes/note_edit.html:42
 #: social/profile/avatar.html:15 social/profile/edit.html:128
+=======
+#: groups/photo_edit.html:26 groups/theme_edit.html:16
+#: groups/type_edit.html:16 news/edit.html:55 notes/note_edit.html:42
+#: social/profile/avatar.html:17 social/profile/edit.html:128
+>>>>>>> people_filter
 #: social/profile/edit.html.py:135
 msgid "Save"
 msgstr "Сохранить"
@@ -296,8 +306,12 @@ msgid "Cancel"
 msgstr "Отменить"
 
 #: groups/group_edit.html:17 groups/members_manage.html:8
+<<<<<<< HEAD
 #: groups/photo_edit.html:6 groups/send_friends_invite.html:8
 #: groups/view.html:33
+=======
+#: groups/send_friends_invite.html:8 groups/view.html:33
+>>>>>>> people_filter
 msgid "Group"
 msgstr "Группа"
 
@@ -318,9 +332,16 @@ msgstr "Создать группу"
 msgid "Available groups"
 msgstr "Доступные группы"
 
+<<<<<<< HEAD
 #: groups/photo_edit.html:7
 msgid "Change photo"
 msgstr "Сменить фотографию"
+=======
+#: groups/photo_edit.html:6
+#, fuzzy
+msgid "Change photo"
+msgstr "Сменить аватар"
+>>>>>>> people_filter
 
 #: groups/send_friends_invite.html:9
 msgid "Your friends"
@@ -668,3 +689,6 @@ msgstr "Просмотр сообщения"
 #: user_messages/sent.html:13
 msgid "Messages: sent"
 msgstr "Сообщения: отправленные"
+
+#~ msgid "Users online"
+#~ msgstr "Пользователи онлайн"
