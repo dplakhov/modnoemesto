@@ -339,10 +339,20 @@ div#player
 }
 #watch-panel
 {
+    /*
     border: #eeedde solid 5px;
     margin-top: 10px;
-   /* width: 530px;*/
+    width: 530px;
+    */
 }
+#flowplayer-panel
+{
+    border: #eeedde solid 5px;
+    margin-top: 10px;
+    width: 530px;
+}
+
+
 #video_coment
 {
     overflow: hidden;

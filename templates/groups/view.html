@@ -5,23 +5,42 @@
 {% block js %}
 {{ block.super }}
 <script type="text/javascript">
+var is_first_page = true;
 $(document).ready(function(){
     $("#send_message_form").ajaxForm({
         clearForm: true,
         success: function(data) {
             if (data != '') {
                 $('.messages_inbox').html(data);
+                is_first_page = true;
             }
             $('.charsRemaining').html('');
         }
     });
-    window.setInterval(function(){
-        $.get('{% url groups:group_view group.id %}', function(data) {
+
+    function update_messages(url){
+        $.get(url, function(data) {
             if (data != '') {
                 $('.messages_inbox').html(data);
             }
         });
-    }, 30 * 1000);
+    }
+
+    window.setInterval(function(e){
+        if (is_first_page) update_messages('{% url groups:group_view group.id %}');
+    } , 30 * 1000);
+
+    $('.messages_inbox').click(function(e){
+        var link = $(e.target);
+        if (link.hasClass('ajax')) {
+            var href = link.attr('href');
+            update_messages(href);
+            var n = href.match(/\?page=(\d+)$/);
+            if (n && parseInt(n[1]) != 1) is_first_page = false;
+            else is_first_page = true;
+            return false;
+        }
+    });
 });
 </script>
 {% endblock %}
@@ -191,12 +210,13 @@ $(document).ready(function(){
 <h3>Участники группы</h3>
 {% if can_view_private %}
 <ul class="friendTable">
-{% for user in members %}
+{% for user in members|slice:":6" %}
     <li>
         {% include "includes/user/micro.html" %}
     </li>
 {% endfor %}
 </ul>
+<a href="{% url groups:member_list group.id %}">все {{ members_count }}</a>
 {% else %}
 <p class="hide_info">Информация скрыта.</p>
 {% endif %}

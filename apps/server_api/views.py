@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from apps.social.documents import User
+from django.views.generic.simple import direct_to_template
+from mongoengine.django.shortcuts import get_document_or_404
 
 import redis
 from django.http import HttpResponse
@@ -50,3 +53,24 @@ def notify_reset(request):
         _append_online(users)
 
     return HttpResponse()
+
+@server_only_access()
+def friend_list(request, id, format, state):
+    user = get_document_or_404(User, id=id)
+    mimetypes = dict(
+            txt='text/plain',
+            xml='xml/plain',
+                     )
+    if state == 'all':
+        _list = user.friends.list
+    elif state == 'online':
+        _list = user.friends_online
+
+    else:
+        raise NotImplementedError()
+
+    return direct_to_template(request,
+                              'server_api/user_friend_list.%s' % format,
+                              dict(list=_list),
+                              mimetype=mimetypes[format]
+                              )
