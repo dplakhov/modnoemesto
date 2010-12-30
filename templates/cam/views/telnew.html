@@ -1,12 +1,13 @@
+{% ifequal request.user camera.owner %}
 {% spaceless %}
-<object width="530"
-        height="{% ifequal request.user camera.owner %}450{% else %}400{% endifequal %}" style="position:relative; left:-5px;">
-    <embed src="/media/swf/telnew-{% ifequal request.user camera.owner %}manage{% else %}view{% endifequal %}.swf"
+<object width="745"
+        height="515" style="position:relative; left:-5px;">
+    <embed src="/media/swf/telnew-conf.swf"
         quality="high"
         bgcolor="#869ca7"
-        flashvars="myname={% if request.user.get_camera %}{{ request.user.get_camera.id }}{% endif %}&username={{ camera.id }}&stream={{ camera.id }}&ip=77.234.194.200"
-        width="530"
-        height="{% ifequal request.user camera.owner %}450{% else %}400{% endifequal %}"
+        flashvars="myname={{ user.id }}&ip=188.93.21.227&group_id={{ group.id }}&session_key={{ request.session.session_key }}"
+        width="745"
+        height="515"
         name="sdo_video"
         align="middle"
         play="true"
@@ -18,3 +19,4 @@
 </object>
 {% endspaceless %}
 <div>Используются технологии <a href="http://telnew.ru/" target="_blank">TELNEW</a></div>
+{% endifequal %}
