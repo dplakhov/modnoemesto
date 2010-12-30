@@ -67,9 +67,9 @@ def filter(request):
         if data['has_photo']:
             filter_user_data['avatar__exists'] = True
 
-#    filter_user_data.update(
-#        {'last_access__gt': User.get_delta_time()
-#    })
+    filter_user_data.update(
+        {'last_access__gt': User.get_delta_time()
+    })
 
     users = User.objects.filter(**filter_user_data)
 
@@ -91,9 +91,9 @@ def index(request):
     if not request.user.is_authenticated():
         return _index_unreg(request)
     form = PeopleFilterForm()
-    accs = User.objects(last_access__gt=User.get_delta_time(), is_active=True)
+    accounts = User.objects(last_access__gt=User.get_delta_time(), is_active=True)
     return direct_to_template(request, 'index.html', {
-        'accs': accs,
+        'accounts': accounts,
         'form': form
     })
 

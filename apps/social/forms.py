@@ -21,7 +21,9 @@ class PeopleFilterForm(forms.Form):
     mobile = forms.CharField(label=_(u"Сотовый телефон"), required=False)
     website = forms.CharField(label=_(u"Сайт"), required=False)
     gender = forms.CharField(label=_(u"Пол"),
-        widget=forms.Select(choices=GENDER_CHOICES, attrs={'class':'gender-selectbox'}),
+        widget=forms.Select(choices=GENDER_CHOICES,
+                            #attrs={'class':'gender-selectbox'}
+        ),
         required=False)
     city = forms.CharField(label=_(u"Город"), required=False)
     university_name = forms.CharField(label=_(u"Университет"), required=False)
