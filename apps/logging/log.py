@@ -34,7 +34,7 @@ class MongoHander(logging.Handler):
         else:
             stack_trace = 'No stack trace available'
 
-        message = "%s\n\n%s" % (stack_trace, request_repr)
+        message = "%s\n%s\n%s" % (self.format(record), stack_trace, request_repr)
         
         from apps.logging.models import LogEntry
         entry = LogEntry()
