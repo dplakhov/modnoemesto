@@ -7,6 +7,8 @@ import redis
 from django.http import HttpResponse
 from django.conf import settings
 
+import logging
+logger = logging.getLogger('server_api')
 
 STREAMED_USERS_DATABASE = 'streamed_users'
 STREAMED_USERS_SET = 'streamed_users'
@@ -56,6 +58,8 @@ def notify_reset(request):
 
 @server_only_access()
 def friend_list(request, id, format, state):
+    logger.debug('friend_list request %s' % id)
+
     user = get_document_or_404(User, id=id)
     mimetypes = dict(
             txt='text/plain',

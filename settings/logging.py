@@ -117,7 +117,12 @@ LOGGING = {
             'level': 'CRITICAL',
             'propagate': True,
         },
- 
+
+        'server_api': {
+            'handlers': ['mongo_debug'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
     }
 }
 
