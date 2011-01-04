@@ -7,6 +7,32 @@ from django.contrib.auth import authenticate
 from apps.supercaptcha import CaptchaField
 
 
+GENDER_CHOICES = (
+    ('', _(u'Не выбран')),
+    ('m', _(u'Male')),
+    ('f', _(u'Female')),
+)
+
+class PeopleFilterForm(forms.Form):
+    first_name = forms.CharField(label=_(u"Имя"), required=False)
+    last_name = forms.CharField(label=_(u"Фамилия"), required=False)
+    birthday = forms.CharField(label=_(u"День рождения"), required=False)
+    icq = forms.CharField(label=_(u"ICQ"), required=False)
+    mobile = forms.CharField(label=_(u"Сотовый телефон"), required=False)
+    website = forms.CharField(label=_(u"Сайт"), required=False)
+    gender = forms.CharField(label=_(u"Пол"),
+        widget=forms.Select(choices=GENDER_CHOICES,
+                            #attrs={'class':'gender-selectbox'}
+        ),
+        required=False)
+    city = forms.CharField(label=_(u"Город"), required=False)
+    university_name = forms.CharField(label=_(u"Университет"), required=False)
+    university_department = forms.CharField(label=_(u"Факультет"), required=False)
+    university_status = forms.CharField(label=_(u"Статус"), required=False)
+    is_online = forms.BooleanField(label=_(u'На сайте'), required=False, initial=True)
+    has_photo = forms.BooleanField(label=_(u'C фото'), required=False)
+
+
 class LoginForm(forms.Form):
     email = forms.EmailField(label=_("Email"))
     password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
@@ -46,24 +72,24 @@ class LoginForm(forms.Form):
 
 
 class PhoneNumberMultiWidget(forms.MultiWidget):
-    def __init__(self,attrs=None):
+    def __init__(self, attrs=None):
         widgets = (
-            forms.TextInput(attrs={'size':'3','maxlength':'3'}),
-            forms.TextInput(attrs={'size':'7','maxlength':'7'}),
+            forms.TextInput(attrs={'size':'3', 'maxlength':'3'}),
+            forms.TextInput(attrs={'size':'7', 'maxlength':'7'}),
         )
         super(PhoneNumberMultiWidget, self).__init__(widgets, attrs)
 
     def decompress(self, value):
         if value:
             return value.split('-')
-        return (None,None)
+        return (None, None)
 
     def value_from_datadict(self, data, files, name):
-        value = [u'',u'']
+        value = [u'', u'']
         # look for keys like name_1, get the index from the end
         # and make a new list for the string replacement values
         for d in filter(lambda x: x.startswith(name), data):
-            index = int(d[len(name)+1:])
+            index = int(d[len(name) + 1:])
             value[index] = data[d]
         if value[0] == value[1] == u'':
             return None
@@ -80,31 +106,31 @@ class UserCreationForm(forms.Form):
                                   regex=NAME_REGEXP,
                                   min_length=4,
                                   max_length=64,
-                                  error_messages = {'invalid': _("This value may contain only letters, numbers and '/`/- characters.")})
+                                  error_messages={'invalid': _("This value may contain only letters, numbers and '/`/- characters.")})
     last_name = forms.RegexField(label=_("Last name"),
                                  regex=NAME_REGEXP,
                                  min_length=4,
                                  max_length=64,
-                                 error_messages = {'invalid': _("This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= characters.")})
+                                 error_messages={'invalid': _("This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= characters.")})
     email = forms.EmailField(label=_("Email"), max_length=64)
     phone = forms.RegexField(label=_("Phone"),
                              required=False,
                              regex=r'^\d{3}-\d{7}$',
                              widget=PhoneNumberMultiWidget,
-                             error_messages = {'invalid': _("Phone number is invalid or can not be used. Check your spelling. For example: +7 916 3564334")})
+                             error_messages={'invalid': _("Phone number is invalid or can not be used. Check your spelling. For example: +7 916 3564334")})
     password1 = forms.RegexField(label=_("Password"),
                                  widget=forms.PasswordInput,
                                  min_length=4,
                                  max_length=64,
                                  regex=r'^[\w\.\-_@!#$%^&+=]+$',
-                                 error_messages = {'invalid': _("This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= characters.")})
+                                 error_messages={'invalid': _("This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= characters.")})
     password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput, max_length=64)
 
     captcha = CaptchaField(label=_('Captcha'))
 
 
     def clean_phone(self):
-        return self.cleaned_data["phone"].replace('-','')
+        return self.cleaned_data["phone"].replace('-', '')
 
     def clean_email(self):
         email = self.cleaned_data["email"].lower()

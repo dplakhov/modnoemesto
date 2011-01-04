@@ -56,6 +56,19 @@ div.selectbox-wrapper ul li {
 /*border:1px solid #D1E4F6; */
   color:#6F6F6F;
 }
+
+.gender-selectbox 
+{
+  width : 180px; /* Resize Width */
+  display : block;
+  text-align:left; 
+  background: url('../images/input_filter.jpg') right;
+  cursor: pointer;
+
+  color:#6F6F6F;
+}
+
+
 #rightColumn .selectbox {
 	width: 221px;
 	background: url('../images/input_filter_video.jpg') right no-repeat;
