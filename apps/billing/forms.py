@@ -17,7 +17,7 @@ class TariffForm(forms.Form):
 
 class AccessCamOrderForm(forms.Form):
     tariff = forms.ChoiceField(choices=())
-    duration = forms.IntegerField(min_value=1, required=False)
+    count_packets = forms.IntegerField(min_value=1, required=False)
 
     def __init__(self, is_controlled, user=None, *args, **kwarg):
         super(AccessCamOrderForm, self).__init__(*args, **kwarg)
@@ -28,18 +28,14 @@ class AccessCamOrderForm(forms.Form):
     def clean_tariff(self):
         return Tariff.objects.get(id=self.cleaned_data['tariff'])
 
-    def clean_duration(self):
-        duration = self.cleaned_data['duration']
+    def clean_count_packets(self):
+        count_packets = self.cleaned_data['count_packets']
         if 'tariff' in self.cleaned_data:
             tariff = self.cleaned_data['tariff']
+            if tariff.is_packet and not count_packets:
+                raise forms.ValidationError(_(u"Для пакетного тарифа нужно указать продолжительность"))
             if tariff.is_packet:
-                total_cost = tariff.cost * duration
+                total_cost = tariff.cost * count_packets
                 if total_cost > self.user.cash:
                     raise forms.ValidationError(_(u"Не хватает денег на оплату тарифа"))
-        return duration
-
-    def clean(self):
-        if 'tariff' in self.cleaned_data:
-            tariff = self.cleaned_data['tariff']
-            if tariff.is_packet and 'duration' not in self.cleaned_data:
-                raise forms.ValidationError(_(u"Для пакетного тарифа нужно указать продолжительность"))
+        return count_packets
