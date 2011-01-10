@@ -109,7 +109,10 @@ class Message(Document):
 
     def first_line(self):
         try:
-            return re.split(r'[\r\n]+', self.text.strip())[0][:40] + '...'
+            text = self.text.strip()
+            if len(text) < 40:
+                return text
+            return re.split(r'[\r\n]+', text)[0][:40] + '...'
         except Exception, e:
             return ''
 
