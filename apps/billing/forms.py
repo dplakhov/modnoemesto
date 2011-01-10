@@ -33,8 +33,8 @@ class AccessCamOrderForm(forms.Form):
         if 'tariff' in self.cleaned_data:
             tariff = self.cleaned_data['tariff']
             if tariff.is_packet:
-                self.total_cost = tariff.cost * duration
-                if self.total_cost > self.user.cash:
+                total_cost = tariff.cost * duration
+                if total_cost > self.user.cash:
                     raise forms.ValidationError(_(u"Не хватает денег на оплату тарифа"))
         return duration
 

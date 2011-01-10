@@ -88,7 +88,7 @@ class Camera(Document):
                 user=access_user,
                 camera=self,
             ).order_by('-create_on').first()
-            if not order or order.end_date < now:
+            if not order or order.end_date is not None and order.end_date < now:
                 return False
             data = {}
             if order.tariff.is_packet:
