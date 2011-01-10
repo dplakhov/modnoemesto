@@ -6,7 +6,7 @@ from mongoengine import Document, StringField, ReferenceField, BooleanField, Lis
 
 from apps.utils.reflect import namedClass
 from apps.billing.documents import AccessCamOrder
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class CameraType(Document):
@@ -93,10 +93,10 @@ class Camera(Document):
             data = {}
             if order.tariff.is_packet:
                 time_left = order.end_date - now
-                seconds = time_left.seconds
-                data['days'] = time_left.days
             else:
-                seconds = order.get_time_left()
+                time_left = timedelta(seconds=order.get_time_left())
+            seconds = time_left.seconds
+            data['days'] = time_left.days
             data['hours'] = seconds / 3600
             seconds -= data['hours'] * 3600
             data['minutes'] = seconds / 60
