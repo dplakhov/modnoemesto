@@ -300,21 +300,6 @@ def user(request, user_id=None):
     return direct_to_template(request, 'social/user.html', data)
 
 
-def avatar(request, user_id, format):
-    user = get_document_or_404(User, id=user_id)
-    if not user.avatar:
-        return redirect('/media/img/notfound/avatar_%s.png' % format)
-
-    try:
-        image = user.avatar.get_derivative(format)
-    except File.DerivativeNotFound:
-        return redirect('/media/img/converting/avatar_%s.png' % format)
-
-    response = HttpResponse(image.file.read(), content_type=image.file.content_type)
-    response['Last-Modified'] = image.file.upload_date
-    return response
-
-
 def avatar_edit(request):
     user = request.user
     if request.method != 'POST':
@@ -339,7 +324,7 @@ def avatar_edit(request):
                 image_valid = False
 
             if image_valid:
-                avatar = File(type='image')
+                avatar = File(type='avatar')
                 buffer.reset()
                 avatar.file.put(buffer, content_type=file.content_type)
                 avatar.save()

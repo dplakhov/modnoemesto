@@ -1,12 +1,9 @@
+{% load media %}
 <table border="0" height="100%">
  <tbody><tr>
   <td height="100%" style="vertical-align: middle;">
    <a href="{{ user.get_absolute_url }}">
-     {% if user.avatar %}
-        <img src="{% url social:avatar user_id=user.id format='60x60' %}" />
-    {% else %}
-        <img src="/media/img/notfound/avatar_60x60.png" />
-    {% endif %}
+   <img src="{% media_url user.avatar avatar_mini.png %}" />
    </a>
   </td>
  </tr>

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load pytils_numeral %}
+{% load media %}
 
 {% block css %}
 {{ block.super }}
@@ -66,11 +67,7 @@
 <div id="right">
 	<div class="own_photo rounded" style="-moz-border-radius: 10px 10px 10px 10px; background:#eeedde;">
         {% with page_user as user %}
-            {% if user.avatar %}
-                <img src="{% url social:avatar user_id=user.id format='200x200' %}"/>
-            {% else %}
-                <img src="/media/img/notfound/avatar_200x200.png"/>
-            {% endif %}
+            <img src="{% media_url user.avatar avatar_midi.png %}" />
         {% endwith %}
      <div style="margin-top:8px; text-align:center;">
      

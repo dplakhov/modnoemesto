@@ -213,11 +213,11 @@ ROBOT_EMAIL_ADDRESS = 'modnoemesto.ru <modnoemesto@modnoemesto.ru>'
 
 SERVER_EMAIL = ROBOT_EMAIL_ADDRESS
 
-AVATAR_SIZES = (
-    (200, 200),
-    (60, 60),
-    (47, 47),
-)
+AVATAR_SIZES = {
+    'avatar_midi.png': { 'width': 200, 'height': 200 },
+    'avatar_mini.png': { 'width': 60, 'height': 60 },
+    'avatar_micro.png': { 'width': 47, 'height': 47 },
+}
 
 SCREEN_SIZES = {
     'camera_screen_full.png': { 'width': 515, 'height': 330 },
