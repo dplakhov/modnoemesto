@@ -23,7 +23,6 @@ from .forms import CamFilterForm
 from apps.media.forms import PhotoForm
 from .documents import CameraBookmarks
 
-from apps.media.documents import File
 from apps.social.documents import User
 
 

@@ -8,7 +8,6 @@ from ImageFile import Parser as ImageFileParser
 from apps.utils.stringio import StringIO
 
 class ImageResize(FileTransformation):
-    FILE_TYPE = 'image'
     def _apply(self, source, destination):
         parser = ImageFileParser()
         parser.feed(source.file.read())

@@ -20,7 +20,7 @@ class FileTransformation(object):
 
     def create_derivative(self, source):
         return File(source=source, transformation=self.name,
-                    type=self.FILE_TYPE)
+                    type=self.type if hasattr(self, 'type') else source.type)
 
 
 class BatchFileTransformation(FileTransformation):
