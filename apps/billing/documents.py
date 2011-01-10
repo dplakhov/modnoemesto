@@ -3,6 +3,7 @@
 from mongoengine import Document, ReferenceField, StringField, IntField, FloatField, DateTimeField, BooleanField
 from datetime import datetime, timedelta
 from apps.billing.constans import ACCESS_CAM_ORDER_STATUS
+from mongoengine.queryset import Q
 
 
 class Tariff(Document):
@@ -51,8 +52,7 @@ class Tariff(Document):
 class AccessCamOrder(Document):
     is_controlled = BooleanField(default=False)
     tariff = ReferenceField('Tariff')
-    # in seconds
-    duration = FloatField()
+    duration = FloatField(default=0.0) # in seconds
     count_packets = IntField()
     camera = ReferenceField('Camera')
     user = ReferenceField('User')
@@ -61,51 +61,91 @@ class AccessCamOrder(Document):
     cost = FloatField()
     create_on = DateTimeField(default=datetime.now)
 
-    def __init__(self, *args, **kwargs):
-        super(AccessCamOrder, self).__init__(*args, **kwargs)
-        self.is_controlled = self.tariff.is_controlled
-        if self.tariff.is_packet:
-            self.cost = self.tariff.cost * self.count_packets
-            self.user.cash -= self.cost
-            self.user.save()
 
     @property
     def is_packet(self):
-        return self.tariff.is_packet
+        return self.count_packets is not None
 
     @property
-    def duration_complete(self):
-        return self.count_packets * self.tariff.duration
+    def status(self):
+        if self.begin_date is None:
+            return ACCESS_CAM_ORDER_STATUS.WAIT
+        now = datetime.now()
+        if self.begin_date <= now:
+            if self.end_date is None or now < self.end_date:
+                return ACCESS_CAM_ORDER_STATUS.ACTIVE
+            return ACCESS_CAM_ORDER_STATUS.COMPLETE
+        return ACCESS_CAM_ORDER_STATUS.WAIT
+
+
+    @classmethod
+    def create_packet_type(cls, user, camera, tariff, count_packets):
+        assert tariff.is_packet
+        order = cls(user=user, camera=camera, tariff=tariff)
+        order.count_packets = count_packets
+        order.cost = tariff.cost * order.count_packets
+        order.duration = order.count_packets * tariff.duration
+        order.set_access_period()
+        order.save()
+        return order
+
+    @classmethod
+    def create_time_type(cls, user, camera, tariff):
+        assert not tariff.is_packet
+        order = cls(user=user, camera=camera, tariff=tariff)
+        order.set_access_period()
+        order.save()
+        return order
+
+
+    def __init__(self, *args, **kwargs):
+        super(AccessCamOrder, self).__init__(*args, **kwargs)
+        if self.is_controlled is None:
+            self.is_controlled = self.tariff.is_controlled
+
+    def save(self, *args, **kwargs):
+        if self.id is None:
+            is_new = True
+        super(AccessCamOrder, self).save(*args, **kwargs)
+        if self.is_packet and is_new:
+            self.user.cash -= self.cost
+            self.user.save()
+
 
     def set_end_date(self):
-        self.end_date = self.begin_date + timedelta(seconds=self.duration_complete)
+        self.end_date = self.begin_date + timedelta(seconds=self.duration)
 
-    def set_access_period(self, is_controlled):
+    def set_access_period(self):
+        q_data = dict(camera=self.camera,
+                      is_controlled=self.is_controlled)
+        if not self.is_controlled:
+            q_data.update(dict(user=self.user))
+        last_order = AccessCamOrder.objects(**q_data).order_by('-create_on').only('end_date').first()
+
         now = datetime.now()
-        if is_controlled:
-            last_order = AccessCamOrder.objects(camera=self.camera,
-                                                is_controlled=is_controlled,
-                                                end_date__gt=now)
-        elif self.is_packet:
-            last_order = AccessCamOrder.objects(user=self.user,
-                                                camera=self.camera,
-                                                is_controlled=is_controlled,
-                                                end_date__gt=now)
-        if self.is_packet:
-            last_order = last_order.order_by('-end_date').only('end_date').first()
-            self.begin_date = last_order and last_order.end_date or now
-            self.set_end_date()
-        else:
-            if is_controlled:
-                last_order = last_order.order_by('-create_on').only('end_date').first()
-                self.begin_date = last_order and last_order.end_date or now
+        if last_order:
+            if last_order.end_date:
+                self.begin_date = last_order.end_date if last_order.end_date > now else now
+            elif self.is_controlled:
+                # find time user order
+                q_data.update(dict(user=self.user,
+                                   end_date__exists=False,
+                                   count_packets__exists=False, # is not packet
+                                   ))
+                if AccessCamOrder.objects(**q_data).count() > 0:
+                    raise AccessCamOrder.CanNotAddOrder()
             else:
-                self.begin_date = now
+                raise AccessCamOrder.CanNotAddOrder()
+        else: # first order
+            self.begin_date = now
+        if self.begin_date and self.is_packet:
+            self.set_end_date()
 
-    def set_end_time(self):
-        if self.end_date is not None:
+    def set_time_at_end(self):
+        if self.end_date is not None or self.count_packets is not None:
             return False
-        self.end_date = self.begin_date + timedelta(seconds=self.count_packets)
+        self.end_date = self.begin_date + timedelta(seconds=self.duration)
+
         if self.is_controlled:
             orders = AccessCamOrder.objects(camera=self.camera,
                                             is_controlled=self.is_controlled,
@@ -113,14 +153,14 @@ class AccessCamOrder(Document):
             if orders:
                 last_end_date = self.end_date
                 for order in orders:
-                    order.begin_date = last_end_date + timedelta(seconds=1)
-                    if not order.is_packet:
-                        order.save()
+                    if order.count_packets is not None:
                         break
+                    order.begin_date = last_end_date + timedelta(seconds=1)
                     order.set_end_date()
                     order.save()
                     last_end_date = order.end_date
-                self.camera.operator = orders[0].user
+                if self.is_controlled:
+                    self.camera.operator = orders[0].user
             else:
                 self.camera.operator = None
             self.camera.save()
@@ -132,13 +172,6 @@ class AccessCamOrder(Document):
         user_cash = user_cash or self.user.cash
         return int(user_cash/self.tariff.cost)
 
-    @property
-    def status(self):
-        if self.begin_date is None or self.end_date is None:
-            return ACCESS_CAM_ORDER_STATUS.WAIT
-        dnow = datetime.now()
-        if self.begin_date <= dnow:
-            if dnow < self.end_date:
-                return ACCESS_CAM_ORDER_STATUS.ACTIVE
-            return ACCESS_CAM_ORDER_STATUS.COMPLETE
-        return ACCESS_CAM_ORDER_STATUS.WAIT
+
+    class CanNotAddOrder(Exception):
+        pass

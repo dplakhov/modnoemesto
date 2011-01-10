@@ -152,15 +152,19 @@ def get_access_to_camera(request, id, is_controlled):
         form = AccessCamOrderForm(is_controlled, request.user, request.POST)
         if form.is_valid():
             tariff = form.cleaned_data['tariff']
-            order = AccessCamOrder(
-                tariff=tariff,
-                duration=form.cleaned_data['duration'],
-                user=request.user,
-                camera=camera,
-            )
-            #todo: need transaction
-            order.set_access_period(order.is_controlled)
-            order.save()
+            if tariff.is_packet:
+                order = AccessCamOrder.create_packet_type(
+                    tariff=tariff,
+                    count_packets=form.cleaned_data['duration'],
+                    user=request.user,
+                    camera=camera,
+                )
+            else:
+                order = AccessCamOrder.create_time_type(
+                    tariff=tariff,
+                    user=request.user,
+                    camera=camera,
+                )
             camera.check_operator(order)
             return HttpResponseRedirect(reverse('social:user', args=[camera.owner.id]))
     else:

@@ -104,7 +104,7 @@ def cam_view_notify(request):
         order = AccessCamOrder.objects(id=order_id).first()
         if not order:
             return 'DOES NOT EXIST ORDER', -4
-        if order.user != user:
+        if order.user.id != user.id:
             return 'BAD USER', -5
         if order.end_date or order.tariff.is_packet:
             return 'BAD ORDER', -6
@@ -116,10 +116,10 @@ def cam_view_notify(request):
             time_left = settings.TIME_INTERVAL_NOTIFY
         order.duration += time_left
         if status == 'disconnect':
-            order.set_end_time()
+            order.set_time_at_end()
             order.save()
             return 'OK', 0, 0
         return 'OK', 0, time_left
-    result = calc()
-    result = ["%s=%s" % (k, urllib.quote(str(v))) for k, v in zip(('info', 'status', 'cash'), result)]
-    return HttpResponse('&%s' % ('&'.join(result)))
+    return HttpResponse('&%s' % urllib.urlencode(zip(('info', 'status', 'cash'),
+                                                     calc(),
+                                                     )))

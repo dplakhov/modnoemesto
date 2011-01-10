@@ -8,3 +8,7 @@ ROBOKASSA_PASSWORD2 = 'G$5g7klop-gret67'
 ROBOKASSA_TEST_MODE = True
 ROBOKASSA_USE_POST = False
 TIME_INTERVAL_NOTIFY = 60
+
+import sys
+if 'test' in sys.argv:
+    TIME_INTERVAL_NOTIFY = 1

@@ -1,10 +1,12 @@
+import urllib
+import urlparse
 from apps.billing.documents import AccessCamOrder, Tariff
 from apps.cam.documents import Camera, CameraType
 from django.core.urlresolvers import reverse
 from apps.billing.models import UserOrder
 from django.conf import settings
 from django.test.client import Client
-from apps.billing.constans import TRANS_STATUS, ACCESS_CAM_ORDER_STATUS, ACCESS_CAM_ORDER_STATUS
+from apps.billing.constans import TRANS_STATUS
 from apps.social.documents import User
 import unittest
 import time
@@ -14,6 +16,8 @@ class AcessCameraTest(unittest.TestCase):
 
     def setUp(self):
         self.tearDown()
+
+        self.client = Client()
 
         self.camera_type_axis = CameraType(
             name='Axis',
@@ -99,15 +103,12 @@ class AcessCameraTest(unittest.TestCase):
         def get_access():
             user = User.objects.get(email='test1@web-mark.ru')
             camera = Camera.objects.get(name='Test Billing Camera 2')
-            order = AccessCamOrder(
+            return AccessCamOrder.create_packet_type(
                 tariff=self.tariff_view_package,
-                duration=1,
+                count_packets=1,
                 user=user,
                 camera=camera,
             )
-            order.set_access_period(order.is_controlled)
-            order.save()
-            return order
 
         order = get_access()
 
@@ -117,9 +118,9 @@ class AcessCameraTest(unittest.TestCase):
         time.sleep(1)
         self.assertEqual(order.can_access(), False)
 
-        get_access()#2
-        get_access()#4
-        get_access()#6
+        get_access() # 2 sec
+        get_access() # 4 sec
+        get_access() # 6 sec
 
         camera = Camera.objects.get(name='Test Billing Camera 2')
         user_payed = User.objects.get(email='test1@web-mark.ru')
@@ -137,6 +138,49 @@ class AcessCameraTest(unittest.TestCase):
         self.assertEqual(camera.can_show(camera.owner, user_payed), False)
         self.assertEqual(camera.can_show(camera.owner, user_owner), False)
         self.assertEqual(camera.can_show(camera.owner, user_other), False)
+
+    def test_access_view_time(self):
+        def get_access():
+            user = User.objects.get(email='test1@web-mark.ru')
+            camera = Camera.objects.get(name='Test Billing Camera 2')
+            return AccessCamOrder.create_time_type(
+                tariff=self.tariff_view_time,
+                user=user,
+                camera=camera,
+            )
+
+        def view_notify(order_id, status='view'):
+            params = dict(
+                status=status,
+                session_key=self.client.session.session_key,
+                order_id=order_id,
+                time=settings.TIME_INTERVAL_NOTIFY,
+            )
+            response = self.client.get('%s?%s' % (reverse('server_api:cam_view_notify'), urllib.urlencode(params)))
+            answer = dict(urlparse.parse_qsl(response.content))
+            self.assertEqual(answer['info'], 'OK')
+
+
+        self.client.login(email='test1@web-mark.ru', password='123')
+
+        order = get_access()
+
+        try:
+            bad_order = get_access()
+        except AccessCamOrder.CanNotAddOrder:
+            bad_order = None
+        self.assertEqual(bad_order, None)
+
+        order = AccessCamOrder.objects.get(id=order.id)
+        self.assertEqual(order.can_access(), True)
+        time.sleep(settings.TIME_INTERVAL_NOTIFY)
+        view_notify(order.id)
+        order = AccessCamOrder.objects.get(id=order.id)
+        self.assertEqual(order.can_access(), True)
+        time.sleep(settings.TIME_INTERVAL_NOTIFY)
+        view_notify(order.id, 'disconnect')
+        order = AccessCamOrder.objects.get(id=order.id)
+        self.assertEqual(order.can_access(), False)
 
 
 class BillingTest(unittest.TestCase):
