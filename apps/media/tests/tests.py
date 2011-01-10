@@ -156,6 +156,27 @@ class FileTransformationTest(TestCase):
         derivative = file.modifications[TRANSFORMATION_NAME]
         self.failUnlessEqual(file, derivative.source)
 
+        self.failUnlessEqual(file.type, derivative.type)
+
+    def test_apply_transformations_with_other_file_type(self):
+
+        TRANSFORMATION_NAME = 'thumbnail'
+        DERIVATIVE_FILE_TYPE = 'other_type'
+
+        file = create_file()
+
+        file = File(id=file.id)
+        file.reload()
+
+        derivatives = file.apply_transformations(ImageResize(name=TRANSFORMATION_NAME,
+                                             format='png', width=100, height=100,
+                                             type=DERIVATIVE_FILE_TYPE))
+
+        derivative = file.get_derivative(TRANSFORMATION_NAME)
+
+        self.failUnlessEqual(DERIVATIVE_FILE_TYPE, derivative.type)
+
+
 
     def test_apply_transformations_before_save_raises_exc(self):
         file = File(type='image')
