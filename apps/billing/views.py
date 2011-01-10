@@ -155,7 +155,7 @@ def get_access_to_camera(request, id, is_controlled):
             if tariff.is_packet:
                 order = AccessCamOrder.create_packet_type(
                     tariff=tariff,
-                    count_packets=form.cleaned_data['duration'],
+                    count_packets=form.cleaned_data['count_packets'],
                     user=request.user,
                     camera=camera,
                 )
