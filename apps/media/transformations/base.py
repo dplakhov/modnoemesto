@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import Image
-
-
-from ImageFile import Parser as ImageFileParser
 from ..documents import File
-
-from apps.utils.stringio import StringIO
 
 class FileTransformation(object):
     def __init__(self, name, *args, **kwargs):
@@ -46,19 +40,6 @@ class BatchFileTransformation(FileTransformation):
             if not i:
                 source = destination
 
-class ImageResize(FileTransformation):
-    FILE_TYPE = 'image'
-    def _apply(self, source, destination):
-        parser = ImageFileParser()
-        parser.feed(source.file.read())
-        source_image = parser.close()
-        image = source_image.resize((self.width, self.height,), Image.ANTIALIAS)
-        buffer = StringIO()
-        image.save(buffer, self.format)
-        buffer.reset()
-        destination.file.put(buffer, content_type = 'image/%s' % self.format)
-        destination.save()
-        return destination
 
 class VideoThumbnail(FileTransformation):
     pass
