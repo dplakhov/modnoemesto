@@ -24,4 +24,5 @@ class Command(BaseCommand):
                         print old_label, 'not found'
                         continue
                     derivative.transformation = new_label
+                    derivative.type = 'avatar'
                     derivative.save()

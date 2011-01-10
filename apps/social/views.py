@@ -7,6 +7,7 @@ import datetime
 import logging
 
 from ImageFile import Parser as ImageFileParser
+from apps.media.forms import PhotoForm
 
 from django.views.generic.simple import direct_to_template
 
@@ -24,23 +25,15 @@ from django.template import Context, loader
 from django.views.debug import ExceptionReporter
 from django.core.mail.message import EmailMessage
 from django.core.urlresolvers import reverse
-from django.template.loader import render_to_string
-from django.core.mail import send_mail
 from django.contrib.auth import REDIRECT_FIELD_NAME
-
 
 from mongoengine.django.shortcuts import get_document_or_404
 
-
 from apps.user_messages.forms import MessageTextForm
-from apps.media.documents import File
-from apps.media.transformations.image import ImageResize
 from apps.social.forms import ChangeProfileForm, LostPasswordForm
 from apps.social.forms import SetNewPasswordForm, InviteForm
-from apps.utils.stringio import StringIO
-from apps.media.tasks import apply_file_transformations
 
-from forms import UserCreationForm, LoginForm, ChangeAvatarForm
+from forms import UserCreationForm, LoginForm
 from documents import User, LimitsViolationException, Invite
 from forms import PeopleFilterForm
 from apps.social.documents import Profile
@@ -303,46 +296,16 @@ def user(request, user_id=None):
 def avatar_edit(request):
     user = request.user
     if request.method != 'POST':
-        form = ChangeAvatarForm()
+        form = PhotoForm()
     else:
-        form = ChangeAvatarForm(request.POST, request.FILES)
+        form = PhotoForm(request.POST, request.FILES)
         if form.is_valid():
-            file = request.FILES['file']
-            buffer = StringIO()
+            user.avatar = form.fields['file'].save('avatar',
+                                                     settings.AVATAR_SIZES, 'AVATAR_RESIZE')
+            user.save()
 
-            for chunk in file.chunks():
-                buffer.write(chunk)
-
-            buffer.reset()
-            try:
-                parser = ImageFileParser()
-                parser.feed(buffer.read())
-                image = parser.close()
-                image_valid = True
-            except Exception, e:
-                messages.add_message(request, messages.ERROR, _('Invalid image file format'))
-                image_valid = False
-
-            if image_valid:
-                avatar = File(type='avatar')
-                buffer.reset()
-                avatar.file.put(buffer, content_type=file.content_type)
-                avatar.save()
-
-                user.avatar = avatar
-                user.save()
-
-                transformations = [ ImageResize(name='%sx%s' % (w, h), format='png', width=w, height=h)
-                                    for (w, h) in settings.AVATAR_SIZES ]
-
-                if settings.TASKS_ENABLED.get('AVATAR_RESIZE'):
-                    args = [ avatar.id, ] + transformations
-                    apply_file_transformations.apply_async(args=args)
-                else:
-                    avatar.apply_transformations(*transformations)
-
-                messages.add_message(request, messages.SUCCESS, _('Avatar successfully updated'))
-                return HttpResponseRedirect(request.path)
+            messages.add_message(request, messages.SUCCESS, _('Avatar successfully updated'))
+            return HttpResponseRedirect(request.path)
 
 
     return direct_to_template(request, 'social/profile/avatar.html',
