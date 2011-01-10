@@ -1,8 +1,5 @@
+{% load media %}
 <a href="{{ user.get_absolute_url }}">
-    {% if user.avatar %}
-        <img src="{% url social:avatar user_id=user.id format='200x200' %}" />
-    {% else %}
-        <img src="/media/img/notfound/avatar_200x200.png" />
-    {% endif %}
+    <img src="{% media_url user.avatar avatar_midi.png %}" />
 </a>
 <a href="{{ user.get_absolute_url }}">{{ user }}</a>

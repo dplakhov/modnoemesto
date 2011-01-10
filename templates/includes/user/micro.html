@@ -1,8 +1,9 @@
+{% load media %}
 <table border="0" height="100%">
  <tbody><tr>
   <td height="100%" style="vertical-align: middle;">
    <a href="{{ user.get_absolute_url }}">
-    <img src="{{ user.avatar_micro }}">
+    <img src="{% media_url user.avatar avatar_micro.png %}" />
    </a>
   </td>
  </tr>

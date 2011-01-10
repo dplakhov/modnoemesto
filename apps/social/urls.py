@@ -22,11 +22,6 @@ urlpatterns = patterns('apps.social.views',
 
    url(r'^users/(?P<user_id>[a-f0-9]{24})/$', 'user', name='user'),
 
-   url(r'^avatar/(?P<user_id>[a-f0-9]{24})/(?P<format>%s)/$' %
-       '|'.join(['%dx%d' % (w, h) for (w, h) in settings.AVATAR_SIZES ]),
-
-       'avatar', name='avatar'),
-
    url(r'^profile/$', 'profile_edit', name='profile_edit'),
    url(r'^profile/avatar/$', 'avatar_edit', name='avatar_edit'),
 

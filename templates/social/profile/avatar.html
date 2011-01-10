@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load media %}
 {% block content %}
 <h2 class="video_title">{% trans "Change avatar" %}</h2>
 
-        <img src="{% url social:avatar user_id=user.id format='200x200' %}" />
+    <img src="{% media_url user.avatar avatar_midi.png %}" />
 
     <form method="post" enctype="multipart/form-data">
     <div class="filt rounded">

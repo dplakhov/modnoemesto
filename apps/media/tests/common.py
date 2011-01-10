@@ -7,7 +7,7 @@ def file_path(file_name):
                                         'files', file_name))
 
 def create_file():
-    file = File(type='image')
+    file = File(type='test_image')
     file.file.put(open(file_path('logo-mongodb.png')),
         content_type='image/png')
     file.save()
