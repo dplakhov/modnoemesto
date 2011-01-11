@@ -17,6 +17,9 @@ class MessageBox(object):
         raise NotImplementedError()
         return Message.objects.none()
 
+    def count(self):
+        return self._messages.count()
+
     def __len__(self):
         return len(self._messages)
 

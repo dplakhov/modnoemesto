@@ -12,6 +12,7 @@ from .forms import MessageTextForm
 
 from .documents import Message
 from apps.social.documents import User
+from apps.utils.paginator import paginate
 
 
 def send_message(request, user_id):
@@ -37,19 +38,21 @@ def send_message(request, user_id):
 
 
 def view_inbox(request):
-    #@todo: pagination
-    #@todo: partial data fetching
-    messages = request.user.messages.incoming[0:10]
+    objects = paginate(request,
+                       request.user.messages.incoming,
+                       request.user.messages.incoming.count(),
+                       10)
     return direct_to_template(request, 'user_messages/inbox.html',
-                              { 'msgs': messages })
+                              { 'objects': objects })
 
 
 def view_sent(request):
-    #@todo: pagination
-    #@todo: partial data fetching
-    messages = request.user.messages.sent[0:10]
+    objects = paginate(request,
+                       request.user.messages.sent,
+                       request.user.messages.sent.count(),
+                       10)
     return direct_to_template(request, 'user_messages/sent.html',
-                              { 'msgs': messages })
+                              { 'objects': objects })
 
 
 def _message_acl_check(message, user):
