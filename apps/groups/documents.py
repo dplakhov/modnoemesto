@@ -1,6 +1,3 @@
-from apps.utils.paginator import Paginator
-from django.core.paginator import InvalidPage, EmptyPage
-from django.conf import settings
 from mongoengine.document import Document
 from mongoengine.fields import StringField, ReferenceField, BooleanField, DateTimeField
 from apps.utils.decorators import cached_property
@@ -92,21 +89,6 @@ class Group(Document):
     def is_admin(self, user):
         info = GroupUser.objects(group=self, user=user).only('is_admin').first()
         return info and info.is_admin
-
-    def paginate_messages(self, page=1):
-        if type(page) != int:
-            try:
-                page = int(page)
-            except:
-                page = 1
-        paginator = Paginator(GroupMessage.objects(group=self),
-                              settings.MESSAGES_ON_PAGE,
-                              GroupMessage.objects(group=self).count())
-        try:
-            group_messages = paginator.page(page)
-        except (EmptyPage, InvalidPage):
-            group_messages = paginator.page(paginator.num_pages)
-        return group_messages
 
 
 class GroupMessage(Document):

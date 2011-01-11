@@ -1,22 +1,18 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseNotFound, HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import redirect
 from django.utils.importlib import import_module
 from django.views.generic.simple import direct_to_template
 from django.contrib import messages
 from django.utils.translation import ugettext as _
-from django.core.paginator import EmptyPage, InvalidPage
 from django.conf import settings
 from django.contrib.auth import SESSION_KEY
-from django.template import loader, RequestContext
 
 from mongoengine.django.shortcuts import get_document_or_404
-from datetime import datetime
-import time
 
-from apps.utils.paginator import Paginator
+from apps.utils.paginator import paginate
 from apps.social.documents import User
 from apps.media.forms import PhotoForm
 
@@ -30,13 +26,12 @@ from .documents import GroupTheme, GroupType, GroupUser, GroupMessage
 from .decorators import check_admin_right
 
 
-def group_list(request, page=1):
-    paginator = Paginator(Group.objects, 25, Group.objects.count())
-    try:
-        groups = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        groups = paginator.page(paginator.num_pages)
-    return direct_to_template(request, 'groups/list.html', dict(groups=groups))
+def group_list(request):
+    objects = paginate(request,
+                       Group.objects,
+                       Group.objects.count(),
+                       24)
+    return direct_to_template(request, 'groups/list.html', dict(objects=objects))
 
 
 def user_group_list(request):
@@ -79,13 +74,16 @@ def group_view(request, id):
     elif not is_ajax:
         form = MessageTextForm()
 
-    group_messages = group.paginate_messages(request.GET.get('page', None))
+    objects = paginate(request,
+                       GroupMessage.objects(group=group),
+                       GroupMessage.objects(group=group).count(),
+                       settings.MESSAGES_ON_PAGE)
 
     if is_ajax:
         return direct_to_template(request, 'groups/_comments.html', dict(
             group=group,
             is_admin=group.is_admin(request.user) or request.user.is_superuser,
-            group_messages=group_messages,
+            objects=objects,
         ))
     else:
         admins = []
@@ -104,7 +102,7 @@ def group_view(request, id):
             can_view_conference=is_active or request.user.is_superuser,
             can_send_message=is_active,
             is_status_request=group.is_request(request.user),
-            group_messages=group_messages,
+            objects=objects,
             form=form,
             members_count=GroupUser.objects(group=group, status=GroupUser.STATUS.ACTIVE).count(),
         ))
@@ -132,22 +130,14 @@ def member_list(request, id):
         messages.add_message(request, messages.ERROR, _('You are not allowed.'))
         return redirect(reverse('groups:group_view', args=[id]))
 
-    page = request.GET.get('page', None)
-    try:
-        page = int(page)
-    except:
-        page = 1
-    paginator = Paginator(GroupUser.objects(group=group, status=GroupUser.STATUS.ACTIVE),
-                          settings.GROUP_USERS_ON_PAGE,
-                          GroupUser.objects(group=group, status=GroupUser.STATUS.ACTIVE).count())
-    try:
-        groups_users = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        groups_users = paginator.page(paginator.num_pages)
+    objects = paginate(request,
+                       GroupUser.objects(group=group, status=GroupUser.STATUS.ACTIVE),
+                       GroupUser.objects(group=group, status=GroupUser.STATUS.ACTIVE).count(),
+                       settings.GROUP_USERS_ON_PAGE)
     return direct_to_template(request,
                               'groups/member_list.html',
                               dict(group=group,
-                                   groups_users=groups_users),
+                                   objects=objects),
                               )
 
 
@@ -376,11 +366,14 @@ def group_leave_user(request, group, user_id):
 def delete_message(request, group, message_id):
     get_document_or_404(GroupMessage, id=message_id).delete()
     if request.is_ajax():
-        group_messages = group.paginate_messages(request.GET.get('page', None))
+        objects = paginate(request,
+                           GroupMessage.objects(group=group),
+                           GroupMessage.objects(group=group).count(),
+                           settings.MESSAGES_ON_PAGE)
         return direct_to_template(request, 'groups/_comments.html', dict(
             group=group,
             is_admin=group.is_admin(request.user) or request.user.is_superuser,
-            group_messages=group_messages,
+            objects=objects,
         ))
     else:
         return redirect(reverse('groups:group_view', args=[group.id]))
