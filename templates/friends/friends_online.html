@@ -14,7 +14,9 @@
                     {% include "includes/user/mini.html" %}
                     </div>
                     <div class="operation">
+                         {% if request.user.id != user.id %}
                          <p><a class="reference" href="{% url user_messages:send_message user.id %}">Сообщение</a></p>
+                         {% endif %}
                          {% iffriend request.user user %}
                          <p><a class="reference" href="{% url friends:add user.id %}">{% trans "Add to my friends" %}</a></p>
                          {% endiffriend %}
