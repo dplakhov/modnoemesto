@@ -22,7 +22,7 @@
         <td>{{ order.amount|floatformat:2 }}</td>
         <td>{{ order.term }}</td>
         <td>{{ order.trans }}</td>
-        <td>{{ order.timestamp }}</td>
+        <td>{{ order.timestamp|date:"d M H:i" }}</td>
     </tr>
 {% endfor %}
     </tbody>

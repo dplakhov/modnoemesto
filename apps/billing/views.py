@@ -14,7 +14,8 @@ from apps.cam.documents import Camera
 from django.conf import settings
 from apps.billing.constans import TRANS_STATUS, ACCESS_CAM_ORDER_STATUS
 from apps.social.documents import User
-from django.core.paginator import Paginator, EmptyPage, InvalidPage
+from django.core.paginator import EmptyPage, InvalidPage
+from apps.utils.paginator import Paginator
 from apps.robokassa.forms import RobokassaForm
 
 
@@ -174,8 +175,7 @@ def get_access_to_camera(request, id, is_controlled):
 
 @permission_required('superuser')
 def order_list(request, page=1):
-    q = UserOrder.objects.order_by('-timestamp').all()
-    paginator = Paginator(q, 25)
+    paginator = Paginator(UserOrder.objects.order_by('-timestamp'), 25, UserOrder.objects.count())
     try:
         orders = paginator.page(page)
     except (EmptyPage, InvalidPage):
@@ -185,8 +185,7 @@ def order_list(request, page=1):
 
 @permission_required('superuser')
 def access_order_list(request, page=1):
-    q = AccessCamOrder.objects.order_by('-create_on').all()
-    paginator = Paginator(q, 25)
+    paginator = Paginator(AccessCamOrder.objects.order_by('-create_on'), 25, AccessCamOrder.objects.count())
     try:
         orders = paginator.page(page)
     except (EmptyPage, InvalidPage):

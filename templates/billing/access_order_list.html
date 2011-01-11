@@ -9,7 +9,6 @@
             <th>{% trans "User" %}</th>
             <th>{% trans "Camera" %}</th>
             <th>{% trans "Tariff" %}</th>
-            <th>{% trans "Is controlled" %}</th>
             <th>{% trans "Begin Date" %}</th>
             <th>{% trans "End Date" %}</th>
             <th>{% trans "Cost" %}</th>
@@ -22,9 +21,8 @@
         <td><a href="{% url social:user order.user.id %}" >{{ order.user }}</a></td>
         <td><a href="{% url social:user order.camera.owner.id %}" >{{ order.camera.name }}</a></td>
         <td><a href="{% url billing:tariff_edit order.tariff.id %}" >{{ order.tariff.name }}</a></td>
-        <td>{{ order.is_controlled }}</td>
-        <td>{{ order.begin_date }}</td>
-        <td>{{ order.end_date }}</td>
+        <td>{{ order.begin_date|date:"d M H:i" }}</td>
+        <td>{{ order.end_date|date:"d M H:i" }}</td>
         <td>{{ order.cost|floatformat:2 }}</td>
         <td>{{ order.status }}</td>
     </tr>
