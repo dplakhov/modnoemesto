@@ -1,4 +1,4 @@
-from django.core.paginator import Paginator as DjangoPaginator, Page
+from django.core.paginator import Paginator as DjangoPaginator, Page, EmptyPage, InvalidPage
 
 
 class Paginator(DjangoPaginator):
@@ -14,3 +14,15 @@ class Paginator(DjangoPaginator):
         if top + self.orphans >= self.count:
             top = self.count
         return Page(list(self.object_list[bottom:top]), number, self)
+
+
+def paginate(request, query_list, query_count, on_page):
+    page = request.GET.get('page', '1')
+    if not page.isdigit():
+        page = '1'
+    paginator = Paginator(query_list, on_page, query_count)
+    try:
+        objects = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        objects = paginator.page(paginator.num_pages)
+    return objects

@@ -12,7 +12,7 @@
         <h3>{% trans "Messages: inbox" %}</h3>
         <div class="messages_inbox">
         
-            {% for msg in msgs %}
+            {% for msg in objects.object_list %}
             <div class="message_item {% if msg.is_read %}readed{% else %}unreaded{% endif %}">
                 <div class="friendTable">
                     {% with msg.sender as user %}
@@ -40,6 +40,9 @@
             </div>
             {% endfor %}
         </div>
+
+{% include "includes/paginator.html" %}
+
     </div>
 </div>
 </div>

@@ -1,5 +1,5 @@
 {% load i18n %}
-{% ifnotequal paginator.num_pages 1 %}
+{% ifnotequal objects.paginator.num_pages 1 %}
     {% spaceless %}
     <div class="paginator">
         {% if objects.has_previous %}
@@ -9,11 +9,11 @@
                 </a>
             </div>
         {% endif %}
-        {% for page in paginator.page_range %}
-                <div class="page{% ifequal page objects.number %} current{% endifequal %}">
-                    <a href="?page={{ page }}">{{ page }}</a>
-                </div>
-        {% endfor %}
+
+{% blocktrans with objects.number as number and objects.paginator.num_pages as num_pages %}
+Page {{ number }} of {{ num_pages }}.
+{% endblocktrans %}
+
         {% if objects.has_next %}
             <div class="page">
                 <a href="?page={{ objects.next_page_number }}">
