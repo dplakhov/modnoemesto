@@ -12,10 +12,9 @@ from forms import TariffForm, AccessCamOrderForm
 from apps.billing.models import UserOrder, UserId
 from apps.cam.documents import Camera
 from django.conf import settings
-from apps.billing.constans import TRANS_STATUS, ACCESS_CAM_ORDER_STATUS
+from apps.billing.constans import TRANS_STATUS
 from apps.social.documents import User
-from django.core.paginator import EmptyPage, InvalidPage
-from apps.utils.paginator import Paginator
+from apps.utils.paginator import paginate
 from apps.robokassa.forms import RobokassaForm
 
 
@@ -170,24 +169,22 @@ def get_access_to_camera(request, id, is_controlled):
             return HttpResponseRedirect(reverse('social:user', args=[camera.owner.id]))
     else:
         form = AccessCamOrderForm(is_controlled)
-    return direct_to_template(request, 'billing/get_access_to_camera.html', {'form':form})
+    return direct_to_template(request, 'billing/get_access_to_camera.html', { 'form': form })
 
 
 @permission_required('superuser')
-def order_list(request, page=1):
-    paginator = Paginator(UserOrder.objects.order_by('-timestamp'), 25, UserOrder.objects.count())
-    try:
-        orders = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        orders = paginator.page(paginator.num_pages)
-    return direct_to_template(request, 'billing/order_list.html', {'orders':orders})
+def order_list(request):
+    objects = paginate(request,
+                       UserOrder.objects.order_by('-timestamp'),
+                       UserOrder.objects.count(),
+                       25)
+    return direct_to_template(request, 'billing/order_list.html', { 'objects': objects })
 
 
 @permission_required('superuser')
-def access_order_list(request, page=1):
-    paginator = Paginator(AccessCamOrder.objects.order_by('-create_on'), 25, AccessCamOrder.objects.count())
-    try:
-        orders = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        orders = paginator.page(paginator.num_pages)
-    return direct_to_template(request, 'billing/access_order_list.html', {'orders':orders})
+def access_order_list(request):
+    objects = paginate(request,
+                       AccessCamOrder.objects.order_by('-create_on'),
+                       AccessCamOrder.objects.count(),
+                       25)
+    return direct_to_template(request, 'billing/access_order_list.html', { 'objects': objects })

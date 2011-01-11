@@ -2,8 +2,7 @@
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import permission_required
 from apps.social.documents import User
-from django.core.paginator import EmptyPage, InvalidPage
-from apps.utils.paginator import Paginator
+from apps.utils.paginator import paginate
 
 
 
@@ -17,10 +16,9 @@ def statistic(request):
 
 
 @permission_required('statistic')
-def user_list(request, page=1):
-    paginator = Paginator(User.objects.order_by('-date_joined'), 25, User.objects.count())
-    try:
-        users = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        users = paginator.page(paginator.num_pages)
-    return direct_to_template(request, 'admin/user_list.html', {'users': users})
+def user_list(request):
+    objects = paginate(request,
+                       User.objects.order_by('-date_joined'),
+                       User.objects.count(),
+                       25)
+    return direct_to_template(request, 'admin/user_list.html', {'objects': objects})

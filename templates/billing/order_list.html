@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-{% for order in orders.object_list %}
+{% for order in objects.object_list %}
     <tr>
         <td>{{ order.user.id }}</td>
         <td>{% if order.user %}<a href="{% url social:user order.user.id %}" >{{ order.user }}</a>{% endif %}</td>
@@ -28,21 +28,5 @@
     </tbody>
 </table>
 
-<div class="pagination">
-    <span class="step-links">
-        {% if orders.has_previous %}
-            <a href="{% url billing:order_list_page orders.previous_page_number %}">{% trans "previous" %}</a>
-        {% endif %}
-
-        <span class="current">
-{% blocktrans with orders.number as number and orders.paginator.num_pages as num_pages %}
-Page {{ number }} of {{ num_pages }}.
-{% endblocktrans %}
-        </span>
-
-        {% if orders.has_next %}
-            <a href="{% url billing:order_list_page orders.next_page_number %}">{% trans "next" %}</a>
-        {% endif %}
-    </span>
-</div>
+{% include "includes/paginator.html" %}
 {% endblock %}

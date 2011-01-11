@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-{% for user in users.object_list %}
+{% for user in objects.object_list %}
     <tr>
         <td><a href="{% url social:user user.id %}">{{ user.first_name }}</a></td>
         <td><a href="{% url social:user user.id %}">{{ user.last_name }}</a></td>
@@ -32,22 +32,6 @@ title="{% if user.is_active %}{% trans "Confirmed" %}{% else %}{% trans "Not con
     </tbody>
 </table>
 
-<div class="pagination">
-    <span class="step-links">
-        {% if users.has_previous %}
-            <a href="{% url admin:user_list_page users.previous_page_number %}">{% trans "previous" %}</a>
-        {% endif %}
-
-        <span class="current">
-{% blocktrans with users.number as number and users.paginator.num_pages as num_pages %}
-Page {{ number }} of {{ num_pages }}.
-{% endblocktrans %}
-        </span>
-
-        {% if users.has_next %}
-            <a href="{% url admin:user_list_page users.next_page_number %}">{% trans "next" %}</a>
-        {% endif %}
-    </span>
-</div>
+{% include "includes/paginator.html" %}
 </div>
 {% endblock %}
