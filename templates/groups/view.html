@@ -7,6 +7,8 @@
 <script type="text/javascript">
 var is_first_page = true;
 $(document).ready(function(){
+    var messages_destination = $('.messages').offset().top;
+
     $("#send_message_form").ajaxForm({
         clearForm: true,
         success: function(data) {
@@ -22,6 +24,8 @@ $(document).ready(function(){
         $.get(url, function(data) {
             if (data != '') {
                 $('.messages_inbox').html(data);
+                if($.browser.safari){ bodyelem = $("body") } else{ bodyelem = $("html") }
+                bodyelem.animate({ scrollTop: messages_destination }, 1100 );
             }
         });
     }
