@@ -3,19 +3,21 @@
     {% spaceless %}
     <div class="paginator">
         {% if objects.has_previous %}
-            <div class="page">
+            <div class="previous_page_number">
                 <a href="?page={{ objects.previous_page_number }}">
                     {% trans "Previous page" %}
                 </a>
             </div>
         {% endif %}
 
+    <div class="page_info">
 {% blocktrans with objects.number as number and objects.paginator.num_pages as num_pages %}
 Page {{ number }} of {{ num_pages }}.
 {% endblocktrans %}
+    </div>
 
         {% if objects.has_next %}
-            <div class="page">
+            <div class="next_page_number">
                 <a href="?page={{ objects.next_page_number }}">
                     {% trans "Next page" %}
                 </a>
