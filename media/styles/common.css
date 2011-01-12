@@ -1513,6 +1513,10 @@ div.system_messages li.warning {
     color: #027A98;
 }
 
+.paginator .current {
+    color: red;
+}
+
 .paginator .inactive {
     color: #bfbeb2;
 }
