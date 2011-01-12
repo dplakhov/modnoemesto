@@ -36,7 +36,7 @@ $(document).ready(function(){
 
     $('.messages_inbox').click(function(e){
         var link = $(e.target);
-        if (link.hasClass('delete') || link.hasClass('next') || link.hasClass('previous') ) {
+        if (link.hasClass('delete') || link.hasClass('next') || link.hasClass('previous') || link.hasClass('page') ) {
             var href = link.attr('href');
             update_messages(href);
             var n = href.match(/\?page=(\d+)$/);
