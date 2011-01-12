@@ -1495,16 +1495,26 @@ div.system_messages li.warning {
 }
 .paginator
 {
-	margin-top: 10px;
+	margin-top: 15px;
 	clear: both;
 }
 .paginator span
 {
-	color: #838383;
+	padding: 5px;
 }
-.next
+.paginator span a
 {
 	color: #00B2D5;
+	padding: 2px;
+	text-decoration: none;
+}
+.paginator span a:hover
+{
+	color: #027A98;
+}
+.next, .previous
+{
+	color: #838383;
 	text-decoration: none;
 }
 #last_news
