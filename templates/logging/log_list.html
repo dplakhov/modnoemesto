@@ -67,7 +67,7 @@
 <div class="pagination">
     <span class="step-links">
         {% if page_entries.has_previous %}
-            <a href="{% url logging:log_list_level_page page_entries.previous_page_number %}">{% trans "previous" %}</a>
+            <a href="{% url logging:log_list page_entries.previous_page_number %}">{% trans "previous" %}</a>
         {% endif %}
 
         <span class="current">
@@ -77,7 +77,7 @@ Page {{ number }} of {{ num_pages }}.
         </span>
 
         {% if page_entries.has_next %}
-            <a href="{% url logging:log_list_level_page page_entries.next_page_number %}">{% trans "next" %}</a>
+            <a href="{% url logging:log_list page_entries.next_page_number %}">{% trans "next" %}</a>
         {% endif %}
     </span>
 </div>
