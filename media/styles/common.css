@@ -1514,7 +1514,7 @@ div.system_messages li.warning {
 }
 
 .paginator .current {
-    color: red;
+    color: #6f6f6f;
 }
 
 .paginator .inactive {
