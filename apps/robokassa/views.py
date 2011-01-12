@@ -37,7 +37,7 @@ def receive_result(request):
         user.cash += order.amount
         user.save()
 
-        return HttpResponse('OK%s' % id)
+        return HttpResponse('OK%s' % trans)
     return HttpResponse('error: bad signature')
 
 
