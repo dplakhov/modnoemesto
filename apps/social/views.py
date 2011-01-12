@@ -32,6 +32,7 @@ from mongoengine.django.shortcuts import get_document_or_404
 from apps.user_messages.forms import MessageTextForm
 from apps.social.forms import ChangeProfileForm, LostPasswordForm
 from apps.social.forms import SetNewPasswordForm, InviteForm
+from apps.utils.paginator import paginate
 
 from forms import UserCreationForm, LoginForm
 from documents import User, LimitsViolationException, Invite
@@ -89,12 +90,20 @@ def index(request):
 
         else:
             users = User.objects.filter(**filter_user_data)
+
+        users_count = len(users)
     
     else:
         users = User.objects(last_access__gt=User.get_delta_time(), is_active=True)
+        users_count = users.count()
+
+    objects = paginate(request,
+                       users,
+                       users_count,
+                       2)
 
     return direct_to_template(request, 'index.html', {
-        'accounts': users,
+        'objects': objects,
         'form': form
     })
 
