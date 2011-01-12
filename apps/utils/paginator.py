@@ -6,7 +6,7 @@ class Page(DjangoPage):
     def short_page_range(self):
         RADIUS = 3
         start = self.number - RADIUS if self.number > RADIUS else 1
-        end = self.number + RADIUS if self.number < self.paginator.count - RADIUS else self.paginator.count
+        end = self.number + RADIUS if self.number < self.paginator.num_pages - RADIUS else self.paginator.num_pages
         return range(start, end + 1)
 
 

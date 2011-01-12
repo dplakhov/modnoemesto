@@ -100,7 +100,7 @@ def index(request):
     objects = paginate(request,
                        users,
                        users_count,
-                       2)
+                       28)
 
     return direct_to_template(request, 'index.html', {
         'objects': objects,
