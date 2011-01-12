@@ -8,11 +8,11 @@
             </a>
         {% endif %}
 
-    <span class="info">
-{% blocktrans with objects.number as number and objects.paginator.num_pages as num_pages %}
-Page {{ number }} of {{ num_pages }}.
-{% endblocktrans %}
-    </span>
+        {% for page in objects.short_page_range %}
+            <span class="page{% ifequal page objects.number %} current{% endifequal %}">
+                <a href="?page={{ page }}">{{ page }}</a>
+            </span>
+        {% endfor %}
 
         {% if objects.has_next %}
             <a class="next" href="?page={{ objects.next_page_number }}">
