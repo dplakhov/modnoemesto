@@ -99,14 +99,14 @@
 
 
 <ul class="friendTable">
-{% for user in accounts|slice:"28" %}
+{% for user in objects.object_list %}
     <li>
     {% include "includes/user/mini.html" %}
     </li>
 {% endfor %}
 </ul>
 
-
+{% include "includes/paginator.html" %}
 
 </div>
 
