@@ -1,4 +1,13 @@
-from django.core.paginator import Paginator as DjangoPaginator, Page, EmptyPage, InvalidPage
+from django.core.paginator import Paginator as DjangoPaginator, Page as DjangoPage, EmptyPage, InvalidPage
+
+
+class Page(DjangoPage):
+
+    def short_page_range(self):
+        RADIUS = 3
+        start = self.number - RADIUS if self.number > RADIUS else 1
+        end = self.number + RADIUS if self.number < self.paginator.num_pages - RADIUS else self.paginator.num_pages
+        return range(start, end + 1)
 
 
 class Paginator(DjangoPaginator):
