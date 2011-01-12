@@ -13,9 +13,7 @@
         {% endif %}
 
         {% for page, url in objects.short_page_range %}
-            <span class="page{% ifequal page objects.number %} current{% endifequal %}">
-                <a href="{{ url }}">{{ page }}</a>
-            </span>
+            <a class="page{% ifequal page objects.number %} current{% endifequal %}" href="{{ url }}">{{ page }}</a>
         {% endfor %}
 
         {% if objects.has_next %}
