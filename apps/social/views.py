@@ -39,12 +39,28 @@ from forms import PeopleFilterForm
 from apps.social.documents import Profile
 
 def filter(request):
-    form = PeopleFilterForm(request.POST or None)
-    filter_user_data = {}
-    filter_profile_data = {}
 
-    if form.is_valid():
+    return direct_to_template(request, 'index.html', {
+        'form': form,
+        'accounts': users,
+    })
+
+
+
+def index(request):
+    if not request.user.is_authenticated():
+        return _index_unreg(request)
+
+    form = PeopleFilterForm(request.GET)
+
+    if request.GET and form.is_valid():
+        filter_user_data = {}
+        filter_profile_data = {}
+
         data = dict(form.cleaned_data)
+
+        filter_user_data['is_active'] = True
+
         if data['first_name']:
             filter_user_data['first_name__icontains'] = data['first_name']
 
@@ -54,39 +70,31 @@ def filter(request):
         if data['gender']:
             filter_profile_data['sex'] = data['gender']
 
-        if data['is_online']:
-            filter_user_data['is_active'] = data['is_online']
-
         if data['has_photo']:
             filter_user_data['avatar__exists'] = True
 
-    filter_user_data.update(
-        {'last_access__gt': User.get_delta_time()
-    })
+        if data['is_online']:
+            filter_user_data.update(
+            {'last_access__gt': User.get_delta_time()
+            })
 
-    users = User.objects.filter(**filter_user_data)
+        if filter_profile_data:
+            profiles = Profile.objects.filter(**filter_profile_data)
+            if filter_user_data:
+                user_ids = [profile.user.pk for profile in profiles]
+                filter_user_data['pk__in'] = user_ids
+                users = User.objects.filter(**filter_user_data)
+            else:
+                users = [profile.user for profile in profiles]
 
-    if filter_profile_data:
-        pks = [user.pk for user in users]
-        profiles = Profile.objects.filter(user__in=pks, **filter_profile_data)
-        accounts = [profile.user for profile in profiles]
+        else:
+            users = User.objects.filter(**filter_user_data)
+    
     else:
-        accounts = users
+        users = User.objects(last_access__gt=User.get_delta_time(), is_active=True)
 
     return direct_to_template(request, 'index.html', {
-        'form': form,
-        'accounts': accounts,
-    })
-
-
-
-def index(request):
-    if not request.user.is_authenticated():
-        return _index_unreg(request)
-    form = PeopleFilterForm()
-    accounts = User.objects(last_access__gt=User.get_delta_time(), is_active=True)
-    return direct_to_template(request, 'index.html', {
-        'accounts': accounts,
+        'accounts': users,
         'form': form
     })
 

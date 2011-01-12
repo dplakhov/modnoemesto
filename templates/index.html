@@ -1,8 +1,103 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n media %}
 {% block content %}
-<div id="filter">
-<h2>{% trans "Users online" %}</h2>
+
+
+<!-- filter -->
+<div id="filterPeople">
+    <div id="filter">
+<h2>Поиск людей</h2>
+
+<form method="get">
+<div class="filt rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+
+    <table class="camera_edit">
+        <tbody>
+        <tr>
+            <td>{{ form.first_name.label_tag }}:</td>
+            <td>
+            	<div class="rounded" style="background: white none repeat scroll 0px 0px; padding: 3px 4px;">
+            		{{ form.first_name }}
+				</div>
+            </td>
+            <td>{{ form.last_name.label_tag }}:</td>
+            <td>
+            	<div class="rounded" style="background: white none repeat scroll 0px 0px; padding: 3px 4px;">
+            		{{ form.last_name }}
+				</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="height:10px"></td>
+        </tr>
+        <tr>
+            <td>
+            	{{ form.gender.label_tag }}:
+            </td>
+			<td colspan="3">
+				{{ form.gender }}
+			</td>
+        </tr>
+        <tr>
+            <td colspan="4" style="height:10px"></td>
+        </tr>
+
+        <tr>
+            <td>
+            	{{ form.is_online.label_tag }}:
+            </td>
+			<td>
+				{{ form.is_online }}
+			</td>
+            <td>
+            	{{ form.has_photo.label_tag }}:
+            </td>
+			<td>
+				{{ form.has_photo }}
+			</td>
+        </tr>
+
+        <tr>
+            <td style="height:10px"></td>
+        </tr>
+    </tbody>
+    </table>
+
+
+</div>
+
+    <div class="but">
+            <input type="submit" value="Фильтровать" class="button"/>
+    </div>
+</form>
+
+
+
+<div id="filt_new">
+<ul class="cam_list">
+{% for cam in cams %}
+{% url social:user cam.owner.id as user_path %}
+    <li{% cycle '' '' '' ' style="margin-right: 0pt;"' %}>
+        <div class="item">
+        <div class="pop rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+        <a href="{{ user_path }}#cam"><img alt="{{ cam.name }}" src="{% media_url cam.screen camera_screen_normal.png %}"></a>
+        </div>
+        <p class="place"><a href="{{ user_path }}#cam">{{ cam.name }}</a></p>
+        <p class="creater"><a href="{{ user_path }}">{{ cam.owner }}</a></p>
+        </div>
+    </li>
+{% endfor %}
+</ul>
+</div>
+
+
+    </div>
+</div>
+
+
+<!-- /filter -->
+
+
 <ul class="friendTable">
 {% for user in accounts|slice:"28" %}
     <li>
@@ -10,5 +105,9 @@
     </li>
 {% endfor %}
 </ul>
+
+
+
 </div>
+
 {% endblock %}
