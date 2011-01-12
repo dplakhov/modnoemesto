@@ -8,6 +8,11 @@ ul.friendTable
 	display: inline;
 	height: 110px;
 }
+.friendTable td div
+{
+	overflow: hidden;
+	width: 80px;
+}
 .friendTable td
 {
 	font-size:11px;
