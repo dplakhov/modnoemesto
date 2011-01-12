@@ -1493,14 +1493,19 @@ div.system_messages li.warning {
     color: #A6750C;
     text-align: left;
 }
-.pagination
+.paginator
 {
 	margin-top: 10px;
 	clear: both;
 }
-.pagination span
+.paginator span
 {
 	color: #838383;
+}
+.next
+{
+	color: #00B2D5;
+	text-decoration: none;
 }
 #last_news
 {
