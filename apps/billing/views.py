@@ -9,7 +9,7 @@ from mongoengine.django.shortcuts import get_document_or_404
 from documents import Tariff, AccessCamOrder
 
 from forms import TariffForm, AccessCamOrderForm
-from apps.billing.models import UserOrder, UserId
+from apps.billing.models import UserOrder
 from apps.cam.documents import Camera
 from django.conf import settings
 from apps.billing.constans import TRANS_STATUS
@@ -58,7 +58,7 @@ def tariff_delete(request, id):
 
 def purse(request):
     robokassa_form = RobokassaForm(initial={
-                         'InvId': UserId.get_id_by_user(request.user),
+                         'user_id': request.user.id,
                          'Desc': request.user,
                          'Email': request.user.email,
                      })

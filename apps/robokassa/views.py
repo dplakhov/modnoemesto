@@ -1,5 +1,4 @@
 #coding: utf-8
-
 from django.http import HttpResponse
 from django.views.generic.simple import direct_to_template
 
@@ -7,7 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .conf import USE_POST
 from .forms import ResultURLForm, SuccessRedirectForm, FailRedirectForm
-from apps.billing.models import UserOrder, UserId
+from apps.billing.models import UserOrder
+from apps.social.documents import User
 
 
 @csrf_exempt
@@ -16,16 +16,22 @@ def receive_result(request):
     data = request.POST if USE_POST else request.GET
     form = ResultURLForm(data)
     if form.is_valid():
-        id, sum = form.cleaned_data['InvId'], form.cleaned_data['OutSum']
+        trans = form.cleaned_data['InvId']
+        sum = form.cleaned_data['OutSum']
+        
+        extra_params = form.extra_params()
+        user_id = extra_params['user_id']
 
         # сохраняем данные об успешном уведомлении в базе, чтобы
         # можно было выполнить дополнительную проверку на странице успешного
         # заказа
-        #TODO: need log
-        user = UserId.get_user_by_id(id)
+        user = User.objects.filter(id=user_id).first()
+        if not user:
+            return HttpResponse('error: bad user_id')
         order = UserOrder(
             user_id=user.id,
             amount=float(sum),
+            trans=trans,
         )
         order.save()
         user.cash += order.amount

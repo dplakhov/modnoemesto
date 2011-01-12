@@ -17,19 +17,3 @@ class UserOrder(Model):
     @cached_property
     def user(self):
         return User.objects(id=self.user_id).first()
-
-
-class UserId(Model):
-    user_id = models.CharField(max_length=24, db_index=True, unique=True)
-
-    @staticmethod
-    def get_id_by_user(user):
-        return UserId.objects.get_or_create(user_id=user.id)[0].id
-
-    @staticmethod
-    def get_user_by_id(id):
-        try:
-            user = UserId.objects.get(id=id)
-        except UserId.DoesNotExist:
-            return None
-        return User.objects(id=user.user_id).first()

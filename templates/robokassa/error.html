@@ -2,5 +2,6 @@
 {% load i18n %}
 {% load media %}
 {% block content %}
-<p>Произошла ошибка, платеж не прошел.</p>
+<p>Произошла ошибка</p>
+{{ forms.errors }}
 {% endblock %}
