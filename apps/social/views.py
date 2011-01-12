@@ -52,7 +52,7 @@ def index(request):
     if not request.user.is_authenticated():
         return _index_unreg(request)
 
-    form = PeopleFilterForm(request.GET)
+    form = PeopleFilterForm(request.GET or None)
 
     if request.GET and form.is_valid():
         filter_user_data = {}
