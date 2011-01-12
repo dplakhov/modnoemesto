@@ -79,7 +79,7 @@ def index(request):
             })
 
         if filter_profile_data:
-            profiles = Profile.objects.filter(**filter_profile_data)
+            profiles = Profile.objects.filter(**filter_profile_data).only('user')
             if filter_user_data:
                 user_ids = [profile.user.pk for profile in profiles]
                 filter_user_data['pk__in'] = user_ids
