@@ -105,9 +105,8 @@ management_checked();
             <input type="submit" value="Фильтровать" class="button"/>
     </div>
 </form>
-
-<div id="filt_new">
 {% if cams %}
+<div id="filt_new">
 <ul class="cam_list">
 {% for cam in cams %}
 {% url social:user cam.owner.id as user_path %}
@@ -122,18 +121,21 @@ management_checked();
     </li>
 {% endfor %}
 </ul>
+</div>
+
 {% else %}
+<div id="filt_cat">
 <ul class="tag_list">
 {% for tag, cams in tags %}
 	<li class="category" {% cycle '' ' style="margin-right: 0pt;"' %}>
     	<div>
-	        <h4>{{ tag.name }}</h4>
+	        <h3>{{ tag.name }}</h3>
             <ul>
             {% for cam in cams %}
             	<li {% cycle '' ' style="margin-right: 0pt;"' %}>
                     <div class="item">
                     <div class="pop rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
-                    <a href="{{ user_path }}#cam"><img alt="{{ cam.name }}" src="{% media_url cam.screen camera_screen_normal.png %}"></a>
+                    <a href="{{ user_path }}#cam"><img alt="{{ cam.name }}" src="{% media_url cam.screen camera_screen_midi.png %}"></a>
                     </div>
                     <p class="place"><a href="{{ user_path }}#cam">{{ cam.name }}</a></p>
                     <p class="creater"><a href="{{ user_path }}">{{ cam.owner }}</a></p>
@@ -146,9 +148,9 @@ management_checked();
     </li>
 {% endfor %}
 </ul>
-
-{% endif %}
 </div>
+{% endif %}
+
     </div>
 </div>
 {% endblock %}
