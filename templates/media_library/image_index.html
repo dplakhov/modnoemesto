@@ -10,7 +10,6 @@
 {% block js %}
     {{ block.super }}
     <script type="text/javascript" src="/media/js/jquery.fancybox-1.2.1.js"></script>
-    <script type="text/javascript" src="/media/js/fancyplayer.js"></script>
     <script type="text/javascript">
     $(function(){
 $('a.fancy-image').fancybox({
@@ -27,15 +26,13 @@ $('a.fancy-image').fancybox({
 {% endblock %}
 
 {% block content %}
-
-{% block content %}
 <div id="filter_box">
 <h2>{% trans "Images" %}</h2>
 
 <div id="content-main">
 {% for file in objects.object_list  %}
     <a class="fancy-image" href="{% media_url file library_image_full.png %}">
-        <img src="{% media_url file library_image_thumbnail.png %}" alt="" />
+        <img src="{% media_url file library_image_thumbnail.png %}" alt="{{ file.title }}" />
     </a>
     {% if can_manage %}
         <a href="{% url media_library:image_delete id=file.id %}">{% trans "Delete" %}</a>

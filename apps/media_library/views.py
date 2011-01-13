@@ -64,43 +64,17 @@ def image_index(request):
 @user_passes_test(can_manage_library)
 def image_add(request):
     form = ImageAddForm(request.POST, request.FILES)
+
     if form.is_valid():
-        file = request.FILES['file']
-        buffer = StringIO()
+        library = get_library(LIBRARY_TYPE_IMAGE)
+        file = form.fields['file'].save('library_image', settings.LIBRARY_IMAGE_SIZES, LIBRARY_IMAGE_RESIZE_TASK)
 
-        for chunk in file.chunks():
-            buffer.write(chunk)
+        file.title = form.cleaned_data['title']
+        file.description = form.cleaned_data['description']
+        file.save()
 
-        buffer.reset()
-        try:
-            read_image_file(buffer)
-        except Exception, e:
-            messages.add_message(request, messages.ERROR,
-                                 _('Invalid image file format'))
-        else:
-            image = File(type=FILE_TYPE_IMAGE, author=request.user,
-                         title=form.cleaned_data['title'],
-                         description=form.cleaned_data['description'])
-
-            buffer.reset()
-            image.file.put(buffer, content_type=file.content_type)
-            image.save()
-            library = get_library(LIBRARY_TYPE_IMAGE)
-            library.add_file(image)
-
-            transformations = [ ImageResize(name=name, format='png', width=w, height=h)
-                                    for (name, w, h) in (
-                ('library_image_thumbnail.png', 200, 100),
-                ('library_image_full.png', 400, 200),
-            )]
-
-            if settings.TASKS_ENABLED.get(LIBRARY_IMAGE_RESIZE_TASK):
-                args = [ image.id, ] + transformations
-                apply_file_transformations.apply_async(args=args)
-            else:
-                image.apply_transformations(*transformations)
-
-            messages.add_message(request, messages.SUCCESS, _('Image successfully added'))
+        library.add_file(file)
+        messages.add_message(request, messages.SUCCESS, _('Image successfully added'))
 
     return redirect('media_library:image_index')
 

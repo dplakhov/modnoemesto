@@ -17,3 +17,9 @@ GROUP_PHOTO_SIZES = {
     'group_photo_normal.png': { 'width': 60, 'height': 60 },
     'group_photo_mini.png': { 'width': 47, 'height': 47 },
 }
+
+LIBRARY_IMAGE_SIZES = {
+    'library_image_thumbnail.png': { 'width': 200, 'height': 100 },
+    'library_image_full.png': { 'width': 400, 'height': 200 },
+}
+
