@@ -47,7 +47,9 @@ def cam_list(request):
             for k, v in data.items():
                 if not v: del data[k]
             cams = Camera.objects(**data)
-        return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams) )
+        else:
+            cams = []
+        return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams))
     else:
         form = CamFilterForm()
         tags = []
