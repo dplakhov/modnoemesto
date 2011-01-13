@@ -1,0 +1,24 @@
+{% load i18n %}
+{% ifnotequal objects.paginator.num_pages 1 %}
+    {% spaceless %}
+    <div class="paginator">
+        {% if objects.has_previous %}
+            <a class="previous" href="?page={{ objects.previous_page_number }}">
+                {% trans "Previous page" %}
+            </a>
+        {% endif %}
+
+        {% for page in objects.short_page_range %}
+            <span class="page{% ifequal page objects.number %} current{% endifequal %}">
+                <a href="?page={{ page }}">{{ page }}</a>
+            </span>
+        {% endfor %}
+
+        {% if objects.has_next %}
+            <a class="next" href="?page={{ objects.next_page_number }}">
+                {% trans "Next page" %}
+            </a>
+        {% endif %}
+    </div>
+    {% endspaceless %}
+{% endifnotequal %}

@@ -2,13 +2,139 @@
 
 {% load i18n %}
 
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#id_sex').selectbox();
+    });
+</script>
+{% endblock %}
+
 {% block content %}
-<h1>{% trans "Edit profile" %}</h1>
+<div id="filter_box">
+<h2>{% trans "Edit profile" %}</h2>
 <form method="post" class="baseform">
+    <div class="filt rounded">
+        <table class="group_add">
+        <tr>
+            <th><label for="id_hometown">Родной город:</label></th>
+            <td class="empty_filt"></td>
+            <td>
+                {{ form.hometown.errors }}
+                <div class="input_holder rounded">{{ form.hometown }}</div></td>
+        </tr>
+        <tr>
+        	<td style="height:10px"></td>
+        </tr>
+        <tr>
+            <th><label for="id_birthday">День рождения:</label></th>
+            <td class="empty_filt"></td>
+            <td>
+                {{ form.birthday.errors }}
+                <div class="input_holder rounded">{{ form.birthday }}</div></td>
+        </tr>
+        <tr>
+        	<td style="height:10px"></td>
+        </tr>
+        <tr>
+            <th><label for="id_sex">Пол:</label></th>
+            <td class="empty_filt"></td>
+            <td>{{ form.sex.errors }}{{ form.sex }}</td>
+        </tr>
+        <tr>
+        	<td style="height:10px"></td>
+        </tr>
+        <tr>
+            <th><label for="id_get_news">Получать обновления на емейл:</label></th>
+            <td class="empty_filt"></td>
+            <td>{{ form.get_news.errors }}{{ form.get_news }}</td>
+        </tr>
+        <tr>
+        	<td style="height:10px"></td>
+        </tr>
+        <tr>
+            <th><label for="id_icq">ICQ:</label></th>
+            <td class="empty_filt"></td>
+            <td>
+                {{ form.icq.errors }}
+                <div class="input_holder rounded">{{ form.icq }}</div></td>
+        </tr>
+        <tr>
+        	<td style="height:10px"></td>
+        </tr>
+        <tr>
+            <th><label for="id_mobile">Телефон:</label></th>
+            <td class="empty_filt"></td>
+            <td>
+                {{ form.mobile.errors }}
+                <div class="input_holder rounded">{{ form.mobile }}</div></td>
+        </tr>
+        <tr>
+        	<td style="height:10px"></td>
+        </tr>
+        <tr>
+            <th><label for="id_website">Личный сайт:</label></th>
+            <td class="empty_filt"></td>
+            <td>
+                {{ form.website.errors }}
+                <div class="input_holder rounded">{{ form.website }}</div></td>
+        </tr>
+        <tr>
+        	<td style="height:10px"></td>
+        </tr>
+        <tr>
+            <th><label for="id_university">ВУЗ:</label></th>
+            <td class="empty_filt"></td>
+            <td>
+                {{ form.university.errors }}
+                <div class="input_holder rounded">{{ form.university }}</div></td>
+        </tr>
+        <tr>
+        	<td style="height:10px"></td>
+        </tr>
+        <tr>
+            <th><label for="id_department">Факультет:</label></th>
+            <td class="empty_filt"></td>
+            <td>
+                {{ form.department.errors }}
+                <div class="input_holder rounded">{{ form.department }}</div></td>
+        </tr>
+        <tr>
+        	<td style="height:10px"></td>
+        </tr>
+        <tr>
+            <th><label for="id_university_status">Статус:</label></th>
+            <td class="empty_filt"></td>
+            <td>
+                {{ form.university_status.errors }}
+                <div class="input_holder rounded">{{ form.university_status }}</div></td>
+        </tr>
+        <tr>
+        	<td style="height:10px"></td>
+        </tr>
+        <tr>
+            <th>{{ form.announce.label }}:</th>
+            <td class="empty_filt"></td>
+            <td>
+                {{ form.announce.errors }}
+                <div class="input_holder rounded">{{ form.announce }}</div></td>
+        </tr>
+    </table>
+
+    </div>
+    <div class="but">
+        <input type="submit"
+           value="{% trans 'Save' %}" />
+    </div>
+    {% comment  %}
     <table>
         {{ form.as_table }}
     </table>
     <input type="submit"
            value="{% trans 'Save' %}" />
+    {% endcomment %}
+    
 </form>
+</div>
 {% endblock %}

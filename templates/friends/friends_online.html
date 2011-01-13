@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n friends_tags %}
+{% block content %}
+
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+    <div id="filter_box">
+         <h2>{% blocktrans %}{{ page_user }}: friends online{% endblocktrans %}</h2>
+         {% if page_user.friends_online %}
+            <ul>
+            {% for user in page_user.friends_online %}
+                <li class="friendTable">
+                    <div style="float:left">
+                    {% include "includes/user/mini.html" %}
+                    </div>
+                    <div class="operation">
+                         {% if request.user.id != user.id %}
+                         <p><a class="reference" href="{% url user_messages:send_message user.id %}">Сообщение</a></p>
+                         {% endif %}
+                         {% iffriend request.user user %}
+                         <p><a class="reference" href="{% url friends:add user.id %}">{% trans "Add to my friends" %}</a></p>
+                         {% endiffriend %}
+                    </div>
+                </li>
+            {% endfor %}
+            </ul>
+         {% else %}
+            <p>{% trans "None available" %}</p>
+         {% endif %}
+    </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -19,9 +19,8 @@
     <p>
         Если Вы хотите оплатить интернет через платежную систему банка ПСКБ, заполните пожалуйста поля:
     </p>
-    <p>
 
-    </p><form id="pay_form" method="post" action="https://pay.pskb.spb.ru/">
+    <form id="pay_form" method="post" action="https://pay.pskb.spb.ru/">
         <input type="hidden" name="service" value="{{ service }}">
 
         <table border="0" class="defTable">
@@ -32,7 +31,7 @@
                 <tr>
                     <td width="30%">№ Договора</td>
                     <td width="72%">
-                    <div><input type="text" name="account" value="{{ account }}" class="text" disabled="disabled"></div>
+                    <div><input type="text" name="account" value="{{ account }}" class="text" readonly="readonly"></div>
 
                     </td>
                 </tr>
@@ -58,8 +57,10 @@
         <img alt="" src="/media/images/kred_card_03.gif">
     </p>
 
-
-
+<form action="{{ robokassa_form.target }}" method="POST">
+{{ robokassa_form.as_p }}
+<p><input type="submit" value="Оплатить через робокассу" name="button" class="button"></p>
+</form>
 
 </div>
 <div id="regColumn">

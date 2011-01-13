@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load media %}
 {% block content %}
-<h1>{% trans "Available groups" %}</h1>
-    {% for group in groups %}
-        <div>
-            <a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a>
-        </div>
-    {% endfor %}
+<div id="filter_box" style="overflow:hidden">
+    <h2>{% trans "Available groups" %}</h2>
+        <div class="but"><a class="reference" href="{% url groups:group_add %}">{% trans "Create group" %}</a></div>
+	<br />
+        {% for group in objects.object_list %}
+            <div class="group_list">
+                <div class="group_ava"><a href="{% url groups:group_view id=group.id %}"><img src="{% media_url group.photo group_photo_mini.png %}" /></a></div>
+                <div class="group_info"><a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a></div></div>
+        {% endfor %}
+</div>
 
-    <hr />
-
-    <a href="{% url groups:group_add %}">{% trans "Create group" %}</a>
+{% include "includes/paginator.html" %}
 {% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load media %}
+
+{% block content %}
+<h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>
+<h3 class="video_title">{% trans "Change photo" %}</h3>
+
+        <img src="{% media_url photo group_photo_full.png %}" />
+<form method="post" enctype="multipart/form-data">
+<div class="filt rounded" style="-moz-border-radius: 10px 10px 10px 10px; margin-top: 10px; padding-bottom: 10px;">
+    
+    <table class="img_loader">
+    <tr>
+    	<th><label for="id_file">Изображение:</label></th>
+                    <td class="empty_filt"></td>
+                    <td>{{ form.file.errors }}
+                        <input type="file" name="file" id="id_file" />
+                    </td>
+
+    </tr>
+    </table>
+</div>
+<div class="but">
+    <input type="submit" value="{% trans "Save" %}" />
+</div>
+    </form>
+
+{% endblock %}

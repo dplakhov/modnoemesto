@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load media %}
+
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#filter_box').click(function(e){
+        var link = $(e.target);
+        if (link.hasClass('invite')) {
+            $.get(link.attr('href'), function(data) {
+                if (data == 'OK') {
+                    link.remove();
+                } else {
+                    alert(data);
+                }
+            });
+            return false;
+        }
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div id="filter_box">
+<h2>Пригласить в мои группы</h2>
+<ul>
+{% for group in groups %}
+   
+   {% comment %}
+    <li class="friendTable">
+        <div style="float:left">
+<table border="0" height="100%">
+ <tbody><tr>
+  <td height="100%" style="vertical-align: middle;">
+   <a href="{% url groups:group_view group.id %}">
+       <img src="{% media_url group.photo group_photo_mini.png %}" style="border:none" /></a>
+  </td>
+ </tr>
+
+ <tr>
+  <td><div>
+   <a href="{% url groups:group_view group.id %}">{{ group.name }}</a>
+   </div>
+  </td>
+ </tr>
+</tbody></table>
+        </div>
+        <div class="operation">
+             <p><a class="reference invite" href="{% url groups:send_invite group.id invite_user.id %}">Пригласить</a></p>
+        </div>
+    </li>
+    
+    {% endcomment %}
+    
+    <div class="user_group">
+            <div class="group_ava"><a href="{% url groups:group_view id=group.id %}"><img src="{% media_url group.photo group_photo_normal.png %}" /></a></div>
+            <div style="overflow:hidden; height:55px">
+            <div class="operation" style="padding:0;">
+             <p><a class="reference invite" href="{% url groups:send_invite group.id invite_user.id %}">Пригласить</a></p>
+        </div>
+            <div class="group_info" style="clear:left; margin-left:0"><a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a></div>
+           </div>
+           
+        </div> 
+    
+{% empty %}
+<p style="color:#575655">У вас нет групп, в которую можно пригласить пользователя <a href="{% url social:user invite_user.id %}">{{ invite_user }}</a>.</p>
+{% endfor %}
+</ul>
+</div>
+{% endblock %}

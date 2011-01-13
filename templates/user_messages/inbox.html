@@ -1,41 +1,50 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
-
-<h1>{% trans "Messages history" %}</h1>
+<div id="filter_box">
+<h2>{% trans "Messages history" %}</h2>
 
 <div id="content-main">
 
     {% include "includes/left_menu.html" %}
 
     <div class="messages">
-        <table summary="{% trans "Messages: inbox" %}" width="100%">
-            <caption>{% trans "Messages: inbox" %}</caption>
-            <tr>
-                <th>{% trans "When" %}</th><th>{% trans "From" %}</th>
-            </tr>
-            {% for msg in msgs %}
-            <tr>
-                <td>
-                    <a href="{% url user_messages:view_message message_id=msg.id %}">
-                        {% if msg.is_read %}
-                            {{ msg.timestamp|timesince }} {% trans "ago" %}
-                        {% else %}
-                            {% trans "(unread)" %} {{ msg.timestamp|timesince }} {% trans "ago" %}
-                        {% endif %}
-                    </a>
-
-                </td>
-                <td class="friendTable">
+        <h3>{% trans "Messages: inbox" %}</h3>
+        <div class="messages_inbox">
+        
+            {% for msg in objects.object_list %}
+            <div class="message_item {% if msg.is_read %}readed{% else %}unreaded{% endif %}">
+                <div class="friendTable">
                     {% with msg.sender as user %}
                         {% include "includes/user/micro.html" %}
                     {% endwith %}
-                </td>
-            </tr>
+                </div>
+                <div class="message_text">
+                    <p><a href="{% url user_messages:view_message message_id=msg.id %}">
+                        {% with msg.timestamp as datetime %}
+                            {% include 'includes/datetime.html' %}
+                        {% endwith %}
+                        </a>
+                    </p>
+                    <p><a href="{% url user_messages:view_message message_id=msg.id %}">{{ msg.first_line }}</a></p>
+                </div>
+                <div class="operation">
+                     <p><a class="reference" href="{% url user_messages:view_message message_id=msg.id %}">Читать</a></p>
+                     {% comment %}
+                     <p><a class="reference" href="#">Спам</a></p>
+                     {% endcomment %}
+                     <p><a class="reference" href="{% url user_messages:delete_message message_id=msg.id%}">
+                        {% trans "Delete" %}
+                    </a></p>
+                </div>
+            </div>
             {% endfor %}
-        </table>
-    </div>
+        </div>
 
+{% include "includes/paginator.html" %}
+
+    </div>
+</div>
 </div>
 
 {% endblock %}

@@ -1,13 +1,44 @@
 {% extends "base.html" %}
 {% load i18n %}
-
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+	$(document).ready(function(){
+			$('#id_tariff').selectbox();});
+	
+</script>
+{% endblock %}
 {% block content %}
+<div id="filter_box">
 <h2>{% trans "Access to camera" %}</h2>
     <form method="post" class="baseform">
-        <table>
-            {{ form.as_table }}
+    <div class="filt rounded">
+        <table class="camera_edit">
+{% with form.tariff as field %}
+            <tr>
+                <th><label for="id_tariff">Тариф:</label></th>
+                <td class="empty_filt"></td>
+                <td>{{ field.errors }}
+                    {{ field }}</td>
+            </tr>
+{% endwith %}
+            <tr>
+            	<td style="height:10px" class="empty_filt"></td>
+            </tr>
+{% with form.count_packets as field %}
+            <tr>
+                <th><label for="id_count_packets">Количество:</label></th>
+                <td class="empty_filt"></td>
+                <td>{{ field.errors }}
+                    <div class="input_holder_short rounded">{{ field }}</div></td>
+            </tr>
+{% endwith %}
         </table>
-        <input type="submit"
-               value="{% trans 'Paid' %}" />
+      
+    </div>
+    <div class="but">
+        <input type="submit" value="{% trans 'Paid' %}" />
+    </div>
     </form>
+</div>    
 {% endblock %}

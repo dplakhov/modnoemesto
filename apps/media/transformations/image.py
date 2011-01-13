@@ -8,12 +8,14 @@ from ImageFile import Parser as ImageFileParser
 from apps.utils.stringio import StringIO
 
 class ImageResize(FileTransformation):
-    FILE_TYPE = 'image'
     def _apply(self, source, destination):
         parser = ImageFileParser()
         parser.feed(source.file.read())
         source_image = parser.close()
-        image = source_image.resize((self.width, self.height,), Image.ANTIALIAS)
+        crop_box = self._get_crop_box(source_image.size,
+                                      (self.width, self.height))
+        image = source_image.crop(crop_box)
+        image = image.resize((self.width, self.height), Image.ANTIALIAS)
         buffer = StringIO()
         image.save(buffer, self.format)
         buffer.reset()
@@ -21,3 +23,24 @@ class ImageResize(FileTransformation):
         destination.save()
         return destination
 
+    def _get_crop_box(self, source, destination):
+        wo, ho = source
+        wr, hr = destination
+        ko = float(wo)/ho
+        kr = float(wr)/hr
+        if ko < kr:
+            wc = wo
+            hc = wo*hr/wr
+            lc = 0
+            tc = (ho - hc)/2
+        elif ko > kr:
+            wc = ho*wr/hr
+            hc = ho
+            lc = (wo - wc)/2
+            tc = 0
+        else:
+            wc = wo
+            hc = ho
+            lc = 0
+            tc = 0
+        return lc, tc, lc + wc, tc + hc

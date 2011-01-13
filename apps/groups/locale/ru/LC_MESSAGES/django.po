@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-25 17:20+0300\n"
+"POT-Creation-Date: 2010-12-29 18:10+0300\n"
 "PO-Revision-Date: 2010-11-25 17:20+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,9 +15,92 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: forms.py:6
+#: decorators.py:16 decorators.py:18 views.py:206 views.py:299 views.py:310
+msgid "You are not allowed."
+msgstr "У вас недостаточно прав."
+
+#: forms.py:7 forms.py:53 forms.py:57
 msgid "Name"
 msgstr "Название"
 
+#: forms.py:8
+msgid "Description"
+msgstr "Описание"
+
+#: forms.py:9
+msgid "Theme"
+msgstr "Тема"
+
+#: forms.py:10
+msgid "Type"
+msgstr "Тип"
+
+#: forms.py:11
+msgid "Site"
+msgstr "Веб-сайт"
+
+#: forms.py:12
+msgid "Country"
+msgstr "Страна"
+
+#: forms.py:13
+msgid "City"
+msgstr "Город"
+
+#: forms.py:14
+msgid "Access"
+msgstr "Доступ"
+
+#: forms.py:15
+msgid "Has video conference"
+msgstr "Включена видеоконференция"
+
+#: forms.py:26 forms.py:27
+msgid "none selected"
+msgstr "не выбрано"
+
+#: forms.py:32
+msgid "Group with that name already exists"
+msgstr "Группа с таким именем уже существует"
+
+#: forms.py:40 forms.py:48
+msgid "Does Not Exist"
+msgstr ""
+
+#: views.py:65
+msgid "To send a message, you need to join the group."
+msgstr "Для отправки сообщения, вам нужно вступить в группу."
+
+#: views.py:186 views.py:197 views.py:330
+msgid ""
+"You can not leave the group. Give the administrator rights to another party."
+msgstr ""
+"Вы не можете покинуть группу. Передайте права администратора другому "
+"участнику."
+
+#: views.py:241
+msgid "Photo successfully updated"
+msgstr ""
+
+#: views.py:412
+msgid "You can not delete this group theme."
+msgstr ""
+"Вы не можете удалить эту тему, она используется одной или несколькими "
+"группами."
+
+#: views.py:416
+msgid "Group theme deleted."
+msgstr "Тема удалена."
+
+#: views.py:459
+msgid "You can not delete this group type."
+msgstr ""
+"Вы не можете удалить этот тип, он используется одной или несколькими "
+"группами."
+
+#: views.py:463
+msgid "Group type deleted."
+msgstr "Тип удалён."

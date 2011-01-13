@@ -4,3 +4,5 @@
 *.pyc
 /venv
 tags
+*.swp
+Thumbs.db

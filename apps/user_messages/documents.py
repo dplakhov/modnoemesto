@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 from datetime import datetime
 from mongoengine import *
 from django.conf import settings
@@ -15,6 +16,9 @@ class MessageBox(object):
     def _messages(self):
         raise NotImplementedError()
         return Message.objects.none()
+
+    def count(self):
+        return self._messages.count()
 
     def __len__(self):
         return len(self._messages)
@@ -97,7 +101,7 @@ class Message(Document):
         ],
 
         'ordering': [
-                'timestamp',
+                '-timestamp',
         ]
 
     }
@@ -105,6 +109,16 @@ class Message(Document):
     def __init__(self, *args, **kwargs):
         super(Message, self).__init__(*args, **kwargs)
         self.timestamp = self.timestamp or datetime.now()
+
+    def first_line(self):
+        try:
+            text = self.text.strip()
+            if len(text) < 40:
+                return text
+            return re.split(r'[\r\n]+', text)[0][:40] + '...'
+        except Exception, e:
+            return ''
+
 
     def set_readed(self, timestamp=None):
         if timestamp is None:

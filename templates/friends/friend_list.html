@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+    <div id="filter_box">
+            <h2>{% trans "Your friends:" %}</h2>
+            <div class="friend_request">
+            <ul>
+            <li>
+{% with user.friends.offers.incoming|length as fs_offers_inbox_count %}
+                 <a class="reference" href="{% url friends:offers_inbox %}">Полученные заявки в друзья{% if fs_offers_inbox_count %} <b>({{ fs_offers_inbox_count }})</b>{% endif %}</a>
+{% endwith %}
+            </li>
+            <li style="float:right">
+                <a class="reference" href="{% url friends:offers_sent %}">Отправленные заявки в друзья</a>
+            </li>
+        </ul>
+        </div>
+        <div class="friend_list_online transparent">
+        <h3>Друзья On-line</h3>
+            {% if user.friends_online %}
+                <ul>
+                {% for user in user.friends_online %}
+                    <li class="friendTable">
+                        <div style="float:left">
+                        {% include "includes/user/mini.html" %}
+                        </div>
+                        <div class="operation">
+                             <p><a class="reference" href="{% url user_messages:send_message user.id %}">Сообщение</a></p>
+                             <p><a class="reference del_friend" href="{% url friends:remove user.id %}">
+                                {% trans "Delete" %}
+                            </a></p>
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p class="none_av">{% trans "None available" %}</p>
+            {% endif %}
+        </div>
+        
+        <div class="friend_list_all transparent">
+        <h3>Все Друзья</h3>
+            {% if user.friends.count %}
+                <ul>
+                {% for user in user.friends.list %}
+                    <li class="friendTable">
+                        <div style="float:left">
+                        {% include "includes/user/mini.html" %}
+                        </div>
+                        <div class="operation">
+                             <p><a class="reference" href="{% url user_messages:send_message user.id %}">Сообщение</a></p>
+                             <p><a class="reference del_friend" href="{% url friends:remove user.id %}">
+                                {% trans "Delete" %}
+                            </a></p>
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p class="none_av">{% trans "None available" %}</p>
+            {% endif %}
+        </div>
+    </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$('#filter_box').click(function(e) {
+    var clicked = $(e.target);
+    if (clicked.hasClass('del_friend')) {
+        if (confirm("Вы действительно желаете удалить пользователя из списка друзей?")) {
+            return true;
+        }
+        return false;
+    }
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div id="filter_box">
+<h2>Новости</h2>
+
+<p>
+    <div class="list list_news">
+{% for item in list %}
+    	<div class="message_item">
+        <div class="friendTable">
+                    {% with item.author as user %}
+                        {% include "includes/user/micro.html" %}
+                    {% endwith %}
+                </div>
+                <div class="note_text">
+                    <p> {{ item.ctime|date:"d.m.Y" }}
+                    </p>
+                    <p><a href="{% url news:view item.id %}">{{ item.title }}</a></p>
+                    <p style="width:300px">{{ item.preview_text|linebreaksbr }}<p>
+                </div>
+                    
+                    
+    {% if request.user.is_superuser %}
+                <div class="operation">
+                     <p><a class="reference" href="{% url news:edit item.id %}">{% trans 'Edit' %}</a></p>
+                     <p><a class="reference" href="{% url news:delete item.id %}">{% trans 'Delete' %}</a></p>
+                </div>
+
+        {% endif %}
+
+          </div>
+{% endfor %}
+    </div>
+
+</p>
+<div class="but">
+<a class="reference" href="{% url news:add %}">Создать новость</a>
+</div>
+</div>
+{% endblock %}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-26 11:54+0300\n"
+"POT-Creation-Date: 2010-12-24 15:51+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,104 +19,186 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: forms.py:9 forms.py:24
+#: documents.py:53
+msgid "No upcoming events"
+msgstr "Нет предстоящих событий"
+
+#: documents.py:88
+msgid "Site invite"
+msgstr "Приглашение на сайт"
+
+#: documents.py:156
+msgid "Confirm registration"
+msgstr "Подтверждение регистрации"
+
+#: documents.py:166
+msgid "Password Reset Request"
+msgstr "Восстановление пароля"
+
+#: forms.py:11 forms.py:89 forms.py:158 forms.py:176
+msgid "Email"
+msgstr "E-mail"
+
+#: forms.py:12 forms.py:95 forms.py:162
 msgid "Password"
 msgstr "Пароль"
 
-#: forms.py:17
-msgid "Username"
+#: forms.py:29
+msgid "Please enter a correct email and password."
+msgstr "Пожалуйста, введите верные E-mail и пароль."
+
+#: forms.py:79
+msgid "First name"
 msgstr "Имя"
 
-#: forms.py:18
-msgid "Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only."
-msgstr ""
+#: forms.py:83
+msgid "This value may contain only letters, numbers and '/`/- characters."
+msgstr "Значение должно состоять только из букв и знаков '/`/-."
 
-#: forms.py:20
-msgid "This value may contain only letters, numbers and @/./+/-/_ characters."
-msgstr ""
+#: forms.py:84
+msgid "Last name"
+msgstr "Фамилия"
 
-#: forms.py:22
-msgid "Email"
-msgstr "Email"
-
-#: forms.py:22
+#: forms.py:88 forms.py:100
 msgid ""
-"Please enter avalid email address, it is required to complete registration "
-"process"
+"This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= "
+"characters."
 msgstr ""
+"Значение должно состоять только из букв, цифр и знаков ./-/_/@/!/#/$/%/^/&/+/"
+"=."
 
-#: forms.py:25
+#: forms.py:90
+msgid "Phone"
+msgstr "Телефон"
+
+#: forms.py:94
+msgid ""
+"Phone number is invalid or can not be used. Check your spelling. For "
+"example: +7 916 3564334"
+msgstr ""
+"Телефонный номер указан неверно или не может быть использован. Проверьте "
+"правильность ввода. Например: +7 916 3564334"
+
+#: forms.py:101 forms.py:163
 msgid "Password confirmation"
-msgstr ""
+msgstr "Подтверждение пароля"
 
-#: forms.py:26
-msgid "Enter the same password as above, for verification."
-msgstr ""
+#: forms.py:103
+msgid "Captcha"
+msgstr "Введите код на картинке"
 
-#: forms.py:32
-msgid "A user with that username already exists."
-msgstr ""
+#: forms.py:114
+msgid "A user with that email already exists."
+msgstr "Пользователь с таким E-mail уже существует."
 
-#: forms.py:40
+#: forms.py:124 forms.py:169
 msgid "The two password fields didn't match."
 msgstr ""
 
-#: forms.py:50
+#: forms.py:134
 msgid "Image"
 msgstr ""
 
-#: forms.py:55
+#: forms.py:139
 msgid "None selected"
 msgstr "Не выбран"
 
-#: forms.py:56
+#: forms.py:140
 msgid "Female"
 msgstr "Женский"
 
-#: forms.py:57
+#: forms.py:141
 msgid "Male"
 msgstr "Мужской"
 
-#: forms.py:60
+#: forms.py:144
 msgid "Hometown"
 msgstr "Родной город"
 
-#: forms.py:61
+#: forms.py:145
 msgid "Birthday"
 msgstr "День рождения"
 
-#: forms.py:62
+#: forms.py:146
 msgid "Sex"
 msgstr "Пол"
 
-#: forms.py:63
+#: forms.py:147
 msgid "ICQ"
 msgstr "ICQ"
 
-#: forms.py:64
+#: forms.py:148
 msgid "Mobile"
 msgstr "Телефон"
 
-#: forms.py:65
+#: forms.py:149
 msgid "Website"
 msgstr "Личный сайт"
 
-#: forms.py:66
+#: forms.py:150
 msgid "University"
 msgstr "ВУЗ"
 
-#: forms.py:67
+#: forms.py:151
 msgid "Department"
 msgstr "Факультет"
 
-#: forms.py:68
+#: forms.py:152
 msgid "Status"
 msgstr "Статус"
 
-#: views.py:240
-msgid "Invalid image file format"
-msgstr ""
+#: forms.py:153
+msgid "Announce"
+msgstr "Анонс"
 
-#: views.py:261
+#: forms.py:174
+msgid "Friend name"
+msgstr "Имя друга"
+
+#: views.py:109
+msgid "The invitation has already been used by another user"
+msgstr "Приглашение уже было использовано другим пользователем"
+
+#: views.py:114
+msgid "Incorrect reference to an invitation"
+msgstr "Ссылка приглашения некорректна"
+
+#: views.py:151
+msgid "Activation code corrupted or already used"
+msgstr "Код активации повреждён или уже использован"
+
+#: views.py:286
+msgid "Invalid image file format"
+msgstr "Неверный формат файла"
+
+#: views.py:307
 msgid "Avatar successfully updated"
+msgstr "Аватар успешно обновлен"
+
+#: views.py:324
+msgid "Profile successfully updated"
+msgstr "Профиль успешно обновлен"
+
+#: views.py:371
+msgid "Email with a link sent to restore the address you specify."
+msgstr "Письмо со ссылкой восстановления выслано на указанный Вами адрес."
+
+#: views.py:383
+msgid "Recovery code corrupted or already used"
+msgstr "Код востановления пароля повреждён или уже использован"
+
+#: views.py:403
+msgid "Password successfully updated."
+msgstr "Пароль успешно обновлен"
+
+#: views.py:419
+msgid "Invite sent"
+msgstr "Приглашение отправлено"
+
+#: views.py:430
+msgid "The invitation is intended only for unregistered users"
 msgstr ""
+"Приглашение предназначено только для незарегистрированных пользователей"
+
+#~ msgid "This account is inactive."
+#~ msgstr "Эта учетная запись неактивна."

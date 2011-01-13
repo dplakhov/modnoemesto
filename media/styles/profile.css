@@ -34,7 +34,7 @@ div.about_persone
 {
 	border-top: 1px dotted #6f6f6f;
 	padding: 15px 0px;
-	background: url(../images/bg_about_persone.png) no-repeat;
+	/*background: url(../images/bg_about_persone.png) no-repeat;*/
 }
 .about_persone p, .the_wall p
 {
@@ -43,6 +43,13 @@ div.about_persone
 	float: left;
 	display: inline;
 	padding-left: 5px;
+}
+p.event_announce
+{
+ 	/*text-align: justify;*/
+    width: 285px;
+	color: #575655;
+	padding-top: 5px;
 }
 .friend_box p, .group_box p
 {
@@ -63,7 +70,7 @@ div.about_persone
 	color: #838383;
 	text-decoration: underline;
     float: right;
-    padding-top: 5px;
+    padding-top: 27px;
  }
 .about_persone span, .the_wall span, .friend_box span, .group_box span
 {
@@ -121,15 +128,25 @@ div#right
 	text-align: center;
 	border: 10px solid #eeedde;
 }
+.own_photo p a 
+{
+	color: #08889F;
+	text-decoration: underline;
+}
 .rating_persone
 {
-	margin-top: 3px;
+	margin-top: 4px;
 	background: #d0f3f5;
 	padding: 13px;
 }
 .rating_persone p
 {
 	color: #575655;
+}
+.profileActions
+{
+	overflow: hidden;
+	margin-top: 5px;
 }
 .profileActions ul
 {
@@ -155,7 +172,8 @@ div#right
 	border-top: 1px dotted #6f6f6f;
 	padding: 15px 0px;
 	background: url(../images/bg_about_persone.png) no-repeat;
-    height: 220px;
+    height: 250px;
+	overflow: hidden;
 }
 .group_box
 {

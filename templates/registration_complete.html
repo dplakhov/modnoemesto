@@ -1,14 +1,18 @@
-{% extends "base.html" %}
+{% extends "base_mini.html" %}
 
 {% load i18n %}
 
-{% block content %}
-
+{% block base_content %}
+<div id="content_about" style="height:480px">
+<h2>Благодарим вас за регистрацию на сайте {{ SITE_DOMAIN }}!</h2>
     <p>
-    Thank you for registering at {{ SITE_DOMAIN }}!<br/>
-    You should receive the email message with a confirmation code in a few
-    minutes, just click link with this code to complete the registration
-    process.
+    Вы должны получить сообщение по электронной почты с кодом подтверждения в течение нескольких
+    минут, просто нажмите на ссылку с этим кодом, чтобы завершить процесс
+    регистрации.
     </p>
-
+    <p>
+    <b>Если Вы не получили письмо о подтверждении регистрации, обратитесь в службу технической поддержки 
+    <a href="mailto:onduty@web-mark.ru">onduty@web-mark.ru</a> или +7 (812) 642-4878.<b>
+    </p>
+</div>
 {% endblock %}

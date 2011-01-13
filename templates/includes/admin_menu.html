@@ -1,14 +1,48 @@
-{% if request.user.is_superuser %}
+{% load i18n %}
+{% if request.user.is_staff %}
 <div class="admin-menu">
     <div class="submenu">
-        <p>Cameras</p>
+        {% if perms.statistic %}
+        <p>{% trans "Admin" %}</p>
         <ul>
-            <li><a href="{% url cam:type_list %}">Camera types</a></li>
+            <li><a href="{% url admin:statistic %}">{% trans "Statistic" %}</a></li>
+            <li><a href="{% url admin:user_list %}">{% trans "Users" %}</a></li>
         </ul>
-        <p>Billing</p>
+        {% endif %}
+        {% if perms.camera %}
+        <p>{% trans "Cameras" %}</p>
         <ul>
-            <li><a href="{% url billing:tariff_list %}">Tariffs</a></li>
+            <li><a href="{% url cam:type_list %}">{% trans "Camera types" %}</a></li>
         </ul>
+        {% endif %}
+        {% if perms.billing %}
+        <p>{% trans "Billing" %}</p>
+        <ul>
+            <li><a href="{% url billing:tariff_list %}">{% trans "Tariffs" %}</a></li>
+            <li><a href="{% url billing:order_list %}">{% trans "Pay Orders" %}</a></li>
+            <li><a href="{% url billing:access_order_list %}">{% trans "Access Orders" %}</a></li>
+        </ul>
+        {% endif %}
+        {% if perms.groups %}
+        <p>{% trans "Groups" %}</p>
+        <ul>
+            <li><a href="{% url groups:theme_list %}">{% trans "Themes" %}</a></li>
+            <li><a href="{% url groups:type_list %}">{% trans "Types" %}</a></li>
+        </ul>
+        {% endif %}
+		
+        {% if perms.logging %}
+        <p>{% trans "Logging" %}</p>
+        <ul>
+            <li><a href="{% url logging:log_list %}">{% trans "All" %}</a></li>
+            <li><a href="{% url logging:log_list_level level='INFO' %}">{% trans "Info" %}</a></li>
+			<li><a href="{% url logging:log_list_level level='DEBUG' %}">{% trans "Debug" %}</a></li>
+			<li><a href="{% url logging:log_list_level level='WARNING' %}">{% trans "Warning" %}</a></li>
+			<li><a href="{% url logging:log_list_level level='ERROR' %}">{% trans "Error" %}</a></li>
+			<li><a href="{% url logging:log_list_level level='CRITICAL' %}">{% trans "Critical" %}</a></li>
+        </ul>
+        {% endif %}
+		
     </div>
 </div>
 {% endif %}

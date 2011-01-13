@@ -1,7 +1,7 @@
 class ACCESS_CAM_ORDER_STATUS:
-    WAIT = 1
-    ACTIVE = 2
-    COMPLETE = 3
+    WAIT = 'wait'
+    ACTIVE = 'active'
+    COMPLETE = 'complete'
 
 
 class TRANS_STATUS:

@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load media %}
 
+
 {% block css %}
     {{ block.super }}
     <link rel="stylesheet" href="/media/styles/fancybox.css" type="text/css" media="screen" />
@@ -27,7 +28,9 @@ $('a.fancy-image').fancybox({
 
 {% block content %}
 
-<h1>{% trans "Images" %}</h1>
+{% block content %}
+<div id="filter_box">
+<h2>{% trans "Images" %}</h2>
 
 <div id="content-main">
 {% for file in objects.object_list  %}
@@ -40,7 +43,22 @@ $('a.fancy-image').fancybox({
 {% endfor %}
 </div>
 
-{% include 'includes/pagination.html' %}
+<div class="pagination">
+    <span class="step-links">
+        {% if objects.has_previous %}
+            <a href="?page={{ objects.previous_page_number }}">предыдущая</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ objects.number }} of {{ objects.paginator.num_pages }}.
+        </span>
+
+        {% if objects.has_next %}
+            <a href="?page={{ objects.next_page_number }}">следующая</a>
+        {% endif %}
+    </span>
+</div>
+
 
     {% if can_manage %}
         <form action="{% url media_library:image_add %}" method="post" enctype="multipart/form-data">
@@ -48,9 +66,11 @@ $('a.fancy-image').fancybox({
         <table>
         {{ form.as_table }}
         </table>
+        <div class="but">
         <input type="submit" value="{% trans "Add" %}"/>
+        </div>
         </form>
 
     {% endif %}
-    
+</div>    
 {% endblock %}

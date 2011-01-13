@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.simple import direct_to_template
-from django.contrib.auth.decorators import login_required, permission_required
-from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponse
+from django.contrib.auth.decorators import permission_required
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 
 from mongoengine.django.shortcuts import get_document_or_404
@@ -14,16 +14,17 @@ from apps.cam.documents import Camera
 from django.conf import settings
 from apps.billing.constans import TRANS_STATUS
 from apps.social.documents import User
+from apps.utils.paginator import paginate
+from apps.robokassa.forms import RobokassaForm
 
 
-@login_required
+
 @permission_required('superuser')
 def tariff_list(request):
     return direct_to_template(request, 'billing/tariff_list.html',
                               {'tariffs': Tariff.objects().only('id','name') } )
 
 
-@login_required
 @permission_required('superuser')
 def tariff_edit(request, id=None):
     if id:
@@ -49,18 +50,22 @@ def tariff_edit(request, id=None):
                               {'form':form, 'is_new':id is None})
 
 
-@login_required
 @permission_required('superuser')
 def tariff_delete(request, id):
     get_document_or_404(Tariff, id=id).delete()
     return HttpResponseRedirect(reverse('billing:tariff_list'))
 
 
-@login_required
 def purse(request):
+    robokassa_form = RobokassaForm(initial={
+                         'user_id': request.user.id,
+                         'Desc': request.user,
+                         'Email': request.user.email,
+                     })
     return direct_to_template(request, 'billing/pay.html', {
         'service': settings.PKSPB_ID,
         'account': request.user.id,
+        'robokassa_form': robokassa_form,
     })
 
 
@@ -70,42 +75,31 @@ def operator(request):
     #@TODO: fix KeyError
     from apps.groups.documents import Group
 
-    import logging
-    LOG_FILENAME = '/tmp/modnoemesto_debug.log'
-    logger = logging.getLogger("simple_example")
-    logger.setLevel(logging.DEBUG)
-    ch = logging.FileHandler(LOG_FILENAME)
-    ch.setLevel(logging.DEBUG)
-    formatter = logging.Formatter("%(asctime)s:%(message)s")
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
-
 
     def before(request):
         if request.GET.get('duser', None) != settings.PKSPB_DUSER or\
            request.GET.get('dpass', None) != settings.PKSPB_DPASS or\
            request.GET.get('sid', None) != '1':
-            logger.debug('1')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         cid = request.GET.get('cid', None)
         if not cid:
-            logger.debug('2')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         try:
             user = User.objects.get(id=cid)
         except User.DoesNotExist:
-            logger.debug('3')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_CID)
         return user
 
     def action_get_info(request, user):
-        logger.debug('4')
         return HttpResponse('status=%i' % TRANS_STATUS.SUCCESSFUL)
 
     def get_pay_params(request):
         term = int(request.GET.get('term', None))
+        if term < 0: raise ValueError
         trans = int(request.GET.get('trans', None))
+        if trans < 0: raise ValueError
         amount = float(request.GET.get('sum', None))
+        if amount < 0: raise ValueError
         if term and trans and amount:
             return term, trans, amount
         raise ValueError
@@ -114,15 +108,13 @@ def operator(request):
         try:
             params = get_pay_params(request)
         except (ValueError, TypeError):
-            logger.debug('7')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
         term, trans, amount = params
         trans_count = UserOrder.objects.filter(trans=trans).count()
         if trans_count > 0:
             return HttpResponse('status=%i' % TRANS_STATUS.ALREADY)
         order = UserOrder(
-            user=user,
-            is_payed=True,
+            user_id=user.id,
             term=term,
             trans=trans,
             amount=amount,
@@ -130,7 +122,6 @@ def operator(request):
         order.save()
         user.cash += order.amount
         user.save()
-        logger.debug('9')
         return HttpResponse('status=%i&summa=%.2f' % (TRANS_STATUS.SUCCESSFUL, order.amount))
 
     def main(request):
@@ -139,51 +130,61 @@ def operator(request):
             if type(result) == HttpResponse:
                 return result
             if 'uact' not in request.GET:
-                return HttpResponseNotFound()
+                return HttpResponse('status=%i' % TRANS_STATUS.INVALID_PARAMS)
             uactf = {
                 'get_info': action_get_info,
                 'payment': action_payment,
             }.get(request.GET['uact'])
             if uactf:
                 return uactf(request, result)
-            logger.debug('11')
             return HttpResponse('status=%i' % TRANS_STATUS.INVALID_UACT)
         except:
-            #@TODO: need log
-            logger.debug('12')
-            import sys, traceback
-            logger.debug(traceback.format_exc())
+            #import sys, traceback
             return HttpResponse('status=%i' % TRANS_STATUS.INTERNAL_SERVER_ERROR)
 
-    logger.debug("="*80)
-    logger.debug("GET  = %s" % repr(request.GET))
-    logger.debug("POST = %s" % repr(request.POST))
-    logger.debug("="*80)
     response = main(request)
-    logger.debug(response.content)
-    logger.debug("="*80)
     return response
 
 
-@login_required
-def get_access_to_camera(request, id):
+def get_access_to_camera(request, id, is_controlled):
     camera = get_document_or_404(Camera, id=id)
-    camera_is_controlled = camera.type.is_controlled
     if request.POST:
-        form = AccessCamOrderForm(request.user, camera_is_controlled,request.POST)
+        form = AccessCamOrderForm(is_controlled, request.user, request.POST)
         if form.is_valid():
-            order = AccessCamOrder(
-                tarif=form.cleaned_data['tariff'],
-                duration=form.cleaned_data['duration'],
-                user=request.user,
-                camera=camera,
-            )
-            if not camera_is_controlled:
-                order.set_access_period(form.cleaned_data['tariff'])
-                request.user.cash -= form.total_cost
-                request.user.save()
-            order.save()
+            tariff = form.cleaned_data['tariff']
+            if tariff.is_packet:
+                order = AccessCamOrder.create_packet_type(
+                    tariff=tariff,
+                    count_packets=form.cleaned_data['count_packets'],
+                    user=request.user,
+                    camera=camera,
+                )
+            else:
+                order = AccessCamOrder.create_time_type(
+                    tariff=tariff,
+                    user=request.user,
+                    camera=camera,
+                )
+            camera.check_operator(order)
             return HttpResponseRedirect(reverse('social:user', args=[camera.owner.id]))
     else:
-        form = AccessCamOrderForm()
-    return direct_to_template(request, 'billing/get_access_to_camera.html', {'form':form})
+        form = AccessCamOrderForm(is_controlled)
+    return direct_to_template(request, 'billing/get_access_to_camera.html', { 'form': form })
+
+
+@permission_required('superuser')
+def order_list(request):
+    objects = paginate(request,
+                       UserOrder.objects.order_by('-timestamp'),
+                       UserOrder.objects.count(),
+                       25)
+    return direct_to_template(request, 'billing/order_list.html', { 'objects': objects })
+
+
+@permission_required('superuser')
+def access_order_list(request):
+    objects = paginate(request,
+                       AccessCamOrder.objects.order_by('-create_on'),
+                       AccessCamOrder.objects.count(),
+                       25)
+    return direct_to_template(request, 'billing/access_order_list.html', { 'objects': objects })

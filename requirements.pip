@@ -3,7 +3,6 @@ anyjson==0.2.5
 carrot==0.10.7
 celery==2.1.3
 Django==1.2.3
-django-assist-ru==0.6.0
 django-celery==2.1.2
 django-picklefield==0.1.9
 importlib==1.0.2
@@ -14,3 +13,7 @@ pyparsing==1.5.5
 python-dateutil==1.5
 pytils==0.2.3
 wsgiref==0.1.2
+python-memcached==1.45
+BeautifulSoup==3.2.0
+redis==2.2.0
+django-celery-email==0.1.1

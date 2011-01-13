@@ -1,19 +1,232 @@
-{% extends "base.html" %}
+{% extends "base_mini.html" %}
 {% load i18n %}
+{% load media %}
 
-{% block content %}
-<h1>{% trans "Group" %} "{{ group.name }}"</h1>
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+var is_first_page = true;
+$(document).ready(function(){
+    var messages_destination = $('.messages').offset().top;
+
+    $("#send_message_form").ajaxForm({
+        clearForm: true,
+        success: function(data) {
+            if (data != '') {
+                $('.messages_inbox').html(data);
+                is_first_page = true;
+            }
+            $('.charsRemaining').html('');
+        }
+    });
+
+    function update_messages(url){
+        $.get(url, function(data) {
+            if (data != '') {
+                $('.messages_inbox').html(data);
+                if($.browser.safari){ bodyelem = $("body") } else{ bodyelem = $("html") }
+                bodyelem.animate({ scrollTop: messages_destination }, 1100 );
+            }
+        });
+    }
+
+    window.setInterval(function(e){
+        if (is_first_page) update_messages('{% url groups:group_view group.id %}');
+    } , 30 * 1000);
+
+    $('.messages_inbox').click(function(e){
+        var link = $(e.target);
+        if (link.hasClass('delete') || link.hasClass('next') || link.hasClass('previous') ) {
+            var href = link.attr('href');
+            update_messages(href);
+            var n = href.match(/\?page=(\d+)$/);
+            if (n && parseInt(n[1]) != 1) is_first_page = false;
+            else is_first_page = true;
+            return false;
+        }
+    });
+});
+</script>
+{% endblock %}
+
+{% block base_content %}
+{% include "_left_box_menu.html" %}
+<div id="centerColumn" style="width:760px">
+<div id="filter_box">
+<h2>{% trans "Group" %} "{{ group.name }}"</h2>
+{% if group.has_video_conference and can_view_conference %}
+<object  width="{% if is_admin %}745{% else %}650{% endif %}"
+         height="{% if is_admin %}515{% else %}423{% endif %}"
+        >
+    <embed src="/media/swf/group_{% if is_admin %}admin{% else %}user{% endif %}.swf" quality="high" bgcolor="#869ca7"
+        flashvars="myname={{ user.id }}&ip=188.93.21.227&group_id={{ group.id }}&session_key={{ request.session.session_key }}"
+        width="{% if is_admin %}745{% else %}650{% endif %}"
+        height="{% if is_admin %}515{% else %}423{% endif %}"
+        name="sdo_video"
+        align="middle"
+        play="true"
+        loop="false"
+        quality="high"
+        allowScriptAccess="modnoemesto.ru"
+        type="application/x-shockwave-flash"
+        pluginspage="http://www.adobe.com/go/getflashplayer">
+    </embed>
+</object>
+{% endif %}
+
+
+
+{% if is_admin %}
+<div class="friend_request" style="padding-top:20px">
+        <table style="width:95%"><tr>
+            <td style="text-align:center;width:25%">
+                 <a class="reference" href="{% url groups:group_edit group.id %}">{% trans "Edit" %}</a>
+            </td>
+            <td style="text-align:center;width:25%">
+                 <a class="reference" href="{% url groups:photo_edit group.id %}">Фотография</a>
+            </td>
+            <td style="text-align:center;width:25%">
+                <a class="reference" href="{% url groups:members_manage group.id %}">Управление участниками</a>
+            </td>
+            <td style="text-align:right;width:25%">
+                <a class="reference" href="{% url groups:send_friends_invite group.id %}">Отправить приглашение</a>
+            </td>
+        </tr></table>
+</div>
+<br />
+{% endif %}
+<div style="width:510px;float:left">
+<div class="messages">
+    <h3>Комментарии</h3>
+{% if not can_view_private %}
+<p class="hide_info">Информация скрыта.</p>
+{% endif %}
+{% if can_send_message %}
+    <form method="post" action="{% url groups:group_view group.id %}" id="send_message_form">
+        <div class="answer">
+            <div class="message_text_group rounded">
+                <textarea name="text" cols="93" rows="5" maxlength="500"></textarea>
+            </div>
+            <div class="but" style="margin-right:0;">
+                <span class="charsRemaining" style="color: #3C3C3C"></span>
+                <input type="submit" value="{% trans "Send" %}"/>
+            </div>
+        </div>
+    </form>
+{% endif %}
+
+{% if can_view_private %}
+    <div class="messages_inbox wall">
+{% include "groups/_comments.html" %}
+    </div>
+{% endif %}
+</div>
+</div>
+
+<div id="rightColumn">
+<div style="padding-top:45px;">
+<table class="group_description">
+    {% if group.description %}
+    <tr>
+        <th>{% trans "Description" %}:</th>
+        <td class="empty_filt"></td>
+        <td>{{ group.description }}</td>
+    </tr>
+    <tr>
+        <td style="height:10px"></td>
+    </tr>
+    {% endif %}
+
+    {% if group.theme %}
+    <tr>
+        <th>{% trans "Theme" %}:</th>
+        <td class="empty_filt"></td>
+        <td>{{ group.theme.name }}</td>
+    </tr>
+    <tr>
+        <td style="height:10px"></td>
+    </tr>
+    {% endif %}
+    {% if group.type %}
+    <tr>
+        <th>{% trans "Type" %}:</th>
+        <td class="empty_filt"></td>
+        <td>{{ group.type.name }}</td>
+    </tr>
+    <tr>
+        <td style="height:10px"></td>
+    </tr>
+    {% endif %}
+    {% if group.site %}
+    <tr>
+        <th>{% trans "Site" %}:</th>
+        <td class="empty_filt"></td>
+        <td>{{ group.site }}</td>
+    </tr>
+    <tr>
+        <td style="height:10px"></td>
+    </tr>
+    {% endif %}
+    {% if group.country %}
+    <tr>
+        <th>{% trans "Country" %}:</th>
+        <td class="empty_filt"></td>
+        <td>{{ group.country }}</td>
+    </tr>
+    <tr>
+        <td style="height:10px"></td>
+    </tr>
+    {% endif %}
+    {% if group.city %}
+    <tr>
+        <th>{% trans "City" %}:</th>
+        <td class="empty_filt"></td>
+        <td>{{ group.city }}</td>
+    </tr>
+    {% endif %}
+</table>
+</div>
+<div class="but" style="margin-left:30px;">
+{% if request.user in group.members %}
+    <a href="{% url groups:group_leave id=group.id %}">{% trans "Leave group" %}</a>
+{% else %}
+    {% if is_status_request %}
+        <a href="{% url groups:cancel_request group.id %}">{% trans "Cancel request" %}</a>
+    {% else %}
+        <a href="{% url groups:group_join id=group.id %}">{% trans "Join group" %}</a>
+    {% endif %}
+{% endif %}
+</div>
+<br />
+<h3>Руководство</h3>
+{% if can_view_private %}
 <ul class="friendTable">
-{% for user in group.members %}
+{% for user in admins %}
     <li>
         {% include "includes/user/micro.html" %}
     </li>
 {% endfor %}
 </ul>
-<hr/>
-{% if request.user in group.members %}
-    <a href="{% url groups:group_leave id=group.id %}">{% trans "Leave group" %}</a>
 {% else %}
-    <a href="{% url groups:group_join id=group.id %}">{% trans "Join group" %}</a>
+<p class="hide_info">Информация скрыта.</p>
 {% endif %}
+<br />
+<h3>Участники группы</h3>
+{% if can_view_private %}
+<ul class="friendTable">
+{% for user in members|slice:":6" %}
+    <li>
+        {% include "includes/user/micro.html" %}
+    </li>
+{% endfor %}
+</ul>
+<a href="{% url groups:member_list group.id %}">все {{ members_count }}</a>
+{% else %}
+<p class="hide_info">Информация скрыта.</p>
+{% endif %}
+
+</div>
+
+</div>
+</div>
 {% endblock %}

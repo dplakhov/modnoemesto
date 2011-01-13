@@ -13,6 +13,17 @@
     <script type="text/javascript">
 		$(document).ready(function(){
 			$('.rounded').corner();
+			$('div.hide').hide();
+			$('div.hide').css({'visibility':'hidden'});
+			$('h2.registr').click(function(){
+				if($('div.hide').css("visibility")=="hidden")	{
+					$('div.hide').css({'visibility':'visible'});
+					}
+					else {
+					$('div.hide').css({'visibility':'hidden'});
+					}
+				});
+
 								   });
 	</script>
     
@@ -21,6 +32,28 @@
     <script type="text/javascript">
 		DD_belatedPNG.fix('.transparent');
 	</script>
+     <!--[if lte IE 8]>
+   <style type="text/css">
+    #menu .menu_but a, #menuReg  .menu_but a{
+        font-size: 13px;
+    }
+    #menu, #menuReg{
+        top: -30px;
+    }
+    .find{
+    	top: -3px;
+    }
+  </style>
+  <![endif]-->
+  
+  <!--[if IE 8]>
+   <style type="text/css">
+   span#img input{
+        position:relative;
+        top:3px;
+        }
+  </style>
+  <![endif]-->
     
 </head>
 
@@ -28,18 +61,18 @@
     <div id="container">
     	<div id="subContainer">
         	<div id="header">
-            	<a id="logo" href="Reg.html#"><img src="content/images/logo_m.jpg" alt="Ьщдное место" /></a>
+            	<a id="logo" href="#"><img src="content/images/logo_m.jpg" alt="Модное место" /></a>
                 
             </div>
                             <div id="menuReg">
                 	<table cellspacing="0px" cellpadding="0px">
                         <tr>
                         <td class="left_corner"></td>
-                        <td class="menu_but"><a href="Reg.html#">регистрация</a></td>
+                        <td class="menu_but"><a href="#">регистрация</a></td>
                         <td class="right_corner"></td>
                         <td class="empty"></td>
                         <td class="left_corner"></td>
-                        <td class="menu_but"><a href="Reg.html#">вход</a></td>
+                        <td class="menu_but"><a href="#">вход</a></td>
                         <td class="right_corner"></td>
                         </tr>
                      </table>
@@ -51,7 +84,7 @@
                     <p>
                     	Подчас, Модное Место, как гениальная картина художника, кажется нам почти живым, в то время как мир 
                         вокруг него бледнеет, приобретая черты заезженного черно-белого фильма. Выйдем на тропу Модное Место. 
-                        Про отношения человека и <a href="Reg.html#">Модное Место</a> можно сказать то же, что и про любые другие
+                        Про отношения человека и <a href="#">Модное Место</a> можно сказать то же, что и про любые другие 
                         отношения: отсутствие диалога убивает все чувства. Для Модное Место важен размах, а не итог. Человек 
                         всегда знал, что делает его человеком – Модное Место. Модное Место... Главное не форма, а содержание... 
                         Жаль, что современные бизнес-леди не могут тратить слишком много времени на Модное Место. Модное 
@@ -60,8 +93,8 @@
                     </p>
                     <p>
                     	Человек ко всему привыкает, даже к Модное Место. Не знаю, вправе ли я вам советовать, но мой совет такой:
-                         «Десять раз подумайте, прежде, чем заняться бизнесом». Иначе придет <a href="Reg.html#">Модное Место</a>. Если
-                         все так безнадежно, зачем вообще говорить о <a href="Reg.html#">Модное Место</a>? Я не могу дать убедительный
+                         «Десять раз подумайте, прежде, чем заняться бизнесом». Иначе придет <a href="#">Модное Место</a>. Если 
+                         все так безнадежно, зачем вообще говорить о <a href="#">Модное Место</a>? Я не могу дать убедительный 
                          ответ. Не потому что не умею, а потому что такого ответа нет. Кроме того, далеко не все люди хотят 
                          знать правду. Может быть, еще придет время, когда Модное Место нужно будет занести в Красную книгу. 
                          Модное Место – это способ общения простых парней. Модное Место – только не надо путать подлинный продукт 
@@ -83,7 +116,7 @@
                                     <input id="e-mail" type="text" size="65" name="fio" /></p>
                                     <p>Пароль:<br/>
                                     <input id="pass" type="password" size="65" name="fio" /></p>
-                                    <p><a href="Reg.html#">Забыли пароль?</a></p>
+                                    <p><a href="#">Забыли пароль?</a></p>
                             </form>
                         </div>
                             <form>
@@ -93,7 +126,8 @@
                     </div>
                     <div id="reg_form">
                         <h2 class="registr">Регистрация</h2>
-                        <div style="overflow:hidden"><div class="reg rounded">
+                        <div class="hide" style="overflow:hidden">
+                        <div class="reg rounded">
                             <form action="" method="">
                                     <p>Имя<br/>
                                     <input id="name" type="text" size="65" name="fio" /></p>
@@ -107,7 +141,7 @@
                         </div>
                             <form>
                                     <p style="color:#999999; padding-top: 7px">
-                                    Фактом регистрации Вы соглашаетесь с <a href="Reg.html#">Пользовательским соглашением.</a></p>
+                                    Фактом регистрации Вы соглашаетесь с <a href="#">Пользовательским соглашением.</a></p>
                                     <p><input class="subReg" type="submit" value="Зарегистрироваться" /></p>
                                     
                             </form>
@@ -120,14 +154,14 @@
         <div id="fotter">
             <div id="info">
             	<ul>
-                <li style="padding-left:0"><a href="Reg.html#">О сайте</a></li>
-                <li><a href="Reg.html#">Техподдержка</a></li>
-                <li><a href="Reg.html#">Вакансии</a></li>
-                <li><a href="Reg.html#"> Блог</a></li>
-                <li><a href="Reg.html#">Правила </a></li>
-                <li><a href="Reg.html#">Реклама</a></li>
-                <li><a href="Reg.html#">Разработчикам</a></li>
-                <li style="padding-right:0"><a href="Reg.html#">Магазинам</a></li>
+                <li style="padding-left:0"><a href="#">О сайте</a></li>
+                <li><a href="#">Техподдержка</a></li>
+                <li><a href="#">Вакансии</a></li>
+                <li><a href="#"> Блог</a></li>
+                <li><a href="#">Правила </a></li>
+                <li><a href="#">Реклама</a></li>
+                <li><a href="#">Разработчикам</a></li>
+                <li style="padding-right:0"><a href="#">Магазинам</a></li>
                 </ul>
                 <p style="width:200px">Модное место &copy; 2010</p>
                 <p id="design">Разработано в <a href="http://www.web-mark.ru/" target="_blank">Web-Mark</a></p>

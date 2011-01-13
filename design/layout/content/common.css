@@ -63,35 +63,31 @@ div#serch
 	width: 210px;
 	height: 20px;
 	position: relative;
-	top: -4px !important;
-	top: -3px;
+	top: -4px;
+/*	top: -3px;*/
 	left: 3px;
 	padding-left: 10px;
 	color: #0888a0;
 }
 #menu
 {
-	padding-top: 18px;
-	padding-left: 90px;
 	width: 620px;
 	overflow: hidden;
 	position: relative;
-	top: -46px;
-	left: 283px;
+	top: -28px;
+	left: 373px;
 }
 #menuReg
 {
-	padding-top: 18px;
-	padding-left: 90px;
 	width: 210px;
 	overflow: hidden;
 	position: relative;
-	top: -46px;
-	left: 700px !important;
-	left: 690px;
+	top: -28px;
+	/*left: 700px !important;*/
+	left: 780px;
 }
 	
-@media screen and (-webkit-min-device-pixel-ratio:0) {#menu{top: -48px;}  #menuReg{top: -48px;}}
+@media screen and (-webkit-min-device-pixel-ratio:0) {#menu{top: -30px;}  #menuReg{top: -30px;} }
 /*body:nth-of-type(1) #menu{top: -48px;} */
 #menu table td, #menuReg table td
 {
@@ -105,14 +101,14 @@ div#serch
 #menu .left_corner, #menuReg .left_corner
 {
 	width: 5px;
-	background: url(images/left_corner.jpg) no-repeat;
+	background: url(images/left_corner2.png) no-repeat;
 	height: 28px;
 	border-bottom: #d9d8bf solid 2px;
 }
 #menu .right_corner, #menuReg .right_corner
 {
 	width: 5px;
-	background: url(images/right_corner.jpg) no-repeat;
+	background: url(images/right_corner.png) no-repeat;
 	height: 28px;
 	border-bottom: #d9d8bf solid 2px;
 }
@@ -120,7 +116,7 @@ div#serch
 #menu .menu_but, #menuReg .menu_but
 {
 	height: 28px;
-	background: url(images/menu_center_bg.jpg) repeat-x;
+	background: url(images/menu_bg2.png) repeat-x;
 
 }
 #menu .menu_but a, #menuReg .menu_but a
@@ -131,10 +127,23 @@ div#serch
 	font-size: 14px;
 	font-weight: bold;
 }
+
 #menu .menu_curent, #menuReg .menu_curent
 {
 	background: #FFF;
 	border-bottom: none;
+}
+.right_corner_menu_curent
+{
+	background: url(images/right_corner_curent.png) no-repeat;
+	height: 28px;
+	width: 5px;
+}
+.left_corner_menu_curent
+{
+	background: url(images/left_corner_curent.png) no-repeat;
+	height: 28px;
+	width: 3px;
 }
 /*End Header */
 
@@ -393,7 +402,6 @@ div#player
 }
 .room
 {
-	padding-left: ;
 	background: #efeedf;
 	border-top: #a8a8a8 solid 1px;
 }
@@ -515,6 +523,7 @@ h2.registr
 {
 	color: #2bacd5;
 	font-size: 18px;
+	cursor:pointer;
 }
 div.reg p, div.enter p
 {
@@ -525,11 +534,7 @@ div.reg a, div.enter a
 {
 	color: #2bacd5;
 }
-input, textarea
-{
-	/*border: #cccccc solid 1px;*/
-	
-}
+
 #name, #e-mail, #surname, #pass
 {
 	width: 218px;
@@ -572,13 +577,13 @@ input.subReg
 ----------------------------------*/
 #filterColumn
 { 
-	overflow: hidden;
+	/*overflow: hidden;*/
 	margin-left: 215px;
 	width: 755px;
 	margin-top: 15px;
 }
 
-#filter h2
+#filter_box h2
 {
 	color: #5ac6d8;
 	font-size: 18px;
@@ -593,7 +598,7 @@ input.subReg
 .name_filt
 {
 	color: #FFF;
-	padding: 10px 5px 5px 10px;
+	padding: 10px 5px 10px 10px;
 }
 /*.filt td select
 {
@@ -628,7 +633,7 @@ td.empty_filt
 }
 #more_popular
 {
-	margin-top: 10px;
+	margin-bottom: 10px;
 	border-top: 1px dotted #6f6f6f;
 	padding-top: 20px;
 	background: url(images/bg_more_popular.png) no-repeat top;
@@ -641,7 +646,7 @@ td.empty_filt
 }
 #more_new
 {
-	margin-top: 10px;
+	margin-bottom: 10px;
 	border-top: 1px dotted #6f6f6f;
 	padding-top: 20px;
 	background: url(images/bg_more_new.jpg) no-repeat top;
@@ -716,6 +721,148 @@ td.empty_filt
 {
 	color: #575757;
 	text-decoration: underline;
+}
+/* For CameraFilter
+-----------------------------------*/
+.cam_filter_hide
+{
+	padding-top: 20px;
+}
+.cam_filter
+{
+	background: #5AC6D8;
+	padding: 10px 20px 20px 25px;
+}
+.cam_filter .empty_filt
+{
+	width: 25px;
+}
+.cam_filter td input.button {
+background:url("images/but_filter.jpg") no-repeat;
+color:#FFFFFF;
+cursor:pointer;
+overflow:visible;
+padding:2px 30px 4px;
+width:181px;
+}
+.filt span
+{
+	position: relative;
+	top: -3px;
+}
+/* For Pay
+----------------------------------*/
+.defTable {
+border:1px solid #DDDDDD;
+border-collapse:collapse;
+width:100%;
+}
+.defTable table, td, th {
+color:#585858;
+font-size:inherit;
+}
+.defTable tbody td {
+border:1px solid #DDDDDD;
+border-collapse:collapse;
+padding:4px;
+}
+.defTable input[type="text"] {
+border:1px solid #BDBDBD;
+color:#5D5D5D;
+font:11px arial;
+height:19px;
+padding:2px 5px;
+width: 97%;
+}
+.defTable input[type="submit"]
+{
+background:url("images/but.jpg") no-repeat scroll 0 0 transparent;
+border:medium none;
+color:#FFFFFF;
+cursor:pointer;
+padding:12px 8px 13px;
+width:84px;
+}
+h2.caption {
+color:#2BACD5;
+font-size:18px;
+padding:10px 0 20px;
+}
+.instuction
+{
+	padding-left: 20px;
+	color: #08889f;
+}
+.instuction li span
+{
+	color: #585858;
+}
+.instuction li
+{
+	padding-bottom: 10px;
+}
+.nowidth input
+{
+	width: 0;
+}
+span.star {
+color:#0088BB;
+font-size:1.2em;
+font-weight:bold;
+margin:0 5px;
+}
+/* For SuperUser
+----------------------------------*/
+#content_about ul
+{
+	margin-bottom: 20px;
+}
+#content_about ul li input[name="coast"] {
+	background:  #FFF;
+	padding:5px;
+	width:180px;
+	margin-left: 50px;
+	color: #585858;
+}
+#content_about ul li
+{
+	list-style-type: none;
+	padding: 15px 0px;
+	border-bottom: 1px dotted #6F6F6F;
+	overflow: auto;
+}
+#content_about ul li p
+{
+	padding: 0px 0px 0px 5px;
+}
+#content_about ul li p textarea
+{
+	color: #585858;
+	font-size: 14px;
+	line-height: 1.5;
+	font-family: Arial, Helvetica, sans-serif;
+	height: auto;
+}
+#content_about ul li p.tarif_name textarea
+{
+	height: 23px;
+	cursor: pointer;
+}
+div.tarif_type
+{
+	width: 400px;
+	background: #FFF;
+	padding: 3px;
+	float: left;
+	display: inline;
+}
+.filt input[type="submit"] {
+	background:url("images/but_filter.jpg") no-repeat scroll 0 0 transparent;
+	color:#FFFFFF;
+	cursor:pointer;
+	overflow:visible;
+	padding:2px 30px 4px;
+	width:181px;
 }
 /* For Own_page
 ----------------------------------*/
@@ -844,7 +991,7 @@ div#right
 	background: #d0f3f5;
 	padding: 13px;
 }
-.rating p
+.rating_persone p
 {
 	color: #575655;
 }
@@ -862,12 +1009,26 @@ div#right
 {
 	color: #575655;
 }
+.profileActions ul li a:hover
+{
+	color: #000;
+}
 .friend_box
 {
 	margin-top: 10px;
 	border-top: 1px dotted #6f6f6f;
 	padding: 15px 0px;
 	background: url(images/bg_about_persone.png) no-repeat;
+	height: 220px;
+}
+ul.friendTable
+{
+	overflow: hidden;
+}
+.friendTable li
+{
+	float: left;
+	display: inline;
 }
 .friendTable td 
 {
@@ -882,7 +1043,7 @@ div#right
 	padding-top:1px;
 	text-align:center;
 	vertical-align:bottom;
-	width:75px;
+	width:69px;
 }
 .friendTable td img
 {
@@ -920,8 +1081,142 @@ div#right
 	color: #00b2d5;
 	text-decoration: underline;
 }
+/* For Group_Add
+-------------------------*/
+.group_add th
+{
+	color: #FFF;
+	text-align: right;
+	vertical-align: top;
+	padding-top: 3px;
+}
+.input_holder
+{
+	background:#FFF; 
+	padding:3px 4px;
+	width: 290px;
+}
+.input_holder input, .input_holder textarea
+{
+	padding-left: 2px;
+	color: #585858;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	width: 280px;
+}
+.input_holder input[type="radio"]
+{
+	width: auto;
+}
+div.but
+{
+	margin-top: 10px;
+}
+.but input[type="submit"]
+{
+	background: url(images/but.png) no-repeat;
+	color:#FFFFFF;
+	cursor:pointer;
+	overflow:visible;
+	padding:2px 30px 4px;
+	width:181px;
+	float: right;
+}
+/* End */
 
+/* For CameraEdit
+--------------------------------------*/
+.camera_edit th
+{
+	color: #FFF;
+	text-align: right;
+	vertical-align: top;
+	padding-top: 3px;
+}
+/* End */
 
+/* For Foto
+------------------------------*/
+#filter_box
+{
+	margin-top: 15px;
+	margin-bottom:10px;
+}
+#filt_photo, #filt_video
+{
+	/*padding: 5px;*/
+	overflow: hidden;
+	margin-top: 10px !important;
+}
+#filt_photo ul li, #filt_video ul li
+{
+	list-style-type: none;
+	float: left;
+	display: inline;
+	margin-right: 45px;
+	margin-bottom: 20px;
+	width: 240px;
+	/*padding: 12px;*/
+}
+#filt_photo ul li img, #filt_video ul li img
+{
+	width: 225px;
+	height: 180px;
+}
+#filt_photo ul li .pop
+{
+	padding: 7px;
+	background: #eeedde;
+}
+#filt_video ul li .pop
+{
+	padding: 7px;
+	background: #5AC6D8;
+}
+#filt_photo ul li .pop a, #filt_video ul li .pop a
+{
+	color: #575757;
+	text-decoration: underline;
+}
+#filt_photo ul li .pop p, #filt_video ul li .pop p
+{
+	padding: 10px 0px 0px 25px;
+	background: url(images/hande_rog.png) no-repeat left bottom;
+}
+
+#filt_photo p.place, #filt_video p.place
+{
+	color: #08869d;
+	font-size: 14px;
+	padding: 5px 2px 2px 2px;
+	
+}
+#filt_photo p.quantity, #filt_video p.quantity
+{
+	color: #bebebe;
+}
+#filt_photo p.creater, #filt_video p.creater
+{
+	color: #00b2d5;
+}
+div.page_nav
+{
+	margin-top: 20px;
+}
+.page_nav a
+{
+	float: left;
+	display: inline;
+	margin-right: 10px;
+}
+.page_nav a.pre, .page_nav a.next
+{
+	color: #bebebe;
+}
+.page_nav a.num
+{
+	color: #00b2d5;
+}
 /*@media all and (-webkit-min-device-pixel-ratio:10000),not all and (-webkit-min-device-pixel-ratio:0){.sub{padding: 12px 9px 13px;}}
 @media screen and (-webkit-min-device-pixel-ratio:0) {.sub{padding: 12px 15px 13px;}}
 /*-----------------------------------*/
@@ -984,7 +1279,6 @@ div#fp
 }
 #fp div.item
 {
-	width:;
 	border-bottom: #6f6f6f dotted 1px;
 	overflow: hidden;
 	padding: 5px;
@@ -1077,4 +1371,10 @@ div.all a
 	text-decoration: underline;
 	color: #000;
 }
-
+/* For error messages
+------------------------------------*/
+.messages li
+{
+	color: #00B2D5;
+	padding-bottom: 7px;
+}

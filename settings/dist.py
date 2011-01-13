@@ -2,6 +2,7 @@
 
 import os
 import sys
+from datetime import timedelta
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__),
     os.path.pardir))
@@ -22,18 +23,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': ':memory:', #rel('local.db'),
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
     },
+
     'billing': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'billing',
-        'USER': 'root',
-        'PASSWORD': '123',
-        'HOST': 'localhost',
-        'PORT': '',
+           'ENGINE': 'django.db.backends.sqlite3',
+           'NAME': rel('billing.db'),
     },
 }
 
@@ -42,17 +36,21 @@ if 'test' in sys.argv:
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': ':memory:', #rel('default.db'),
+
         },
+
         'billing': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': ':memory:', #rel('assist.db'),
+            'NAME': ':memory:',
         },
+
     }
+    TEST_RUNNER = 'djcelery.contrib.test_runner.run_tests'
 
 MONGO_DATABASE = 'social'
 MONGO_HOST = '127.0.0.1'
 
-DATABASE_ROUTERS = ['db_routers.BillingRouter',]
+DATABASE_ROUTERS = [ 'db_routers.BillingRouter', ]
 
 TIME_ZONE = 'Europe/Moscow'
 
@@ -83,6 +81,33 @@ MEDIA_URL = '/media/'
 ADMIN_MEDIA_PREFIX = '/admin-media/'
 
 LOGIN_URL = '/login/'
+
+LOGIN_EXEMPT_URLS = (
+    r'^$',
+    r'^in_dev/$',
+    r'^static',
+    r'^start/$',
+    r'^stop/$',
+    r'^pay/pskb/$',
+    r'^pay/robokassa/',
+    r'^register/$',
+    r'^file/',
+    r'^avatar/',
+    r'^cam/screen/',
+    r'^groups/.*/members\.(xml|txt)',
+    r'^groups/can_manage/',
+    r'^activation/',
+    r'^media/',
+    r'^invite/',
+    r'^lostpassword/',
+    r'^resendactivationcode/',
+    r'^recoverypassword/',
+    ur'^ЕГГОГ',
+    r'^captcha/',
+    r'^robots.txt$',
+    r'^billing/camera/notify/',
+    r'^srv/',
+)
 
 # Make this unique, and don't share it with anybody.
 if not hasattr(globals(), 'SECRET_KEY'):
@@ -125,8 +150,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'middleware.LoginRequiredMiddleware',
+    'apps.social.middleware.SetLastAccessMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
+    'apps.cam.middleware.PlaceBoxMiddleware',
+    'apps.news.middleware.LastNewsMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -142,11 +171,13 @@ INSTALLED_APPS = (
     #'django.contrib.contenttypes',
     'django.contrib.sessions',
     #'django.contrib.sites',
-    'django.contrib.messages',
+    #'django.contrib.messages',
     #'django.contrib.admin',
     #'mongoengine.django.auth',
     'djcelery',
+    'djcelery_email',
     'pytils',
+    'apps.robokassa',
     'apps.social',
     'apps.media',
     'apps.cam',
@@ -155,21 +186,12 @@ INSTALLED_APPS = (
     'apps.media_library',
     'apps.billing',
     'apps.groups',
-)
-
-CELERY_RESULT_BACKEND = "mongodb"
-
-CELERY_MONGODB_BACKEND_SETTINGS = {
-    "host": "127.0.0.1",
-    "port": 27017,
-    "database": "celery",
-    "taskmeta_collection": "taskmeta",
-}
-
-TASKS_ENABLED = dict(
-    AVATAR_RESIZE = 1,
-    MESSAGE_STORE_READED = 1,
-    MESSAGE_DELETE = 1,
+    'apps.friends',
+    'apps.logging',
+    'apps.news',
+    'apps.admin_blog',
+    'apps.chat',
+    'apps.server_api',
 )
 
 
@@ -177,7 +199,9 @@ AUTHENTICATION_BACKENDS = (
     'apps.social.auth.MongoEngineBackend',
 )
 
-SESSION_ENGINE = 'mongoengine.django.sessions'
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
+CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 
 FORCE_SCRIPT_NAME = ''
 
@@ -185,18 +209,52 @@ SEND_EMAILS = True
 
 SITE_DOMAIN = 'modnoemesto.ru' # no slashes here, please
 
-ROBOT_EMAIL_ADDRESS = 'noreply@modnoemesto.ru'
+ROBOT_EMAIL_ADDRESS = 'modnoemesto.ru <modnoemesto@modnoemesto.ru>'
 
-AVATAR_SIZES = (
-    (100, 100),
-    (60, 60),
-    (47, 47),
-)
+SERVER_EMAIL = ROBOT_EMAIL_ADDRESS
+
+AVATAR_SIZES = {
+    'avatar_midi.png': { 'width': 200, 'height': 200 },
+    'avatar_mini.png': { 'width': 60, 'height': 60 },
+    'avatar_micro.png': { 'width': 47, 'height': 47 },
+}
+
+SCREEN_SIZES = {
+    'camera_screen_full.png': { 'width': 515, 'height': 330 },
+    'camera_screen_normal.png': { 'width': 170, 'height': 109 },
+    'camera_screen_mini.png': { 'width': 80, 'height': 51 },
+}
+
+GROUP_PHOTO_SIZES = {
+    'group_photo_full.png': { 'width': 200, 'height': 200 },
+    'group_photo_normal.png': { 'width': 60, 'height': 60 },
+    'group_photo_mini.png': { 'width': 47, 'height': 47 },
+}
 
 MAX_USER_MESSAGES_COUNT = 500
 
-PKSPB_DUSER = 'trend_test'
-PKSPB_DPASS = 'trend_test'
-PKSPB_ID = '291'
-
 LIBRARY_IMAGES_PER_PAGE = 2
+
+MESSAGES_ON_PAGE = 10
+
+GROUP_USERS_ON_PAGE = 28
+
+TIME_IS_ONLINE = timedelta(minutes=5)
+LAST_ACCESS_UPDATE_INTERVAL = timedelta(minutes=5)
+
+ALLOWED_SERVER_IPS = (
+    '127.0.0.1',
+    '213.170.69.53',
+
+    '188.93.20.18',
+    '188.93.20.19',
+    '188.93.21.227',
+)
+
+
+from .billing import *
+from .captcha import *
+from .celery import *
+from .chat import *
+from .logging import *
+from .redis import *

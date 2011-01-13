@@ -1,0 +1,79 @@
+/* Drop down styles*/
+div.selectbox-wrapper {
+  position:absolute;
+  width:180px;
+  background-color:white;
+  border:1px solid #ccc;
+  text-align:left;
+  max-height:200px;
+  overflow:auto;
+  z-index: 90000;
+}
+#rightColumn div.selectbox-wrapper {
+	width: 221px;
+}
+.group_add  div.selectbox-wrapper {
+	width: 300px;
+}
+/*Drop down list styles*/
+div.selectbox-wrapper ul {
+  list-style-type:none;
+  margin:0px;
+  padding:0px;
+}
+/* Selected item in dropdown list*/
+div.selectbox-wrapper ul li.selected { 
+  background-color: #EAF2FB;
+}
+
+/* Hover state for dropdown list */
+div.selectbox-wrapper ul li.current { 
+  background-color: #CDD8E4;
+}
+
+/* Drop down list items style*/
+div.selectbox-wrapper ul li {
+  list-style-type:none;
+  display:block;
+  margin:0;
+  padding:2px;
+  cursor:pointer;
+  color: #7A7A76;
+  font-size: 13px;
+}
+
+/* Look and feel of select box */
+.selectbox 
+{
+ /* margin: 0px 5px 10px 0px;*/
+ 
+  padding: 2px 0px 2px 0px;
+  width : 180px; /* Resize Width */
+  display : block;
+  text-align:left; 
+  background: url('../images/input_filter.jpg') right;
+  cursor: pointer;
+/*border:1px solid #D1E4F6; */
+  color:#6F6F6F;
+}
+
+.gender-selectbox 
+{
+  width : 180px; /* Resize Width */
+  display : block;
+  text-align:left; 
+  background: url('../images/input_filter.jpg') right;
+  cursor: pointer;
+
+  color:#6F6F6F;
+}
+
+
+#rightColumn .selectbox {
+	width: 221px;
+	background: url('../images/input_filter_video.jpg') right no-repeat;
+}
+.group_add  .selectbox {
+	width: 300px;
+	background: url('../images/input_filter_long.jpg') right no-repeat;
+}

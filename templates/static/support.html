@@ -1,0 +1,32 @@
+{% extends base_template %}
+
+{% block css %}
+{{ block.super }}
+<link href="/media/styles/page_info.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+<div id="content_info">
+    <h2>Скорая техническая помощь</h2>
+    
+    <p>По всем вопросам технической поддержки, а так же со своими замечаниями и предложениями 
+        обращайтесь по ниже указанным контактам.</p>
+    <div class="filt rounded">
+   <table class="camera_edit">
+            <tr>
+                <th>дежурный администратор:</th>
+                <td class="empty_filt"></td>
+                <td><div class="input_holder_nowidth rounded">+7 (812) 642-4878</div></td>
+            </tr>
+            <tr>
+                <td style="height:10px" class="empty_filt"></td>
+            </tr>
+            <tr>
+                <th>email:</th>
+                <td class="empty_filt"></td>
+                <td><div class="input_holder_nowidth rounded"><a style="color: #585858;" href="mailto:onduty@web-mark.ru"> onduty@web-mark.ru</a></div></td>
+            </tr>
+        </table>
+</div>
+</div>
+{% endblock %}

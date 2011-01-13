@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<h1>{% trans "Types" %}</h1>
+<table>
+{% for type in types %}
+<tr><td><a href="{% url groups:type_edit type.id %}">{{ type.name }}</a></td><td><a href="{% url groups:type_delete type.id %}">x</a></td></tr>
+{% endfor %}
+</table>
+    <hr />
+
+    <a href="{% url groups:type_add %}">{% trans "Add" %}</a>
+{% endblock %}

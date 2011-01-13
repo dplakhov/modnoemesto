@@ -1,0 +1,48 @@
+{% load menu_tags %}
+{% load i18n %}
+{% load pytils_numeral %}
+
+<div id="leftColumn">
+    <div class="nav">
+        <ul>
+            {% if user.is_authenticated %}
+            <li id="persone"><a href="{% url social:home %}">{{ user }}</a></li>
+            {% if not user.get_camera.type.is_default %}
+            <li id="money">
+                <div class="q">
+                    <p>На моем счету</p>
+
+                    <div><p id="amount"><span>{{ user.cash|floatformat:2 }}</span> руб.</p></div>
+                    <p id="purse"><a style="cursor:text" href="{% comment %}{% url billing:purse %}{% endcomment %}">Перейти в кошелек</a></p>
+                </div>
+            </li>
+            {% else %}
+            <li id="money" class="camera_off">
+                <div class="q"><a style="cursor:text" href="{% comment %}{% url billing:purse %}{% endcomment %}">Мой счёт <span>({{ user.cash|floatformat:2 }} руб.)</span></a></div>
+            </li>
+            {% endif %}
+            <li id="fashion_place"><a href="{% url cam:cam_bookmarks %}">Мои Модные места</a></li>
+{% with user.friends.offers.incoming|length as fs_offers_inbox_count %}
+            <li id="friends"><a href="{% url friends:list %}">Друзья{% if fs_offers_inbox_count %} <b>({{ fs_offers_inbox_count }})</b>{% endif %}</a></li>
+{% endwith %}
+{% with user.messages.unread|length as unread_messages_count %}
+            <li id="mail"><a href="{% url user_messages:view_inbox %}">Сообщения{% if unread_messages_count %} <b>({{ unread_messages_count }})</b>{% endif %}</a></li>
+{% endwith %}
+            <li id="notes"><a href="{% url notes:note_list %}">Заметки</a></li>
+
+            <li id="group"><a href="{% url groups:user_group_list %}">Группы{% if user.groups_events_count %} <b>({{ user.groups_events_count }})</b>{% endif %}</a></li>
+            <li id="foto"><p>{% comment %}<a href="{% url media_library:image_index %}">{% endcomment %}Фотографии{% comment %}</a>{% endcomment %}</p></li>
+            <li id="video"><p>{% comment %}<a href="{% url social:in_dev %}">{% endcomment %}Видеозаписи{% comment %}</a>{% endcomment %}</p></li>
+            <li id="audio"><p>{% comment %}<a href="{% url social:in_dev %}">{% endcomment %}Аудиозаписи{% comment %}</a>{% endcomment %}</p></li>
+
+            <li id="meeting"><p>{% comment %}<a href="{% url social:in_dev %}">{% endcomment %}Встречи{% comment %}</a>{% endcomment %}</p></li>
+            {% endif %}
+            {% if request.user.is_staff %}
+                {% include 'includes/admin_menu.html' %}
+            {% endif %}
+        </ul>
+    </div>
+    <div id="what_new">
+        <a href="{% url news:list %}"><img src="/media/images/what_new.jpg"/></a>
+    </div>
+</div>

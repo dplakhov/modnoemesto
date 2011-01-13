@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import sys
 import tempfile
 import shlex
 import subprocess
@@ -9,7 +9,7 @@ from django.conf import settings
 from apps.utils import which
 
 from ..documents import File
-import sys
+
 
 class FileTransformation(object):
     def __init__(self, name, *args, **kwargs):
@@ -29,7 +29,7 @@ class FileTransformation(object):
 
     def create_derivative(self, source):
         return File(source=source, transformation=self.name,
-                    type=self.FILE_TYPE)
+                    type=self.type if hasattr(self, 'type') else source.type)
 
 
 class BatchFileTransformation(FileTransformation):

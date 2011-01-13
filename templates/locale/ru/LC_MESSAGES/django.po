@@ -7,7 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-26 18:18+0300\n"
+<<<<<<< HEAD
+"POT-Creation-Date: 2010-12-29 16:16+0300\n"
+=======
+"POT-Creation-Date: 2010-12-29 17:51+0300\n"
+>>>>>>> people_filter
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,25 +22,200 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: index.html:4
-msgid "Users online"
-msgstr "Пользователи онлайн"
+#: base_mini.html:114
+msgid "search"
+msgstr "поиск"
 
-#: login.html:14
-msgid "Username:"
-msgstr "Имя пользователя"
+#: index.html:9
+msgid "People filter"
+msgstr "Поиск людей"
 
-#: login.html:20
-msgid "Password:"
-msgstr "Пароль"
+#: index_unreg.html:169
+msgid "This account is inactive."
+msgstr "Эта учетная запись неактивна."
 
-#: billing/get_access_to_camera.html:5
+#: index_unreg.html:169 index_unreg.html.py:206
+msgid "Resend activation code."
+msgstr "Отправить код активации."
+
+#: admin/statistic.html:7 includes/admin_menu.html:8
+msgid "Statistic"
+msgstr "Статистика"
+
+#: admin/user_list.html:6 includes/admin_menu.html:9
+msgid "Users"
+msgstr "Пользователи"
+
+#: admin/user_list.html:10
+msgid "First Name"
+msgstr "Имя"
+
+#: admin/user_list.html:11
+msgid "Last Name"
+msgstr "Фамилия"
+
+#: admin/user_list.html:12
+msgid "E-mail"
+msgstr ""
+
+#: admin/user_list.html:13
+msgid "Date Joined"
+msgstr "Дата регистрации"
+
+#: admin/user_list.html:14 admin/user_list.html.py:27
+msgid "Confirmed"
+msgstr "Подтверждён"
+
+#: admin/user_list.html:27
+msgid "Not confirmed"
+msgstr "Не подтверждён"
+
+#: admin/user_list.html:38 billing/access_order_list.html:38
+#: billing/order_list.html:34 groups/_comments.html:31 groups/list.html:19
+#: logging/log_list.html:70
+msgid "previous"
+msgstr "предыдущая"
+
+#: admin/user_list.html:42 billing/access_order_list.html:42
+#: billing/order_list.html:38 groups/_comments.html:35 groups/list.html:23
+#: logging/log_list.html:74
+#, python-format
+msgid ""
+"\n"
+"Page %(number)s of %(num_pages)s.\n"
+msgstr ""
+"\n"
+"Страница %(number)s из %(num_pages)s.\n"
+
+#: admin/user_list.html:48 billing/access_order_list.html:48
+#: billing/order_list.html:44 groups/_comments.html:41 groups/list.html:29
+#: logging/log_list.html:80
+msgid "next"
+msgstr "следующая"
+
+#: admin_blog/edit.html:7
+msgid "Add a news"
+msgstr "Добавить новость"
+
+#: admin_blog/edit.html:9
+msgid "Edit news"
+msgstr "Редактировать новость"
+
+#: admin_blog/edit.html:36 billing/tariff_edit.html:16
+#: billing/tariff_list.html:14 cam/cam_edit.html:246 cam/type_edit.html:16
+#: groups/theme_edit.html:16 groups/theme_list.html:12
+#: groups/type_edit.html:16 groups/type_list.html:12
+#: media_library/image_index.html:42 news/edit.html:55 notes/note_edit.html:42
+msgid "Add"
+msgstr "Добавить"
+
+#: admin_blog/edit.html:36 billing/tariff_edit.html:16 cam/cam_edit.html:246
+#: cam/screen_edit.html:26 cam/type_edit.html:16 groups/group_edit.html:179
+<<<<<<< HEAD
+#: groups/photo_edit.html:25 groups/theme_edit.html:16
+#: groups/type_edit.html:16 news/edit.html:55 notes/note_edit.html:42
+#: social/profile/avatar.html:15 social/profile/edit.html:128
+=======
+#: groups/photo_edit.html:26 groups/theme_edit.html:16
+#: groups/type_edit.html:16 news/edit.html:55 notes/note_edit.html:42
+#: social/profile/avatar.html:17 social/profile/edit.html:128
+>>>>>>> people_filter
+#: social/profile/edit.html.py:135
+msgid "Save"
+msgstr "Сохранить"
+
+#: admin_blog/list.html:6
+msgid "News list"
+msgstr "Список новостей"
+
+#: admin_blog/list.html:19 groups/view.html:60 news/list.html:27
+#: notes/note_list.html:23 notes/note_list.html.py:33
+msgid "Edit"
+msgstr "Редактировать"
+
+#: admin_blog/list.html:20 friends/friend_list.html:34
+#: friends/friend_list.html.py:57 groups/_comments.html:20
+#: media_library/image_index.html:13 news/list.html:28 notes/note_list.html:24
+#: notes/note_list.html.py:34 user_messages/inbox.html:37
+#: user_messages/message.html:86 user_messages/sent.html:37
+msgid "Delete"
+msgstr "Удалить"
+
+#: admin_blog/list.html:31
+msgid "Create a news"
+msgstr "Создать новость"
+
+#: admin_blog/view.html:5
+msgid "News"
+msgstr "Новость"
+
+#: admin_blog/view.html:13 news/view.html:13 notes/note_view.html:13
+msgid "Created:"
+msgstr "Создана:"
+
+#: billing/access_order_list.html:5 includes/admin_menu.html:23
+msgid "Access Orders"
+msgstr "Заказы доступа"
+
+#: billing/access_order_list.html:9 billing/order_list.html:10
+msgid "User"
+msgstr "Пользователь"
+
+#: billing/access_order_list.html:10 cam/cam_view.html:4
+msgid "Camera"
+msgstr "Камера"
+
+#: billing/access_order_list.html:11
+msgid "Tariff"
+msgstr "Тарифы"
+
+#: billing/access_order_list.html:12
+msgid "Is controlled"
+msgstr "Управляемая"
+
+#: billing/access_order_list.html:13
+msgid "Begin Date"
+msgstr "Начало"
+
+#: billing/access_order_list.html:14
+msgid "End Date"
+msgstr "Конец"
+
+#: billing/access_order_list.html:15
+msgid "Cost"
+msgstr "Стоимость"
+
+#: billing/access_order_list.html:16 social/home.html:53 social/user.html:50
+msgid "Status"
+msgstr "Статус"
+
+#: billing/get_access_to_camera.html:13
 msgid "Access to camera"
 msgstr "Доступ к камере"
 
-#: billing/get_access_to_camera.html:11
+#: billing/get_access_to_camera.html:40
 msgid "Paid"
 msgstr "Оплатить"
+
+#: billing/order_list.html:5
+msgid "Orders"
+msgstr "Заказы"
+
+#: billing/order_list.html:11
+msgid "Amount"
+msgstr "Сумма"
+
+#: billing/order_list.html:12
+msgid "Terminal"
+msgstr "Терминал"
+
+#: billing/order_list.html:13
+msgid "Transaction"
+msgstr "Транзакция"
+
+#: billing/order_list.html:14
+msgid "Timestamp"
+msgstr "Время создания"
 
 #: billing/tariff_edit.html:6
 msgid "Add tariff"
@@ -46,36 +225,25 @@ msgstr "Добавить тариф"
 msgid "Edit tariff"
 msgstr "Редактировать тариф"
 
-#: billing/tariff_edit.html:16 billing/tariff_list.html:14
-#: cam/cam_edit.html:16 cam/type_edit.html:16 notes/note_edit.html:16
-msgid "Add"
-msgstr "Добавить"
-
-#: billing/tariff_edit.html:16 cam/cam_edit.html:16 cam/type_edit.html:16
-#: notes/note_edit.html:16 social/profile/avatar.html:14
-#: social/profile/edit.html:12
-msgid "Save"
-msgstr "Сохранить"
-
-#: billing/tariff_list.html:5
+#: billing/tariff_list.html:5 includes/admin_menu.html:21
 msgid "Tariffs"
 msgstr "Тарифы"
 
-#: cam/cam_edit.html:6
-msgid "Add camera"
-msgstr "Добавить камеру"
+#: cam/bookmarks.html:27
+msgid "You do not have bookmarks."
+msgstr "Вы ещё не добавили модные места."
 
-#: cam/cam_edit.html:8
+#: cam/cam_edit.html:51 includes/camera.html:8
 msgid "Edit camera"
 msgstr "Редактировать камеру"
 
-#: cam/cam_list.html:46 notes/note_list.html:12
-msgid "Edit"
-msgstr "Редактировать"
+#: cam/cam_edit.html:53
+msgid "Add camera"
+msgstr "Добавить камеру"
 
-#: cam/cam_view.html:4
-msgid "Camera"
-msgstr "Камера"
+#: cam/screen_edit.html:6
+msgid "Change screen"
+msgstr "Сменить обложку"
 
 #: cam/type_edit.html:6
 msgid "Add camera type"
@@ -85,293 +253,442 @@ msgstr "Добавить тип камеры"
 msgid "Edit camera type"
 msgstr "Редактировать тип камеры"
 
-#: cam/type_list.html:5
+#: cam/type_list.html:5 includes/admin_menu.html:15
 msgid "Camera types"
 msgstr "Типы камер"
 
-#: cam/type_list.html:15
+#: cam/type_list.html:15 groups/type_edit.html:6
 msgid "Add type"
 msgstr "Добавить тип"
 
-#: groups/create.html:4
-msgid "Group creation"
-msgstr "Создание группы"
+#: friends/friend_list.html:9 friends/inbox.html:6 friends/sent.html:7
+msgid "Your friends:"
+msgstr "Ваши друзья"
 
-#: groups/create.html:9 groups/list.html:13
-msgid "Create group"
-msgstr "Создать группу"
+#: friends/friend_list.html:41 friends/friend_list.html.py:64
+#: friends/friends_all.html:26 friends/friends_online.html:26
+#: groups/send_friends_invite.html:30
+msgid "None available"
+msgstr "Никого нет"
 
-#: groups/list.html:4
-msgid "Available groups"
-msgstr "Доступные группы"
+#: friends/friends_all.html:8
+#, python-format
+msgid "%(page_user)s: friends"
+msgstr "%(page_user)s: друзья"
 
-#: groups/view.html:5
+#: friends/friends_all.html:19 friends/friends_online.html:19
+msgid "Add to my friends"
+msgstr "Добавить в друзья"
+
+#: friends/friends_online.html:8
+#, python-format
+msgid "%(page_user)s: friends online"
+msgstr "%(page_user)s: друзья on-line"
+
+#: friends/inbox.html:22
+msgid "Friendship offers: inbox"
+msgstr "Предложения дружбы: полученные"
+
+#: friends/inbox.html:41
+msgid "Accept"
+msgstr "Принять"
+
+#: friends/inbox.html:45
+msgid "Decline"
+msgstr "Отклонить"
+
+#: friends/sent.html:21
+msgid "Friendship offers: sent"
+msgstr "Предложения дружбы: отправленные"
+
+#: friends/sent.html:40
+msgid "Cancel"
+msgstr "Отменить"
+
+#: groups/group_edit.html:17 groups/members_manage.html:8
+<<<<<<< HEAD
+#: groups/photo_edit.html:6 groups/send_friends_invite.html:8
+#: groups/view.html:33
+=======
+#: groups/send_friends_invite.html:8 groups/view.html:33
+>>>>>>> people_filter
 msgid "Group"
 msgstr "Группа"
 
-#: groups/view.html:15
+#: groups/group_edit.html:18
+msgid "Group creation"
+msgstr "Создание группы"
+
+#: groups/group_edit.html:18
+msgid "Group edit"
+msgstr "Редактирование группы"
+
+#: groups/group_edit.html:178 groups/list.html:7
+#: groups/user_group_list.html:36
+msgid "Create group"
+msgstr "Создать группу"
+
+#: groups/list.html:6
+msgid "Available groups"
+msgstr "Доступные группы"
+
+<<<<<<< HEAD
+#: groups/photo_edit.html:7
+msgid "Change photo"
+msgstr "Сменить фотографию"
+=======
+#: groups/photo_edit.html:6
+#, fuzzy
+msgid "Change photo"
+msgstr "Сменить аватар"
+>>>>>>> people_filter
+
+#: groups/send_friends_invite.html:9
+msgid "Your friends"
+msgstr "Ваши друзья"
+
+#: groups/send_my_invites_to_user.html:29 groups/user_group_list.html:34
+msgid "My groups"
+msgstr "Мои группы"
+
+#: groups/theme_edit.html:6
+msgid "Add theme"
+msgstr "Добавить тему"
+
+#: groups/theme_edit.html:8
+msgid "Edit theme"
+msgstr "Редактировать тему"
+
+#: groups/theme_list.html:4 includes/admin_menu.html:29
+msgid "Themes"
+msgstr "Темы"
+
+#: groups/type_edit.html:8
+msgid "Edit type"
+msgstr "Редактировать тип"
+
+#: groups/type_list.html:4 includes/admin_menu.html:30
+msgid "Types"
+msgstr "Типы"
+
+#: groups/user_group_list.html:8
+msgid "Groups requests"
+msgstr "Запросы на вступление в группы"
+
+#: groups/user_group_list.html:13 groups/user_group_list.html.py:26
+msgid "take"
+msgstr "принять"
+
+#: groups/user_group_list.html:14 groups/user_group_list.html.py:27
+msgid "refuse"
+msgstr "отклонить"
+
+#: groups/user_group_list.html:22
+msgid "Groups invites"
+msgstr "Приглащения в группы"
+
+#: groups/view.html:89 social/invite_send.html:38
+#: user_messages/message.html:80 user_messages/write_message.html:41
+msgid "Send"
+msgstr "Отправить"
+
+#: groups/view.html:108
+msgid "Description"
+msgstr "Описание"
+
+#: groups/view.html:119
+msgid "Theme"
+msgstr "Тема"
+
+#: groups/view.html:129
+msgid "Type"
+msgstr "Тип"
+
+#: groups/view.html:139
+msgid "Site"
+msgstr "Веб-сайт"
+
+#: groups/view.html:149
+msgid "Country"
+msgstr "Страна"
+
+#: groups/view.html:159
+msgid "City"
+msgstr "Город"
+
+#: groups/view.html:168
 msgid "Leave group"
 msgstr "Покинуть группу"
 
-#: groups/view.html:17
+#: groups/view.html:171
+msgid "Cancel request"
+msgstr "Отменить заявку"
+
+#: groups/view.html:173
 msgid "Join group"
 msgstr "Вступить в группу"
 
-#: includes/camera.html:58
+#: includes/admin_menu.html:6
+msgid "Admin"
+msgstr "Администрирование"
+
+#: includes/admin_menu.html:13
+msgid "Cameras"
+msgstr "Камеры"
+
+#: includes/admin_menu.html:19
+msgid "Billing"
+msgstr "Биллинг"
+
+#: includes/admin_menu.html:22
+msgid "Pay Orders"
+msgstr "Заказы оплаты"
+
+#: includes/admin_menu.html:27
+msgid "Groups"
+msgstr "Группы"
+
+#: includes/admin_menu.html:35
+msgid "Logging"
+msgstr ""
+
+#: includes/admin_menu.html:37 logging/log_list.html:22
+#: logging/log_list.html.py:24
+msgid "All"
+msgstr ""
+
+#: includes/admin_menu.html:38
+msgid "Info"
+msgstr ""
+
+#: includes/admin_menu.html:39
+msgid "Debug"
+msgstr ""
+
+#: includes/admin_menu.html:40
+msgid "Warning"
+msgstr ""
+
+#: includes/admin_menu.html:41
+msgid "Error"
+msgstr ""
+
+#: includes/admin_menu.html:42
+msgid "Critical"
+msgstr ""
+
+#: includes/camera.html:11
+msgid "Edit screen"
+msgstr "Редактировать обложку"
+
+#: includes/camera.html:34
 msgid "This camera is not free!"
 msgstr "Просмотр этой камеры платный"
 
-#: includes/camera.html:60
+#: includes/camera.html:36
 msgid "This camera is private."
 msgstr "Эта камера не для всеобщего просмотра"
+
+#: includes/datetime.html:2 user_messages/write_message.html:61
+msgid "ago"
+msgstr "назад"
 
 #: includes/left_menu.html:4
 msgid "Messages"
 msgstr "Сообщения"
 
 #: includes/left_menu.html:10 includes/left_menu.html.py:14
-#: includes/left_menu.html:27 includes/left_menu.html.py:31
 msgid "Inbox"
 msgstr "Входящие"
 
-#: includes/left_menu.html:17 includes/left_menu.html.py:35
+#: includes/left_menu.html:17
 msgid "Sent"
 msgstr "Отправленные"
 
-#: includes/left_menu.html:21
-msgid "Friendship offers"
-msgstr "Предложения дружбы"
+#: includes/paginator.html:8
+msgid "Previous page"
+msgstr "предыдущая"
 
-#: notes/note_edit.html:6
+#: includes/paginator.html:20
+msgid "Next page"
+msgstr "следующая"
+
+#: logging/log_list.html:18
+msgid "Log"
+msgstr ""
+
+#: logging/log_list.html:20
+msgid "Logging filter"
+msgstr ""
+
+#: logging/log_list.html:40
+msgid "Date"
+msgstr ""
+
+#: logging/log_list.html:41
+msgid "Level name"
+msgstr ""
+
+#: logging/log_list.html:42
+msgid "Level num"
+msgstr ""
+
+#: logging/log_list.html:43
+msgid "Message"
+msgstr ""
+
+#: logging/log_list.html:44
+msgid "Path name"
+msgstr ""
+
+#: logging/log_list.html:45
+msgid "Logger name"
+msgstr ""
+
+#: logging/log_list.html:46
+msgid "Function"
+msgstr ""
+
+#: logging/log_list.html:47
+msgid "Line number"
+msgstr ""
+
+#: media_library/image_index.html:7
+msgid "Images"
+msgstr "Изображения"
+
+#: notes/note_edit.html:7
 msgid "Add a note"
 msgstr "Добавить заметку"
 
-#: notes/note_edit.html:8
+#: notes/note_edit.html:9
 msgid "Edit note"
 msgstr "Редактировать заметку"
 
-#: notes/note_list.html:5
+#: notes/note_list.html:6
 msgid "Notes"
 msgstr "Заметки"
 
-#: notes/note_list.html:6
+#: notes/note_list.html:41
 msgid "Create a note"
 msgstr "Создать заметку"
 
-#: notes/note_list.html:13 user_messages/message.html:31
-msgid "Delete"
-msgstr "Удалить"
-
-#: notes/note_view.html:4
+#: notes/note_view.html:5
 msgid "Note"
 msgstr "Заметка"
 
-#: notes/note_view.html:5
-msgid "Created:"
-msgstr "Создана:"
-
-#: notes/note_view.html:6
-msgid "Creator:"
-msgstr "Автор:"
-
-#: social/home.html:25 social/home.html.py:37 social/home.html.py:50
+#: social/home.html:21 social/home.html.py:33 social/home.html.py:46
+#: social/home.html:61
 msgid "edit"
 msgstr "редактировать"
 
-#: social/home.html:28
+#: social/home.html:24 social/user.html:21
 msgid "Hometown"
 msgstr "Родной город"
 
-#: social/home.html:30
+#: social/home.html:26 social/user.html:23
 msgid "Birthday"
 msgstr "День рождения"
 
-#: social/home.html:32
+#: social/home.html:28 social/user.html:25
 msgid "Sex"
 msgstr "Пол"
 
-#: social/home.html:37
+#: social/home.html:33 social/user.html:30
 msgid "Contact Information"
 msgstr "Контактная информация"
 
-#: social/home.html:40
+#: social/home.html:36 social/user.html:33
 msgid "ICQ"
 msgstr "ICQ"
 
-#: social/home.html:42
+#: social/home.html:38 social/user.html:35
 msgid "Mobile"
 msgstr "Телефон"
 
-#: social/home.html:44
+#: social/home.html:40 social/user.html:37
 msgid "Website"
 msgstr "Личный сайт"
 
-#: social/home.html:50
+#: social/home.html:46 social/user.html:43
 msgid "Education"
-msgstr "Обазование"
+msgstr "Образование"
 
-#: social/home.html:53
+#: social/home.html:49 social/user.html:46
 msgid "University"
 msgstr "ВУЗ"
 
-#: social/home.html:55
+#: social/home.html:51 social/user.html:48
 msgid "Department"
 msgstr "Факультет"
 
-#: social/home.html:57
-msgid "Status"
-msgstr "Статус"
+#: social/home.html:59 social/user.html:56
+msgid "Announce"
+msgstr "Анонс"
 
-#: social/home.html:72
-msgid "Rating"
-msgstr "Рейтинг"
-
-#: social/home.html:76
+#: social/home.html:80 social/user.html:106
 msgid "Friends"
 msgstr "Друзья"
 
-#: social/home.html:77
-msgid "Increase ranking"
-msgstr "Повысить рейтинг"
-
-#: social/home.html:78
-msgid "Video with me"
-msgstr "Видеозаписи со мной"
-
-#: social/home.html:79
+#: social/home.html:81
 msgid "Edit photo"
 msgstr "Изменить фотографию"
 
-#: social/home.html:102
+#: social/home.html:107
 msgid "You have no registered camera."
 msgstr "У вас нет зарегистрированных камер"
 
-#: social/home.html:103
+#: social/home.html:109
 msgid "Wanna do it right now?"
 msgstr "Хотите добавить камеру сейчас?"
 
-#: social/user.html:17
-#, python-format
-msgid "%(page_user)s's home"
-msgstr "Страница пользователя %(page_user)s"
+#: social/user.html:128
+msgid "Get view access to camera"
+msgstr "Получить доступ к камере на просмотр"
 
-#: social/user.html:24
-msgid "Add to my friends"
-msgstr "Добавить в друзья"
+#: social/user.html:131
+msgid "Get manage access to camera"
+msgstr "Получить доступ к камере на управление"
 
-#: social/user.html:35
-#, python-format
-msgid "Leave a message to %(page_user)s"
-msgstr "Оставить сообщение %(page_user)s"
+#: social/user.html:134
+msgid "Bookmark this camera"
+msgstr "Добавить закладку"
 
-#: social/user.html:36
-msgid "Leave a message"
-msgstr "Оставить сообщение"
+#: social/user.html:136
+msgid "Remove Bookmark"
+msgstr "Убрать закладку"
 
-#: social/user.html:38
-msgid "Send"
-msgstr "Отправить"
+#: social/user.html:139
+msgid "The remaining time on the show"
+msgstr "Оставшееся время просмотра"
 
-#: social/user.html:46
-msgid "Get access to camera"
-msgstr "Получить доступ к камере"
-
-#: social/user.html:50
+#: social/user.html:172
 msgid "This user has no registered camera."
 msgstr "У пользователя нет зарегистрированных камер"
-
-#: social/user.html:58
-#, python-format
-msgid "%(page_user)s marked as friends:"
-msgstr "Друзья %(page_user)s"
-
-#: social/user.html:68 social/profile/user_friends.html:18
-msgid "None available"
-msgstr "Никого нет"
-
-#: social/friendship/inbox.html:5 social/friendship/sent.html:5
-#: user_messages/inbox.html:5 user_messages/sent.html:5
-msgid "Messages history"
-msgstr "История сообщений"
-
-#: social/friendship/inbox.html:12
-msgid "Your inbox"
-msgstr "Полученные вами предложения дружбы"
-
-#: social/friendship/inbox.html:13
-msgid "Friendship offers: inbox"
-msgstr "Предложения дружбы: полученные"
-
-#: social/friendship/inbox.html:15 social/friendship/sent.html:15
-#: user_messages/inbox.html:15 user_messages/message.html:15
-#: user_messages/sent.html:15
-msgid "When"
-msgstr "Когда"
-
-#: social/friendship/inbox.html:15 user_messages/inbox.html:15
-#: user_messages/message.html:15
-msgid "From"
-msgstr "От кого"
-
-#: social/friendship/inbox.html:15
-msgid "Accept/Decline"
-msgstr "Принять/Отклонить"
-
-#: social/friendship/inbox.html:20 social/friendship/sent.html:20
-#: user_messages/inbox.html:22 user_messages/inbox.html.py:24
-#: user_messages/message.html:19
-msgid "ago"
-msgstr "назад"
-
-#: social/friendship/inbox.html:29
-msgid "Accept"
-msgstr "Принять"
-
-#: social/friendship/inbox.html:32
-msgid "Decline"
-msgstr "Отклонить"
-
-#: social/friendship/sent.html:12
-msgid "Your sent friendship offers"
-msgstr "Отправленные вами предложения дружбы"
-
-#: social/friendship/sent.html:13
-msgid "Friendship offers: sent"
-msgstr "Предложения дружбы: отправленные"
-
-#: social/friendship/sent.html:15 user_messages/sent.html:15
-msgid "To"
-msgstr "Кто"
-
-#: social/friendship/sent.html:15 social/friendship/sent.html.py:29
-msgid "Cancel"
-msgstr "Отменить"
 
 #: social/profile/avatar.html:4
 msgid "Change avatar"
 msgstr "Сменить аватар"
 
-#: social/profile/edit.html:6
+#: social/profile/edit.html:16
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
-#: social/profile/user_friends.html:7
-msgid "Your friends:"
-msgstr "Ваши друзья"
+#: user_messages/inbox.html:5 user_messages/sent.html:6
+msgid "Messages history"
+msgstr "История сообщений"
 
-#: user_messages/inbox.html:12 user_messages/inbox.html.py:13
+#: user_messages/inbox.html:12
 msgid "Messages: inbox"
 msgstr "Сообщения: входящие"
 
-#: user_messages/inbox.html:24
-msgid "(unread)"
-msgstr "(непрочитано)"
-
-#: user_messages/message.html:5 user_messages/message.html.py:12
-#: user_messages/message.html:13
+#: user_messages/message.html:25 user_messages/message.html.py:32
 msgid "Viewing a message"
 msgstr "Просмотр сообщения"
 
-#: user_messages/sent.html:12 user_messages/sent.html.py:13
+#: user_messages/sent.html:13
 msgid "Messages: sent"
 msgstr "Сообщения: отправленные"
+
+#~ msgid "Users online"
+#~ msgstr "Пользователи онлайн"

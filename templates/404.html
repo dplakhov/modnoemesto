@@ -1,14 +1,21 @@
-{% extends "base.html" %}
-
-{% block rss %}
-{% endblock %}
-
+{% extends "base_mini.html" %}
 {% block title %}
-<title>whatever.com - page not found</title>
+Страница не найдена
 {% endblock %}
     
-{% block content %}
-
-    <div><center><strong>Never heard about this page before.</strong></center></div>
-
+{% block base_content %}
+    <div id="content_info">
+    <h2 style="font-size: 36px;">Страница не найдена</h2>
+  <p>
+      Страница, которую Вы ищете, не найдена. Возможно, она была удалена, изменился её адрес, либо страница временно недоступна.
+</p>
+        <p>
+Пожалуйста, попробуйте следующее:
+      <ul>
+<li>Убедитесь, что адрес, набранный в адресной строке Вашего браузера, не содержит ошибок.</li>
+<li>Если Вы попали на эту страницу по ссылке, сообщите администратору сайта о некорректной ссылке.</li>
+<li>Нажмите кнопку «Назад» чтобы попробовать перейти по другой ссылке.</li>
+        </ul>
+  </p>
+</div>
 {% endblock %}

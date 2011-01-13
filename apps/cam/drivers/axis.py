@@ -112,3 +112,5 @@ class AxisControlInterface(ControlInterface):
 class AxisDriver(Driver):
     STREAM_INTERFACE_CLASS = AxisStreamInterface
     CONTROL_INTERFACE_CLASS = AxisControlInterface
+
+    template = 'cam/views/flowplayer.html'

@@ -1,91 +1,33 @@
 {% load i18n %}
-<script>
-var room = "{{ camera.id }}";
-var nick = "{{ user.username }}";
-</script>
+<script type="text/javascript" src="/media/js/jquery.mousewheel.min.js"></script>
+<script type="text/javascript" src="/media/js/jScrollPane.js"></script>
+	
   <p>&nbsp;</p>
-  {% if camera.show %}
-    {% if is_owner %}<a href='{% url cam:cam_edit camera.id %}'>{% trans "Edit camera" %}</a>{% endif %}
+{% if is_owner or user.is_superuser %}
+    <a class="reference" href='{% url cam:cam_edit camera.id %}'>
+        {% trans "Edit camera" %}
+    </a>
+    <a class="reference" href='{% url cam:screen_edit camera.id %}'>
+        {% trans "Edit screen" %}
+    </a>
+{% endif %}
+
+  {% if camera.show or user.is_superuser %}
+
     <script type="text/javascript">
         $(document).ready(function(){
             // jScrollPane conflicts with chat
             //$('.scroll-pane').jScrollPane({showArrows:true, autoReinitialise: true, scrollbarWidth:5});
         });
     </script>
+
     <div id="watch-panel">
-    {% if "rtmp" in camera.host %}
-        <a style="display:block;width:520px;height:330px" id="fms">
-        </a>
-        <script language='javascript'> 
-        $f("fms", "/media/swf/flowplayer-3.2.5.swf", {
-                // common configuration for each clip
-                clip: {
 
-                        // each clip uses the rtmp provider
-                        provider: 'rtmp'
-                },
+    {% include camera.driver.template %}
 
-                // here is our playlist
-                playlist: [
-                        {
-                                // third clip uses a different RTMP server
-                                netConnectionUrl: '{{ camera.host }}',
-                                url:'{{ camera.username }}'
-                        }
-                ],
-
-                plugins: {
-                        rtmp: {
-                                url: '/media/swf/flowplayer.rtmp-3.2.3.swf',
-                                netConnectionUrl: '{{ camera.host }}'
-                        }
-                }
-         
-        });
-        </script>
-    {% else %}
-        <a
-            href="{{ camera.host }}"
-            style="display:block;width:520px;height:330px;background-color:black"
-            id="player">
-        </a>
-        <script>
-            flowplayer("player", "/media/swf/flowplayer-3.2.5.swf");
-        </script>
-    {% endif %}
-    {% if not camera.operator or camera.operator == user.username %}
-      <object>
-        <embed src="/media/swf/ManageCam_5.swf" width="450" height="154"
-            flashvars="ip=modnoemesto.ru&amp;path=cgi-bin/encoder&amp;user=admin&amp;password=123456&amp;debug=0">
-      </object>
-    {% endif %}
-
-    <div id="video_coment">
-        <div id="laying">
-            <div class="tab_chat">
-                <span class="tab_chat">Чат</span>
-            </div>
-            <div class="tab_comment">
-                <span class="tab_comment"><p>Комментарии<p><img src="/media/images/hand_up.jpg" alt="hand_up" />
-
-                <p class="hand_up">47671</p><img src="/media/images/hand_down.jpg" alt="hand_down" />
-                <p class="hand_down">481</p><p class="rating">Рейтинг</p><p class="rat">648</p>
-                </span>
-            </div>
-        </div>
-        <div class="scroll-wrap">
-            <div class="scroll-pane">
-                <div class="chat"></div>
-            </div>
-        </div>
-        <div class="send">
-        <p class="send_mass">Отправить собщение в чат:</p>
-            <form action="send" method="post">
-                <textarea class="com" name="t"></textarea>
-                <input type="submit" class="sub" value="отправить" />
-            </form>
-        </div>
-    </div>
+	
+	
+	
     </div>
 
     {% if camera.paid %}
@@ -93,3 +35,16 @@ var nick = "{{ user.username }}";
   {% else %}
     {% trans "This camera is private." %}
   {% endif %}
+
+
+
+
+
+
+		{% include "includes/chat.html" %}
+
+
+		
+		
+		
+		<!-- /comments -->

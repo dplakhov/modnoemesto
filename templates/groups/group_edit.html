@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#id_theme').selectbox();
+        $('#id_type').selectbox();
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="filter_box">
+    {% if not is_new %}<h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>{% endif %}
+    <h2>{% if is_new %}{% trans "Group creation" %}{% else %}{% trans "Group edit" %}{% endif %}</h2>
+
+	 <form method="post">
+    <div class="filt rounded">
+       
+            <table class="group_add">
+                <tr>
+                    <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px">{{ form.name.errors }}</td>
+                </tr>
+                <tr>
+                    <th><label for="id_{{ form.name.html_name }}">{{ form.name.label }}:</label></th>
+                    <td class="empty_filt"></td>
+                    <td>
+                        
+                        <div class="input_holder rounded">
+                            {{ form.name }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px">{{ form.description.errors }}</td>
+                </tr>
+                <tr>
+                    <th><label for="id_{{ form.description.html_name }}">{{ form.description.label }}:</label></th>
+                    <td class="empty_filt"></td>
+                    <td>
+                        
+                        <div class="input_holder rounded">
+                            {{ form.description }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px">{{ form.theme.errors }}</td>
+                </tr>
+                <tr>
+                    <th><label for="id_{{ form.theme.html_name }}">{{ form.theme.label }}:</label></th>
+                    <td class="empty_filt"></td>
+                    <td>
+                        
+                        <div>
+                            {{ form.theme }}
+                        </div>
+                    </td>
+                </tr>
+                 <tr>
+                    <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px">{{ form.type.errors }}</td>
+                </tr>
+                <tr>
+                    <th><label for="id_{{ form.type.html_name }}">{{ form.type.label }}:</label></th>
+                    <td class="empty_filt"></td>
+                    <td>
+                        <div>
+                            {{ form.type }}
+                        </div>
+                    </td>
+                </tr>
+                 <tr>
+                    <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px">{{ form.site.errors }}</td>
+                </tr>
+                <tr>
+                    <th><label for="id_{{ form.site.html_name }}">{{ form.site.label }}:</label></th>
+                    <td class="empty_filt"></td>
+                    <td>
+                        
+                        <div class="input_holder rounded">
+                            {{ form.site }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px">{{ form.country.errors }}</td>
+                </tr>
+                <tr>
+                    <th><label for="id_{{ form.country.html_name }}">{{ form.country.label }}:</label></th>
+                    <td class="empty_filt"></td>
+                    <td>
+                        
+                        <div class="input_holder rounded">
+                            {{ form.country }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px"> {{ form.city.errors }}</td>
+                </tr>
+                <tr>
+                    <th><label for="id_{{ form.city.html_name }}">{{ form.city.label }}:</label></th>
+                    <td class="empty_filt"></td>
+                    <td>
+                       
+                        <div class="input_holder rounded">
+                            {{ form.city }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px"> {{ form.public.errors }}</td>
+                </tr>
+                <tr>
+                    <th><label for="id_{{ form.public.html_name }}">{{ form.public.label }}:</label></th>
+                    <td class="empty_filt"></td>
+                    <td>
+                        {{ form.public.errors }}
+                        <div class="input_holder rounded">
+                            <input type="radio" id="id_public" name="public" value="1"{% if is_public %} checked="checked"{% endif %}><label for="id_public">Открытый</label><br/>
+
+                            <div style="color:#777; font-size:10px">Вступить в группу может любой желающий. Все могут
+                                просматривать
+                                информацию о группе, её стену и фотоальбом.
+                            </div>
+                            <br/>
+                            <input type="radio" id="id_private" name="public" value="0"{% if not is_public %} checked="checked"{% endif %}><label for="id_private">Закрытый</label><br/>
+
+                            <div style="color:#777; font-size:10px">Вступить в группу можно только после одобрения
+                                администратором.
+                                Все могут просматривать информацию о группе, но стена и фотоальбом группы видны только
+                                её
+                                участникам.
+                            </div>
+                            <br/>
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height:10px"></td>
+                    <td class="empty_filt"></td>
+                    <td style="height:10px"> {{ form.has_video_conference.errors }}</td>
+                </tr>
+                <tr>
+                    <th><label for="id_{{ form.has_video_conference.html_name }}">{{ form.has_video_conference.label }}:</label></th>
+                    <td class="empty_filt"></td>
+                    <td>
+                            {{ form.has_video_conference }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height:10px"></td>
+                </tr>
+            </table>
+		</div>
+        
+        <div class="but">
+        {% if is_new %}<input type="submit" value="{% trans 'Create group' %}"/>
+        {% else %}<input type="submit" value="{% trans 'Save' %}"/>{% endif %}
+        </div>
+        </form>
+		
+   
+</div>
+{% endblock %}

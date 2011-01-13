@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+    <div id="filter_box">
+        <h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>
+        <h3>Участники группы</h3>
+        <ul class="friendTable">
+            {% for info in objects.object_list %}
+            <li>
+                {% with info.user as user %}
+                {% include "includes/user/micro.html" %}
+                {% endwith %}
+            </li>
+            {% endfor %}
+        </ul>
+
+{% include "includes/paginator.html" %}
+
+	</div>
+    </div>
+</div>
+
+{% endblock %}

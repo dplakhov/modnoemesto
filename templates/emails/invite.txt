@@ -1,0 +1,5 @@
+Здравствуйте, {{ invite.recipient_name }}!
+Ваш друг {{ invite.sender.get_full_name }} приглашает Вас
+к участию в социальной видеосети "Модное место".
+Пожалуйста, пройдите по этой ссылке, чтобы завершить регистрацию
+http://{{ SITE_DOMAIN }}{% url social:invite invite.id %}
