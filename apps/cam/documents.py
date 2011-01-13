@@ -2,7 +2,7 @@
 from django.utils.translation import ugettext_lazy as _
 from mongoengine import Q
 
-from mongoengine import Document, StringField, ReferenceField, BooleanField, ListField, DateTimeField
+from mongoengine import Document, StringField, ReferenceField, BooleanField, ListField, DateTimeField, IntField
 
 from apps.utils.reflect import namedClass
 from apps.billing.documents import AccessCamOrder
@@ -29,6 +29,7 @@ class CameraType(Document):
 
 class CameraTag(Document):
     name = StringField(max_length=255, unique=True)
+    count = IntField(default=0)
 
     meta = {
         'ordering': [
