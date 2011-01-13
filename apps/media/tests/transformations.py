@@ -107,7 +107,6 @@ class FileTransformationTest(TestCase):
 class SystemCommandFileTransformationTest(TestCase):
     def test_system_command_transformations(self):
         class TestSystemCommandFileTransformation(SystemCommandFileTransformation):
-            FILE_TYPE = 'text'
             SYSTEM_COMMAND = 'cp %(source)s %(destination)s'
             def _get_derivative_content_type(self):
                 return 'text/plain'
@@ -129,7 +128,6 @@ class SystemCommandFileTransformationTest(TestCase):
 
     def test_unknown_command_raises_exc_(self):
         class TestSystemCommandFileTransformation(SystemCommandFileTransformation):
-            FILE_TYPE = 'text'
             SYSTEM_COMMAND = 'bzzzzzzzZ %(source)s %(destination)s'
 
         transformation = TestSystemCommandFileTransformation('test_trans')
