@@ -13,11 +13,9 @@ from mongoengine.django.shortcuts import get_document_or_404
 
 from apps.media.documents import File, FileSet
 
-from apps.utils.image import read_image_file
 from apps.utils.stringio import StringIO
 
 from apps.media.transformations import BatchFileTransformation
-from apps.media.transformations.image import ImageResize
 from apps.media.transformations.video import VideoThumbnail
 
 from apps.media.tasks import apply_file_transformations
