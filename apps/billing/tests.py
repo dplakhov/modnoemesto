@@ -289,5 +289,5 @@ class BillingTest(unittest.TestCase):
         response = self.c.get(reverse('billing:order_list'))
         self.assertEqual(response.status_code, 302)
 
-        response = self.c.get(reverse('billing:order_list_page', args=[2]))
+        response = self.c.get("%s?page=2" % reverse('billing:order_list'))
         self.assertEqual(response.status_code, 302)
