@@ -19,7 +19,7 @@ h2, h3
 
 a {
     color: #027A98;
-	outline: none;
+    outline: none;
 }
 
 div#container
@@ -58,13 +58,13 @@ div#subContainer
     margin-left: 40px;
     float: left;
     display: inline;
-	text-indent: -9000px;
-	overflow: hidden;
-	height:93px;
-	width:516px;
- 	background-image: url(../images/logo_bg2.jpg);
+    text-indent: -9000px;
+    overflow: hidden;
+    height:93px;
+    width:516px;
+    background-image: url(../images/logo_bg2.jpg);
 }
-	
+    
 div#serch
 {
     margin-top: 24px;
@@ -173,7 +173,7 @@ div#mainContent
     width: 190px;
     float: left;
     display: inline;
-	padding-top:10px;
+    padding-top:10px;
 }
 .nav ul
 {
@@ -324,7 +324,7 @@ div#what_new
     display: inline;
     width: 525px;
     margin-left: 15px;
-	padding-top:10px;
+    padding-top:10px;
 }
 h2.video_title
 {
@@ -365,7 +365,7 @@ div#player
 }
 #telnew
 {
-	margin-top: 10px;
+    margin-top: 10px;
 }
 
 #video_coment
@@ -488,7 +488,7 @@ p.send_mass
 }
 div.step
 {
-	margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 /* For Reg
 ------------------------------------*/
@@ -498,7 +498,7 @@ div#content_about
     float: left;
     /*display: inline;*/
     overflow: hidden;
-	padding-top:10px;
+    padding-top:10px;
 }
 #content_about h2, #content_about h1
 {
@@ -508,8 +508,8 @@ div#content_about
 }
 .h
 {
-	color:#08889F;
-	font-size: 20px;
+    color:#08889F;
+    font-size: 20px;
 }
 #content_about h2.ent
 {
@@ -530,8 +530,8 @@ div#content_about
 }
 h2.registr a
 {
-	font-weight: bold;
-	font-size: 20px;
+    font-weight: bold;
+    font-size: 20px;
 }
 #content_about ol {
     padding-left: 40px;
@@ -545,7 +545,7 @@ h2.registr a
     margin-left: 730px;
     width: 240px;
     overflow: hidden;
-	padding-top:10px;
+    padding-top:10px;
 }
 div.enter
 {
@@ -585,7 +585,7 @@ h2.registr
 {
     color: #2bacd5;
     font-size: 18px;
-	cursor: pointer;
+    cursor: pointer;
 }
 div.reg p, div.enter p
 {
@@ -598,8 +598,8 @@ div.reg a, div.enter a
 }
 input, textarea
 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
 }
 
 p.but
@@ -803,7 +803,7 @@ td.empty_filt
 {
     float: right;
     width: 235px;
-	padding-top:10px;
+    padding-top:10px;
 }
 h2.mod_places
 {
@@ -1051,7 +1051,7 @@ h2.caption {
     padding-bottom: 7px;
     color: #FFF;
     font-size: 16px;
-	text-align: center;
+    text-align: center;
 }
 .no_camera
 {
@@ -1075,17 +1075,17 @@ h2.caption {
 }
 #camera a.reference
 {
-	padding-right: 10px;
+    padding-right: 10px;
 }
 .have_message, .have_friendship_offers
 {
-	color: #838383;
-	padding-bottom: 7px;
+    color: #838383;
+    padding-bottom: 7px;
 }
 .have_message a, .have_friendship_offers a
 {
-	color: #027A98;
-	font-size: 14px;
+    color: #027A98;
+    font-size: 14px;
 }
 
 
@@ -1100,13 +1100,13 @@ h2.caption {
 }
 .input_holder_short
 {
-	width: 173px;
+    width: 173px;
 }
 .input_holder_nowidth a
 {
-	text-decoration: none;
-	color: #585858;
-	padding: 3px;
+    text-decoration: none;
+    color: #585858;
+    padding: 3px;
 }
 
 .input_holder input, .input_holder textarea {
@@ -1118,8 +1118,8 @@ h2.caption {
 }
 .input_holder_short input, .input_holder_short textarea
 {
-	width: 170px;
-	color: #585858;
+    width: 170px;
+    color: #585858;
     font-family: Arial,Helvetica,sans-serif;
     font-size: 12px;
     padding-left: 2px;
@@ -1154,266 +1154,266 @@ h2.caption {
 }
 .filt
 {
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 .camera_edit th
 {
-	color: #FFF;
-	text-align: right;
-	vertical-align: top;
-	padding-top: 3px;
-	/*width: 200px;*/
+    color: #FFF;
+    text-align: right;
+    vertical-align: top;
+    padding-top: 3px;
+    /*width: 200px;*/
 }
 div.but
 {
-	margin-top: 10px;
-	overflow: hidden;
+    margin-top: 10px;
+    overflow: hidden;
 }
 
 .but input[type="submit"]
 {
-	background: url("../images/but.png") no-repeat;
-	color:#FFFFFF;
-	cursor:pointer;
-	overflow:visible;
-	padding:2px 30px 4px;
-	width:181px;
-	float: right;
+    background: url("../images/but.png") no-repeat;
+    color:#FFFFFF;
+    cursor:pointer;
+    overflow:visible;
+    padding:2px 30px 4px;
+    width:181px;
+    float: right;
 }
 a.reference
 {
-	color: #027A98;
-	text-decoration: underline;
+    color: #027A98;
+    text-decoration: underline;
 }
 .group_list
 {
-	margin-top: 10px;
-	float: left;
-	overflow: hidden;
+    margin-top: 10px;
+    float: left;
+    overflow: hidden;
 }
 .group_list a
 {
-	margin-bottom: 5px;
-	color: #6F6F6F;
+    margin-bottom: 5px;
+    color: #6F6F6F;
 }
 .group_ava
 {
-	width:70px; 
-	float:left;
+    width:70px; 
+    float:left;
 }
 .group_info
 {
-	width:180px; 
-	margin-left: 70px;
-	position: relative;
-	height: 47px;
-	overflow:hidden;
+    width:180px; 
+    margin-left: 70px;
+    position: relative;
+    height: 47px;
+    overflow:hidden;
 }
 .messages
 {
-	padding-top: 20px;
+    padding-top: 20px;
 }
 .message-menu li, .friend_request li
 {
-	margin-bottom: 7px;
-	float: left;
+    margin-bottom: 7px;
+    float: left;
 }
 .friend_request
 {
-	overflow: hidden;
+    overflow: hidden;
 }
 h3
 {
-	color: #2bacd5;
-	font-size: 16px;
-	width: 350px;
-	margin: 0 auto;
-	text-align: center;
-/*	padding: 10px 0px 20px 0px;*/
+    color: #2bacd5;
+    font-size: 16px;
+    width: 350px;
+    margin: 0 auto;
+    text-align: center;
+/*  padding: 10px 0px 20px 0px;*/
 }
 #rightColumn h3
 {
-	/*text-align: left;*/
-	width: 235px;
+    /*text-align: left;*/
+    width: 235px;
 }
 .messages_inbox
 {
-	margin-top: 10px;
+    margin-top: 10px;
 }
 .from, p.when
 {
-	float: left;
-	font-weight: bold;
-	color: #6F6F6F;
+    float: left;
+    font-weight: bold;
+    color: #6F6F6F;
 }
 p.from
 {
-	padding-left: 10px;
+    padding-left: 10px;
 }
 p.when
 {
-	margin-left: 400px;
+    margin-left: 400px;
 }
 .message_item
 {
-	padding-top: 5px;
-	clear: both;
-	/*height: 95px;*/
-	overflow: hidden;
-	border-bottom: 1px dotted #6F6F6F;
+    padding-top: 5px;
+    clear: both;
+    /*height: 95px;*/
+    overflow: hidden;
+    border-bottom: 1px dotted #6F6F6F;
 }
 .wall .message_item
 {
-	background: url(../images/bg_about_persone.png) repeat-x;
-	border-top: 1px dotted #6F6F6F;
-	border-bottom: none;
+    background: url(../images/bg_about_persone.png) repeat-x;
+    border-top: 1px dotted #6F6F6F;
+    border-bottom: none;
 }
 .message_item .friendTable, .mess .friendTable
 {
     margin: 0;
-	float: left;
-	display: inline;
+    float: left;
+    display: inline;
 }
 .message_text
 {
-	float: left;
-	padding: 7px;
-	width: 350px;
-	/*cursor: pointer;*/
+    float: left;
+    padding: 7px;
+    width: 350px;
+    /*cursor: pointer;*/
 }
 .readed .message_text a, .readed div.opration a, .note_text a
 {
-	color: #6F6F6F;
+    color: #6F6F6F;
     text-decoration: none;
 }
 .unreaded .message_text a, .unreaded div.opration a
 {
-	color: #000;
+    color: #000;
     text-decoration: none;
 }
 div.operation
 {
-	padding: 7px;
-	width: 60px;
-	float: left;
+    padding: 7px;
+    width: 60px;
+    float: left;
 }
 div.operation p
 {
-	padding-bottom: 7px;
+    padding-bottom: 7px;
 }
 .message_text p, .message .message_text_view p, .message_text_reply textarea, .note_text p
 {
-	padding-bottom: 5px;
-	color: #585858;
+    padding-bottom: 5px;
+    color: #585858;
 }
 .message_text_reply textarea
 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
 }
 .message_text_view
 {
-	clear: left;
-	overflow: hidden;
-	padding: 7px;
-	border: 3px solid #d9d8bf;
-	width: 430px;
-	margin-left: 80px;
-	background: #FFF;
+    clear: left;
+    overflow: hidden;
+    padding: 7px;
+    border: 3px solid #d9d8bf;
+    width: 430px;
+    margin-left: 80px;
+    background: #FFF;
 }
 .note_text_view
 {
-	clear: left;
-	overflow: hidden;
-	padding: 7px;
-	border: 3px solid #d9d8bf;
-	background: #FFF;
+    clear: left;
+    overflow: hidden;
+    padding: 7px;
+    border: 3px solid #d9d8bf;
+    background: #FFF;
 }
 .but_0
 {
-	margin: 10px 0 10px 80px;
+    margin: 10px 0 10px 80px;
 }
 .but_1
 {
-	margin: 10px 80px 10px 0;
-	text-align: right;
+    margin: 10px 80px 10px 0;
+    text-align: right;
 }
 
 .but_1 input[type="submit"]
 {
-	background: #FFF;
-	color: #027A98;
-	text-decoration: underline;
-	font-size: 12px;
-	font-family: Arial, Helvetica, sans-serif;
-	cursor: pointer;
+    background: #FFF;
+    color: #027A98;
+    text-decoration: underline;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
 }
 .but_0 a, .but_1 a
 {
-	padding-right: 15px;
+    padding-right: 15px;
 }
 .answer
 {
-	padding-top: 20px;
+    padding-top: 20px;
 }
 .answer .friendTable
 {
     margin: 0;
-	float: right;
+    float: right;
 }
 .answer .message_text
 {
-	float: right;
-	text-align: right;
+    float: right;
+    text-align: right;
 }
 .message_text_reply, .message_text_write, .message_text_group
 {
-	clear: right;
-	overflow: hidden;
-	padding: 7px;
-	border: 3px solid #d9d8bf;
-	width: 430px;
-	margin-right: 80px;
-	background: #FFF;
+    clear: right;
+    overflow: hidden;
+    padding: 7px;
+    border: 3px solid #d9d8bf;
+    width: 430px;
+    margin-right: 80px;
+    background: #FFF;
 }
 .message_text_write
 {
-	width: 270px;
+    width: 270px;
 }
 .message_text_group
 {
-	width: 490px;
-	margin-right: 0;
+    width: 490px;
+    margin-right: 0;
 }
 .friend_list_online
 {
-	overflow: hidden;
+    overflow: hidden;
     margin-top: 10px;
     border-top: 1px dotted #6f6f6f;
     padding-top: 10px;
     background:url(../images/bg_more_popular.png) no-repeat top;
-	overflow: hidden;
+    overflow: hidden;
 }
 .friend_list_online ul, .friend_list_all ul
 {
-	padding-top: 10px;
-	padding-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 .friend_list_online p.none_av, .friend_list_all p.none_av
 {
-	color: #027A98;
-	padding: 5px 0 10px 15px;
+    color: #027A98;
+    padding: 5px 0 10px 15px;
 }
 li.friendTable
 {
-	margin: 0 5px 7px;
-	float: left;
-	width: 162px;
-	height: 110px;
+    margin: 0 5px 7px;
+    float: left;
+    width: 162px;
+    height: 110px;
 }
 .friend_list_all
 {
-	overflow: hidden;
+    overflow: hidden;
     border-top: 1px dotted #6f6f6f;
     padding-top: 20px;
     background:url(../images/bg_more_new.jpg) no-repeat top;
@@ -1424,44 +1424,44 @@ li.friendTable
 }
 .user_group
 {
-	overflow: hidden;
-	margin-top: 10px;
-	float:left;
-	width: 250px;
+    overflow: hidden;
+    margin-top: 10px;
+    float:left;
+    width: 250px;
 }
 .user_group .group_info a
 {
-	color: #838383;
-	text-decoration: none;
+    color: #838383;
+    text-decoration: none;
 }
 .group_description th, .group_description td
 {
-	color: #666;
-	text-align: left;
+    color: #666;
+    text-align: left;
 }
 .group_description th
 {
-	padding-left: 10px;
-	vertical-align: top;
+    padding-left: 10px;
+    vertical-align: top;
 }
 .group_description td.empty_filt {
     width: 10px;
 }
 .but a
 {
-	background: url("../images/but.png") no-repeat;
-	color:#FFFFFF;
-	cursor:pointer;
-	overflow:visible;
-	padding:2px 48px 5px;
-	float: left;
+    background: url("../images/but.png") no-repeat;
+    color:#FFFFFF;
+    cursor:pointer;
+    overflow:visible;
+    padding:2px 48px 5px;
+    float: left;
     text-decoration: none;
 }
 .note_text
 {
-	float: left;
-	padding: 7px;
-	width: 340px;
+    float: left;
+    padding: 7px;
+    width: 340px;
 }
 .nav ul li p
 {
@@ -1470,10 +1470,10 @@ li.friendTable
 }
 div.system_messages li
 {
-	padding: 4px 4px 4px 30px;
-	margin-bottom: 10px;
-	font-size: 1.1em;
-	border: 2px solid;
+    padding: 4px 4px 4px 30px;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    border: 2px solid;
 }
 
 div.system_messages li.success {
@@ -1495,141 +1495,155 @@ div.system_messages li.warning {
 }
 .paginator
 {
-	margin-top: 10px;
-	clear: both;
+    margin-top: 15px;
+    clear: both;
 }
 .paginator span
 {
-	color: #838383;
+    padding: 5px;
 }
-.next
+.paginator a
 {
-	color: #00B2D5;
-	text-decoration: none;
+    color: #00B2D5;
+    padding: 2px;
+    text-decoration: none;
 }
+.paginator a:hover
+{
+    color: #027A98;
+}
+
+.paginator .current {
+    color: #6f6f6f;
+}
+
+.paginator .inactive {
+    color: #bfbeb2;
+}
+
 #last_news
 {
-	width: 235px;
-	float: left;
-	display: inline;
+    width: 235px;
+    float: left;
+    display: inline;
 }
 #last_news .preview {
     display: none;
 }
 #id_phone_0
 {
-	background:url(../images/input_small.jpg) no-repeat;
-	width: 40px;
-	margin-left: 2px;
+    background:url(../images/input_small.jpg) no-repeat;
+    width: 40px;
+    margin-left: 2px;
 }
 #id_phone_1
 {
-	background:url(../images/input_media.jpg) no-repeat;
-	width: 160px;
+    background:url(../images/input_media.jpg) no-repeat;
+    width: 160px;
 }
 span.date
 {
-	display: block;
-	padding-bottom: 2px;
+    display: block;
+    padding-bottom: 2px;
 }
 .cam_list li
 {
-	height: 180px;
+    height: 180px;
 }
 .hide_info
 {
-	padding: 8px 0 0 10px;
-	color: #666;
+    padding: 8px 0 0 10px;
+    color: #666;
 }
 .tooltip {
-			position: relative;
+            position: relative;
 }
 a.tooltip
 {
-	margin: 8px;
-	margin-bottom: 0px;
-	display: inline-block;
-	width: 31px;
-	height: 36px;
-		z-index: 999;
+    margin: 8px;
+    margin-bottom: 0px;
+    display: inline-block;
+    width: 31px;
+    height: 36px;
+        z-index: 999;
 
 }
 .tooltip span 
 {
-	margin-left: -999em;
-	position: absolute;
-	z-index: 1;
+    margin-left: -999em;
+    position: absolute;
+    z-index: 1;
 }
 .tooltip:hover span
 {
-	position: absolute; 
-	/*z-index: 99;*/
-	margin-left: 0;
-	width: 206px;
+    position: absolute; 
+    /*z-index: 99;*/
+    margin-left: 0;
+    width: 206px;
 }
 .tooltip:hover span.toollip_friend
 {
-	left: -0.9em; 
-	top: -5.1em; 
+    left: -0.9em; 
+    top: -5.1em; 
 }
 .tooltip:hover span.toollip_group
 {
-	left: -5.1em; 
-	top: -5.1em; 
+    left: -5.1em; 
+    top: -5.1em; 
 }
 .tooltip:hover span.toollip_mail
 {
-	left: -9.3em; 
-	top: -5.1em; 
+    left: -9.3em; 
+    top: -5.1em; 
 }
 .tooltip:hover span.toollip_video
 {
-	left: -13.8em; 
-	top: -5.1em; 
+    left: -13.8em; 
+    top: -5.1em; 
 }
 a.toollip_friend
 {
-	background: url(../images/friendship_ico.png) no-repeat bottom;
+    background: url(../images/friendship_ico.png) no-repeat bottom;
 }
 a.toollip_friend:hover
 {
-	background: url(../images/friendship_ico_hover.png) no-repeat bottom;
+    background: url(../images/friendship_ico_hover.png) no-repeat bottom;
 }
 a.toollip_group
 {
-	background: url(../images/groupship_ico.png) no-repeat bottom;
+    background: url(../images/groupship_ico.png) no-repeat bottom;
 }
 a.toollip_group:hover
 {
-	background: url(../images/groupship_ico_hover.png) no-repeat bottom;
+    background: url(../images/groupship_ico_hover.png) no-repeat bottom;
 }
 a.toollip_mail
 {
-	background: url(../images/sendmail_ico.png) no-repeat bottom;
+    background: url(../images/sendmail_ico.png) no-repeat bottom;
 }
 a.toollip_mail:hover
 {
-	background: url(../images/sendmail_ico_hover.png) no-repeat bottom;
+    background: url(../images/sendmail_ico_hover.png) no-repeat bottom;
 }
 a.toollip_video
 {
-	background: url(../images/videochat_ico_noactive.png) no-repeat bottom;
-	cursor: default;
+    background: url(../images/videochat_ico_noactive.png) no-repeat bottom;
+    cursor: default;
 }
 /*a.toollip_video:hover
 {
-	background: url(../images/videochat_ico_hover.png);
+    background: url(../images/videochat_ico_hover.png);
 }*/
 .tooltip img.hidden
 {
-	z-index:99999;
-	position: absolute;
-	left: 10px;
-	display: none;
+    z-index:99999;
+    position: absolute;
+    left: 10px;
+    display: none;
 }
 .tooltip:hover img.hidden
 {
-	display: block;
+    display: block;
 }
 
 

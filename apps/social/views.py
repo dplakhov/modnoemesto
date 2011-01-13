@@ -52,9 +52,13 @@ def index(request):
     if not request.user.is_authenticated():
         return _index_unreg(request)
 
-    form = PeopleFilterForm(request.GET or None)
+    params = dict(request.GET.items())
+    if 'page' in params:
+        del params['page']
 
-    if request.GET and form.is_valid():
+    form = PeopleFilterForm(params or None)
+
+    if params and form.is_valid():
         filter_user_data = {}
         filter_profile_data = {}
 
@@ -82,8 +86,8 @@ def index(request):
         if filter_profile_data:
             profiles = Profile.objects.filter(**filter_profile_data).only('user')
             if filter_user_data:
-                user_ids = [profile.user.pk for profile in profiles]
-                filter_user_data['pk__in'] = user_ids
+                user_ids = [profile.user.id for profile in profiles]
+                filter_user_data['id__in'] = user_ids
                 users = User.objects.filter(**filter_user_data)
             else:
                 users = [profile.user for profile in profiles]
@@ -95,7 +99,7 @@ def index(request):
     
     else:
         users = User.objects(last_access__gt=User.get_delta_time(), is_active=True)
-        users_count = users.count()
+        users_count = User.objects(last_access__gt=User.get_delta_time(), is_active=True).count()
 
     objects = paginate(request,
                        users,
