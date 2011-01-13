@@ -18,14 +18,16 @@ urlpatterns = patterns('apps.cam.views',
 
     #url(r'^(?P<id>[a-f0-9]{24})/enable/$', 'cam_edit', name='cam_edit'),
 
-   url(r'^screen/$', 'screen_edit', name='screen_edit'),
-   url(r'^(?P<id>[a-f0-9]{24})/screen/edit/$', 'screen_edit', name='screen_edit'),
-
+    url(r'^screen/$', 'screen_edit', name='screen_edit'),
+    url(r'^(?P<id>[a-f0-9]{24})/screen/edit/$', 'screen_edit', name='screen_edit'),
 
     url(r'^types/$', 'type_list', name='type_list'),
     url(r'^types/add/$', 'type_edit', name='type_add'),
     url(r'^types/(?P<id>[a-f0-9]{24})/$', 'type_edit', name='type_edit'),
     url(r'^types/(?P<id>[a-f0-9]{24})/delete/$', 'type_delete', name='type_delete'),
 
-
+    url(r'^tags/$', 'tag_list', name='tag_list'),
+    url(r'^tags/add/$', 'tag_edit', name='tag_add'),
+    url(r'^tags/(?P<id>[a-f0-9]{24})/$', 'tag_edit', name='tag_edit'),
+    url(r'^tags/(?P<id>[a-f0-9]{24})/delete/$', 'tag_delete', name='tag_delete'),
 )

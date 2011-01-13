@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-20 17:06+0300\n"
+"POT-Creation-Date: 2011-01-13 16:43+0300\n"
 "PO-Revision-Date: 2010-11-25 16:00+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: documents.py:29
+#: documents.py:27
 msgid "(managed)"
 msgstr "(упр.)"
 
-#: documents.py:29
+#: documents.py:27
 msgid "(unmanaged)"
 msgstr "(неупр.)"
 
-#: documents.py:40
+#: documents.py:48
 msgid "New camera"
 msgstr "Новая камера"
 
-#: forms.py:14 forms.py:48
+#: forms.py:14 forms.py:45 forms.py:49
 msgid "Name"
 msgstr "Название"
 
@@ -55,138 +55,149 @@ msgstr "Неправильное имя драйвера камеры: %(driver)
 msgid "Select camera driver"
 msgstr "Выберите драйвер камеры"
 
-#: forms.py:44 forms.py:51
-msgid "Image"
-msgstr "Изображение"
-
-#: forms.py:49
+#: forms.py:50
 msgid "Camera type"
 msgstr "Тип камеры"
 
+#: forms.py:51 forms.py:132
+msgid "Camera tags"
+msgstr "Метки камеры"
+
 #: forms.py:53
+msgid "Image"
+msgstr "Изображение"
+
+#: forms.py:55
 msgid "Stream name"
 msgstr "Имя камеры"
 
-#: forms.py:55
+#: forms.py:57
 msgid "Camera management host"
 msgstr "Интернет адрес управления камерой"
 
-#: forms.py:57
+#: forms.py:59
 msgid "Camera management username"
 msgstr "Имя пользователя управления камерой"
 
-#: forms.py:59
+#: forms.py:61
 msgid "Camera management password"
 msgstr "Пароль управления камерой"
 
-#: forms.py:62
+#: forms.py:64
 msgid "Is view enabled"
 msgstr "Просмотр включен"
 
-#: forms.py:63
+#: forms.py:65
 msgid "Is view public"
 msgstr "Публичный просмотр"
 
-#: forms.py:64
+#: forms.py:66
 msgid "Is view paid"
 msgstr "Просмотр платный"
 
-#: forms.py:66
+#: forms.py:68
 msgid "Is management enabled"
 msgstr "Управление включено"
 
-#: forms.py:67
+#: forms.py:69
 msgid "Is management public"
 msgstr "Публичное управление"
 
-#: forms.py:69
+#: forms.py:71
 msgid "Is management paid"
 msgstr "Платное управление"
 
-#: forms.py:72
+#: forms.py:74
 msgid "Management packet tariff"
 msgstr "Пакетный тариф на управление"
 
-#: forms.py:74
+#: forms.py:76
 msgid "Management time tariff"
 msgstr "Повременной тариф на управление"
 
-#: forms.py:76
+#: forms.py:78
 msgid "View packet tariff"
 msgstr "Пакетный тариф на просмотр"
 
-#: forms.py:78
+#: forms.py:80
 msgid "View time tariff"
 msgstr "Повременной тариф на просмотр"
 
-#: forms.py:81
+#: forms.py:83
 msgid "Operator"
 msgstr "Оператор"
 
-#: forms.py:83
+#: forms.py:85
 msgid "Force html5"
 msgstr "Всегда использовать html5"
 
-#: forms.py:89
+#: forms.py:91
 msgid "Select camera type"
 msgstr "Выберите тип камеры"
 
-#: forms.py:107
+#: forms.py:105
+msgid "None"
+msgstr ""
+
+#: forms.py:109
 msgid "Select tariff"
 msgstr "Выберите тариф"
 
-#: forms.py:121
+#: forms.py:123
 msgid "Invalid camera credentials"
 msgstr "Неверно заданы имя пользователя и пароль"
 
-#: forms.py:123
+#: forms.py:125
 msgid "Camera improperly configured"
 msgstr "Камера неправильно сконфигрирована"
 
-#: forms.py:128
+#: forms.py:130
 msgid "Keywords"
 msgstr "Ключевые слова"
 
-#: forms.py:131
+#: forms.py:134
 msgid "View Enabled"
 msgstr "Просмотр включен"
 
-#: forms.py:133
+#: forms.py:136
 msgid "View Public"
 msgstr "Публичный просмотр"
 
-#: forms.py:135
+#: forms.py:138
 msgid "View Paid"
 msgstr "Платный просмотр"
 
-#: forms.py:138
+#: forms.py:141
 msgid "Managed"
 msgstr "Управляемая"
 
-#: forms.py:141
+#: forms.py:144
 msgid "Management Enabled"
 msgstr "Управление включено"
 
-#: forms.py:143
+#: forms.py:146
 msgid "Management Public"
 msgstr "Публичное управление"
 
-#: forms.py:145
+#: forms.py:148
 msgid "Management Paid"
 msgstr "Платное управление"
 
-#: views.py:145
-msgid "Invalid image file format"
-msgstr "Неверный формат файла изображения"
+#: forms.py:152
+msgid "Camera tag"
+msgstr "Метка камеры"
 
-#: views.py:166
+#: views.py:126
 msgid "Screen successfully updated"
 msgstr "Обложка успешно обновлена"
 
-#: views.py:251
+#: views.py:252
 msgid "Bookmark successfully added"
 msgstr "Закладка успешно добавлена"
 
-#: views.py:259
+#: views.py:260
 msgid "Bookmark successfully deleted"
 msgstr "Закладка успешно удалена"
+
+#~ msgid "Invalid image file format"
+#~ msgstr "Неверный формат файла изображения"

@@ -16,13 +16,17 @@
 
 <form method="post">
 <div class="filt rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
-
+{{ form.non_field_errors }}
+{% for field in form %}
+    {{ field.errors }}
+{% endfor %}
     <table  class="camera_edit">
         <tbody>
         <tr>
             <th>{{ form.name.label_tag }}:</th>
             <td class="empty_filt"></td>
             <td colspan="3"><div class="input_holder rounded">{{ form.name }}</div></td>
+            <td>{{ form.tags }}</td>
         </tr>
         <tr>
             <td style="height:10px"></td>

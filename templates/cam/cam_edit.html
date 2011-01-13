@@ -99,6 +99,16 @@ $(document).ready(function(){
                 <td class="empty_filt"></td>
                 <td>    {{ form.force_html5 }}</td>
             </tr>
+            <tr>
+                <th>  {{ form.tags.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td>    {{ form.tags }} </td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.tags.errors }} </td>
+            </tr>
         </table>
     
     </div>

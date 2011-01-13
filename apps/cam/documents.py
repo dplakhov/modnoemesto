@@ -27,6 +27,17 @@ class CameraType(Document):
                           _('(managed)') if self.is_controlled else _('(unmanaged)'))
 
 
+class CameraTag(Document):
+    name = StringField(max_length=255, unique=True)
+
+    meta = {
+        'ordering': [
+                'name',
+        ]
+
+    }
+
+
 class Camera(Document):
     TARIFF_FIELDS = ( 'management_packet_tariff',
                       'management_time_tariff',
@@ -67,6 +78,13 @@ class Camera(Document):
     view_time_tariff = ReferenceField('Tariff')
 
     date_created = DateTimeField(default=datetime.now)
+
+    tags = ListField(ReferenceField('CameraTag'))
+
+
+    @property
+    def safe_tags(self):
+        return self.tags
 
     @property
     def driver(self):
