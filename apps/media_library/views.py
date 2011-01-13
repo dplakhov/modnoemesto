@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from apps.utils.paginator import paginate
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse, Http404
@@ -52,6 +53,12 @@ def image_index(request):
         objects = paginator.page(page)
     except (EmptyPage, InvalidPage):
         objects = paginator.page(paginator.num_pages)
+
+    objects = paginate(request,
+                       library.files,
+                       len(library.files),
+                       settings.LIBRARY_IMAGES_PER_PAGE
+                       )
 
     return direct_to_template(request, 'media_library/image_index.html',
                               dict(
