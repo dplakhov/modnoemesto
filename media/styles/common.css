@@ -1651,6 +1651,10 @@ select#id_tags
 	width: 170px;
 	color: #585858;
 }
-
+.tag_list .category {
+	float:left;
+	width: 360px;
+	margin-right: 15px;
+	}
 
 
