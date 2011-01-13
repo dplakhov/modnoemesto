@@ -47,14 +47,16 @@ def cam_list(request):
             for k, v in data.items():
                 if not v: del data[k]
             cams = Camera.objects(**data)
-        return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams) )
+        else:
+            cams = []
+        return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams))
     else:
         form = CamFilterForm()
         tags = []
-        for tag in CameraTag.objects[:4]:
+        for tag in CameraTag.objects.order_by('-count')[:4]:
             cams = list(Camera.objects(is_view_public=True,
                                        is_view_enabled=True,
-                                       tags=tag).order_by('date_created'))
+                                       tags=tag).order_by('date_created')[:4])
             tags.append((tag, cams))
         return direct_to_template(request, 'cam/cam_list.html', dict(form=form,tags=tags) )
 
@@ -90,7 +92,18 @@ def cam_edit(request, id=None):
 
         cam.type = CameraType.objects.get(id=form.cleaned_data['type'][:-2])
         cam.operator = form.cleaned_data['operator'] and User.objects(id=form.cleaned_data['operator']).first() or None
-        cam.tags = form.cleaned_data['tags'] and CameraTag.objects(id__in=form.cleaned_data['tags'])
+        if form.cleaned_data['tags']:
+            new_tags = CameraTag.objects(id__in=form.cleaned_data['tags'])
+            new_tag_ids = [i.id for i in new_tags]
+            old_tag_ids = [i.id for i in cam.tags]
+            for old_tag in old_tag_ids:
+                if old_tag in new_tag_ids:
+                    new_tag_ids.remove(old_tag)
+                else:
+                    CameraTag.objects(id=old_tag).update_one(dec__count=1)
+            for new_tag in new_tag_ids:
+                CameraTag.objects(id=new_tag).update_one(inc__count=1)
+            cam.tags = new_tags
 
         for tariff_type in Camera.TARIFF_FIELDS:
             value = form.cleaned_data[tariff_type]
