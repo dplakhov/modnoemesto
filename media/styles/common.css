@@ -1646,7 +1646,11 @@ a.toollip_video
 {
     display: block;
 }
-
+select#id_tags
+{
+	width: 170px;
+	color: #585858;
+}
 
 
 

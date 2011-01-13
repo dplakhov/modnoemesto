@@ -6,7 +6,14 @@
 {{ block.super }}
 <link href="/media/styles/drop_down.css" type="text/css" rel="stylesheet" />
 {% endblock %}
-
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+$(document).ready(function(){
+            $('#id_tags').selectbox();
+						   });
+</script>
+{% endblock %}			
 {% block base_content %}
 {% include "_left_box_menu.html" %}
 
@@ -26,6 +33,7 @@
             <th>{{ form.name.label_tag }}:</th>
             <td class="empty_filt"></td>
             <td colspan="3"><div class="input_holder rounded">{{ form.name }}</div></td>
+            <td class="empty_filt"></td>
             <td>{{ form.tags }}</td>
         </tr>
         <tr>
