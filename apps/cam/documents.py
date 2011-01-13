@@ -83,10 +83,6 @@ class Camera(Document):
 
 
     @property
-    def safe_tags(self):
-        return self.tags
-
-    @property
     def driver(self):
         return self.type.driver_class(self)
 
