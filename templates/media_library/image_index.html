@@ -17,9 +17,13 @@
 
     $(function(){
         function formatTitle(title, currentArray, currentIndex, currentOpts) {
-            // console.log(title, currentArray, currentIndex, currentOpts);
-            return '<div><span><a href="javascript:;" onclick="$.fancybox.close();"><img src="/data/closelabel.gif" /></a></span>' + (title && title.length ? '<b>' + title + '</b>' : '' ) + 'Image ' + (currentIndex + 1) + ' of ' + currentArray.length + '</div>';
+            return '<div><span><a href="javascript:;" onclick="$.fancybox.close();">' +
+                    '<img src="/media/images/close.gif" /></a></span>' +
+                    '<b>' + title + '</b>'  +
+                    $(currentArray[currentIndex]).attr('_description') +
+                    '</div>';
         }
+
     $('a.fancy-image').fancybox({
 		'transitionIn': 'elastic',
 		'transitionOut': 'elastic',
@@ -41,7 +45,7 @@
 <div id="content-main">
 {% for file in objects.object_list  %}
     <a class="fancy-image" href="{% media_url file library_image_full.png %}"
-       title="{{ file.title }}|{{ file.description }}">
+       title="{{ file.title }}" _description="{{ file.description }}">
         <img src="{% media_url file library_image_thumbnail.png %}"
              alt="{{ file.title }}" />
     </a>
