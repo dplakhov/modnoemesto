@@ -194,7 +194,6 @@ class BatchFileTransformationTest(TestCase):
 
 class TransformationTasksTest(TestCase):
     def test_apply_file_transformations(self):
-        print '\nthis test requres running celeryd (python manage.py celeryd test)'
         from ..tasks import apply_file_transformations
 
         file = create_image_file()
