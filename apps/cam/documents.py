@@ -82,6 +82,8 @@ class Camera(Document):
 
     tags = ListField(ReferenceField('CameraTag'))
 
+    view_count = IntField(default=0)
+
 
     @property
     def driver(self):

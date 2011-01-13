@@ -56,7 +56,7 @@ def cam_list(request):
         for tag in CameraTag.objects.order_by('-count')[:4]:
             cams = list(Camera.objects(is_view_public=True,
                                        is_view_enabled=True,
-                                       tags=tag.id).order_by('date_created')[:4])
+                                       tags=tag.id).order_by('-view_count')[:4])
             tags.append((tag, cams))
         return direct_to_template(request, 'cam/cam_list.html', dict(form=form,tags=tags) )
 
