@@ -18,10 +18,24 @@ class Page(DjangoPage):
         return "?%spage=%i" % (self.extra_params, self.number - 1)
 
     def short_page_range(self):
+        def item(i):
+            return (i, "?%spage=%i" % (self.extra_params, i))
         RADIUS = 3
+        COUNT = self.paginator.num_pages
         start = self.number - RADIUS if self.number > RADIUS else 1
-        end = self.number + RADIUS if self.number < self.paginator.num_pages - RADIUS else self.paginator.num_pages
-        return [(i, "?%spage=%i" % (self.extra_params, i)) for i in xrange(start, end + 1)]
+        end = self.number + RADIUS if self.number < COUNT - RADIUS else COUNT
+        range = [item(i) for i in xrange(start, end + 1)]
+        front = 2 + RADIUS
+        if self.number >= front:
+            if self.number > front + RADIUS - 1:
+                range.insert(0, ('...', item(1 + (self.number - RADIUS) / 2)[1]))
+            range.insert(0, item(1))
+        front = COUNT - front
+        if self.number <= front:
+            if self.number < front - RADIUS + 1:
+                range.append(('...', item(self.number + RADIUS + (COUNT - (self.number + RADIUS)) / 2)[1]))
+            range.append(item(COUNT))
+        return range
 
 
 class Paginator(DjangoPaginator):

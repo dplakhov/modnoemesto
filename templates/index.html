@@ -1,7 +1,31 @@
 {% extends "base.html" %}
 {% load i18n media %}
-{% block content %}
 
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+$(document).ready(function(){
+    function update_users(url){
+        $.get(url, function(data) {
+            if (data != '') {
+                $('#user_list').html(data);
+            }
+        });
+    }
+
+    $('#user_list').click(function(e){
+        var link = $(e.target);
+        if (link.hasClass('next') || link.hasClass('previous') || link.hasClass('page') ) {
+            var href = link.attr('href');
+            update_users(href);
+            return false;
+        }
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
 
 <!-- filter -->
 <div id="filterPeople">
@@ -98,14 +122,8 @@
 <!-- /filter -->
 
 
-<ul class="friendTable">
-{% for user in objects.object_list %}
-    <li>
-    {% include "includes/user/mini.html" %}
-    </li>
-{% endfor %}
-</ul>
-
-{% include "includes/paginator.html" %}
+<div id="user_list">
+{% include "_user_list.html" %}
+</div>
 
 {% endblock %}
