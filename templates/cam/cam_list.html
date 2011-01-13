@@ -126,7 +126,7 @@ management_checked();
 {% for tag, cams in tags %}
     <li class="category" {% cycle '' ' style="margin-right: 0pt;"' %}>
         <div>
-            <h3>{{ tag.name }}</h3>
+            <h3>{{ tag.name }} ({{ tag.count }})</h3>
             <ul>
             {% for cam in cams %}
 {% url social:user cam.owner.id as user_path %}
