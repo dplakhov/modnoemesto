@@ -219,17 +219,12 @@ class MassMessagingTestCase(BasicTestCase):
     def setUp(self):
         super(MassMessagingTestCase, self).setUp()
         from django.conf import settings
-        print
         for i in range(1, settings.MAX_USER_MESSAGES_COUNT + 1):
-            if not i % settings.MAX_USER_MESSAGES_COUNT / 50:
-                print  '\rmass messaging.. %002d%%' % (i*100/settings.MAX_USER_MESSAGES_COUNT),
-                sys.stdout.flush()
             self.resp = self.c.post(
                 reverse('user_messages:send_message', kwargs={
                     'user_id': self.acc2.id }),
                 { 'text': '%s %s' % (self.text, i) }
             )
-        print '\ndone.'
         self.acc1.reload()
         self.acc2.reload()
 
