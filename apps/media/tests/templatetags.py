@@ -7,11 +7,11 @@ from django.conf import settings
 from django.template import TemplateSyntaxError
 
 
-from .common import file_path, create_file
+from .common import file_path, create_image_file
 
 class TemplatetagsTest(TestCase):
-    def test_media_url_file_exists(self):
-        file = create_file()
+    def test_media_url(self):
+        file = create_image_file()
         file.apply_transformations()
         url = reverse('media:file_view', kwargs=dict(file_id=file.id,
                                                      transformation_name='thumb.png'))

@@ -1,0 +1,9 @@
+<ul class="friendTable">
+{% for user in objects.object_list %}
+    <li>
+    {% include "includes/user/mini.html" %}
+    </li>
+{% endfor %}
+</ul>
+
+{% include "includes/paginator.html" %}

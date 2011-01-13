@@ -106,10 +106,15 @@ def index(request):
                        users_count,
                        28)
 
-    return direct_to_template(request, 'index.html', {
-        'objects': objects,
-        'form': form
-    })
+    if request.is_ajax():
+        return direct_to_template(request, '_user_list.html', {
+            'objects': objects,
+        })
+    else:
+        return direct_to_template(request, 'index.html', {
+            'objects': objects,
+            'form': form
+        })
 
 
 def _index_unreg(request):

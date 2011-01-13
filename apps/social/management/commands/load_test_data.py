@@ -203,7 +203,7 @@ class Command(BaseCommand):
             name='View Package 1 min',
             description='View Package Description...',
             cost=1.0,
-            duration=2,
+            duration=60.0,
             is_controlled=False,
         ).save()
         Tariff(
@@ -216,7 +216,7 @@ class Command(BaseCommand):
             name='Manage Package 1 min',
             description='Manage Package Description...',
             cost=2.0,
-            duration=2,
+            duration=60.0,
             is_controlled=True,
         ).save()
         Tariff(

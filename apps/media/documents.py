@@ -22,6 +22,9 @@ class File(Document):
     source = ReferenceField('File')
     transformation = StringField()
 
+    title = StringField()
+    description = StringField()
+
     meta = {
         'indexes': [
                 'author',
