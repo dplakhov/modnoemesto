@@ -47,12 +47,16 @@ def cam_list(request):
             for k, v in data.items():
                 if not v: del data[k]
             cams = Camera.objects(**data)
+        return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams) )
     else:
         form = CamFilterForm()
-        cams = list(Camera.objects(is_view_public=True,
-                                   is_view_enabled=True).order_by('date_created'))
-
-    return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams) )
+        tags = []
+        for tag in CameraTag.objects[:4]:
+            cams = list(Camera.objects(is_view_public=True,
+                                       is_view_enabled=True,
+                                       tags=tag).order_by('date_created'))
+            tags.append((tag, cams))
+        return direct_to_template(request, 'cam/cam_list.html', dict(form=form,tags=tags) )
 
 
 def cam_edit(request, id=None):
