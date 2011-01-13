@@ -56,7 +56,7 @@ def cam_list(request):
         for tag in CameraTag.objects.order_by('-count')[:4]:
             cams = list(Camera.objects(is_view_public=True,
                                        is_view_enabled=True,
-                                       tags=tag).order_by('date_created')[:4])
+                                       tags=tag.id).order_by('date_created')[:4])
             tags.append((tag, cams))
         return direct_to_template(request, 'cam/cam_list.html', dict(form=form,tags=tags) )
 
@@ -95,8 +95,7 @@ def cam_edit(request, id=None):
         if form.cleaned_data['tags']:
             new_tags = CameraTag.objects(id__in=form.cleaned_data['tags'])
             new_tag_ids = [i.id for i in new_tags]
-            old_tag_ids = [i.id for i in cam.tags]
-            for old_tag in old_tag_ids:
+            for old_tag in cam.tags:
                 if old_tag in new_tag_ids:
                     new_tag_ids.remove(old_tag)
                 else:
