@@ -42,18 +42,6 @@ def image_index(request):
     else:
         form = None
 
-    paginator = Paginator(library.files, settings.LIBRARY_IMAGES_PER_PAGE)
-
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
-
-    try:
-        objects = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        objects = paginator.page(paginator.num_pages)
-
     objects = paginate(request,
                        library.files,
                        len(library.files),
