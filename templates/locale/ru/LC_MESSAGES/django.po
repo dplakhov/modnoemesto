@@ -210,15 +210,15 @@ msgstr "Добавить метку"
 
 #: cam/tag_edit.html:8
 msgid "Edit camera tag"
-msgstr "Редактировать метку"
+msgstr "Редактировать категории"
 
 #: cam/tag_list.html:5 includes/admin_menu.html:16
 msgid "Camera tags"
-msgstr "Метки"
+msgstr "Категории"
 
 #: cam/tag_list.html:15
 msgid "Add tag"
-msgstr "Добавить метку"
+msgstr "Добавить категорию"
 
 #: cam/type_edit.html:6
 msgid "Add camera type"

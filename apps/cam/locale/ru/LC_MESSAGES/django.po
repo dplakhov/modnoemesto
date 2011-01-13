@@ -61,7 +61,7 @@ msgstr "Тип камеры"
 
 #: forms.py:51 forms.py:132
 msgid "Camera tags"
-msgstr "Метки камеры"
+msgstr "Категории"
 
 #: forms.py:53
 msgid "Image"
@@ -185,7 +185,7 @@ msgstr "Платное управление"
 
 #: forms.py:152
 msgid "Camera tag"
-msgstr "Метка камеры"
+msgstr "Все категории"
 
 #: views.py:126
 msgid "Screen successfully updated"
