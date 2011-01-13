@@ -2,35 +2,60 @@
 {% load i18n %}
 {% load media %}
 
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="/media/styles/fancybox.css" type="text/css" media="screen" />
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="/media/js/jquery.fancybox-1.3.4.js"></script>
+    <script type="text/javascript" src="/media/js/jquery.easing-1.3.pack.js"></script>
+
+    <script type="text/javascript">
+    
+
+    $(function(){
+        function formatTitle(title, currentArray, currentIndex, currentOpts) {
+            return '<div><span><a href="javascript:;" onclick="$.fancybox.close();">' +
+                    '<img src="/media/images/close.gif" /></a></span>' +
+                    '<b>' + title + '</b>'  +
+                    $(currentArray[currentIndex]).attr('_description') +
+                    '</div>';
+        }
+
+    $('a.fancy-image').fancybox({
+		'transitionIn': 'elastic',
+		'transitionOut': 'elastic',
+		'speedIn': 600,
+		'speedOut': 200,
+		'overlayShow': true,
+        'titleFormat': formatTitle
+	});
+    })
+
+    </script>
+
+{% endblock %}
+
 {% block content %}
 <div id="filter_box">
 <h2>{% trans "Images" %}</h2>
 
 <div id="content-main">
 {% for file in objects.object_list  %}
-    <img src="{% media_url file library_image_thumbnail.png %}" alt="" />
+    <a class="fancy-image" href="{% media_url file library_image_full.png %}"
+       title="{{ file.title }}" _description="{{ file.description }}">
+        <img src="{% media_url file library_image_thumbnail.png %}"
+             alt="{{ file.title }}" />
+    </a>
     {% if can_manage %}
         <a href="{% url media_library:image_delete id=file.id %}">{% trans "Delete" %}</a>
     {% endif %}
 {% endfor %}
 </div>
 
-<div class="pagination">
-    <span class="step-links">
-        {% if objects.has_previous %}
-            <a href="?page={{ objects.previous_page_number }}">предыдущая</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ objects.number }} of {{ objects.paginator.num_pages }}.
-        </span>
-
-        {% if objects.has_next %}
-            <a href="?page={{ objects.next_page_number }}">следующая</a>
-        {% endif %}
-    </span>
-</div>
-
+{% include "includes/paginator.html" %}
 
     {% if can_manage %}
         <form action="{% url media_library:image_add %}" method="post" enctype="multipart/form-data">

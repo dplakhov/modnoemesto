@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load media %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="/media/styles/fancybox.css" type="text/css" media="screen" />
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="/media/js/jquery.fancybox-1.2.1.js"></script>
+    <script type="text/javascript" src="/media/js/fancyplayer.js"></script>
+    <script type="text/javascript">
+    $(function(){
+$('a.fancy-image').fancybox({
+		'transitionIn'	:	'elastic',
+		'transitionOut'	:	'elastic',
+		'speedIn'		:	600, 
+		'speedOut'		:	200,
+		'overlayShow'	:	true
+	});
+    })
+
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+<h1>{% trans "Videos" %}</h1>
+
+<div id="content-main">
+{% for file in objects.object_list  %}
+    <a class="fancy-image" href="{% media_url file library_video_full.png %}">
+        <img src="{% media_url file library_video_thumbnail.png %}" alt="" />
+    </a>
+    {% if can_manage %}
+        <a href="{% url media_library:video_delete id=file.id %}">{% trans "Delete" %}</a>
+    {% endif %}
+{% endfor %}
+</div>
+
+{% include 'includes/pagination.html' %}
+
+    {% if can_manage %}
+        <form action="{% url media_library:video_add %}" method="post" enctype="multipart/form-data">
+
+        <table>
+        {{ form.as_table }}
+        </table>
+        <input type="submit" value="{% trans "Add" %}"/>
+        </form>
+
+    {% endif %}
+    
+{% endblock %}
