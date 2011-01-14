@@ -8,25 +8,25 @@
          <tr>
             <td style="height:10px"></td>
             <td class="empty_filt"></td>
-            <td style="height:10px">{{ form.name.errors }}</td>
+            <td style="height:10px">{{ send_form.name.errors }}</td>
             
         </tr>
         <tr>
 
             <th><label for="id_name">Имя друга:</label></th>
             <td class="empty_filt"></td>
-            <td><div class="input_holder rounded">{{ form.name }}</div></td>
+            <td><div class="input_holder rounded">{{ send_form.name }}</div></td>
         </tr>
         <tr>
             <td style="height:10px"></td>
             <td class="empty_filt"></td>
-            <td style="height:10px">{{ form.email.errors }}</td>
+            <td style="height:10px">{{ send_form.email.errors }}</td>
         </tr>
         <tr>
 
             <th><label for="id_email">E-mail:</label></th>
             <td class="empty_filt"></td>
-            <td><div class="input_holder rounded">{{ form.email }}</div></td>
+            <td><div class="input_holder rounded">{{ send_form.email }}</div></td>
         </tr>
                 <tr>
             <td style="height:10px"></td>
@@ -38,4 +38,43 @@
     <input type="submit" value="{% trans "Send" %}" />
     </div>
     </form>
+
+    <h2 class="video_title">Отправить приглашения</h2>
+    <form method="post" enctype="multipart/form-data">
+    <div class="filt rounded">
+    <table class="form_as_table group_add">
+         <tr>
+            <td style="height:10px"></td>
+            <td class="empty_filt"></td>
+            <td style="height:10px">{{ import_form.type.errors }}</td>
+
+        </tr>
+        <tr>
+
+            <th><label for="id_name">Тип файла</label></th>
+            <td class="empty_filt"></td>
+            <td><div class="input_holder rounded">{{ import_form.type }}</div></td>
+        </tr>
+        <tr>
+            <td style="height:10px"></td>
+            <td class="empty_filt"></td>
+            <td style="height:10px">{{ import_form.file.errors }}</td>
+        </tr>
+        <tr>
+
+            <th><label for="id_email">Файл:</label></th>
+            <td class="empty_filt"></td>
+            <td><div class="input_holder rounded">{{ import_form.file }}</div></td>
+        </tr>
+                <tr>
+            <td style="height:10px"></td>
+        </tr>
+
+    </table>
+    </div>
+    <div class="but">
+    <input type="submit" value="{% trans "Send" %}" />
+    </div>
+    </form>
+
 {% endblock %}
