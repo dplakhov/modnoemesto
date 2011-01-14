@@ -1683,3 +1683,22 @@ select#id_tags
 	border-bottom: 2px solid #08889F;
 	margin-bottom: 10px;
 }
+
+
+
+.invite_sent_info {
+    margin-bottom: 15px;
+    
+
+}
+.invite_sent_info td {
+    padding-top: 10px;
+    padding-right: 7px;
+}
+.invite_sent_info .fail td {
+    color: #880000;
+
+}
+.invite_sent_info .success td {
+    color: #005F00;
+}
