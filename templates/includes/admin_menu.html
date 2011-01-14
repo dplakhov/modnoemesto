@@ -13,6 +13,7 @@
         <p>{% trans "Cameras" %}</p>
         <ul>
             <li><a href="{% url cam:type_list %}">{% trans "Camera types" %}</a></li>
+            <li><a href="{% url cam:tag_list %}">{% trans "Camera tags" %}</a></li>
         </ul>
         {% endif %}
         {% if perms.billing %}

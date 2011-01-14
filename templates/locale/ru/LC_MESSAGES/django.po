@@ -7,11 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2010-12-29 16:16+0300\n"
-=======
-"POT-Creation-Date: 2010-12-29 17:51+0300\n"
->>>>>>> people_filter
+"POT-Creation-Date: 2011-01-13 17:53+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,19 +18,15 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: base_mini.html:114
+#: base_mini.html:116
 msgid "search"
 msgstr "поиск"
 
-#: index.html:9
-msgid "People filter"
-msgstr "Поиск людей"
-
-#: index_unreg.html:169
+#: index_unreg.html:172
 msgid "This account is inactive."
 msgstr "Эта учетная запись неактивна."
 
-#: index_unreg.html:169 index_unreg.html.py:206
+#: index_unreg.html:172 index_unreg.html.py:209
 msgid "Resend activation code."
 msgstr "Отправить код активации."
 
@@ -70,29 +62,6 @@ msgstr "Подтверждён"
 msgid "Not confirmed"
 msgstr "Не подтверждён"
 
-#: admin/user_list.html:38 billing/access_order_list.html:38
-#: billing/order_list.html:34 groups/_comments.html:31 groups/list.html:19
-#: logging/log_list.html:70
-msgid "previous"
-msgstr "предыдущая"
-
-#: admin/user_list.html:42 billing/access_order_list.html:42
-#: billing/order_list.html:38 groups/_comments.html:35 groups/list.html:23
-#: logging/log_list.html:74
-#, python-format
-msgid ""
-"\n"
-"Page %(number)s of %(num_pages)s.\n"
-msgstr ""
-"\n"
-"Страница %(number)s из %(num_pages)s.\n"
-
-#: admin/user_list.html:48 billing/access_order_list.html:48
-#: billing/order_list.html:44 groups/_comments.html:41 groups/list.html:29
-#: logging/log_list.html:80
-msgid "next"
-msgstr "следующая"
-
 #: admin_blog/edit.html:7
 msgid "Add a news"
 msgstr "Добавить новость"
@@ -102,25 +71,19 @@ msgid "Edit news"
 msgstr "Редактировать новость"
 
 #: admin_blog/edit.html:36 billing/tariff_edit.html:16
-#: billing/tariff_list.html:14 cam/cam_edit.html:246 cam/type_edit.html:16
-#: groups/theme_edit.html:16 groups/theme_list.html:12
+#: billing/tariff_list.html:14 cam/cam_edit.html:256 cam/tag_edit.html:16
+#: cam/type_edit.html:16 groups/theme_edit.html:16 groups/theme_list.html:12
 #: groups/type_edit.html:16 groups/type_list.html:12
 #: media_library/image_index.html:42 news/edit.html:55 notes/note_edit.html:42
 msgid "Add"
 msgstr "Добавить"
 
-#: admin_blog/edit.html:36 billing/tariff_edit.html:16 cam/cam_edit.html:246
-#: cam/screen_edit.html:26 cam/type_edit.html:16 groups/group_edit.html:179
-<<<<<<< HEAD
-#: groups/photo_edit.html:25 groups/theme_edit.html:16
-#: groups/type_edit.html:16 news/edit.html:55 notes/note_edit.html:42
-#: social/profile/avatar.html:15 social/profile/edit.html:128
-=======
-#: groups/photo_edit.html:26 groups/theme_edit.html:16
-#: groups/type_edit.html:16 news/edit.html:55 notes/note_edit.html:42
-#: social/profile/avatar.html:17 social/profile/edit.html:128
->>>>>>> people_filter
-#: social/profile/edit.html.py:135
+#: admin_blog/edit.html:36 billing/tariff_edit.html:16 cam/cam_edit.html:256
+#: cam/screen_edit.html:26 cam/tag_edit.html:16 cam/type_edit.html:16
+#: groups/group_edit.html:179 groups/photo_edit.html:25
+#: groups/theme_edit.html:16 groups/type_edit.html:16 news/edit.html:55
+#: notes/note_edit.html:42 social/profile/avatar.html:16
+#: social/profile/edit.html:128 social/profile/edit.html.py:135
 msgid "Save"
 msgstr "Сохранить"
 
@@ -128,7 +91,7 @@ msgstr "Сохранить"
 msgid "News list"
 msgstr "Список новостей"
 
-#: admin_blog/list.html:19 groups/view.html:60 news/list.html:27
+#: admin_blog/list.html:19 groups/view.html:83 news/list.html:27
 #: notes/note_list.html:23 notes/note_list.html.py:33
 msgid "Edit"
 msgstr "Редактировать"
@@ -153,7 +116,7 @@ msgstr "Новость"
 msgid "Created:"
 msgstr "Создана:"
 
-#: billing/access_order_list.html:5 includes/admin_menu.html:23
+#: billing/access_order_list.html:5 includes/admin_menu.html:24
 msgid "Access Orders"
 msgstr "Заказы доступа"
 
@@ -170,22 +133,18 @@ msgid "Tariff"
 msgstr "Тарифы"
 
 #: billing/access_order_list.html:12
-msgid "Is controlled"
-msgstr "Управляемая"
-
-#: billing/access_order_list.html:13
 msgid "Begin Date"
 msgstr "Начало"
 
-#: billing/access_order_list.html:14
+#: billing/access_order_list.html:13
 msgid "End Date"
 msgstr "Конец"
 
-#: billing/access_order_list.html:15
+#: billing/access_order_list.html:14
 msgid "Cost"
 msgstr "Стоимость"
 
-#: billing/access_order_list.html:16 social/home.html:53 social/user.html:50
+#: billing/access_order_list.html:15 social/home.html:53 social/user.html:51
 msgid "Status"
 msgstr "Статус"
 
@@ -225,7 +184,7 @@ msgstr "Добавить тариф"
 msgid "Edit tariff"
 msgstr "Редактировать тариф"
 
-#: billing/tariff_list.html:5 includes/admin_menu.html:21
+#: billing/tariff_list.html:5 includes/admin_menu.html:22
 msgid "Tariffs"
 msgstr "Тарифы"
 
@@ -244,6 +203,22 @@ msgstr "Добавить камеру"
 #: cam/screen_edit.html:6
 msgid "Change screen"
 msgstr "Сменить обложку"
+
+#: cam/tag_edit.html:6
+msgid "Add camera tag"
+msgstr "Добавить метку"
+
+#: cam/tag_edit.html:8
+msgid "Edit camera tag"
+msgstr "Редактировать категории"
+
+#: cam/tag_list.html:5 includes/admin_menu.html:16
+msgid "Camera tags"
+msgstr "Категории"
+
+#: cam/tag_list.html:15
+msgid "Add tag"
+msgstr "Добавить категорию"
 
 #: cam/type_edit.html:6
 msgid "Add camera type"
@@ -266,7 +241,7 @@ msgid "Your friends:"
 msgstr "Ваши друзья"
 
 #: friends/friend_list.html:41 friends/friend_list.html.py:64
-#: friends/friends_all.html:26 friends/friends_online.html:26
+#: friends/friends_all.html:28 friends/friends_online.html:28
 #: groups/send_friends_invite.html:30
 msgid "None available"
 msgstr "Никого нет"
@@ -276,7 +251,7 @@ msgstr "Никого нет"
 msgid "%(page_user)s: friends"
 msgstr "%(page_user)s: друзья"
 
-#: friends/friends_all.html:19 friends/friends_online.html:19
+#: friends/friends_all.html:21 friends/friends_online.html:21
 msgid "Add to my friends"
 msgstr "Добавить в друзья"
 
@@ -305,13 +280,9 @@ msgstr "Предложения дружбы: отправленные"
 msgid "Cancel"
 msgstr "Отменить"
 
-#: groups/group_edit.html:17 groups/members_manage.html:8
-<<<<<<< HEAD
-#: groups/photo_edit.html:6 groups/send_friends_invite.html:8
-#: groups/view.html:33
-=======
-#: groups/send_friends_invite.html:8 groups/view.html:33
->>>>>>> people_filter
+#: groups/group_edit.html:17 groups/member_list.html:8
+#: groups/members_manage.html:8 groups/photo_edit.html:6
+#: groups/send_friends_invite.html:8 groups/view.html:56
 msgid "Group"
 msgstr "Группа"
 
@@ -332,24 +303,13 @@ msgstr "Создать группу"
 msgid "Available groups"
 msgstr "Доступные группы"
 
-<<<<<<< HEAD
 #: groups/photo_edit.html:7
 msgid "Change photo"
 msgstr "Сменить фотографию"
-=======
-#: groups/photo_edit.html:6
-#, fuzzy
-msgid "Change photo"
-msgstr "Сменить аватар"
->>>>>>> people_filter
 
 #: groups/send_friends_invite.html:9
 msgid "Your friends"
 msgstr "Ваши друзья"
-
-#: groups/send_my_invites_to_user.html:29 groups/user_group_list.html:34
-msgid "My groups"
-msgstr "Мои группы"
 
 #: groups/theme_edit.html:6
 msgid "Add theme"
@@ -359,7 +319,7 @@ msgstr "Добавить тему"
 msgid "Edit theme"
 msgstr "Редактировать тему"
 
-#: groups/theme_list.html:4 includes/admin_menu.html:29
+#: groups/theme_list.html:4 includes/admin_menu.html:30
 msgid "Themes"
 msgstr "Темы"
 
@@ -367,7 +327,7 @@ msgstr "Темы"
 msgid "Edit type"
 msgstr "Редактировать тип"
 
-#: groups/type_list.html:4 includes/admin_menu.html:30
+#: groups/type_list.html:4 includes/admin_menu.html:31
 msgid "Types"
 msgstr "Типы"
 
@@ -387,44 +347,48 @@ msgstr "отклонить"
 msgid "Groups invites"
 msgstr "Приглащения в группы"
 
-#: groups/view.html:89 social/invite_send.html:38
+#: groups/user_group_list.html:34
+msgid "My groups"
+msgstr "Мои группы"
+
+#: groups/view.html:112 social/invite_send.html:38
 #: user_messages/message.html:80 user_messages/write_message.html:41
 msgid "Send"
 msgstr "Отправить"
 
-#: groups/view.html:108
+#: groups/view.html:131
 msgid "Description"
 msgstr "Описание"
 
-#: groups/view.html:119
+#: groups/view.html:142
 msgid "Theme"
 msgstr "Тема"
 
-#: groups/view.html:129
+#: groups/view.html:152
 msgid "Type"
 msgstr "Тип"
 
-#: groups/view.html:139
+#: groups/view.html:162
 msgid "Site"
 msgstr "Веб-сайт"
 
-#: groups/view.html:149
+#: groups/view.html:172
 msgid "Country"
 msgstr "Страна"
 
-#: groups/view.html:159
+#: groups/view.html:182
 msgid "City"
 msgstr "Город"
 
-#: groups/view.html:168
+#: groups/view.html:191
 msgid "Leave group"
 msgstr "Покинуть группу"
 
-#: groups/view.html:171
+#: groups/view.html:194
 msgid "Cancel request"
 msgstr "Отменить заявку"
 
-#: groups/view.html:173
+#: groups/view.html:196
 msgid "Join group"
 msgstr "Вступить в группу"
 
@@ -436,44 +400,44 @@ msgstr "Администрирование"
 msgid "Cameras"
 msgstr "Камеры"
 
-#: includes/admin_menu.html:19
+#: includes/admin_menu.html:20
 msgid "Billing"
 msgstr "Биллинг"
 
-#: includes/admin_menu.html:22
+#: includes/admin_menu.html:23
 msgid "Pay Orders"
 msgstr "Заказы оплаты"
 
-#: includes/admin_menu.html:27
+#: includes/admin_menu.html:28
 msgid "Groups"
 msgstr "Группы"
 
-#: includes/admin_menu.html:35
+#: includes/admin_menu.html:36
 msgid "Logging"
 msgstr ""
 
-#: includes/admin_menu.html:37 logging/log_list.html:22
+#: includes/admin_menu.html:38 logging/log_list.html:22
 #: logging/log_list.html.py:24
 msgid "All"
 msgstr ""
 
-#: includes/admin_menu.html:38
+#: includes/admin_menu.html:39
 msgid "Info"
 msgstr ""
 
-#: includes/admin_menu.html:39
+#: includes/admin_menu.html:40
 msgid "Debug"
 msgstr ""
 
-#: includes/admin_menu.html:40
+#: includes/admin_menu.html:41
 msgid "Warning"
 msgstr ""
 
-#: includes/admin_menu.html:41
+#: includes/admin_menu.html:42
 msgid "Error"
 msgstr ""
 
-#: includes/admin_menu.html:42
+#: includes/admin_menu.html:43
 msgid "Critical"
 msgstr ""
 
@@ -505,11 +469,11 @@ msgstr "Входящие"
 msgid "Sent"
 msgstr "Отправленные"
 
-#: includes/paginator.html:8
+#: includes/paginator.html:7 includes/paginator.html.py:11
 msgid "Previous page"
 msgstr "предыдущая"
 
-#: includes/paginator.html:20
+#: includes/paginator.html:21 includes/paginator.html.py:25
 msgid "Next page"
 msgstr "следующая"
 
@@ -553,6 +517,23 @@ msgstr ""
 msgid "Line number"
 msgstr ""
 
+#: logging/log_list.html:70
+msgid "previous"
+msgstr "предыдущая"
+
+#: logging/log_list.html:74
+#, python-format
+msgid ""
+"\n"
+"Page %(number)s of %(num_pages)s.\n"
+msgstr ""
+"\n"
+"Страница %(number)s из %(num_pages)s.\n"
+
+#: logging/log_list.html:80
+msgid "next"
+msgstr "следующая"
+
 #: media_library/image_index.html:7
 msgid "Images"
 msgstr "Изображения"
@@ -582,91 +563,91 @@ msgstr "Заметка"
 msgid "edit"
 msgstr "редактировать"
 
-#: social/home.html:24 social/user.html:21
+#: social/home.html:24 social/user.html:22
 msgid "Hometown"
 msgstr "Родной город"
 
-#: social/home.html:26 social/user.html:23
+#: social/home.html:26 social/user.html:24
 msgid "Birthday"
 msgstr "День рождения"
 
-#: social/home.html:28 social/user.html:25
+#: social/home.html:28 social/user.html:26
 msgid "Sex"
 msgstr "Пол"
 
-#: social/home.html:33 social/user.html:30
+#: social/home.html:33 social/user.html:31
 msgid "Contact Information"
 msgstr "Контактная информация"
 
-#: social/home.html:36 social/user.html:33
+#: social/home.html:36 social/user.html:34
 msgid "ICQ"
 msgstr "ICQ"
 
-#: social/home.html:38 social/user.html:35
+#: social/home.html:38 social/user.html:36
 msgid "Mobile"
 msgstr "Телефон"
 
-#: social/home.html:40 social/user.html:37
+#: social/home.html:40 social/user.html:38
 msgid "Website"
 msgstr "Личный сайт"
 
-#: social/home.html:46 social/user.html:43
+#: social/home.html:46 social/user.html:44
 msgid "Education"
 msgstr "Образование"
 
-#: social/home.html:49 social/user.html:46
+#: social/home.html:49 social/user.html:47
 msgid "University"
 msgstr "ВУЗ"
 
-#: social/home.html:51 social/user.html:48
+#: social/home.html:51 social/user.html:49
 msgid "Department"
 msgstr "Факультет"
 
-#: social/home.html:59 social/user.html:56
+#: social/home.html:59 social/user.html:57
 msgid "Announce"
 msgstr "Анонс"
 
-#: social/home.html:80 social/user.html:106
+#: social/home.html:76 social/user.html:103
 msgid "Friends"
 msgstr "Друзья"
 
-#: social/home.html:81
+#: social/home.html:77
 msgid "Edit photo"
 msgstr "Изменить фотографию"
 
-#: social/home.html:107
+#: social/home.html:103
 msgid "You have no registered camera."
 msgstr "У вас нет зарегистрированных камер"
 
-#: social/home.html:109
+#: social/home.html:105
 msgid "Wanna do it right now?"
 msgstr "Хотите добавить камеру сейчас?"
 
-#: social/user.html:128
+#: social/user.html:125
 msgid "Get view access to camera"
 msgstr "Получить доступ к камере на просмотр"
 
-#: social/user.html:131
+#: social/user.html:128
 msgid "Get manage access to camera"
 msgstr "Получить доступ к камере на управление"
 
-#: social/user.html:134
+#: social/user.html:131
 msgid "Bookmark this camera"
 msgstr "Добавить закладку"
 
-#: social/user.html:136
+#: social/user.html:133
 msgid "Remove Bookmark"
 msgstr "Убрать закладку"
 
-#: social/user.html:139
+#: social/user.html:136
 msgid "The remaining time on the show"
 msgstr "Оставшееся время просмотра"
 
-#: social/user.html:172
+#: social/user.html:169
 msgid "This user has no registered camera."
 msgstr "У пользователя нет зарегистрированных камер"
 
-#: social/profile/avatar.html:4
+#: social/profile/avatar.html:5
 msgid "Change avatar"
 msgstr "Сменить аватар"
 
@@ -689,6 +670,12 @@ msgstr "Просмотр сообщения"
 #: user_messages/sent.html:13
 msgid "Messages: sent"
 msgstr "Сообщения: отправленные"
+
+#~ msgid "People filter"
+#~ msgstr "Поиск людей"
+
+#~ msgid "Is controlled"
+#~ msgstr "Управляемая"
 
 #~ msgid "Users online"
 #~ msgstr "Пользователи онлайн"

@@ -9,6 +9,7 @@ AVATAR_SIZES = {
 SCREEN_SIZES = {
     'camera_screen_full.png': { 'width': 515, 'height': 330 },
     'camera_screen_normal.png': { 'width': 170, 'height': 109 },
+    'camera_screen_midi.png': { 'width': 156, 'height': 100 },
     'camera_screen_mini.png': { 'width': 80, 'height': 51 },
 }
 

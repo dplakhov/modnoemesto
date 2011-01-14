@@ -2,7 +2,7 @@
 from django.utils.translation import ugettext_lazy as _
 from mongoengine import Q
 
-from mongoengine import Document, StringField, ReferenceField, BooleanField, ListField, DateTimeField
+from mongoengine import Document, StringField, ReferenceField, BooleanField, ListField, DateTimeField, IntField
 
 from apps.utils.reflect import namedClass
 from apps.billing.documents import AccessCamOrder
@@ -25,6 +25,18 @@ class CameraType(Document):
     def get_option_label(self):
         return '%s %s' % (self.name,
                           _('(managed)') if self.is_controlled else _('(unmanaged)'))
+
+
+class CameraTag(Document):
+    name = StringField(max_length=255, unique=True)
+    count = IntField(default=0)
+
+    meta = {
+        'ordering': [
+                'name',
+        ]
+
+    }
 
 
 class Camera(Document):
@@ -67,6 +79,11 @@ class Camera(Document):
     view_time_tariff = ReferenceField('Tariff')
 
     date_created = DateTimeField(default=datetime.now)
+
+    tags = ListField(ReferenceField('CameraTag'))
+
+    view_count = IntField(default=0)
+
 
     @property
     def driver(self):

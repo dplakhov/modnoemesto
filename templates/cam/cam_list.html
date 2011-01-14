@@ -6,7 +6,14 @@
 {{ block.super }}
 <link href="/media/styles/drop_down.css" type="text/css" rel="stylesheet" />
 {% endblock %}
-
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+$(document).ready(function(){
+            $('#id_tags').selectbox();
+                           });
+</script>
+{% endblock %}          
 {% block base_content %}
 {% include "_left_box_menu.html" %}
 
@@ -23,6 +30,8 @@
             <th>{{ form.name.label_tag }}:</th>
             <td class="empty_filt"></td>
             <td colspan="3"><div class="input_holder rounded">{{ form.name }}</div></td>
+            <td class="empty_filt"></td>
+            <td>{{ form.tags }}</td>
         </tr>
         <tr>
             <td style="height:10px"></td>
@@ -38,7 +47,7 @@
             <td style="height:10px"></td>
         </tr>
         <tr>
-            <th>{{ form.is_view_enabled.label_tag }}:</th>
+            <th style="width: 200px">{{ form.is_view_enabled.label_tag }}:</th>
             <td class="empty_filt"></td>
             <td>{{ form.is_view_enabled }}</td>
             <th>{{ form.is_management_enabled.label_tag }}:</th>
@@ -93,7 +102,7 @@ management_checked();
             <input type="submit" value="Фильтровать" class="button"/>
     </div>
 </form>
-
+{% if cams %}
 <div id="filt_new">
 <ul class="cam_list">
 {% for cam in cams %}
@@ -110,6 +119,36 @@ management_checked();
 {% endfor %}
 </ul>
 </div>
+
+{% else %}
+<div id="filt_cat">
+<ul class="tag_list">
+{% for tag, cams in tags %}
+    <li class="category" {% cycle '' ' style="margin-right: 0pt;"' %}>
+        <div>
+            <h3>{{ tag.name }} ({{ tag.count }})</h3>
+            <ul>
+            {% for cam in cams %}
+{% url social:user cam.owner.id as user_path %}
+                <li {% cycle '' ' style="margin-right: 0pt;"' %}>
+                    <div class="item">
+                    <div class="pop rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
+                    <a href="{{ user_path }}#cam"><img alt="{{ cam.name }}" src="{% media_url cam.screen camera_screen_midi.png %}"></a>
+                    </div>
+                    <p class="place"><a href="{{ user_path }}#cam">{{ cam.name }}</a></p>
+                    <p class="creater"><a href="{{ user_path }}">{{ cam.owner }}</a></p>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+                    
+        </div>
+    </li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
     </div>
 </div>
 {% endblock %}

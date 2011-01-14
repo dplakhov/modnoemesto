@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from apps.cam.documents import CameraTag
+from apps.cam.forms import CameraTagForm
 
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import permission_required
@@ -27,24 +29,36 @@ from apps.social.documents import User
 
 
 def cam_list(request):
-    form = CamFilterForm(request.POST or None)
-    if form.is_valid():
-        data = dict(form.cleaned_data)
-        if data['name']:
-            data['name__icontains'] = data['name']
-        del data['name']
-        if not data['is_managed']:
-            del data['is_management_enabled']
-            del data['is_management_public']
-            del data['is_management_paid']
-        for k, v in data.items():
-            if not v: del data[k]
-        cams = Camera.objects(**data)
+    if request.POST:
+        form = CamFilterForm(request.POST)
+        if form.is_valid():
+            data = dict(form.cleaned_data)
+            if data['name']:
+                data['name__icontains'] = data['name']
+            del data['name']
+            if data['tags']:
+                data['tags'] = CameraTag.objects(id=data['tags']).first()
+            else:
+                del data['tags']
+            if not data['is_managed']:
+                del data['is_management_enabled']
+                del data['is_management_public']
+                del data['is_management_paid']
+            for k, v in data.items():
+                if not v: del data[k]
+            cams = Camera.objects(**data)
+        else:
+            cams = []
+        return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams))
     else:
-        cams = list(Camera.objects(is_view_public=True,
-                                   is_view_enabled=True).order_by('date_created'))
-
-    return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams) )
+        form = CamFilterForm()
+        tags = []
+        for tag in CameraTag.objects.order_by('-count')[:4]:
+            cams = list(Camera.objects(is_view_public=True,
+                                       is_view_enabled=True,
+                                       tags=tag.id).order_by('-view_count')[:4])
+            tags.append((tag, cams))
+        return direct_to_template(request, 'cam/cam_list.html', dict(form=form,tags=tags) )
 
 
 def cam_edit(request, id=None):
@@ -56,6 +70,7 @@ def cam_edit(request, id=None):
         initial = cam._data
         initial['type'] = cam.type.get_option_value()
         initial['operator'] = initial['operator'] and initial['operator'].id
+        initial['tags'] = initial['tags'] and [i.id for i in initial['tags']]
         for tariff_type in Camera.TARIFF_FIELDS:
             value = getattr(cam, tariff_type)
             if value:
@@ -77,6 +92,17 @@ def cam_edit(request, id=None):
 
         cam.type = CameraType.objects.get(id=form.cleaned_data['type'][:-2])
         cam.operator = form.cleaned_data['operator'] and User.objects(id=form.cleaned_data['operator']).first() or None
+        if form.cleaned_data['tags']:
+            new_tags = CameraTag.objects(id__in=form.cleaned_data['tags'])
+            new_tag_ids = [i.id for i in new_tags]
+            for old_tag in cam.tags:
+                if old_tag in new_tag_ids:
+                    new_tag_ids.remove(old_tag)
+                else:
+                    CameraTag.objects(id=old_tag).update_one(dec__count=1)
+            for new_tag in new_tag_ids:
+                CameraTag.objects(id=new_tag).update_one(inc__count=1)
+            cam.tags = new_tags
 
         for tariff_type in Camera.TARIFF_FIELDS:
             value = form.cleaned_data[tariff_type]
@@ -169,6 +195,50 @@ def type_delete(request, id):
     type = get_document_or_404(CameraType, id=id)
     type.delete()
     return HttpResponseRedirect(reverse('cam:type_list'))
+
+
+
+@permission_required('superuser')
+def tag_list(request):
+    tags = CameraTag.objects()
+    return direct_to_template(request, 'cam/tag_list.html',
+                              dict(tags=tags)
+                              )
+
+
+@permission_required('superuser')
+def tag_edit(request, id=None):
+    if id:
+        tag = get_document_or_404(CameraTag, id=id)
+        initial = tag._data
+    else:
+        tag = None
+        initial = {}
+
+    form = CameraTagForm(request.POST or None, initial=initial)
+
+    if form.is_valid():
+        if not tag:
+            tag = CameraTag()
+
+        for k, v in form.cleaned_data.items():
+            if k.startswith('_'):
+                continue
+            if hasattr(tag, k):
+                setattr(tag, k, v)
+        tag.save()
+        return HttpResponseRedirect(reverse('cam:tag_list'))
+
+    return direct_to_template(request, 'cam/tag_edit.html',
+                              dict(form=form, is_new=id is None)
+                              )
+
+
+@permission_required('superuser')
+def tag_delete(request, id):
+    tag = get_document_or_404(CameraTag, id=id)
+    tag.delete()
+    return HttpResponseRedirect(reverse('cam:tag_list'))
 
 
 def cam_manage(request, id, command):

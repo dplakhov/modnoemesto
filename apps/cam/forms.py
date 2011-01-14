@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from apps.cam.documents import CameraTag
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
@@ -40,9 +41,14 @@ class CameraTypeForm(forms.Form):
                 )
 
 
+class CameraTagForm(forms.Form):
+    name = forms.CharField(label=_('Name'))
+
+
 class CameraForm(forms.Form):
     name = forms.CharField(label=_('Name'))
-    type = forms.ChoiceField(label=_('Camera type'), choices=())
+    type = forms.ChoiceField(label=_('Camera type'))
+    tags = forms.MultipleChoiceField(label=_('Camera tags'))
 
     screen = forms.FileField(label=_("Image"), required=False)
 
@@ -97,6 +103,7 @@ class CameraForm(forms.Form):
             )
         
         self.fields['operator'].choices = [('', _('None')), (user.id, user),] + [(x.id, x) for x in user.friends.list]
+        self.fields['tags'].choices = [(x.id, x.name) for x in CameraTag.objects]
 
         for tariff_type in Camera.TARIFF_FIELDS:
             self.fields[tariff_type].choices = tuple([('', _('Select tariff'))] +
@@ -122,6 +129,7 @@ class CameraForm(forms.Form):
 class CamFilterForm(forms.Form):
     name = forms.CharField(required=False, label=_('Keywords'),
                            widget=forms.TextInput(attrs={'class':'kay'}))
+    tags = forms.ChoiceField(required=False, label=_('Camera tags'))
     is_view_enabled = forms.BooleanField(required=False, initial=True,
                                          label=_('View Enabled'))
     is_view_public = forms.BooleanField(required=False, initial=True,
@@ -138,3 +146,7 @@ class CamFilterForm(forms.Form):
                                               label=_('Management Public'))
     is_management_paid = forms.BooleanField(required=False, initial=False,
                                             label=_('Management Paid'))
+
+    def __init__(self, *args, **kwargs):
+        super(CamFilterForm, self).__init__(*args, **kwargs)
+        self.fields['tags'].choices = [('', _('Camera tag'))] + [(x.id, x.name) for x in CameraTag.objects]

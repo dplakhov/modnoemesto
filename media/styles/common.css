@@ -745,40 +745,41 @@ td.empty_filt
     padding: 7px;
     background: #5ac6d8;
 }
-#filt_new ul li .pop
+#filt_new ul li .pop, #filt_cat ul li .pop
 {
     padding: 7px;
     background: #eeedde;
 }
-#filt_pop ul li .pop a, #filt_new ul li .pop a
+#filt_pop ul li .pop a, #filt_new ul li .pop a, #filt_cat ul li .pop a
 {
     color: #575757;
     text-decoration: underline;
 }
-#filt_pop ul li .pop p, #filt_new ul li .pop p
+#filt_pop ul li .pop p, #filt_new ul li .pop p, #filt_cat ul li .pop p
 {
     padding: 10px 0px 0px 25px;
     background:url(../images/hande_rog.png) no-repeat left bottom;
 }
-#filt_pop a, #filt_new a
+#filt_pop a, #filt_new a, #filt_cat a
 {
     text-decoration: none;
 }
-#filt_pop  p.place, #filt_new p.place
+#filt_pop  p.place, #filt_new p.place, #filt_cat  p.place
 {
     color: #08869d;
     font-size: 14px;
     padding: 5px 2px 2px 2px;
 }
-#filt_pop p.place a, #filt_new p.place a {
+#filt_pop p.place a, #filt_new p.place a, #filt_cat p.place a 
+{
     color: #08869d;
 }
-#filt_pop p.quantity, #filt_new p.quantity
+#filt_pop p.quantity, #filt_new p.quantity, #filt_cat p.quantity
 {
     color: #bebebe;
 }
-#filt_pop p.creater a, #filt_new p.creater a,
-#filt_pop p.creater, #filt_new p.creater
+#filt_pop p.creater a, #filt_new p.creater a, #filt_cat p.creater a,
+#filt_pop p.creater, #filt_new p.creater, #filt_cat p.creater
 {
     color: #00b2d5;
 }
@@ -1310,6 +1311,7 @@ div.operation p
 {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
+	width: 425px;
 }
 .message_text_view
 {
@@ -1645,7 +1647,37 @@ a.toollip_video
 {
     display: block;
 }
+select#id_tags
+{
+	width: 170px;
+	color: #585858;
+}
+#filt_cat
+{
+	margin-top: 37px;
+}
+.tag_list li
+{
+	float: left;
+		margin-right: 20px;
+		margin-bottom: 30px;
 
-
-
-
+}
+.tag_list li ul li
+{
+	width: 170px;
+	overflow: hidden;
+	margin-right: 14px;
+	margin-bottom: 10px;
+}
+.tag_list .category {
+	width: 360px;
+	}
+.category h3
+{
+	color: #08889F;
+    font-size: 20px;
+	text-align: left;
+	border-bottom: 2px solid #08889F;
+	margin-bottom: 10px;
+}

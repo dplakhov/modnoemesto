@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h2>{% trans "Camera tags" %}</h2>
+<p>
+{% for tag in tags %}
+    <div>
+        <a href="{% url cam:tag_edit tag.id %}">{{ tag.name }}</a>
+        <a href="{% url cam:tag_delete tag.id %}">[x]</a>
+    </div>
+{% endfor %}
+</p>
+
+<a href="{% url cam:tag_add %}">{% trans "Add tag" %}</a>
+
+{% endblock %}
