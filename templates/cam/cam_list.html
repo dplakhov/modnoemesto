@@ -11,6 +11,10 @@
 <script type="text/javascript">
 $(document).ready(function(){
             $('#id_tags').selectbox();
+			$('form').hide();
+			$('h2').click(function(){
+				$('form').toggle();
+								   });
                            });
 </script>
 {% endblock %}          
@@ -19,7 +23,7 @@ $(document).ready(function(){
 
 <div id="filterColumn">
     <div id="filter">
-<h2>Фильтр модных мест</h2>
+<h2 style="cursor:pointer; width: 180px">Фильтр модных мест</h2>
 
 <form method="post">
 <div class="filt rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
@@ -126,7 +130,7 @@ management_checked();
 {% for tag, cams in tags %}
     <li class="category" {% cycle '' ' style="margin-right: 0pt;"' %}>
         <div>
-            <h3>{{ tag.name }}</h3>
+            <h3><a href="#">{{ tag.name }}</a></h3>
             <ul>
             {% for cam in cams %}
 {% url social:user cam.owner.id as user_path %}
