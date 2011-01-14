@@ -1503,12 +1503,14 @@ div.system_messages li.warning {
 .paginator span
 {
     padding: 5px;
+	font-family: Verdana,Tahoma,sans-serif;
 }
 .paginator a
 {
     color: #00B2D5;
     padding: 2px;
     text-decoration: none;
+	font-family: Verdana, sans-serif;
 }
 .paginator a:hover
 {
