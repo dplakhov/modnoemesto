@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.core.management.base import BaseCommand
 from apps.cam.documents import Camera, CameraTag
-from mongoengine.queryset import OperationError
 
 
 class Command(BaseCommand):

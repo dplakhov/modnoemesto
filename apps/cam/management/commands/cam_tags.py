@@ -16,7 +16,9 @@ class Command(BaseCommand):
                 CameraTag(name=name).save()
             except OperationError:
                 pass
-        tag = CameraTag(name=u'Личная', count=Camera.objects.count())
+        tag = CameraTag(name=u'Личная',
+                        is_default=True,
+                        count=Camera.objects.count())
         tag.save()
         for camera in Camera.objects:
             camera.tags = [tag,]

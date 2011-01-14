@@ -43,6 +43,7 @@ class CameraTypeForm(forms.Form):
 
 class CameraTagForm(forms.Form):
     name = forms.CharField(label=_('Name'))
+    is_default = forms.BooleanField(label=_('Is default'), required=False)
 
 
 class CameraForm(forms.Form):
@@ -130,9 +131,9 @@ class CamFilterForm(forms.Form):
     name = forms.CharField(required=False, label=_('Keywords'),
                            widget=forms.TextInput(attrs={'class':'kay'}))
     tags = forms.ChoiceField(required=False, label=_('Camera tags'))
-    is_view_enabled = forms.BooleanField(required=False, initial=True,
+    is_view_enabled = forms.BooleanField(required=False, initial=False,
                                          label=_('View Enabled'))
-    is_view_public = forms.BooleanField(required=False, initial=True,
+    is_view_public = forms.BooleanField(required=False, initial=False,
                                         label=_('View Public'))
     is_view_paid = forms.BooleanField(required=False, initial=False,
                                       label=_('View Paid'))

@@ -54,9 +54,7 @@ def cam_list(request):
         form = CamFilterForm()
         tags = []
         for tag in CameraTag.objects.order_by('-count')[:4]:
-            cams = list(Camera.objects(is_view_public=True,
-                                       is_view_enabled=True,
-                                       tags=tag.id).order_by('-view_count')[:4])
+            cams = list(Camera.objects(tags=tag.id).order_by('-view_count')[:4])
             tags.append((tag, cams))
         return direct_to_template(request, 'cam/cam_list.html', dict(form=form,tags=tags) )
 
@@ -83,9 +81,12 @@ def cam_edit(request, id=None):
     form = CameraForm(user, request.POST or None, initial=initial)
 
     if form.is_valid():
-        if not cam:
+        if not id:
             cam = Camera()
             cam.owner = user
+        elif form.cleaned_data['tags']:
+            old_tag_ids = map(str, cam.tags)
+
 
         for k, v in form.cleaned_data.items():
             setattr(cam, k, v)
@@ -93,16 +94,11 @@ def cam_edit(request, id=None):
         cam.type = CameraType.objects.get(id=form.cleaned_data['type'][:-2])
         cam.operator = form.cleaned_data['operator'] and User.objects(id=form.cleaned_data['operator']).first() or None
         if form.cleaned_data['tags']:
-            new_tags = CameraTag.objects(id__in=form.cleaned_data['tags'])
-            new_tag_ids = [i.id for i in new_tags]
-            for old_tag in cam.tags:
-                if old_tag in new_tag_ids:
-                    new_tag_ids.remove(old_tag)
-                else:
-                    CameraTag.objects(id=old_tag).update_one(dec__count=1)
-            for new_tag in new_tag_ids:
-                CameraTag.objects(id=new_tag).update_one(inc__count=1)
-            cam.tags = new_tags
+            if id:
+                new_tag_ids = map(str, form.cleaned_data['tags'])
+                CameraTag.calc_count(new_tag_ids, old_tag_ids)
+            cam.tags = CameraTag.objects(id__in=form.cleaned_data['tags'])
+
 
         for tariff_type in Camera.TARIFF_FIELDS:
             value = form.cleaned_data[tariff_type]
