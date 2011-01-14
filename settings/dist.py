@@ -175,7 +175,6 @@ INSTALLED_APPS = (
     #'django.contrib.admin',
     #'mongoengine.django.auth',
     'djcelery',
-    'djcelery_email',
     'pytils',
     'apps.robokassa',
     'apps.social',
@@ -192,6 +191,7 @@ INSTALLED_APPS = (
     'apps.admin_blog',
     'apps.chat',
     'apps.server_api',
+    'apps.async_email',
 )
 
 

@@ -24,3 +24,14 @@ LIBRARY_IMAGE_SIZES = {
     'library_image_full.png': { 'width': 400, 'height': 200 },
 }
 
+LIBRARY_VIDEO_SIZES = {
+    'image': {
+        'library_video_thumbnail.png': { 'width': 200, 'height': 100 },
+        'library_video_full.png': { 'width': 400, 'height': 200 },
+    },
+
+    'video': {
+        'library_video_mini.avi': { 'width': 200, 'height': 100 },
+        'library_video_full.avi': { 'width': 400, 'height': 200 },
+    }
+}

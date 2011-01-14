@@ -110,36 +110,19 @@ def video_index(request):
 def video_add(request):
     form = VideoAddForm(request.POST, request.FILES)
     if form.is_valid():
-        file = request.FILES['file']
-        buffer = StringIO()
-
-        for chunk in file.chunks():
-            buffer.write(chunk)
-
-        buffer.reset()
-        file = File(type=FILE_TYPE_VIDEO, author=request.user,
-                     title=form.cleaned_data['title'],
-                     description=form.cleaned_data['description'])
-
-        buffer.reset()
-        file.file.put(buffer, content_type='video/avi')
-        file.save()
         library = get_library(LIBRARY_TYPE_VIDEO)
+        file = form.fields['file'].save('library_video', settings.LIBRARY_VIDEO_SIZES,
+                                        LIBRARY_IMAGE_RESIZE_TASK)
+
+        file.title = form.cleaned_data['title']
+        file.description = form.cleaned_data['description']
+        file.save()
+
         library.add_file(file)
 
-        transformations = [ VideoThumbnail(name=name, format='png', width=w, height=h)
-                                for (name, w, h) in (
-            ('library_video_thumbnail.png', 200, 100),
-            ('library_video_full.png', 400, 200),
-        )]
-
-        if settings.TASKS_ENABLED.get(LIBRARY_IMAGE_RESIZE_TASK):
-            args = [ file.id, ] + transformations
-            apply_file_transformations.apply_async(args=args)
-        else:
-            file.apply_transformations(*transformations)
-
         messages.add_message(request, messages.SUCCESS, _('Video successfully added'))
+    else:
+        print form.errors
 
     return redirect('media_library:video_index')
 

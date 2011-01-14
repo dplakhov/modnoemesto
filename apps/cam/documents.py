@@ -29,6 +29,7 @@ class CameraType(Document):
 
 class CameraTag(Document):
     name = StringField(max_length=255, unique=True)
+    is_default = BooleanField(default=False)
     count = IntField(default=0)
 
     meta = {
@@ -37,6 +38,16 @@ class CameraTag(Document):
         ]
 
     }
+
+    @staticmethod
+    def calc_count(new_tag_ids, old_tag_ids=[]):
+        for old_tag in old_tag_ids:
+            if old_tag in new_tag_ids:
+                new_tag_ids.remove(old_tag)
+            else:
+                CameraTag.objects(id=old_tag).update_one(dec__count=1)
+        for new_tag in new_tag_ids:
+            CameraTag.objects(id=new_tag).update_one(inc__count=1)
 
 
 class Camera(Document):
@@ -81,6 +92,8 @@ class Camera(Document):
     date_created = DateTimeField(default=datetime.now)
 
     tags = ListField(ReferenceField('CameraTag'))
+
+    view_count = IntField(default=0)
 
 
     @property
@@ -154,7 +167,7 @@ class Camera(Document):
 
     def save(self, *args, **kwargs):
         self.is_managed = self.type.is_controlled
-        super(Camera, self).save()
+        super(Camera, self).save(*args, **kwargs)
 
     def bookmark_add(self, user):
         owner_camera = Camera.objects(owner=user).only('id').first()
