@@ -1,3 +1,31 @@
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#filter_right').selectbox();
+    function set_click(prefix, url) {
+        $('#filter_right_input_'+prefix).click(function(){
+            $.get(url, function(data) {
+                if (data != '') $('#fp').html(data);
+            });
+        });
+    }
+    set_click('time_asc', '{% url cam:place_update "time" "asc" %}');
+    set_click('time_desc', '{% url cam:place_update "time" "desc" %}');
+    set_click('popularity_asc', '{% url cam:place_update "popularity" "asc" %}');
+    set_click('popularity_desc', '{% url cam:place_update "popularity" "desc" %}');
+
+    $('#fp').click(function(e){
+        var link = $(e.target);
+        if (link.hasClass('next') || link.hasClass('previous') || link.hasClass('page') ) {
+            var href = link.attr('href');
+            $.get(href, function(data) {
+                if (data != '') $('#fp').html(data);
+            });
+            return false;
+        }
+    });
+});
+</script>
+
 <div id="rightColumn">
     <h2 class="mod_places">Модные места</h2>
     <div id="form" class="rounded">
@@ -8,20 +36,6 @@
                 <option value="popularity_asc">по популярности &#8595;</option>
                 <option value="popularity_desc">по популярности &#8593;</option>
             </select>
-            <script type="text/javascript">
-                $('#filter_right').selectbox();
-                function set_click(prefix, url) {
-                    $('#filter_right_input_'+prefix).click(function(){
-                        $.get(url, function(data) {
-                            if (data != '') $('#fp').html(data);
-                        });
-                    });
-                }
-                set_click('time_asc', '{% url cam:place_update "time" "asc" %}');
-                set_click('time_desc', '{% url cam:place_update "time" "desc" %}');
-                set_click('popularity_asc', '{% url cam:place_update "popularity" "asc" %}');
-                set_click('popularity_desc', '{% url cam:place_update "popularity" "desc" %}');
-            </script>
         </form>
         <div id="fp">
 {% include "_places.html" %}

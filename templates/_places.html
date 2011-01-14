@@ -1,6 +1,6 @@
 {% load media %}
 <ul>
-{% for camera in request.places %}
+{% for camera in request.places.object_list %}
 {% url social:user camera.owner.id as user_path %}
     <li>
         <div class="item">
@@ -13,3 +13,7 @@
     </li>
 {% endfor %}
 </ul>
+
+{% with request.places as objects %}
+{% include "includes/paginator_mini.html" %}
+{% endwith %}

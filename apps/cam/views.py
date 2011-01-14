@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from apps.cam.documents import CameraTag
 from apps.cam.forms import CameraTagForm
+from apps.utils.paginator import paginate
 
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import permission_required
@@ -289,7 +290,10 @@ def place_update(request, name, type):
         order = 'view_count'
         if type == 'desc':
             order = '-%s' % order
-    request.places = Camera.objects(is_view_public=True, is_view_enabled=True).order_by(order)[:6]
-    request.places = list(request.places)
-    request.places_all_count = Camera.objects.count()
+    #request.places_all_count = Camera.objects.count()
+    request.places = paginate(request,
+                              Camera.objects(is_view_public=True, is_view_enabled=True).order_by(order),
+                              Camera.objects(is_view_public=True, is_view_enabled=True).count(),
+                              6,
+                              reverse('cam:place_update', args=[name, type]))
     return direct_to_template(request, '_places.html')

@@ -4,11 +4,11 @@
     <div class="paginator">
         {% if objects.has_previous %}
             <a class="previous" href="{{ objects.previous_page_number }}">
-                {% trans "Previous page" %}
+                &#8592;
             </a>
         {% else %}
             <span class="inactive">
-                {% trans "Previous page" %}
+                &#8592;
             </span>
         {% endif %}
 
@@ -18,11 +18,11 @@
 
         {% if objects.has_next %}
             <a class="next" href="{{ objects.next_page_number }}">
-                {% trans "Next page" %}
+                &#8594;
             </a>
         {% else %}
             <span class="inactive">
-                {% trans "Next page" %}
+                &#8594;
             </span>
         {% endif %}
     </div>
