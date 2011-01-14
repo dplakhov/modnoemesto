@@ -98,7 +98,7 @@ LOGIN_EXEMPT_URLS = (
     r'^groups/can_manage/',
     r'^activation/',
     r'^media/',
-    r'^invite/[a-f0-9]{24}/$'
+    r'^invite/[a-f0-9]{24}/$',
     r'^lostpassword/',
     r'^resendactivationcode/',
     r'^recoverypassword/',

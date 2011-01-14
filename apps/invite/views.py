@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from .forms import InviteForm
 from .documents import Invite
 
-def invite_send(request):
+def send(request):
     form = InviteForm(request.POST or None)
     if form.is_valid():
         invite = Invite(sender=request.user,

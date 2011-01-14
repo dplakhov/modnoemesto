@@ -5,6 +5,7 @@ import re
 
 import datetime
 import logging
+from apps.invite.documents import Invite
 
 from apps.media.forms import PhotoForm
 
