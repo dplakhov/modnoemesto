@@ -30,8 +30,8 @@ from apps.social.documents import User
 
 
 def cam_list(request):
-    if request.POST:
-        form = CamFilterForm(request.POST)
+    if request.GET:
+        form = CamFilterForm(request.GET)
         if form.is_valid():
             data = dict(form.cleaned_data)
             if data['name']:
