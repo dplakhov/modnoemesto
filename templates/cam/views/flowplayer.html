@@ -13,6 +13,12 @@
         src="http://vid1.modnoemesto.ru:1935/live/mp4:{{ camera.stream_name }}/playlist.m3u8" >
         </video>
 
+        <script type="text/javascript">
+            $("#html-5-video").bind('playing', function(){
+                $.get('{% url cam:inc_view_count camera.id %}');
+            });
+        </script>
+
         {% if not camera.force_html5 %}
 
         <script type="text/javascript">
@@ -25,7 +31,10 @@
             $('#html-5-video').hide();
             $f("flash-player", "/media/swf/flowplayer-3.2.5.swf", {
                 clip: {
-                    provider: 'rtmp'
+                    provider: 'rtmp',
+                    onBegin: function(clip) {
+                        if (clip.index == 1) $.get('{% url cam:inc_view_count camera.id %}');
+                    }
                 },
                 playlist: [
                     {

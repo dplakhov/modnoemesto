@@ -271,3 +271,10 @@ def cam_bookmark_delete(request, id):
     messages.add_message(request, messages.SUCCESS,
                              _('Bookmark successfully deleted'))
     return redirect(reverse('social:user', args=[camera.owner.id]))
+
+
+def inc_view_count(request, id):
+    if not request.is_ajax():
+        return HttpResponseNotFound()
+    Camera.objects(id=id).update_one(inc__view_count=1)
+    return HttpResponse('OK')
