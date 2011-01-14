@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from apps.cam.documents import CameraTag
 from django.utils.hashcompat import md5_constructor, sha_constructor
 from django.utils.encoding import smart_str
 
@@ -314,6 +315,7 @@ class User(Document):
                          type=CameraType.objects(is_default=True).first(),
                          is_view_enabled=True,
                          is_view_public=False,
+                         tags=CameraTag.objects(is_default=True),
                          )
             cam.save()
         return cam

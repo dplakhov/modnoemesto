@@ -29,6 +29,7 @@ class CameraType(Document):
 
 class CameraTag(Document):
     name = StringField(max_length=255, unique=True)
+    is_default = BooleanField(default=False)
     count = IntField(default=0)
 
     meta = {
@@ -156,7 +157,7 @@ class Camera(Document):
 
     def save(self, *args, **kwargs):
         self.is_managed = self.type.is_controlled
-        super(Camera, self).save()
+        super(Camera, self).save(*args, **kwargs)
 
     def bookmark_add(self, user):
         owner_camera = Camera.objects(owner=user).only('id').first()
