@@ -200,7 +200,3 @@ class SetNewPasswordForm(forms.Form):
                                           " match."))
         return password2
 
-class InviteForm(forms.Form):
-    name = forms.CharField(label=_("Friend name"),
-                           max_length=50)
-    email = forms.EmailField(label=_("Email"))
