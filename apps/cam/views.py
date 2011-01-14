@@ -96,13 +96,7 @@ def cam_edit(request, id=None):
         if form.cleaned_data['tags']:
             if id:
                 new_tag_ids = map(str, form.cleaned_data['tags'])
-                for old_tag in old_tag_ids:
-                    if old_tag in new_tag_ids:
-                        new_tag_ids.remove(old_tag)
-                    else:
-                        CameraTag.objects(id=old_tag).update_one(dec__count=1)
-                for new_tag in new_tag_ids:
-                    CameraTag.objects(id=new_tag).update_one(inc__count=1)
+                CameraTag.calc_count(new_tag_ids, old_tag_ids)
             cam.tags = CameraTag.objects(id__in=form.cleaned_data['tags'])
 
 

@@ -39,6 +39,16 @@ class CameraTag(Document):
 
     }
 
+    @staticmethod
+    def calc_count(new_tag_ids, old_tag_ids=[]):
+        for old_tag in old_tag_ids:
+            if old_tag in new_tag_ids:
+                new_tag_ids.remove(old_tag)
+            else:
+                CameraTag.objects(id=old_tag).update_one(dec__count=1)
+        for new_tag in new_tag_ids:
+            CameraTag.objects(id=new_tag).update_one(inc__count=1)
+
 
 class Camera(Document):
     TARIFF_FIELDS = ( 'management_packet_tariff',
