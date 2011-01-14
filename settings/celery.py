@@ -22,8 +22,11 @@ CELERY_IMPORTS = ('apps.async_email.tasks',)
 
 # celery email
 #CELERY_ALWAYS_EAGER = True
-CELERY_EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'apps.async_email.backends.CeleryEmailBackend'
+#CELERY_EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_BACKEND = 'apps.async_email.backends.CeleryEmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
 # for tests
 CELERY_EMAIL_TASK_CONFIG = {
     'queue' : 'django_email',
