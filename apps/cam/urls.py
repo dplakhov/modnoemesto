@@ -32,4 +32,6 @@ urlpatterns = patterns('apps.cam.views',
     url(r'^tags/(?P<id>[a-f0-9]{24})/delete/$', 'tag_delete', name='tag_delete'),
 
     url(r'^(?P<id>[a-f0-9]{24})/inc_view_count/$', 'inc_view_count', name='inc_view_count'),
+
+    url(r'^place_update/(?P<name>\w+)/(?P<type>\w+)/$', 'place_update', name='place_update'),
 )

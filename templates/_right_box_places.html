@@ -1,33 +1,34 @@
-{% load media %}
 <div id="rightColumn">
     <h2 class="mod_places">Модные места</h2>
     <div id="form" class="rounded">
         <form action="" method="">
             <select id="filter_right" size="1" name="ff">
-                <option value="df">по времени добавления</option>
+                <option value="time_asc">по времени добавления &#8595;</option>
+                <option value="time_desc">по времени добавления &#8593;</option>
+                <option value="popularity_asc">по популярности &#8595;</option>
+                <option value="popularity_desc">по популярности &#8593;</option>
             </select>
-            <script type="text/javascript">$('#filter_right').selectbox();</script>
+            <script type="text/javascript">
+                $('#filter_right').selectbox();
+                function set_click(prefix, url) {
+                    $('#filter_right_input_'+prefix).click(function(){
+                        $.get(url, function(data) {
+                            if (data != '') $('#fp').html(data);
+                        });
+                    });
+                }
+                set_click('time_asc', '{% url cam:place_update "time" "asc" %}');
+                set_click('time_desc', '{% url cam:place_update "time" "desc" %}');
+                set_click('popularity_asc', '{% url cam:place_update "popularity" "asc" %}');
+                set_click('popularity_desc', '{% url cam:place_update "popularity" "desc" %}');
+            </script>
         </form>
         <div id="fp">
-            <ul>
-{% for camera in request.places %}
-{% url social:user camera.owner.id as user_path %}
-                <li>
-                    <div class="item">
-                        <a href="{{ user_path }}#cam"><img src="{% media_url camera.screen camera_screen_mini.png %}" alt="{{ camera.name }}"/></a>
-                        <div class="news">
-                            <p class="place"><a href="{{ user_path }}#cam">{{ camera.name }}</a></p>
-                            <p class="creater"><a href="{{ user_path }}">{{ camera.owner }}</a></p>
-
-                        </div>
-                    </div>
-                </li>
-{% endfor %}
-            </ul>
+{% include "_places.html" %}
         </div>
     </div>
      <div class="all">
-            <p>Всего:</p>
-            <a href="{% url cam:cam_list %}">{{ request.places_all_count }}</a>
-        </div>
+        <p>Всего:</p>
+        <a href="{% url cam:cam_list %}">{{ request.places_all_count }}</a>
+    </div>
 </div>

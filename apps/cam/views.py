@@ -278,3 +278,18 @@ def inc_view_count(request, id):
         return HttpResponseNotFound()
     Camera.objects(id=id).update_one(inc__view_count=1)
     return HttpResponse('OK')
+
+
+def place_update(request, name, type):
+    if name == 'time':
+        order = 'date_created'
+        if type == 'desc':
+            order = '-%s' % order
+    if name == 'popularity':
+        order = 'view_count'
+        if type == 'desc':
+            order = '-%s' % order
+    request.places = Camera.objects(is_view_public=True, is_view_enabled=True).order_by(order)[:6]
+    request.places = list(request.places)
+    request.places_all_count = Camera.objects.count()
+    return direct_to_template(request, '_places.html')

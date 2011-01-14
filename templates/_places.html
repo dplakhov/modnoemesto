@@ -1,0 +1,15 @@
+{% load media %}
+<ul>
+{% for camera in request.places %}
+{% url social:user camera.owner.id as user_path %}
+    <li>
+        <div class="item">
+            <a href="{{ user_path }}#cam"><img src="{% media_url camera.screen camera_screen_mini.png %}" alt="{{ camera.name }}"/></a>
+            <div class="news">
+                <p class="place"><a href="{{ user_path }}#cam">{{ camera.name }}</a></p>
+                <p class="creater"><a href="{{ user_path }}">{{ camera.owner }}</a></p>
+            </div>
+        </div>
+    </li>
+{% endfor %}
+</ul>
