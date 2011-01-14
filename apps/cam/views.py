@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from apps.cam.documents import CameraTag
 from apps.cam.forms import CameraTagForm
+from apps.utils.paginator import paginate
 
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth.decorators import permission_required
@@ -29,8 +30,8 @@ from apps.social.documents import User
 
 
 def cam_list(request):
-    if request.POST:
-        form = CamFilterForm(request.POST)
+    if request.GET:
+        form = CamFilterForm(request.GET)
         if form.is_valid():
             data = dict(form.cleaned_data)
             if data['name']:
@@ -271,3 +272,28 @@ def cam_bookmark_delete(request, id):
     messages.add_message(request, messages.SUCCESS,
                              _('Bookmark successfully deleted'))
     return redirect(reverse('social:user', args=[camera.owner.id]))
+
+
+def inc_view_count(request, id):
+    if not request.is_ajax():
+        return HttpResponseNotFound()
+    Camera.objects(id=id).update_one(inc__view_count=1)
+    return HttpResponse('OK')
+
+
+def place_update(request, name, type):
+    if name == 'time':
+        order = 'date_created'
+        if type == 'desc':
+            order = '-%s' % order
+    if name == 'popularity':
+        order = 'view_count'
+        if type == 'desc':
+            order = '-%s' % order
+    #request.places_all_count = Camera.objects.count()
+    request.places = paginate(request,
+                              Camera.objects(is_view_public=True, is_view_enabled=True).order_by(order),
+                              Camera.objects(is_view_public=True, is_view_enabled=True).count(),
+                              6,
+                              reverse('cam:place_update', args=[name, type]))
+    return direct_to_template(request, '_places.html')

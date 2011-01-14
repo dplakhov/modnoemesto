@@ -5,6 +5,8 @@
 {{ block.super }}
 <script type="text/javascript">
 $(document).ready(function(){
+		 $('#id_gender').selectbox();
+		 $('#id_gender_input').addClass('rounded');
     function update_users(url){
         $.get(url, function(data) {
             if (data != '') {
@@ -38,13 +40,15 @@ $(document).ready(function(){
     <table class="camera_edit">
         <tbody>
         <tr>
-            <td>{{ form.first_name.label_tag }}:</td>
+            <th style="width:100px;">{{ form.first_name.label_tag }}:</th>
+            <td class="empty_filt"></td>
             <td>
             	<div class="rounded" style="background: white none repeat scroll 0px 0px; padding: 3px 4px;">
             		{{ form.first_name }}
 				</div>
             </td>
-            <td>{{ form.last_name.label_tag }}:</td>
+            <th>{{ form.last_name.label_tag }}:</th>
+            <td class="empty_filt"></td>
             <td>
             	<div class="rounded" style="background: white none repeat scroll 0px 0px; padding: 3px 4px;">
             		{{ form.last_name }}
@@ -55,9 +59,10 @@ $(document).ready(function(){
             <td style="height:10px"></td>
         </tr>
         <tr>
-            <td>
+            <th>
             	{{ form.gender.label_tag }}:
-            </td>
+            </th>
+            <td class="empty_filt"></td>
 			<td colspan="3">
 				{{ form.gender }}
 			</td>
@@ -67,15 +72,17 @@ $(document).ready(function(){
         </tr>
 
         <tr>
-            <td>
+            <th>
             	{{ form.is_online.label_tag }}:
-            </td>
+            </th>
+            <td class="empty_filt"></td>
 			<td>
 				{{ form.is_online }}
 			</td>
-            <td>
+            <th>
             	{{ form.has_photo.label_tag }}:
-            </td>
+            </th>
+            <td class="empty_filt"></td>
 			<td>
 				{{ form.has_photo }}
 			</td>

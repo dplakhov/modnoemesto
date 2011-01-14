@@ -30,8 +30,11 @@
 	
     </div>
 
+    <p>Кол-во просмотров: {{ camera.view_count }}</p>
+
     {% if camera.paid %}
-        {% trans "This camera is not free!" %}{% endif %}
+        {% trans "This camera is not free!" %}
+    {% endif %}
   {% else %}
     {% trans "This camera is private." %}
   {% endif %}
