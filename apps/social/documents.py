@@ -105,8 +105,8 @@ class User(Document):
         email_body = render_to_string('emails/confirm_registration.txt',
                 { 'user': self, 'SITE_DOMAIN': settings.SITE_DOMAIN })
 
-        if settings.DEBUG:
-            print email_body
+        #if settings.DEBUG:
+        #    print email_body
 
         if settings.SEND_EMAILS:
             send_mail(_('Confirm registration'), email_body,
