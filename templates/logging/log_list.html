@@ -48,7 +48,7 @@
         </tr>
     </thead>
     <tbody>
-{% for entry in page_entries.object_list %}
+{% for entry in objects.object_list %}
     <tr>
         <td>{{ entry.date }}</td>
         <td>{{ entry.levelname }}</td>
@@ -64,21 +64,7 @@
 </table>
 
 
-<div class="pagination">
-    <span class="step-links">
-        {% if page_entries.has_previous %}
-            <a href="{% url logging:log_list page_entries.previous_page_number %}">{% trans "previous" %}</a>
-        {% endif %}
+{% include "includes/paginator.html" %}
 
-        <span class="current">
-{% blocktrans with page_entries.number as number and page_entries.paginator.num_pages as num_pages %}
-Page {{ number }} of {{ num_pages }}.
-{% endblocktrans %}
-        </span>
 
-        {% if page_entries.has_next %}
-            <a href="{% url logging:log_list page_entries.next_page_number %}">{% trans "next" %}</a>
-        {% endif %}
-    </span>
-</div>
 {% endblock %}
