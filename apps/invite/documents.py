@@ -30,8 +30,8 @@ class Invite(Document):
                         SITE_DOMAIN=settings.SITE_DOMAIN,
                      ))
 
-        if settings.DEBUG:
-            print email_body
+        #if settings.DEBUG:
+        #    print email_body
 
         if settings.SEND_EMAILS:
             send_mail(_('Site invite'), email_body,
