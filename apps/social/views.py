@@ -6,7 +6,6 @@ import re
 import datetime
 import logging
 
-from ImageFile import Parser as ImageFileParser
 from apps.media.forms import PhotoForm
 
 from django.views.generic.simple import direct_to_template
@@ -31,11 +30,11 @@ from mongoengine.django.shortcuts import get_document_or_404
 
 from apps.user_messages.forms import MessageTextForm
 from apps.social.forms import ChangeProfileForm, LostPasswordForm
-from apps.social.forms import SetNewPasswordForm, InviteForm
+from apps.social.forms import SetNewPasswordForm
 from apps.utils.paginator import paginate
 
 from forms import UserCreationForm, LoginForm
-from documents import User, LimitsViolationException, Invite
+from documents import User, LimitsViolationException
 from forms import PeopleFilterForm
 from apps.social.documents import Profile
 
@@ -440,31 +439,3 @@ def set_new_password(request, code):
         form = SetNewPasswordForm()
     return direct_to_template(request, 'social/profile/set_new_password.html' , dict(form=form))
 
-def invite_send(request):
-    form = InviteForm(request.POST or None)
-    if form.is_valid():
-        invite = Invite(sender=request.user,
-                        recipient_email=form.cleaned_data['email'],
-                        recipient_name=form.cleaned_data['name'])
-        invite.save()
-        invite.send()
-
-        messages.add_message(request, messages.SUCCESS,
-                             _('Invite sent'))
-
-        return redirect('social:index')
-
-    return direct_to_template(request, 'social/invite_send.html',
-                              dict(form=form))
-
-
-def invite(request, invite_id):
-    if request.user.is_authenticated():
-        messages.add_message(request, messages.ERROR,
-                     _('The invitation is intended only for unregistered users'))
-
-        return redirect('social:index')
-
-    request.session['invite_id'] = invite_id
-
-    return redirect('social:index')
