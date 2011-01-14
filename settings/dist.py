@@ -98,7 +98,7 @@ LOGIN_EXEMPT_URLS = (
     r'^groups/can_manage/',
     r'^activation/',
     r'^media/',
-    r'^invite/',
+    r'^invite/[a-f0-9]{24}/$',
     r'^lostpassword/',
     r'^resendactivationcode/',
     r'^recoverypassword/',
@@ -192,6 +192,7 @@ INSTALLED_APPS = (
     'apps.chat',
     'apps.server_api',
     'apps.async_email',
+    'apps.invite',
 )
 
 
