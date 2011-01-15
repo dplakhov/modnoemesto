@@ -231,6 +231,6 @@ def place_update(request, name, type):
     request.places = paginate(request,
                               Camera.objects(is_view_public=True, is_view_enabled=True).order_by(order),
                               Camera.objects(is_view_public=True, is_view_enabled=True).count(),
-                              6,
+                              10,
                               reverse('cam:place_update', args=[name, type]))
     return direct_to_template(request, '_places.html')

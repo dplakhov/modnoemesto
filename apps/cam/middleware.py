@@ -8,7 +8,7 @@ class PlaceBoxMiddleware:
         request.places = paginate(request,
                                   Camera.objects(is_view_public=True, is_view_enabled=True).order_by('-view_count'),
                                   Camera.objects(is_view_public=True, is_view_enabled=True).count(),
-                                  6,
+                                  10,
                                   reverse('cam:place_update', args=['time', 'asc']))
         request.places_all_count = Camera.objects.count()
         
