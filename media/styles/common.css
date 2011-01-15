@@ -1635,7 +1635,6 @@ a.toollip_mail:hover
 a.toollip_video
 {
     background: url(../images/videochat_ico.png) no-repeat bottom;
-    cursor: default;
 }
 a.toollip_video:hover
 {

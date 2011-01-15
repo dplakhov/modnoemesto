@@ -47,8 +47,8 @@ div.selectbox-wrapper ul li {
 {
  /* margin: 0px 5px 10px 0px;*/
  
-  padding: 2px 25px 2px 0px;
-  width : 155px; /* Resize Width */
+  padding: 2px 0px 2px 0px;
+  width : 180px; /* Resize Width */
   display : block;
   text-align:left; 
   background: url('../images/input_filter.jpg') right;

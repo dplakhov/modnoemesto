@@ -21,7 +21,7 @@
                 <div class="q"><a style="cursor:text" href="{% comment %}{% url billing:purse %}{% endcomment %}">Мой счёт <span>({{ user.cash|floatformat:2 }} руб.)</span></a></div>
             </li>
             {% endif %}
-            <li id="videochat"><a href="#">Видеообщение</a></li>
+            <li id="videochat"><a href="{% url social:home_camera %}">Видеообщение</a></li>
             <li id="fashion_place"><a href="{% url cam:cam_bookmarks %}">Мои Модные места</a></li>
 {% with user.friends.offers.incoming|length as fs_offers_inbox_count %}
             <li id="friends"><a href="{% url friends:list %}">Друзья{% if fs_offers_inbox_count %} <b>({{ fs_offers_inbox_count }})</b>{% endif %}</a></li>
