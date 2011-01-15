@@ -12,7 +12,7 @@
 
 {% block content %}
 <div id="filter_box">
-    <h2>Камера пользователя {{ camera.owner }}</h2>
+    <h2><a href="{% url social:user camera.owner.id %}">Камера пользователя {{ camera.owner }}</a></h2>
      <div id="camera">
         {% if camera %}
             {% if show_view_access_link %}

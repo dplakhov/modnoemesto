@@ -9,5 +9,5 @@ class InviteForm(forms.Form):
 
 
 class ImportInviteForm(forms.Form):
-    file = forms.FileField(_('File'))
+    file = forms.FileField(_('File'), widget=forms.FileInput(attrs={'size': 40}))
 
