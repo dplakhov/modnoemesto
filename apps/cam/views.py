@@ -41,6 +41,11 @@ def cam_list(request):
                 data['tags'] = CameraTag.objects(id=data['tags']).first()
             else:
                 del data['tags']
+            if data['order']:
+                order = data['order']
+            else:
+                order = None
+            del data['order']
             if not data['is_managed']:
                 del data['is_management_enabled']
                 del data['is_management_public']
@@ -48,8 +53,27 @@ def cam_list(request):
             for k, v in data.items():
                 if not v: del data[k]
             cams = Camera.objects(**data)
+            if order:
+                try:
+                    name, type = order.split('-')
+                except ValueError:
+                    name, type = 'popularity', 'desc'
+                order = ''
+                if name == 'time':
+                    order = 'date_created'
+                    if type == 'desc':
+                        order = '-%s' % order
+                if name == 'popularity':
+                    order = 'view_count'
+                    if type == 'desc':
+                        order = '-%s' % order
+                cams = cams.order_by(order)
+            cams = paginate(request,
+                            cams,
+                            cams.count(),
+                            12)
         else:
-            cams = []
+            cams = None
         return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams))
     else:
         form = CamFilterForm()
@@ -282,6 +306,7 @@ def inc_view_count(request, id):
 
 
 def place_update(request, name, type):
+    order = ''
     if name == 'time':
         order = 'date_created'
         if type == 'desc':

@@ -10,8 +10,8 @@
 {{ block.super }}
 <script type="text/javascript">
 $(document).ready(function(){
-            $('#id_tags').selectbox();
-                           });
+    $('#id_tags, #id_order').selectbox();
+});
 </script>
 {% endblock %}          
 {% block base_content %}
@@ -42,6 +42,7 @@ $(document).ready(function(){
             <th>{{ form.is_managed.label_tag }}:</th>
             <td class="empty_filt"></td>
             <td>{{ form.is_managed }}</td>
+            <td>{{ form.order }}</td>
         </tr>
         <tr>
             <td style="height:10px"></td>
@@ -105,7 +106,7 @@ management_checked();
 {% if cams %}
 <div id="filt_new">
 <ul class="cam_list">
-{% for cam in cams %}
+{% for cam in cams.object_list %}
 {% url social:user cam.owner.id as user_path %}
     <li{% cycle '' '' '' ' style="margin-right: 0pt;"' %}>
         <div class="item">
@@ -118,6 +119,9 @@ management_checked();
     </li>
 {% endfor %}
 </ul>
+{% with cams as objects %}
+{% include "includes/paginator.html" %}
+{% endwith %}
 </div>
 
 {% else %}

@@ -131,6 +131,13 @@ class CamFilterForm(forms.Form):
     name = forms.CharField(required=False, label=_('Keywords'),
                            widget=forms.TextInput(attrs={'class':'kay'}))
     tags = forms.ChoiceField(required=False, label=_('Camera tags'))
+    order = forms.ChoiceField(required=False, choices=(
+        ('popularity-desc', u'по популярности ↓'),
+        ('popularity-asc', u'по популярности ↑'),
+        ('time-desc', u'по времени добавления ↓'),
+        ('time-asc', u'по времени добавления ↑'),
+    ))
+
     is_view_enabled = forms.BooleanField(required=False, initial=False,
                                          label=_('View Enabled'))
     is_view_public = forms.BooleanField(required=False, initial=False,

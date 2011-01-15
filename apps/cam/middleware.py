@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 class PlaceBoxMiddleware:
     def process_request(self, request):
         request.places = paginate(request,
-                                  Camera.objects(is_view_public=True, is_view_enabled=True).order_by('date_created'),
+                                  Camera.objects(is_view_public=True, is_view_enabled=True).order_by('-view_count'),
                                   Camera.objects(is_view_public=True, is_view_enabled=True).count(),
                                   6,
                                   reverse('cam:place_update', args=['time', 'asc']))
