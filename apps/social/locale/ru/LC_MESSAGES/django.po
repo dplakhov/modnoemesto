@@ -23,10 +23,6 @@ msgstr ""
 msgid "No upcoming events"
 msgstr "Нет предстоящих событий"
 
-#: documents.py:88
-msgid "Site invite"
-msgstr "Приглашение на сайт"
-
 #: documents.py:156
 msgid "Confirm registration"
 msgstr "Подтверждение регистрации"
@@ -191,14 +187,3 @@ msgstr "Код востановления пароля повреждён или
 msgid "Password successfully updated."
 msgstr "Пароль успешно обновлен"
 
-#: views.py:419
-msgid "Invite sent"
-msgstr "Приглашение отправлено"
-
-#: views.py:430
-msgid "The invitation is intended only for unregistered users"
-msgstr ""
-"Приглашение предназначено только для незарегистрированных пользователей"
-
-#~ msgid "This account is inactive."
-#~ msgstr "Эта учетная запись неактивна."

@@ -77,3 +77,7 @@ div.selectbox-wrapper ul li {
 	width: 300px;
 	background: url('../images/input_filter_long.jpg') right no-repeat;
 }
+#filterPeople .selectbox {
+	width: 137px;
+	background: url('../images/input_filter_mini.jpg') left no-repeat;
+}

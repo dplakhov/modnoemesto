@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+    {% if sent %}
+        <table class="invite_sent_info">
+        {% for email, message, success in sent %}
+            <tr class="{% if success %}success{% else %}fail{% endif %}"><td>
+                <a href="mailto:{{ email }}">{{ email }}</a>
+            </td><td>{{ message }}</td></tr>
+        {% endfor %}
+        </table>
+    {% endif %}
+<h2 class="video_title">Отправить приглашение</h2>
+    <form method="post">
+    <div class="filt rounded">
+    <table class="form_as_table group_add">
+         <tr>
+            <td style="height:10px"></td>
+            <td class="empty_filt"></td>
+            <td style="height:10px">{{ send_form.name.errors }}</td>
+        </tr>
+        <tr>
+            <th><label for="id_name">Имя друга:</label></th>
+            <td class="empty_filt"></td>
+            <td><div class="input_holder rounded">{{ send_form.name }}</div></td>
+        </tr>
+        <tr>
+            <td style="height:10px"></td>
+            <td class="empty_filt"></td>
+            <td style="height:10px">{{ send_form.email.errors }}</td>
+        </tr>
+        <tr>
+            <th><label for="id_email">E-mail:</label></th>
+            <td class="empty_filt"></td>
+            <td><div class="input_holder rounded">{{ send_form.email }}</div></td>
+        </tr>
+                <tr>
+            <td style="height:10px"></td>
+        </tr>
+       
+    </table>
+    </div>
+    <div class="but">
+    <input type="submit" value="{% trans "Send" %}" />
+    </div>
+    </form>
+
+    <h2 class="video_title">Отправить приглашения по списку</h2>
+    <p>
+    Вы можете загрузить файл контактов в формате csv или vcf,
+        полученный путём экспорта из Вашей почтовой программы.
+    </p>
+    <br />
+    <form method="post" enctype="multipart/form-data">
+    <div class="filt rounded">
+    <table class="form_as_table group_add">
+        <tr>
+
+            <th><label for="id_email">Файл:</label></th>
+            <td class="empty_filt"></td>
+            <td><div class="input_holder rounded">{{ import_form.file }}</div></td>
+        </tr>
+                <tr>
+            <td style="height:10px"></td>
+        </tr>
+
+    </table>
+    </div>
+    <div class="but">
+    <input type="submit" value="{% trans "Send" %}" />
+    </div>
+    </form>
+
+{% endblock %}

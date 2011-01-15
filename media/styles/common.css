@@ -1503,12 +1503,14 @@ div.system_messages li.warning {
 .paginator span
 {
     padding: 5px;
+	font-family: Verdana,Tahoma,sans-serif;
 }
 .paginator a
 {
     color: #00B2D5;
     padding: 2px;
     text-decoration: none;
+	font-family: Verdana, sans-serif;
 }
 .paginator a:hover
 {
@@ -1680,4 +1682,23 @@ select#id_tags
 	text-align: left;
 	border-bottom: 2px solid #08889F;
 	margin-bottom: 10px;
+}
+
+
+
+.invite_sent_info {
+    margin-bottom: 15px;
+    
+
+}
+.invite_sent_info td {
+    padding-top: 10px;
+    padding-right: 7px;
+}
+.invite_sent_info .fail td {
+    color: #880000;
+
+}
+.invite_sent_info .success td {
+    color: #005F00;
 }
