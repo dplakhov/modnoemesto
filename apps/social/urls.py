@@ -22,6 +22,7 @@ urlpatterns = patterns('apps.social.views',
    url(r'^changepassword/(?P<code>[a-f0-9]{12})/$', 'set_new_password', name='set_new_password'),
 
    url(r'^users/(?P<user_id>[a-f0-9]{24})/$', 'user', name='user'),
+   url(r'^users/(?P<user_id>[a-f0-9]{24})/camera/$', 'user_camera', name='user_camera'),
 
    url(r'^profile/$', 'profile_edit', name='profile_edit'),
    url(r'^profile/avatar/$', 'avatar_edit', name='avatar_edit'),

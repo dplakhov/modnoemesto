@@ -294,19 +294,31 @@ def user(request, user_id=None):
     if page_user == request.user:
         return redirect('social:home')
 
-    camera = page_user.get_camera()
     profile = page_user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
     msgform = MessageTextForm()
     invitee_count = Invite.invitee_count(page_user)
     is_friend = not request.user.friends.can_add(page_user)
-
-    data = {
+    return direct_to_template(request, 'social/user.html', {
         'page_user': page_user,
         'profile': profile,
         'invitee_count': invitee_count,
         'msgform': msgform,
         'show_friend_button': not is_friend,
+        'settings': settings
+    })
+
+
+def user_camera(request, user_id=None):
+    page_user = get_document_or_404(User, id=user_id)
+    if page_user == request.user:
+        return redirect('social:home')
+
+    camera = page_user.get_camera()
+    is_friend = not request.user.friends.can_add(page_user)
+
+    data = {
+        'page_user': page_user,
         'camera': camera,
         'settings': settings
     }
@@ -326,7 +338,7 @@ def user(request, user_id=None):
         })
         camera.show = camera.can_show(page_user, request.user)
         camera.manage = camera.can_manage(page_user, request.user)
-    return direct_to_template(request, 'social/user.html', data)
+    return direct_to_template(request, 'social/user_camera.html', data)
 
 
 def avatar_edit(request):
