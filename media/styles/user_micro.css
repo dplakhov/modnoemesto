@@ -52,3 +52,7 @@ ul.friendTable
 	margin-top: 10px;
 	overflow: hidden;
 }
+.friend_box li td div
+{
+	width: 70px;
+}

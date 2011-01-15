@@ -249,7 +249,10 @@ li.camera_off#money span
     font-weight: bold;
 }
 
-
+li#videochat
+{
+	background: url(../images/videochat.jpg) no-repeat left center;
+}
 li#fashion_place
 {
     background:url(../images/lovely.jpg) no-repeat left center;
@@ -1631,13 +1634,13 @@ a.toollip_mail:hover
 }
 a.toollip_video
 {
-    background: url(../images/videochat_ico_noactive.png) no-repeat bottom;
+    background: url(../images/videochat_ico.png) no-repeat bottom;
     cursor: default;
 }
-/*a.toollip_video:hover
+a.toollip_video:hover
 {
-    background: url(../images/videochat_ico_hover.png);
-}*/
+    background: url(../images/videochat_ico_hover.png) no-repeat bottom;
+}
 .tooltip img.hidden
 {
     z-index:99999;
@@ -1702,3 +1705,12 @@ select#id_tags
 .invite_sent_info .success td {
     color: #005F00;
 }
+form p
+{
+	color: #575655;
+}
+
+
+
+
+
