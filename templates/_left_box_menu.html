@@ -2,6 +2,19 @@
 {% load i18n %}
 {% load pytils_numeral %}
 
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#videochat a").fancybox({
+        'width'				: 800,
+        'height'			: 600,
+        'autoScale'			: false,
+        'transitionIn'		: 'none',
+        'transitionOut'		: 'none',
+        'type'				: 'iframe'
+    });
+});
+</script>
+
 <div id="leftColumn">
     <div class="nav">
         <ul>
@@ -21,7 +34,7 @@
                 <div class="q"><a style="cursor:text" href="{% comment %}{% url billing:purse %}{% endcomment %}">Мой счёт <span>({{ user.cash|floatformat:2 }} руб.)</span></a></div>
             </li>
             {% endif %}
-            <li id="videochat"><a href="{% url social:home_camera %}">Видеообщение</a></li>
+            <li id="videochat"><a href="{% url social:home_conference %}">Видеообщение</a></li>
             <li id="fashion_place"><a href="{% url cam:cam_bookmarks %}">Мои Модные места</a></li>
 {% with user.friends.offers.incoming|length as fs_offers_inbox_count %}
             <li id="friends"><a href="{% url friends:list %}">Друзья{% if fs_offers_inbox_count %} <b>({{ fs_offers_inbox_count }})</b>{% endif %}</a></li>

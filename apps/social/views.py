@@ -146,9 +146,11 @@ def _index_unreg(request):
         'news_list': News.objects,
         })
 
+
 def static(request, page):
     return direct_to_template(request, 'static/%s.html' % page, {
         'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })
+
 
 def register(request):
     form = UserCreationForm(request.POST)
@@ -191,6 +193,7 @@ def register(request):
 
     return form
 
+
 def django_login(request, user):
     """
     Persist a user id and a backend in the request. This way a user doesn't
@@ -214,7 +217,6 @@ def django_login(request, user):
     request.session[BACKEND_SESSION_KEY] = user.backend
     if hasattr(request, 'user'):
         request.user = user
-
 
 
 def activation(request, code=None):
@@ -264,6 +266,11 @@ def logout(request):
 
 
 def home(request):
+    camera = request.user.get_camera()
+    if camera.type.is_default:
+        camera = None
+    else:
+        camera.show = True
     #@todo: need filter
     profile = request.user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
@@ -272,21 +279,19 @@ def home(request):
 
     return direct_to_template(request, 'social/home.html', {
         'invitee_count': invitee_count,
+        'camera': camera,
         'is_owner': True,
         'profile': profile,
         'settings': settings
     })
 
 
-def home_camera(request):
-    camera = request.user.get_camera()
-    if camera:
-        camera.show = True
-    return direct_to_template(request, 'social/home_camera.html', {
-        'camera': camera,
-        'is_owner': True,
-        'settings': settings
-    })
+def home_conference(request):
+    return direct_to_template(request, 'social/user_conference.html')
+
+
+def user_conference(request, user_id):
+    return direct_to_template(request, 'social/user_conference.html', { 'callid': user_id })
 
 
 def user(request, user_id=None):
@@ -294,31 +299,21 @@ def user(request, user_id=None):
     if page_user == request.user:
         return redirect('social:home')
 
+    camera = page_user.get_camera()
+    if camera.type.is_default:
+        camera = None
     profile = page_user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
     msgform = MessageTextForm()
     invitee_count = Invite.invitee_count(page_user)
     is_friend = not request.user.friends.can_add(page_user)
-    return direct_to_template(request, 'social/user.html', {
+
+    data = {
         'page_user': page_user,
         'profile': profile,
         'invitee_count': invitee_count,
         'msgform': msgform,
         'show_friend_button': not is_friend,
-        'settings': settings
-    })
-
-
-def user_camera(request, user_id=None):
-    page_user = get_document_or_404(User, id=user_id)
-    if page_user == request.user:
-        return redirect('social:home_camera')
-
-    camera = page_user.get_camera()
-    is_friend = not request.user.friends.can_add(page_user)
-
-    data = {
-        'page_user': page_user,
         'camera': camera,
         'settings': settings
     }
@@ -338,7 +333,7 @@ def user_camera(request, user_id=None):
         })
         camera.show = camera.can_show(page_user, request.user)
         camera.manage = camera.can_manage(page_user, request.user)
-    return direct_to_template(request, 'social/user_camera.html', data)
+    return direct_to_template(request, 'social/user.html', data)
 
 
 def avatar_edit(request):
@@ -464,8 +459,10 @@ def in_dev(request):
     return direct_to_template(request, 'in_dev.html' , {
         'base_template': "base.html" if request.user.is_authenticated() else "base_info.html" })
 
+
 def test_error(request):
     raise Exception()
+
 
 def test_messages(request):
     messages.add_message(request, messages.SUCCESS, 'Успех')

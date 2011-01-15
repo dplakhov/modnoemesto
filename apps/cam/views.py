@@ -199,7 +199,7 @@ def cam_bookmark_add(request, id):
     camera.bookmark_add(request.user)
     messages.add_message(request, messages.SUCCESS,
                              _('Bookmark successfully added'))
-    return redirect(reverse('social:user_camera', args=[camera.owner.id]))
+    return redirect(reverse('social:user', args=[camera.owner.id]))
 
 
 def cam_bookmark_delete(request, id):
@@ -207,7 +207,7 @@ def cam_bookmark_delete(request, id):
     camera.bookmark_delete(request.user)
     messages.add_message(request, messages.SUCCESS,
                              _('Bookmark successfully deleted'))
-    return redirect(reverse('social:user_camera', args=[camera.owner.id]))
+    return redirect(reverse('social:user', args=[camera.owner.id]))
 
 
 def inc_view_count(request, id):

@@ -9,7 +9,7 @@ urlpatterns = patterns('apps.social.views',
    url(r'^static/(?P<page>[a-z]+)/$', 'static', name='static'),
    url(r'^in_dev/$', 'in_dev', name='in_dev'),
    url(r'^home/$', 'home', name='home'),
-   url(r'^home/camera/$', 'home_camera', name='home_camera'),
+   url(r'^home/conference/$', 'home_conference', name='home_conference'),
    url(r'^home/edit/$', 'profile_edit', name='profile_edit'),
 
    url(r'^logout/$', 'logout', name='logout'),
@@ -22,7 +22,7 @@ urlpatterns = patterns('apps.social.views',
    url(r'^changepassword/(?P<code>[a-f0-9]{12})/$', 'set_new_password', name='set_new_password'),
 
    url(r'^users/(?P<user_id>[a-f0-9]{24})/$', 'user', name='user'),
-   url(r'^users/(?P<user_id>[a-f0-9]{24})/camera/$', 'user_camera', name='user_camera'),
+   url(r'^users/(?P<user_id>[a-f0-9]{24})/conference/$', 'user_conference', name='user_conference'),
 
    url(r'^profile/$', 'profile_edit', name='profile_edit'),
    url(r'^profile/avatar/$', 'avatar_edit', name='avatar_edit'),

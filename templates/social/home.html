@@ -84,4 +84,21 @@
         </ul>
     </div>
 </div>
+
+<div id="content-main" style="clear: both;">
+    <div id="camera"><a name="cam"></a>
+        {% if camera %}
+        {% include "includes/camera.html" %}
+        {% else %}
+        <div class="no_camera">
+        <p>
+        {% trans "You have no registered camera." %}
+        </p>
+        </div>
+        {% endif %}
+
+
+    </div>
+
+</div>
 {% endblock %}

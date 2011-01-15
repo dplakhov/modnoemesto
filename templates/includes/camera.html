@@ -4,13 +4,6 @@
 
   {% if camera.show or user.is_superuser %}
 
-    <script type="text/javascript">
-        $(document).ready(function(){
-            // jScrollPane conflicts with chat
-            //$('.scroll-pane').jScrollPane({showArrows:true, autoReinitialise: true, scrollbarWidth:5});
-        });
-    </script>
-
     <div id="watch-panel">
 
     {% include camera.driver.template %}
