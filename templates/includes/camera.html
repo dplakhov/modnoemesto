@@ -1,16 +1,6 @@
 {% load i18n %}
 <script type="text/javascript" src="/media/js/jquery.mousewheel.min.js"></script>
 <script type="text/javascript" src="/media/js/jScrollPane.js"></script>
-	
-  <p>&nbsp;</p>
-{% if is_owner or user.is_superuser %}
-    <a class="reference" href='{% url cam:cam_edit camera.id %}'>
-        {% trans "Edit camera" %}
-    </a>
-    <a class="reference" href='{% url cam:screen_edit camera.id %}'>
-        {% trans "Edit screen" %}
-    </a>
-{% endif %}
 
   {% if camera.show or user.is_superuser %}
 

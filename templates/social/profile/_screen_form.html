@@ -1,14 +1,11 @@
-{% extends "base.html" %}
 {% load i18n %}
 {% load media %}
 
-{% block content %}
 <h2 class="video_title">{% trans "Change screen" %}</h2>
 
-        <img src="{% media_url screen camera_screen_mini.png %}" />
-        <img src="{% media_url screen camera_screen_normal.png %}" />
         <img src="{% media_url screen camera_screen_full.png %}" />
 <form method="post" enctype="multipart/form-data">
+    <input type="hidden" name="form" value="screen" />
 <div class="filt rounded" style="-moz-border-radius: 10px 10px 10px 10px; margin-top: 10px; padding-bottom: 10px;">
     
     <table class="img_loader">
@@ -26,5 +23,3 @@
     <input type="submit" value="{% trans "Save" %}" />
 </div>
     </form>
-
-{% endblock %}

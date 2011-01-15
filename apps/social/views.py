@@ -4,7 +4,9 @@ import sys
 import re
 
 import datetime
-import logging
+from apps.billing.documents import Tariff
+from apps.cam.documents import Camera, CameraType, CameraTag
+from apps.cam.forms import CameraForm
 from apps.invite.documents import Invite
 
 from apps.media.forms import PhotoForm
@@ -16,7 +18,7 @@ from django.contrib.auth import (SESSION_KEY,
     logout as django_logout)
 
 from django.shortcuts import redirect
-from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseServerError, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseServerError, HttpResponseNotFound
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
@@ -35,9 +37,10 @@ from apps.social.forms import SetNewPasswordForm
 from apps.utils.paginator import paginate
 
 from forms import UserCreationForm, LoginForm
-from documents import User, LimitsViolationException
+from documents import User
 from forms import PeopleFilterForm
 from apps.social.documents import Profile
+
 
 def filter(request):
 
@@ -261,9 +264,6 @@ def logout(request):
 
 
 def home(request):
-    camera = request.user.get_camera()
-    if camera:
-        camera.show = True
     #@todo: need filter
     profile = request.user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
@@ -272,9 +272,19 @@ def home(request):
 
     return direct_to_template(request, 'social/home.html', {
         'invitee_count': invitee_count,
-        'camera': camera,
         'is_owner': True,
         'profile': profile,
+        'settings': settings
+    })
+
+
+def home_camera(request):
+    camera = request.user.get_camera()
+    if camera:
+        camera.show = True
+    return direct_to_template(request, 'social/home_camera.html', {
+        'camera': camera,
+        'is_owner': True,
         'settings': settings
     })
 
@@ -339,21 +349,103 @@ def avatar_edit(request):
                               )
 
 
-def profile_edit(request):
-    profile = request.user.profile
-    if request.method == 'POST':
+def profile_edit(request, id=None):
+    if id:
+        user = get_document_or_404(User, id=id)
+    else:
+        user = request.user
+    context = profile_form(request, user)
+    if not context:
+        return redirect('social:home')
+    answer = cam_form(request, user)
+    if not answer:
+        return redirect('social:home')
+    context.update(answer)
+    answer = screen_form(request, user)
+    if not answer:
+        return redirect('social:home')
+    context.update(answer)
+    return direct_to_template(request, 'social/profile/edit.html', context)
+
+
+def profile_form(request, user):
+    profile = user.profile
+    if request.POST and request.POST.get('form', None) == 'profile':
         form = ChangeProfileForm(request.POST)
         if form.is_valid():
             for k, v in form.cleaned_data.items():
                 setattr(profile, k, v if v else None)
             profile.save()
             messages.add_message(request, messages.SUCCESS, _('Profile successfully updated'))
-            return redirect('social:home')
+            return
     else:
         form = ChangeProfileForm(profile._data)
-    return direct_to_template(request, 'social/profile/edit.html',
-                              dict(form=form, user=request.user)
-                              )
+    return dict(profile_form=form, user=user)
+
+
+def cam_form(request, user):
+    cam = user.get_camera()
+    if not user.is_superuser and user.id != cam.owner.id:
+        return
+    initial = cam._data
+    initial['type'] = cam.type.get_option_value()
+    initial['operator'] = initial['operator'] and initial['operator'].id
+    initial['tags'] = initial['tags'] and [i.id for i in initial['tags']]
+    for tariff_type in Camera.TARIFF_FIELDS:
+        value = getattr(cam, tariff_type)
+        if value:
+            initial[tariff_type] = value.i
+
+    if request.POST and request.POST.get('form', None) == 'cam':
+        form = CameraForm(user, request.POST, initial=initial)
+        if form.is_valid():
+            if form.cleaned_data['tags']:
+                old_tag_ids = map(str, cam.tags)
+
+
+            for k, v in form.cleaned_data.items():
+                setattr(cam, k, v)
+
+            cam.type = CameraType.objects.get(id=form.cleaned_data['type'][:-2])
+            cam.operator = form.cleaned_data['operator'] and User.objects(id=form.cleaned_data['operator']).first() or None
+            if form.cleaned_data['tags']:
+                new_tag_ids = map(str, form.cleaned_data['tags'])
+                CameraTag.calc_count(new_tag_ids, old_tag_ids)
+                cam.tags = CameraTag.objects(id__in=form.cleaned_data['tags'])
+
+
+            for tariff_type in Camera.TARIFF_FIELDS:
+                value = form.cleaned_data[tariff_type]
+                if value:
+                    value = Tariff.objects.get(id=value)
+                    assert value in getattr(Tariff, 'get_%s_list' % tariff_type)()
+                    setattr(cam, tariff_type, value)
+                else:
+                    setattr(cam, tariff_type, None)
+
+            cam.save()
+
+            return
+    else:
+        form = CameraForm(user, None, initial=initial)
+
+    return dict(cam_form=form, camera=cam)
+
+
+def screen_form(request, user):
+    camera = user.get_camera()
+
+    if request.POST and request.POST.get('form', None) == 'screen':
+        form = PhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            camera.screen = form.fields['file'].save('camera_screen', settings.SCREEN_SIZES, 'CAM_SCREEN_RESIZE')
+            camera.save()
+            messages.add_message(request, messages.SUCCESS, _('Screen successfully updated'))
+            return
+    else:
+        form = PhotoForm()
+
+    return dict(screen_form=form, screen=camera.screen)
 
 
 def in_dev(request):

@@ -10,7 +10,6 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import redirect
 from django.contrib import messages
-from django.conf import settings
 
 
 from mongoengine.django.shortcuts import get_document_or_404
@@ -20,13 +19,9 @@ from .constants import AVAILABLE_COMMANDS
 from .documents import Camera
 from .documents import CameraType
 
-from .forms import CameraTypeForm, CameraForm
-from apps.billing.documents import Tariff
+from .forms import CameraTypeForm
 from .forms import CamFilterForm
-from apps.media.forms import PhotoForm
 from .documents import CameraBookmarks
-
-from apps.social.documents import User
 
 
 def cam_list(request):
@@ -82,89 +77,6 @@ def cam_list(request):
             cams = list(Camera.objects(tags=tag.id).order_by('-view_count')[:4])
             tags.append((tag, cams))
         return direct_to_template(request, 'cam/cam_list.html', dict(form=form,tags=tags) )
-
-
-def cam_edit(request, id=None):
-    user = request.user
-    if id:
-        cam = get_document_or_404(Camera, id=id)
-        if not user.is_superuser and user.id != cam.owner.id:
-            return HttpResponseNotFound()
-        initial = cam._data
-        initial['type'] = cam.type.get_option_value()
-        initial['operator'] = initial['operator'] and initial['operator'].id
-        initial['tags'] = initial['tags'] and [i.id for i in initial['tags']]
-        for tariff_type in Camera.TARIFF_FIELDS:
-            value = getattr(cam, tariff_type)
-            if value:
-                initial[tariff_type] = value.id
-
-    else:
-        cam = None
-        initial = {}
-
-    form = CameraForm(user, request.POST or None, initial=initial)
-
-    if form.is_valid():
-        if not id:
-            cam = Camera()
-            cam.owner = user
-        elif form.cleaned_data['tags']:
-            old_tag_ids = map(str, cam.tags)
-
-
-        for k, v in form.cleaned_data.items():
-            setattr(cam, k, v)
-
-        cam.type = CameraType.objects.get(id=form.cleaned_data['type'][:-2])
-        cam.operator = form.cleaned_data['operator'] and User.objects(id=form.cleaned_data['operator']).first() or None
-        if form.cleaned_data['tags']:
-            if id:
-                new_tag_ids = map(str, form.cleaned_data['tags'])
-                CameraTag.calc_count(new_tag_ids, old_tag_ids)
-            cam.tags = CameraTag.objects(id__in=form.cleaned_data['tags'])
-
-
-        for tariff_type in Camera.TARIFF_FIELDS:
-            value = form.cleaned_data[tariff_type]
-            if value:
-                value = Tariff.objects.get(id=value)
-                assert value in getattr(Tariff, 'get_%s_list' % tariff_type)()
-                setattr(cam, tariff_type, value)
-            else:
-                setattr(cam, tariff_type, None)
-
-        cam.save()
-
-        return HttpResponseRedirect(reverse('social:home'))
-
-    return direct_to_template(request, 'cam/cam_edit.html',
-                              dict(form=form, camera=cam)
-                              )
-
-
-def screen_edit(request, id=None):
-    if id:
-        camera = get_document_or_404(Camera, id=id)
-        if not request.user.is_superuser and request.user.id != camera.owner.id:
-            return HttpResponseNotFound()
-    else:
-        camera = request.user.get_camera()
-        if not camera:
-            return redirect('social:home')
-
-    if request.method != 'POST':
-        form = PhotoForm()
-    else:
-        form = PhotoForm(request.POST, request.FILES)
-        if form.is_valid():
-            camera.screen = form.fields['file'].save('camera_screen', settings.SCREEN_SIZES, 'CAM_SCREEN_RESIZE')
-            camera.save()
-            messages.add_message(request, messages.SUCCESS, _('Screen successfully updated'))
-            return HttpResponseRedirect(request.path)
-    return direct_to_template(request, 'cam/screen_edit.html',
-                              dict(form=form, screen=camera.screen)
-                              )
 
 
 def cam_view(request, id):

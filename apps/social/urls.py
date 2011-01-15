@@ -9,6 +9,7 @@ urlpatterns = patterns('apps.social.views',
    url(r'^static/(?P<page>[a-z]+)/$', 'static', name='static'),
    url(r'^in_dev/$', 'in_dev', name='in_dev'),
    url(r'^home/$', 'home', name='home'),
+   url(r'^home/camera/$', 'home_camera', name='home_camera'),
    url(r'^home/edit/$', 'profile_edit', name='profile_edit'),
 
    url(r'^logout/$', 'logout', name='logout'),

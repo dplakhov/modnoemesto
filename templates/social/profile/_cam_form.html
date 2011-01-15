@@ -1,7 +1,4 @@
-{% extends "base.html" %}
 {% load i18n %}
-{% block js %}
-{{ block.super }}
 <script type="text/javascript">
 $(document).ready(function(){
             $('#id_type, #id_view_packet_tariff, #id_view_time_tariff, #id_management_packet_tariff, #id_management_time_tariff, #id_operator').selectbox();
@@ -43,22 +40,15 @@ $(document).ready(function(){
                     });
                                    });
 </script>
-{% endblock %}
-{% block content %}
-<div id="filter_box">
-<h2>
-    {% if camera %}
-        {% trans "Edit camera" %}
-    {% else %}
-        {% trans "Add camera" %}
-    {% endif %}
-</h2>
+
+<h2>{% trans "Edit camera" %}</h2>
 {% comment %}
 {% if form.errors %}
 {{ form.errors }}
 {% endif %}
 {% endcomment  %}
     <form method="post">
+        <input type="hidden" name="form" value="cam" />
     <div class="filt rounded">
     
         <table class="camera_edit">
@@ -253,9 +243,6 @@ $(document).ready(function(){
     </div>
     </div>
     <div class="but">
-            <input type="submit" value="{% if camera %}{% trans 'Save' %}{% else %}{% trans 'Add' %}{% endif %}" />
+            <input type="submit" value="{% trans 'Save' %}" />
     </div>
     </form>
- 
-</div>
-{% endblock %}

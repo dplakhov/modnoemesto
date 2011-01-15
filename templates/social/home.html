@@ -3,11 +3,6 @@
 {% load i18n %}
 {% load media %}
 
-{% block js %}
-{{ block.super }}
-<script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
-{% endblock %}
-
 {% block css %}
 {{ block.super }}
 <link href="/media/styles/profile.css" rel="stylesheet" type="text/css" />
@@ -18,7 +13,6 @@
 {% block content %}
 <div id="left">
     <h2 class="name_persone">{{ user }}</h2>
-    <a href="{% url social:profile_edit %}" class="change_all">{% trans "edit" %}</a>
     <div class="clear"></div>
        <dl>
         {% if profile.hometown %}<dt>{% trans "Hometown" %}</dt>
@@ -30,7 +24,7 @@
     </dl>
     <div class="about_persone transparent">
         <div style="overflow: hidden;">
-        <p>{% trans "Contact Information" %}</p><span><a href="{% url social:profile_edit %}" class="change">{% trans "edit" %}</a></span>
+        <p>{% trans "Contact Information" %}</p>
         </div>
         <dl>
             {% if profile.icq %}<dt>{% trans "ICQ" %}</dt>
@@ -43,7 +37,7 @@
     </div>
     <div class="about_persone transparent">
         <div style="overflow: hidden;">
-        <p>{% trans "Education" %}</p><span><a href="{% url social:profile_edit %}" class="change">{% trans "edit" %}</a></span>
+        <p>{% trans "Education" %}</p>
         </div>
         <dl>
             {% if profile.university %}<dt>{% trans "University" %}</dt>
@@ -57,8 +51,6 @@
     <div class="about_persone transparent">
          <div style="overflow: hidden;">
              <p>{% trans "Announce" %}</p>
-             <span><a href="{% url social:profile_edit %}"
-                      class="change">{% trans "edit" %}</a></span>
          </div>
          <p class="event_announce">
              {{ profile.announce }}
@@ -73,9 +65,10 @@
     </div>
     <div class="profileActions">
         <ul>{% url social:user_friends as friends %}
-            <li><a href="{% url friends:list %}">{% trans "Friends" %} ({{ user.friends.count }})</a></li>
             <li><a href="{% url social:avatar_edit %}">{% trans "Edit photo" %}</a></li>
+            <li><a href="{% url social:profile_edit %}">{% trans "options" %}</a></li>
             <li><a href="{% url invite:send %}">Пригласить друзей к участию в видеосети</a> <b>({{ invitee_count }})</b></li>
+            <li><a href="{% url friends:list %}">{% trans "Friends" %} ({{ user.friends.count }})</a></li>
         </ul>
     </div>
     <div class="friend_box transparent">
@@ -90,24 +83,5 @@
 {% endfor %}
         </ul>
     </div>
-</div>
-
-<div id="content-main" style="clear: both;">
-    <div id="camera"><a name="cam"></a>
-        {% if camera %}
-        {% include "includes/camera.html" %}
-        {% else %}
-        <div class="no_camera">
-        <img src="/media/img/notfound/cam.png" alt=""/>
-        <p>
-        {% trans "You have no registered camera." %}
-        </p>
-        <a href="{% url cam:cam_add %}">{% trans "Wanna do it right now?" %}</a>
-        </div>
-        {% endif %}
-		
-		
-    </div>
-
 </div>
 {% endblock %}
