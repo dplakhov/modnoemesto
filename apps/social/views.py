@@ -312,7 +312,7 @@ def user(request, user_id=None):
 def user_camera(request, user_id=None):
     page_user = get_document_or_404(User, id=user_id)
     if page_user == request.user:
-        return redirect('social:home')
+        return redirect('social:home_camera')
 
     camera = page_user.get_camera()
     is_friend = not request.user.friends.can_add(page_user)
