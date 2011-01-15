@@ -10,14 +10,14 @@
         <div id="filt_new">
         <ul>
         {% for cam in cameras %}
-        {% url social:user cam.owner.id as user_path %}
+        {% url social:user_camera cam.owner.id as user_camera_path %}
             <li{% cycle '' ' style="margin-right: 0pt;"' %}>
                 <div class="item">
                 <div class="pop rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
-                <a href="{{ user_path }}"><img alt="{{ cam.name }}" src="{% media_url cam.screen camera_screen_normal.png %}"></a>
+                <a href="{{ user_camera_path }}"><img alt="{{ cam.name }}" src="{% media_url cam.screen camera_screen_normal.png %}"></a>
                 </div>
-                <p class="place"><a href="{{ user_path }}">{{ cam.name }}</a></p>
-                <p class="creater"><a href="{{ user_path }}">{{ cam.owner }}</a></p>
+                <p class="place"><a href="{{ user_camera_path }}">{{ cam.name }}</a></p>
+                <p class="creater"><a href="{% url social:user cam.owner.id %}">{{ cam.owner }}</a></p>
                 </div>
             </li>
         {% endfor %}
