@@ -1,7 +1,5 @@
 import logging
 import sys
-from django.core import mail
-
 
 
 class MongoHander(logging.Handler):

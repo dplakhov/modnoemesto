@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from django.core.mail import send_mail
+from apps.utils.mail import send_mail
 
 from django.template.loader import render_to_string
 from django.conf import settings
@@ -35,7 +35,7 @@ class Invite(Document):
 
         if settings.SEND_EMAILS:
             send_mail(_('Site invite'), email_body,
-            settings.ROBOT_EMAIL_ADDRESS, (self.recipient_email, ),
+            settings.ROBOT_EMAIL_ADDRESS, (self.recipient_email,),
             fail_silently=True)
 
     def register(self, user):
