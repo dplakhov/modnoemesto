@@ -18,6 +18,12 @@ class ThemeTest(TestCase):
         self.failUnlessEqual(u'Тема', theme.name)
         self.failUnlessEqual(u'Описание', theme.description)
 
+        file = theme.files['style.css']
+        self.failUnless(isinstance(file, ThemeFile))
+
+        self.failIfEqual(-1, file.read().find('background-image'))
+        self.failUnlessEqual('text/css', file.content_type)
+
     def test_from_directory__notexists(self):
         self.failUnlessRaises(Theme.SourceFileNotExists,
                               Theme.from_directory,
