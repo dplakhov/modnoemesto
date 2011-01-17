@@ -193,6 +193,7 @@ INSTALLED_APPS = (
     'apps.server_api',
     'apps.async_email',
     'apps.invite',
+    'apps.themes',
 )
 
 
