@@ -37,7 +37,7 @@
     </div>
 {% endfor %}
 </p>
-{% if is_public %}
+{% if not is_public %}
 <div class="but">
 <p><a class="reference" href="{% url notes:note_add %}">{% trans 'Create a note' %}</a></p>
 </div>

@@ -114,7 +114,7 @@ $(document).ready(function() {
             {% if request.user.is_superuser %}
             <li><a href="{% url social:profile_edit page_user.id %}">{% trans "options" %}</a></li>
             {% endif %}
-            <li><a href="{% url notes:note_list page_user.id %}">{% trans "notes" %}</a></li>
+            <li><a href="{% url notes:note_list page_user.id %}">{% trans "Notes" %}</a></li>
             <li>Приглашённые: {{ invitee_count }}</li>
             <li><a href="{{ friends }}">{% trans "Friends" %} ({{ page_user.friends.count }})</a></li>
         </ul>
