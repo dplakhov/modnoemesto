@@ -178,16 +178,6 @@ class Command(BaseCommand):
         print
 
         CameraType(
-            name='Telnew only view (Def)',
-            driver='apps.cam.drivers.telnew.TelnewDriver',
-            is_default=True,
-        ).save()
-        CameraType(
-            name='Telnew manage',
-            driver='apps.cam.drivers.telnew.TelnewDriver',
-            is_controlled=True,
-        ).save()
-        CameraType(
             name='Axis only view',
             driver='apps.cam.drivers.axis.AxisDriver',
         ).save()

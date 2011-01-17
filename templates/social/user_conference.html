@@ -17,8 +17,32 @@
 </head>
 <body>
 <div id="centerColumn">
-    <div id="camera"><a name="cam"></a>
-        {% include "cam/views/telnew.html" %}
+    <div id="camera">
+
+<div id="telnew">
+{% spaceless %}
+<object width="540"
+        height="{% if callid %}400{% else %}450{% endif %}"
+        style="position:relative; left:-5px;">
+    <embed src="/media/swf/telnew-{% if callid %}view{% else %}manage{% endif %}.swf"
+        quality="high"
+        bgcolor="#869ca7"
+        flashvars="myname={{ request.user.id }}&username={{ request.user.id }}&stream={{ callid }}&ip=109.234.158.4"
+        width="540"
+        height="{% if callid %}400{% else %}450{% endif %}"
+        name="modnoemesto_video"
+        align="middle"
+        play="true"
+        loop="false"
+        allowScriptAccess="modnoemesto.ru"
+        type="application/x-shockwave-flash"
+        pluginspage="http://www.adobe.com/go/getflashplayer">
+    </embed>
+</object>
+{% endspaceless %}
+<div style="color:#575655; margin-top:7px">Используются технологии <a href="http://telnew.ru/" target="_blank">TELNEW</a></div>
+</div>
+
     </div>
 </div>
 </body>
