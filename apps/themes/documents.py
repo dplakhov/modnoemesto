@@ -5,8 +5,6 @@ import zipfile
 
 from mongoengine.document import Document
 from mongoengine.fields import BooleanField, StringField, FileField, ReferenceField
-from apps.utils.stringio import StringIO
-
 
 class Theme(Document):
     name = StringField()
@@ -21,7 +19,6 @@ class Theme(Document):
         self.is_public = theme_xml.attrib.get('public') == 'true'
         self.name = theme_xml.attrib['name']
         self.description = theme_xml.find('description').text.strip()
-
 
     @classmethod
     def from_zip(cls, zip_file_name):
@@ -71,7 +68,6 @@ class Theme(Document):
         content_type = content_types[ext]
         file.file.put(stream, content_type=content_type)
         file.save()
-
 
 class ThemeFile(Document):
     class Proxy(object):

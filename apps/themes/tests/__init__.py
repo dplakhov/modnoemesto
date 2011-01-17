@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 
 import os
+from django.core.urlresolvers import reverse
 
 from django.test import TestCase
+from django.test.client import Client
 
 from ..documents import *
 
 class ThemeTest(TestCase):
     def setUp(self):
         Theme.objects.delete()
-
 
     def _test_theme(self, theme):
         self.failUnless(isinstance(theme, Theme))
@@ -45,5 +46,27 @@ class ThemeTest(TestCase):
                               'notexists.zip')
 
     def test_view(self):
-        theme = Theme()
+        theme = Theme.from_zip(os.path.join(os.path.dirname(__file__),
+                                            'files/theme1.zip'))
+        client = Client()
 
+        response = client.get(reverse('themes:file_view',
+                                      kwargs=dict(theme_id=theme.id,
+                                                  file_name='style.css')
+                           ))
+
+        self.failUnlessEqual(200, response.status_code)
+
+        self.failIfEqual(-1, response.content.find('background-image'))
+        self.assertEquals('text/css', response['Content-Type'])
+
+    def test_view_file_not_found(self):
+        theme = Theme.from_zip(os.path.join(os.path.dirname(__file__),
+                                            'files/theme1.zip'))
+        client = Client()
+        response = client.get(reverse('themes:file_view',
+                                      kwargs=dict(theme_id=theme.id,
+                                                  file_name='not_found.css')
+                           ))
+
+        self.failUnlessEqual(404, response.status_code)
