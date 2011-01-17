@@ -25,6 +25,7 @@ urlpatterns = patterns('apps.social.views',
    url(r'^users/(?P<user_id>[a-f0-9]{24})/conference/$', 'user_conference', name='user_conference'),
 
    url(r'^profile/$', 'profile_edit', name='profile_edit'),
+   url(r'^profile/(?P<id>[a-f0-9]{24})/$', 'profile_edit', name='profile_edit'),
    url(r'^profile/avatar/$', 'avatar_edit', name='avatar_edit'),
 
    # тестовые страницы

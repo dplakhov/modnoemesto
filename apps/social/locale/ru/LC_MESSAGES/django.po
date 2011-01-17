@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-24 15:51+0300\n"
+"POT-Creation-Date: 2011-01-17 16:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,43 +19,107 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: documents.py:53
+#: documents.py:55
 msgid "No upcoming events"
 msgstr "Нет предстоящих событий"
 
-#: documents.py:156
+#: documents.py:112
 msgid "Confirm registration"
 msgstr "Подтверждение регистрации"
 
-#: documents.py:166
+#: documents.py:122
 msgid "Password Reset Request"
 msgstr "Восстановление пароля"
 
-#: forms.py:11 forms.py:89 forms.py:158 forms.py:176
+#: forms.py:12
+msgid "Не выбран"
+msgstr ""
+
+#: forms.py:13 forms.py:170
+msgid "Male"
+msgstr "Мужской"
+
+#: forms.py:14 forms.py:169
+msgid "Female"
+msgstr "Женский"
+
+#: forms.py:18
+msgid "Имя"
+msgstr ""
+
+#: forms.py:19
+msgid "Фамилия"
+msgstr ""
+
+#: forms.py:20
+msgid "День рождения"
+msgstr ""
+
+#: forms.py:21 forms.py:176
+msgid "ICQ"
+msgstr "ICQ"
+
+#: forms.py:22
+msgid "Сотовый телефон"
+msgstr ""
+
+#: forms.py:23
+msgid "Сайт"
+msgstr ""
+
+#: forms.py:24
+msgid "Пол"
+msgstr ""
+
+#: forms.py:29
+msgid "Город"
+msgstr ""
+
+#: forms.py:30
+msgid "Университет"
+msgstr ""
+
+#: forms.py:31
+msgid "Факультет"
+msgstr ""
+
+#: forms.py:32
+msgid "Статус"
+msgstr ""
+
+#: forms.py:33
+msgid "На сайте"
+msgstr ""
+
+#: forms.py:34
+msgid "C фото"
+msgstr ""
+
+#: forms.py:44 forms.py:122 forms.py:188
 msgid "Email"
 msgstr "E-mail"
 
-#: forms.py:12 forms.py:95 forms.py:162
+#: forms.py:45 forms.py:128 forms.py:192
 msgid "Password"
 msgstr "Пароль"
 
-#: forms.py:29
+#: forms.py:62
 msgid "Please enter a correct email and password."
 msgstr "Пожалуйста, введите верные E-mail и пароль."
 
-#: forms.py:79
+#: forms.py:112
 msgid "First name"
 msgstr "Имя"
 
-#: forms.py:83
+#: forms.py:116
 msgid "This value may contain only letters, numbers and '/`/- characters."
 msgstr "Значение должно состоять только из букв и знаков '/`/-."
 
-#: forms.py:84
+#: forms.py:117
 msgid "Last name"
 msgstr "Фамилия"
 
-#: forms.py:88 forms.py:100
+#: forms.py:121 forms.py:133
 msgid ""
 "This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= "
 "characters."
@@ -63,11 +127,11 @@ msgstr ""
 "Значение должно состоять только из букв, цифр и знаков ./-/_/@/!/#/$/%/^/&/+/"
 "=."
 
-#: forms.py:90
+#: forms.py:123
 msgid "Phone"
 msgstr "Телефон"
 
-#: forms.py:94
+#: forms.py:127
 msgid ""
 "Phone number is invalid or can not be used. Check your spelling. For "
 "example: +7 916 3564334"
@@ -75,115 +139,108 @@ msgstr ""
 "Телефонный номер указан неверно или не может быть использован. Проверьте "
 "правильность ввода. Например: +7 916 3564334"
 
-#: forms.py:101 forms.py:163
+#: forms.py:134 forms.py:193
 msgid "Password confirmation"
 msgstr "Подтверждение пароля"
 
-#: forms.py:103
+#: forms.py:136
 msgid "Captcha"
 msgstr "Введите код на картинке"
 
-#: forms.py:114
+#: forms.py:147
 msgid "A user with that email already exists."
 msgstr "Пользователь с таким E-mail уже существует."
 
-#: forms.py:124 forms.py:169
+#: forms.py:157 forms.py:199
 msgid "The two password fields didn't match."
 msgstr ""
 
-#: forms.py:134
-msgid "Image"
-msgstr ""
-
-#: forms.py:139
+#: forms.py:168
 msgid "None selected"
 msgstr "Не выбран"
 
-#: forms.py:140
-msgid "Female"
-msgstr "Женский"
-
-#: forms.py:141
-msgid "Male"
-msgstr "Мужской"
-
-#: forms.py:144
+#: forms.py:173
 msgid "Hometown"
 msgstr "Родной город"
 
-#: forms.py:145
+#: forms.py:174
 msgid "Birthday"
 msgstr "День рождения"
 
-#: forms.py:146
+#: forms.py:175
 msgid "Sex"
 msgstr "Пол"
 
-#: forms.py:147
-msgid "ICQ"
-msgstr "ICQ"
-
-#: forms.py:148
+#: forms.py:177
 msgid "Mobile"
 msgstr "Телефон"
 
-#: forms.py:149
+#: forms.py:178
 msgid "Website"
 msgstr "Личный сайт"
 
-#: forms.py:150
+#: forms.py:179
 msgid "University"
 msgstr "ВУЗ"
 
-#: forms.py:151
+#: forms.py:180
 msgid "Department"
 msgstr "Факультет"
 
-#: forms.py:152
+#: forms.py:181
 msgid "Status"
 msgstr "Статус"
 
-#: forms.py:153
+#: forms.py:182
 msgid "Announce"
 msgstr "Анонс"
 
-#: forms.py:174
-msgid "Friend name"
-msgstr "Имя друга"
+#: forms.py:184
+msgid "Get news"
+msgstr ""
 
-#: views.py:109
+#: views.py:185
 msgid "The invitation has already been used by another user"
 msgstr "Приглашение уже было использовано другим пользователем"
 
-#: views.py:114
+#: views.py:190
 msgid "Incorrect reference to an invitation"
 msgstr "Ссылка приглашения некорректна"
 
-#: views.py:151
+#: views.py:227
 msgid "Activation code corrupted or already used"
 msgstr "Код активации повреждён или уже использован"
 
-#: views.py:286
-msgid "Invalid image file format"
-msgstr "Неверный формат файла"
-
-#: views.py:307
+#: views.py:346
 msgid "Avatar successfully updated"
 msgstr "Аватар успешно обновлен"
 
-#: views.py:324
+#: views.py:397
 msgid "Profile successfully updated"
 msgstr "Профиль успешно обновлен"
 
-#: views.py:371
+#: views.py:449
+msgid "Camera successfully updated"
+msgstr "Камера успешно обновлена"
+
+#: views.py:463
+msgid "Screen successfully updated"
+msgstr "Превью успешно обновлен"
+
+#: views.py:519
 msgid "Email with a link sent to restore the address you specify."
 msgstr "Письмо со ссылкой восстановления выслано на указанный Вами адрес."
 
-#: views.py:383
+#: views.py:531
 msgid "Recovery code corrupted or already used"
 msgstr "Код востановления пароля повреждён или уже использован"
 
-#: views.py:403
+#: views.py:551
 msgid "Password successfully updated."
 msgstr "Пароль успешно обновлен"
 
+#~ msgid "Friend name"
+#~ msgstr "Имя друга"
+
+#~ msgid "Invalid image file format"
+#~ msgstr "Неверный формат файла"
