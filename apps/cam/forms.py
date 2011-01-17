@@ -43,6 +43,7 @@ class CameraTypeForm(forms.Form):
 
 class CameraTagForm(forms.Form):
     name = forms.CharField(label=_('Name'))
+    is_default = forms.BooleanField(label=_('Is default'), required=False)
 
 
 class CameraForm(forms.Form):
