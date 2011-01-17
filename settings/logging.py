@@ -51,12 +51,12 @@ LOGGING = {
             #'filters': ['special']
         }
         ,
-        
+
         'mongo': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'apps.logging.log.MongoHander',
         },
-        
+
         'mongo_info': {
             'level': 'INFO',
             'class': 'apps.logging.log.MongoHander',
@@ -79,7 +79,7 @@ LOGGING = {
         },
 
 
-        
+
     },
     'loggers': {
         'django': {
@@ -91,6 +91,16 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'INFO',
             'propagate': False,
+        },
+        'celery': {
+            'handlers': ['mongo_debug'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'email': {
+            'handlers': ['mongo_debug'],
+            'level': 'DEBUG',
+            'propagate': True,
         },
         'test_logger_info': {
             'handlers': ['mongo_info'],
