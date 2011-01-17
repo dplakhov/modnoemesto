@@ -267,9 +267,7 @@ def logout(request):
 
 def home(request):
     camera = request.user.get_camera()
-    if camera.type.is_default:
-        camera = None
-    else:
+    if camera:
         camera.show = True
     #@todo: need filter
     profile = request.user.profile
@@ -299,9 +297,6 @@ def user(request, user_id=None):
     if page_user == request.user:
         return redirect('social:home')
 
-    camera = page_user.get_camera()
-    if camera.type.is_default:
-        camera = None
     profile = page_user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
     msgform = MessageTextForm()
@@ -314,12 +309,13 @@ def user(request, user_id=None):
         'invitee_count': invitee_count,
         'msgform': msgform,
         'show_friend_button': not is_friend,
-        'camera': camera,
         'settings': settings
     }
 
+    camera = page_user.get_camera()
     if camera:
         data.update({
+            'camera': camera,
             'show_bookmark_button': camera.can_bookmark_add(request.user),
             'show_view_access_link': camera.is_view_enabled and
                                      camera.is_view_paid and
@@ -357,21 +353,36 @@ def avatar_edit(request):
 
 
 def profile_edit(request, id=None):
-    if id:
-        user = get_document_or_404(User, id=id)
-    else:
-        user = request.user
-    context = profile_form(request, user)
+    def _profile_edit():
+        if id:
+            user = get_document_or_404(User, id=id)
+            if not request.user.is_superuser and user.id != request.user.id:
+                return HttpResponseNotFound()
+        else:
+            user = request.user
+        context = profile_form(request, user)
+        if not context:
+            return
+
+        camera = user.get_camera()
+        if camera or request.user.is_superuser:
+            answer = cam_form(request, user, camera)
+            if not answer:
+                return
+            context.update(answer)
+            if answer['camera']:
+                answer = screen_form(request, answer['camera'])
+                if not answer:
+                    return
+                context.update(answer)
+        return context
+
+    context = _profile_edit()
     if not context:
-        return redirect('social:home')
-    answer = cam_form(request, user)
-    if not answer:
-        return redirect('social:home')
-    context.update(answer)
-    answer = screen_form(request, user)
-    if not answer:
-        return redirect('social:home')
-    context.update(answer)
+        if id:
+            return redirect(reverse('social:user', args=[id]))
+        else:
+            return redirect('social:home')
     return direct_to_template(request, 'social/profile/edit.html', context)
 
 
@@ -390,23 +401,27 @@ def profile_form(request, user):
     return dict(profile_form=form, user=user)
 
 
-def cam_form(request, user):
-    cam = user.get_camera()
-    if not user.is_superuser and user.id != cam.owner.id:
-        return
-    initial = cam._data
-    initial['type'] = cam.type.get_option_value()
-    initial['operator'] = initial['operator'] and initial['operator'].id
-    initial['tags'] = initial['tags'] and [i.id for i in initial['tags']]
-    for tariff_type in Camera.TARIFF_FIELDS:
-        value = getattr(cam, tariff_type)
-        if value:
-            initial[tariff_type] = value.i
+def cam_form(request, user, cam):
+    if cam:
+        initial = cam._data
+        initial['type'] = cam.type.get_option_value()
+        initial['operator'] = initial['operator'] and initial['operator'].id
+        initial['tags'] = initial['tags'] and [i.id for i in initial['tags']]
+        for tariff_type in Camera.TARIFF_FIELDS:
+            value = getattr(cam, tariff_type)
+            if value:
+                initial[tariff_type] = value.id
+    else:
+        initial = {}
 
     if request.POST and request.POST.get('form', None) == 'cam':
         form = CameraForm(user, request.POST, initial=initial)
         if form.is_valid():
-            if form.cleaned_data['tags']:
+            if not cam:
+                cam = Camera()
+                cam.owner = user
+                old_tag_ids = []
+            elif form.cleaned_data['tags']:
                 old_tag_ids = map(str, cam.tags)
 
 
@@ -431,7 +446,7 @@ def cam_form(request, user):
                     setattr(cam, tariff_type, None)
 
             cam.save()
-
+            messages.add_message(request, messages.SUCCESS, _('Camera successfully updated'))
             return
     else:
         form = CameraForm(user, None, initial=initial)
@@ -439,9 +454,7 @@ def cam_form(request, user):
     return dict(cam_form=form, camera=cam)
 
 
-def screen_form(request, user):
-    camera = user.get_camera()
-
+def screen_form(request, camera):
     if request.POST and request.POST.get('form', None) == 'screen':
         form = PhotoForm(request.POST, request.FILES)
         if form.is_valid():
