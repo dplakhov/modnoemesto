@@ -14,7 +14,6 @@ class CameraTypeForm(forms.Form):
     name = forms.CharField(label=_('Name'))
     driver = forms.ChoiceField(label=_('Driver name'))
     is_controlled = forms.BooleanField(label=_('Is controlled'), required=False)
-    is_default = forms.BooleanField(label=_('Is default'), required=False)
 
     def clean_driver(self):
         driver = self.cleaned_data['driver']
@@ -43,7 +42,6 @@ class CameraTypeForm(forms.Form):
 
 class CameraTagForm(forms.Form):
     name = forms.CharField(label=_('Name'))
-    is_default = forms.BooleanField(label=_('Is default'), required=False)
 
 
 class CameraForm(forms.Form):
@@ -87,21 +85,13 @@ class CameraForm(forms.Form):
 
     def __init__(self, user, *args, **kwargs):
         super(CameraForm, self).__init__(*args, **kwargs)
-        if user.has_perm('camera'):
-            self.fields['type'].choices = tuple(
-                [('', _('Select camera type'))] +
-                [
-                        (x.get_option_value(), x.get_option_label())
-                                   for x in CameraType.objects.all()
-                ]
-            )
-        else:
-            self.fields['type'].choices = tuple(
-                [
-                        (x.get_option_value(), x.get_option_label())
-                               for x in CameraType.objects(is_default=True)
-                ]
-            )
+        self.fields['type'].choices = tuple(
+            [('', _('Select camera type'))] +
+            [
+                    (x.get_option_value(), x.get_option_label())
+                               for x in CameraType.objects.all()
+            ]
+        )
         
         self.fields['operator'].choices = [('', _('None')), (user.id, user),] + [(x.id, x) for x in user.friends.list]
         self.fields['tags'].choices = [(x.id, x.name) for x in CameraTag.objects]
