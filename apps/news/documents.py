@@ -8,7 +8,7 @@ from mongoengine import ReferenceField
 from mongoengine import DateTimeField
 from mongoengine import StringField
 
-from django.core.mail import send_mass_mail
+from apps.utils.mail import send_mass_mail
 from django.conf import settings
 from django.dispatch import dispatcher
 
