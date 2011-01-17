@@ -10,10 +10,14 @@ from .documents import Note
 from .forms import NoteForm
 
 #@login_required
-def note_list(request):
-    notes = Note.objects.filter(author=request.user)
+def note_list(request, id=None):
+    if id:
+        notes = Note.objects(id=id, is_public=True)
+    else:
+        notes = Note.objects.filter(author=request.user)
     return direct_to_template(request, 'notes/note_list.html',
-                              { 'notes': notes })
+                              { 'notes': notes,
+                                'is_public': id is not None })
 
 
 #@login_required
