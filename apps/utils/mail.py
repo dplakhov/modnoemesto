@@ -1,5 +1,6 @@
 from django.core import mail as django_mail
 from django.conf import settings
+from django.utils.encoding import smart_str
 
 import logging
 
@@ -14,7 +15,8 @@ recipient_list - %s
 
 def send_mail(*args, **kwargs):
     if settings.DEBUG:
-        logger.debug(MESSAGE_FORMAT % ('send_mail',) + args)
+        str_args = tuple([smart_str(i) for i in args])
+        logger.debug(MESSAGE_FORMAT % (('send_mail',) + str_args))
     return django_mail.send_mail(*args, **kwargs)
 
 def send_mass_mail(*args, **kwargs):
