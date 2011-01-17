@@ -111,8 +111,12 @@ $(document).ready(function() {
     </div>
     <div class="profileActions">
         <ul>{% url friends:friends_all page_user.id as friends %}
-            <li><a href="{{ friends }}">{% trans "Friends" %} ({{ page_user.friends.count }})</a></li>
+            {% if request.user.is_superuser %}
+            <li><a href="{% url social:profile_edit page_user.id %}">{% trans "options" %}</a></li>
+            {% endif %}
+            <li><a href="{% url notes:note_list page_user.id %}">{% trans "Notes" %}</a></li>
             <li>Приглашённые: {{ invitee_count }}</li>
+            <li><a href="{{ friends }}">{% trans "Friends" %} ({{ page_user.friends.count }})</a></li>
         </ul>
     </div>
     <div class="friend_box transparent">
@@ -173,12 +177,6 @@ $(document).ready(function() {
                     </table>
             {% endif %}
             {% include "includes/camera.html" %}
-        {% else %}
-            <div class="no_camera">
-            <p>
-            {% trans "This user has no registered camera." %}
-            </p>
-            </div>
         {% endif %}
     </div>
 
