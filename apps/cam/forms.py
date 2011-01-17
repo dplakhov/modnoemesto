@@ -12,7 +12,7 @@ from .drivers.exceptions import ImproperlyConfigured, AccessDenied
 
 class CameraTypeForm(forms.Form):
     name = forms.CharField(label=_('Name'))
-    driver = forms.ChoiceField(label=_('Driver name'))
+    driver = forms.ChoiceField(label=_('Driver name'), initial='apps.cam.drivers.axis.AxisDriver')
     is_controlled = forms.BooleanField(label=_('Is controlled'), required=False)
 
     def clean_driver(self):
@@ -34,7 +34,6 @@ class CameraTypeForm(forms.Form):
                         ('apps.cam.drivers.%s' % x, x)
                         for x in [
                             'axis.AxisDriver',
-                            'telnew.TelnewDriver',
                             ]
                     ]
                 )
