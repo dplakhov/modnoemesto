@@ -267,9 +267,7 @@ def logout(request):
 
 def home(request):
     camera = request.user.get_camera()
-    if camera.type.is_default:
-        camera = None
-    else:
+    if camera:
         camera.show = True
     #@todo: need filter
     profile = request.user.profile
@@ -299,9 +297,6 @@ def user(request, user_id=None):
     if page_user == request.user:
         return redirect('social:home')
 
-    camera = page_user.get_camera()
-    if camera.type.is_default:
-        camera = None
     profile = page_user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
     msgform = MessageTextForm()
@@ -314,12 +309,13 @@ def user(request, user_id=None):
         'invitee_count': invitee_count,
         'msgform': msgform,
         'show_friend_button': not is_friend,
-        'camera': camera,
         'settings': settings
     }
 
+    camera = page_user.get_camera()
     if camera:
         data.update({
+            'camera': camera,
             'show_bookmark_button': camera.can_bookmark_add(request.user),
             'show_view_access_link': camera.is_view_enabled and
                                      camera.is_view_paid and
@@ -392,7 +388,7 @@ def profile_form(request, user):
 
 def cam_form(request, user):
     cam = user.get_camera()
-    if not user.is_superuser and user.id != cam.owner.id:
+    if not cam or not user.is_superuser and user.id != cam.owner.id:
         return
     initial = cam._data
     initial['type'] = cam.type.get_option_value()
