@@ -259,8 +259,18 @@ class User(Document):
         return self.permissions
 
     def get_camera(self):
-        from apps.cam.documents import Camera
-        return Camera.objects(owner=self).first()
+        from apps.cam.documents import Camera, CameraType, CameraTag
+        cam = Camera.objects(owner=self).first()
+        if not cam:
+            cam = Camera(owner=self,
+                         type=CameraType.objects(is_default=True).first(),
+                         is_view_enabled=True,
+                         is_view_public=False,
+                         tags=list(CameraTag.objects(is_default=True)),
+                         )
+            cam.save()
+            CameraTag.calc_count(map(lambda i:str(i.id), cam.tags))
+        return cam
 
     def get_absolute_url(self):
         return reverse('social:user',  kwargs=dict(user_id=self.id))
