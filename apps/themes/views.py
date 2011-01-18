@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import tempfile
-from apps.social.documents import User
+from apps.social.documents import User, Profile
 from apps.utils.paginator import paginate
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect

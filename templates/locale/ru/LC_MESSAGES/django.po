@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-18 17:11+0300\n"
+"POT-Creation-Date: 2011-01-18 17:27+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -302,7 +302,7 @@ msgstr "Сменить фотографию"
 msgid "Your friends"
 msgstr "Ваши друзья"
 
-#: groups/theme_edit.html:6
+#: groups/theme_edit.html:6 themes/list.html:35
 msgid "Add theme"
 msgstr "Добавить тему"
 
@@ -584,7 +584,11 @@ msgstr "Изменить фотографию"
 msgid "options"
 msgstr "Настройки"
 
-#: social/home.html:77 social/user.html:120
+#: social/home.html:76
+msgid "Change theme"
+msgstr "Изменить внешний вид домашней страницы"
+
+#: social/home.html:78 social/user.html:120
 msgid "Friends"
 msgstr "Друзья"
 
@@ -624,14 +628,17 @@ msgstr "Сменить обложку"
 msgid "Change avatar"
 msgstr "Сменить аватар"
 
-#: themes/list.html:20
-#, fuzzy
-msgid "Set"
-msgstr "Отправленные"
+#: themes/list.html:18
+msgid "Delete theme"
+msgstr "Удалить тему"
 
-#: themes/list.html:35
-msgid "Unset"
-msgstr ""
+#: themes/list.html:21 themes/list.html.py:40
+msgid "Unset theme"
+msgstr "Отключить тему"
+
+#: themes/list.html:23
+msgid "Set theme"
+msgstr "Установить тему"
 
 #: user_messages/inbox.html:5 user_messages/sent.html:6
 msgid "Messages history"
@@ -648,9 +655,6 @@ msgstr "Просмотр сообщения"
 #: user_messages/sent.html:13
 msgid "Messages: sent"
 msgstr "Сообщения: отправленные"
-
-#~ msgid "Friendship offers: inbox"
-#~ msgstr "Предложения дружбы: полученные"
 
 #~ msgid "You have no registered camera."
 #~ msgstr "У вас нет зарегистрированных камер"

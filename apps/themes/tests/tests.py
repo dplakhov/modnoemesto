@@ -6,11 +6,15 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.test.client import Client
 
+from mongoengine.connection import _get_db
+import gridfs
+
 from ..documents import *
 
 class ThemeTest(TestCase):
     def setUp(self):
         Theme.objects.delete()
+        ThemeFile.objects.delete()
 
     def _test_theme(self, theme):
         self.failUnless(isinstance(theme, Theme))
@@ -86,3 +90,8 @@ class ThemeTest(TestCase):
                            ))
 
         self.failUnlessEqual(404, response.status_code)
+
+    def TODO_test_theme_delete(self):
+        fs = gridfs.GridFS(_get_db())
+        print dir(fs)
+        print fs.list()
