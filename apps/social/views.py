@@ -107,7 +107,7 @@ def index(request):
     objects = paginate(request,
                        users,
                        users_count,
-                       28)
+                       24)
 
     if request.is_ajax():
         return direct_to_template(request, '_user_list.html', {
