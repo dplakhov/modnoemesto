@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     (r'^theme/', include('apps.themes.urls', namespace='themes')),
     (r'^owner/', include('apps.admin_blog.urls', namespace='admin_blog')),
     (r'^captcha/(?P<code>[\da-f]{32})/$', 'apps.supercaptcha.draw'),
+    (r'^video_call/', include('apps.video_call.urls', namespace='video_call')),
     url(r'^robots.txt$', 'django.views.generic.simple.direct_to_template', name='robots_txt', kwargs={'template': 'robots.txt'}),
 )
 
