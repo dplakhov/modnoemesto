@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load media %}
+
+{% block content %}
+
+<h1>{% trans "Themes" %}</h1>
+
+<div id="content-main">
+{% for file in objects.object_list  %}
+    <a class="fancy-image" href="{% media_url file library_video_full.png %}">
+        <img src="{% media_url file library_video_thumbnail.png %}" alt="" />
+    </a>
+    {% if can_manage %}
+        <a href="{% url media_library:video_delete id=file.id %}">{% trans "Delete" %}</a>
+    {% endif %}
+{% endfor %}
+</div>
+
+{% include 'includes/pagination.html' %}
+
+        <form action="{% url media_library:video_add %}" method="post" enctype="multipart/form-data">
+
+        <table>
+        {{ form.as_table }}
+        </table>
+        <input type="submit" value="{% trans "Add" %}"/>
+        </form>
+
+
+{% endblock %}
