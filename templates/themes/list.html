@@ -15,9 +15,14 @@
     <img src="{% url themes:file_view theme_id=theme.id file_name='preview.png' %}" alt="" />
     <br />
     {% if can_manage %}
-        <a href="{% url themes:delete theme_id=theme.id %}">{% trans "Delete" %}</a>
+        <a href="{% url themes:delete theme_id=theme.id %}">{% trans "Delete theme" %}</a>
     {% endif %}
-    <a href="{% url themes:set theme_id=theme.id %}">{% trans "Set" %}</a>
+    {% if request.user.profile.theme == theme%}
+        <a href="{% url themes:unset %}">{% trans "Unset theme" %}</a>
+    {% else %}
+        <a href="{% url themes:set theme_id=theme.id %}">{% trans "Set theme" %}</a>
+    {% endif %}
+
 {% endfor %}
 </div>
 
@@ -27,12 +32,12 @@
     <table>
     {{ form.as_table }}
     </table>
-    <input type="submit" value="{% trans "Add" %}"/>
+    <input type="submit" value="{% trans "Add theme" %}"/>
     </form>
 {% endif %}
 
 {% if request.user.profile.theme %}
-    <a href="{% url themes:unset %}">{% trans "Unset" %}</a>
+    <a href="{% url themes:unset %}">{% trans "Unset theme" %}</a>
 {% endif %}
 
 {% endblock %}
