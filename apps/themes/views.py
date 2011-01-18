@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import tempfile
-from apps.social.documents import User
+from apps.social.documents import User, Profile
 from apps.utils.paginator import paginate
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect
@@ -66,6 +66,7 @@ def delete(request, theme_id):
     theme = Theme.objects.with_id(theme_id)
 
     if theme:
+        Profile.objects(theme=theme).update(set__theme=None)
         theme.delete()
 
     return redirect('themes:list')

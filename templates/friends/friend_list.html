@@ -6,19 +6,40 @@
 <div id="content-related">
     <div class="module" id="recent-actions-module">
     <div id="filter_box">
-            <h2>{% trans "Your friends:" %}</h2>
-            <div class="friend_request">
+        <h2>{% trans "Your friends:" %}</h2>
+        <div class="friend_request">
             <ul>
-            <li>
-{% with user.friends.offers.incoming|length as fs_offers_inbox_count %}
-                 <a class="reference" href="{% url friends:offers_inbox %}">Полученные заявки в друзья{% if fs_offers_inbox_count %} <b>({{ fs_offers_inbox_count }})</b>{% endif %}</a>
-{% endwith %}
-            </li>
             <li style="float:right">
                 <a class="reference" href="{% url friends:offers_sent %}">Отправленные заявки в друзья</a>
             </li>
         </ul>
         </div>
+        {% if user.friends.offers.incoming %}
+        <div class="friend_list_online transparent">
+            <h3>{% trans "Friendship offers" %}</h3>
+            <ul>
+            {% for offer in user.friends.offers.incoming %}
+                <li class="friendTable">
+                    <div style="float:left">
+                    {% with offer.sender as user %}
+                    {% include "includes/user/mini.html" %}
+                    {% endwith %}
+                    </div>
+                    <div class="operation">
+                        <p><a class="reference" href="{% url friends:accept offer.sender.id %}">
+                             {% trans "Accept" %}
+                             </a>
+                         </p>
+                         <p><a class="reference" href="{% url friends:reject offer.sender.id %}">
+                            {% trans "Decline" %}
+                            </a>
+                        </p>
+                    </div>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
         <div class="friend_list_online transparent">
         <h3>Друзья On-line</h3>
             {% if user.friends_online %}

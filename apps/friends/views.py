@@ -99,9 +99,5 @@ def accept(request, id):
     return redirect('friends:list')
 
 
-def offers_inbox(request):
-    return direct_to_template(request, 'friends/inbox.html')
-
-
 def offers_sent(request):
     return direct_to_template(request, 'friends/sent.html')
