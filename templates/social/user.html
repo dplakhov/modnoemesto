@@ -13,13 +13,11 @@
     <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
 <script>
 $(document).ready(function() {
-    $(".toollip_video").fancybox({
-        'width'				: 800,
-        'height'			: 600,
-        'autoScale'			: false,
-        'transitionIn'		: 'none',
-        'transitionOut'		: 'none',
-        'type'				: 'iframe'
+    $(".toollip_video").click(function (e){
+        var width=810, height=645;
+        window.open(e.target, 'video',
+                'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
+        return false;
     });
 });
 </script>
