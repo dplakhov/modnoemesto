@@ -71,9 +71,7 @@
     </div>
     <div class="profileActions">
         <ul>{% url social:user_friends as friends %}
-            <li><a href="{% url social:avatar_edit %}">{% trans "Edit photo" %}</a></li>
             <li><a href="{% url social:profile_edit %}">{% trans "options" %}</a></li>
-            <li><a href="{% url themes:list %}">{% trans "Change theme" %}</a></li>
             <li><a href="{% url invite:send %}">Пригласить друзей к участию в видеосети</a> <b>({{ invitee_count }})</b></li>
             <li><a href="{% url friends:list %}">{% trans "Friends" %} ({{ user.friends.count }})</a></li>
         </ul>
