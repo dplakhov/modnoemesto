@@ -9,7 +9,9 @@
 <div id="container">
     <div id="subContainer">
 
-        <div id="header_video">
+        
+        
+        <div {% if is_admin %}id="header_vide"{% else %}id="header_vid"{% endif %}>
             <a id="logo" href="/"><img src="/media/images/logo_bg.jpg" alt="Модное место" /></a>
         </div>
         <div id="menu">
@@ -22,6 +24,7 @@
             </tr>
             </table>
         </div>
+        
 <div id="camera_holder">
 <h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>
 {% if group.has_video_conference %}
