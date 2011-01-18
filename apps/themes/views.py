@@ -28,3 +28,6 @@ def add(request):
                               )
 def list(request):
     pass
+
+def delete(request):
+    pass
