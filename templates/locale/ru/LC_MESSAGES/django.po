@@ -75,7 +75,7 @@ msgstr "Редактировать новость"
 #: groups/theme_edit.html:16 groups/theme_list.html:12
 #: groups/type_edit.html:16 groups/type_list.html:12
 #: media_library/image_index.html:67 media_library/video_index.html:51
-#: news/edit.html:55 notes/note_edit.html:42
+#: news/edit.html:55 notes/note_edit.html:42 themes/list.html:30
 msgid "Add"
 msgstr "Добавить"
 
@@ -97,12 +97,12 @@ msgstr "Список новостей"
 msgid "Edit"
 msgstr "Редактировать"
 
-#: admin_blog/list.html:20 friends/friend_list.html:34
-#: friends/friend_list.html.py:57 groups/_comments.html:20
+#: admin_blog/list.html:20 friends/friend_list.html:53
+#: friends/friend_list.html.py:76 groups/_comments.html:20
 #: media_library/image_index.html:53 media_library/video_index.html:38
 #: news/list.html:28 notes/note_list.html:24 notes/note_list.html.py:34
-#: user_messages/inbox.html:37 user_messages/message.html:86
-#: user_messages/sent.html:37
+#: themes/list.html:18 user_messages/inbox.html:37
+#: user_messages/message.html:86 user_messages/sent.html:37
 msgid "Delete"
 msgstr "Удалить"
 
@@ -226,11 +226,23 @@ msgstr "Типы камер"
 msgid "Add type"
 msgstr "Добавить тип"
 
-#: friends/friend_list.html:9 friends/inbox.html:6 friends/sent.html:7
+#: friends/friend_list.html:9 friends/sent.html:7
 msgid "Your friends:"
 msgstr "Ваши друзья"
 
-#: friends/friend_list.html:41 friends/friend_list.html.py:64
+#: friends/friend_list.html:19
+msgid "Friendship offers"
+msgstr "Предложения дружбы"
+
+#: friends/friend_list.html:28
+msgid "Accept"
+msgstr "Принять"
+
+#: friends/friend_list.html:32
+msgid "Decline"
+msgstr "Отклонить"
+
+#: friends/friend_list.html:60 friends/friend_list.html.py:83
 #: friends/friends_all.html:28 friends/friends_online.html:28
 #: groups/send_friends_invite.html:30
 msgid "None available"
@@ -250,23 +262,11 @@ msgstr "Добавить в друзья"
 msgid "%(page_user)s: friends online"
 msgstr "%(page_user)s: друзья on-line"
 
-#: friends/inbox.html:22
-msgid "Friendship offers: inbox"
-msgstr "Предложения дружбы: полученные"
-
-#: friends/inbox.html:41
-msgid "Accept"
-msgstr "Принять"
-
-#: friends/inbox.html:45
-msgid "Decline"
-msgstr "Отклонить"
-
-#: friends/sent.html:21
+#: friends/sent.html:18
 msgid "Friendship offers: sent"
 msgstr "Предложения дружбы: отправленные"
 
-#: friends/sent.html:40
+#: friends/sent.html:37
 msgid "Cancel"
 msgstr "Отменить"
 

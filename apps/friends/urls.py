@@ -6,7 +6,6 @@ urlpatterns = patterns('apps.friends.views',
        url(r'^(?P<id>[a-f0-9]{24})/online/$', 'friends_online', name='friends_online'),
        url(r'^(?P<id>[a-f0-9]{24})/all/$', 'friends_all', name='friends_all'),
 
-       url(r'^offers/inbox/$', 'offers_inbox', name='offers_inbox'),
        url(r'^offers/sent/$', 'offers_sent', name='offers_sent'),
 
        url(r'^(?P<id>[a-f0-9]{24})/add/$', 'add', name='add'),
