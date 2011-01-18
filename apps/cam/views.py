@@ -69,7 +69,10 @@ def cam_list(request):
                             12)
         else:
             cams = None
-        return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams))
+        if request.is_ajax():
+            return direct_to_template(request, 'cam/_cameras.html', dict(cams=cams))
+        else:
+            return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams))
     else:
         form = CamFilterForm()
         tags = []
