@@ -34,7 +34,7 @@
 </table>
 </div>
 
-{% include 'includes/pagination.html' %}
+{% include 'includes/paginator.html' %}
 {% if can_manage %}
     <form action="{% url themes:add %}" method="post" enctype="multipart/form-data">
     <table>

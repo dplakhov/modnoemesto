@@ -40,7 +40,7 @@ $('a.fancy-image').fancybox({
 {% endfor %}
 </div>
 
-{% include 'includes/pagination.html' %}
+{% include 'includes/paginator.html' %}
 
     {% if can_manage %}
         <form action="{% url media_library:video_add %}" method="post" enctype="multipart/form-data">
