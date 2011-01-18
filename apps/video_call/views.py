@@ -34,5 +34,5 @@ def check_calls(request):
 
 
 def set_last_view(request):
-    cache.set('LAST_VIEW_%s' % request.user.id, 1, datetime.now() - settings.VIDEO_CALL_INTERVAL_UPDATE)
+    cache.set('LAST_VIEW_%s' % request.user.id, 1, settings.VIDEO_CALL_INTERVAL_UPDATE.seconds)
     return HttpResponse('OK')
