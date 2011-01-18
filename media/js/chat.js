@@ -2,37 +2,35 @@ var chat_room_id = undefined;
 var last_received = 0;
 var chat_polling_time = 0;
 
-/**
- * Initialize chat:
- * - Set the room id
- * - Generate the html elements (chat box, forms & inputs, etc)
- * - Sync with server
- * @param chat_room_id the id of the chatroom
- * @param html_el_id the id of the html element where the chat html should be placed
- * @return
- */
 function init_chat(chat_id, time) {
 	chat_room_id = chat_id;
 	chat_polling_time = time;
 	sync_messages();
-	//$('#chat').jScrollPane();
-
 }
 
 var img_dir = "/static/img/";
 
+function get_comment_date(date){
+	var date_str = String(date).split(".")[0];
+	date_str = date_str.split(" ")[1];
+	return date_str; 
+}
 
 function add_messages(messages){
-	var html_messages = [];
+	var templates = {
+		'user': $.template("<p class='user'>(${date}) <b>${user}:</b> ${text}</p>"),
+		'system': $.template("<p class='system'>(${date}) ${text}</p>")
+	};
+	
 	for(var i in messages){
 		var current = messages[i];
-		var date_str = String(current.date).split(".")[0];
-		date_str = date_str.split(" ")[1];
-		var html_message = "<p>"+
-		"("+date_str+") <b>"+current.user_name+":</b> "+current.text+"</p>";
-		html_messages.push(html_message);
+
+		$("#chat").append(templates[current.type] , {
+		     date: get_comment_date(current.date),
+		     user: current.user_name,
+		     text: current.text
+		});
 	}
-	$("#chat").append(html_messages.join(""));
 }
 
 function set_last_message(json){
@@ -101,7 +99,7 @@ function chat_join() {
 		async: false,
         type: 'POST',
         data: {
-			chat_room_id: window.chat_room_id
+			chat_id: window.chat_room_id
 		},
         url:'/chat/join/',
     });
@@ -115,7 +113,7 @@ function chat_leave() {
 		async: false,
         type: 'POST',
         data: {
-			chat_room_id: window.chat_room_id
+			chat_id: window.chat_room_id
 		},
         url:'/chat/leave/',
     });
@@ -124,4 +122,3 @@ function chat_leave() {
 // attach join and leave events
 $(window).load(function(){chat_join()});
 $(window).unload(function(){chat_leave()});
-
