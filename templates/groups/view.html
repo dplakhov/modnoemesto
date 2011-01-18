@@ -45,6 +45,13 @@ $(document).ready(function(){
             return false;
         }
     });
+
+    $("#group_conference").click(function (e){
+        var width=810, height=635;
+        window.open(e.target, 'video',
+                'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
+        return false;
+    });
 });
 </script>
 {% endblock %}
@@ -167,7 +174,7 @@ $(document).ready(function(){
 </div>
 {% if group.has_video_conference and can_view_conference %}
 <div class="but" style="margin-left:30px;">
-    <a href="{% url groups:group_conference group.id %}" target='_blank'>Видеоконференция</a>
+    <a href="{% url groups:group_conference group.id %}" id="group_conference">Видеоконференция</a>
 </div>
 {% endif %}
 <div class="but" style="margin-left:30px;">

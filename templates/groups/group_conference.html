@@ -1,10 +1,28 @@
-{% extends "base_mini.html" %}
-{% load i18n %}
+{% extends "base_head.html" %}
 
-{% block base_content %}
-{% include "_left_box_menu.html" %}
-<div id="centerColumn" style="width:760px">
-<div id="filter_box">
+{% load menu_tags %}
+{% load i18n %}
+{% load pytils_numeral %}
+
+{% block body %}
+
+<div id="container">
+    <div id="subContainer">
+
+        <div id="header">
+            <a id="logo" href="/"><img src="/media/images/logo_bg.jpg" alt="Модное место" /></a>
+        </div>
+        <div id="menu">
+            <table cellspacing="0px" cellpadding="0px">
+            <tr>
+
+            <td class="left_corner"></td>
+            <td class="menu_but"><a href="{% url social:logout %}">закрыть</a></td>
+            <td class="right_corner"></td>
+            </tr>
+            </table>
+        </div>
+
 <h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>
 {% if group.has_video_conference %}
 <object  width="{% if is_admin %}745{% else %}650{% endif %}"
@@ -27,6 +45,7 @@
 {% else %}
 Конференция выключена.
 {% endif %}
-</div>
+
+    </div>
 </div>
 {% endblock %}
