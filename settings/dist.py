@@ -238,6 +238,10 @@ ALLOWED_SERVER_IPS = (
 )
 
 
+
+VIDEO_CALL_INTERVAL_UPDATE = timedelta(seconds=5)
+
+
 from .billing import *
 from .captcha import *
 from .celery import *
