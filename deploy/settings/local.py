@@ -33,3 +33,5 @@ REDIS_DATABASES = dict(
     streamed_users=dict(host='10.10.10.11', port=6379),
 
 )
+
+ROBOKASSA_TEST_MODE = False

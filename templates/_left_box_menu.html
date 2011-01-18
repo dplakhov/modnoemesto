@@ -18,7 +18,7 @@ $(document).ready(function() {
         <ul>
             {% if user.is_authenticated %}
             <li id="persone"><a href="{% url social:home %}">{{ user }}</a></li>
-            {% if not user.get_camera.type.is_default %}
+            {% if user.get_camera %}
             <li id="money">
                 <div class="q">
                     <p>На моем счету</p>
