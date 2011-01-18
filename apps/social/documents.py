@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils.hashcompat import md5_constructor, sha_constructor
 from django.utils.encoding import smart_str
 
@@ -10,12 +10,17 @@ from apps.utils.mail import send_mail
 from django.template.loader import render_to_string
 
 from django.core.urlresolvers import reverse
+from django.utils.encoding import smart_unicode
+
 from apps.groups.documents import GroupUser
 from mongoengine.document import Document
 from mongoengine.fields import ReferenceField, StringField, URLField
 from mongoengine.fields import BooleanField, DateTimeField, FloatField
 from mongoengine.fields import ListField, DateTimeField
 from apps.utils.decorators import cached_property
+
+
+OFFLINE_TIMEDELTA = 300
 
 class LimitsViolationException(Exception):
     def __init__(self, cause):
@@ -175,7 +180,7 @@ class User(Document):
     }
 
     def __unicode__(self):
-        return self.get_full_name() or self.username or str(self.id)
+        return smart_unicode(self.get_full_name() or self.username or str(self.id))
 
     def get_full_name(self):
         """Returns the users first and last names, separated by a space.
@@ -191,6 +196,18 @@ class User(Document):
 
     def is_online(self):
         return User.get_delta_time() < self.last_access
+
+    @staticmethod
+    def users_online():
+        return User.objects.filter(last_access__gt=User.get_delta_time())
+
+    def set_offline(self):
+        self.last_access = datetime.now() - timedelta(minutes=OFFLINE_TIMEDELTA)
+        self.save()
+
+    def set_online(self):
+        self.last_access = datetime.now()
+        self.save()
 
     @staticmethod
     def get_delta_time():
