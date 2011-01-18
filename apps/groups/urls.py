@@ -7,6 +7,7 @@ urlpatterns = patterns('apps.groups.views',
        url(r'^add/$', 'group_edit', name='group_add'),
 
        url(r'^(?P<id>[a-f0-9]{24})/$', 'group_view', name='group_view'),
+       url(r'^(?P<id>[a-f0-9]{24})/conference/$', 'group_conference', name='group_conference'),
        url(r'^(?P<id>[a-f0-9]{24})/members/$', 'member_list', name='member_list'),
        url(r'^(?P<id>[a-f0-9]{24})/members\.(?P<format>(txt|xml))$', 'api_member_list', name='api_member_list'),
 

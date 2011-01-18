@@ -108,6 +108,17 @@ def group_view(request, id):
         ))
 
 
+def group_conference(request, id):
+    group = get_document_or_404(Group, id=id)
+    is_active = group.is_active(request.user)
+    if not (is_active or request.user.is_superuser):
+        return redirect(reverse('groups:group_view', args=[id]))
+    return direct_to_template(request, 'groups/group_conference.html', dict(
+        group=group,
+        is_admin=group.is_admin(request.user) or request.user.is_superuser,
+    ))
+
+
 def api_member_list(request, id, format):
     group = get_document_or_404(Group, id=id)
     mimetypes = dict(
