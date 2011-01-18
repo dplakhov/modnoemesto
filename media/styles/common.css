@@ -1461,6 +1461,7 @@ li.friendTable
     padding:2px 48px 5px;
     float: left;
     text-decoration: none;
+	height: 17px;
 }
 .note_text
 {
@@ -1588,7 +1589,7 @@ a.tooltip
     margin-left: 0;
     width: 206px;
 }
-.tooltip:hover span.toollip_friend
+.tooltip:hover span.toollip_friend, .tooltip:hover span.toollip_friend_remove
 {
     left: -0.9em; 
     top: -5.1em; 
@@ -1608,9 +1609,17 @@ a.tooltip
     left: -13.5em;
     top: -5.1em; 
 }
+a.toollip_friend_remove
+{
+	background: url(../images/remove_friendship_ico.png) no-repeat bottom;
+}
 a.toollip_friend
 {
     background: url(../images/friendship_ico.png) no-repeat bottom;
+}
+a.toollip_friend_remove:hover
+{
+    background: url(../images/remove_friendship_ico_hover.png) no-repeat bottom;
 }
 a.toollip_friend:hover
 {
@@ -1708,8 +1717,15 @@ form p
 {
 	color: #575655;
 }
-
-
+.site_href
+{
+	text-decoration: none;
+	color: #666666;
+}
+#send_comment
+{
+	height: 44px;
+}
 
 
 
