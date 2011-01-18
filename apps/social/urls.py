@@ -5,7 +5,6 @@ from django.conf import settings
 
 urlpatterns = patterns('apps.social.views',
    url(r'^$', 'index', name='index'),
-   url(r'^filter/$', 'filter', name='filter'),
    url(r'^static/(?P<page>[a-z]+)/$', 'static', name='static'),
    url(r'^in_dev/$', 'in_dev', name='in_dev'),
    url(r'^home/$', 'home', name='home'),
