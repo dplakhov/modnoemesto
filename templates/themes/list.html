@@ -7,25 +7,32 @@
 <h1>{% trans "Themes" %}</h1>
 
 <div id="content-main">
-{% for file in objects.object_list  %}
-    <a class="fancy-image" href="{% media_url file library_video_full.png %}">
-        <img src="{% media_url file library_video_thumbnail.png %}" alt="" />
-    </a>
+{% for theme in objects.object_list  %}
+    <b>{{ theme.name }}</b>
+    <br />
+    <b>{{ theme.description }}</b>
+    <br />
+    <img src="{% url themes:file_view theme_id=theme.id file_name='preview.png' %}" alt="" />
+    <br />
     {% if can_manage %}
-        <a href="{% url media_library:video_delete id=file.id %}">{% trans "Delete" %}</a>
+        <a href="{% url themes:delete theme_id=theme.id %}">{% trans "Delete" %}</a>
     {% endif %}
+    <a href="{% url themes:set theme_id=theme.id %}">{% trans "Set" %}</a>
 {% endfor %}
 </div>
 
 {% include 'includes/pagination.html' %}
+{% if can_manage %}
+    <form action="{% url themes:add %}" method="post" enctype="multipart/form-data">
+    <table>
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="{% trans "Add" %}"/>
+    </form>
+{% endif %}
 
-        <form action="{% url media_library:video_add %}" method="post" enctype="multipart/form-data">
-
-        <table>
-        {{ form.as_table }}
-        </table>
-        <input type="submit" value="{% trans "Add" %}"/>
-        </form>
-
+{% if request.user.profile.theme %}
+    <a href="{% url themes:unset %}">{% trans "Unset" %}</a>
+{% endif %}
 
 {% endblock %}

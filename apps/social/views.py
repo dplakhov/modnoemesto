@@ -41,16 +41,6 @@ from documents import User
 from forms import PeopleFilterForm
 from apps.social.documents import Profile
 
-
-def filter(request):
-
-    return direct_to_template(request, 'index.html', {
-        'form': form,
-        'accounts': users,
-    })
-
-
-
 def index(request):
     if not request.user.is_authenticated():
         return _index_unreg(request)

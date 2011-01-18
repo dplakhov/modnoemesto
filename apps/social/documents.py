@@ -56,6 +56,8 @@ class Profile(Document):
 
     inviter = ReferenceField('User')
 
+    theme = ReferenceField('Theme')
+
     meta = {
         'indexes': [
             'user',

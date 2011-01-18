@@ -7,28 +7,32 @@ from mongoengine.document import Document
 from mongoengine.fields import BooleanField, StringField, FileField, ReferenceField
 
 class Theme(Document):
-    name = StringField()
+    name = StringField(unique=True)
     description = StringField()
     is_public = BooleanField(default=False)
 
     class SourceFileNotExists(Exception):
         pass
 
-    def _parse_meta(self, meta):
+    @classmethod
+    def _get_or_create(self, meta):
         theme_xml = etree.fromstring(meta)
-        self.is_public = theme_xml.attrib.get('public') == 'true'
-        self.name = theme_xml.attrib['name']
-        self.description = theme_xml.find('description').text.strip()
+        name = theme_xml.attrib['name']
+        theme, created = Theme.objects.get_or_create(name=name)
+        theme.is_public = theme_xml.attrib.get('public') == 'true'
+        theme.description = theme_xml.find('description').text.strip()
+        theme.save()
+
+        return theme
+
 
     @classmethod
     def from_zip(cls, zip_file_name):
         if not os.path.exists(zip_file_name):
             raise Theme.SourceFileNotExists("File %s not exists" % zip_file_name)
 
-        theme = Theme()
         file = zipfile.ZipFile(zip_file_name, 'r')
-        theme._parse_meta(file.read('theme.xml').decode('utf-8'))
-        theme.save()
+        theme = Theme._get_or_create(file.read('theme.xml').decode('utf-8'))
 
         for file_name in file.namelist():
             if file_name not in ('theme.xml', ):
@@ -41,9 +45,7 @@ class Theme(Document):
         if not os.path.exists(directory) or not os.path.isdir(directory):
             raise Theme.SourceFileNotExists("Directory %s not exists" % directory)
 
-        theme = Theme()
-        theme._parse_meta(open(os.path.join(directory, 'theme.xml')).read())
-        theme.save()
+        theme = Theme._get_or_create(open(os.path.join(directory, 'theme.xml')).read())
 
         for file_name in os.listdir(directory):
             if file_name not in ('theme.xml', ):
