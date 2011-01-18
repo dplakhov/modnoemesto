@@ -1,3 +1,4 @@
+
 *
 {
     margin: 0;
@@ -41,11 +42,16 @@ div#subContainer
 }
 /*Header
 ---------------------------------------------------------------*/
-#header
+#header, #header_video
 {
     overflow: hidden;
     height: 96px;
     background:url(../images/header_bg.jpg) no-repeat;
+}
+#header_video
+{
+	background:url(../images/header_bg_video.jpg) no-repeat;
+	margin-left: 5px;
 }
 #logo
 {
@@ -82,13 +88,19 @@ div#serch
     padding-left: 10px;
     color: #0888a0;
 }
-#menu, #menuReg
+
+#menu, #menuReg, #header_video+#menu
 {
     padding-top: 18px;
     padding-left: 90px;
     overflow: hidden;
     position: relative;
     top: -46px;
+}
+#header_video+#menu
+{
+	   left: 598px;
+    width: 110px;
 }
 #menu
 {
@@ -101,7 +113,7 @@ div#serch
     left: 757px;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio:0) {#menu{top: -48px;}  #menuReg{top: -48px;}}
+@media screen and (-webkit-min-device-pixel-ratio:0) {#menu{top: -48px;}  #menuReg{top: -48px;} #header_video+#menu{top: -48px;}}
 /*body:nth-of-type(1) #menu{top: -48px;} */
 #menu table td, #menuReg table td
 {
@@ -321,6 +333,12 @@ div#what_new
     font-size: 14px;
 }
 /*-----------------------*/
+#camera_holder
+{
+	position: absolute;
+	top: 100px;
+	left: 10px;
+}
 #centerColumn
 {
     float: left;
@@ -604,7 +622,10 @@ input, textarea
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
 }
-
+lable
+{
+	white-space: nowrap;
+}
 p.but
 {
     overflow: hidden;
