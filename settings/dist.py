@@ -107,6 +107,7 @@ LOGIN_EXEMPT_URLS = (
     r'^robots.txt$',
     r'^billing/camera/notify/',
     r'^srv/',
+    r'^theme/',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -193,6 +194,7 @@ INSTALLED_APPS = (
     'apps.server_api',
     'apps.async_email',
     'apps.invite',
+    'apps.themes',
 )
 
 
