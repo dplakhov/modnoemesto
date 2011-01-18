@@ -9,7 +9,7 @@
 <div id="container">
     <div id="subContainer">
 
-        <div id="header_video">
+        <div id="header">
             <a id="logo" href="/"><img src="/media/images/logo_bg.jpg" alt="Модное место" /></a>
         </div>
         <div id="menu">
@@ -23,36 +23,29 @@
             </table>
         </div>
 
-
-    <div id="camera_holder">
-
-<div id="telnew">
-{% spaceless %}
-<object width="800"
-        height="600"
-        style="position:relative; left:-5px;">
-    <embed src="/media/swf/userconf.swf"
-        quality="high"
-        bgcolor="#869ca7"
-        flashvars="myname={{ request.user.id }}&callid={{ callid }}&ip=188.93.20.18"
-        width="800"
-        height="600"
-        name="modnoemesto_video"
+<h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>
+{% if group.has_video_conference %}
+<object  width="{% if is_admin %}745{% else %}650{% endif %}"
+         height="{% if is_admin %}515{% else %}423{% endif %}"
+        >
+    <embed src="/media/swf/group_{% if is_admin %}admin{% else %}user{% endif %}.swf" quality="high" bgcolor="#869ca7"
+        flashvars="myname={{ user.id }}&ip=188.93.21.227&group_id={{ group.id }}&session_key={{ request.session.session_key }}"
+        width="{% if is_admin %}745{% else %}650{% endif %}"
+        height="{% if is_admin %}515{% else %}423{% endif %}"
+        name="sdo_video"
         align="middle"
         play="true"
         loop="false"
+        quality="high"
         allowScriptAccess="modnoemesto.ru"
         type="application/x-shockwave-flash"
         pluginspage="http://www.adobe.com/go/getflashplayer">
     </embed>
 </object>
-{% endspaceless %}
+{% else %}
+Конференция выключена.
+{% endif %}
+
+    </div>
 </div>
-
-    </div>
-
-
-    </div>
-</div>  
-
 {% endblock %}

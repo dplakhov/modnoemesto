@@ -24,8 +24,6 @@ $(document).ready(function(){
         $.get(url, function(data) {
             if (data != '') {
                 $('.messages_inbox').html(data);
-                if($.browser.safari){ bodyelem = $("body") } else{ bodyelem = $("html") }
-                bodyelem.animate({ scrollTop: messages_destination }, 1100 );
             }
         });
     }
@@ -39,11 +37,20 @@ $(document).ready(function(){
         if (link.hasClass('delete') || link.hasClass('next') || link.hasClass('previous') || link.hasClass('page') ) {
             var href = link.attr('href');
             update_messages(href);
+            if($.browser.safari){ bodyelem = $("body") } else{ bodyelem = $("html") }
+            bodyelem.animate({ scrollTop: messages_destination }, 1100 );
             var n = href.match(/\?page=(\d+)$/);
             if (n && parseInt(n[1]) != 1) is_first_page = false;
             else is_first_page = true;
             return false;
         }
+    });
+
+    $("#group_conference").click(function (e){
+        var width=810, height=635;
+        window.open(e.target, 'video',
+                'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
+        return false;
     });
 });
 </script>
@@ -54,27 +61,6 @@ $(document).ready(function(){
 <div id="centerColumn" style="width:760px">
 <div id="filter_box">
 <h2>{% trans "Group" %} "{{ group.name }}"</h2>
-{% if group.has_video_conference and can_view_conference %}
-<object  width="{% if is_admin %}745{% else %}650{% endif %}"
-         height="{% if is_admin %}515{% else %}423{% endif %}"
-        >
-    <embed src="/media/swf/group_{% if is_admin %}admin{% else %}user{% endif %}.swf" quality="high" bgcolor="#869ca7"
-        flashvars="myname={{ user.id }}&ip=188.93.21.227&group_id={{ group.id }}&session_key={{ request.session.session_key }}"
-        width="{% if is_admin %}745{% else %}650{% endif %}"
-        height="{% if is_admin %}515{% else %}423{% endif %}"
-        name="sdo_video"
-        align="middle"
-        play="true"
-        loop="false"
-        quality="high"
-        allowScriptAccess="modnoemesto.ru"
-        type="application/x-shockwave-flash"
-        pluginspage="http://www.adobe.com/go/getflashplayer">
-    </embed>
-</object>
-{% endif %}
-
-
 
 {% if is_admin %}
 <div class="friend_request" style="padding-top:20px">
@@ -186,6 +172,11 @@ $(document).ready(function(){
     {% endif %}
 </table>
 </div>
+{% if group.has_video_conference and can_view_conference %}
+<div class="but" style="margin-left:30px;">
+    <a href="{% url groups:group_conference group.id %}" id="group_conference">Видеоконференция</a>
+</div>
+{% endif %}
 <div class="but" style="margin-left:30px;">
 {% if request.user in group.members %}
     <a href="{% url groups:group_leave id=group.id %}">{% trans "Leave group" %}</a>
