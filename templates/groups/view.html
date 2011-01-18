@@ -24,8 +24,6 @@ $(document).ready(function(){
         $.get(url, function(data) {
             if (data != '') {
                 $('.messages_inbox').html(data);
-                if($.browser.safari){ bodyelem = $("body") } else{ bodyelem = $("html") }
-                bodyelem.animate({ scrollTop: messages_destination }, 1100 );
             }
         });
     }
@@ -39,6 +37,8 @@ $(document).ready(function(){
         if (link.hasClass('delete') || link.hasClass('next') || link.hasClass('previous') || link.hasClass('page') ) {
             var href = link.attr('href');
             update_messages(href);
+            if($.browser.safari){ bodyelem = $("body") } else{ bodyelem = $("html") }
+            bodyelem.animate({ scrollTop: messages_destination }, 1100 );
             var n = href.match(/\?page=(\d+)$/);
             if (n && parseInt(n[1]) != 1) is_first_page = false;
             else is_first_page = true;
