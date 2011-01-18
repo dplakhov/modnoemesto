@@ -41,7 +41,7 @@ class ChatStorage(object):
                 user = User.objects.get(pk=pk)
                 system_message = Message(
                     pk,
-                    u'Пользователь %s вышел из чата.' % user.get_full_name(),
+                    u'%s вышел из чата.' % user.get_full_name(),
                     type=Message.TYPE_SYSTEM
                 )
                 self.put(system_message)

@@ -77,7 +77,7 @@ def join(request):
 
     storage = ChatStorage(chat_id)
     user = User.objects.get(pk=request.user.pk)
-    text = u"Пользователь %s вошел в чат." % user.get_full_name()
+    text = u"%s вошел в чат." % user.get_full_name()
     message = Message(request.user.pk, text, type=Message.TYPE_SYSTEM)
     storage.put(message)
     return HttpResponse('')
