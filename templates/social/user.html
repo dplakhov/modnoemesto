@@ -86,9 +86,9 @@ $(document).ready(function() {
        		<img src="/media/images/toollip_friend_2.png" width="206px" height="63px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
        
        {% else %}
-       <a class="tooltip toollip_friend" href="{% url friends:remove user.id %}">
-       		<span class="toollip_friend">
-       		<img src="/media/images/toollip_friend_remove.png" width="206px" height="63px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
+       <a class="tooltip toollip_friend_remove" href="{% url friends:remove user.id %}">
+       		<span class="toollip_friend_remove">
+       		<img src="/media/images/toollip_friend_remove2.png" width="206px" height="63px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
       {% endif %}
        
        <a class="tooltip toollip_group" href="{% url groups:send_my_invites_to_user page_user.id %}">
