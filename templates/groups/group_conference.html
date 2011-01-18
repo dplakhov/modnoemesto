@@ -9,7 +9,7 @@
 <div id="container">
     <div id="subContainer">
 
-        <div id="header">
+        <div id="header_video">
             <a id="logo" href="/"><img src="/media/images/logo_bg.jpg" alt="Модное место" /></a>
         </div>
         <div id="menu">
@@ -17,12 +17,12 @@
             <tr>
 
             <td class="left_corner"></td>
-            <td class="menu_but"><a href="{% url social:logout %}">закрыть</a></td>
+            <td class="menu_but"><a href="javascript:window.close();">закрыть</a></td>
             <td class="right_corner"></td>
             </tr>
             </table>
         </div>
-
+<div id="camera_holder">
 <h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>
 {% if group.has_video_conference %}
 <object  width="{% if is_admin %}745{% else %}650{% endif %}"
@@ -45,6 +45,7 @@
 {% else %}
 Конференция выключена.
 {% endif %}
+</div>
 
     </div>
 </div>

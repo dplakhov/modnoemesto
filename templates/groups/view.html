@@ -47,7 +47,7 @@ $(document).ready(function(){
     });
 
     $("#group_conference").click(function (e){
-        var width=810, height=635;
+        var width={% if is_admin %}745{% else %}650{% endif %}+20, height={% if is_admin %}515{% else %}423{% endif %}+130;
         window.open(e.target, 'video',
                 'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
         return false;
