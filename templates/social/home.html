@@ -8,7 +8,10 @@
 <link href="/media/styles/profile.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
-
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
+{% endblock %}
 
 {% block content %}
 <div id="left">
@@ -89,12 +92,6 @@
     <div id="camera"><a name="cam"></a>
         {% if camera %}
         {% include "includes/camera.html" %}
-        {% else %}
-        <div class="no_camera">
-        <p>
-        {% trans "You have no registered camera." %}
-        </p>
-        </div>
         {% endif %}
 
 

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from django.conf import settings
+
 from django.core.mail import get_connection
+from django.conf import settings
 from celery.decorators import task
 
 
@@ -11,19 +12,19 @@ BACKEND = getattr(settings, 'CELERY_EMAIL_BACKEND',
                   'django.core.mail.backends.smtp.EmailBackend')
 
 @task()
-def send_email(message):
+def send_email_task(message, **kwargs):
     conn = get_connection(backend=BACKEND)
+
+    logger = logging.get_logger(**kwargs)
 
     try:
         conn.send_messages([message])
-        logging.debug("Successfully sent email message")
+        if settings.DEBUG:
+            logger.debug("Successfully sent email message: %s" % (message.message().as_string(),))
     except:
-        logging.error("Error to send email")
+        logger.error("Error to send email")
 
 
-from celery.registry import tasks
-tasks.register(send_email)
-
-#for key, val in CONFIG.iteritems():
-#    setattr(send_email, key, val)
+for key, val in CONFIG.iteritems():
+    setattr(send_email_task, key, val)
 

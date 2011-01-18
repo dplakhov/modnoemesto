@@ -13,13 +13,11 @@
     <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
 <script>
 $(document).ready(function() {
-    $(".toollip_video").fancybox({
-        'width'				: 800,
-        'height'			: 600,
-        'autoScale'			: false,
-        'transitionIn'		: 'none',
-        'transitionOut'		: 'none',
-        'type'				: 'iframe'
+    $(".toollip_video").click(function (e){
+        var width=810, height=645;
+        window.open(e.target, 'video',
+                'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
+        return false;
     });
 });
 </script>
@@ -111,8 +109,12 @@ $(document).ready(function() {
     </div>
     <div class="profileActions">
         <ul>{% url friends:friends_all page_user.id as friends %}
-            <li><a href="{{ friends }}">{% trans "Friends" %} ({{ page_user.friends.count }})</a></li>
+            {% if request.user.is_superuser %}
+            <li><a href="{% url social:profile_edit page_user.id %}">{% trans "options" %}</a></li>
+            {% endif %}
+            <li><a href="{% url notes:note_list page_user.id %}">{% trans "Notes" %}</a></li>
             <li>Приглашённые: {{ invitee_count }}</li>
+            <li><a href="{{ friends }}">{% trans "Friends" %} ({{ page_user.friends.count }})</a></li>
         </ul>
     </div>
     <div class="friend_box transparent">
@@ -173,12 +175,6 @@ $(document).ready(function() {
                     </table>
             {% endif %}
             {% include "includes/camera.html" %}
-        {% else %}
-            <div class="no_camera">
-            <p>
-            {% trans "This user has no registered camera." %}
-            </p>
-            </div>
         {% endif %}
     </div>
 

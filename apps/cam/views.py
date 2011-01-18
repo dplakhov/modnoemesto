@@ -184,9 +184,13 @@ def cam_manage(request, id, command):
     return HttpResponse()
 
 
-def cam_bookmarks(request):
+def cam_bookmarks(request, id=None):
+    if id:
+        user = get_document_or_404(User, id=id)
+    else:
+        user = request.user
     try:
-        bookmarks = CameraBookmarks.objects.get(user=request.user)
+        bookmarks = CameraBookmarks.objects.get(user=user)
     except CameraBookmarks.DoesNotExist:
         cameras = None
     else:

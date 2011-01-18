@@ -6,7 +6,7 @@ from django.utils.encoding import smart_str
 
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-from django.core.mail import send_mail
+from apps.utils.mail import send_mail
 from django.template.loader import render_to_string
 
 from django.core.urlresolvers import reverse
@@ -48,7 +48,7 @@ class Profile(Document):
     university = StringField(max_length=30)
     department = StringField(max_length=30)
     university_status = StringField(max_length=30)
-    
+
     get_news = BooleanField()
 
     announce = StringField(max_length=512,
@@ -166,10 +166,10 @@ class User(Document):
 
     @cached_property
     def friends_online(self):
-        return filter(lambda x: x.is_online(),self.friends.list)
-        
+        return filter(lambda x: x.is_online(), self.friends.list)
+
     meta = {
-        'indexes': ['email',]
+        'indexes': ['email', ]
     }
 
     def __unicode__(self):
@@ -244,7 +244,7 @@ class User(Document):
         return []
 
     def has_module_perms(self, perm):
-        return self.has_perm(perm) 
+        return self.has_perm(perm)
 
     def has_perm(self, perm):
         if self.is_superuser:
@@ -252,28 +252,18 @@ class User(Document):
 
         if perm == 'superuser':
             return False
-        
+
         return perm in self.get_all_permissions()
 
     def get_all_permissions(self):
         return self.permissions
 
     def get_camera(self):
-        from apps.cam.documents import Camera, CameraType, CameraTag
-        cam = Camera.objects(owner=self).first()
-        if not cam:
-            cam = Camera(owner=self,
-                         type=CameraType.objects(is_default=True).first(),
-                         is_view_enabled=True,
-                         is_view_public=False,
-                         tags=list(CameraTag.objects(is_default=True)),
-                         )
-            cam.save()
-            CameraTag.calc_count(map(lambda i:str(i.id), cam.tags))
-        return cam
+        from apps.cam.documents import Camera
+        return Camera.objects(owner=self).first()
 
     def get_absolute_url(self):
-        return reverse('social:user',  kwargs=dict(user_id=self.id))
+        return reverse('social:user', kwargs=dict(user_id=self.id))
 
 
 class Setting(Document):
