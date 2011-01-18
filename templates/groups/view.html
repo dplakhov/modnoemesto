@@ -167,7 +167,7 @@ $(document).ready(function(){
 </div>
 {% if group.has_video_conference and can_view_conference %}
 <div class="but" style="margin-left:30px;">
-    <a href="{% url groups:group_conference group.id %}">Видеоконференция</a>
+    <a href="{% url groups:group_conference group.id %}" target='_blank'>Видеоконференция</a>
 </div>
 {% endif %}
 <div class="but" style="margin-left:30px;">
