@@ -35,7 +35,7 @@ div#subContainer
     position: relative; /* needed for footer positioning*/
     margin: 0 auto;
     width: 1000px;
-    min-width: 1000px;
+    /*min-width: 1000px;*/
     height: auto !important; /* real browsers */
     height: 100%; /* IE6: treaded as min-height*/
     min-height: 100%; /* real browsers */
@@ -1767,6 +1767,16 @@ form p
 {
 	height: 44px;
 }
-
-
+.seting li
+{
+	margin-bottom: 7px;
+}
+.seting a
+{
+	font-size: 14px;
+}
+.theme_list th, .theme_list td
+{
+	text-align: center !important;
+}
 
