@@ -1,13 +1,3 @@
-
-CELERY_RESULT_BACKEND = "mongodb"
-
-CELERY_MONGODB_BACKEND_SETTINGS = {
-    "host": "127.0.0.1",
-    "port": 27017,
-    "database": "celery",
-    "taskmeta_collection": "taskmeta",
-}
-
 TASKS_ENABLED = dict(
     AVATAR_RESIZE=1,
     MESSAGE_STORE_READED=1,
@@ -33,3 +23,4 @@ CELERY_EMAIL_TASK_CONFIG = {
     'delivery_mode' : 1, # non persistent
     'rate_limit' : '50/m', # 50 emails per minute
 }
+

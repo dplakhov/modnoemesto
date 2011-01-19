@@ -57,28 +57,6 @@ LOGGING = {
             'class': 'apps.logging.log.MongoHander',
         },
 
-        'mongo_info': {
-            'level': 'INFO',
-            'class': 'apps.logging.log.MongoHander',
-        },
-        'mongo_debug': {
-            'level': 'DEBUG',
-            'class': 'apps.logging.log.MongoHander',
-        },
-        'mongo_warning': {
-            'level': 'WARNING',
-            'class': 'apps.logging.log.MongoHander',
-        },
-        'mongo_error': {
-            'level': 'ERROR',
-            'class': 'apps.logging.log.MongoHander',
-        },
-        'mongo_critical': {
-            'level': 'CRITICAL',
-            'class': 'apps.logging.log.MongoHander',
-        },
-
-
 
     },
     'loggers': {
@@ -93,43 +71,34 @@ LOGGING = {
             'propagate': False,
         },
         'celery': {
-            'handlers': ['mongo_debug'],
+            'handlers': ['mongo'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'root': {
+            'handlers': ['mongo'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'multiprocessing': {
+            'handlers': ['mongo'],
             'level': 'DEBUG',
             'propagate': True,
         },
         'email': {
-            'handlers': ['mongo_debug'],
+            'handlers': ['mongo'],
             'level': 'DEBUG',
             'propagate': True,
         },
-        'test_logger_info': {
-            'handlers': ['mongo_info'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'test_logger_debug': {
-            'handlers': ['mongo_debug'],
+
+        'test_mongo_logger': {
+            'handlers': ['mongo'],
             'level': 'DEBUG',
-            'propagate': True,
-        },
-        'test_logger_warning': {
-            'handlers': ['mongo_warning'],
-            'level': 'WARNING',
-            'propagate': True,
-        },
-        'test_logger_error': {
-            'handlers': ['mongo_error'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-        'test_logger_critical': {
-            'handlers': ['mongo_critical'],
-            'level': 'CRITICAL',
             'propagate': True,
         },
 
         'server_api': {
-            'handlers': ['mongo_debug'],
+            'handlers': ['mongo'],
             'level': 'DEBUG',
             'propagate': True,
         },
@@ -149,4 +118,11 @@ if django.VERSION[1] < 3:
 
         # ... then invoke it with the logging settings
         logging_config_func(LOGGING)
+
+CELERYD_LOG_TO_CONSOLE = True
+
+
+if not CELERYD_LOG_TO_CONSOLE:
+    import celery.log
+    celery.log._setup = True
 

@@ -22,7 +22,7 @@ class ChatStorage(object):
 
     def set_user_offline(self, user_id):
         users = self.online_users()
-        users[user_id] = datetime.now() - timedelta(settings.CHAT_OFFLINE_TIMEDELTA)
+        users[user_id] = datetime.now() - timedelta(seconds=settings.CHAT_OFFLINE_TIMEDELTA)
         cache.set(self.users_key, users)
 
     def set_user_online(self, user_id):
@@ -32,7 +32,7 @@ class ChatStorage(object):
 
     def cleanup_users(self):
         users = cache.get(self.users_key) or {}
-        now_offset = datetime.now() - timedelta(settings.CHAT_OFFLINE_TIMEDELTA)
+        now_offset = datetime.now() - timedelta(seconds=settings.CHAT_OFFLINE_TIMEDELTA)
 
         for pk in users.keys():
             last_access = users[pk]
@@ -41,7 +41,7 @@ class ChatStorage(object):
                 user = User.objects.get(pk=pk)
                 system_message = Message(
                     pk,
-                    u'%s вышел из чата.' % user.get_full_name(),
+                    u'%s выходит из чата.' % user.get_full_name(),
                     type=Message.TYPE_SYSTEM
                 )
                 self.put(system_message)

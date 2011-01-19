@@ -4,17 +4,45 @@
 {% load i18n %}
 {% load pytils_numeral %}
 
+{% block js %}
+{{ block.super }}
+{% if user.is_authenticated %}
+<script type="text/javascript">
+$(document).ready(function(){
+    var call_message = $('#call_message');
+    call_message.click(function (e){
+        var width=810, height=725;
+        window.open("{% url social:home_conference %}", 'video',
+                'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
+        return false;
+    });
+    function check_calls() {
+        $.get('{% url video_call:check_calls %}', function(data) {
+            if (data) {
+                call_message.html('{{ request.user }}, Вас вызывает на видеоконференцию пользователь '
+                    + data + '! (кликните на это сообщение для установки связи).');
+                call_message.show();
+            } else {
+                call_message.hide();
+            }
+            setTimeout(check_calls, {{ VIDEO_CALL_INTERVAL_UPDATE }}000);
+        });
+    }
+    setTimeout(check_calls, {{ VIDEO_CALL_INTERVAL_UPDATE }}000);
+});
+</script>
+{% endif %}
+{% endblock %}
+
 {% block body %}
 <div id="container">
     <div id="subContainer">
 
         <div id="header">
         
-            {% if not user.is_authenticated %}
-            <h1 id="logo_index" >Модное место – новая социальная сеть</h1>
-            {% else %}
-            <a id="logo" href="/"><img src="/media/images/logo_bg.jpg" alt="Модное место" /></a>
-            {% endif %}
+            <a id="logo"{% if request.path != '/' %} href="/"{% endif %}>
+                <img src="/media/images/logo_bg{% if not user.is_authenticated %}2{% endif %}.jpg" alt="Модное место" />
+            </a>
 <!--
             <div id="serch">
                 <form id="search-box" action="">
@@ -80,7 +108,8 @@
 		</div>
         {% endif %}
         
-        
+
+<div id="call_message"></div>
         
 
 {% if messages %}
