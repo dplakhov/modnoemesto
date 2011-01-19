@@ -66,9 +66,9 @@ def deploy(revision, reinstall=False):
                 run('ln -fs %s app' % revision)
                 with cd('app'):
                     if env.host.startswith('as1'):
-                        settings_local = 'settings/local_test.py'
+                        settings_local = 'settings/modnoemesto_test.py'
                     else:
-                        settings_local = 'settings/local.py'
+                        settings_local = 'settings/modnoemesto.py'
                         
                     put(settings_local,
                         '%s/app/settings/local.py' %

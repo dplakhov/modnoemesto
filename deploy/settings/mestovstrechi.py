@@ -1,5 +1,34 @@
 # -*- coding: utf-8 -*-
 
+import os
+
+
+
+def rel(x):
+    return os.path.join(
+            os.path.abspath(os.path.join(os.path.dirname(__file__),
+                os.path.pardir)),
+            x)
+
+MONGO_DATABASE = 'mestovstrechi'
+
+
+TEMPLATE_DIRS = (
+    rel('sites/mestovstrechi/templates/'),
+    rel('sites/modnoemesto/templates/')
+)
+
+LOCALE_PATHS = (
+    rel('sites/mestovstrechi/templates/locale'),
+    rel('sites/modnoemesto/templates/locale')
+)
+
+MEDIA_ROOT = rel('sites/mestovstrechi/media/')
+
+SITE_DOMAIN = 'mestovstrechi.piter.tv' # no slashes here, please
+SERVER_EMAIL = 'mestovstrechi.piter.tv <mestovstrechi@mestovstrechi.piter.tv>'
+
+
 DEBUG = TEMPLATE_DEBUG = False
 
 ADMINS = (

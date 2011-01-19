@@ -47,7 +47,6 @@ if 'test' in sys.argv:
     }
     TEST_RUNNER = 'djcelery.contrib.test_runner.run_tests'
 
-MONGO_DATABASE = 'social'
 MONGO_HOST = '127.0.0.1'
 
 DATABASE_ROUTERS = [ 'db_routers.BillingRouter', ]
@@ -189,10 +188,11 @@ FORCE_SCRIPT_NAME = ''
 
 SEND_EMAILS = True
 
+ROOT_URLCONF = 'urls'
 
 #######################################################
-ROOT_URLCONF = 'sites.modnoemesto.urls'
-ROOT_URLCONF = 'urls'
+MONGO_DATABASE = 'social'
+
 
 TEMPLATE_DIRS = (
     rel('sites/modnoemesto/templates/')
