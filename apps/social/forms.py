@@ -187,7 +187,12 @@ class LostPasswordForm(forms.Form):
 
 
 class SetNewPasswordForm(forms.Form):
-    password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput, max_length=64)
+    password1 = forms.RegexField(label=_("Password"),
+                                 widget=forms.PasswordInput,
+                                 min_length=4,
+                                 max_length=64,
+                                 regex=r'^[\w\.\-_@!#$%^&+=]+$',
+                                 error_messages={'invalid': _("This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= characters.")})
     password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput, max_length=64)
 
     def clean_password2(self):
