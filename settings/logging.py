@@ -119,7 +119,7 @@ if django.VERSION[1] < 3:
         # ... then invoke it with the logging settings
         logging_config_func(LOGGING)
 
-CELERYD_LOG_TO_CONSOLE = False
+CELERYD_LOG_TO_CONSOLE = True
 
 
 if not CELERYD_LOG_TO_CONSOLE:
