@@ -18,7 +18,7 @@ $(document).ready(function(){
     function check_calls() {
         $.get('{% url video_call:check_calls %}', function(data) {
             if (data) {
-                call_message.html(data + ', Вас вызывает на видеоконференцию пользователь '
+                call_message.html('{{ request.user }}, Вас вызывает на видеоконференцию пользователь '
                     + data + '! (кликните на это сообщение для установки связи).');
                 call_message.show();
             } else {
