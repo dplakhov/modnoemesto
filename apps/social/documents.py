@@ -202,7 +202,7 @@ class User(Document):
         return User.objects.filter(last_access__gt=User.get_delta_time())
 
     def set_offline(self):
-        self.last_access = datetime.now() - timedelta(minutes=OFFLINE_TIMEDELTA)
+        self.last_access = datetime.now() - timedelta(seconds=settings.CHAT_OFFLINE_TIMEDELTA)
         self.save()
 
     def set_online(self):
