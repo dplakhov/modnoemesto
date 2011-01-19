@@ -75,6 +75,16 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+        'root': {
+            'handlers': ['mongo'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'multiprocessing': {
+            'handlers': ['mongo'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
         'email': {
             'handlers': ['mongo'],
             'level': 'DEBUG',
@@ -108,4 +118,11 @@ if django.VERSION[1] < 3:
 
         # ... then invoke it with the logging settings
         logging_config_func(LOGGING)
+
+CELERYD_LOG_TO_CONSOLE = True
+
+
+if not CELERYD_LOG_TO_CONSOLE:
+    import celery.log
+    celery.log._setup = True
 

@@ -1,0 +1,124 @@
+
+h2
+{
+	font-size: 18px;
+	color: #08889f;
+	margin-bottom: 14px;
+}
+dl
+{
+	padding: 10px 0px;
+}
+dt
+{
+	float: left;
+	display: inline;
+	width: 120px;
+	color: #838383;
+	padding: 5px;
+}
+dd
+{
+	margin-left: 121px;
+	padding: 5px;
+	overflow: hidden;
+	width: 150px;
+	color: #00b2d5;
+}
+div.about_persone
+{
+	border-top: 1px dotted #6f6f6f;
+	padding: 15px 0px;
+	width: 290px;
+	/*background: url(../images/bg_about_persone.png) no-repeat;*/
+}
+.about_persone p
+{
+	color: #08889f;
+	width: 205px;
+	padding-left: 5px;
+}
+p.event_announce
+{
+    width: 285px;
+	color: #575655;
+	padding-top: 5px;
+}
+#avatar
+{
+	text-align: center;
+	border: 10px solid #eeedde;
+	background: #EEEDDE;
+	width: 200px;
+	position: absolute;
+	top: 40px;
+    left: 520px;
+}
+.profileActions
+{
+	overflow: hidden;
+	margin-top: 5px;
+	width: 220px;
+	position: absolute;
+	left: 520px;
+	top: 260px;
+	
+}
+.profileActions ul
+{
+	overflow: hidden;
+}
+.profileActions ul li
+{
+	padding: 10px 0px 10px 15px;
+	border-top: #6f6f6f dotted 1px;
+	display: block;
+}
+.profileActions ul li a
+{
+	color: #575655;
+}
+.profileActions ul li a:hover
+{
+	color: #000;
+}
+.friend_box
+{
+	margin-top: 10px;
+	border-top: 1px dotted #6f6f6f;
+	padding: 15px 0px;
+	background: url(../images/bg_gray.png) repeat-x top;
+    height: 250px;
+	width: 220px;
+	position: absolute;
+	left: 520px;
+	top: 385px;
+	overflow: hidden;
+}
+.friend_box span
+{
+    float: right;
+    text-align: right;
+}
+.all_friends
+{
+	overflow: hidden;
+}
+.friends_amount
+{
+	color: #838383;
+	text-decoration: underline;
+}
+
+.friend_box p
+{
+	color: #08889f;
+	float: left;
+	display: inline;
+	padding-left: 5px;
+}
+.clear
+{
+	clear: both;
+}
+
