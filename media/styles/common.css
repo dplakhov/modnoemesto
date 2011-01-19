@@ -69,18 +69,6 @@ div#subContainer
     float: left;
     display: inline;
 }
-#logo_index
-{
-    margin-left: 40px;
-    float: left;
-    display: inline;
-    text-indent: -9000px;
-    overflow: hidden;
-    height:93px;
-    width:516px;
-    background-image: url(../images/logo_bg2.jpg);
-}
-    
 div#serch
 {
     margin-top: 24px;
