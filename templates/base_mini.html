@@ -4,6 +4,34 @@
 {% load i18n %}
 {% load pytils_numeral %}
 
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+$(document).ready(function(){
+    var call_message = $('#call_message');
+    call_message.click(function (e){
+        var width=810, height=725;
+        window.open("{% url social:home_conference %}", 'video',
+                'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
+        return false;
+    });
+    function check_calls() {
+        $.get('{% url video_call:check_calls %}', function(data) {
+            if (data) {
+                call_message.html(data + ', Вас вызывает на видеоконференцию пользователь '
+                    + data + '! (кликните на это сообщение для установки связи).');
+                call_message.show();
+            } else {
+                call_message.hide();
+            }
+            setTimeout(check_calls, {{ VIDEO_CALL_INTERVAL_UPDATE }}000);
+        });
+    }
+    setTimeout(check_calls, {{ VIDEO_CALL_INTERVAL_UPDATE }}000);
+});
+</script>
+{% endblock %}
+
 {% block body %}
 <div id="container">
     <div id="subContainer">
@@ -80,7 +108,8 @@
 		</div>
         {% endif %}
         
-        
+
+<div id="call_message"></div>
         
 
 {% if messages %}

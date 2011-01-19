@@ -1515,6 +1515,18 @@ li.friendTable
     color: #BFBEB2;
     font-size: 13px;
 }
+#call_message
+{
+    padding: 4px 4px 4px 30px;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    border: 2px solid;
+    background: url("../images/exclamation.png") no-repeat scroll 8px 50% #FFE3E3;
+    border-color: #DD0000;
+    color: #880000;
+    display: none;
+    cursor: pointer;
+}
 div.system_messages li
 {
     padding: 4px 4px 4px 30px;
