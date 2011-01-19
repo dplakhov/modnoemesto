@@ -1,4 +1,7 @@
-
+#user_page
+{
+	position: relative;
+}
 h2
 {
 	font-size: 18px;
@@ -50,18 +53,18 @@ p.event_announce
 	border: 10px solid #eeedde;
 	background: #EEEDDE;
 	width: 200px;
-	position: absolute;
-	top: 40px;
-    left: 520px;
+	position: relative;
+	top: -320px;
+    left: 302px;
 }
 .profileActions
 {
 	overflow: hidden;
 	margin-top: 5px;
 	width: 220px;
-	position: absolute;
-	left: 520px;
-	top: 260px;
+	position: relative;
+	left: 302px;
+	top: -320px;
 	
 }
 .profileActions ul
@@ -90,9 +93,9 @@ p.event_announce
 	background: url(../images/bg_gray.png) repeat-x top;
     height: 250px;
 	width: 220px;
-	position: absolute;
-	left: 520px;
-	top: 385px;
+	position: relative;
+	left: 302px;
+	top: -320px;
 	overflow: hidden;
 }
 .friend_box span
@@ -119,9 +122,8 @@ p.event_announce
 }
 #camera
 {
-	position: absolute;
-	top: 680px;
-	left: 220px;
+	position: relative;
+	top: -320px;
 }
 .clear
 {
