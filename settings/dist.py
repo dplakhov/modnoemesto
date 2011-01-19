@@ -143,6 +143,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
     'apps.social.context_processors.site_domain',
+    'apps.video_call.context_processors.call_settings',
 
 )
 
@@ -239,7 +240,7 @@ ALLOWED_SERVER_IPS = (
 
 
 
-VIDEO_CALL_INTERVAL_UPDATE = timedelta(seconds=5)
+VIDEO_CALL_INTERVAL_UPDATE = 5 # sec.
 
 
 from .billing import *

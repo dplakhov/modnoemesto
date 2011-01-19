@@ -4,6 +4,40 @@
 {% load i18n %}
 {% load pytils_numeral %}
 
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+$(document).ready(function(){
+    {% if callid %}
+    function call_user() {
+        $.get('{% url video_call:call_user callid %}', function(data) {
+            switch(data) {
+            case 'OK':
+                break;
+            case 'WHITE':
+                setTimeout(call_user, {{ VIDEO_CALL_INTERVAL_UPDATE }}000);
+                break;
+            case 'OFFLINE':
+                alert('Пользователь не в сети');
+                break;
+            default:
+                alert('Ошибка');
+            }
+        });
+    }
+    setTimeout(call_user, {{ VIDEO_CALL_INTERVAL_UPDATE }}000);
+    {% else %}
+    function set_last_view() {
+        $.get('{% url video_call:set_last_view %}', function(data) {
+            setTimeout(set_last_view, {{ VIDEO_CALL_INTERVAL_UPDATE }}000);
+        });
+    }
+    setTimeout(set_last_view, {{ VIDEO_CALL_INTERVAL_UPDATE }}000);
+    {% endif %}
+});
+</script>
+{% endblock %}
+
 {% block body %}
 
 <div id="container">
