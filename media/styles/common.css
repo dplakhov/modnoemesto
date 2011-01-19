@@ -213,7 +213,7 @@ div#mainContent
 }
 .nav ul li
 {
-    padding: 10px 0px 10px 34px;
+    padding: 10px 0px 10px 40px;
     border-bottom: #6f6f6f dotted 1px;
     display: block;
 }
@@ -234,7 +234,7 @@ div#mainContent
 }
 li#persone
 {
-    background:url(../images/persone.jpg) no-repeat left center;
+    background:url(../images/persone.jpg) no-repeat 4% 50%;
 }
 li#persone a
 {
@@ -248,8 +248,8 @@ li#money
 }
 li#money div.q
 {
-    padding: 5px 0px 5px 34px;
-    background:url(../images/money_temp.jpg) no-repeat left center;
+    padding: 5px 0px 5px 40px;
+    background:url(../images/money.png) no-repeat 4% 50%;
     color: #027a98;
 }
 li#money p
@@ -283,44 +283,51 @@ li.camera_off#money span
 
 li#videochat
 {
-	background: url(../images/videochat.jpg) no-repeat left center;
+	background: url(../images/videochat_ico.png) no-repeat left center;
+	padding: 10px 0px 10px 0px;
+}
+li#videochat a
+{
+	font-weight: bold;
+	background: url(../images/videochat_ico.png) no-repeat left center;
+	padding: 5px 0px 5px 40px;
 }
 li#fashion_place
 {
-    background:url(../images/lovely.jpg) no-repeat left center;
+    background:url(../images/lovely.jpg) no-repeat 4% 50%;
 }
 
 li#friends
 {
-    background:url(../images/friends.jpg) no-repeat left center;
+    background:url(../images/friends.jpg) no-repeat 4% 50%;
 }
 li#mail
 {
-    background:url(../images/mail.jpg) no-repeat left center;
+    background:url(../images/mail.jpg) no-repeat 4% 50%;
 }
 li#notes
 {
-    background:url(../images/notes.jpg) no-repeat left center;
+    background:url(../images/notes.jpg) no-repeat 4% 50%;
 }
 li#group
 {
-    background:url(../images/group.jpg) no-repeat left center;
+    background:url(../images/group.jpg) no-repeat 4% 50%;
 }
 li#foto
 {
-    background:url(../images/foto_noactive.png) no-repeat left center;
+    background:url(../images/foto_noactive.png) no-repeat 4% 50%;
 }
 li#video
 {
-    background:url(../images/video_noactive.png) no-repeat left center;
+    background:url(../images/video_noactive.png) no-repeat 4% 50%;
 }
 li#audio
 {
-    background:url(../images/audio_noactive.png) no-repeat left center;
+    background:url(../images/audio_noactive.png) no-repeat 4% 50%;
 }
 li#meeting
 {
-    background:url(../images/meeting_noactive.png) no-repeat left center;
+    background:url(../images/meeting_noactive.png) no-repeat 4% 50%;
     border-bottom: none;
 }
 div#what_new

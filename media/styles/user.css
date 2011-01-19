@@ -117,7 +117,12 @@ p.event_announce
 	display: inline;
 	padding-left: 5px;
 }
-
+#camera
+{
+	position: absolute;
+	top: 680px;
+	left: 220px;
+}
 .clear
 {
 	clear: both;
