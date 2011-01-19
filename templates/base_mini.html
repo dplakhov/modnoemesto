@@ -41,8 +41,13 @@ $(document).ready(function(){
         <div id="header">
         
             <a id="logo"{% if request.path != '/' %} href="/"{% endif %}>
-                <img src="/media/images/logo_bg{% if not user.is_authenticated %}2{% endif %}.jpg" alt="Модное место" />
+                {% if not user.is_authenticated %}
+                <h1 id="logo_index" >Модное место – новая социальная сеть</h1>
+                {% else %}
+                <img src="/media/images/logo_bg.jpg" alt="Модное место" />
+                {% endif %}
             </a>
+
 <!--
             <div id="serch">
                 <form id="search-box" action="">
