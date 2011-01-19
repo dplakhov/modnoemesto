@@ -111,13 +111,11 @@ class UserCreationForm(forms.Form):
     NAME_REGEXP = ur'^[A-zА-я\'\`\-]+$'
     first_name = forms.RegexField(label=_("First name"),
                                   regex=NAME_REGEXP,
-                                  min_length=4,
-                                  max_length=64,
+                                  min_length=2, max_length=64,
                                   error_messages={'invalid': _("This value may contain only letters, numbers and '/`/- characters.")})
     last_name = forms.RegexField(label=_("Last name"),
                                  regex=NAME_REGEXP,
-                                 min_length=4,
-                                 max_length=64,
+                                 min_length=2, max_length=64,
                                  error_messages={'invalid': _("This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= characters.")})
     email = forms.EmailField(label=_("Email"), max_length=64)
     phone = forms.RegexField(label=_("Phone"),
