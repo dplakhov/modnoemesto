@@ -205,9 +205,7 @@ LOCALE_PATHS = (
 MEDIA_ROOT = rel('sites/modnoemesto/media/')
 
 SITE_DOMAIN = 'modnoemesto.ru' # no slashes here, please
-ROBOT_EMAIL_ADDRESS = 'modnoemesto.ru <modnoemesto@modnoemesto.ru>'
-
-SERVER_EMAIL = ROBOT_EMAIL_ADDRESS
+SERVER_EMAIL = 'modnoemesto.ru <modnoemesto@modnoemesto.ru>'
 
 #######################################################
 

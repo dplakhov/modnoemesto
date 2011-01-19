@@ -42,7 +42,7 @@ def send_emails(article):
         article.title
     )
     message = article.text
-    sender = settings.ROBOT_EMAIL_ADDRESS
+    sender = settings.SERVER_EMAIL
 
     messages = []
     for profile in profiles:
