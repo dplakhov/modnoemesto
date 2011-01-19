@@ -3,11 +3,18 @@
 {% load media %}
 
 {% block content %}
+<div id="filter_box">
+<h2>{% trans "Themes" %}</h2>
 
-<h1>{% trans "Themes" %}</h1>
 
-<div id="content-main">
-<table>
+<div class="filt rounded">
+<table class="group_add theme_list">
+<tr>
+    <th width="22%">Название</th><td class="empty_filt"></td>
+    <th width="22%">Описание</th><td class="empty_filt"></td>
+    <th width="22%">Скриншот</th><td class="empty_filt"></td>
+    <th width="22%">Действия</th>
+</tr>
 {% for theme in objects.object_list  %}
     <tr>
         <td>
@@ -33,8 +40,9 @@
 {% endfor %}
 </table>
 </div>
+</div>
 
-{% include 'includes/pagination.html' %}
+{% include 'includes/paginator.html' %}
 {% if can_manage %}
     <form action="{% url themes:add %}" method="post" enctype="multipart/form-data">
     <table>

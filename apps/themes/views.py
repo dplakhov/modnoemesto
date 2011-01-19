@@ -66,7 +66,6 @@ def delete(request, theme_id):
     theme = Theme.objects.with_id(theme_id)
 
     if theme:
-        Profile.objects(theme=theme).update(set__theme=None)
         theme.delete()
 
     return redirect('themes:list')

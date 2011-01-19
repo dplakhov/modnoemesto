@@ -1,6 +1,12 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
+<ul class="seting">
+    <li><a href="{% url social:avatar_edit %}">{% trans "Edit photo" %}</a></li>
+    <li><a href="{% url themes:list %}">{% trans "Change theme" %}</a></li>
+</ul>
+    <br />
 <div id="filter_box">
 {% with profile_form as form %}
 {% include "social/profile/_profile_form.html" %}
