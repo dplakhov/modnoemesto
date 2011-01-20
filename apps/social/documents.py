@@ -87,6 +87,7 @@ class User(Document):
     password = StringField(max_length=64)
 
     is_active = BooleanField(default=True)
+    is_banned = BooleanField(default=False)
 
     is_staff = BooleanField(default=False)
     is_superuser = BooleanField(default=False)

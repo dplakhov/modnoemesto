@@ -390,6 +390,7 @@ def user_form(request, user):
         if form.is_valid():
             for k, v in form.cleaned_data.items():
                 setattr(user, k, v if v else None)
+            user.is_active = not user.is_banned
             user.save()
             messages.add_message(request, messages.SUCCESS, _('User successfully updated'))
             return
@@ -526,7 +527,7 @@ def lost_password(request, template='social/lost_password.html'):
                     user.gen_activation_code()
                     user.save()
                     user.send_restore_password_code()
-                else:
+                elif not user.is_banned:
                     user.send_activation_code()
             messages.add_message(request, messages.SUCCESS, _('Email with a link sent to restore the address you specify.'))
             return redirect('social:index')

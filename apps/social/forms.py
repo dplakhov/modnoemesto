@@ -61,6 +61,8 @@ class LoginForm(forms.Form):
             if self.user_cache is None:
                 raise forms.ValidationError(_("Please enter a correct email and password."))
             elif not self.user_cache.is_active:
+                if self.user_cache.is_banned:
+                    raise forms.ValidationError(u"Доступ запрещен.")
                 raise forms.ValidationError("inactive")
 
         # TODO: determine whether this should move to its own method.
@@ -163,6 +165,7 @@ class MessageTextForm(forms.Form):
 
 class ChangeUserForm(forms.Form):
     NAME_REGEXP = ur'^[A-zА-я\'\`\-]+$'
+    email = forms.EmailField(label=_("Email"), max_length=64, widget=forms.TextInput({'readonly': 'readonly'}))
     first_name = forms.RegexField(label=_("First name"),
                                   regex=NAME_REGEXP,
                                   min_length=2, max_length=64,
@@ -173,6 +176,7 @@ class ChangeUserForm(forms.Form):
                                  min_length=2, max_length=64,
                                  required=False,
                                  error_messages={'invalid': _("This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= characters.")})
+    is_banned = forms.BooleanField(required=False)
 
 
 class ChangeProfileForm(forms.Form):

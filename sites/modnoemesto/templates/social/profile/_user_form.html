@@ -6,6 +6,15 @@
     <div class="filt rounded">
         <table class="group_add">
         <tr>
+            <th><label for="id_email">E-mail:</label></th>
+            <td class="empty_filt"></td>
+            <td>
+                <div class="input_holder rounded">{{ form.email }}</div></td>
+        </tr>
+        <tr>
+        	<td style="height:10px"></td>
+        </tr>
+        <tr>
             <th><label for="id_first_name">Имя:</label></th>
             <td class="empty_filt"></td>
             <td>
@@ -21,6 +30,16 @@
             <td>
                 {{ form.last_name.errors }}
                 <div class="input_holder rounded">{{ form.last_name }}</div></td>
+        </tr>
+        <tr>
+        	<td style="height:10px"></td>
+        </tr>
+        <tr>
+            <th><label for="id_is_banned">Бан:</label></th>
+            <td class="empty_filt"></td>
+            <td>
+                {{ form.is_banned.errors }}
+                {{ form.is_banned }}</td>
         </tr>
         <tr>
         	<td style="height:10px"></td>
