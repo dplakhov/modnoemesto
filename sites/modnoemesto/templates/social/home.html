@@ -28,9 +28,8 @@
        <a class="tooltip toollip_friend" href="{% url friends:add page_user.id %}">
             <span class="toollip_friend">
             <img src="/media/images/toollip_friend_2.png" width="206px" height="63px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
-       
        {% else %}
-       <a class="tooltip toollip_friend_remove" href="{% url friends:remove user.id %}">
+       <a class="tooltip toollip_friend_remove" href="{% url friends:remove page_user.id %}">
             <span class="toollip_friend_remove">
             <img src="/media/images/toollip_friend_remove2.png" width="206px" height="63px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
       {% endif %}
