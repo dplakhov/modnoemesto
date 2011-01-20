@@ -35,7 +35,7 @@ class Invite(Document):
 
         if settings.SEND_EMAILS:
             send_mail(_('Site invite'), email_body,
-            settings.ROBOT_EMAIL_ADDRESS, (self.recipient_email,),
+            settings.SERVER_EMAIL, (self.recipient_email,),
             fail_silently=True)
 
     def register(self, user):

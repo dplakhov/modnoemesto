@@ -66,9 +66,9 @@ def deploy(revision, reinstall=False):
                 run('ln -fs %s app' % revision)
                 with cd('app'):
                     if env.host.startswith('as1'):
-                        settings_local = 'settings/local_test.py'
+                        settings_local = 'settings/modnoemesto_test.py'
                     else:
-                        settings_local = 'settings/local.py'
+                        settings_local = 'settings/modnoemesto.py'
                         
                     put(settings_local,
                         '%s/app/settings/local.py' %
@@ -293,24 +293,6 @@ def restart_app_server():
     run('sudo /etc/init.d/nginx reload')
     run('sudo /etc/init.d/socnet restart')
 
-# chat server
-def install_chat_server_software():
-    run('apt-get --yes install nodejs')
-    if exists('/etc/init.d/chat_server'):
-        run('rm /etc/init.d/chat_server')
-
-    put('etc/init.d/chat_server', '/etc/init.d/chat_server', mode=0755)
-
-def set_chat_server_sudoers():
-    sudoers_str = '%s ALL=(ALL) NOPASSWD: /etc/init.d/chat_server' % APPLICATION_USER
-    if not contains(sudoers_str, '/etc/sudoers'):
-        append(sudoers_str, '/etc/sudoers')
-
-def restart_chat_server():
-    env.user = 'appserver'
-    run('sudo /etc/init.d/chat_server restart')
-
-# chat server end
 def uname():
     run('uname -a')
 

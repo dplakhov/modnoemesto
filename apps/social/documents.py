@@ -117,7 +117,7 @@ class User(Document):
 
         if settings.SEND_EMAILS:
             send_mail(_('Confirm registration'), email_body,
-            settings.ROBOT_EMAIL_ADDRESS, [self.email],
+            settings.SERVER_EMAIL, [self.email],
             fail_silently=True)
 
 
@@ -127,7 +127,7 @@ class User(Document):
 
         if settings.SEND_EMAILS:
             send_mail(_('Password Reset Request'), email_body,
-            settings.ROBOT_EMAIL_ADDRESS, [self.email],
+            settings.SERVER_EMAIL, [self.email],
             fail_silently=True)
 
 
