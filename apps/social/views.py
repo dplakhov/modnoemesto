@@ -32,7 +32,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from mongoengine.django.shortcuts import get_document_or_404
 
 from apps.user_messages.forms import MessageTextForm
-from apps.social.forms import ChangeProfileForm, LostPasswordForm
+from apps.social.forms import ChangeProfileForm, LostPasswordForm, ChangeUserForm
 from apps.social.forms import SetNewPasswordForm
 from apps.utils.paginator import paginate
 
@@ -343,16 +343,23 @@ def avatar_edit(request):
 
 
 def profile_edit(request, id=None):
-    def _profile_edit():
+    def wrapper():
         if id:
             user = get_document_or_404(User, id=id)
             if not request.user.is_superuser and user.id != request.user.id:
                 return HttpResponseNotFound()
         else:
             user = request.user
+
         context = profile_form(request, user)
         if not context:
             return
+
+        if request.user.is_superuser:
+            answer = user_form(request, user)
+            if not answer:
+                return
+            context.update(answer)
 
         camera = user.get_camera()
         if camera or request.user.is_superuser:
@@ -365,15 +372,30 @@ def profile_edit(request, id=None):
                 if not answer:
                     return
                 context.update(answer)
+        context.update({'user': user})
         return context
 
-    context = _profile_edit()
+    context = wrapper()
     if not context:
         if id:
             return redirect(reverse('social:user', args=[id]))
         else:
             return redirect('social:home')
     return direct_to_template(request, 'social/profile/edit.html', context)
+
+
+def user_form(request, user):
+    if request.POST and request.POST.get('form', None) == 'user':
+        form = ChangeUserForm(request.POST)
+        if form.is_valid():
+            for k, v in form.cleaned_data.items():
+                setattr(user, k, v if v else None)
+            user.save()
+            messages.add_message(request, messages.SUCCESS, _('User successfully updated'))
+            return
+    else:
+        form = ChangeUserForm(user._data)
+    return dict(user_form=form)
 
 
 def profile_form(request, user):
@@ -388,7 +410,7 @@ def profile_form(request, user):
             return
     else:
         form = ChangeProfileForm(profile._data)
-    return dict(profile_form=form, user=user)
+    return dict(profile_form=form)
 
 
 def cam_form(request, user, cam):

@@ -161,6 +161,20 @@ class MessageTextForm(forms.Form):
     text = forms.CharField(max_length=500, widget=forms.Textarea, required=True)
 
 
+class ChangeUserForm(forms.Form):
+    NAME_REGEXP = ur'^[A-zА-я\'\`\-]+$'
+    first_name = forms.RegexField(label=_("First name"),
+                                  regex=NAME_REGEXP,
+                                  min_length=2, max_length=64,
+                                  required=False,
+                                  error_messages={'invalid': _("This value may contain only letters, numbers and '/`/- characters.")})
+    last_name = forms.RegexField(label=_("Last name"),
+                                 regex=NAME_REGEXP,
+                                 min_length=2, max_length=64,
+                                 required=False,
+                                 error_messages={'invalid': _("This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= characters.")})
+
+
 class ChangeProfileForm(forms.Form):
     SEX_CHOICES = (
         ('', _('None selected')),
