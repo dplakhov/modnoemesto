@@ -14,6 +14,8 @@ GENDER_CHOICES = (
     ('f', _(u'Female')),
 )
 
+NAME_REGEXP = ur'^[A-zА-яЁё\'\`\-]+$'
+
 class PeopleFilterForm(forms.Form):
     first_name = forms.CharField(label=_(u"Имя"), required=False)
     last_name = forms.CharField(label=_(u"Фамилия"), required=False)
@@ -97,9 +99,13 @@ class PhoneNumberMultiWidget(forms.MultiWidget):
         value = [u'', u'']
         # look for keys like name_1, get the index from the end
         # and make a new list for the string replacement values
-        for d in filter(lambda x: x.startswith(name), data):
-            index = int(d[len(name) + 1:])
-            value[index] = data[d]
+        for d in filter(lambda x: x and x.startswith(name), data):
+            if d == name:
+                return data[d]
+            index = d[len(name) + 1:]
+            if index.isdigit():
+                index = int(d[len(name) + 1:])
+                value[index] = data[d]
         if value[0] == value[1] == u'':
             return None
         return u'%s-%s' % tuple(value)
@@ -110,7 +116,6 @@ class UserCreationForm(forms.Form):
     A form that creates a user, with no privileges, from the given username
     and password.
     """
-    NAME_REGEXP = ur'^[A-zА-я\'\`\-]+$'
     first_name = forms.RegexField(label=_("First name"),
                                   regex=NAME_REGEXP,
                                   min_length=2, max_length=64,
@@ -164,7 +169,6 @@ class MessageTextForm(forms.Form):
 
 
 class ChangeUserForm(forms.Form):
-    NAME_REGEXP = ur'^[A-zА-я\'\`\-]+$'
     email = forms.EmailField(label=_("Email"), max_length=64, widget=forms.TextInput({'readonly': 'readonly'}))
     first_name = forms.RegexField(label=_("First name"),
                                   regex=NAME_REGEXP,
@@ -190,7 +194,11 @@ class ChangeProfileForm(forms.Form):
     birthday = forms.CharField(label=_("Birthday"), max_length=10, required=False)
     sex = forms.ChoiceField(label=_("Sex"), choices=SEX_CHOICES, required=False)
     icq = forms.CharField(label=_("ICQ"), max_length=30, required=False)
-    mobile = forms.CharField(label=_("Mobile"), max_length=30, required=False)
+    mobile = forms.RegexField(label=_("Mobile"),
+                              required=False,
+                              regex=r'^\d{3}-\d{7}$',
+                              widget=PhoneNumberMultiWidget,
+                              error_messages={'invalid': _("Phone number is invalid or can not be used. Check your spelling. For example: +7 916 3564334")})
     website = forms.URLField(label=_("Website"), required=False)
     university = forms.CharField(label=_("University"), max_length=30, required=False)
     department = forms.CharField(label=_("Department"), max_length=30, required=False)
@@ -198,6 +206,9 @@ class ChangeProfileForm(forms.Form):
     announce = forms.CharField(label=_("Announce"), max_length=512,
                                required=True, widget=forms.Textarea)
     get_news = forms.BooleanField(label=_("Get news"), required=False, initial=True)
+
+    def clean_mobile(self):
+        return self.cleaned_data["mobile"].replace('-', '')
 
 
 class LostPasswordForm(forms.Form):

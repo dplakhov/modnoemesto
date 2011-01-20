@@ -149,12 +149,14 @@ def register(request):
                     first_name=form.cleaned_data['first_name'],
                     last_name=form.cleaned_data['last_name'],
                     email=form.cleaned_data['email'],
-                    phone=form.cleaned_data['phone'],
                     is_active=False
                     )
         user.gen_activation_code()
         user.set_password(form.cleaned_data['password1'])
         user.save()
+        profile = user.profile
+        profile.mobile = form.cleaned_data['phone']
+        profile.save()
         user.send_activation_code()
 
         invite_id = request.session.get('invite_id')
@@ -410,7 +412,9 @@ def profile_form(request, user):
             messages.add_message(request, messages.SUCCESS, _('Profile successfully updated'))
             return
     else:
-        form = ChangeProfileForm(profile._data)
+        data = profile._data
+        data['mobile'] = "%s-%s" % (data['mobile'][:3], data['mobile'][3:])
+        form = ChangeProfileForm(data)
     return dict(profile_form=form)
 
 
