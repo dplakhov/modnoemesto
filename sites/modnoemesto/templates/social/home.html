@@ -19,27 +19,63 @@
 {% block content %}
 
 <div id="user_page">
-	<h2 class="name_persone">{{ user }}</h2>
-	 <div id="avatar" class="rounded">
-    	<img src="{% media_url user.avatar avatar_midi.png %}" />
+    <h2 class="name_persone">{{ page_user }}{% if is_owner %} (это вы){% endif %}</h2>
+     <div id="avatar" class="rounded">
+        <img src="{% media_url page_user.avatar avatar_midi.png %}" />
     </div>
+    {% if not is_owner %}
+        {% if show_friend_button %}
+       <a class="tooltip toollip_friend" href="{% url friends:add page_user.id %}">
+            <span class="toollip_friend">
+            <img src="/media/images/toollip_friend_2.png" width="206px" height="63px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
+       {% else %}
+       <a class="tooltip toollip_friend_remove" href="{% url friends:remove page_user.id %}">
+            <span class="toollip_friend_remove">
+            <img src="/media/images/toollip_friend_remove2.png" width="206px" height="63px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
+      {% endif %}
+       <a class="tooltip toollip_group" href="{% url groups:send_my_invites_to_user page_user.id %}">
+            <span class="toollip_group">
+            <img src="/media/images/toollip_group.png" width="206px" height="63px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
+       
+       <a class="tooltip toollip_mail" href="{% url user_messages:send_message page_user.id %}">
+            <span class="toollip_mail">
+            <img src="/media/images/toollip_mail.png" width="206px" height="63px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
+       
+       <a class="tooltip toollip_video" href="{% url social:user_conference page_user.id %}">
+            <span class="toollip_video">
+            <img src="/media/images/toollip_video.png" width="206px" height="63px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
+
+    {% endif %}
     <div class="profileActions">
-        <ul>{% url social:user_friends as friends %}
-            <li><a href="{% url social:profile_edit %}">{% trans "options" %}</a></li>
-            <li><a href="{% url invite:send %}">Пригласить друзей к участию в видеосети</a> <b>({{ invitee_count }})</b></li>
-            <li><a href="{% url friends:list %}">{% trans "Friends" %} ({{ user.friends.count }})</a></li>
+        <ul>
+            {% if is_owner %}
+                <li><a href="{% url social:profile_edit %}">{% trans "options" %}</a></li>
+                <li><a href="{% url invite:send %}">Пригласить друзей к участию в видеосети</a> <b>({{ invitee_count }})</b></li>
+                <li><a href="{% url friends:list %}">{% trans "Friends" %} ({{ page_user.friends.count }})</a></li>
+            {% else %}
+                {% if request.user.is_superuser %}
+                    <li><a href="{% url social:profile_edit page_user.id %}">{% trans "options" %}</a></li>
+                {% endif %}
+                <li><a href="{% url notes:note_list page_user.id %}">{% trans "Notes" %}</a></li>
+                <li>Приглашённые: {{ invitee_count }}</li>
+                <li><a href="{% url friends:friends_all page_user.id %}">{% trans "Friends" %} ({{ page_user.friends.count }})</a></li>
+            {% endif %}
         </ul>
     </div>
     <div class="friend_box transparent">
        <div class="all_friends">
-            <p>Друзья онлайн</p><span><a href="{% url friends:list %}" class="friends_amount">все {{ user.friends_online|length }}</a></span>
+            <p>Друзья онлайн</p>
+            {% if page_user.friends_online|length > 6 %} 
+            <span><a href="{%if is_owner %}{% url friends:list %}{% else %}{% url friends:friends_all page_user.id %}{% endif %}"
+            class="friends_amount">все {{ page_user.friends_online|length }}</a></span>
+            {% endif %}
         </div>
         <ul class="friendTable clear">
-        	{% for user in user.friends_online|slice:":6" %}
+            {% for user in page_user.friends_online|slice:":6" %}
                   <li>
-        				{% include "includes/user/micro.html" %}
+                        {% include "includes/user/micro.html" %}
                   </li>
-        	{% endfor %}
+            {% endfor %}
         </ul>
     </div>
     
@@ -52,9 +88,9 @@
             {% if profile.sex %}<dt id="sex">{% trans "Sex" %}</dt>
                 <dd>{{ profile.sex }}</dd>{% endif %}
         </dl>
-	</div>
-	<div id="contact_info" class="about_persone transparent">
-    	<p>{% trans "Contact Information" %}</p>
+    </div>
+    <div id="contact_info" class="about_persone transparent">
+        <p>{% trans "Contact Information" %}</p>
         <dl>
             {% if profile.icq %}<dt id="icq">{% trans "ICQ" %}</dt>
                 <dd>{{ profile.icq }}</dd>{% endif %}
@@ -65,7 +101,7 @@
         </dl>
     </div>
     <div id="education_info" class="about_persone transparent">
-    	<p>{% trans "Education" %}</p>
+        <p>{% trans "Education" %}</p>
         <dl>
             {% if profile.university %}<dt id="university">{% trans "University" %}</dt>
                 <dd>{{ profile.university }}</dd>{% endif %}
@@ -75,7 +111,7 @@
                 <dd>{{ profile.university_status }}</dd>{% endif %}
         </dl>
     </div>
-    <div class="about_persone transparent">
+    <div id="anounce_info" class="about_persone transparent">
              <p>{% trans "Announce" %}</p>
          <p class="event_announce">
              {{ profile.announce }}
@@ -86,97 +122,7 @@
             {% if camera %}
             {% include "includes/camera.html" %}
             {% endif %}
-    
-    
         </div>
-
-
-
 </div>
 
-{% comment %}
-<div id="left">
-    <h2 class="name_persone">{{ user }}</h2>
-    <div class="clear"></div>
-       <dl>
-        {% if profile.hometown %}<dt>{% trans "Hometown" %}</dt>
-            <dd>{{ profile.hometown }}</dd>{% endif %}
-        {% if profile.birthday %}<dt>{% trans "Birthday" %}</dt>
-            <dd>{{ profile.birthday }}</dd>{% endif %}
-        {% if profile.sex %}<dt>{% trans "Sex" %}</dt>
-            <dd>{{ profile.sex }}</dd>{% endif %}
-    </dl>
-    <div class="about_persone transparent">
-        <div style="overflow: hidden;">
-        <p>{% trans "Contact Information" %}</p>
-        </div>
-        <dl>
-            {% if profile.icq %}<dt>{% trans "ICQ" %}</dt>
-                <dd>{{ profile.icq }}</dd>{% endif %}
-            {% if profile.mobile %}<dt>{% trans "Mobile" %}</dt>
-                <dd>{{ profile.mobile }}</dd>{% endif %}
-            {% if profile.website %}<dt>{% trans "Website" %}</dt>
-                <dd>{{ profile.website }}</dd>{% endif %}
-        </dl>
-    </div>
-    <div class="about_persone transparent">
-        <div style="overflow: hidden;">
-        <p>{% trans "Education" %}</p>
-        </div>
-        <dl>
-            {% if profile.university %}<dt>{% trans "University" %}</dt>
-                <dd>{{ profile.university }}</dd>{% endif %}
-            {% if profile.department %}<dt>{% trans "Department" %}</dt>
-                <dd>{{ profile.department }}</dd>{% endif %}
-            {% if profile.university_status %}<dt>{% trans "Status" %}</dt>
-                <dd>{{ profile.university_status }}</dd>{% endif %}
-        </dl>
-    </div>
-    <div class="about_persone transparent">
-         <div style="overflow: hidden;">
-             <p>{% trans "Announce" %}</p>
-         </div>
-         <p class="event_announce">
-             {{ profile.announce }}
-         </p>
-     </div>
-
-</div>
-
-<div id="right">
-    <div class="own_photo rounded" style="-moz-border-radius: 10px 10px 10px 10px;">
-        <img src="{% media_url user.avatar avatar_midi.png %}" />
-    </div>
-    <div class="profileActions">
-        <ul>{% url social:user_friends as friends %}
-            <li><a href="{% url social:profile_edit %}">{% trans "options" %}</a></li>
-            <li><a href="{% url invite:send %}">Пригласить друзей к участию в видеосети</a> <b>({{ invitee_count }})</b></li>
-            <li><a href="{% url friends:list %}">{% trans "Friends" %} ({{ user.friends.count }})</a></li>
-        </ul>
-    </div>
-    <div class="friend_box transparent">
-        <div style="overflow: hidden;">
-            <p>Друзья онлайн</p><span><a href="{% url friends:list %}" class="change">все {{ user.friends_online|length }}</a></span>
-        </div>
-        <ul class="friendTable">
-{% for user in user.friends_online|slice:":6" %}
-                <li>
-{% include "includes/user/micro.html" %}
-                </li>
-{% endfor %}
-        </ul>
-    </div>
-</div>
-
-<div id="content-main" style="clear: both;">
-    <div id="camera"><a name="cam"></a>
-        {% if camera %}
-        {% include "includes/camera.html" %}
-        {% endif %}
-
-
-    </div>
-
-</div>
-{% endcomment %}
 {% endblock %}

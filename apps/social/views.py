@@ -268,9 +268,10 @@ def home(request):
     invitee_count = Invite.invitee_count(request.user)
 
     return direct_to_template(request, 'social/home.html', {
-        'invitee_count': invitee_count,
         'camera': camera,
+        'invitee_count': invitee_count,
         'is_owner': True,
+        'page_user': request.user,
         'profile': profile,
         'settings': settings
     })
@@ -291,23 +292,21 @@ def user(request, user_id=None):
 
     profile = page_user.profile
     profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
-    msgform = MessageTextForm()
     invitee_count = Invite.invitee_count(page_user)
     is_friend = not request.user.friends.can_add(page_user)
+    camera = page_user.get_camera()
 
     data = {
+        'camera': camera,
+        'invitee_count': invitee_count,
         'page_user': page_user,
         'profile': profile,
-        'invitee_count': invitee_count,
-        'msgform': msgform,
+        'settings': settings,
         'show_friend_button': not is_friend,
-        'settings': settings
     }
 
-    camera = page_user.get_camera()
     if camera:
         data.update({
-            'camera': camera,
             'show_bookmark_button': camera.can_bookmark_add(request.user),
             'show_view_access_link': camera.is_view_enabled and
                                      camera.is_view_paid and
@@ -321,7 +320,7 @@ def user(request, user_id=None):
         })
         camera.show = camera.can_show(page_user, request.user)
         camera.manage = camera.can_manage(page_user, request.user)
-    return direct_to_template(request, 'social/user.html', data)
+    return direct_to_template(request, 'social/home.html', data)
 
 
 def avatar_edit(request):
