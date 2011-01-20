@@ -413,7 +413,8 @@ def profile_form(request, user):
             return
     else:
         data = profile._data
-        data['mobile'] = "%s-%s" % (data['mobile'][:3], data['mobile'][3:])
+        if data['mobile']:
+            data['mobile'] = "%s-%s" % (data['mobile'][:3], data['mobile'][3:])
         form = ChangeProfileForm(data)
     return dict(profile_form=form)
 
