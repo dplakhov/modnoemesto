@@ -21,9 +21,19 @@ $(document).ready(function(){
             if (data) {
                 call_message.html('{{ request.user }}, Вас вызывает на видеоконференцию пользователь '
                     + data + '! (кликните на это сообщение для установки связи).');
-                call_message.show();
+                if (call_message.css('display') == 'none') {
+                    call_message.css({
+                        top: '0',
+                        opacity: 0.0,
+                        display: 'block'
+                    });
+                    call_message.animate({
+                        opacity: 0.9,
+                        top: '150px'
+                    }, 1000);
+                }
             } else {
-                call_message.hide();
+                call_message.fadeOut(500);
             }
             setTimeout(check_calls, {{ VIDEO_CALL_INTERVAL_UPDATE }}000);
         });
@@ -112,10 +122,8 @@ $(document).ready(function(){
 			</div>
 		</div>
         {% endif %}
-        
 
 <div id="call_message"></div>
-        
 
 {% if messages %}
 <div class="system_messages">

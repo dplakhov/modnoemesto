@@ -1533,6 +1533,10 @@ li.friendTable
     color: #880000;
     display: none;
     cursor: pointer;
+    width: 152px;
+    position: fixed;
+    top: 50px;
+    z-index: 9999;
 }
 div.system_messages li
 {
