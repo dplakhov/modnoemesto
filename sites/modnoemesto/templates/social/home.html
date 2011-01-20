@@ -20,7 +20,30 @@
 
 <div id="user_page">
 	<h2 class="name_persone">{{ user }}</h2>
-	<div id="general_info" class="about_persone transparent">
+	 <div id="avatar" class="rounded">
+    	<img src="{% media_url user.avatar avatar_midi.png %}" />
+    </div>
+    <div class="profileActions">
+        <ul>{% url social:user_friends as friends %}
+            <li><a href="{% url social:profile_edit %}">{% trans "options" %}</a></li>
+            <li><a href="{% url invite:send %}">Пригласить друзей к участию в видеосети</a> <b>({{ invitee_count }})</b></li>
+            <li><a href="{% url friends:list %}">{% trans "Friends" %} ({{ user.friends.count }})</a></li>
+        </ul>
+    </div>
+    <div class="friend_box transparent">
+       <div class="all_friends">
+            <p>Друзья онлайн</p><span><a href="{% url friends:list %}" class="friends_amount">все {{ user.friends_online|length }}</a></span>
+        </div>
+        <ul class="friendTable clear">
+        	{% for user in user.friends_online|slice:":6" %}
+                  <li>
+        				{% include "includes/user/micro.html" %}
+                  </li>
+        	{% endfor %}
+        </ul>
+    </div>
+    
+    <div id="general_info" class="about_persone transparent">
         <dl>
             {% if profile.hometown %}<dt id="hometown">{% trans "Hometown" %}</dt>
                 <dd>{{ profile.hometown }}</dd>{% endif %}
@@ -57,29 +80,6 @@
          <p class="event_announce">
              {{ profile.announce }}
          </p>
-    </div>
-    
-    <div id="avatar" class="rounded">
-    	<img src="{% media_url user.avatar avatar_midi.png %}" />
-    </div>
-    <div class="profileActions">
-        <ul>{% url social:user_friends as friends %}
-            <li><a href="{% url social:profile_edit %}">{% trans "options" %}</a></li>
-            <li><a href="{% url invite:send %}">Пригласить друзей к участию в видеосети</a> <b>({{ invitee_count }})</b></li>
-            <li><a href="{% url friends:list %}">{% trans "Friends" %} ({{ user.friends.count }})</a></li>
-        </ul>
-    </div>
-    <div class="friend_box transparent">
-       <div class="all_friends">
-            <p>Друзья онлайн</p><span><a href="{% url friends:list %}" class="friends_amount">все {{ user.friends_online|length }}</a></span>
-        </div>
-        <ul class="friendTable clear">
-        	{% for user in user.friends_online|slice:":6" %}
-                  <li>
-        				{% include "includes/user/micro.html" %}
-                  </li>
-        	{% endfor %}
-        </ul>
     </div>
  
         <div id="camera"><a name="cam"></a>
