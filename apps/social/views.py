@@ -261,10 +261,6 @@ def home(request):
     camera = request.user.get_camera()
     if camera:
         camera.show = True
-    #@todo: need filter
-    profile = request.user.profile
-    profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
-
     invitee_count = Invite.invitee_count(request.user)
 
     return direct_to_template(request, 'social/home.html', {
@@ -272,7 +268,7 @@ def home(request):
         'invitee_count': invitee_count,
         'is_owner': True,
         'page_user': request.user,
-        'profile': profile,
+        'profile': request.user.profile.for_html(),
         'settings': settings
     })
 
@@ -290,8 +286,6 @@ def user(request, user_id=None):
     if page_user == request.user:
         return redirect('social:home')
 
-    profile = page_user.profile
-    profile.sex = dict(ChangeProfileForm.SEX_CHOICES).get(profile.sex, ChangeProfileForm.SEX_CHOICES[0][1])
     invitee_count = Invite.invitee_count(page_user)
     is_friend = not request.user.friends.can_add(page_user)
     camera = page_user.get_camera()
@@ -300,7 +294,7 @@ def user(request, user_id=None):
         'camera': camera,
         'invitee_count': invitee_count,
         'page_user': page_user,
-        'profile': profile,
+        'profile': page_user.profile.for_html(),
         'settings': settings,
         'show_friend_button': not is_friend,
     }
