@@ -6,7 +6,7 @@ from datetime import datetime
 import git
 
 from fabric.api import run, local, cd, env
-from fabric.contrib.files import exists, contains, comment, uncomment, append
+from fabric.contrib.files import exists, contains, comment, uncomment, append, sed
 from fabric.operations import put
 from fabric.decorators import roles
 
@@ -24,6 +24,7 @@ env.roledefs.update({
     'db_slave': [ 'db%d.modnoemesto.ru' %x for x in (1, 3, 5, 8) ],
 
     'bal': [ 'bal%d.modnoemesto.ru' %x for x in (1, 2, 3, 4) ],
+    'vstrecha': ['s0%d.modnoemesto.ru' % x for x in (24, 25,)],
 })
 
 
@@ -65,8 +66,10 @@ def deploy(revision, reinstall=False):
                     run('rm app')
                 run('ln -fs %s app' % revision)
                 with cd('app'):
-                    if env.host.startswith('as1'):
+                    if env.host.startswith('as1.'):
                         settings_local = 'settings/modnoemesto_test.py'
+                    elif env.host in env.roledefs['vstrecha']:
+                        settings_local = 'settings/mestovstrechi.py'
                     else:
                         settings_local = 'settings/modnoemesto.py'
                         
@@ -226,6 +229,14 @@ def install_nginx():
 
     put('etc/nginx/sites-available/socnet-uwsgi.conf',
         '/etc/nginx/sites-available/socnet-uwsgi.conf')
+
+    if env.host in env.roledefs['vstrecha']:
+        sed('/etc/nginx/sites-available/socnet-uwsgi.conf', '/var/socnet/appserver/app/media/',
+            '/var/socnet/appserver/app/sites/mestovstrechi/media/' )
+    else:
+        sed('/etc/nginx/sites-available/socnet-uwsgi.conf', '/var/socnet/appserver/app/media/',
+            '/var/socnet/appserver/app/sites/modnoemesto/media/' )
+
     run('ln -sf /etc/nginx/sites-available/socnet-uwsgi.conf /etc/nginx/sites-enabled/socnet-uwsgi.conf')
 
 

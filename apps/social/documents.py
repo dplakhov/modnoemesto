@@ -70,6 +70,13 @@ class Profile(Document):
         ]
     }
 
+    def for_html(self):
+        from apps.social.forms import ChangeProfileForm
+        self.sex = dict(ChangeProfileForm.SEX_CHOICES).get(self.sex, ChangeProfileForm.SEX_CHOICES[0][1])
+        if self.mobile:
+            self.mobile = "+7 (%s) %s %s %s" % (self.mobile[:3], self.mobile[3:6], self.mobile[6:8], self.mobile[8:])
+        return self
+
 
 class User(Document):
     """A User document that aims to mirror most of the API specified by Django
@@ -87,6 +94,7 @@ class User(Document):
     password = StringField(max_length=64)
 
     is_active = BooleanField(default=True)
+    is_banned = BooleanField(default=False)
 
     is_staff = BooleanField(default=False)
     is_superuser = BooleanField(default=False)

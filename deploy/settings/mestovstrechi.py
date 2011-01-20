@@ -2,8 +2,6 @@
 
 import os
 
-
-
 def rel(x):
     return os.path.join(
             os.path.abspath(os.path.join(os.path.dirname(__file__),
@@ -11,7 +9,7 @@ def rel(x):
             x)
 
 MONGO_DATABASE = 'mestovstrechi'
-
+CACHE_MIDDLEWARE_KEY_PREFIX = 'mv'
 
 TEMPLATE_DIRS = (
     rel('sites/mestovstrechi/templates/'),
@@ -47,11 +45,8 @@ DATABASES = {
     },
 
     'billing': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'billing',
-        'USER': 'billing',
-        'PASSWORD': 'akonEmjad2',
-        'HOST': '10.10.10.7',
+       'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:', #rel('local.db'),
     },
 }
 
@@ -64,3 +59,5 @@ REDIS_DATABASES = dict(
 )
 
 ROBOKASSA_TEST_MODE = False
+
+CELERYD_LOG_TO_CONSOLE = False

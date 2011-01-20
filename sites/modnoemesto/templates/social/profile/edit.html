@@ -8,6 +8,12 @@
 </ul>
     <br />
 <div id="filter_box">
+{% if request.user.is_superuser %}
+{% with user_form as form %}
+{% include "social/profile/_user_form.html" %}
+{% endwith %}
+{% endif %}
+
 {% with profile_form as form %}
 {% include "social/profile/_profile_form.html" %}
 {% endwith %}

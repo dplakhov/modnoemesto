@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-18 17:27+0300\n"
+"POT-Creation-Date: 2011-01-20 12:06+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: base_mini.html:22
+#: base_mini.html:55
 msgid "search"
 msgstr "поиск"
 
@@ -75,7 +75,7 @@ msgstr "Редактировать новость"
 #: groups/theme_edit.html:16 groups/theme_list.html:12
 #: groups/type_edit.html:16 groups/type_list.html:12
 #: media_library/image_index.html:67 media_library/video_index.html:51
-#: news/edit.html:55 notes/note_edit.html:42 themes/list.html:30
+#: news/edit.html:55 notes/note_edit.html:42
 msgid "Add"
 msgstr "Добавить"
 
@@ -84,7 +84,8 @@ msgstr "Добавить"
 #: groups/theme_edit.html:16 groups/type_edit.html:16 news/edit.html:55
 #: notes/note_edit.html:42 social/profile/_cam_form.html:251
 #: social/profile/_profile_form.html:122 social/profile/_profile_form.html:129
-#: social/profile/_screen_form.html:23 social/profile/avatar.html:16
+#: social/profile/_screen_form.html:23 social/profile/_user_form.html:32
+#: social/profile/avatar.html:16
 msgid "Save"
 msgstr "Сохранить"
 
@@ -97,12 +98,12 @@ msgstr "Список новостей"
 msgid "Edit"
 msgstr "Редактировать"
 
-#: admin_blog/list.html:20 friends/friend_list.html:53
-#: friends/friend_list.html.py:76 groups/_comments.html:20
+#: admin_blog/list.html:20 friends/friend_list.html:55
+#: friends/friend_list.html.py:78 groups/_comments.html:20
 #: media_library/image_index.html:53 media_library/video_index.html:38
 #: news/list.html:28 notes/note_list.html:24 notes/note_list.html.py:34
-#: themes/list.html:18 user_messages/inbox.html:37
-#: user_messages/message.html:86 user_messages/sent.html:37
+#: user_messages/inbox.html:37 user_messages/message.html:86
+#: user_messages/sent.html:37
 msgid "Delete"
 msgstr "Удалить"
 
@@ -146,7 +147,8 @@ msgstr "Конец"
 msgid "Cost"
 msgstr "Стоимость"
 
-#: billing/access_order_list.html:15 social/home.html:53 social/user.html:63
+#: billing/access_order_list.html:15 social/home.html:51
+#: social/home.html.py:131 social/user.html:63
 msgid "Status"
 msgstr "Статус"
 
@@ -234,15 +236,15 @@ msgstr "Ваши друзья"
 msgid "Friendship offers"
 msgstr "Предложения дружбы"
 
-#: friends/friend_list.html:28
+#: friends/friend_list.html:30
 msgid "Accept"
 msgstr "Принять"
 
-#: friends/friend_list.html:32
+#: friends/friend_list.html:34
 msgid "Decline"
 msgstr "Отклонить"
 
-#: friends/friend_list.html:60 friends/friend_list.html.py:83
+#: friends/friend_list.html:62 friends/friend_list.html.py:85
 #: friends/friends_all.html:28 friends/friends_online.html:28
 #: groups/send_friends_invite.html:30
 msgid "None available"
@@ -270,7 +272,7 @@ msgstr "Предложения дружбы: отправленные"
 msgid "Cancel"
 msgstr "Отменить"
 
-#: groups/group_conference.html:26 groups/group_edit.html:17
+#: groups/group_conference.html:29 groups/group_edit.html:17
 #: groups/member_list.html:8 groups/members_manage.html:8
 #: groups/photo_edit.html:6 groups/send_friends_invite.html:8
 #: groups/view.html:63
@@ -302,7 +304,7 @@ msgstr "Сменить фотографию"
 msgid "Your friends"
 msgstr "Ваши друзья"
 
-#: groups/theme_edit.html:6 themes/list.html:35
+#: groups/theme_edit.html:6 themes/list.html:51
 msgid "Add theme"
 msgstr "Добавить тему"
 
@@ -532,63 +534,55 @@ msgstr "Создать заметку"
 msgid "Note"
 msgstr "Заметка"
 
-#: social/home.html:24 social/user.html:34
+#: social/home.html:25 social/home.html.py:102 social/user.html:34
 msgid "Hometown"
 msgstr "Родной город"
 
-#: social/home.html:26 social/user.html:36
+#: social/home.html:27 social/home.html.py:104 social/user.html:36
 msgid "Birthday"
 msgstr "День рождения"
 
-#: social/home.html:28 social/user.html:38
+#: social/home.html:29 social/home.html.py:106 social/user.html:38
 msgid "Sex"
 msgstr "Пол"
 
-#: social/home.html:33 social/user.html:43
+#: social/home.html:34 social/home.html.py:111 social/user.html:43
 msgid "Contact Information"
 msgstr "Контактная информация"
 
-#: social/home.html:36 social/user.html:46
+#: social/home.html:36 social/home.html.py:114 social/user.html:46
 msgid "ICQ"
 msgstr "ICQ"
 
-#: social/home.html:38 social/user.html:48
+#: social/home.html:38 social/home.html.py:116 social/user.html:48
 msgid "Mobile"
 msgstr "Телефон"
 
-#: social/home.html:40 social/user.html:50
+#: social/home.html:40 social/home.html.py:118 social/user.html:50
 msgid "Website"
 msgstr "Личный сайт"
 
-#: social/home.html:46 social/user.html:56
+#: social/home.html:45 social/home.html.py:124 social/user.html:56
 msgid "Education"
 msgstr "Образование"
 
-#: social/home.html:49 social/user.html:59
+#: social/home.html:47 social/home.html.py:127 social/user.html:59
 msgid "University"
 msgstr "ВУЗ"
 
-#: social/home.html:51 social/user.html:61
+#: social/home.html:49 social/home.html.py:129 social/user.html:61
 msgid "Department"
 msgstr "Факультет"
 
-#: social/home.html:59 social/user.html:69
+#: social/home.html:56 social/home.html.py:137 social/user.html:69
 msgid "Announce"
 msgstr "Анонс"
 
-#: social/home.html:74
-msgid "Edit photo"
-msgstr "Изменить фотографию"
-
-#: social/home.html:75 social/user.html:116
+#: social/home.html:67 social/home.html.py:152 social/user.html:116
 msgid "options"
 msgstr "Настройки"
 
-#: social/home.html:76
-msgid "Change theme"
-msgstr "Изменить внешний вид домашней страницы"
-
-#: social/home.html:78 social/user.html:120
+#: social/home.html:69 social/home.html.py:154 social/user.html:120
 msgid "Friends"
 msgstr "Друзья"
 
@@ -624,19 +618,31 @@ msgstr "Редактировать профиль"
 msgid "Change screen"
 msgstr "Сменить обложку"
 
+#: social/profile/_user_form.html:3
+msgid "Edit user"
+msgstr "Редактировать пользователя"
+
 #: social/profile/avatar.html:5
 msgid "Change avatar"
 msgstr "Сменить аватар"
 
-#: themes/list.html:18
+#: social/profile/edit.html:6
+msgid "Edit photo"
+msgstr "Изменить фотографию"
+
+#: social/profile/edit.html:7
+msgid "Change theme"
+msgstr "Изменить внешний вид домашней страницы"
+
+#: themes/list.html:31
 msgid "Delete theme"
 msgstr "Удалить тему"
 
-#: themes/list.html:21 themes/list.html.py:40
+#: themes/list.html:34 themes/list.html.py:56
 msgid "Unset theme"
 msgstr "Отключить тему"
 
-#: themes/list.html:23
+#: themes/list.html:36
 msgid "Set theme"
 msgstr "Установить тему"
 

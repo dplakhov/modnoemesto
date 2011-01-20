@@ -33,6 +33,8 @@ div.about_persone
 	border-top: 1px dotted #6f6f6f;
 	padding: 15px 0px;
 	width: 290px;
+	position: relative;
+	top: -639px;
 	/*background: url(../images/bg_about_persone.png) no-repeat;*/
 }
 .about_persone p
@@ -54,7 +56,7 @@ p.event_announce
 	background: #EEEDDE;
 	width: 200px;
 	position: relative;
-	top: -320px;
+	top: -30px;
     left: 302px;
 }
 .profileActions
@@ -64,7 +66,7 @@ p.event_announce
 	width: 220px;
 	position: relative;
 	left: 302px;
-	top: -320px;
+	top: -30px;
 	
 }
 .profileActions ul
@@ -95,7 +97,7 @@ p.event_announce
 	width: 220px;
 	position: relative;
 	left: 302px;
-	top: -320px;
+	top: -30px;
 	overflow: hidden;
 }
 .friend_box span
@@ -123,10 +125,113 @@ p.event_announce
 #camera
 {
 	position: relative;
-	top: -320px;
+	top: -450px;
+}
+#camera p
+{
+	color: #838383;
+	padding: 5px;
 }
 .clear
 {
 	clear: both;
 }
-
+.tooltip {
+            position: relative;
+}
+a.tooltip
+{
+    margin: 8px;
+    margin-bottom: 0px;
+    display: inline-block;
+    width: 31px;
+    height: 36px;
+    z-index: 999;
+	position: relative;
+	top: -30px;
+	left: 312px;
+}
+.tooltip span 
+{
+    margin-left: -999em;
+    position: absolute;
+    z-index: 1;
+}
+.tooltip:hover span
+{
+    position: absolute; 
+    /*z-index: 99;*/
+    margin-left: 0;
+    width: 206px;
+}
+.tooltip:hover span.toollip_friend, .tooltip:hover span.toollip_friend_remove
+{
+    left: -0.9em; 
+    top: -5.1em; 
+}
+.tooltip:hover span.toollip_group
+{
+    left: -5.1em; 
+    top: -5.1em; 
+}
+.tooltip:hover span.toollip_mail
+{
+    left: -9.3em; 
+    top: -5.1em; 
+}
+.tooltip:hover span.toollip_video
+{
+    left: -13.5em;
+    top: -5.1em; 
+}
+a.toollip_friend_remove
+{
+	background: url(../images/remove_friendship_ico.png) no-repeat bottom;
+}
+a.toollip_friend
+{
+    background: url(../images/friendship_ico.png) no-repeat bottom;
+}
+a.toollip_friend_remove:hover
+{
+    background: url(../images/remove_friendship_ico_hover.png) no-repeat bottom;
+}
+a.toollip_friend:hover
+{
+    background: url(../images/friendship_ico_hover.png) no-repeat bottom;
+}
+a.toollip_group
+{
+    background: url(../images/groupship_ico.png) no-repeat bottom;
+}
+a.toollip_group:hover
+{
+    background: url(../images/groupship_ico_hover.png) no-repeat bottom;
+}
+a.toollip_mail
+{
+    background: url(../images/sendmail_ico.png) no-repeat bottom;
+}
+a.toollip_mail:hover
+{
+    background: url(../images/sendmail_ico_hover.png) no-repeat bottom;
+}
+a.toollip_video
+{
+    background: url(../images/videochat_ico.png) no-repeat bottom;
+}
+a.toollip_video:hover
+{
+    background: url(../images/videochat_ico_hover.png) no-repeat bottom;
+}
+.tooltip img.hidden
+{
+    z-index:99999;
+    position: absolute;
+    left: 10px;
+    display: none;
+}
+.tooltip:hover img.hidden
+{
+    display: block;
+}
