@@ -502,7 +502,7 @@ def server_error(request):
     reporter = ExceptionReporter(request, *exc_info)
     html = reporter.get_traceback_html()
     msg = EmailMessage('server_error@%s' % request.path,
-                       html, settings.ROBOT_EMAIL_ADDRESS,
+                       html, settings.SERVER_EMAIL,
                        [ '%s <%s>' % (name, address)
                          for name, address in settings.ADMINS])
 

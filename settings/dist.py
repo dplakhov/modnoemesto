@@ -47,7 +47,6 @@ if 'test' in sys.argv:
     }
     TEST_RUNNER = 'djcelery.contrib.test_runner.run_tests'
 
-MONGO_DATABASE = 'social'
 MONGO_HOST = '127.0.0.1'
 
 DATABASE_ROUTERS = [ 'db_routers.BillingRouter', ]
@@ -62,13 +61,6 @@ USE_I18N = True
 
 USE_L10N = True
 
-LOCALE_PATHS = (
-    rel('templates/locale'),
-)
-
-# Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = rel('media/')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -128,11 +120,9 @@ if not hasattr(globals(), 'SECRET_KEY'):
                 'generate your secret key!' % SECRET_FILE)
 
 
-# List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -144,7 +134,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
     'apps.social.context_processors.site_domain',
     'apps.video_call.context_processors.call_settings',
-
 )
 
 MIDDLEWARE_CLASSES = (
@@ -160,22 +149,9 @@ MIDDLEWARE_CLASSES = (
     'apps.news.middleware.LastNewsMiddleware',
 )
 
-ROOT_URLCONF = 'urls'
-
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates"
-    # Don't forget to use absolute paths, not relative paths.
-    rel('templates/')
-)
 
 INSTALLED_APPS = (
-    #'django.contrib.auth',
-    #'django.contrib.contenttypes',
     'django.contrib.sessions',
-    #'django.contrib.sites',
-    #'django.contrib.messages',
-    #'django.contrib.admin',
-    #'mongoengine.django.auth',
     'djcelery',
     'pytils',
     'apps.robokassa',
@@ -199,6 +175,7 @@ INSTALLED_APPS = (
 )
 
 
+
 AUTHENTICATION_BACKENDS = (
     'apps.social.auth.MongoEngineBackend',
 )
@@ -211,11 +188,26 @@ FORCE_SCRIPT_NAME = ''
 
 SEND_EMAILS = True
 
+ROOT_URLCONF = 'urls'
+
+#######################################################
+MONGO_DATABASE = 'social'
+
+
+TEMPLATE_DIRS = (
+    rel('sites/modnoemesto/templates/')
+)
+
+LOCALE_PATHS = (
+    rel('sites/modnoemesto/templates/locale'),
+)
+
+MEDIA_ROOT = rel('sites/modnoemesto/media/')
+
 SITE_DOMAIN = 'modnoemesto.ru' # no slashes here, please
+SERVER_EMAIL = 'modnoemesto.ru <modnoemesto@modnoemesto.ru>'
 
-ROBOT_EMAIL_ADDRESS = 'modnoemesto.ru <modnoemesto@modnoemesto.ru>'
-
-SERVER_EMAIL = ROBOT_EMAIL_ADDRESS
+#######################################################
 
 
 MAX_USER_MESSAGES_COUNT = 500
