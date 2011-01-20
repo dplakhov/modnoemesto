@@ -20,6 +20,7 @@ from mongoengine.fields import ListField, DateTimeField
 from apps.utils.decorators import cached_property
 
 
+
 OFFLINE_TIMEDELTA = 300
 
 class LimitsViolationException(Exception):
@@ -150,6 +151,7 @@ class User(Document):
 
     @property
     def profile(self):
+        from apps.themes.documents import Theme
         return Profile.objects.get_or_create(user=self)[0]
 
     @cached_property
