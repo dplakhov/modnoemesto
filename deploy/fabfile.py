@@ -6,7 +6,7 @@ from datetime import datetime
 import git
 
 from fabric.api import run, local, cd, env
-from fabric.contrib.files import exists, contains, comment, uncomment, append
+from fabric.contrib.files import exists, contains, comment, uncomment, append, sed
 from fabric.operations import put
 from fabric.decorators import roles
 
@@ -229,6 +229,14 @@ def install_nginx():
 
     put('etc/nginx/sites-available/socnet-uwsgi.conf',
         '/etc/nginx/sites-available/socnet-uwsgi.conf')
+
+    if env.host in env.roledefs['vstrecha']:
+        sed('/etc/nginx/sites-available/socnet-uwsgi.conf', '/var/socnet/appserver/app/media/',
+            '/var/socnet/appserver/app/sites/mestovstrechi/media/' )
+    else:
+        sed('/etc/nginx/sites-available/socnet-uwsgi.conf', '/var/socnet/appserver/app/media/',
+            '/var/socnet/appserver/app/sites/modnoemesto/media/' )
+
     run('ln -sf /etc/nginx/sites-available/socnet-uwsgi.conf /etc/nginx/sites-enabled/socnet-uwsgi.conf')
 
 
