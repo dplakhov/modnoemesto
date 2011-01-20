@@ -9,7 +9,7 @@ def rel(x):
             x)
 
 MONGO_DATABASE = 'mestovstrechi'
-KEY_PREFIX = 'mv'
+CACHE_MIDDLEWARE_KEY_PREFIX = 'mv'
 
 TEMPLATE_DIRS = (
     rel('sites/mestovstrechi/templates/'),
