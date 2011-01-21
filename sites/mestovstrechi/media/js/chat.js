@@ -76,7 +76,7 @@ function get_messages() {
         url:'/chat/receive/',
 		dataType: 'json',
 		success: function (json) {
-            if (json) {
+            if (json.length) {
                 add_messages(json);
                 set_last_message(json);
                 var $p_last = $('#chat p:last');
