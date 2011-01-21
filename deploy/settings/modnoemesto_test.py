@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-DEBUG = TEMPLATE_DEBUG = True
+DEBUG = TEMPLATE_DEBUG = False
 
 ADMINS = (
     ('tech', 'tech@web-mark.ru'),
