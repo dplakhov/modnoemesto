@@ -1,0 +1,36 @@
+{% load i18n %}
+<script type="text/javascript" src="/media/js/jquery.mousewheel.min.js"></script>
+<script type="text/javascript" src="/media/js/jScrollPane.js"></script>
+
+ <!-- {% if camera.show or user.is_superuser %} -->
+
+    <div id="watch-panel">
+
+    {% include camera.driver.template %}
+
+	
+	
+	
+    </div>
+
+    <p>Кол-во просмотров: {{ camera.view_count }}</p>
+
+    {% if camera.paid %}
+        {% trans "This camera is not free!" %}
+    {% endif %}
+  {% else %}
+    {% trans "This camera is private." %}
+  {% endif %}
+
+
+
+
+
+
+		{% include "includes/chat.html" %}
+
+
+		
+		
+		
+		<!-- /comments -->

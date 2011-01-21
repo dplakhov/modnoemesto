@@ -1,0 +1,73 @@
+{% block css %}
+{{ block.super }}
+<link href="/media/styles/chat.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% if user.is_authenticated %}
+	<script type="text/javascript" src="/media/js/jquery.template.js"></script>
+	<script type="text/javascript" src="/media/js/chat.js"></script>
+	
+	<script>
+	$(document).ready(function(){
+        init_chat("{{ camera.id }}", {{ settings.CHAT_POLLING_TIME }});
+		$('#send_comment').click(function(event){
+			if ($('#message').val()){
+				$.ajax({
+					type: 'POST',
+					data: {
+						chat_id: window.chat_room_id,
+						message: $('#message').val()
+					},
+					url:'/chat/send/',
+					dataType: 'json',
+					success: function (json) {
+						$('#message').val("");
+					}        
+				});	
+			}
+		});
+		
+		$('#receive').click(function(event){
+			get_messages();
+		});
+
+	})
+	</script>
+{% endif %}
+{% endblock %}
+  
+  		<!-- comments -->
+		
+	    <div id="video_coment">
+	        <div id="laying">
+	            <div class="tab_chat">
+	                <span class="tab_chat">Чат</span>
+	            </div>
+	            <div class="tab_comment">
+	                <span class="tab_comment">
+	                	<p>Комментарии</p>
+						<img src="/media/images/hand_up.jpg" alt="hand_up" />
+					</span>
+					
+	                <p class="hand_up">47671</p>
+					<img src="/media/images/hand_down.jpg" alt="hand_down" />
+	                <p class="hand_down">481</p>
+					<p class="rating">Рейтинг</p>
+					<p class="rat">648</p>
+	                
+	            </div>
+	        </div>
+	        <div class="scroll-wrap">
+	            <div class="scroll-pane">
+	                <div id="chat"></div>
+	            </div>
+	        </div>
+	        <div class="send">
+	        <p class="send_mass">Отправить собщение в чат:</p>
+	        	<textarea id="message" class="com" name="message"></textarea>
+	            <input id="send_comment" type="submit" class="sub" value="отправить" />
+				<!--input id="receive" type="submit" class="sub" value="receive" /-->
+	        </div>
+	    </div>

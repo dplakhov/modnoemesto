@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load i18n media %}
+
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+$(document).ready(function(){
+		 $('#id_gender').selectbox();
+		 $('#id_gender_input').addClass('rounded');
+    function update_users(url){
+        $.get(url, function(data) {
+            if (data != '') {
+                $('#user_list').html(data);
+            }
+        });
+    }
+
+    $('#user_list').click(function(e){
+        var link = $(e.target);
+        if (link.hasClass('next') || link.hasClass('previous') || link.hasClass('page') ) {
+            var href = link.attr('href');
+            update_users(href);
+            return false;
+        }
+    });
+});
+</script>
+{% if user.is_authenticated %}
+	<script type="text/javascript" src="/media/js/jquery.template.js"></script>
+	<script type="text/javascript" src="/media/js/chat.js"></script>
+	
+	<script>
+	$(document).ready(function(){
+        init_chat("index", 3000);
+		$('#send_comment').click(function(event){
+			if ($('#message').val()){
+				$.ajax({
+					type: 'POST',
+					data: {
+						chat_id: window.chat_room_id,
+						message: $('#message').val()
+					},
+					url:'/chat/send/',
+					dataType: 'json',
+					success: function (json) {
+						$('#message').val("");
+					}        
+				});	
+			}
+		});
+		
+		$('#receive').click(function(event){
+			get_messages();
+		});
+
+	})
+	</script>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div id="camera_holder">
+
+{% spaceless %}
+<object width="800"
+        height="600"
+        style="position:relative; left:-5px;">
+    <embed src="/media/swf/userconf.swf"
+        quality="high"
+        bgcolor="#869ca7"
+        flashvars="myname={{ request.user.id }}&callid={{ callid }}&ip=109.234.158.3"
+        width="800"
+        height="600"
+        name="modnoemesto_video"
+        align="middle"
+        play="true"
+        loop="false"
+        allowScriptAccess="modnoemesto.ru"
+        type="application/x-shockwave-flash"
+        pluginspage="http://www.adobe.com/go/getflashplayer">
+    </embed>
+</object>
+{% endspaceless %}
+
+</div>
+<div id="video_comment">
+<div id="video_chat">
+	       <div class="window"> 
+	       	<div class="text">
+	                <div id="chat"></div>
+	            </div>
+	         </div>
+             </div>
+	        <div class="send">
+	        <p class="send_mess">Отправить собщение в чат:</p>
+	        	<textarea id="message" class="com" name="message"></textarea>
+	            <input id="send_comment" type="submit" class="sub" value="отправить" />
+				<!--input id="receive" type="submit" class="sub" value="receive" /-->
+                </div>
+ </div>              
+{% endblock %}
