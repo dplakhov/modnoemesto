@@ -73,6 +73,16 @@ body
 	left: 180px; 
 	top: 95px; 
 	}
+a.exit
+{
+	position: absolute;
+	top: 120px;
+	left: 845px;
+	font-size: 14px;
+	color: #76A6EF;
+	border-bottom: 1px dashed #76A6EF;
+	text-decoration: none;
+}
 .menu 
 {
 	background: url(../images/menu_bg.png) 0 0 #efefef no-repeat; 
@@ -228,7 +238,7 @@ body
 	width: 295px;
 	padding: 5px;
 }
-#regColumn p
+#regColumn p, #about p
 {
 	margin: 10px 0;
 }
@@ -250,6 +260,13 @@ noindex
 #regColumn a
 {
 	color: #226BD7;
+}
+#about
+{
+	position: absolute;
+	top: 10px;
+	left: 400px;
+	width: 500px;
 }
 
 

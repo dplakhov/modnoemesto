@@ -54,6 +54,10 @@ $(document).ready(function(){
 		<div class="top">
                 </div>
    		   <div class="logo_spb"></div>
+
+           {% if user.is_authenticated %}
+           <a class="exit" href="{% url social:logout %}">Выход</a>
+           {% endif %}
 		</div> <!-- end head"-->
 
       		        <div class="menu"> <!-- âåðõíåå ìåíþ -->
