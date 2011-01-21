@@ -49,20 +49,24 @@ $(document).ready(function(){
     <div id="subContainer">
 
         <div class="head">
-   		   <div class="logo"></div>
+   		   <a href="/"><div class="logo"></div></a>
    		   <div class="text"></div> 		 
 		<div class="top">
                 </div>
    		   <div class="logo_spb"></div>
+
+           {% if user.is_authenticated %}
+           <a class="exit" href="{% url social:logout %}">Выход</a>
+           {% endif %}
 		</div> <!-- end head"-->
 
       		        <div class="menu"> <!-- âåðõíåå ìåíþ -->
                            <table width="100%" Cellspacing="0">
-                            <td><a href="#"><img src="/media/images/button1.png" border="0"></a></td>
-                            <td><a href="#"><img src="/media/images/button2.png" border="0"></a></td>
-                            <td><a href="#"><img src="/media/images/button3.png" border="0"></a></td>
-                            <td><a href="#"><img src="/media/images/button4s.png" border="0"></a></td>
-                            <td><a href="#"><img src="/media/images/button5.png" border="0"></a></td>
+                            <td><a href="http://gov.spb.ru/gov/governor/dialog"><img src="/media/images/button1.png" border="0"></a></td>
+                            <td><a href="http://gov.spb.ru/gov/governor/radio_roc"><img src="/media/images/button2.png" border="0"></a></td>
+                            <td><a href="http://gov.spb.ru/gov/governor/visit/obiezd"><img src="/media/images/button3.png" border="0"></a></td>
+                            <td><a href="http://gov.spb.ru/press/foto"><img src="/media/images/button4.png" border="0"></a></td>
+                            <td><a href="http://gov.spb.ru/press/video"><img src="/media/images/button5.png" border="0"></a></td>
                            </table>
                         </div> 
 
@@ -107,7 +111,7 @@ here goes the actual content
             <li><a href="{% url social:static 'support' %}">Скорая техническая помощь</a></li>
             </ul>
             {% endcomment %}
-            <p style="width:400px">Интернет-телевидение «PITER.TV» &copy; 2010</p>
+            <p style="width:400px">Интернет-телевидение «PITER.TV» &copy; 2011</p>
             <p id="design"><a href="http://www.web-mark.ru">Разработка сайта</a> – <a href="http://www.web-mark.ru/clients.html">Web-Mark</a></p>
 
         </div>

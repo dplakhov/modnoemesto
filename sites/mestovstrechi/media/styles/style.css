@@ -17,7 +17,7 @@ body
 {
 	font: normal 13px Arial, Helvetica, sans-serif; 
 	color: #434343; 
-	background: url(../images/head-xx.png) 0 0 #efefef repeat-x ; 
+	background: url(../images/head-xxx.png) 0 0 #efefef repeat-x ; 
 	min-height: 100%; 
 	height: auto !important; 
 	height: 100%; 
@@ -31,7 +31,7 @@ body
 
 .head 
 {
-	height: 240px; 
+	height: 220px; 
 	position: relative; 
 	z-index: 80;
 	overflow: hidden;
@@ -53,7 +53,7 @@ body
 	height: 87px; 
 	position: absolute; 
 	left: -0px; 
-	top: 146px; 
+	top: 126px; 
 	}
 .logo_spb 
 {
@@ -61,8 +61,8 @@ body
 	width: 113px; 
 	height: 116px; 
 	position: absolute; 
-	left: 15px; 
-	top: 100px; 
+	left: 30px; 
+	top: 80px; 
 	}
 .text 
 {
@@ -70,9 +70,19 @@ body
 	width: 425px; 
 	height: 44px; 
 	position: absolute; 
-	left: 180px; 
+	left: 556px; 
 	top: 95px; 
 	}
+a.exit
+{
+	position: absolute;
+	top: 12px;
+	left: 935px;
+	font-size: 14px;
+	color: #76A6EF;
+	border-bottom: 1px dashed #76A6EF;
+	text-decoration: none;
+}
 .menu 
 {
 	background: url(../images/menu_bg.png) 0 0 #efefef no-repeat; 
@@ -82,10 +92,11 @@ body
 #mainContent
 {
 	overflow: hidden;
+	position: relative;
+	margin-top: 10px;
 }
 #camera_holder
 {
-	margin-top: 10px;
 	text-align: center;
 }
 #video_chat 
@@ -153,7 +164,7 @@ body
 }
 #footer
 {
-	margin-top: 15px;
+	padding-top: 15px;
     overflow: hidden;
     position: relative;
     width: 100%;
@@ -164,6 +175,8 @@ body
     overflow: hidden;
 	padding-top: 10px;
     width: 980px;
+	margin: 0 auto;
+
 }
 #info ul li
 {
@@ -186,3 +199,74 @@ body
     text-decoration: underline;
     color: #000;
 }
+/*
+----------------------------------------------------*/
+#regColumn
+{
+	width: 330px;
+	padding: 15px 0 0 0;
+}
+.title {
+    background: url("../images/title_corner_left.gif") no-repeat scroll 0 0 transparent;
+    padding-left: 6px;
+    position: relative;
+}
+.title-r {
+    background: url("../images/title_corner_right.gif") no-repeat scroll 100% 0 transparent;
+    padding-right: 6px;
+}
+.title-x {
+    background: url("../images/title-x.png") repeat-x scroll 0 0 transparent;
+    height: 32px;
+	text-align: center;
+}
+.title h2 {
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px 0 0 5px;
+}
+.block {
+    background: url("../images/block-y.gif") repeat-y scroll 0 0 transparent;
+    margin-bottom: 10px;
+}
+.block-b {
+    background: url("../images/block-b.gif") no-repeat scroll 0 100% transparent;
+	padding: 10px;
+}
+#regColumn input
+{
+	width: 295px;
+	padding: 5px;
+}
+#regColumn p, #about p
+{
+	margin: 10px 0;
+}
+ input#id_phone_0
+{
+	width: 40px;
+	margin: 0 15px 0 5px;
+}
+ input#id_phone_1
+{
+	width: 207px;
+}
+noindex
+{
+	overflow: hidden;
+	display: block;
+	margin: 10px 0;
+}
+#regColumn a
+{
+	color: #226BD7;
+}
+#about
+{
+	position: absolute;
+	top: 10px;
+	left: 400px;
+	width: 500px;
+}
+
+
