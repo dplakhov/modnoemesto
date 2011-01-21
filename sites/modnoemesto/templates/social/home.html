@@ -57,7 +57,7 @@
                     <li><a href="{% url social:profile_edit page_user.id %}">{% trans "options" %}</a></li>
                 {% endif %}
                 <li><a href="{% url notes:note_list page_user.id %}">{% trans "Notes" %}</a></li>
-                <li>Приглашённые: {{ invitee_count }}</li>
+                <li><span>Приглашённые:</span><b> {{ invitee_count }}</b></li>
                 <li><a href="{% url friends:friends_all page_user.id %}">{% trans "Friends" %} ({{ page_user.friends.count }})</a></li>
             {% endif %}
         </ul>
@@ -97,7 +97,7 @@
             {% if profile.mobile %}<dt id="mobile">{% trans "Mobile" %}</dt>
                 <dd>{{ profile.mobile }}</dd>{% endif %}
             {% if profile.website %}<dt id="website">{% trans "Website" %}</dt>
-                <dd>{{ profile.website }}</dd>{% endif %}
+                <dd><a href="{{ profile.website }}">{{ profile.website }}</a></dd>{% endif %}
         </dl>
     </div>
     <div id="education_info" class="about_persone transparent">

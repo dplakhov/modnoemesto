@@ -79,9 +79,10 @@ p.event_announce
 	border-top: #6f6f6f dotted 1px;
 	display: block;
 }
-.profileActions ul li a
+.profileActions ul li a, .profileActions ul li span
 {
 	color: #575655;
+	text-decoration: underline;
 }
 .profileActions ul li a:hover
 {
