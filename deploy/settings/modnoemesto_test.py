@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-DEBUG = TEMPLATE_DEBUG = True
+DEBUG = TEMPLATE_DEBUG = False
 
 ADMINS = (
     ('tech', 'tech@web-mark.ru'),
@@ -25,4 +25,8 @@ DATABASES = {
         'HOST': '10.10.10.7',
     },
 }
+
+
+CELERY_EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'apps.async_email.backends.CeleryEmailBackend'
 
