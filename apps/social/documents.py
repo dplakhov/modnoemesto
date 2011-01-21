@@ -20,6 +20,7 @@ from mongoengine.fields import ListField, DateTimeField
 from apps.utils.decorators import cached_property
 
 
+
 OFFLINE_TIMEDELTA = 300
 
 class LimitsViolationException(Exception):
@@ -69,6 +70,13 @@ class Profile(Document):
             'inviter',
         ]
     }
+
+    def for_html(self):
+        from apps.social.forms import ChangeProfileForm
+        self.sex = dict(ChangeProfileForm.SEX_CHOICES).get(self.sex, ChangeProfileForm.SEX_CHOICES[0][1])
+        if self.mobile:
+            self.mobile = "+7 (%s) %s %s %s" % (self.mobile[:3], self.mobile[3:6], self.mobile[6:8], self.mobile[8:])
+        return self
 
 
 class User(Document):
@@ -143,6 +151,7 @@ class User(Document):
 
     @property
     def profile(self):
+        from apps.themes.documents import Theme
         return Profile.objects.get_or_create(user=self)[0]
 
     @cached_property
