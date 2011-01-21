@@ -32,6 +32,13 @@ $(document).ready(function(){
 	<script>
 	$(document).ready(function(){
         init_chat("index", 3000);
+		
+        $('#message').keydown(function(e){
+            if (e.ctrlKey && e.keyCode == 13) {
+                 $("#send_comment").trigger('click');
+            }
+        });
+		  		
 		$('#send_comment').click(function(event){
 			if ($('#message').val()){
 				$.ajax({
