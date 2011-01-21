@@ -17,7 +17,7 @@ body
 {
 	font: normal 13px Arial, Helvetica, sans-serif; 
 	color: #434343; 
-	background: url(../images/head-xx.png) 0 0 #efefef repeat-x ; 
+	background: url(../images/head-xxx.png) 0 0 #efefef repeat-x ; 
 	min-height: 100%; 
 	height: auto !important; 
 	height: 100%; 
@@ -31,7 +31,7 @@ body
 
 .head 
 {
-	height: 240px; 
+	height: 220px; 
 	position: relative; 
 	z-index: 80;
 	overflow: hidden;
@@ -53,7 +53,7 @@ body
 	height: 87px; 
 	position: absolute; 
 	left: -0px; 
-	top: 146px; 
+	top: 126px; 
 	}
 .logo_spb 
 {
@@ -61,8 +61,8 @@ body
 	width: 113px; 
 	height: 116px; 
 	position: absolute; 
-	left: 15px; 
-	top: 100px; 
+	left: 30px; 
+	top: 80px; 
 	}
 .text 
 {
@@ -70,14 +70,14 @@ body
 	width: 425px; 
 	height: 44px; 
 	position: absolute; 
-	left: 180px; 
+	left: 556px; 
 	top: 95px; 
 	}
 a.exit
 {
 	position: absolute;
-	top: 120px;
-	left: 845px;
+	top: 12px;
+	left: 935px;
 	font-size: 14px;
 	color: #76A6EF;
 	border-bottom: 1px dashed #76A6EF;
