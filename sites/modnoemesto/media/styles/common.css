@@ -1538,12 +1538,18 @@ li.friendTable
     top: 50px;
     z-index: 9999;
 }
+div.system_messages ul
+{
+    position: fixed;
+    z-index: 9999;
+}
 div.system_messages li
 {
     padding: 4px 4px 4px 30px;
     margin-bottom: 10px;
     font-size: 1.1em;
     border: 2px solid;
+	width: 940px;
 }
 
 div.system_messages li.success {

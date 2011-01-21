@@ -43,6 +43,11 @@ div.about_persone
 	width: 205px;
 	padding-left: 5px;
 }
+.about_persone dd a
+{
+	color: #00b2d5;
+	text-decoration: none;
+}
 p.event_announce
 {
     width: 285px;
