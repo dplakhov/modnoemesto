@@ -1,0 +1,108 @@
+{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="Cache-control" content="no-cache" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Модное место - это современная уникальная социальная видеосеть! Модное место гарантирует весь спектр пользовательских сервисов. Главное преимущество Модного места перед другими соцсетями - возможность заработка. Это единственная социальная видеосеть, которая платит пользователям!">
+    <meta name="keywords" content="модное место социальная видеосеть соцсеть">
+
+    <link href="/media/images/favicon.ico" rel="shortcut icon" />
+
+    {% block css %}
+   <!-- <link href="/media/styles/common.css" rel="stylesheet" type="text/css" />  -->
+    <link href="/media/styles/style.css" rel="stylesheet" type="text/css" />
+    <link href="/media/styles/chat_style.css" rel="stylesheet" type="text/css" />
+    
+    <link href="/media/styles/user_micro.css" rel="stylesheet" type="text/css" />
+    <link href="/media/styles/jScrollPane.css" rel="stylesheet" type="text/css" />
+    <link href="/media/styles/selectbox.css" rel="stylesheet" type="text/css" />
+    <link href="/media/styles/debug.css" rel="stylesheet" type="text/css" />
+    <link href="/media/styles/fancybox.css" rel="stylesheet" type="text/css"/>
+    {% endblock %}
+
+    {% block rss %}
+    {# <link href="/rss/" rel="alternate" type="application/rss+xml" /> #}
+    {% endblock %}
+
+    <title>{% block title %}Модное место – новая социальная сеть. Модное место – социальная сеть которая платит за видео!{% endblock %}</title>
+
+    {% block js %}
+    <script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
+    
+    <script type="text/javascript" src="/media/js/jquery.crawlLine.js"></script>
+    <script type="text/javascript" src="/media/js/jquery.corner.js"></script>
+    <script type="text/javascript" src="/media/js/jquery.selectbox-0.5.js"></script>
+    <script type="text/javascript" src="/media/js/jquery.form.js"></script>
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
+			$('.marquee').crawlLine({crawElement:'.move'});
+            $('.rounded').corner();
+            $('textarea[maxlength]').live('input paste',function(e){
+                var text = $(e.target);
+                var max = parseInt(text.attr('maxlength'));
+                if(text.val().length > max){
+                    text.val(text.val().substr(0, text.attr('maxlength')));
+                }
+
+                text.parent().parent().find('.charsRemaining').html('Осталось ' + (max - text.val().length) + ' символов');
+            });
+        });
+    </script>
+    <script src="/media/js/ie6fix.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        DD_belatedPNG.fix('.transparent');
+    </script>
+
+    {% endblock %}
+  <!--[if lte IE 8]>
+   <style type="text/css">
+    #menu .menu_but a, #menuReg  .menu_but a{
+        font-size: 13px;
+    }
+    #menu, #menuReg{
+        top: -48px;
+    }
+    .find{
+        top: -3px;
+    }
+    .own_photo img
+{
+    border: 10px solid #eeedde;
+}
+
+    .message_text_view, .message_text_reply, .message_text_write
+    {
+        background: #E5E4D0;
+        }
+    .message_text_view p
+    {
+        background: #FFF;
+        padding: 7px;
+        }
+    .message_text_reply textarea
+    {
+        width: 406px;
+        padding: 7px;
+        }
+  </style>
+  <![endif]-->
+  
+  <!--[if IE 8]>
+   <style type="text/css">
+   span#img input{
+        position:relative;
+        top:3px;
+        }
+  </style>
+  <![endif]-->
+</head>
+<body>
+{% block body %}
+here goes the actual content
+{% endblock %}
+</body>
+</html>

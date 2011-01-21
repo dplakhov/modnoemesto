@@ -224,6 +224,7 @@ def install_nginx():
         run('rm /etc/nginx/sites-enabled/default')
 
 
+def setup_nginx():
     if exists('/etc/nginx/sites-available/socnet-uwsgi.conf'):
         run('rm /etc/nginx/sites-available/socnet-uwsgi.conf')
 

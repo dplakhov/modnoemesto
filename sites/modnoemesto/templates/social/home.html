@@ -29,7 +29,7 @@ $(document).ready(function() {
 {% block content %}
 
 <div id="user_page">
-    <h2 class="name_persone">{{ page_user }}{% if is_owner %} (это вы){% endif %}</h2>
+    <h2 class="name_persone">{{ page_user }}</h2>
      <div id="avatar" class="rounded">
         <img src="{% media_url page_user.avatar avatar_midi.png %}" />
     </div>
@@ -127,12 +127,12 @@ $(document).ready(function() {
              {{ profile.announce }}
          </p>
     </div>
- 
-        <div id="camera"><a name="cam"></a>
-            {% if camera %}
-            {% include "includes/camera.html" %}
-            {% endif %}
-        </div>
+		{% if camera %}
+            <div id="camera"><a name="cam"></a>
+                {% include "includes/camera.html" %}
+            </div>
+        {% endif %}
+
 </div>
 
 {% endblock %}

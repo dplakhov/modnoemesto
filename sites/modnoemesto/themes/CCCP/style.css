@@ -1,0 +1,79 @@
+
+#user_page h2
+{
+	font-size: 18px;
+	color: #c94230;
+	margin-bottom: 14px;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	font-style: italic;
+	font-weight: bold;
+}
+dt, dd
+{
+	font-size: 14px;
+}
+dt
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	color: #000;
+	font-variant: small-caps;
+}
+dd
+{
+	margin-left: 121px;
+	padding: 5px;
+	overflow: hidden;
+	width: 150px;
+	color: #ff6854;
+	font-family: "Comic Sans MS", cursive;
+}
+.about_persone p
+{
+	color: #c94230;
+	font-size: 14px;
+	text-align: center;
+}
+.about_persone dd a
+{
+	color: #ff6854;
+	text-decoration: underline;
+}
+p.event_announce
+{
+    width: 285px;
+	color: #000;
+	padding-top: 5px;
+	text-align: left;
+	font-family: "Comic Sans MS", cursive;
+}
+#avatar
+{
+	text-align: center;
+	border: 5px solid #c94230;
+	background: #c94230;
+	width: 200px;
+	position: relative;
+	top: -30px;
+    left: 305px;
+}
+.profileActions ul li a
+{
+	color: #000;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.friend_box p, .friends_amount
+{
+	color: #c94230;
+	font-size: 14px;
+}
+.friends_amount
+{
+	color: #000;
+}
+.friendTable td a {
+    color: #FF6854;
+}
+.friendTable td img {
+    border: 4px solid #c94230;
+}

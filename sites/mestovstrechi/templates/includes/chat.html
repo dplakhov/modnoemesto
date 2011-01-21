@@ -13,11 +13,11 @@
 	$(document).ready(function(){
         init_chat("{{ camera.id }}", {{ settings.CHAT_POLLING_TIME }});
 		
-		$('#message').keydown(function(e){
+        $('#message').keydown(function(e){
             if (e.ctrlKey && e.keyCode == 13) {
                  $("#send_comment").trigger('click');
             }
-		});		
+        });     
 		
 		$('#send_comment').click(function(event){
 			if ($('#message').val()){
