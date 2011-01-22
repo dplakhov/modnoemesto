@@ -1,4 +1,4 @@
-from apps.cam.documents import Camera
+from apps.cam.documents import Camera, CameraTag
 from apps.utils.paginator import paginate
 from django.core.urlresolvers import reverse
 
