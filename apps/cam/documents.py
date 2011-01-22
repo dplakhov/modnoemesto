@@ -47,6 +47,10 @@ class CameraTag(Document):
         for new_tag in new_tag_ids:
             CameraTag.objects(id=new_tag).update_one(inc__count=1)
 
+    @property
+    def is_private():
+        return self.name.lower().find('private') != -1
+
 
 class Camera(Document):
     TARIFF_FIELDS = ( 'management_packet_tariff',

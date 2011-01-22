@@ -127,6 +127,9 @@ management_checked();
     <li class="category" {% cycle '' ' style="margin-right: 0pt;"' %}>
         <div>
             <h3><a href="?tags={{ tag.id }}">{{ tag.name }} ({{ tag.count }})</a></h3>
+{% if tag.is_private %}
+            <a href=" url из ссылки для h3 "><img src="/media/images/keyhole.png" style="width: 360px; height: 322px;"></a>
+{% else %}
             <ul>
             {% for cam in cams %}
 {% url social:user cam.owner.id as user_path %}
@@ -141,7 +144,7 @@ management_checked();
                 </li>
                 {% endfor %}
             </ul>
-                    
+{% endif %}
         </div>
     </li>
 {% endfor %}
