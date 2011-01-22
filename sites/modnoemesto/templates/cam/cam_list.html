@@ -12,7 +12,9 @@
 $(document).ready(function(){
     $('#id_tags, #id_order').selectbox();
 {% if not request.user.is_view_private_cam %}
+    var is_view_private_cam = false;
     $('#id_tags_container ul').click(function(e){
+        if (is_view_private_cam) return;
         var tmp = e.target.id.split('_');
         if (tmp.length == 4) {
             var id = tmp[tmp.length-1];
@@ -21,6 +23,7 @@ $(document).ready(function(){
                 if (privates[i] == id) {
                     if (confirm("Вы действильно желаете открыть приватный раздел?")) {
                         $.get('{% url social:set_options %}?is_view_private_cam=true');
+                        is_view_private_cam = true;
                     } else {
                         $('#id_tags_container li').each(function(i, v){
                             $(v).attr('class', '');
