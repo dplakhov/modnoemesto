@@ -28,6 +28,7 @@ class CameraType(Document):
 
 class CameraTag(Document):
     name = StringField(max_length=255, unique=True)
+    is_private = BooleanField(default=False)
     count = IntField(default=0)
 
     meta = {
@@ -46,10 +47,6 @@ class CameraTag(Document):
                 CameraTag.objects(id=old_tag).update_one(dec__count=1)
         for new_tag in new_tag_ids:
             CameraTag.objects(id=new_tag).update_one(inc__count=1)
-
-    @property
-    def is_private():
-        return self.name.lower().find('private') != -1
 
 
 class Camera(Document):
