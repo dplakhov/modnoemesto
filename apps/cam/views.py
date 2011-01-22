@@ -25,6 +25,7 @@ from .documents import CameraBookmarks
 
 
 def cam_list(request):
+    private_tags = ","["'%s'" % i.id for i in CameraTag.objects(is_private=True)]
     if request.GET:
         form = CamFilterForm(request.GET)
         if form.is_valid():
@@ -75,14 +76,14 @@ def cam_list(request):
         if request.is_ajax():
             return direct_to_template(request, 'cam/_cameras.html', dict(cams=cams))
         else:
-            return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams))
+            return direct_to_template(request, 'cam/cam_list.html', dict(form=form,cams=cams,private_tags=private_tags))
     else:
         form = CamFilterForm()
         tags = []
         for tag in CameraTag.objects.order_by('-count')[:4]:
             cams = list(Camera.objects(tags=tag.id).order_by('-view_count')[:4])
             tags.append((tag, cams))
-        return direct_to_template(request, 'cam/cam_list.html', dict(form=form,tags=tags) )
+        return direct_to_template(request, 'cam/cam_list.html', dict(form=form,tags=tags,private_tags=private_tags) )
 
 
 def cam_view(request, id):
