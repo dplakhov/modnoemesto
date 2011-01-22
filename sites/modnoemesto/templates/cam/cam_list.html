@@ -16,7 +16,7 @@ $(document).ready(function(){
         var tmp = e.target.id.split('_');
         if (tmp.length == 4) {
             var id = tmp[tmp.length-1];
-            var privates = [{{ private_tags }}];
+            var privates = [{{ private_tags|safe }}];
             for(var i = 0; i < privates.length; i++){
                 if (privates[i] == id) {
                     if (confirm("Вы действильно желаете открыть приватный раздел?")) {
