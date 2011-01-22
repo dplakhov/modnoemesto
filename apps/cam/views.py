@@ -35,6 +35,9 @@ def cam_list(request):
             if data['tags']:
                 data['tags'] = CameraTag.objects(id=data['tags']).first()
             else:
+                if not request.user.is_view_private_cam:
+                    public_tags = [i.id for i in CameraTag.objects(is_private=False)]
+                    data.update(dict(tags__in=public_tags))
                 del data['tags']
             if data['order']:
                 order = data['order']
