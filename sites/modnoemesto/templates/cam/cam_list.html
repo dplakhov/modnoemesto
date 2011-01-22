@@ -13,8 +13,6 @@ $(document).ready(function(){
     $('#id_tags, #id_order').selectbox();
 {% if not request.user.is_view_private_cam %}
     $('#id_tags_container ul').click(function(e){
-        var li = e.target;
-        
         var tmp = e.target.id.split('_');
         if (tmp.length == 4) {
             var id = tmp[tmp.length-1];

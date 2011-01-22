@@ -25,7 +25,7 @@ from .documents import CameraBookmarks
 
 
 def cam_list(request):
-    private_tags = ","["'%s'" % i.id for i in CameraTag.objects(is_private=True)]
+    private_tags = ",".join(["'%s'" % i.id for i in CameraTag.objects(is_private=True)])
     if request.GET:
         form = CamFilterForm(request.GET)
         if form.is_valid():
