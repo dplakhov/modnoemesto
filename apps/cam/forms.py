@@ -41,6 +41,7 @@ class CameraTypeForm(forms.Form):
 
 class CameraTagForm(forms.Form):
     name = forms.CharField(label=_('Name'))
+    is_private = forms.BooleanField(label=_('Is private'), required=False)
 
 
 class CameraForm(forms.Form):
