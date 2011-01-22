@@ -24,8 +24,9 @@ $(document).ready(function(){
             return false;
         }
     });
-    $('#filt_new a.private').click(function(){
-        if (!confirm("Вы действильно желаете открыть приватный раздел?")) return false;
+    $('#filt_cat a.private').click(function(){
+        if (confirm("Вы действильно желаете открыть приватный раздел?")) $.get('{% url social:set_options %}?is_view_private_cam=true');
+        else return false;
     });
 });
 </script>

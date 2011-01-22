@@ -26,6 +26,7 @@ urlpatterns = patterns('apps.social.views',
    url(r'^profile/$', 'profile_edit', name='profile_edit'),
    url(r'^profile/(?P<id>[a-f0-9]{24})/$', 'profile_edit', name='profile_edit'),
    url(r'^profile/avatar/$', 'avatar_edit', name='avatar_edit'),
+   url(r'^profile/set_options/$', 'set_options', name='set_options'),
 
    # тестовые страницы
    url(ur'^ЕГГОГ$', 'test_error',),
