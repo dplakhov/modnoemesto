@@ -11,6 +11,33 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $('#id_tags, #id_order').selectbox();
+{% if not request.user.is_view_private_cam %}
+    var is_view_private_cam = false;
+    $('#id_tags_container ul').click(function(e){
+        if (is_view_private_cam) return;
+        var tmp = e.target.id.split('_');
+        if (tmp.length == 4) {
+            var id = tmp[tmp.length-1];
+            var privates = [{{ private_tags|safe }}];
+            for(var i = 0; i < privates.length; i++){
+                if (privates[i] == id) {
+                    if (confirm("Вы действильно желаете открыть приватный раздел?")) {
+                        $.get('{% url social:set_options %}?is_view_private_cam=true');
+                        is_view_private_cam = true;
+                    } else {
+                        $('#id_tags_container li').each(function(i, v){
+                            $(v).attr('class', '');
+                        });
+                        $('#id_tags_input_').attr('class', 'current selected');
+                        $('id_tags').val('');
+                        $('#id_tags_input').val($('#id_tags_input_').html());
+                    }
+                    break;
+                }
+            }
+        }
+    });
+{% endif %}
 
     $('#filt_new').click(function(e){
         var link = $(e.target);
@@ -24,6 +51,12 @@ $(document).ready(function(){
             return false;
         }
     });
+{% if not request.user.is_view_private_cam %}
+    $('#filt_cat a.private').click(function(){
+        if (confirm("Вы действильно желаете открыть приватный раздел?")) $.get('{% url social:set_options %}?is_view_private_cam=true');
+        else return false;
+    });
+{% endif %}
 });
 </script>
 {% endblock %}          
@@ -126,9 +159,9 @@ management_checked();
 {% for tag, cams in tags %}
     <li class="category" {% cycle '' ' style="margin-right: 0pt;"' %}>
         <div>
-            <h3>{% if tag.is_private %}Private{% else %}Public{% endif %} <a href="?tags={{ tag.id }}">{{ tag.name }} ({{ tag.count }})</a></h3>
-{% if tag.is_private %}
-            <a href="?tags={{ tag.id }}"><img src="/media/images/keyhole.png" style="width: 360px; height: 322px;"></a>
+            <h3><a href="?tags={{ tag.id }}" class="private">{{ tag.name }} ({{ tag.count }})</a></h3>
+{% if tag.is_private and not request.user.is_view_private_cam %}
+            <a href="?tags={{ tag.id }}" class="private"><img src="/media/images/keyhole.png" style="width: 360px; height: 322px;"></a>
 {% else %}
             <ul>
             {% for cam in cams %}
