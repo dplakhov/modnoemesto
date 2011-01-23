@@ -96,7 +96,6 @@ class User(Document):
 
     is_active = BooleanField(default=True)
     is_banned = BooleanField(default=False)
-    is_view_private_cam = BooleanField(default=False)
 
     is_staff = BooleanField(default=False)
     is_superuser = BooleanField(default=False)

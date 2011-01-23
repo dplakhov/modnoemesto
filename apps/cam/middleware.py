@@ -9,9 +9,8 @@ class PlaceBoxMiddleware:
             is_view_public=True,
             is_view_enabled=True,
         )
-        if request.user.is_authenticated() and  not request.user.is_view_private_cam:
-            public_tags = [i.id for i in CameraTag.objects(is_private=False)]
-            params.update(dict(tags__in=public_tags))
+        public_tags = [i.id for i in CameraTag.objects(is_private=False)]
+        params.update(dict(tags__in=public_tags))
         request.places = paginate(request,
                                   Camera.objects(**params).order_by('-view_count'),
                                   Camera.objects(**params).count(),

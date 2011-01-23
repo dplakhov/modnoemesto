@@ -564,11 +564,3 @@ def set_new_password(request, code):
     else:
         form = SetNewPasswordForm()
     return direct_to_template(request, 'social/profile/set_new_password.html' , dict(form=form))
-
-
-def set_options(request):
-    flag = request.GET.get('is_view_private_cam', None)
-    if flag is not None:
-        request.user.is_view_private_cam = flag.lower() in ['true', '1']
-        request.user.save()
-    return HttpResponse('OK')
