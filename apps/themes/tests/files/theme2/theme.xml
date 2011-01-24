@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<theme name="Тема" public="true">
+    <description>
+Описание
+    </description>
+    <html_top>
+        <![CDATA[
+                <h1>I am superstar</h1>
+        ]]>
+    </html_top>
+</theme>

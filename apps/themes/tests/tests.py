@@ -95,3 +95,31 @@ class ThemeTest(TestCase):
         fs = gridfs.GridFS(_get_db())
         print dir(fs)
         print fs.list()
+
+    def test_with_html(self):
+        theme = Theme.from_directory(os.path.join(os.path.dirname(__file__),
+                                                    'files/theme2'))
+        
+        self.failUnlessEqual('<h1>I am superstar</h1>', theme.html_top)
+
+    def test_with_html_replaced(self):
+        old_theme = Theme.from_directory(os.path.join(os.path.dirname(__file__),
+                                                    'files/theme2'))
+
+        self.failUnless(old_theme.html_top)
+
+        new_theme = Theme.from_directory(os.path.join(os.path.dirname(__file__),
+                                                'files/theme1'))
+
+        self.failIf(new_theme.html_top)
+
+    def test_old_files_deleted(self):
+        old_theme = Theme.from_directory(os.path.join(os.path.dirname(__file__),
+                                                            'files/theme1'))
+
+        self.failUnlessEqual(3, ThemeFile.objects().count())
+
+        new_theme = Theme.from_directory(os.path.join(os.path.dirname(__file__),
+                                                'files/theme2'))
+
+        self.failUnlessEqual(2, ThemeFile.objects().count())
