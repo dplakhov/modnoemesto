@@ -123,3 +123,10 @@ class ThemeTest(TestCase):
                                                 'files/theme2'))
 
         self.failUnlessEqual(2, ThemeFile.objects().count())
+
+    def test_with_html_replace_src(self):
+        theme = Theme.from_directory(os.path.join(os.path.dirname(__file__),
+                                                    'files/theme3'))
+
+        self.failUnlessEqual('<img src="/theme/%s/preview.png" />' % theme.id,
+                             theme.html_top)
