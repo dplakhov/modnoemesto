@@ -59,6 +59,8 @@ a.exit
 {
 	overflow: visible;
 	position: relative;
+	width: 983px;
+	margin: 0 auto;
 }
 #camera_holder
 {

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<theme name="Gov.spb.ru" public="false">
+<theme name="gov.spb.ru" public="false">
     <description>
-Всё зелёное
+Администрация Санкт-Петербурга
     </description>
 	    <html_top>
         <![CDATA[
@@ -11,11 +11,11 @@
 				<div class="top"></div>
 				<div class="menu"> 
                      <table width="100%" Cellspacing="0">
-                         <td><a href="http://gov.spb.ru/gov/governor/dialog"><img src="/media/images/button1.png" border="0"></a></td>
-                         <td><a href="http://gov.spb.ru/gov/governor/radio_roc"><img src="/media/images/button2.png" border="0"></a></td>
-                         <td><a href="http://gov.spb.ru/gov/governor/visit/obiezd"><img src="/media/images/button3.png" border="0"></a></td>
-                         <td><a href="http://gov.spb.ru/press/foto"><img src="/media/images/button4.png" border="0"></a></td>
-                         <td><a href="http://gov.spb.ru/press/video"><img src="/media/images/button5.png" border="0"></a></td>
+                         <td><a href="http://gov.spb.ru/gov/governor/dialog"><img src="/themes/gov.spb.ru/button1.png" border="0"></a></td>
+                         <td><a href="http://gov.spb.ru/gov/governor/radio_roc"><img src="/themes/gov.spb.ru/button2.png" border="0"></a></td>
+                         <td><a href="http://gov.spb.ru/gov/governor/visit/obiezd"><img src="/themes/gov.spb.ru/button3.png" border="0"></a></td>
+                         <td><a href="http://gov.spb.ru/press/foto"><img src="/themes/gov.spb.ru/button4.png" border="0"></a></td>
+                         <td><a href="http://gov.spb.ru/press/video"><img src="/themes/gov.spb.ru/button5.png" border="0"></a></td>
                       </table>
                 </div> 
 				

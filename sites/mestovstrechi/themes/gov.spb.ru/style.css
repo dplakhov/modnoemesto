@@ -1,6 +1,7 @@
 #user_page
 {
 	font-family: Verdana, Geneva, sans-serif;
+	margin: 0 auto;
 }
 .top 
 {
@@ -27,11 +28,12 @@
 	left: 556px; 
 	top: -30px; 
 	}
-	.menu 
+.menu 
 {
 	background: url(menu_bg.png) 0 0 #efefef no-repeat; 
 	width: 983px; 
-	height: 28px; 
+	height: 28px;
+	margin-bottom: 10px;
 }
 #user_page h2
 {
@@ -49,12 +51,6 @@ dt
 	color: #000;
 	padding: 5px;
 	font-size: 12px;
-}
-div.about_persone
-{
-	position: relative;
-	top: 0px;
-	/*background: url(../images/bg_about_persone.png) no-repeat;*/
 }
 .about_persone dd a
 {
@@ -90,13 +86,7 @@ a.tooltip.toollip_video
 {
 	left: 370px;
 }
-.profileActions
-{
-	position: absolute;
-	left: 230px;
-	top: 20px;
-	
-}
+
 .profileActions ul li
 {
 	padding: 15px 0px 15px 15px;
@@ -113,6 +103,7 @@ div.about_persone
 	width: 370px;
 	border: none;
 	background: none;
+	top: -305px;
 }
 
 dt
@@ -139,12 +130,10 @@ dd
 	text-decoration: underline;
 }
 
-/*#anounce_info
+#anounce_info
 {
-	position: relative;
-	top: -620px;
-	left: 0px;
-}*/
+	top: 139px;
+}
 p.event_announce
 {
     width: 285px;
@@ -152,6 +141,7 @@ p.event_announce
 	padding-top: 10px;
 	text-align: left;
 	font-weight: normal;
+	top: 140px;
 	
 }
 .friend_box
