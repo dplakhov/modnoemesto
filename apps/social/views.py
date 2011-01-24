@@ -363,7 +363,7 @@ def profile_edit(request, id=None):
                 return
             context.update(answer)
             if answer['camera']:
-                answer = screen_form(request, answer['camera'])
+                answer = screen_form(request, user.get_camera())
                 if not answer:
                     return
                 context.update(answer)
