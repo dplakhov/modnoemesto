@@ -2,18 +2,27 @@
 
 {% load i18n %}
 
+{% block css %}
+{{ block.super }}
+<style>
+.purse table td.center {
+    text-align: center;
+}
+</style>
+{% endblock %}
+
 {% block base_content %}
 {% include "_left_box_menu.html" %}
-<div id="filterColumn">
-    <h2>Как оплатить</h2>
-    <table>
+<div id="filterColumn" class="purse">
+    <div id="filter"><h2>Как оплатить</h2></div>
+    <table cellpadding="10">
         <tr>
             <td>Вы можете пополнить свой счет посредством собственных <b>банковских карт</b> через платежную систему банка <b>ПСКБ</b>.</td>
             <td>Или воспользоваться сервисом <b>ROBOKASSA</b> для пополнения через электронные деньги, смс-сообщения, терминалов и т.д.</td>
        </tr>
         <tr>
-            <td><a href="{% url billing:pscb %}"><img src="/media/images/pscb.gif" alt="PSCB"/></a></td>
-            <td><a href="#" id="robokassa_link"><img src="/media/images/robokassa.gif" alt="ROBOKASSA"/></a></td>
+            <td class="center"><a href="{% url billing:pscb %}"><img src="/media/images/pscb.gif" alt="PSCB"/></a></td>
+            <td class="center"><a href="#" id="robokassa_link"><img src="/media/images/robokassa.gif" alt="ROBOKASSA"/></a></td>
        </tr>
     </table>
 <form action="{{ robokassa_form.target }}" method="POST" id="robokassa_form">
