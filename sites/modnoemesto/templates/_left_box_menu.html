@@ -24,7 +24,7 @@ $(document).ready(function() {
                     <p>На моем счету</p>
 
                     <div><p id="amount"><span>{{ user.cash|floatformat:2 }}</span> руб.</p></div>
-                    <p id="purse"><a style="cursor:text" href="{% comment %}{% url billing:purse %}{% endcomment %}">Перейти в кошелек</a></p>
+                    <p id="purse"><a style="cursor:text" href="{% url billing:purse %}">Перейти в кошелек</a></p>
                 </div>
             </li>
             {% else %}
