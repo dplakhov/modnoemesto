@@ -29,6 +29,9 @@ $(document).ready(function() {
 {% block content %}
 
 <div id="user_page">
+{% if profile.theme and profile.theme.html_top %}
+{{ profile.theme.html_top|safe }}
+{% endif %}
     <h2 class="name_persone">{{ page_user }}</h2>
      <div id="avatar" class="rounded">
         <img src="{% media_url page_user.avatar avatar_midi.png %}" />
