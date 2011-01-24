@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from lxml import etree
+import re
 import zipfile
 
 from mongoengine.document import Document
@@ -35,7 +36,12 @@ class Theme(Document):
 
         html_top = theme_xml.find('html_top')
         if html_top is not None:
-            theme.html_top = html_top.text.strip()
+            text = html_top.text.strip()
+            text = re.sub(r' src="/.*?([\w.]+)"',
+                          r' src="/theme/%s/\1"' % theme.id,
+                          text)
+
+            theme.html_top = text
 
         theme.save()
 
