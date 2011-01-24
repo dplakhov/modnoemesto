@@ -62,10 +62,15 @@ def purse(request):
                          'Desc': request.user,
                          'Email': request.user.email,
                      })
-    return direct_to_template(request, 'billing/pay.html', {
+    return direct_to_template(request, 'billing/purse.html', {
+        'robokassa_form': robokassa_form,
+    })
+
+
+def pscb(request):
+    return direct_to_template(request, 'billing/pscb.html', {
         'service': settings.PKSPB_ID,
         'account': request.user.id,
-        'robokassa_form': robokassa_form,
     })
 
 
