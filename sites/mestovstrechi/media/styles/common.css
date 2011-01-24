@@ -179,6 +179,10 @@ a.exit
 	width: 330px;
 	padding: 15px 0 0 0;
 }
+#edit_form
+{
+	width: 500px;
+}
 .title {
     background: url("../images/title_corner_left.gif") no-repeat scroll 0 0 transparent;
     padding-left: 6px;
@@ -206,12 +210,12 @@ a.exit
     background: url("../images/block-b.gif") no-repeat scroll 0 100% transparent;
 	padding: 10px;
 }
-#regColumn input
+.block-b input
 {
 	width: 295px;
 	padding: 5px;
 }
-#regColumn p, #about p
+.block-b p, #about p
 {
 	margin: 10px 0;
 }
