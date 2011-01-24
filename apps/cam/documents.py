@@ -99,7 +99,7 @@ class Camera(Document):
     def driver(self):
         return self.type.driver_class(self)
 
-    def can_show(self, owner_user, access_user):
+    def get_show_info(self, owner_user, access_user):
         if not self.is_view_enabled:
             return False
         if not self.is_view_public:
@@ -131,17 +131,17 @@ class Camera(Document):
             return data
         return True
 
-    def can_manage(self, owner_user, access_user):
+    def get_manage_list(self, owner_user, access_user):
         if not self.is_management_enabled:
-            return False
+            return []
         if not self.is_management_public:
             is_friend = access_user.is_authenticated() and \
                         access_user.friends.contains(owner_user)
             if not is_friend:
-                return False
+                return []
         if self.is_management_paid:
             if not owner_user.is_authenticated():
-                return False
+                return []
             now = datetime.now()
             orders = list(AccessCamOrder.objects(
                 Q(end_date__gt=now) | Q(end_date__exists=True),
@@ -152,12 +152,26 @@ class Camera(Document):
                 if self.operator:
                     self.operator = None
                     self.save()
-                return False
+                return []
             if orders[0].user == access_user:
                 self.operator = access_user
                 self.save()
             return orders
-        return True
+        return []
+
+    def can_show(self):
+        return
+
+    def billing(self, owner_user, access_user):
+        show_info = can_show(self)
+        show_info = self.get_show_info(owner_user, access_user)
+        manage_list = self.get_manage_list(owner_user, access_user)
+        return {
+            'can_show': show_info,
+            'show_info': show_info,
+            'manage_list': manage_list,
+            'order_id': '',
+        }
 
     def check_operator(self, order):
         if order.is_controlled and order.can_access():

@@ -120,11 +120,11 @@ def cam_view_notify(request):
         if time_left > settings.TIME_INTERVAL_NOTIFY:
             time_left = settings.TIME_INTERVAL_NOTIFY
         order.duration += time_left
-        if status == 'disconnect':
+        if status == 'disconnect' or time_left == 0:
             order.set_time_at_end()
             order.save()
             return 'OK', 0, 0
         return 'OK', 0, time_left
-    return HttpResponse('&%s' % urllib.urlencode(zip(('info', 'status', 'cash'),
+    return HttpResponse('&%s' % urllib.urlencode(zip(('info', 'status', 'time'),
                                                      calc(),
                                                      )))
