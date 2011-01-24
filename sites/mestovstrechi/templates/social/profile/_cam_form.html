@@ -1,0 +1,253 @@
+{% load i18n %}
+<script type="text/javascript">
+$(document).ready(function(){
+            $('#id_type, #id_view_packet_tariff, #id_view_time_tariff, #id_management_packet_tariff, #id_management_time_tariff, #id_operator').selectbox();
+            {% if not camera.is_management_enabled %}$('div#management_hide').hide();{% endif %}
+            {% if not camera.is_view_paid %}$('tr.view_tariff').hide();{% endif %}
+            {% if not camera.is_management_paid %}$('tr.management_tariff').hide();{% endif %}
+			
+			if ($('li[id$=.1]').is('.selected')) {
+             $('div#management_hide').show();
+                }
+                else{
+               $('div#management_hide').hide();
+                }
+
+            
+            $('li[id$=.1]').click(function(){
+                $('div#management_hide').show();                           
+                                           });
+            $('li[id$=.0],li[id$=_]').click(function(){
+                $('div#management_hide').hide();                           
+                                           });
+            $("input[name='is_view_paid']").click(function(){
+                                                            
+                if ($(this).is(':checked')) {
+                $('tr.view_tariff').show();
+                }
+                else{
+                $('tr.view_tariff').hide();
+                }
+                    });
+            $("input[name='is_management_paid']").click(function(){
+                                                            
+                if ($(this).is(':checked')) {
+                $('tr.management_tariff').show();
+                }
+                else{
+                $('tr.management_tariff').hide();
+                }
+                    });
+                                   });
+</script>
+
+<h2>{% trans "Edit camera" %}</h2>
+{% comment %}
+{% if form.errors %}
+{{ form.errors }}
+{% endif %}
+{% endcomment  %}
+    <form method="post">
+        <input type="hidden" name="form" value="cam" />
+    <div class="filt rounded">
+    
+        <table class="camera_edit">
+            <tr>
+                <th>  {{ form.name.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td><div class="input_holder_short rounded">    {{ form.name }}</div></td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.name.errors }} </td>
+            </tr>
+            <tr>
+                <th>  {{ form.type.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td>    {{ form.type }} </td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.type.errors }} </td>
+            </tr>
+            {% if perms.camera %}
+            <tr>
+                <th>  {{ form.stream_name.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td><div class="input_holder_short rounded">    {{ form.stream_name }}</div></td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.stream_name.errors }} </td>
+            </tr>
+            {% endif %}
+            <tr>
+                <th>  {{ form.force_html5.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td>    {{ form.force_html5 }}</td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"></td>
+            </tr>
+            <tr>
+                <th>  {{ form.tags.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td><div class="input_holder_short rounded">   {{ form.tags }}</div> </td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.tags.errors }} </td>
+            </tr>
+        </table>
+    
+    </div>
+    <h2>Настройки просмотра камеры</h2>
+    <div class="filt rounded">
+    
+        <table class="camera_edit">
+            <tr>
+                <th>  {{ form.is_view_enabled.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td>    {{ form.is_view_enabled }}</td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+            </tr>
+            <tr>
+                <th>  {{ form.is_view_public.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td>    {{ form.is_view_public }}</td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+            </tr>
+            <tr>
+                <th>  {{ form.is_view_paid.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td>    {{ form.is_view_paid }}</td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+            </tr>
+            <tr class="view_tariff">
+                <th>  {{ form.view_packet_tariff.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td>    {{ form.view_packet_tariff }}</td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.view_packet_tariff.errors }} </td>
+            </tr>
+            <tr class="view_tariff">
+                <th>  {{ form.view_time_tariff.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td>    {{ form.view_time_tariff }}</td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.view_time_tariff.errors }} </td>
+            </tr>
+        </table>
+    
+    </div>
+    
+    <div id="management_hide">
+    <h2>Настройки управления камерой</h2>
+    <div class="filt rounded">
+    
+        <table class="camera_edit">
+            <tr>
+                <th>  {{ form.is_management_enabled.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td>    {{ form.is_management_enabled }}</td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+            </tr>
+            <tr>
+                <th>  {{ form.is_management_public.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td>    {{ form.is_management_public }}</td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+            </tr>
+            <tr>
+                <th>  {{ form.is_management_paid.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td>    {{ form.is_management_paid }}</td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+            </tr>
+            <tr class="management_tariff">
+                <th>  {{ form.management_packet_tariff.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td>    {{ form.management_packet_tariff }}</td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.management_packet_tariff.errors }} </td>
+            </tr>
+            <tr class="management_tariff">
+                <th>  {{ form.management_time_tariff.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td>    {{ form.management_time_tariff }}</td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.management_time_tariff.errors }} </td>
+            </tr>
+            <tr>
+                <th>  {{ form.camera_management_host.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td><div class="input_holder_short rounded">    {{ form.camera_management_host }}</div></td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.camera_management_host.errors }} </td>
+            </tr>
+            <tr>
+                <th>  {{ form.camera_management_username.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td><div class="input_holder_short rounded">    {{ form.camera_management_username }}</div></td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.camera_management_username.errors }} </td>
+            </tr>
+            <tr>
+                <th>  {{ form.camera_management_password.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td><div class="input_holder_short rounded">    {{ form.camera_management_password }}</div></td>
+            </tr>
+            <tr>
+                <td style="height:10px"></td>
+                <td style="height:10px" class="empty_filt"></td>
+                <td style="height:10px"> {{ form.camera_management_password.errors }} </td>
+            </tr>
+            <tr>
+                <th>  {{ form.operator.label_tag }}:</th>
+                <td class="empty_filt"></td>
+                <td>    {{ form.operator }}</td>
+            </tr>
+            
+        </table>
+    </div>
+    </div>
+    <div class="but">
+            <input type="submit" value="{% trans 'Save' %}" />
+    </div>
+    </form>
