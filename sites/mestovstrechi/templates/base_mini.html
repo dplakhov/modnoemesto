@@ -50,25 +50,16 @@ $(document).ready(function(){
 
         <div class="head">
    		   <a href="/"><div class="logo"></div></a>
-   		   <div class="text"></div> 		 
-		<div class="top">
-                </div>
-   		   <div class="logo_spb"></div>
+   		   
+            
+   		   
 
            {% if user.is_authenticated %}
            <a class="exit" href="{% url social:logout %}">Выход</a>
            {% endif %}
 		</div> <!-- end head"-->
 
-      		        <div class="menu"> <!-- âåðõíåå ìåíþ -->
-                           <table width="100%" Cellspacing="0">
-                            <td><a href="http://gov.spb.ru/gov/governor/dialog"><img src="/media/images/button1.png" border="0"></a></td>
-                            <td><a href="http://gov.spb.ru/gov/governor/radio_roc"><img src="/media/images/button2.png" border="0"></a></td>
-                            <td><a href="http://gov.spb.ru/gov/governor/visit/obiezd"><img src="/media/images/button3.png" border="0"></a></td>
-                            <td><a href="http://gov.spb.ru/press/foto"><img src="/media/images/button4.png" border="0"></a></td>
-                            <td><a href="http://gov.spb.ru/press/video"><img src="/media/images/button5.png" border="0"></a></td>
-                           </table>
-                        </div> 
+      		        
 
         <div id="mainContent">
        

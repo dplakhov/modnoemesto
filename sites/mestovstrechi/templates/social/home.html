@@ -7,7 +7,8 @@
 {{ block.super }}
 <link href="/media/styles/user.css" rel="stylesheet" type="text/css" />
 {% if profile.theme %}
-<link href="{% url themes:file_view theme_id=profile.theme.id file_name='style.css' %}" rel="stylesheet" type="text/css" />
+<link href="--{% url themes:file_view theme_id=profile.theme.id file_name='style.css' %}" rel="stylesheet" type="text/css" />
+<link href="/themes/gov.spb.ru/style.css" rel="stylesheet" type="text/css" />
 {% endif %}
 {% endblock %}
 
