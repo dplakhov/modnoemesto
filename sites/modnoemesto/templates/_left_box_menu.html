@@ -24,12 +24,12 @@ $(document).ready(function() {
                     <p>На моем счету</p>
 
                     <div><p id="amount"><span>{{ user.cash|floatformat:2 }}</span> руб.</p></div>
-                    <p id="purse"><a style="cursor:text" href="{% url billing:purse %}">Перейти в кошелек</a></p>
+                    <p id="purse"><a href="{% url billing:purse %}">Перейти в кошелек</a></p>
                 </div>
             </li>
             {% else %}
             <li id="money" class="camera_off">
-                <div class="q"><a style="cursor:text" href="{% url billing:purse %}">Мой счёт <span>({{ user.cash|floatformat:2 }} руб.)</span></a></div>
+                <div class="q"><a href="{% url billing:purse %}">Мой счёт <span>({{ user.cash|floatformat:2 }} руб.)</span></a></div>
             </li>
             {% endif %}
             <li id="videochat"><a href="{% url social:home_conference %}">Видеообщение</a></li>
