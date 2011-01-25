@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load media %}
+{% load pytils_numeral %}
 
 {% block css %}
 {{ block.super }}
@@ -128,6 +129,48 @@ $(document).ready(function() {
          </p>
     </div>
 		{% if camera %}
+            {% if not is_owner %}
+                {% if show_view_access_link %}
+                    <a class="reference" href="{% url billing:get_view_access_to_camera camera.id %}">{% trans "Get view access to camera" %}</a>
+                {% endif %}
+                {% if show_manage_access_link %}
+                    <a class="reference" href="{% url billing:get_manage_access_to_camera camera.id %}">{% trans "Get manage access to camera" %}</a>
+                {% endif %}
+                {% if show_bookmark_button %}
+                <a class="reference" href="{% url cam:cam_bookmark_add camera.id %}">{% trans "Bookmark this camera" %}</a>
+                {% else %}
+                <a class="reference" href="{% url cam:cam_bookmark_delete camera.id %}">{% trans "Remove Bookmark" %}</a>
+                {% endif %}
+                {% if camera.is_view_paid and billing.can_show %}
+                    <p>{% trans "The remaining time on the show" %}:
+                        {% if billing.show_data.days %}{{ billing.show_data.days}} {{ billing.show_data.days|choose_plural:"день,дня,дней" }}{% endif %}
+                        {{ billing.show_data.hours }} {{ billing.show_data.hours|choose_plural:"час,часа,часов" }}
+                        {{ billing.show_data.minutes }} {{ billing.show_data.minutes|choose_plural:"минута,минуты,минут" }}
+                        {{ billing.show_data.seconds }} {{ billing.show_data.seconds|choose_plural:"секунда,секунды,секунд" }}</p>
+                {% endif %}
+                {% if camera.manage_list %}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Пользователь</th>
+                                    <th>Начало</th>
+                                    <th>Окончание</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for i in camera.manage_list %}
+                            <tr>
+                                <td><a href="{% url social:user i.user.id %}">{{ i.user }}</a></td>
+                                <td>{{ i.begin_date|date:"H:i:s" }}</td>
+                                <td>{{ i.end_date|date:"H:i:s" }}</td>
+                                <td>{% if forloop.first %}оператор{% endif %}</td>
+                           </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                {% endif %}
+            {% endif %}
             <div id="camera"><a name="cam"></a>
                 {% include "includes/camera.html" %}
             </div>

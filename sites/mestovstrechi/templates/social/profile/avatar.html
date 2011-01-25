@@ -2,18 +2,29 @@
 {% load i18n %}
 {% load media %}
 {% block content %}
-<h2 class="video_title">{% trans "Change avatar" %}</h2>
+<br />
+<div id="edit_form">
+        <div class="title">
+            <div class="title-r">
+                <div class="title-x">
+					<h2>{% trans "Change avatar" %}</h2>
+                </div>
+            </div>
+        </div>
 
-    <img src="{% media_url user.avatar avatar_midi.png %}" />
-
-    <form method="post" enctype="multipart/form-data">
-    <div class="filt rounded">
-    <table class="img_loader">
-    {{ form.as_table }}
-    </table>
+	<div class="block2">
+        <div class="block2-b">
+            <img src="{% media_url user.avatar avatar_midi.png %}" />
+        
+            <form method="post" enctype="multipart/form-data">
+            
+            <p class="img_losder"><label for="id_file">Изображение:</label><br /><br /><input type="file" id="id_file" name="file"></p>
+           
+            <div class="button avatar">
+            <input type="submit" value="{% trans "Save" %}" />
+            </div>
+            </form>
+    	</div>
     </div>
-    <div class="but">
-    <input type="submit" value="{% trans "Save" %}" />
-    </div>
-    </form>
+</div>
 {% endblock %}

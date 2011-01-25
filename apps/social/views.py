@@ -302,6 +302,7 @@ def user(request, user_id=None):
 
     if camera:
         data.update({
+            'billing': camera.billing(page_user, request.user),
             'show_bookmark_button': camera.can_bookmark_add(request.user),
             'show_view_access_link': camera.is_view_enabled and
                                      camera.is_view_paid and
@@ -313,8 +314,6 @@ def user(request, user_id=None):
                                        camera.is_management_public or
                                        is_friend,
         })
-        camera.show = camera.can_show(page_user, request.user)
-        camera.manage = camera.can_manage(page_user, request.user)
     return direct_to_template(request, 'social/home.html', data)
 
 

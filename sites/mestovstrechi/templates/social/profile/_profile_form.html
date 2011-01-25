@@ -7,15 +7,15 @@
     });
 </script>
 <div id="edit_form">
-<div class="title">
+		<div class="title">
             <div class="title-r">
                 <div class="title-x">
 					<h2>{% trans "Edit profile" %}</h2>
                 </div>
             </div>
-         </div>
-          <div class="block">
-        <div class="block-b">
+        </div>
+          <div class="block2">
+        <div class="block2-b">
 			<form method="post" class="baseform">
     <input type="hidden" name="form" value="profile" />
    
@@ -123,10 +123,13 @@
                 {{ form.announce.errors }}
                 <div class="input_holder rounded">{{ form.announce }}</div></td>
         </tr>
+        <tr>
+        	<td style="height:10px"></td>
+        </tr>
     </table>
 
 
-    <div class="but">
+    <div class="button">
         <input type="submit"
            value="{% trans 'Save' %}" />
     </div>

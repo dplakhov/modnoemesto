@@ -99,7 +99,7 @@ class Camera(Document):
     def driver(self):
         return self.type.driver_class(self)
 
-    def can_show(self, owner_user, access_user):
+    def can_show(self, owner_user, access_user, now):
         if not self.is_view_enabled:
             return False
         if not self.is_view_public:
@@ -110,28 +110,26 @@ class Camera(Document):
         if self.is_view_paid:
             if not owner_user.is_authenticated():
                 return False
-            now = datetime.now()
             order = AccessCamOrder.objects(
                 user=access_user,
                 camera=self,
             ).order_by('-create_on').first()
             if not order or order.end_date is not None and order.end_date < now:
                 return False
-            data = {}
-            if order.tariff.is_packet:
-                time_left = order.end_date - now
-            else:
-                time_left = timedelta(seconds=order.get_time_left())
-            seconds = time_left.seconds
-            data['days'] = time_left.days
-            data['hours'] = seconds / 3600
-            seconds -= data['hours'] * 3600
-            data['minutes'] = seconds / 60
-            data['seconds'] = seconds - data['minutes'] * 60
-            return data
         return True
 
-    def can_manage(self, owner_user, access_user):
+    def get_show_info(self, access_user, now):
+        order = AccessCamOrder.objects(
+            user=access_user,
+            camera=self,
+        ).order_by('-create_on').first()
+        if order.tariff.is_packet:
+            time_left = order.end_date - now
+        else:
+            time_left = timedelta(seconds=order.get_time_left())
+        return time_left, order
+
+    def can_manage(self, owner_user, access_user, now):
         if not self.is_management_enabled:
             return False
         if not self.is_management_public:
@@ -142,22 +140,45 @@ class Camera(Document):
         if self.is_management_paid:
             if not owner_user.is_authenticated():
                 return False
-            now = datetime.now()
-            orders = list(AccessCamOrder.objects(
+            orders = AccessCamOrder.objects(
                 Q(end_date__gt=now) | Q(end_date__exists=True),
                 is_controlled=True,
                 camera=self,
-            ).order_by('create_on'))
-            if not orders:
+            ).order_by('create_on').count()
+            if orders == 0:
                 if self.operator:
                     self.operator = None
                     self.save()
                 return False
-            if orders[0].user == access_user:
-                self.operator = access_user
-                self.save()
-            return orders
         return True
+
+    def get_manage_list(self, now):
+        return list(AccessCamOrder.objects(
+            Q(end_date__gt=now) | Q(end_date__exists=True),
+            is_controlled=True,
+            camera=self,
+        ).order_by('create_on'))
+
+    def billing(self, owner_user, access_user):
+        now = datetime.now()
+        can_show = self.can_show(owner_user, access_user, now)
+        show_data = {}
+        if can_show and self.is_view_paid:
+            time_left, order = self.get_show_info(access_user, now)
+            seconds = time_left.seconds
+            show_data['days'] = time_left.days
+            show_data['hours'] = seconds / 3600
+            seconds -= show_data['hours'] * 3600
+            show_data['minutes'] = seconds / 60
+            show_data['seconds'] = seconds - show_data['minutes'] * 60
+        can_manage = self.can_manage(owner_user, access_user, now)
+        manage_list = self.get_manage_list(now)
+        return {
+            'can_show': can_show,
+            'show_data': show_data,
+            'can_manage': can_manage,
+            'manage_list': manage_list,
+        }
 
     def check_operator(self, order):
         if order.is_controlled and order.can_access():
