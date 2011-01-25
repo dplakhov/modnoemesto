@@ -54,7 +54,7 @@ class ChatTest(TestCase):
             user.last_access = datetime.now() - timedelta(minutes=30)
             user.save()
 
-    def test_users_online(self):
+    def _test_users_online(self):
         chat = self.chat
         storage = ChatStorage(chat.id)
 
