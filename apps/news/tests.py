@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from apps.news.tasks import send_notification
+from apps.async_email.tasks import send_email_task
 from apps.news.documents import News
 from apps.social.documents import User
 
@@ -21,7 +21,7 @@ class AddTestCase(TestCase):
         
         
     def testNoError(self):
-        result = send_notification.delay(self.news_object.id)
+        result = send_email_task.delay(self.news_object.id)
         #print "result.status=", result.status
         #print "result.traceback=", result.traceback
         
