@@ -33,10 +33,13 @@ class FriendshipOfferList(object):
         if self.has_from_user(user):
             self.accept(user)
         else:
-            offer = FriendshipOffer.objects.create(sender=self.user,
-                                       recipient=user,
-                                       defaults=dict(message=message)
+            offer, created = FriendshipOffer.objects.get_or_create(sender=self.user,
+                                       recipient=user, changed=None
                                        )
+            if created and message:
+                offer.message = message
+                offer.save()
+
 
     @property
     def sent(self):
@@ -47,16 +50,16 @@ class FriendshipOfferList(object):
         return FriendshipOffer.objects(recipient=self.user, changed=None)
 
     def accept(self, user):
-        FriendshipOffer.objects(sender=user, recipient=self.user).update_one(
+        FriendshipOffer.objects(sender=user, recipient=self.user, changed=None).update(
                 set__accepted=True, set__changed=datetime.now())
         self.user.friends.friend(user)
 
     def reject(self, user):
-        FriendshipOffer.objects(sender=user, recipient=self.user).update_one(
+        FriendshipOffer.objects(sender=user, recipient=self.user, changed=None).update(
                 set__rejected=True, set__changed=datetime.now())
 
     def cancel(self, user):
-        FriendshipOffer.objects(sender=self.user, recipient=user).update_one(
+        FriendshipOffer.objects(sender=self.user, recipient=user, changed=None).update(
                 set__canceled=True, set__changed=datetime.now())
 
     def has_from_user(self, user):

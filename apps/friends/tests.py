@@ -175,8 +175,10 @@ class FriendshipTestCase(BasicTestCase):
         self.failUnless(user1.friends.can_add(user2))
         self.failUnless(user2.friends.can_add(user1))
 
-        # add delete add user
         user1.friends.offers.send(user2)
+        user1.friends.offers.send(user2)
+        self.failUnlessEqual(1, user1.friends.offers.sent.count())
+
         user2.friends.offers.accept(user1)
 
         user1.reload()
