@@ -2,19 +2,25 @@
 
 import os
 from django.core.urlresolvers import reverse
+from django.template.context import RequestContext
 
 from django.test import TestCase
 from django.test.client import Client
+from django.template import loader
 
 from mongoengine.connection import _get_db
 import gridfs
 
 from ..documents import *
 
+from ..thread_locals import _thread_locals
+
+
 class ThemeTest(TestCase):
     def setUp(self):
         Theme.objects.delete()
         ThemeFile.objects.delete()
+        ThemeTemplate.objects.delete()
 
     def _test_theme(self, theme):
         self.failUnless(isinstance(theme, Theme))
@@ -130,3 +136,23 @@ class ThemeTest(TestCase):
 
         self.failUnlessEqual('<img src="/theme/%s/preview.png" />' % theme.id,
                              theme.html_top)
+
+
+    def test_template_from_directory(self):
+        TEMPLATE_NAME = 'dir/test_template.html'
+        self.failIf(ThemeTemplate.objects().count())
+        theme = Theme.from_directory(os.path.join(os.path.dirname(__file__),
+                                                    'files/theme4'))
+
+        self.failUnlessEqual(1, ThemeTemplate.objects().count())
+
+        template = theme.templates[TEMPLATE_NAME]
+        self.failUnless(isinstance(template, ThemeTemplate))
+        self.failUnlessEqual(TEMPLATE_NAME, template.name)
+
+        setattr(_thread_locals, 'current_theme', theme)
+        template = loader.get_template(TEMPLATE_NAME)
+        c = RequestContext({})
+        rendered = template.render(c)
+        self.failIfEqual(-1, rendered.find('<title>test template</title>'))
+

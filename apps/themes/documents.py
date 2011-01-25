@@ -57,7 +57,7 @@ class Theme(Document):
         theme = Theme._get_or_create(file.read('theme.xml').decode('utf-8'))
 
         for file_name in file.namelist():
-            if file_name not in ('theme.xml', ):
+            if cls._is_valid_theme_subfile(file_name):
                 theme.add_file(file_name, file.read(file_name))
 
         return theme
@@ -70,14 +70,35 @@ class Theme(Document):
         theme = Theme._get_or_create(open(os.path.join(directory, 'theme.xml')).read())
 
         for file_name in os.listdir(directory):
-            if file_name not in ('theme.xml', ):
+            if cls._is_valid_theme_subfile(file_name):
                 theme.add_file(file_name, open(os.path.join(directory, file_name)))
 
+        template_dir = os.path.join(directory, 'templates') + os.path.sep
+        #print template_dir
+        if os.path.exists(template_dir) and os.path.isdir(template_dir):
+            for root, dirs, files in os.walk(template_dir):
+                if not files:
+                    continue
+                #print root, dirs, files
+                for file in files:
+                    file_name = os.path.join(template_dir, root, file)
+                    template_name = file_name.replace(template_dir, '')
+                    #print file, file_name
+                    theme.add_template_file(template_name, open(file_name))
+
         return theme
+
+    @classmethod
+    def _is_valid_theme_subfile(cls, file_name):
+        return file_name not in ('theme.xml', 'templates')
 
     @property
     def files(self):
         return ThemeFile.Proxy(self)
+
+    @property
+    def templates(self):
+        return ThemeTemplate.Proxy(self)
 
     def add_file(self, file_name, stream):
         file = ThemeFile(theme=self, name=file_name)
@@ -92,6 +113,11 @@ class Theme(Document):
         content_type = content_types[ext]
         file.file.put(stream, content_type=content_type)
         file.save()
+
+    def add_template_file(self, template_name, stream):
+        template = ThemeTemplate(theme=self, name=template_name)
+        template.content = stream.read()
+        template.save()
 
 class ThemeFile(Document):
     class Proxy(object):
@@ -116,3 +142,15 @@ class ThemeFile(Document):
         if self.file:
             self.file.delete()
         super(ThemeFile, self).delete(*args, **kwargs)
+
+class ThemeTemplate(Document):
+    class Proxy(object):
+        def __init__(self, theme):
+            self.theme = theme
+
+        def __getitem__(self, item):
+            return ThemeTemplate.objects(theme=self.theme, name=item).first()
+
+    theme = ReferenceField('Theme')
+    name = StringField()
+    content = StringField()

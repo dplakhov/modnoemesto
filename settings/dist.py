@@ -121,6 +121,7 @@ if not hasattr(globals(), 'SECRET_KEY'):
 
 
 TEMPLATE_LOADERS = (
+    'apps.themes.loader.Loader',
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )
