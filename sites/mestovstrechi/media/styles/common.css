@@ -210,12 +210,12 @@ a.exit
     background: url("../images/block-b.gif") no-repeat scroll 0 100% transparent;
 	padding: 10px;
 }
-.block-b input
+.block input
 {
 	width: 295px;
 	padding: 5px;
 }
-.block-b p, #about p
+.block p, #about p
 {
 	margin: 10px 0;
 }
