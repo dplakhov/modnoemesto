@@ -21,6 +21,12 @@
 
         {% if not camera.force_html5 %}
 
+    {% if not is_owner and request.user.is_superuser %}
+        Only For SuperUser:<br/>
+        session_key={{ request.session.session_key }}<br/>
+        camera_id={{ camera.id }}<br/>
+    {% endif %}
+
         <script type="text/javascript">
         if(navigator.userAgent.match(/iPad/i))
         {
@@ -58,7 +64,7 @@
     {% if camera.is_managed and camera.is_management_enabled and camera.operator == user %}
       <object>
         <embed src="/media/swf/ManageCam_5.swf" width="450" height="154"
-            flashvars="ip=modnoemesto.ru&amp;path=cgi-bin/encoder&amp;user=admin&amp;password=123456&amp;debug=0">
+            flashvars="ip=modnoemesto.ru&amp;path=cgi-bin/encoder&amp;user=admin&amp;password=123456&amp;debug=0&amp;session_key={{ request.session.session_key }}&amp;camera_id={{ camera.id }}">
       </object>
     {% endif %}
 </div>
