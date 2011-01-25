@@ -61,8 +61,25 @@ p.event_announce
 #anounce_info
 {
 	position: absolute;
+	top: 88px;
+	left: 310px;
+}
+#videochat
+{
+	position: absolute;
 	top: 38px;
 	left: 310px;
+}
+#videochat a {
+    background: url(../images/videochat_ico.png) no-repeat scroll left center transparent;
+    font-weight: bold;
+    padding: 8px 0 8px 40px;
+	color: #6F6F6F;
+	text-decoration: none;
+}
+#videochat a:hover
+{
+	color: #000;
 }
 #avatar
 {
