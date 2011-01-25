@@ -127,17 +127,17 @@ class AcessCameraTest(unittest.TestCase):
         user_owner = User.objects.get(email='test2@web-mark.ru')
         user_other = User.objects.get(email='test3@web-mark.ru')
 
-        self.assertEqual(type(camera.can_show(camera.owner, user_payed)), dict)
-        self.assertEqual(camera.can_show(camera.owner, user_owner), False)
-        self.assertEqual(camera.can_show(camera.owner, user_other), False)
+        self.assertEqual(camera.billing(camera.owner, user_payed)['can_show'], True)
+        self.assertEqual(camera.billing(camera.owner, user_owner)['can_show'], False)
+        self.assertEqual(camera.billing(camera.owner, user_other)['can_show'], False)
         time.sleep(4)
-        self.assertEqual(type(camera.can_show(camera.owner, user_payed)), dict)
-        self.assertEqual(camera.can_show(camera.owner, user_owner), False)
-        self.assertEqual(camera.can_show(camera.owner, user_other), False)
+        self.assertEqual(camera.billing(camera.owner, user_payed)['can_show'], True)
+        self.assertEqual(camera.billing(camera.owner, user_owner)['can_show'], False)
+        self.assertEqual(camera.billing(camera.owner, user_other)['can_show'], False)
         time.sleep(4)
-        self.assertEqual(camera.can_show(camera.owner, user_payed), False)
-        self.assertEqual(camera.can_show(camera.owner, user_owner), False)
-        self.assertEqual(camera.can_show(camera.owner, user_other), False)
+        self.assertEqual(camera.billing(camera.owner, user_payed)['can_show'], False)
+        self.assertEqual(camera.billing(camera.owner, user_owner)['can_show'], False)
+        self.assertEqual(camera.billing(camera.owner, user_other)['can_show'], False)
 
     def test_access_view_time(self):
         def get_access():
@@ -149,11 +149,11 @@ class AcessCameraTest(unittest.TestCase):
                 camera=camera,
             )
 
-        def view_notify(order_id, status='view'):
+        def view_notify(camera_id, status='view'):
             params = dict(
                 status=status,
                 session_key=self.client.session.session_key,
-                order_id=order_id,
+                camera_id=camera_id,
                 time=settings.TIME_INTERVAL_NOTIFY,
             )
             response = self.client.get('%s?%s' % (reverse('server_api:cam_view_notify'), urllib.urlencode(params)))
@@ -174,11 +174,11 @@ class AcessCameraTest(unittest.TestCase):
         order = AccessCamOrder.objects.get(id=order.id)
         self.assertEqual(order.can_access(), True)
         time.sleep(settings.TIME_INTERVAL_NOTIFY)
-        view_notify(order.id)
+        view_notify(order.camera.id)
         order = AccessCamOrder.objects.get(id=order.id)
         self.assertEqual(order.can_access(), True)
         time.sleep(settings.TIME_INTERVAL_NOTIFY)
-        view_notify(order.id, 'disconnect')
+        view_notify(order.camera.id, 'disconnect')
         order = AccessCamOrder.objects.get(id=order.id)
         self.assertEqual(order.can_access(), False)
 

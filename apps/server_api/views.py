@@ -89,12 +89,12 @@ def friend_list(request, id, format, state):
 
 def cam_view_notify(request):
     def calc():
-        action = request.GET.get('action', None)
+        status = request.GET.get('status', None)
         session_key = request.GET.get('session_key', None)
         camera_id = request.GET.get('camera_id', None)
         extra_time = request.GET.get('time', None)
-        if not (action and session_key and camera_id and extra_time is not None):
-            return 'BAD PARAMS (action, session_key, camera_id, time)', -1
+        if not (status and session_key and camera_id and extra_time is not None):
+            return 'BAD PARAMS (status, session_key, camera_id, time)', -1
         if not extra_time.isdigit():
             return 'BAD TIME', -2
         extra_time = int(extra_time)
@@ -131,7 +131,7 @@ def cam_view_notify(request):
             if time_next > settings.TIME_INTERVAL_NOTIFY:
                 time_next = settings.TIME_INTERVAL_NOTIFY
             order.duration += time_next
-            if action == 'disconnect' or time_next == 0:
+            if status == 'disconnect' or time_next == 0:
                 order.set_time_at_end()
                 order.save()
                 return 'OK', 0, 0
