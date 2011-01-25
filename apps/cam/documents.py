@@ -163,7 +163,7 @@ class Camera(Document):
         now = datetime.now()
         can_show = self.can_show(owner_user, access_user, now)
         show_data = {}
-        if can_show:
+        if can_show and self.is_view_paid:
             time_left, order = self.get_show_info(access_user, now)
             seconds = time_left.seconds
             show_data['days'] = time_left.days
