@@ -33,7 +33,7 @@ class FriendshipOfferList(object):
         if self.has_from_user(user):
             self.accept(user)
         else:
-            offer, created = FriendshipOffer.objects.get_or_create(sender=self.user,
+            offer = FriendshipOffer.objects.create(sender=self.user,
                                        recipient=user,
                                        defaults=dict(message=message)
                                        )
