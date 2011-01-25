@@ -181,7 +181,7 @@ a.exit
 }
 #edit_form
 {
-	width: 500px;
+	width: 499px;
 }
 .title {
     background: url("../images/title_corner_left.gif") no-repeat scroll 0 0 transparent;
@@ -197,10 +197,35 @@ a.exit
     height: 32px;
 	text-align: center;
 }
-.title h2 {
+.seting
+{
+}
+.but {
+    background: url("../images/but_corner_left.png") no-repeat scroll 0 0 transparent;
+    padding-left: 6px;
+    position: relative;
+	width: 350px;
+	margin: 10px 0;
+}
+.but-r {
+    background: url("../images/but_corner_right.png") no-repeat scroll 100% 0 transparent;
+    padding-right: 6px;
+}
+.but-x {
+    background: url("../images/but-x.png") repeat-x scroll 0 0 transparent;
+    height: 42px;
+	text-align: center;
+}
+
+.title h2, .but span 
+{
     color: #FFFFFF;
     font-size: 16px;
     padding: 10px 0 0 5px;
+}
+.but span
+{
+	display: block;
 }
 .block {
     background: url("../images/block-y.gif") repeat-y scroll 0 0 transparent;
@@ -210,21 +235,35 @@ a.exit
     background: url("../images/block-b.gif") no-repeat scroll 0 100% transparent;
 	padding: 10px;
 }
-.block input
+.block2 {
+    background: url("../images/block2-y.png") repeat-y scroll 0 0 transparent;
+    margin-bottom: 10px;
+}
+.block2-b {
+    background: url("../images/block2-b.png") no-repeat scroll 0 100% transparent;
+	padding: 10px;
+}
+.block input, .block2 input, .block textarea, .block2 textarea
 {
 	width: 295px;
 	padding: 5px;
 }
-.block p, #about p
+p.img_losder
+{
+	position: relative;
+	top: -210px;
+	left: 250px;
+}
+.block p, .block2 p, #about p
 {
 	margin: 10px 0;
 }
- input#id_phone_0
+ input#id_phone_0, input#id_mobile_0
 {
 	width: 40px;
 	margin: 0 15px 0 5px;
 }
- input#id_phone_1
+ input#id_phone_1, input#id_mobile_1
 {
 	width: 207px;
 }
@@ -262,4 +301,19 @@ input[type="checkbox"]
 {
 	width: 10px;
 }
+#edit_form .button
+{
+	text-align: center;
+	margin-top: 10px;
+}
+.button.avatar
+{
+	position: relative;
+	top: -30px;
+}
+
+
+
+
+
 
