@@ -11,7 +11,7 @@
 	
 	<script>
 	$(document).ready(function(){
-        init_chat("{{ camera.id }}", {{ settings.CHAT_POLLING_TIME }});
+        init_chat("{{ user.id }}", 2000);
 		
         $('#message').keydown(function(e){
             if (e.ctrlKey && e.keyCode == 13) {
@@ -47,34 +47,18 @@
   
   		<!-- comments -->
 		
-	    <div id="video_coment">
-	        <div id="laying">
-	            <div class="tab_chat">
-	                <span class="tab_chat">Чат</span>
-	            </div>
-	            <div class="tab_comment">
-	                <span class="tab_comment">
-	                	<p>Комментарии</p>
-						<img src="/media/images/hand_up.jpg" alt="hand_up" />
-					</span>
-					
-	                <p class="hand_up">47671</p>
-					<img src="/media/images/hand_down.jpg" alt="hand_down" />
-	                <p class="hand_down">481</p>
-					<p class="rating">Рейтинг</p>
-					<p class="rat">648</p>
-	                
-	            </div>
-	        </div>
-	        <div class="scroll-wrap">
-	            <div class="scroll-pane">
+	    <div id="video_comment">
+		<div id="video_chat">
+	       <div class="window"> 
+	       	<div class="text">
 	                <div id="chat"></div>
 	            </div>
-	        </div>
+	         </div>
+             </div>
 	        <div class="send">
-	        <p class="send_mass">Отправить собщение в чат:</p>
+	        <p class="send_mess">Отправить собщение в чат:</p>
 	        	<textarea id="message" class="com" name="message"></textarea>
 	            <input id="send_comment" type="submit" class="sub" value="отправить" />
-				<p>Отправить сообщение Ctrl+Enter</p>
-	        </div>
-	    </div>
+				<!--input id="receive" type="submit" class="sub" value="receive" /-->
+         </div>
+ </div>

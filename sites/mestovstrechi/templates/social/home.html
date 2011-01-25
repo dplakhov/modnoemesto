@@ -7,8 +7,10 @@
 {{ block.super }}
 <link href="/media/styles/user.css" rel="stylesheet" type="text/css" />
 {% if profile.theme %}
-<link href="--{% url themes:file_view theme_id=profile.theme.id file_name='style.css' %}" rel="stylesheet" type="text/css" />
-<link href="/themes/gov.spb.ru/style.css" rel="stylesheet" type="text/css" />
+<link href="{% url themes:file_view theme_id=profile.theme.id file_name='style.css' %}" rel="stylesheet" type="text/css" />
+{% comment %}
+	<link href="/themes/gov.spb.ru/style.css" rel="stylesheet" type="text/css" />
+{% endcomment %}
 {% endif %}
 {% endblock %}
 
@@ -19,6 +21,12 @@
 $(document).ready(function() {
     $(".toollip_video").click(function (e){
         var width=810, height=725;
+        window.open(e.target, 'video',
+                'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
+        return false;
+    });
+	$("#videochat a").click(function (e){
+        var width=795, height=725;
         window.open(e.target, 'video',
                 'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
         return false;
@@ -105,13 +113,17 @@ $(document).ready(function() {
                 <dd>{{ profile.university_status }}</dd>{% endif %}
         </dl>
     </div>
+    
+    <div id="videochat" class="about_persone transparent">
+    	<a href="{% url social:home_conference %}">Видеообщение</a>
+    </div>
     <div id="anounce_info" class="about_persone transparent">
              <p>{% trans "Announce" %}</p>
          <p class="event_announce">
              {{ profile.announce }}
          </p>
     </div>
-		
+	{% include "includes/chat.html" %}	
 </div>
 
 {% endblock %}

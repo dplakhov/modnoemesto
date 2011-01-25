@@ -1,0 +1,87 @@
+{% extends "base_head.html" %}
+
+{% load menu_tags %}
+{% load i18n %}
+{% load pytils_numeral %}
+
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+$(document).ready(function(){
+    {% if callid %}
+    function call_user() {
+        $.get('{% url video_call:call_user callid %}', function(data) {
+            switch(data) {
+            case 'OK':
+                break;
+            case 'WHITE':
+                setTimeout(call_user, {{ VIDEO_CALL_INTERVAL_UPDATE }}000);
+                break;
+            case 'OFFLINE':
+                alert('Пользователь не в сети');
+                break;
+            default:
+                alert('Ошибка');
+            }
+        });
+    }
+    setTimeout(call_user, {{ VIDEO_CALL_INTERVAL_UPDATE }}000);
+    {% else %}
+    function set_last_view() {
+        $.get('{% url video_call:set_last_view %}', function(data) {
+            setTimeout(set_last_view, {{ VIDEO_CALL_INTERVAL_UPDATE }}000);
+        });
+    }
+    setTimeout(set_last_view, {{ VIDEO_CALL_INTERVAL_UPDATE }}000);
+    {% endif %}
+});
+</script>
+{% endblock %}
+
+{% block body %}
+
+<div id="container">
+    <div id="subContainer" style="width:100%">
+
+        <div class="head">
+   		   <a href="/"><div class="logo"></div></a>
+   		   
+           {% if user.is_authenticated %}
+           <a class="exit" href="javascript:window.close();">закрыть</a>
+           {% endif %}
+		</div> <!-- end head"-->
+        
+
+
+    <div id="camera_holder" style="top:20px">
+
+<div id="telnew">
+{% spaceless %}
+<object width="800"
+        height="600"
+        style="position:relative; left:-5px;">
+    <embed src="/media/swf/userconf.swf"
+        quality="high"
+        bgcolor="#869ca7"
+        flashvars="myname={{ request.user.id }}&callid={{ callid }}&ip=109.234.158.3"
+        width="800"
+        height="600"
+        name="modnoemesto_video"
+        align="middle"
+        play="true"
+        loop="false"
+        allowScriptAccess="modnoemesto.ru"
+        type="application/x-shockwave-flash"
+        pluginspage="http://www.adobe.com/go/getflashplayer">
+    </embed>
+</object>
+{% endspaceless %}
+</div>
+
+    </div>
+
+
+    </div>
+</div>  
+
+{% endblock %}
