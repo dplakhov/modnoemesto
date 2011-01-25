@@ -245,5 +245,21 @@ noindex
 	left: 400px;
 	width: 500px;
 }
-
+.lable
+{
+	font-weight: bold;
+	width: 150px;
+}
+.empty_filt
+{
+	width: 30px;
+}
+td
+{
+	text-align: left;
+}
+input[type="checkbox"]
+{
+	width: 10px;
+}
 
