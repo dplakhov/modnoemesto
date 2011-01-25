@@ -41,19 +41,6 @@ class RegisterTestCase(unittest.TestCase):
     def tearDown(self):
         User.objects.delete()
 
-    def test_valid(self):
-        email = RegisterTestCase.data_dict['email']
-        response = self.c.post('/', RegisterTestCase.data_dict)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(User.objects(email=email).count(), 1)
-
-    def test_unique_email(self):
-        email = RegisterTestCase.data_dict['email']
-        self.c.post('/', RegisterTestCase.data_dict)
-        response = self.c.post('/', RegisterTestCase.data_dict)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(User.objects(email=email).count(), 1)
-
     def test_first_name(self):
         email = RegisterTestCase.data_dict['email']
         data_dict = RegisterTestCase.data_dict.copy()
