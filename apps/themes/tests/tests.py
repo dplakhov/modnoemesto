@@ -15,6 +15,7 @@ from ..documents import *
 
 from ..thread_locals import _thread_locals
 
+TEMPLATE_NAME = 'dir/test_template.html'
 
 class ThemeTest(TestCase):
     def setUp(self):
@@ -138,12 +139,7 @@ class ThemeTest(TestCase):
                              theme.html_top)
 
 
-    def test_template_from_directory(self):
-        TEMPLATE_NAME = 'dir/test_template.html'
-        self.failIf(ThemeTemplate.objects().count())
-        theme = Theme.from_directory(os.path.join(os.path.dirname(__file__),
-                                                    'files/theme4'))
-
+    def _test_template(self, theme):
         self.failUnlessEqual(1, ThemeTemplate.objects().count())
 
         template = theme.templates[TEMPLATE_NAME]
@@ -156,3 +152,18 @@ class ThemeTest(TestCase):
         rendered = template.render(c)
         self.failIfEqual(-1, rendered.find('<title>test template</title>'))
 
+
+    def test_template_from_directory(self):
+        self.failIf(ThemeTemplate.objects().count())
+        theme = Theme.from_directory(os.path.join(os.path.dirname(__file__),
+                                                    'files/theme4'))
+
+        self._test_template(theme)
+
+
+    def test_template_from_zip(self):
+        self.failIf(ThemeTemplate.objects().count())
+        theme = Theme.from_zip(os.path.join(os.path.dirname(__file__),
+                                                    'files/theme4.zip'))
+
+        self._test_template(theme)

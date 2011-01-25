@@ -7,6 +7,8 @@ import zipfile
 from mongoengine.document import Document
 from mongoengine.fields import BooleanField, StringField, FileField, ReferenceField
 
+from apps.utils.stringio import StringIO
+
 class Theme(Document):
     name = StringField(unique=True)
     description = StringField()
@@ -22,6 +24,7 @@ class Theme(Document):
 
     def delete_files(self):
         ThemeFile.objects(theme=self).delete()
+        ThemeTemplate.objects(theme=self).delete()
 
     @classmethod
     def _get_or_create(cls, meta):
@@ -35,6 +38,7 @@ class Theme(Document):
             theme.html_top = None
 
         html_top = theme_xml.find('html_top')
+
         if html_top is not None:
             text = html_top.text.strip()
             text = re.sub(r' src="/.*?([\w.]+)"',
@@ -59,6 +63,9 @@ class Theme(Document):
         for file_name in file.namelist():
             if cls._is_valid_theme_subfile(file_name):
                 theme.add_file(file_name, file.read(file_name))
+            elif file_name.startswith('templates') and not file_name.endswith('/'):
+                theme.add_template_file(file_name.replace('templates/', ''),
+                                        StringIO(file.read(file_name)))
 
         return theme
 
@@ -74,23 +81,20 @@ class Theme(Document):
                 theme.add_file(file_name, open(os.path.join(directory, file_name)))
 
         template_dir = os.path.join(directory, 'templates') + os.path.sep
-        #print template_dir
         if os.path.exists(template_dir) and os.path.isdir(template_dir):
             for root, dirs, files in os.walk(template_dir):
                 if not files:
                     continue
-                #print root, dirs, files
                 for file in files:
                     file_name = os.path.join(template_dir, root, file)
                     template_name = file_name.replace(template_dir, '')
-                    #print file, file_name
                     theme.add_template_file(template_name, open(file_name))
 
         return theme
 
     @classmethod
     def _is_valid_theme_subfile(cls, file_name):
-        return file_name not in ('theme.xml', 'templates')
+        return file_name not in ('theme.xml', ) and not file_name.startswith('templates')
 
     @property
     def files(self):
