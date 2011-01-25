@@ -141,14 +141,14 @@ $(document).ready(function() {
                 {% else %}
                 <a class="reference" href="{% url cam:cam_bookmark_delete camera.id %}">{% trans "Remove Bookmark" %}</a>
                 {% endif %}
-                {% if camera.is_view_paid and billing.show_info %}
+                {% if camera.is_view_paid and billing.can_show %}
                     <p>{% trans "The remaining time on the show" %}:
-                        {% if billing.show_info.days %}{{ billing.show_info.days}} {{ billing.show_info.days|choose_plural:"день,дня,дней" }}{% endif %}
-                        {{ billing.show_info.hours }} {{ billing.show_info.hours|choose_plural:"час,часа,часов" }}
-                        {{ billing.show_info.minutes }} {{ billing.show_info.minutes|choose_plural:"минута,минуты,минут" }}
-                        {{ billing.show_info.seconds }} {{ billing.show_info.seconds|choose_plural:"секунда,секунды,секунд" }}</p>
+                        {% if billing.show_data.days %}{{ billing.show_data.days}} {{ billing.show_data.days|choose_plural:"день,дня,дней" }}{% endif %}
+                        {{ billing.show_data.hours }} {{ billing.show_data.hours|choose_plural:"час,часа,часов" }}
+                        {{ billing.show_data.minutes }} {{ billing.show_data.minutes|choose_plural:"минута,минуты,минут" }}
+                        {{ billing.show_data.seconds }} {{ billing.show_data.seconds|choose_plural:"секунда,секунды,секунд" }}</p>
                 {% endif %}
-                {% if camera.is_management_paid and camera.manage %}
+                {% if camera.manage_list %}
                         <table>
                             <thead>
                                 <tr>
@@ -159,7 +159,7 @@ $(document).ready(function() {
                                 </tr>
                             </thead>
                             <tbody>
-                            {% for i in camera.manage %}
+                            {% for i in camera.manage_list %}
                             <tr>
                                 <td><a href="{% url social:user i.user.id %}">{{ i.user }}</a></td>
                                 <td>{{ i.begin_date|date:"H:i:s" }}</td>
