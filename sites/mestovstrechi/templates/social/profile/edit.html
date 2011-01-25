@@ -2,10 +2,25 @@
 {% load i18n %}
 
 {% block content %}
-<ul class="seting">
-    <li><a href="{% url social:avatar_edit %}">{% trans "Edit photo" %}</a></li>
-    <li><a href="{% url themes:list %}">{% trans "Change theme" %}</a></li>
-</ul>
+<div class="seting">
+    <a href="{% url social:avatar_edit %}">
+    	<div class="but">
+            <div class="but-r">
+                <div class="but-x"><span>{% trans "Edit photo" %}</span>
+                </div>
+           </div>
+    	</div>
+    </a>
+    <a href="{% url themes:list %}">
+    	<div class="but">
+            <div class="but-r">
+                <div class="but-x"><span>{% trans "Change theme" %}</span>
+                </div>
+           </div>
+    	</div>
+    </a>
+    
+</div>
     <br />
 <div id="filter_box">
 {% if request.user.is_superuser %}
