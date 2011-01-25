@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from lxml import etree
+import re
 import zipfile
 
 from mongoengine.document import Document
@@ -10,17 +11,38 @@ class Theme(Document):
     name = StringField(unique=True)
     description = StringField()
     is_public = BooleanField(default=False)
+    html_top = StringField()
 
     class SourceFileNotExists(Exception):
         pass
 
+    def delete(self, *args, **kwargs):
+        self.delete_files()
+        super(Theme, self).delete(*args, **kwargs)
+
+    def delete_files(self):
+        ThemeFile.objects(theme=self).delete()
+
     @classmethod
-    def _get_or_create(self, meta):
+    def _get_or_create(cls, meta):
         theme_xml = etree.fromstring(meta)
         name = theme_xml.attrib['name']
         theme, created = Theme.objects.get_or_create(name=name)
         theme.is_public = theme_xml.attrib.get('public') == 'true'
         theme.description = theme_xml.find('description').text.strip()
+        if not created:
+            theme.delete_files()
+            theme.html_top = None
+
+        html_top = theme_xml.find('html_top')
+        if html_top is not None:
+            text = html_top.text.strip()
+            text = re.sub(r' src="/.*?([\w.]+)"',
+                          r' src="/theme/%s/\1"' % theme.id,
+                          text)
+
+            theme.html_top = text
+
         theme.save()
 
         return theme
@@ -89,3 +111,8 @@ class ThemeFile(Document):
     @property
     def content_type(self):
         return self.file.content_type
+
+    def delete(self, *args, **kwargs):
+        if self.file:
+            self.file.delete()
+        super(ThemeFile, self).delete(*args, **kwargs)

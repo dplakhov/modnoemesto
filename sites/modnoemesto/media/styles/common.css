@@ -464,6 +464,7 @@ div#player
     float: left;
     display: inline;
     margin-right: 10px;
+	padding: 0px;
 }
 #laying span.tab_comment p.hand_up
 {
@@ -493,16 +494,16 @@ div#player
     padding: 10px 0px;
     overflow: hidden;
 }
-.from
+#chat p.system
 {
-    overflow: hidden;
-    color: #F66;
+	color: #6D0564;
+	padding-bottom: 5px;
 }
-.from p
+#chat p.user
 {
-    float: left;
-    display: inline;
-    padding-right: 7px;
+	color: #05591A;
+    font-size: 16px;
+	padding-bottom: 5px;
 }
 .send
 {
@@ -520,8 +521,9 @@ p.send_mass
     width: 420px;
      border: none;
     height: 43px;
-    /*float: left;
-    display: inline; */
+   /*	padding: 15px;*/
+	font-size: 14px;
+	color: #838383;
 }
 #video_coment input.sub
 {

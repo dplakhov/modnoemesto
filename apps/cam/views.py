@@ -36,13 +36,13 @@ def cam_list(request):
             if data['tags']:
                 data['tags'] = CameraTag.objects(id=data['tags']).first()
             else:
-                public_tags = [i.id for i in CameraTag.objects(is_private=False)]
-                data.update(dict(tags__in=public_tags))
+                private_tags = [i.id for i in CameraTag.objects(is_private=True)]
+                data.update(dict(tags__not__in=private_tags))
                 del data['tags']
             if data['order']:
                 order = data['order']
             else:
-                order = None
+                order = 'popularity-desc'
             del data['order']
             if not data['is_managed']:
                 del data['is_management_enabled']
@@ -238,9 +238,15 @@ def place_update(request, name, type):
         if type == 'desc':
             order = '-%s' % order
     #request.places_all_count = Camera.objects.count()
+    params = dict(
+        is_view_public=True,
+        is_view_enabled=True,
+    )
+    private_tags = [i.id for i in CameraTag.objects(is_private=True)]
+    params.update(dict(tags__not__in=private_tags))
     request.places = paginate(request,
-                              Camera.objects(is_view_public=True, is_view_enabled=True).order_by(order),
-                              Camera.objects(is_view_public=True, is_view_enabled=True).count(),
+                              Camera.objects(**params).order_by(order),
+                              Camera.objects(**params).count(),
                               10,
                               reverse('cam:place_update', args=[name, type]))
     return direct_to_template(request, '_places.html')

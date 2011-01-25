@@ -1,7 +1,10 @@
 #user_page
 {
 	position: relative;
+	width: 983px;
+	margin: 10px auto;
 }
+
 h2
 {
 	font-size: 18px;

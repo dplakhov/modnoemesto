@@ -7,7 +7,8 @@
 {{ block.super }}
 <link href="/media/styles/user.css" rel="stylesheet" type="text/css" />
 {% if profile.theme %}
-<link href="{% url themes:file_view theme_id=profile.theme.id file_name='style.css' %}" rel="stylesheet" type="text/css" />
+<link href="--{% url themes:file_view theme_id=profile.theme.id file_name='style.css' %}" rel="stylesheet" type="text/css" />
+<link href="/themes/gov.spb.ru/style.css" rel="stylesheet" type="text/css" />
 {% endif %}
 {% endblock %}
 
@@ -29,6 +30,9 @@ $(document).ready(function() {
 {% block content %}
 
 <div id="user_page">
+{% if profile.theme and profile.theme.html_top %}
+{{ profile.theme.html_top|safe }}
+{% endif %}
     <h2 class="name_persone">{{ page_user }}</h2>
      <div id="avatar" class="rounded">
         <img src="{% media_url page_user.avatar avatar_midi.png %}" />

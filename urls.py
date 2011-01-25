@@ -1,3 +1,4 @@
+import os
 from django.conf.urls.defaults import *
 from django.conf import settings
 
@@ -34,5 +35,19 @@ urlpatterns += patterns('',
         #(r'^admin-media/(?P<path>.*)$', 'django.views.static.serve',
         #                    {'document_root': settings.ADMIN_MEDIA_ROOT }),
     )
-    
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^themes/(?P<path>.*)$', 'django.views.static.serve',
+                            { 'document_root':
+                              os.path.join(
+                                  settings.MEDIA_ROOT,
+                                  os.path.pardir,
+                                  'themes'
+                              ),
+                              'show_indexes': True
+                              }),
+    )
+
+
 handler500 = 'apps.social.views.server_error'
