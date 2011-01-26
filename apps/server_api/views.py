@@ -88,6 +88,8 @@ def friend_list(request, id, format, state):
 
 
 def cam_view_notify(request):
+    logger.debug('cam_view_notify request %s' % repr(request.GET.items()))
+
     def calc():
         status = request.GET.get('status', None)
         session_key = request.GET.get('session_key', None)
@@ -122,8 +124,11 @@ def cam_view_notify(request):
         if not can_show:
             return 'OK', 0, 0
         if not camera.is_view_paid:
-            return 'OK', 0, settings.TIME_INTERVAL_NOTIFY
+            return 'OK', 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY
         time_left, order = camera.get_show_info(user, now)
+        # for enabled operator and owner
+        if time_left is None:
+            return 'OK', 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY
         if order.is_packet:
             time_next = time_left.days * 60 * 60 * 24 + time_left.seconds
             if time_next > settings.TIME_INTERVAL_NOTIFY:
@@ -149,6 +154,13 @@ def cam_view_notify(request):
 ?session_key=&lt;Fx24&gt&amp;camera_id=&lt;Fx24&gt&amp;status=next&amp;time=&lt;sec&gt;
 ?session_key=&lt;Fx24&gt&amp;camera_id=&lt;Fx24&gt&amp;status=disconnect&amp;time=&lt;sec&gt;
 """.replace('\n', '\n<br/>\n'))
+    try:
+        params = calc()
+    except Exception, e:
+        params = ('INTERNAL ERROR', -500)
+        logger.debug('cam_view_notify error %s' % repr(e))
+    else:
+        logger.debug('cam_view_notify response %s' % repr(params))
     return HttpResponse('&%s' % urllib.urlencode(zip(('info', 'status', 'time'),
-                                                     calc(),
+                                                     params,
                                                      )))

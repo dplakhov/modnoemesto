@@ -100,8 +100,7 @@ class AccessCamOrder(Document):
 
     def __init__(self, *args, **kwargs):
         super(AccessCamOrder, self).__init__(*args, **kwargs)
-        if self.is_controlled is None:
-            self.is_controlled = self.tariff.is_controlled
+        self.is_controlled = self.tariff.is_controlled
 
     def save(self, *args, **kwargs):
         if self.id is None:
