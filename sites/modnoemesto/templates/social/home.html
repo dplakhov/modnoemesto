@@ -9,6 +9,14 @@
 {% if profile.theme %}
 <link href="{% url themes:file_view theme_id=profile.theme.id file_name='style.css' %}" rel="stylesheet" type="text/css" />
 {% endif %}
+{% if camera %}
+<style type="text/css">
+#mainContent
+{
+	height: 1500px;
+}
+</style>
+{% endif %}
 {% endblock %}
 
 {% block js %}
@@ -183,6 +191,7 @@ $(document).ready(function() {
          </p>
     </div>
 		{% if camera %}
+        <div id="camera">
             {% if not is_owner %}
                 {% if show_view_access_link %}
                     <a class="reference" href="{% url billing:get_view_access_to_camera camera.id %}">{% trans "Get view access to camera" %}</a>
@@ -226,7 +235,7 @@ $(document).ready(function() {
                         </table>
                 {% endif %}
             {% endif %}
-            <div id="camera"><a name="cam"></a>
+            <a name="cam"></a>
                 {% include "includes/camera.html" %}
             </div>
         {% endif %}

@@ -34,7 +34,7 @@ div.about_persone
 	padding: 15px 0px;
 	width: 290px;
 	position: relative;
-	top: -639px;
+	top: -348px;/*-639px;*/
 	/*background: url(../images/bg_about_persone.png) no-repeat;*/
 }
 .about_persone p
@@ -101,9 +101,9 @@ p.event_announce
 	background: url(../images/bg_gray.png) repeat-x top;
     height: 250px;
 	width: 220px;
-	position: relative;
+	position: absolute;
 	left: 302px;
-	top: -30px;
+	top: 350px;
 	overflow: hidden;
 }
 .friend_box span
@@ -130,15 +130,22 @@ p.event_announce
 }
 #camera
 {
-	position: relative;
-	top: -450px;
+	position: absolute;
+	top: 700px;/*-450px;*/
 }
 #camera p
 {
 	color: #838383;
 	padding: 5px;
 }
-
+a.reference
+{
+    color: #027A98;
+    text-decoration: underline;
+	padding: 10px;
+/*	position: absolute;
+	top: 680px; */
+}
 .clear
 {
 	clear: both;
