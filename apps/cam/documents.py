@@ -146,7 +146,7 @@ class Camera(Document):
                 camera=self,
             ).order_by('create_on').count()
             return orders > 0
-        return True
+        return self.operator == access_user
 
     def get_manage_list(self, now):
         return list(AccessCamOrder.objects(
