@@ -19,15 +19,10 @@
     <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
 <script>
 $(document).ready(function() {
-    $(".toollip_video").click(function (e){
-        var width=810, height=725;
-        window.open(e.target, 'video',
-                'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
-        return false;
-    });
-	$("#videochat a").click(function (e){
+    var link = $("#videochat a");
+	link.click(function (e){
         var width=795, height=725;
-        window.open(e.target, 'video',
+        window.open(link.attr('href'), 'video',
                 'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
         return false;
     });
@@ -115,7 +110,14 @@ $(document).ready(function() {
     </div>
     
     <div id="videochat" class="about_persone transparent">
-    	<a href="{% url social:home_conference %}">Видеообщение</a>
+    	<a href="{% url social:home_conference %}">
+        <div class="button">
+            <div class="button-r">
+                <div class="button-x"><span>Видеообщение</span>
+                </div>
+           </div>
+    	</div>
+        </a>
     </div>
     <div id="anounce_info" class="about_persone transparent">
              <p>{% trans "Announce" %}</p>

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<theme name="web-mark.ru" public="false">
+    <description>
+web-mark
+    </description>
+	    <html_top>
+        <![CDATA[
+		
+				
+        ]]>
+    </html_top>
+
+</theme>

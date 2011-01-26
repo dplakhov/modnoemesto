@@ -200,30 +200,30 @@ a.exit
 .seting
 {
 }
-.but {
+.button {
     background: url("../images/but_corner_left.png") no-repeat scroll 0 0 transparent;
     padding-left: 6px;
     position: relative;
 	width: 350px;
 	margin: 10px 0;
 }
-.but-r {
+.button-r {
     background: url("../images/but_corner_right.png") no-repeat scroll 100% 0 transparent;
     padding-right: 6px;
 }
-.but-x {
+.button-x {
     background: url("../images/but-x.png") repeat-x scroll 0 0 transparent;
     height: 42px;
 	text-align: center;
 }
 
-.title h2, .but span 
+.title h2, .button span
 {
     color: #FFFFFF;
     font-size: 16px;
     padding: 10px 0 0 5px;
 }
-.but span
+.button span
 {
 	display: block;
 }
@@ -306,7 +306,7 @@ input[type="checkbox"]
 	text-align: center;
 	margin-top: 10px;
 }
-.button.avatar
+.but.avatar
 {
 	position: relative;
 	top: -30px;

@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load media %}
+
+{% block css %}
+{{ block.super }}
+<link href="/media/styles/user.css" rel="stylesheet" type="text/css" />
+{% if profile.theme %}
+<link href="{% url themes:file_view theme_id=profile.theme.id file_name='style.css' %}" rel="stylesheet" type="text/css" />
+
+	
+
+{% endif %}
+{% comment %}
+<link href="/themes/web-mark.ru/style.css" rel="stylesheet" type="text/css" />
+{% endcomment %}
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+<script>
+$(document).ready(function() {
+    var link = $("#videochat a");
+	link.click(function (e){
+        var width=795, height=725;
+        window.open(link.attr('href'), 'video',
+                'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
+        return false;
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div id="user_page">
+{% if profile.theme and profile.theme.html_top %}
+{{ profile.theme.html_top|safe }}
+{% endif %}
+
+    <a class="reference_company" href="http://www.web-mark.ru/"><h2 class="name_persone">{{ page_user }}</h2></a>
+     
+   
+    <div class="profileActions">
+        <ul>
+            {% if is_owner %}
+                <li><a href="{% url social:profile_edit %}">{% trans "options" %}</a></li>
+            {% else %}
+                {% if request.user.is_superuser %}
+                    <li><a href="{% url social:profile_edit page_user.id %}">{% trans "options" %}</a></li>
+                {% endif %}
+            {% endif %}
+        </ul>
+    </div>
+   
+    
+   
+    <div id="contact_info" class="about_persone transparent">
+        <p><a target="_blank" href="http://www.web-mark.ru/feedback.html">{% trans "Contact Information" %}</a></p>
+        <dl>
+            
+               
+            {% if profile.mobile %}<dt id="mobile">{% trans "Mobile" %}</dt>
+                <dd>{{ profile.mobile_code }}{{ profile.mobile_number }}</dd>{% endif %}
+            {% if profile.website %}<dt id="website">{% trans "Website" %}</dt>
+                <dd><a target="_blank" href="{{ profile.website }}">{{ profile.website }}</a></dd>{% endif %}
+        </dl>
+    </div>
+    
+    
+    <div id="videochat" class="about_persone transparent">
+    	<a href="{% url social:home_conference %}">
+        <div class="button">
+            <div class="button-r">
+                <div class="button-x"><span>Видеообщение</span>
+                </div>
+           </div>
+    	</div>
+        </a>
+    </div>
+    <div id="anounce_info" class="about_persone transparent">
+             <p>{% trans "Announce" %}</p>
+         <p class="event_announce">
+             {{ profile.announce }}
+         </p>
+    </div>
+    <div id="service">
+   {% comment %}
+    <a class="benefit" href="#">Почему работать с Web-Mark выгодно</a>
+   {% endcomment %}
+    	<h3>Наши услуги</h3>
+        <ul>
+        	<li><a target="_blank" href="http://www.web-mark.ru/consult.html">Экспертиза сайтов</a></li>
+            <li><a target="_blank" href="http://www.web-mark.ru/development.html">Разработка сайтов</a>
+            	<ul>
+                	<li><a target="_blank" href="http://www.web-mark.ru/vizitcard.html">Сайт-визитка</a></li>
+                    <li><a target="_blank" href="http://www.web-mark.ru/corp.html">Корпоративный сайт</a></li>
+                    <li><a target="_blank" href="http://www.web-mark.ru/promo.html">Промо-сайт</a></li>
+                    <li><a target="_blank" href="http://www.web-mark.ru/shop.html">Интернет-магазин</a></li>
+                </ul>
+            </li>
+            <li><a target="_blank" href="http://www.web-mark.ru/seo.html">Реклама в Интернете</a>
+            	<ul>
+                	<li><a target="_blank" href="http://www.web-mark.ru/seo1.html">Продвижение сайтов</a></li>
+                    <li><a target="_blank" href="http://www.web-mark.ru/complex.html">Комплексная реклама</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div id="about_company">
+         <p><strong>Разработка сайта</strong> в компании Web-Mark поднимет Ваш бизнес на качественно новый уровень. Предлагая <strong>создание сайтов</strong>, мы предлагаем полный цикл работ: проектирование и разработку, поддержку и <a target="_blank" title="продвижение сайтов" href="http://www.web-mark.ru/seo1.html">продвижение сайтов</a>.</p>
+        <p>Обсуждая с Вами <em>создание сайта</em>, мы ориентируемся на его коммерческий успех. Этим мы выгодно отличаемся от многих других. Разработанные в интернет-агентстве Web-Mark сайты, не только представляют компанию заказчика, но продают услуги и товары, привлекают новых клиентов, формируют положительный имидж компании. При этом они отличаются оригинальным, качественным и творческим дизайном.
+        </p>
+        <p><em>Разработка сайтов в компании Web-Mark</em> открыла дорогу в интернет для десятков компаний не только Санкт-Петербурга и Москвы, но всей России. У нас есть колоссальный опыт создания сайтов любой сложности &ndash; <a target="_blank" title="Создание и продвижение сайтов портфолио" href="http://www.web-mark.ru/clients.html">от сайтов-визиток до крупных порталов</a>.</p>
+    </div>
+	{% include "includes/chat.html" %}	
+</div>
+
+{% endblock %}
