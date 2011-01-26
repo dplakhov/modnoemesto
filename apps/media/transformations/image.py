@@ -19,7 +19,13 @@ class ImageResize(FileTransformation):
         buffer = StringIO()
         image.save(buffer, self.format)
         buffer.reset()
-        destination.file.put(buffer, content_type = 'image/%s' % self.format)
+        if destination.file:
+            write = destination.file.replace
+        else:
+            write = destination.file.put
+
+        write(buffer, content_type = 'image/%s' % self.format)
+
         destination.save()
         return destination
 

@@ -112,7 +112,7 @@ def video_add(request):
     if form.is_valid():
         library = get_library(LIBRARY_TYPE_VIDEO)
         file = form.fields['file'].save('library_video', settings.LIBRARY_VIDEO_SIZES,
-                                        LIBRARY_IMAGE_RESIZE_TASK)
+                                        LIBRARY_VIDEO_RESIZE_TASK)
 
         file.title = form.cleaned_data['title']
         file.description = form.cleaned_data['description']

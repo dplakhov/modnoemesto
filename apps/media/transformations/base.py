@@ -49,7 +49,7 @@ class BatchFileTransformation(FileTransformation):
             if not i:
                 source = destination
 
-
+        return destination
 
 class SystemCommandFileTransformation(FileTransformation):
     SYSTEM_COMMAND = None

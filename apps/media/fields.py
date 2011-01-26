@@ -1,3 +1,5 @@
+from apps.media.transformations.base import BatchFileTransformation
+from apps.media.transformations.video import VideoThumbnail
 from django.core.exceptions import ValidationError
 from django.forms.fields import FileField
 from django.utils.translation import ugettext_lazy as _
@@ -7,6 +9,7 @@ from apps.media.transformations.image import ImageResize
 from apps.media.tasks import apply_file_transformations
 from apps.utils.stringio import StringIO
 from ImageFile import Parser as ImageFileParser
+from apps.media.file_validators import VideoFileValidator, FileValidator
 
 
 class ImageField(FileField):
@@ -47,19 +50,19 @@ class ImageField(FileField):
         self.sizes = sizes or self.sizes
         self.task_name = task_name or self.task_name
 
-        screen = File(type=type)
+        file_object = File(type=type)
         self.buffer.reset()
-        screen.file.put(self.buffer, content_type=self.content_type)
-        screen.save()
+        file_object.file.put(self.buffer, content_type=self.content_type)
+        file_object.save()
 
         transformations = [ ImageResize(name=name, format='png', **params) for name, params in self.sizes.items() ]
 
         if settings.TASKS_ENABLED.get(self.task_name):
-            args = [ screen.id, ] + transformations
+            args = [ file_object.id, ] + transformations
             apply_file_transformations.apply_async(args=args)
         else:
-            screen.apply_transformations(*transformations)
-        return screen
+            file_object.apply_transformations(*transformations)
+        return file_object
 
 
 class VideoField(FileField):
@@ -87,29 +90,36 @@ class VideoField(FileField):
 
         buffer.reset()
         try:
-            parser = ImageFileParser()
-            parser.feed(buffer.read())
-            parser.close()
-        except Exception:
+            validator = VideoFileValidator()
+            validator.validate(buffer)
+        except FileValidator.Exception:
             raise ValidationError(self.error_messages['invalid_video'])
+        
+        buffer.reset()
         self.buffer = buffer
         self.content_type = f.content_type
         return data
 
-    def save(self, type='image', sizes=None, task_name=None):
+    def save(self, type='video', sizes=None, task_name=None):
         self.sizes = sizes or self.sizes
         self.task_name = task_name or self.task_name
 
-        screen = File(type=type)
+        file_object = File(type=type)
         self.buffer.reset()
-        screen.file.put(self.buffer, content_type=self.content_type)
-        screen.save()
+        file_object.file.put(self.buffer, content_type=self.content_type)
+        file_object.save()
 
-        transformations = [ ImageResize(name=name, format='png', **params) for name, params in self.sizes.items() ]
+        transformations = [
+            BatchFileTransformation(
+                name,
+                VideoThumbnail(name, format='png'),
+                ImageResize(name, format='png', **params))
+                    for name, params in self.sizes['image'].items()
+        ]
 
         if settings.TASKS_ENABLED.get(self.task_name):
-            args = [ screen.id, ] + transformations
+            args = [ file_object.id, ] + transformations
             apply_file_transformations.apply_async(args=args)
         else:
-            screen.apply_transformations(*transformations)
-        return screen
+            file_object.apply_transformations(*transformations)
+        return file_object

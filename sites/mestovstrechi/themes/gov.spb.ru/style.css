@@ -65,28 +65,10 @@ dt
 	top: 0px;
     left: 0px;
 }
-a.tooltip 
-{
-	position: absolute;
-	top: 210px;
+#videochat {
+    position: absolute;
+    top: 148px;
 }
-a.tooltip.toollip_friend_remove
-{
-	left: 240px;
-}
-a.tooltip.toollip_group
-{
-	left: 290px;
-}
-a.tooltip.toollip_mail
-{
-	left: 330px;
-}
-a.tooltip.toollip_video
-{
-	left: 370px;
-}
-
 .profileActions ul li
 {
 	padding: 15px 0px 15px 15px;
@@ -132,7 +114,11 @@ dd
 
 #anounce_info
 {
-	top: 139px;
+	top: 200px;
+}
+#videochat 
+{
+	padding: 0px;
 }
 p.event_announce
 {
