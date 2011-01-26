@@ -93,24 +93,30 @@ def cam_view_notify(request):
         session_key = request.GET.get('session_key', None)
         camera_id = request.GET.get('camera_id', None)
         extra_time = request.GET.get('time', None)
-        if not (status and session_key and camera_id and extra_time is not None):
-            return 'BAD PARAMS (status, session_key, camera_id, time)', -1
-        if not extra_time.isdigit():
-            return 'BAD TIME', -2
-        extra_time = int(extra_time)
-        if extra_time > settings.TIME_INTERVAL_NOTIFY or extra_time < 0:
-            return 'BAD TIME', -2
+        if not (status and session_key and camera_id):
+            return 'BAD PARAMS', -1
+        if status not in ['connect', 'next', 'disconnect']:
+            return 'BAD STATUS', -2
+        if extra_time is None:
+            if status != 'connect':
+                return 'BAD PARAMS', -1
+        elif not extra_time.isdigit():
+            return 'BAD TIME', -3
+        else:
+            extra_time = int(extra_time)
+            if extra_time > settings.TIME_INTERVAL_NOTIFY or extra_time < 0:
+                return 'BAD TIME', -3
         engine = import_module(settings.SESSION_ENGINE)
         session = engine.SessionStore(session_key)
         user_id = session.get(SESSION_KEY, None)
         if not user_id:
-            return 'BAD SESSION KEY', -3
+            return 'BAD SESSION KEY', -4
         user = User.objects(id=user_id).first()
         if not user:
-            return 'BAD SESSION KEY', -3
+            return 'BAD SESSION KEY', -4
         camera = Camera.objects(id=camera_id).first()
         if not camera:
-            return 'BAD CAMERA ID', -4
+            return 'BAD CAMERA ID', -5
         now = datetime.now()
         can_show = camera.can_show(camera.owner, user, now)
         if not can_show:
@@ -122,21 +128,27 @@ def cam_view_notify(request):
             time_next = time_left.days * 60 * 60 * 24 + time_left.seconds
             if time_next > settings.TIME_INTERVAL_NOTIFY:
                 time_next = settings.TIME_INTERVAL_NOTIFY
-            return 'OK', 0, time_next
         else:
-            total_cost = order.tariff.cost * (settings.TIME_INTERVAL_NOTIFY - extra_time)
-            user.cash -= total_cost
-            user.save()
+            if status != 'connect':
+                total_cost = order.tariff.cost * (settings.TIME_INTERVAL_NOTIFY - extra_time)
+                user.cash -= total_cost
+                user.save()
+                order.duration += extra_time
             time_next = order.get_time_left(user.cash)
             if time_next > settings.TIME_INTERVAL_NOTIFY:
                 time_next = settings.TIME_INTERVAL_NOTIFY
-            order.duration += time_next
             if status == 'disconnect' or time_next == 0:
                 order.set_time_at_end()
                 order.save()
                 return 'OK', 0, 0
             order.save()
-            return 'OK', 0, time_next
+        return 'OK', 0, time_next
+    if not request.GET:
+        return HttpResponse("""API:
+?session_key=&lt;Fx24&gt&amp;camera_id=&lt;Fx24&gt&amp;status=connect
+?session_key=&lt;Fx24&gt&amp;camera_id=&lt;Fx24&gt&amp;status=next&amp;time=&lt;sec&gt;
+?session_key=&lt;Fx24&gt&amp;camera_id=&lt;Fx24&gt&amp;status=disconnect&amp;time=&lt;sec&gt;
+""".replace('\n', '\n<br/>\n'))
     return HttpResponse('&%s' % urllib.urlencode(zip(('info', 'status', 'time'),
                                                      calc(),
                                                      )))
