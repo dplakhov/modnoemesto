@@ -270,7 +270,7 @@ def home(request):
         'is_owner': True,
         'page_user': request.user,
         'profile': request.user.profile.for_html(),
-        'billing': camera.billing(request.user),
+        'billing': camera and camera.billing(request.user),
         'settings': settings
     })
 
