@@ -150,7 +150,7 @@ class ThemeTest(TestCase):
         template = loader.get_template(TEMPLATE_NAME)
         c = RequestContext({})
         rendered = template.render(c)
-        self.failIfEqual(-1, rendered.find('<title>test template</title>'))
+        self.failIfEqual(-1, rendered.find(u'<title>Привет, template</title>'))
 
 
     def test_template_from_directory(self):

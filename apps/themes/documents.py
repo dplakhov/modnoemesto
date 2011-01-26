@@ -113,6 +113,7 @@ class Theme(Document):
             'gif': 'image/gif',
             'jpg': 'image/jpeg',
             'jpeg': 'image/jpeg',
+            'js': 'application/javascript',
         }
         content_type = content_types[ext]
         file.file.put(stream, content_type=content_type)
@@ -120,7 +121,7 @@ class Theme(Document):
 
     def add_template_file(self, template_name, stream):
         template = ThemeTemplate(theme=self, name=template_name)
-        template.content = stream.read()
+        template.content = stream.read().decode('utf-8')
         template.save()
 
 class ThemeFile(Document):
