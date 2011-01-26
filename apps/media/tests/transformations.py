@@ -188,6 +188,27 @@ class BatchFileTransformationTest(TestCase):
         self.failUnlessRaises(Exception, BatchFileTransformation, 'batch')
         self.failUnlessRaises(Exception, BatchFileTransformation, 'batch',
                               'not Transformation class')
+    def test_video_batch_transformation(self):
+        sizes = {
+            'video_thumbnail.png': { 'width': 200, 'height': 100 },
+            'video_full.png': { 'width': 400, 'height': 200 },
+        }
+
+        transformations = [ BatchFileTransformation(
+            name,
+            VideoThumbnail(name, format='png'),
+            ImageResize(name, format='png', **params))
+                for name, params in sizes.items() ]
+
+        file = create_video_file()
+
+        thumbs = file.apply_transformations(*transformations)
+
+        thumb = thumbs['video_thumbnail.png']
+        
+        self.failUnlessEqual('image/png', thumb.file.content_type)
+        self.failUnless(str(thumb.file.read()[1:]).startswith('PNG'))
+
 
 
 class TransformationTasksTest(TestCase):

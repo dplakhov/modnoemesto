@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
+
+import hachoir_core.config
+hachoir_core.config.unicode_stdout = False
+hachoir_core.config.quiet = True
+
 from hachoir_core.stream.input import InputIOStream
-import hachoir_metadata
-import hachoir_parser
+from hachoir_parser import QueryParser
+
+from hachoir_metadata import extractMetadata
 from hachoir_metadata.riff import RiffMetadata
 from hachoir_metadata.video import MovMetadata, AsfMetadata, FlvMetadata, MkvMetadata
 
@@ -23,9 +29,9 @@ class FileValidator(object):
 class VideoFileValidator(object):
     def validate(self, stream):
         stream = InputIOStream(stream)
-        query_parser = hachoir_parser.QueryParser([('category', 'video'),])
+        query_parser = QueryParser([('category', 'video'),])
         parser = query_parser.parse(stream)
-        metadata = hachoir_metadata.extractMetadata(parser)
+        metadata = extractMetadata(parser)
         if not metadata:
             raise FileValidator.UnrecognizedFormat('Unrecognized file format')
 
