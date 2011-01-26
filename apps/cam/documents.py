@@ -108,8 +108,8 @@ class Camera(Document):
             if not is_friend:
                 return False
         if self.is_view_paid:
-            if not owner_user.is_authenticated():
-                return False
+            if self.operator == access_user:
+                return True
             order = AccessCamOrder.objects(
                 user=access_user,
                 camera=self,
@@ -119,6 +119,8 @@ class Camera(Document):
         return True
 
     def get_show_info(self, access_user, now):
+        if self.operator == access_user:
+            return None, None
         order = AccessCamOrder.objects(
             user=access_user,
             camera=self,
@@ -137,9 +139,7 @@ class Camera(Document):
                         access_user.friends.contains(owner_user)
             if not is_friend:
                 return False
-        if self.is_management_paid:
-            if not owner_user.is_authenticated():
-                return False
+        if self.is_management_paid and self.operator == None:
             orders = AccessCamOrder.objects(
                 Q(end_date__gt=now) | Q(end_date__exists=False),
                 is_controlled=True,
@@ -161,12 +161,13 @@ class Camera(Document):
         show_data = {}
         if can_show and self.is_view_paid:
             time_left, order = self.get_show_info(access_user, now)
-            seconds = time_left.seconds
-            show_data['days'] = time_left.days
-            show_data['hours'] = seconds / 3600
-            seconds -= show_data['hours'] * 3600
-            show_data['minutes'] = seconds / 60
-            show_data['seconds'] = seconds - show_data['minutes'] * 60
+            if time_left is not None:
+                seconds = time_left.seconds
+                show_data['days'] = time_left.days
+                show_data['hours'] = seconds / 3600
+                seconds -= show_data['hours'] * 3600
+                show_data['minutes'] = seconds / 60
+                show_data['seconds'] = seconds - show_data['minutes'] * 60
         else:
             order = None
         can_manage = self.can_manage(owner_user, access_user, now)
