@@ -43,7 +43,7 @@ a.tooltip
 	position: absolute;
 	top: 210px;
 }
-a.tooltip.toollip_friend_remove
+a.tooltip.toollip_friend_remove, a.tooltip.toollip_friend
 {
 	left: 240px;
 }
