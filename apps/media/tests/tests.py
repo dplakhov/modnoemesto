@@ -9,6 +9,8 @@ import mongoengine
 from ..documents import *
 from ..transformations.image import ImageResize
 
+from ..file_validators import *
+
 from .common import file_path, create_image_file
 
 
@@ -153,3 +155,19 @@ class FileSetTest(TestCase):
 
         file_set.reload()
         self.failUnlessEqual(1, len(file_set.files))
+
+class VideoTest(TestCase):
+    def test_validate_video(self):
+        validator = VideoFileValidator()
+
+        valid = open(file_path('flame.avi'))
+
+        validator.validate(valid)
+
+        invalid = open(file_path('logo-mongodb.png'))
+        self.failUnlessRaises(FileValidator.IncorrectFormat,
+                              validator.validate, invalid)
+
+        invalid = open(__file__)
+        self.failUnlessRaises(FileValidator.UnrecognizedFormat,
+                              validator.validate, invalid)
