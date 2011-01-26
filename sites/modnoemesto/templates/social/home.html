@@ -147,15 +147,18 @@ $(document).ready(function() {
             {% if not is_owner %}
                 {% if show_view_access_link %}
                     <a class="reference" href="{% url billing:get_view_access_to_camera camera.id %}">{% trans "Get view access to camera" %}</a>
+                <br/>
                 {% endif %}
                 {% if show_manage_access_link %}
                     <a class="reference" href="{% url billing:get_manage_access_to_camera camera.id %}">{% trans "Get manage access to camera" %}</a>
+                    <br/>
                 {% endif %}
                 {% if show_bookmark_button %}
                 <a class="reference" href="{% url cam:cam_bookmark_add camera.id %}">{% trans "Bookmark this camera" %}</a>
                 {% else %}
                 <a class="reference" href="{% url cam:cam_bookmark_delete camera.id %}">{% trans "Remove Bookmark" %}</a>
                 {% endif %}
+                <br/>
                 {% if camera.is_view_paid and billing.can_show %}
                     <p id="timer">{% trans "The remaining time on the show" %}
                         {% if billing.show_data.days %} <span class="day">{{ billing.show_data.days}}</span> / {% endif %}
@@ -164,7 +167,7 @@ $(document).ready(function() {
                         <span class="second">{{ billing.show_data.seconds|stringformat:"02i" }}</span>
                     </p>
                 {% endif %}
-                {% if camera.manage_list %}
+                {% if billing.manage_list %}
                         <table>
                             <thead>
                                 <tr>
@@ -175,7 +178,7 @@ $(document).ready(function() {
                                 </tr>
                             </thead>
                             <tbody>
-                            {% for i in camera.manage_list %}
+                            {% for i in billing.manage_list %}
                             <tr>
                                 <td><a href="{% url social:user i.user.id %}">{{ i.user }}</a></td>
                                 <td>{{ i.begin_date|date:"H:i:s" }}</td>

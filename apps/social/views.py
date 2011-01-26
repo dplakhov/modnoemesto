@@ -311,8 +311,8 @@ def user(request, user_id=None):
             'show_manage_access_link': camera.is_management_enabled and
                                        camera.is_managed and
                                        camera.is_management_paid and
-                                       camera.is_management_public or
-                                       is_friend,
+                                       (camera.is_management_public or
+                                       is_friend),
         })
     return direct_to_template(request, 'social/home.html', data)
 

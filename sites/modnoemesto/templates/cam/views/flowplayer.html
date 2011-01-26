@@ -82,7 +82,7 @@
         </script>
         {% endif %}
 
-    {% if camera.is_managed and camera.is_management_enabled and camera.operator == user %}
+    {% if billing.can_manage %}
       <object>
         <embed src="/media/swf/ManageCam_5.swf" width="450" height="154"
             flashvars="ip=modnoemesto.ru&amp;path=cgi-bin/encoder&amp;user=admin&amp;password=123456&amp;debug=0&amp;session_key={{ request.session.session_key }}&amp;camera_id={{ camera.id }}">

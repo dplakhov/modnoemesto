@@ -141,20 +141,16 @@ class Camera(Document):
             if not owner_user.is_authenticated():
                 return False
             orders = AccessCamOrder.objects(
-                Q(end_date__gt=now) | Q(end_date__exists=True),
+                Q(end_date__gt=now) | Q(end_date__exists=False),
                 is_controlled=True,
                 camera=self,
             ).order_by('create_on').count()
-            if orders == 0:
-                if self.operator:
-                    self.operator = None
-                    self.save()
-                return False
+            return orders > 0
         return True
 
     def get_manage_list(self, now):
         return list(AccessCamOrder.objects(
-            Q(end_date__gt=now) | Q(end_date__exists=True),
+            Q(end_date__gt=now) | Q(end_date__exists=False),
             is_controlled=True,
             camera=self,
         ).order_by('create_on'))
