@@ -35,6 +35,7 @@ from apps.user_messages.forms import MessageTextForm
 from apps.social.forms import ChangeProfileForm, LostPasswordForm, ChangeUserForm
 from apps.social.forms import SetNewPasswordForm
 from apps.utils.paginator import paginate
+from apps.themes.decorators import with_user_theme
 
 from forms import UserCreationForm, LoginForm
 from documents import User
@@ -256,7 +257,7 @@ def logout(request):
     django_logout(request)
     return redirect('/')
 
-
+@with_user_theme
 def home(request):
     camera = request.user.get_camera()
     if camera:
@@ -280,7 +281,7 @@ def home_conference(request):
 def user_conference(request, user_id):
     return direct_to_template(request, 'social/user_conference.html', { 'callid': user_id })
 
-
+@with_user_theme
 def user(request, user_id=None):
     page_user = get_document_or_404(User, id=user_id)
     if page_user == request.user:

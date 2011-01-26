@@ -149,9 +149,10 @@ class AcessCameraTest(unittest.TestCase):
                 camera=camera,
             )
 
-        def view_notify(camera_id, status='view'):
+        def view_notify(camera_id, status):
             params = dict(
                 status=status,
+                type='view',
                 session_key=self.client.session.session_key,
                 camera_id=camera_id,
                 time=settings.TIME_INTERVAL_NOTIFY,
@@ -174,7 +175,8 @@ class AcessCameraTest(unittest.TestCase):
         order = AccessCamOrder.objects.get(id=order.id)
         self.assertEqual(order.can_access(), True)
         time.sleep(settings.TIME_INTERVAL_NOTIFY)
-        view_notify(order.camera.id)
+        view_notify(order.camera.id, 'connect')
+        view_notify(order.camera.id, 'next')
         order = AccessCamOrder.objects.get(id=order.id)
         self.assertEqual(order.can_access(), True)
         time.sleep(settings.TIME_INTERVAL_NOTIFY)

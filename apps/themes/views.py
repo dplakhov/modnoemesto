@@ -5,6 +5,8 @@ from apps.utils.paginator import paginate
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect
 from django.views.generic.simple import direct_to_template
+from django.utils.translation import ugettext_lazy as _
+from django.contrib import messages
 
 from mongoengine.django.shortcuts import get_document_or_404
 
@@ -37,6 +39,9 @@ def add(request):
 
         tmp.flush()
         Theme.from_zip(tmp.name)
+        messages.add_message(request, messages.SUCCESS,
+                         _('Theme successfully installed'))
+
 
     return redirect('themes:list')
 
@@ -67,6 +72,9 @@ def delete(request, theme_id):
 
     if theme:
         theme.delete()
+        messages.add_message(request, messages.SUCCESS,
+                         _('Theme successfully uninstalled'))
+
 
     return redirect('themes:list')
 
@@ -93,6 +101,9 @@ def set(request, theme_id, user_id=None):
     profile = user.profile
     profile.theme = theme
     profile.save()
+    messages.add_message(request, messages.SUCCESS,
+                     _('Theme successfully incorporated'))
+
 
     return redirect('themes:list')
 
@@ -110,5 +121,8 @@ def unset(request, user_id=None):
     profile = user.profile
     profile.theme = None
     profile.save()
+
+    messages.add_message(request, messages.SUCCESS,
+                     _('Theme off successfully'))
 
     return redirect('themes:list')
