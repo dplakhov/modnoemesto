@@ -21,12 +21,6 @@
 
         {% if not camera.force_html5 %}
 
-    {% if not is_owner and request.user.is_superuser %}
-        Only For SuperUser:<br/>
-        session_key={{ request.session.session_key }}<br/>
-        camera_id={{ camera.id }}<br/>
-    {% endif %}
-
         <script type="text/javascript">
         if(navigator.userAgent.match(/iPad/i))
         {

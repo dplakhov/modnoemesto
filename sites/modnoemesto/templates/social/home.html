@@ -21,8 +21,6 @@
 
 {% block js %}
     {{ block.super }}
-    <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
-    <script type="text/javascript" src="/media/js/viewtimer.js"></script>
 <script type="text/javascript">
 var timer = undefined;
 
@@ -33,10 +31,6 @@ $(document).ready(function() {
                 'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
         return false;
     });
-    timer = new CameraTimer($("#timer"));
-    {% if camera.is_view_paid and billing.can_show and billing.order.is_packet %}
-    timer.start();
-    {% endif %}
 });
 </script>
 {% endblock %}
@@ -144,55 +138,8 @@ $(document).ready(function() {
     </div>
 		{% if camera %}
         <div id="camera">
-            {% if not is_owner %}
-                {% if show_view_access_link %}
-                    <a class="reference" href="{% url billing:get_view_access_to_camera camera.id %}">{% trans "Get view access to camera" %}</a>
-                <br/>
-                {% endif %}
-                {% if show_manage_access_link %}
-                    <a class="reference" href="{% url billing:get_manage_access_to_camera camera.id %}">{% trans "Get manage access to camera" %}</a>
-                    <br/>
-                {% endif %}
-                {% if show_bookmark_button %}
-                <a class="reference" href="{% url cam:cam_bookmark_add camera.id %}">{% trans "Bookmark this camera" %}</a>
-                {% else %}
-                <a class="reference" href="{% url cam:cam_bookmark_delete camera.id %}">{% trans "Remove Bookmark" %}</a>
-                {% endif %}
-                <br/>
-                {% if camera.is_view_paid and billing.can_show %}
-                    <p id="timer">{% trans "The remaining time on the show" %}
-                        {% if billing.show_data.days %} <span class="day">{{ billing.show_data.days}}</span> / {% endif %}
-                        <span class="hour">{{ billing.show_data.hours|stringformat:"02i" }}</span> :
-                        <span class="minute">{{ billing.show_data.minutes|stringformat:"02i" }}</span> :
-                        <span class="second">{{ billing.show_data.seconds|stringformat:"02i" }}</span>
-                    </p>
-                {% endif %}
-                {% if billing.manage_list %}
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Пользователь</th>
-                                    <th>Начало</th>
-                                    <th>Окончание</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {% for i in billing.manage_list %}
-                            <tr>
-                                <td><a href="{% url social:user i.user.id %}">{{ i.user }}</a></td>
-                                <td>{{ i.begin_date|date:"H:i:s" }}</td>
-                                <td>{{ i.end_date|date:"H:i:s" }}</td>
-                                <td>{% if forloop.first %}оператор{% endif %}</td>
-                           </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                {% endif %}
-            {% endif %}
-            <a name="cam"></a>
-                {% include "includes/camera.html" %}
-            </div>
+            {% include "social/_camera.html" %}
+        </div>
         {% endif %}
 
 </div>
