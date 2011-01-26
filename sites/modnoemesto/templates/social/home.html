@@ -2,7 +2,6 @@
 
 {% load i18n %}
 {% load media %}
-{% load pytils_numeral %}
 
 {% block css %}
 {{ block.super }}
@@ -23,7 +22,58 @@
 {% block js %}
     {{ block.super }}
     <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
-<script>
+<script type="text/javascript">
+    var Timer = function (container) {
+        if (container == undefined) return;
+        function toStr(i) {
+            return i < 10 && "0" + i || i;
+        }
+        var hday = $(".day", container),
+            hhour = $(".hour", container),
+            hminute = $(".minute", container),
+            hsecond = $(".second", container);
+        var day = hday && parseInt(hday.html()) || 0,
+            hour = hhour && parseInt(hhour.html()) || 0,
+            minute = hminute && parseInt(hminute.html()) || 0,
+            second = hsecond && parseInt(hsecond.html()) || 0;
+
+
+        this.intervalID = undefined;
+
+        this.start = function () {
+            if (this.intervalID != undefined) this.stop();
+            this.intervalID = setInterval(function(){
+                second--;
+                if (second < 0) {
+                    if (hour == minute == hour == 0) {
+                        this.stop();
+                        return;
+                    }
+                    second = 59;
+                    minute--;
+                    if (minute < 0) {
+                        minute = 59;
+                        hour--;
+                        if (hour < 0) {
+                            hour = 23;
+                            day--;
+                            hday.html(day);
+                        }
+                        hhour.html(toStr(hour));
+                    }
+                    hminute.html(toStr(minute));
+                }
+                hsecond.html(toStr(second));
+            }, 1000);
+        }
+        this.stop = function () {
+            clearInterval(this.intervalID);
+            this.intervalID = undefined;
+        }
+    }
+
+var timer = undefined;
+
 $(document).ready(function() {
     $(".toollip_video").click(function (e){
         var width=810, height=645;
@@ -31,6 +81,10 @@ $(document).ready(function() {
                 'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
         return false;
     });
+    timer = new Timer($("#timer"));
+    {% if camera.is_view_paid and billing.can_show and billing.order.is_packet %}
+    timer.start();
+    {% endif %}
 });
 </script>
 {% endblock %}
@@ -151,11 +205,12 @@ $(document).ready(function() {
                 <a class="reference" href="{% url cam:cam_bookmark_delete camera.id %}">{% trans "Remove Bookmark" %}</a>
                 {% endif %}
                 {% if camera.is_view_paid and billing.can_show %}
-                    <p>{% trans "The remaining time on the show" %}:
-                        {% if billing.show_data.days %}{{ billing.show_data.days}} {{ billing.show_data.days|choose_plural:"день,дня,дней" }}{% endif %}
-                        {{ billing.show_data.hours }} {{ billing.show_data.hours|choose_plural:"час,часа,часов" }}
-                        {{ billing.show_data.minutes }} {{ billing.show_data.minutes|choose_plural:"минута,минуты,минут" }}
-                        {{ billing.show_data.seconds }} {{ billing.show_data.seconds|choose_plural:"секунда,секунды,секунд" }}</p>
+                    <p id="timer">{% trans "The remaining time on the show" %}
+                        {% if billing.show_data.days %} <span class="day">{{ billing.show_data.days}}</span> / {% endif %}
+                        <span class="hour">{{ billing.show_data.hours|stringformat:"02i" }}</span> :
+                        <span class="minute">{{ billing.show_data.minutes|stringformat:"02i" }}</span> :
+                        <span class="second">{{ billing.show_data.seconds|stringformat:"02i" }}</span>
+                    </p>
                 {% endif %}
                 {% if camera.manage_list %}
                         <table>

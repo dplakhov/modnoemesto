@@ -171,6 +171,8 @@ class Camera(Document):
             seconds -= show_data['hours'] * 3600
             show_data['minutes'] = seconds / 60
             show_data['seconds'] = seconds - show_data['minutes'] * 60
+        else:
+            order = None
         can_manage = self.can_manage(owner_user, access_user, now)
         manage_list = self.get_manage_list(now)
         return {
@@ -178,6 +180,7 @@ class Camera(Document):
             'show_data': show_data,
             'can_manage': can_manage,
             'manage_list': manage_list,
+            'order': order,
         }
 
     def check_operator(self, order):
