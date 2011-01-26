@@ -124,9 +124,9 @@ def cam_view_notify(request):
         if not can_show:
             return 'OK', 0, 0
         if not camera.is_view_paid:
-            return 'OK', 0, settings.TIME_INTERVAL_NOTIFY
+            return 'OK', 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY
         time_left, order = camera.get_show_info(user, now)
-        # for enabled operator
+        # for enabled operator and owner
         if time_left is None:
             return 'OK', 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY
         if order.is_packet:

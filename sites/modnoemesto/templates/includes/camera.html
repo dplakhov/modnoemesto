@@ -2,7 +2,7 @@
 <script type="text/javascript" src="/media/js/jquery.mousewheel.min.js"></script>
 <script type="text/javascript" src="/media/js/jScrollPane.js"></script>
 
-{% if is_owner or billing.can_show %}
+{% if billing.can_show %}
     <div id="watch-panel">
     {% include camera.driver.template %}
     </div>

@@ -99,13 +99,13 @@ class Camera(Document):
     def driver(self):
         return self.type.driver_class(self)
 
-    def can_show(self, owner_user, access_user, now):
+    def can_show(self, access_user, now):
+        if self.owner == access_user:
+            return True
         if not self.is_view_enabled:
             return False
         if not self.is_view_public:
-            is_friend = access_user.is_authenticated() and \
-                        access_user.friends.contains(owner_user)
-            if not is_friend:
+            if not access_user.friends.contains(self.owner):
                 return False
         if self.is_view_paid:
             if self.operator == access_user:
@@ -119,7 +119,7 @@ class Camera(Document):
         return True
 
     def get_show_info(self, access_user, now):
-        if self.operator == access_user:
+        if self.operator == access_user or self.owner == access_user:
             return None, None
         order = AccessCamOrder.objects(
             user=access_user,
@@ -131,13 +131,13 @@ class Camera(Document):
             time_left = timedelta(seconds=order.get_time_left())
         return time_left, order
 
-    def can_manage(self, owner_user, access_user, now):
+    def can_manage(self, access_user, now):
+        if self.owner == access_user:
+            return True
         if not self.is_management_enabled:
             return False
         if not self.is_management_public:
-            is_friend = access_user.is_authenticated() and \
-                        access_user.friends.contains(owner_user)
-            if not is_friend:
+            if not access_user.friends.contains(self.owner):
                 return False
         if self.is_management_paid and self.operator == None:
             orders = AccessCamOrder.objects(
@@ -155,9 +155,9 @@ class Camera(Document):
             camera=self,
         ).order_by('create_on'))
 
-    def billing(self, owner_user, access_user):
+    def billing(self, access_user):
         now = datetime.now()
-        can_show = self.can_show(owner_user, access_user, now)
+        can_show = self.can_show(access_user, now)
         show_data = {}
         if can_show and self.is_view_paid:
             time_left, order = self.get_show_info(access_user, now)
@@ -170,7 +170,7 @@ class Camera(Document):
                 show_data['seconds'] = seconds - show_data['minutes'] * 60
         else:
             order = None
-        can_manage = self.can_manage(owner_user, access_user, now)
+        can_manage = self.can_manage(access_user, now)
         manage_list = self.get_manage_list(now)
         return {
             'can_show': can_show,
