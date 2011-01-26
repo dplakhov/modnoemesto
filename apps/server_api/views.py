@@ -88,6 +88,8 @@ def friend_list(request, id, format, state):
 
 
 def cam_view_notify(request):
+    logger.debug('cam_view_notify request %s' % repr(request.GET.items()))
+
     def calc():
         status = request.GET.get('status', None)
         session_key = request.GET.get('session_key', None)
@@ -149,6 +151,13 @@ def cam_view_notify(request):
 ?session_key=&lt;Fx24&gt&amp;camera_id=&lt;Fx24&gt&amp;status=next&amp;time=&lt;sec&gt;
 ?session_key=&lt;Fx24&gt&amp;camera_id=&lt;Fx24&gt&amp;status=disconnect&amp;time=&lt;sec&gt;
 """.replace('\n', '\n<br/>\n'))
+    try:
+        params = calc()
+    except Exception, e:
+        params = ('INTERNAL ERROR', -500)
+        logger.debug('cam_view_notify error %s' % repr(e))
+    else:
+        logger.debug('cam_view_notify response %s' % repr(params))
     return HttpResponse('&%s' % urllib.urlencode(zip(('info', 'status', 'time'),
-                                                     calc(),
+                                                     params,
                                                      )))
