@@ -132,6 +132,8 @@ class Camera(Document):
         return time_left, order
 
     def can_manage(self, access_user, now):
+        if not self.type.is_controlled:
+            return False
         if self.owner == access_user:
             return True
         if not self.is_management_enabled:
