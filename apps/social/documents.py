@@ -76,6 +76,8 @@ class Profile(Document):
         self.sex = dict(ChangeProfileForm.SEX_CHOICES).get(self.sex, ChangeProfileForm.SEX_CHOICES[0][1])
         if self.mobile:
             self.mobile = "+7 (%s) %s %s %s" % (self.mobile[:3], self.mobile[3:6], self.mobile[6:8], self.mobile[8:])
+            self.mobile_code = self.mobile[:3]
+            self.mobile_number = self.mobile[3:]
         return self
 
 
