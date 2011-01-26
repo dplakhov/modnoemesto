@@ -59,7 +59,7 @@ def tariff_delete(request, id):
 def purse(request):
     robokassa_form = RobokassaForm(initial={
                          'user_id': request.user.id,
-                         'Desc': request.user,
+                         'Desc': u"пополнение счета пользователя %s" % request.user,
                          'Email': request.user.email,
                      })
     return direct_to_template(request, 'billing/purse.html', {
