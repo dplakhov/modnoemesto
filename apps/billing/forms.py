@@ -19,11 +19,17 @@ class AccessCamOrderForm(forms.Form):
     tariff = forms.ChoiceField(choices=())
     count_packets = forms.IntegerField(min_value=1, required=False)
 
-    def __init__(self, is_controlled, user=None, *args, **kwarg):
+    def __init__(self, camera, is_controlled, user=None, *args, **kwarg):
         super(AccessCamOrderForm, self).__init__(*args, **kwarg)
         self.user = user
-        self.is_controlled = is_controlled
-        self.fields['tariff'].choices = tuple((i.id, i.name) for i in Tariff.objects(is_controlled=is_controlled).only('id','name').all())
+        tariffs = []
+        if is_controlled:
+            tariffs.append(camera.management_packet_tariff)
+            tariffs.append(camera.management_time_tariff)
+        else:
+            tariffs.append(camera.view_packet_tariff)
+            tariffs.append(camera.view_time_tariff)
+        self.fields['tariff'].choices = [(i.id, i.name) for i in tariffs if i]
 
     def clean_tariff(self):
         return Tariff.objects.get(id=self.cleaned_data['tariff'])

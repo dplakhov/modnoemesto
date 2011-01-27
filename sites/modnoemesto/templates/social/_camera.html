@@ -18,6 +18,8 @@ $(document).ready(function() {
 </script>
 {% endif %}
 
+<a name="cam"></a>
+
 {% if not is_owner %}
     {% if show_view_access_link %}
         <a class="reference" href="{% url billing:get_view_access_to_camera camera.id %}">{% trans "Get view access to camera" %}</a>
@@ -64,8 +66,6 @@ $(document).ready(function() {
             </table>
     {% endif %}
 {% endif %}
-
-<a name="cam"></a>
 
 {% if billing.can_show %}
     <div id="watch-panel">
