@@ -44,7 +44,7 @@ body
 	}
 
 
-a.exit
+a.exit, a.home
 {
 	position: absolute;
 	top: 12px;
@@ -54,7 +54,11 @@ a.exit
 	border-bottom: 1px dashed #76A6EF;
 	text-decoration: none;
 }
-
+a.home
+{
+	top: 56px;
+	left: 835px;
+}
 #mainContent
 {
 	overflow: visible;
