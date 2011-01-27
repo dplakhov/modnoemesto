@@ -11,6 +11,9 @@ except ImportError:
         def emit(self, record):
             pass
 
+from logging import StreamHandler
+
+
 # Make sure that dictConfig is available
 # This was added in Python 2.7/3.2
 try:
@@ -38,14 +41,17 @@ if sys.version_info < (2, 5):
     def getLogger(name=None):
         return LoggerCompat(logging.getLogger(name=name))
 else:
-    getLogger = logging.getLogger
+    logging._getLogger = logging.getLogger
+    def _getLogger(name=None):
+        logger = logging._getLogger(name)
+        if not logger.handlers:
+            handler = StreamHandler()
+            logger.addHandler(handler)
 
-# Ensure the creation of the Django logger
-# with a null handler. This ensures we don't get any
-# 'No handlers could be found for logger "django"' messages
-logger = getLogger('django')
-if not logger.handlers:
-    logger.addHandler(NullHandler())
+        return logger
+
+    getLogger = logging.getLogger = _getLogger
+
 
 class MongoHander(logging.Handler):
     def emit(self, record):
