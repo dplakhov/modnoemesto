@@ -297,7 +297,6 @@ def user(request, user_id=None):
         'invitee_count': invitee_count,
         'page_user': page_user,
         'profile': page_user.profile.for_html(),
-        'billing': camera.billing(request.user),
         'settings': settings,
         'show_friend_button': not is_friend,
     }

@@ -44,7 +44,7 @@ body
 	}
 
 
-a.exit
+a.exit, a.home
 {
 	position: absolute;
 	top: 12px;
@@ -54,7 +54,11 @@ a.exit
 	border-bottom: 1px dashed #76A6EF;
 	text-decoration: none;
 }
-
+a.home
+{
+	top: 56px;
+	left: 835px;
+}
 #mainContent
 {
 	overflow: visible;
@@ -199,6 +203,7 @@ a.exit
 }
 .seting
 {
+	width: 350px;
 }
 .button {
     background: url("../images/but_corner_left.png") no-repeat scroll 0 0 transparent;
@@ -260,7 +265,7 @@ p.img_losder
 }
  input#id_phone_0, input#id_mobile_0
 {
-	width: 40px;
+	width: 39px;
 	margin: 0 15px 0 5px;
 }
  input#id_phone_1, input#id_mobile_1
@@ -311,7 +316,38 @@ input[type="checkbox"]
 	position: relative;
 	top: -30px;
 }
+div.system_messages ul
+{
+    position: fixed;
+    z-index: 9999;
+	list-style: none;
+}
+div.system_messages li
+{
+    padding: 4px 4px 4px 30px;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    border: 2px solid;
+	width: 940px;
+}
 
+div.system_messages li.success {
+    background: url("../images/true.png") no-repeat scroll 8px 5px #DFFFDF;
+    border-color: #9FCF9F;
+    color: #005F00;
+}
+
+div.system_messages li.error {
+    background: url("../images/exclamation.png") no-repeat scroll 8px 50% #FFE3E3;
+    border-color: #DD0000;
+    color: #880000;
+}
+div.system_messages li.warning {
+   background: url("../images/warning.png") no-repeat scroll 8px 5px #FFEBC1;
+    border-color: #FDBF3B;
+    color: #A6750C;
+    text-align: left;
+}
 
 
 

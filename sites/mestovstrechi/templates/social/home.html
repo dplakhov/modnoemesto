@@ -41,6 +41,7 @@ $(document).ready(function() {
         <img src="{% media_url page_user.avatar avatar_midi.png %}" />
     </div>
     {% if not is_owner %}
+    {% comment %}
         {% if show_friend_button %}
        <a class="tooltip toollip_friend" href="{% url friends:add page_user.id %}">
             <span class="toollip_friend">
@@ -61,7 +62,7 @@ $(document).ready(function() {
        <a class="tooltip toollip_video" href="{% url social:user_conference page_user.id %}">
             <span class="toollip_video">
             <img src="/media/images/toollip_video.png" width="206px" height="63px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
-
+	{% endcomment %}
     {% endif %}
     <div class="profileActions">
         <ul>
