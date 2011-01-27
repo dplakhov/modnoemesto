@@ -33,6 +33,7 @@ div.about_persone {
 p.event_announce 
 {
 	font-weight: normal;
+	width: 410px;
 }
 #contact_info p a
 {
@@ -50,7 +51,8 @@ p.event_announce
 #anounce_info {
     position: absolute;
     top: 10px;
-	width: 340px;
+	left: 270px;
+	width: 410px;
 }
 #video_comment
 {
@@ -125,7 +127,7 @@ a.benefit
 	width: 635px;
 	position: relative;
 	top: 50px;
-	left: 314px;
+	left: 270px;
 }
 #about_company p
 {
