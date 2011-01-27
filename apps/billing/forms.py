@@ -22,7 +22,6 @@ class AccessCamOrderForm(forms.Form):
     def __init__(self, camera, is_controlled, user=None, *args, **kwarg):
         super(AccessCamOrderForm, self).__init__(*args, **kwarg)
         self.user = user
-        self.camera = camera
         tariffs = []
         if is_controlled:
             tariffs.append(camera.management_packet_tariff)

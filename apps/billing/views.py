@@ -174,7 +174,7 @@ def get_access_to_camera(request, id, is_controlled):
             return HttpResponseRedirect(reverse('social:user', args=[camera.owner.id]))
     else:
         form = AccessCamOrderForm(camera, is_controlled)
-    return direct_to_template(request, 'billing/get_access_to_camera.html', { 'form': form })
+    return direct_to_template(request, 'billing/get_access_to_camera.html', { 'form': form, 'camera': camera })
 
 
 @permission_required('superuser')
