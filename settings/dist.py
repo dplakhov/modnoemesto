@@ -242,4 +242,5 @@ from .celery_config import *
 from .chat import *
 from .logging import *
 from .media import *
+from .pagination import *
 from .redis import *
