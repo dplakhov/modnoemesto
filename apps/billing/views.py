@@ -154,7 +154,7 @@ def operator(request):
 def get_access_to_camera(request, id, is_controlled):
     camera = get_document_or_404(Camera, id=id)
     if request.POST:
-        form = AccessCamOrderForm(is_controlled, request.user, request.POST)
+        form = AccessCamOrderForm(camera, is_controlled, request.user, request.POST)
         if form.is_valid():
             tariff = form.cleaned_data['tariff']
             if tariff.is_packet:
@@ -173,7 +173,7 @@ def get_access_to_camera(request, id, is_controlled):
             camera.check_operator(order)
             return HttpResponseRedirect(reverse('social:user', args=[camera.owner.id]))
     else:
-        form = AccessCamOrderForm(is_controlled)
+        form = AccessCamOrderForm(camera, is_controlled)
     return direct_to_template(request, 'billing/get_access_to_camera.html', { 'form': form })
 
 
