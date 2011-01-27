@@ -15,9 +15,11 @@ def create_image_file():
     file.save()
     return file
 
-def create_video_file():
+def create_video_file(name=None):
+    if name is None:
+        name = 'flame.avi'
     file = File(type='image')
-    file.file.put(open(file_path('flame.avi')),
+    file.file.put(open(file_path(name)),
         content_type='video/avi')
     file.save()
     return file

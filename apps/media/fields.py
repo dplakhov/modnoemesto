@@ -1,5 +1,5 @@
 from apps.media.transformations.base import BatchFileTransformation
-from apps.media.transformations.video import VideoThumbnail
+from apps.media.transformations.video import VideoThumbnail, Video2Flv
 from django.core.exceptions import ValidationError
 from django.forms.fields import FileField
 from django.utils.translation import ugettext_lazy as _
@@ -115,6 +115,9 @@ class VideoField(FileField):
                 VideoThumbnail(name, format='png'),
                 ImageResize(name, format='png', **params))
                     for name, params in self.sizes['image'].items()
+        ] + [
+            Video2Flv(name, **params)
+                for name, params in self.sizes['flv'].items()
         ]
 
         if settings.TASKS_ENABLED.get(self.task_name):
