@@ -13,9 +13,6 @@
     <link href="/media/styles/common.css" rel="stylesheet" type="text/css" />   
     <link href="/media/styles/chat_style.css" rel="stylesheet" type="text/css" />
     
-    <link href="/media/styles/user_micro.css" rel="stylesheet" type="text/css" />
-    <link href="/media/styles/jScrollPane.css" rel="stylesheet" type="text/css" />
-    <link href="/media/styles/selectbox.css" rel="stylesheet" type="text/css" />
     <link href="/media/styles/debug.css" rel="stylesheet" type="text/css" />
     <link href="/media/styles/fancybox.css" rel="stylesheet" type="text/css"/>
     {% endblock %}
@@ -30,14 +27,11 @@
     <script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
     
     <script type="text/javascript" src="/media/js/jquery.crawlLine.js"></script>
-    <script type="text/javascript" src="/media/js/jquery.corner.js"></script>
-    <script type="text/javascript" src="/media/js/jquery.selectbox-0.5.js"></script>
     <script type="text/javascript" src="/media/js/jquery.form.js"></script>
     
     <script type="text/javascript">
         $(document).ready(function(){
 			$('.marquee').crawlLine({crawElement:'.move'});
-            $('.rounded').corner();
             $('textarea[maxlength]').live('input paste',function(e){
                 var text = $(e.target);
                 var max = parseInt(text.attr('maxlength'));
@@ -48,10 +42,6 @@
                 text.parent().parent().find('.charsRemaining').html('Осталось ' + (max - text.val().length) + ' символов');
             });
         });
-    </script>
-    <script src="/media/js/ie6fix.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        DD_belatedPNG.fix('.transparent');
     </script>
 
     {% endblock %}

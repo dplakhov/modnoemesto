@@ -248,10 +248,14 @@ a.home
     background: url("../images/block2-b.png") no-repeat scroll 0 100% transparent;
 	padding: 10px;
 }
-.block input, .block2 input, .block textarea, .block2 textarea
+.block input, .block2 input, .block textarea, .block2 textarea, .block select, .block2 select
 {
 	width: 295px;
 	padding: 5px;
+}
+.block select, .block2 select
+{
+	width: 306px;
 }
 p.img_losder
 {
@@ -270,7 +274,7 @@ p.img_losder
 }
  input#id_phone_1, input#id_mobile_1
 {
-	width: 207px;
+	width: 205px;
 }
 noindex
 {
@@ -348,8 +352,99 @@ div.system_messages li.warning {
     color: #A6750C;
     text-align: left;
 }
-
-
-
-
+ul.friendTable
+{
+	overflow: hidden;
+}
+.friendTable li
+{
+	float: left;
+	display: inline;
+	height: 110px;
+}
+.friendTable td div
+{
+	overflow: hidden;
+	width: 80px;
+}
+.friendTable td
+{
+	font-size:11px;
+	margin-bottom:0;
+	margin-left:0;
+	margin-right:0;
+	margin-top:0;
+	padding-bottom:1px;
+	padding-left:0;
+	padding-right:0;
+	padding-top:1px;
+	text-align:center;
+	vertical-align:bottom;
+	width:69px;
+	overflow: hidden;
+}
+.friendTable td img
+{
+	border: 4px solid #eeedde;
+}
+.friendTable td a
+{
+	color: #00b2d5;
+    text-decoration: none;
+}
+.friendTable table
+{
+	margin-bottom:0;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:0;
+	padding-bottom:0;
+	height: 0;
+}
+.friendTable
+{
+	margin-top: 10px;
+	overflow: hidden;
+}
+.friend_box li td div
+{
+	width: 69px;
+}
+div.but
+{
+	text-align: center;
+}
+.theme_list
+{
+	background: #fff;
+}
+.theme_list th
+{
+	text-align: left;
+	font-size: 14px;
+}
+a.delete, a.done, a.cancel
+{
+	color: #76A6EF;
+	text-decoration: none;
+	padding-left: 20px;
+	display: block;
+	width: 100px;
+}
+a.done
+{
+	background: url("../images/done.png") no-repeat;
+}
+a.cancel
+{
+	background: url("../images/cancel.png") no-repeat;
+}
+a.delete
+{
+	background: url("../images/delete.png") no-repeat;
+}
+.theme_box
+{
+	margin-bottom: 15px;
+}
 
