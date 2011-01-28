@@ -173,7 +173,7 @@ def cam_view_notify(request, format):
         logger.debug('cam_view_notify response %s' % repr(params))
     if format == 'xml':
         return direct_to_template(request,
-                                  'server_api/cam_view_notify.xml' % format,
+                                  'server_api/cam_view_notify.xml',
                                   { 'params': zip(('status', 'time', 'stream'), params) },
                                   mimetype='xml/plain'
                                   )
