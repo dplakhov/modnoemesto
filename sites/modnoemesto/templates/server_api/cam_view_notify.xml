@@ -1,0 +1,5 @@
+<xml>
+{% for k, v in params %}
+    <{{ k }}>{{ v }}</{{ k }}>
+{% endfor %}
+</xml>

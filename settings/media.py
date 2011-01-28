@@ -30,8 +30,7 @@ LIBRARY_VIDEO_SIZES = {
         'library_video_full.png': { 'width': 400, 'height': 200 },
     },
 
-    'video': {
-        'library_video_mini.avi': { 'width': 200, 'height': 100 },
-        'library_video_full.avi': { 'width': 400, 'height': 200 },
+    'flv': {
+        'library_video_mini.flv': { 'width': 200, 'height': 100 },
     }
 }

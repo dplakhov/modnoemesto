@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from apps.billing.documents import AccessCamOrder
 from apps.cam.documents import Camera
 from apps.social.documents import User
 from django.views.generic.simple import direct_to_template
@@ -8,7 +7,6 @@ from mongoengine.django.shortcuts import get_document_or_404
 import redis
 from datetime import datetime
 from django.http import HttpResponse
-import urllib
 from django.conf import settings
 from django.contrib.auth import SESSION_KEY
 from django.utils.importlib import import_module
@@ -88,9 +86,16 @@ def friend_list(request, id, format, state):
 
 
 def cam_view_notify(request):
+    """ API:
+        ?session_key=<Fx24>&camera_id=<Fx24>&status=connect
+        ?session_key=<Fx24>&camera_id=<Fx24>&status=next&time=<sec>
+        ?session_key=<Fx24>&camera_id=<Fx24>&status=disconnect&time=<sec>
+    """
     logger.debug('cam_view_notify request %s' % repr(request.GET.items()))
 
     def calc():
+        if not request.GET:
+            return 'BAD PARAMS', -1
         status = request.GET.get('status', None)
         session_key = request.GET.get('session_key', None)
         camera_id = request.GET.get('camera_id', None)
@@ -150,12 +155,6 @@ def cam_view_notify(request):
         if status == 'connect':
             return 'OK', 0, time_next, camera.stream_name
         return 'OK', 0, time_next
-    if not request.GET:
-        return HttpResponse("""API:
-?session_key=&lt;Fx24&gt&amp;camera_id=&lt;Fx24&gt&amp;status=connect
-?session_key=&lt;Fx24&gt&amp;camera_id=&lt;Fx24&gt&amp;status=next&amp;time=&lt;sec&gt;
-?session_key=&lt;Fx24&gt&amp;camera_id=&lt;Fx24&gt&amp;status=disconnect&amp;time=&lt;sec&gt;
-""".replace('\n', '\n<br/>\n'))
     try:
         params = calc()
     except Exception, e:
@@ -163,6 +162,8 @@ def cam_view_notify(request):
         logger.debug('cam_view_notify error %s' % repr(e))
     else:
         logger.debug('cam_view_notify response %s' % repr(params))
-    return HttpResponse('&%s' % urllib.urlencode(zip(('info', 'status', 'time', 'stream'),
-                                                     params,
-                                                     )))
+    return direct_to_template(request,
+                              'server_api/cam_view_notify.xml',
+                              { 'params': zip(('info', 'status', 'time', 'stream'), params) },
+                              mimetype='xml/plain'
+                              )
