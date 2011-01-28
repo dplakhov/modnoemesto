@@ -24,7 +24,7 @@ env.roledefs.update({
     'db_slave': [ 'db%d.modnoemesto.ru' %x for x in (1, 3, 5, 8) ],
 
     'bal': [ 'bal%d.modnoemesto.ru' %x for x in (1, 2, 3, 4) ],
-    'vstrecha': ['s0%d.modnoemesto.ru' % x for x in (24, 25,)],
+    'mv': ['s0%d.modnoemesto.ru' % x for x in (24, 25,)],
 })
 
 
@@ -68,7 +68,7 @@ def deploy(revision, reinstall=False):
                 with cd('app'):
                     if env.host.startswith('as1.'):
                         settings_local = 'settings/modnoemesto_test.py'
-                    elif env.host in env.roledefs['vstrecha']:
+                    elif env.host in env.roledefs['mv']:
                         settings_local = 'settings/mestovstrechi.py'
                     else:
                         settings_local = 'settings/modnoemesto.py'
@@ -231,7 +231,7 @@ def setup_nginx():
     put('etc/nginx/sites-available/socnet-uwsgi.conf',
         '/etc/nginx/sites-available/socnet-uwsgi.conf')
 
-    if env.host in env.roledefs['vstrecha']:
+    if env.host in env.roledefs['mv']:
         sed('/etc/nginx/sites-available/socnet-uwsgi.conf', '/var/socnet/appserver/app/media/',
             '/var/socnet/appserver/app/sites/mestovstrechi/media/' )
     else:
