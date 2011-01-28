@@ -10,7 +10,7 @@
 {% endblock %}
 {% block content %}
 <div id="filter_box">
-<h2>{% trans "Access to camera" %}</h2>
+<h2>{% trans "Access to camera" %} <a href="{% url social:user camera.owner.id %}#cam">{{ camera.name }}</a></h2>
     <form method="post" class="baseform">
     <div class="filt rounded">
         <table class="camera_edit">

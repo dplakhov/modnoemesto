@@ -120,7 +120,7 @@ def cam_view_notify(request):
         if not camera:
             return 'BAD CAMERA ID', -5
         now = datetime.now()
-        can_show = camera.can_show(camera.owner, user, now)
+        can_show = camera.can_show(user, now)
         if not can_show:
             return 'OK', 0, 0
         if not camera.is_view_paid:
