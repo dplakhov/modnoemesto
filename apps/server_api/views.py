@@ -138,23 +138,26 @@ def cam_view_notify(request, format):
         now = datetime.now()
         can_show = camera.can_show(user, now)
         if not can_show:
-            return 1, 0, camera.stream_name
+            return 0, 0, camera.stream_name
         if not camera.is_view_paid:
-            return 2, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY, camera.stream_name
+            return 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY, camera.stream_name
         time_left, order = camera.get_show_info(user, now)
         # for enabled operator and owner
         if time_left is None:
-            return 3, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY, camera.stream_name
+            return 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY, camera.stream_name
         total_cost = 666
         if order.is_packet:
+            logger.debug('is packet')
             time_next = time_left.days * 60 * 60 * 24 + time_left.seconds
             if time_next > settings.TIME_INTERVAL_NOTIFY:
                 time_next = settings.TIME_INTERVAL_NOTIFY
         else:
+            logger.debug('is not packet')
             if status != 'connect':
                 total_cost = order.tariff.cost * (settings.TIME_INTERVAL_NOTIFY - extra_time)
                 user.cash -= total_cost
                 user.save()
+                logger.debug(">>>>>%i" % total_cost)
                 order.duration += extra_time
             time_next = order.get_time_left(user.cash)
             if time_next > settings.TIME_INTERVAL_NOTIFY:
@@ -162,11 +165,11 @@ def cam_view_notify(request, format):
             if status == 'disconnect' or time_next == 0:
                 order.set_time_at_end()
                 order.save()
-                return 4, 0, camera.stream_name
+                return 0, 0, camera.stream_name
             order.save()
         if status == 'connect':
-            return 5, time_next, camera.stream_name
-        return 6 + total_cost, time_next, camera.stream_name
+            return 0, time_next, camera.stream_name
+        return 0, time_next, camera.stream_name
     try:
         params = calc()
     except Exception, e:
