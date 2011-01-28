@@ -90,50 +90,59 @@ def cam_view_notify(request, format):
         ?session_key=<Fx24>&camera_id=<Fx24>&status=connect
         ?session_key=<Fx24>&camera_id=<Fx24>&status=next&time=<sec>
         ?session_key=<Fx24>&camera_id=<Fx24>&status=disconnect&time=<sec>
+
+        0 OK
+
+        -1 BAD PARAMS
+        -2 BAD STATUS
+        -3 BAD TIME
+        -4 BAD SESSION KEY
+        -5 BAD CAMERA ID
+        -500 INTERNAL ERROR
     """
     logger.debug('cam_view_notify request %s' % repr(request.GET.items()))
 
     def calc():
         if not request.GET:
-            return 'BAD PARAMS', -1
+            return -1, 0, 0
         status = request.GET.get('status', None)
         session_key = request.GET.get('session_key', None)
         camera_id = request.GET.get('camera_id', None)
         extra_time = request.GET.get('time', None)
         if not (status and session_key and camera_id):
-            return 'BAD PARAMS', -1
+            return -1, 0, 0
         if status not in ['connect', 'next', 'disconnect']:
-            return 'BAD STATUS', -2
+            return -2, 0, 0
         if extra_time is None:
             if status != 'connect':
-                return 'BAD PARAMS', -1
+                return -1, 0, 0
         elif not extra_time.isdigit():
-            return 'BAD TIME', -3
+            return -3, 0, 0
         else:
             extra_time = int(extra_time)
             if extra_time > settings.TIME_INTERVAL_NOTIFY or extra_time < 0:
-                return 'BAD TIME', -3
+                return -3, 0, 0
         engine = import_module(settings.SESSION_ENGINE)
         session = engine.SessionStore(session_key)
         user_id = session.get(SESSION_KEY, None)
         if not user_id:
-            return 'BAD SESSION KEY', -4
+            return -4, 0, 0
         user = User.objects(id=user_id).first()
         if not user:
-            return 'BAD SESSION KEY', -4
+            return -4, 0, 0
         camera = Camera.objects(id=camera_id).first()
         if not camera:
-            return 'BAD CAMERA ID', -5
+            return -5, 0, 0
         now = datetime.now()
         can_show = camera.can_show(user, now)
         if not can_show:
-            return 'OK', 0, 0
+            return 0, 0, camera.stream_name
         if not camera.is_view_paid:
-            return 'OK', 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY
+            return 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY, camera.stream_name
         time_left, order = camera.get_show_info(user, now)
         # for enabled operator and owner
         if time_left is None:
-            return 'OK', 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY
+            return 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY, camera.stream_name
         if order.is_packet:
             time_next = time_left.days * 60 * 60 * 24 + time_left.seconds
             if time_next > settings.TIME_INTERVAL_NOTIFY:
@@ -150,24 +159,23 @@ def cam_view_notify(request, format):
             if status == 'disconnect' or time_next == 0:
                 order.set_time_at_end()
                 order.save()
-                return 'OK', 0, 0
+                return 0, 0, camera.stream_name
             order.save()
         if status == 'connect':
-            return 'OK', 0, time_next, camera.stream_name
-        return 'OK', 0, time_next
+            return 0, time_next, camera.stream_name
+        return 0, time_next, camera.stream_name
     try:
         params = calc()
     except Exception, e:
-        params = ('INTERNAL ERROR', -500)
+        params = (-500, 0, 0)
         logger.debug('cam_view_notify error %s' % repr(e))
     else:
         logger.debug('cam_view_notify response %s' % repr(params))
-    mimetypes = dict(
-            txt='text/plain',
-            xml='xml/plain',
-                     )
-    return direct_to_template(request,
-                              'server_api/cam_view_notify.%s' % format,
-                              { 'params': zip(('info', 'status', 'time', 'stream'), params) },
-                              mimetype=mimetypes[format]
-                              )
+    if format == 'xml':
+        return direct_to_template(request,
+                                  'server_api/cam_view_notify.xml' % format,
+                                  { 'params': zip(('status', 'time', 'stream'), params) },
+                                  mimetype='xml/plain'
+                                  )
+    else:
+        return HttpResponse('|'.join(str(i) for i in params))
