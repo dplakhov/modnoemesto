@@ -101,6 +101,7 @@ def cam_view_notify(request, format):
         -5 BAD CAMERA ID
         -500 INTERNAL ERROR
     """
+    from apps.media.documents import File
     logger.debug('cam_view_notify request %s' % repr(request.GET.items()))
 
     def calc():
