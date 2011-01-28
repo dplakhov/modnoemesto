@@ -305,6 +305,10 @@ def restart_app_server():
     run('sudo /etc/init.d/nginx reload')
     run('sudo /etc/init.d/socnet restart')
 
+def app_version():
+    env.user = 'appserver'
+    run('tail -n 1 revision.log')
+
 def uname():
     run('uname -a')
 
