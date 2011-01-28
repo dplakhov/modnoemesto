@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from apps.media.transformations.video import Video2Flv
 
 from django.test import TestCase
 from apps.utils.stringio import StringIO
@@ -112,9 +113,10 @@ class SystemCommandFileTransformationTest(TestCase):
                 return 'text/plain'
 
 
+        DATA = 'xxxxXXXXxxxx'
         file = File(type='text')
         buffer = StringIO()
-        buffer.write('1')
+        buffer.write(DATA)
         buffer.reset()
         file.file.put(buffer, content_type='text/plain')
         file.save()
@@ -123,7 +125,7 @@ class SystemCommandFileTransformationTest(TestCase):
         transformation = TestSystemCommandFileTransformation('test_trans')
         transformation.apply(file)
         derivative = file.get_derivative('test_trans')
-        self.failUnlessEqual('1', derivative.file.read())
+        self.failUnlessEqual(DATA, derivative.file.read())
         self.failUnlessEqual('text/plain', derivative.file.content_type)
 
     def test_unknown_command_raises_exc_(self):
@@ -143,6 +145,20 @@ class VideoFileTransformationTest(TestCase):
         thumb = transformation.apply(file)
         self.failUnlessEqual('image/png', thumb.file.content_type)
         self.failUnless(str(thumb.file.read()[1:]).startswith('PNG'))
+
+    def test_video2flv(self):
+        file = create_video_file('WNDSURF1.AVI')
+        sizes = {'video.flv': {}}
+        transformations =  [
+            Video2Flv(name, **params)
+                for name, params in sizes.items()
+        ]
+        flvs = file.apply_transformations(*transformations)
+
+        flv = flvs['video.flv']
+        flv_content = flv.file.read()
+        self.failUnless(flv_content)
+        self.failUnless(str(flv_content).startswith('FLV'))
 
 
 class BatchFileTransformationTest(TestCase):

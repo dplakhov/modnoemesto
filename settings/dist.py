@@ -99,6 +99,7 @@ LOGIN_EXEMPT_URLS = (
     r'^robots.txt$',
     r'^billing/camera/notify/',
     r'^srv/',
+    r'^api/',
     r'^theme/',
 )
 
@@ -242,4 +243,5 @@ from .celery_config import *
 from .chat import *
 from .logging import *
 from .media import *
+from .pagination import *
 from .redis import *

@@ -1,7 +1,9 @@
 {% load media %}
 <div id="flowplayer-panel">
  {% if not camera.force_html5 %}
-            <a style="display:block;width:515px;height:330px" id="flash-player"> </a>
+            <a style="display:block;width:515px;height:330px" id="flash-player">
+                <img src="{% media_url camera.screen camera_screen_full.png %}" />
+            </a>
         {% endif %}
 
         <video id="html-5-video"
@@ -32,44 +34,32 @@
             $f("flash-player", "/media/swf/flowplayer-3.2.5.swf", {
                 clip: {
                     provider: 'rtmp',
+                    url: '{{ camera.id }}',
+				    live: true,
+                    autoPlay: true,
+                    connectionArgs: ['{{ camera.id }}', '{{ request.session.session_key }}'],
                     onBegin: function(clip) {
-                        if (clip.index == 1) {
                             $.get('{% url cam:inc_view_count camera.id %}');
                             {% if camera.is_view_paid and billing.can_show and not billing.order.is_packet %}
                             timer.start();
                             {% endif %}
-                        }
                     }{% if camera.is_view_paid and billing.can_show and not billing.order.is_packet %},
                     onResume: function(clip) {
-                        if (clip.index == 1) {
                             timer.start();
-                        }
                     },
                     onStop: function(clip) {
-                        if (clip.index == 1) {
                             timer.stop();
-                        }
                     },
                     onPause: function(clip) {
-                        if (clip.index == 1) {
                             timer.stop();
-                        }
                     }
                     {% endif %}
                 },
-                playlist: [
-                    {
-                        url:'{% media_url camera.screen camera_screen_full.png %}',
-                        scaling: 'orig'
-                    },{
-                        autoPlay: false,
-                        autoBuffering: false,
-                        netConnectionUrl: 'rtmp://vid1.modnoemesto.ru/live',
-                        url:'{{ camera.stream_name }}'
-                    }
-                ],
+
                 plugins: {
-                    rtmp: { url: '/media/swf/flowplayer.rtmp-3.2.3.swf', netConnectionUrl: 'rtmp://vid1.modnoemesto.ru/live' }
+                        rtmp: { url: '/media/swf/flowplayer.rtmp-3.2.3.swf',
+                        netConnectionUrl: 'rtmp://109.234.158.4/cam'
+                        }
                 }
             });
         }

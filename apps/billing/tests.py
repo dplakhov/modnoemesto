@@ -127,17 +127,17 @@ class AcessCameraTest(unittest.TestCase):
         user_owner = User.objects.get(email='test2@web-mark.ru')
         user_other = User.objects.get(email='test3@web-mark.ru')
 
-        self.assertEqual(camera.billing(camera.owner, user_payed)['can_show'], True)
-        self.assertEqual(camera.billing(camera.owner, user_owner)['can_show'], False)
-        self.assertEqual(camera.billing(camera.owner, user_other)['can_show'], False)
+        self.assertEqual(camera.billing(user_payed)['can_show'], True)
+        self.assertEqual(camera.billing(user_owner)['can_show'], True)
+        self.assertEqual(camera.billing(user_other)['can_show'], False)
         time.sleep(4)
-        self.assertEqual(camera.billing(camera.owner, user_payed)['can_show'], True)
-        self.assertEqual(camera.billing(camera.owner, user_owner)['can_show'], False)
-        self.assertEqual(camera.billing(camera.owner, user_other)['can_show'], False)
+        self.assertEqual(camera.billing(user_payed)['can_show'], True)
+        self.assertEqual(camera.billing(user_owner)['can_show'], True)
+        self.assertEqual(camera.billing(user_other)['can_show'], False)
         time.sleep(4)
-        self.assertEqual(camera.billing(camera.owner, user_payed)['can_show'], False)
-        self.assertEqual(camera.billing(camera.owner, user_owner)['can_show'], False)
-        self.assertEqual(camera.billing(camera.owner, user_other)['can_show'], False)
+        self.assertEqual(camera.billing(user_payed)['can_show'], False)
+        self.assertEqual(camera.billing(user_owner)['can_show'], True)
+        self.assertEqual(camera.billing(user_other)['can_show'], False)
 
     def test_access_view_time(self):
         def get_access():

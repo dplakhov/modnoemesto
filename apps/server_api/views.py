@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from apps.billing.documents import AccessCamOrder
 from apps.cam.documents import Camera
 from apps.social.documents import User
 from django.views.generic.simple import direct_to_template
@@ -8,10 +7,10 @@ from mongoengine.django.shortcuts import get_document_or_404
 import redis
 from datetime import datetime
 from django.http import HttpResponse
-import urllib
 from django.conf import settings
 from django.contrib.auth import SESSION_KEY
 from django.utils.importlib import import_module
+import traceback
 
 import logging
 logger = logging.getLogger('server_api')
@@ -87,80 +86,108 @@ def friend_list(request, id, format, state):
                               )
 
 
-def cam_view_notify(request):
+def cam_view_notify(request, format):
+    """ API:
+        ?session_key=<Fx24>&camera_id=<Fx24>&status=connect
+        ?session_key=<Fx24>&camera_id=<Fx24>&status=next&time=<sec>
+        ?session_key=<Fx24>&camera_id=<Fx24>&status=disconnect&time=<sec>
+
+        0 OK
+
+        -1 BAD PARAMS
+        -2 BAD STATUS
+        -3 BAD TIME
+        -4 BAD SESSION KEY
+        -5 BAD CAMERA ID
+        -500 INTERNAL ERROR
+    """
+    from apps.media.documents import File
     logger.debug('cam_view_notify request %s' % repr(request.GET.items()))
 
     def calc():
+        if not request.GET:
+            return -1, 0, 0
         status = request.GET.get('status', None)
         session_key = request.GET.get('session_key', None)
         camera_id = request.GET.get('camera_id', None)
         extra_time = request.GET.get('time', None)
         if not (status and session_key and camera_id):
-            return 'BAD PARAMS', -1
+            return -1, 0, 0
         if status not in ['connect', 'next', 'disconnect']:
-            return 'BAD STATUS', -2
+            return -2, 0, 0
         if extra_time is None:
             if status != 'connect':
-                return 'BAD PARAMS', -1
+                return -1, 0, 0
         elif not extra_time.isdigit():
-            return 'BAD TIME', -3
+            return -3, 0, 0
         else:
             extra_time = int(extra_time)
             if extra_time > settings.TIME_INTERVAL_NOTIFY or extra_time < 0:
-                return 'BAD TIME', -3
+                return -3, 0, 0
         engine = import_module(settings.SESSION_ENGINE)
         session = engine.SessionStore(session_key)
         user_id = session.get(SESSION_KEY, None)
         if not user_id:
-            return 'BAD SESSION KEY', -4
+            return -4, 0, 0
         user = User.objects(id=user_id).first()
         if not user:
-            return 'BAD SESSION KEY', -4
+            return -4, 0, 0
         camera = Camera.objects(id=camera_id).first()
         if not camera:
-            return 'BAD CAMERA ID', -5
+            return -5, 0, 0
         now = datetime.now()
-        can_show = camera.can_show(camera.owner, user, now)
+        can_show = camera.can_show(user, now)
         if not can_show:
-            return 'OK', 0, 0
+            return 0, 0, camera.stream_name
         if not camera.is_view_paid:
-            return 'OK', 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY
+            return 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY, camera.stream_name
         time_left, order = camera.get_show_info(user, now)
         # for enabled operator and owner
         if time_left is None:
-            return 'OK', 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY
+            return 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY, camera.stream_name
         if order.is_packet:
             time_next = time_left.days * 60 * 60 * 24 + time_left.seconds
             if time_next > settings.TIME_INTERVAL_NOTIFY:
                 time_next = settings.TIME_INTERVAL_NOTIFY
         else:
+            time_next = order.get_time_left(user.cash)
+            if time_next == 0:
+                order.set_time_at_end()
+                order.save()
+                return 0, 0, camera.stream_name
+            old = user.cash
+            total_cost = 0
             if status != 'connect':
-                total_cost = order.tariff.cost * (settings.TIME_INTERVAL_NOTIFY - extra_time)
+                total_cost = order.tariff.cost * extra_time
                 user.cash -= total_cost
                 user.save()
                 order.duration += extra_time
             time_next = order.get_time_left(user.cash)
+            user_cash = user.cash
+            time_next = int(user_cash/order.tariff.cost)
+            logger.debug(repr((user_cash, order.tariff.cost, time_next)))
             if time_next > settings.TIME_INTERVAL_NOTIFY:
                 time_next = settings.TIME_INTERVAL_NOTIFY
             if status == 'disconnect' or time_next == 0:
                 order.set_time_at_end()
                 order.save()
-                return 'OK', 0, 0
+                return 0, 0, camera.stream_name
             order.save()
-        return 'OK', 0, time_next
-    if not request.GET:
-        return HttpResponse("""API:
-?session_key=&lt;Fx24&gt&amp;camera_id=&lt;Fx24&gt&amp;status=connect
-?session_key=&lt;Fx24&gt&amp;camera_id=&lt;Fx24&gt&amp;status=next&amp;time=&lt;sec&gt;
-?session_key=&lt;Fx24&gt&amp;camera_id=&lt;Fx24&gt&amp;status=disconnect&amp;time=&lt;sec&gt;
-""".replace('\n', '\n<br/>\n'))
+        if status == 'connect':
+            return 0, time_next, camera.stream_name
+        return 0, time_next, camera.stream_name
     try:
         params = calc()
     except Exception, e:
-        params = ('INTERNAL ERROR', -500)
-        logger.debug('cam_view_notify error %s' % repr(e))
+        params = (-500, 0, 0)
+        logger.debug('cam_view_notify error %s\n%s\n\n' % (repr(e), traceback.format_exc()))
     else:
         logger.debug('cam_view_notify response %s' % repr(params))
-    return HttpResponse('&%s' % urllib.urlencode(zip(('info', 'status', 'time'),
-                                                     params,
-                                                     )))
+    if format == 'xml':
+        return direct_to_template(request,
+                                  'server_api/cam_view_notify.xml',
+                                  { 'params': zip(('status', 'time', 'stream'), params) },
+                                  mimetype='xml/plain'
+                                  )
+    else:
+        return HttpResponse('|'.join(str(i) for i in params))
