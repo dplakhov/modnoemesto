@@ -99,6 +99,7 @@ LOGIN_EXEMPT_URLS = (
     r'^robots.txt$',
     r'^billing/camera/notify/',
     r'^srv/',
+    r'^api/',
     r'^theme/',
 )
 
