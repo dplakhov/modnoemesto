@@ -168,14 +168,14 @@ def cam_view_notify(request, format):
     try:
         params = calc()
     except Exception, e:
-        params = (-500, 0, 0, repr(e))
+        params = (-500, 0, 0)
         logger.debug('cam_view_notify error %s\n%s\n\n' % (repr(e), traceback.format_exc()))
     else:
         logger.debug('cam_view_notify response %s' % repr(params))
     if format == 'xml':
         return direct_to_template(request,
                                   'server_api/cam_view_notify.xml',
-                                  { 'params': zip(('status', 'time', 'stream', 'exception'), params) },
+                                  { 'params': zip(('status', 'time', 'stream'), params) },
                                   mimetype='xml/plain'
                                   )
     else:

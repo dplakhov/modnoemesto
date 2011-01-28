@@ -99,7 +99,7 @@ LOGGING = {
 
         'server_api': {
             'handlers': ['mongo'],
-            'level': 'INFO',
+            'level': 'DEBUG',
             'propagate': True,
         },
     }
