@@ -1724,6 +1724,30 @@ form p
 }
 .theme_list th, .theme_list td
 {
-	text-align: center !important;
+	text-align: left;
 }
-
+a.delete, a.done, a.cancel
+{
+	color: #585858;
+	text-decoration: none;
+	padding-left: 20px;
+	display: block;
+	width: 100px;
+	margin-bottom: 5px;
+}
+a.done
+{
+	background: url("../images/done.png") no-repeat;
+}
+a.cancel
+{
+	background: url("../images/cancel.png") no-repeat;
+}
+a.delete
+{
+	background: url("../images/delete.png") no-repeat;
+}
+.theme_box
+{
+	margin-bottom: 15px;
+}

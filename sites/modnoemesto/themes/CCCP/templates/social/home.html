@@ -9,12 +9,15 @@
 {% if profile.theme %}
 <link href="{% url themes:file_view theme_id=profile.theme.id file_name='style.css' %}" rel="stylesheet" type="text/css" />
 {% endif %}
+
+{% comment %}
 	<link href="/themes/CCCP/style.css" rel="stylesheet" type="text/css" />
+{% endcomment %}
 {% if camera %}
 <style type="text/css">
 #mainContent
 {
-	height: 1650px;
+	height: 1750px;
 }
 </style>
 {% endif %}

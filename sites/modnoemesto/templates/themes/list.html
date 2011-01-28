@@ -10,10 +10,10 @@
 <div class="filt rounded">
 <table class="group_add theme_list">
 <tr>
-    <th width="22%">Название</th>
-    <th width="22%">Описание</th>
-    <th width="22%">Скриншот</th>
-    <th width="22%">Действия</th>
+    <th width="25%">Название</th>
+    <th width="25%">Описание</th>
+    <th width="25%">Скриншот</th>
+    <th width="25%">Действия</th>
 </tr>
 {% for theme in objects.object_list  %}
     <tr>
@@ -24,19 +24,22 @@
             {{ theme.description }}
         </td>
         <td>
-            <img src="{% url themes:file_view theme_id=theme.id file_name='preview.png' %}" alt="{{ theme.name }}" />
+            <img width="100px" src="{% url themes:file_view theme_id=theme.id file_name='preview.png' %}" alt="{{ theme.name }}" />
         </td>
         <td>
             {% if can_manage %}
-                <a href="{% url themes:delete theme_id=theme.id %}">{% trans "Delete theme" %}</a><br />
+                <a class="delete" href="{% url themes:delete theme_id=theme.id %}">{% trans "Delete theme" %}</a>
             {% endif %}
             {% if request.user.profile.theme == theme%}
-                <a href="{% url themes:unset %}">{% trans "Unset theme" %}</a>
+                <a class="cancel" href="{% url themes:unset %}">{% trans "Unset theme" %}</a>
             {% else %}
-                <a href="{% url themes:set theme_id=theme.id %}">{% trans "Set theme" %}</a>
+                <a class="done" href="{% url themes:set theme_id=theme.id %}">{% trans "Set theme" %}</a>
             {% endif %}
         </td>
     </tr>
+    <tr>
+        	<td style="height:10px"></td>
+        </tr>
 {% endfor %}
 </table>
 </div>
@@ -48,12 +51,14 @@
     <table>
     {{ form.as_table }}
     </table>
+    <div class="but">
     <input type="submit" value="{% trans "Add theme" %}"/>
+    </div>
     </form>
 {% endif %}
 
 {% if request.user.profile.theme %}
-    <a href="{% url themes:unset %}">{% trans "Unset theme" %}</a>
+    <a class="cancel" href="{% url themes:unset %}">{% trans "Unset theme" %}</a>
 {% endif %}
 
 {% endblock %}

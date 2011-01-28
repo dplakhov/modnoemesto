@@ -9,6 +9,7 @@
 #user_page
 {
 	background: url(bg6.png) no-repeat 55% 0%;
+	min-height: 750px;
 }
 #user_page h2
 {
@@ -137,5 +138,5 @@ a.tooltip
 	top: -2px;
 }
 #camera {
-    top: 900px;
+    top: 910px;
 }
