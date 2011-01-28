@@ -25,3 +25,12 @@ class VideoThumbnail(SystemCommandFileTransformation):
 
     def _get_derivative_content_type(self):
         return 'image/%s' % self.format
+
+class MAYBE_VideoThumbnail(SystemCommandFileTransformation):
+    CONTENT_TYPE = 'image/jpeg'
+    SYSTEM_COMMAND = '''ffmpeg -i %(source)s -an -ss 00:00:10 -r 1 -vframes 1 -y -f mjpeg  %(destination)s'''
+
+class Video2Flv(SystemCommandFileTransformation):
+    CONTENT_TYPE = 'video/x-flv'
+    _SYSTEM_COMMAND = '''mencoder %(source)s -o %(destination)s -of lavf -oac mp3lame -lameopts abr:br=56 -srate 22050 -ovc lavc -lavcopts vcodec=flv:vbitrate=500:mbd=2:mv0:trell:v4mv:cbp:last_pred=3'''
+    SYSTEM_COMMAND = '''ffmpeg -y -i %(source)s -f flv %(destination)s'''

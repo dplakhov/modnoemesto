@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-import sys
+import os
 import tempfile
 import shlex
 import subprocess
+
+import logging
 
 from django.conf import settings
 
@@ -10,6 +12,7 @@ from apps.utils import which
 
 from ..documents import File
 
+logger = logging.getLogger('media.transformations')
 
 class FileTransformation(object):
     def __init__(self, name, *args, **kwargs):
@@ -89,12 +92,26 @@ class SystemCommandFileTransformation(FileTransformation):
 
     def _run_system_command(self, tmp_source, tmp_destination):
         command = self._format_system_command(tmp_source, tmp_destination)
+        logger.debug('%d: Run command `%s`' % (id(self), command))
         process = subprocess.Popen(shlex.split(command),
+                                   bufsize=1024 * 8,
                                    stdin=subprocess.PIPE,
-                                   stdout=sys.stdout if settings.DEBUG else subprocess.PIPE,
-                                   stderr=sys.stderr if settings.DEBUG else subprocess.PIPE,
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
                                    )
-        process.wait()
+        
+        logger.debug('%d: Destination file "%s" %d bytes' %(
+            id(self), tmp_destination.name,
+            os.stat(tmp_destination.name).st_size
+        ))
+        
+        if process.wait():
+            logger.error('%d: Error executing command `%s`, stderr: %s' %
+                         (id(self), command, process.stderr.read()))
+            logger.debug('%d: Error executing command `%s`, stdout: %s' %
+                         (id(self), command, process.stdout.read()))
+
+
 
     def _format_system_command(self, tmp_source, tmp_destination):
         params = dict(source=tmp_source.name,
