@@ -169,6 +169,8 @@ class AccessCamOrder(Document):
 
     def get_time_left(self, user_cash=None):
         user_cash = user_cash or self.user.cash
+        if user_cash < 0:
+            return 0
         return int(user_cash/self.tariff.cost)
 
 
