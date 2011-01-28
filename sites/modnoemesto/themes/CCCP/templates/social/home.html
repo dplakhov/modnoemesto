@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load media %}
+
+{% block css %}
+{{ block.super }}
+<link href="/media/styles/user.css" rel="stylesheet" type="text/css" />
+{% if profile.theme %}
+<link href="{% url themes:file_view theme_id=profile.theme.id file_name='style.css' %}" rel="stylesheet" type="text/css" />
+{% endif %}
+	<link href="/themes/CCCP/style.css" rel="stylesheet" type="text/css" />
+{% if camera %}
+<style type="text/css">
+#mainContent
+{
+	height: 1650px;
+}
+</style>
+{% endif %}
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+<script type="text/javascript">
+var timer = undefined;
+
+$(document).ready(function() {
+    $(".toollip_video").click(function (e){
+        var width=810, height=645;
+        window.open(e.target, 'video',
+                'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
+        return false;
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div id="user_page">
+    <h2 class="name_persone">{{ page_user }}</h2>
+     <div id="avatar">
+        <img src="{% media_url page_user.avatar avatar_midi.png %}" />
+    </div>
+    {% if not is_owner %}
+        {% if show_friend_button %}
+       <a class="tooltip toollip_friend" href="{% url friends:add page_user.id %}">
+            <span class="toollip_friend">
+            <img src="/media/images/toollip_friend_2.png" width="206px" height="63px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
+       {% else %}
+       <a class="tooltip toollip_friend_remove" href="{% url friends:remove page_user.id %}">
+            <span class="toollip_friend_remove">
+            <img src="/media/images/toollip_friend_remove2.png" width="206px" height="63px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
+      {% endif %}
+       <a class="tooltip toollip_group" href="{% url groups:send_my_invites_to_user page_user.id %}">
+            <span class="toollip_group">
+            <img src="/media/images/toollip_group.png" width="206px" height="63px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
+       
+       <a class="tooltip toollip_mail" href="{% url user_messages:send_message page_user.id %}">
+            <span class="toollip_mail">
+            <img src="/media/images/toollip_mail.png" width="206px" height="63px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
+       
+       <a class="tooltip toollip_video" href="{% url social:user_conference page_user.id %}">
+            <span class="toollip_video">
+            <img src="/media/images/toollip_video.png" width="206px" height="63px" /></span><img class="hidden" src="/media/images/tooltip_corner.png" /></a>
+
+    {% endif %}
+    <div class="profileActions">
+        <ul>
+            {% if is_owner %}
+                <li><a href="{% url social:profile_edit %}">{% trans "options" %}</a></li>
+                <li><a href="{% url invite:send %}">Пригласить друзей к участию в видеосети</a> <b>({{ invitee_count }})</b></li>
+                <li><a href="{% url friends:list %}">{% trans "Friends" %} ({{ page_user.friends.count }})</a></li>
+            {% else %}
+                {% if request.user.is_superuser %}
+                    <li><a href="{% url social:profile_edit page_user.id %}">{% trans "options" %}</a></li>
+                {% endif %}
+                <li><a href="{% url notes:note_list page_user.id %}">{% trans "Notes" %}</a></li>
+                <li><span>Приглашённые:</span><b> {{ invitee_count }}</b></li>
+                <li><a href="{% url friends:friends_all page_user.id %}">{% trans "Friends" %} ({{ page_user.friends.count }})</a></li>
+            {% endif %}
+        </ul>
+    </div>
+     <div id="bg"></div>
+    <div class="friend_box transparent">
+   
+       <div class="all_friends">
+            <p>Друзья онлайн</p>
+            {% if page_user.friends_online|length > 6 %} 
+            <span><a href="{%if is_owner %}{% url friends:list %}{% else %}{% url friends:friends_all page_user.id %}{% endif %}"
+            class="friends_amount">все {{ page_user.friends_online|length }}</a></span>
+            {% endif %}
+        </div>
+        <ul class="friendTable clear">
+            {% for user in page_user.friends_online|slice:":6" %}
+                  <li>
+                        {% include "includes/user/micro.html" %}
+                  </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <div id="general_info" class="about_persone transparent">
+       
+            {% if profile.hometown %}
+                <p class="grafa">{{ profile.hometown }}</p>
+                <p class="fild" id="hometown">{% trans "Hometown" %}</p>{% endif %}
+            {% if profile.birthday %}
+                <p class="grafa">{{ profile.birthday }}</p>
+                <p class="fild" id="birthday">{% trans "Birthday" %}</p>{% endif %}
+            {% if profile.sex %}
+                <p class="grafa">{{ profile.sex }}</p>
+                <p class="fild" id="sex">{% trans "Sex" %}</p>{% endif %}
+       
+    </div>
+    <div id="contact_info" class="about_persone transparent">
+       
+        
+            {% if profile.icq %}
+                <p class="grafa">{{ profile.icq }}</p>
+                <p class="fild" id="icq">{% trans "ICQ" %}</p>{% endif %}
+            {% if profile.mobile %}
+                <p class="grafa">{{ profile.mobile }}</p>
+                <p class="fild" id="mobile">{% trans "Mobile" %}</p>{% endif %}
+            {% if profile.website %}
+                <p class="grafa"><a href="{{ profile.website }}">{{ profile.website }}</a></p>
+                <p class="fild" id="website">{% trans "Website" %}</p>{% endif %}
+        
+    </div>
+    <div id="education_info" class="about_persone transparent">
+        
+        
+            {% if profile.university %}
+                <p class="grafa">{{ profile.university }}</p>
+                <p class="fild" id="university">{% trans "University" %}</p>{% endif %}
+            {% if profile.department %}
+                <p class="grafa">{{ profile.department }}</p>
+                <p class="fild" id="department">{% trans "Department" %}</p>{% endif %}
+            {% if profile.university_status %}
+                <p class="grafa">{{ profile.university_status }}</p>
+                <p class="fild" id="university_status">{% trans "Status" %}</p>{% endif %}
+        </div>
+    <div id="anounce_info" class="about_persone transparent">
+             <p>{% trans "Announce" %}</p>
+         <p class="event_announce">
+             {{ profile.announce }}
+         </p>
+    </div>
+		{% if camera %}
+        <div id="camera">
+            {% include "social/_camera.html" %}
+        </div>
+        {% endif %}
+
+</div>
+
+{% endblock %}
