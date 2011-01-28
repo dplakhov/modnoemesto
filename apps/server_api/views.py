@@ -145,6 +145,7 @@ def cam_view_notify(request, format):
         # for enabled operator and owner
         if time_left is None:
             return 3, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY, camera.stream_name
+        total_cost = 666
         if order.is_packet:
             time_next = time_left.days * 60 * 60 * 24 + time_left.seconds
             if time_next > settings.TIME_INTERVAL_NOTIFY:
@@ -165,7 +166,7 @@ def cam_view_notify(request, format):
             order.save()
         if status == 'connect':
             return 5, time_next, camera.stream_name
-        return 6 + (1 if order.is_packet else 2), time_next, camera.stream_name
+        return 6 + total_cost, time_next, camera.stream_name
     try:
         params = calc()
     except Exception, e:
