@@ -165,7 +165,7 @@ def cam_view_notify(request, format):
             order.save()
         if status == 'connect':
             return 5, time_next, camera.stream_name
-        return 6, time_next, camera.stream_name
+        return 6 + (1 if order.is_packet else 2), time_next, camera.stream_name
     try:
         params = calc()
     except Exception, e:
