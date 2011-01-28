@@ -10,5 +10,5 @@ urlpatterns = patterns('apps.server_api.views',
     url(r'^user/(?P<id>[a-f0-9]{24})/friends/(?P<state>(online|all))\.(?P<format>(txt|xml))$',
         'friend_list', name='friend_list'),
 
-    url(r'^notify/camera/$', 'cam_view_notify', name='cam_view_notify'),
+    url(r'^camera/notify.(?P<format>(txt|xml))$', 'cam_view_notify', name='cam_view_notify'),
 )

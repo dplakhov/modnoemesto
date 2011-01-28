@@ -85,7 +85,7 @@ def friend_list(request, id, format, state):
                               )
 
 
-def cam_view_notify(request):
+def cam_view_notify(request, format):
     """ API:
         ?session_key=<Fx24>&camera_id=<Fx24>&status=connect
         ?session_key=<Fx24>&camera_id=<Fx24>&status=next&time=<sec>
@@ -162,8 +162,12 @@ def cam_view_notify(request):
         logger.debug('cam_view_notify error %s' % repr(e))
     else:
         logger.debug('cam_view_notify response %s' % repr(params))
+    mimetypes = dict(
+            txt='text/plain',
+            xml='xml/plain',
+                     )
     return direct_to_template(request,
-                              'server_api/cam_view_notify.xml',
+                              'server_api/cam_view_notify.%s' % format,
                               { 'params': zip(('info', 'status', 'time', 'stream'), params) },
-                              mimetype='xml/plain'
+                              mimetype=mimetypes[format]
                               )
