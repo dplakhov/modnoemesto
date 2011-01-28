@@ -147,6 +147,8 @@ def cam_view_notify(request):
                 order.save()
                 return 'OK', 0, 0
             order.save()
+        if status == 'connect':
+            return 'OK', 0, time_next, camera.stream_name
         return 'OK', 0, time_next
     if not request.GET:
         return HttpResponse("""API:
@@ -161,6 +163,6 @@ def cam_view_notify(request):
         logger.debug('cam_view_notify error %s' % repr(e))
     else:
         logger.debug('cam_view_notify response %s' % repr(params))
-    return HttpResponse('&%s' % urllib.urlencode(zip(('info', 'status', 'time'),
+    return HttpResponse('&%s' % urllib.urlencode(zip(('info', 'status', 'time', 'stream'),
                                                      params,
                                                      )))
