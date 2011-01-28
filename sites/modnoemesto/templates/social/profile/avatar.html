@@ -5,9 +5,9 @@
 <h2 class="video_title">{% trans "Change avatar" %}</h2>
 
     <img src="{% media_url user.avatar avatar_midi.png %}" />
-
+	
     <form method="post" enctype="multipart/form-data">
-    <div class="filt rounded">
+    <div style="margin-top:10px" class="filt rounded">
     <table class="img_loader">
     {{ form.as_table }}
     </table>
