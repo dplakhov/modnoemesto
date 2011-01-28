@@ -154,7 +154,7 @@ def cam_view_notify(request, format):
         else:
             logger.debug('is not packet')
             if status != 'connect':
-                total_cost = order.tariff.cost * (settings.TIME_INTERVAL_NOTIFY - extra_time)
+                total_cost = order.tariff.cost * extra_time
                 user.cash -= total_cost
                 user.save()
                 logger.debug(">>>>>%i" % total_cost)
