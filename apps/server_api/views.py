@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.contrib.auth import SESSION_KEY
 from django.utils.importlib import import_module
+import traceback
 
 import logging
 logger = logging.getLogger('server_api')
@@ -136,13 +137,13 @@ def cam_view_notify(request, format):
         now = datetime.now()
         can_show = camera.can_show(user, now)
         if not can_show:
-            return 0, 0, camera.stream_name
+            return 1, 0, camera.stream_name
         if not camera.is_view_paid:
-            return 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY, camera.stream_name
+            return 2, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY, camera.stream_name
         time_left, order = camera.get_show_info(user, now)
         # for enabled operator and owner
         if time_left is None:
-            return 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY, camera.stream_name
+            return 3, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY, camera.stream_name
         if order.is_packet:
             time_next = time_left.days * 60 * 60 * 24 + time_left.seconds
             if time_next > settings.TIME_INTERVAL_NOTIFY:
@@ -159,16 +160,16 @@ def cam_view_notify(request, format):
             if status == 'disconnect' or time_next == 0:
                 order.set_time_at_end()
                 order.save()
-                return 0, 0, camera.stream_name
+                return 4, 0, camera.stream_name
             order.save()
         if status == 'connect':
-            return 0, time_next, camera.stream_name
-        return 0, time_next, camera.stream_name
+            return 5, time_next, camera.stream_name
+        return 6, time_next, camera.stream_name
     try:
         params = calc()
     except Exception, e:
         params = (-500, 0, 0, repr(e))
-        logger.debug('cam_view_notify error %s' % repr(e))
+        logger.debug('cam_view_notify error %s\n%s\n\n' % (repr(e), traceback.format_exc()))
     else:
         logger.debug('cam_view_notify response %s' % repr(params))
     if format == 'xml':
