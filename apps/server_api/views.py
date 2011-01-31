@@ -150,22 +150,22 @@ def cam_view_notify(request, format):
             if time_next > settings.TIME_INTERVAL_NOTIFY:
                 time_next = settings.TIME_INTERVAL_NOTIFY
         else:
+            if order.begin_date is None:
+                if status != 'connect':
+                    return -6, 0, 0
+                order.set_access_period()
+                order.save()
             time_next = order.get_time_left(user.cash)
             if time_next == 0:
                 order.set_time_at_end()
                 order.save()
                 return 0, 0, camera.stream_name
-            old = user.cash
-            total_cost = 0
             if status != 'connect':
                 total_cost = order.tariff.cost * extra_time
                 user.cash -= total_cost
                 user.save()
                 order.duration += extra_time
             time_next = order.get_time_left(user.cash)
-            user_cash = user.cash
-            time_next = int(user_cash/order.tariff.cost)
-            logger.debug(repr((user_cash, order.tariff.cost, time_next)))
             if time_next > settings.TIME_INTERVAL_NOTIFY:
                 time_next = settings.TIME_INTERVAL_NOTIFY
             if status == 'disconnect' or time_next == 0:

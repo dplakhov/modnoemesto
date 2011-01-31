@@ -32,6 +32,8 @@ class AccessCamOrderForm(forms.Form):
         self.fields['tariff'].choices = [(i.id, i.name) for i in tariffs if i]
 
     def clean_tariff(self):
+        if self.user.cash <= 0:
+            raise forms.ValidationError(_(u"Не хватает денег на оплату тарифа"))
         return Tariff.objects.get(id=self.cleaned_data['tariff'])
 
     def clean_count_packets(self):
