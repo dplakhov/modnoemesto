@@ -119,6 +119,7 @@ def cam_view_notify(request, format):
         if extra_time is None:
             if status != 'connect':
                 return -1, 0, 0
+            extra_time = 0
         elif not extra_time.isdigit():
             return -3, 0, 0
         else:
