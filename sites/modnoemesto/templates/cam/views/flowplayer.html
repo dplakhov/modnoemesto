@@ -2,17 +2,20 @@
 <div id="flowplayer-panel">
  {% if not camera.force_html5 %}
             <a style="display:block;width:515px;height:330px" id="flash-player">
-                <img src="{% media_url camera.screen camera_screen_full.png %}" />
             </a>
         {% endif %}
 
-        <video id="html-5-video"
-               autoplay="false"
-               controls width="515"
-               height="330"
-               style="display:block"
-               poster="{% media_url camera.screen camera_screen_full.png %}"
-        src="http://vid1.modnoemesto.ru:1935/live/mp4:{{ camera.stream_name }}/playlist.m3u8" >
+        <video  id="html-5-video"
+                autoplay="false"
+                controls width="515"
+                height="330"
+                style="display:block"
+                poster="{% media_url camera.screen camera_screen_full.png %}"
+                {% comment %}
+                src="{% url cam:cam_playlist camera.id %}"
+                {% endcomment %}
+                src="http://vid1.modnoemesto.ru:1935/live/mp4:{{ camera.stream_name }}/playlist.m3u8"
+                >
         </video>
 
         <script type="text/javascript">
@@ -32,29 +35,43 @@
         {
             $('#html-5-video').hide();
             $f("flash-player", "/media/swf/flowplayer-3.2.5.swf", {
-                clip: {
-                    provider: 'rtmp',
-                    url: '{{ camera.id }}',
-				    live: true,
-                    autoPlay: true,
-                    connectionArgs: ['{{ camera.id }}', '{{ request.session.session_key }}'],
-                    onBegin: function(clip) {
-                            $.get('{% url cam:inc_view_count camera.id %}');
-                            {% if camera.is_view_paid and billing.can_show and not billing.order.is_packet %}
-                            timer.start();
-                            {% endif %}
-                    }{% if camera.is_view_paid and billing.can_show and not billing.order.is_packet %},
-                    onResume: function(clip) {
-                            timer.start();
-                    },
-                    onStop: function(clip) {
-                            timer.stop();
-                    },
-                    onPause: function(clip) {
-                            timer.stop();
-                    }
+
+        clip: {
+            autoPlay: false
+        },
+            playlist: [
+		{
+
+            autoPlay: true,
+			url: '{% media_url camera.screen camera_screen_full.png %}',
+			scaling: 'orig'
+		},
+
+		{
+
+            provider: 'rtmp',
+            url: '{{ camera.id }}',
+            live: true,
+                  connectionArgs: ['{{ camera.id }}', '{{ request.session.session_key }}'],
+            onBegin: function(clip) {
+                    $.get('{% url cam:inc_view_count camera.id %}');
+                    {% if camera.is_view_paid and billing.can_show and not billing.order.is_packet %}
+                    timer.start();
                     {% endif %}
-                },
+            }{% if camera.is_view_paid and billing.can_show and not billing.order.is_packet %},
+            onResume: function(clip) {
+                    timer.start();
+            },
+            onStop: function(clip) {
+                    timer.stop();
+            },
+            onPause: function(clip) {
+                    timer.stop();
+            }
+            {% endif %}
+
+		}
+	],
 
                 plugins: {
                         rtmp: { url: '/media/swf/flowplayer.rtmp-3.2.3.swf',

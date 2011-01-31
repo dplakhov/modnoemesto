@@ -94,6 +94,7 @@ class Camera(Document):
 
     view_count = IntField(default=0)
 
+    trial_view_time = IntField(default=1)
 
     @property
     def driver(self):
@@ -181,11 +182,6 @@ class Camera(Document):
             'manage_list': manage_list,
             'order': order,
         }
-
-    def check_operator(self, order):
-        if order.is_controlled and order.can_access():
-            self.operator = order.user
-            self.save()
 
     def save(self, *args, **kwargs):
         self.is_managed = self.type.is_controlled

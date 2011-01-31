@@ -93,7 +93,6 @@ class AccessCamOrder(Document):
     def create_time_type(cls, user, camera, tariff):
         assert not tariff.is_packet
         order = cls(user=user, camera=camera, tariff=tariff)
-        order.set_access_period()
         order.save()
         return order
 

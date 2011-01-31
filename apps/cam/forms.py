@@ -83,6 +83,8 @@ class CameraForm(forms.Form):
 
     force_html5 = forms.BooleanField(label=_('Force html5'), required=False)
 
+    trial_view_time = forms.IntegerField(label=_('Trial view time'))
+
     def __init__(self, user, *args, **kwargs):
         super(CameraForm, self).__init__(*args, **kwargs)
         self.fields['type'].choices = tuple(

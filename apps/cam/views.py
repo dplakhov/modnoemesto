@@ -91,6 +91,13 @@ def cam_view(request, id):
                               dict(cam=cam)
                               )
 
+def cam_playlist(request, id):
+    cam = get_document_or_404(Camera, id=id)
+    return HttpResponse('''#EXTM3U
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=5978997
+http://vid1.modnoemesto.ru:1935/live/mp4:punch2.stream/playlist.m3u8?wowzasessionid=2019692222
+''', content_type='application/vnd.apple.mpegurl')
+
 
 @permission_required('superuser')
 def type_list(request):
