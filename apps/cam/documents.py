@@ -94,6 +94,7 @@ class Camera(Document):
 
     view_count = IntField(default=0)
 
+    trial_view_time = IntField(default=1)
 
     @property
     def driver(self):
