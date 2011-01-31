@@ -182,11 +182,6 @@ class Camera(Document):
             'order': order,
         }
 
-    def check_operator(self, order):
-        if order.is_controlled and order.can_access():
-            self.operator = order.user
-            self.save()
-
     def save(self, *args, **kwargs):
         self.is_managed = self.type.is_controlled
         super(Camera, self).save(*args, **kwargs)
