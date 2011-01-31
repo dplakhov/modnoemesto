@@ -143,7 +143,7 @@ def cam_view_notify(request, format):
                 time_left = camera.get_trial_view_time(session)
                 if time_left > 0:
                     time_next = time_left - extra_time
-                    camera.set_trial_view_time(request, time_next)
+                    camera.set_trial_view_time(session, time_next)
                     if time_next > 0:
                         if time_next > settings.TIME_INTERVAL_NOTIFY:
                             time_next = settings.TIME_INTERVAL_NOTIFY
