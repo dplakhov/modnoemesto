@@ -115,23 +115,28 @@ class Camera(Document):
         session['trial_view_time'] = cameras
 
     def can_show(self, access_user, now):
+        """
+        return:
+            True = ( owner | paid | free )
+            False = ( disabled | not_friend | not_paid )
+        """
         if self.owner == access_user:
-            return True
+            return True, 'owner'
         if not self.is_view_enabled:
-            return False
+            return False, 'disabled'
         if not self.is_view_public:
             if not access_user.friends.contains(self.owner):
-                return False
+                return False, 'not_friend'
         if self.is_view_paid:
             if self.operator == access_user:
-                return True
+                return True, 'paid'
             order = AccessCamOrder.objects(
                 user=access_user,
                 camera=self,
             ).order_by('-create_on').first()
             if not order or order.end_date is not None and order.end_date < now:
-                return False
-        return True
+                return False, 'not_paid'
+        return True, 'free'
 
     def get_show_info(self, access_user, now):
         if self.operator == access_user or self.owner == access_user:
@@ -174,7 +179,7 @@ class Camera(Document):
 
     def billing(self, access_user):
         now = datetime.now()
-        can_show = self.can_show(access_user, now)
+        can_show, info = self.can_show(access_user, now)
         show_data = {}
         if can_show and self.is_view_paid:
             time_left, order = self.get_show_info(access_user, now)
