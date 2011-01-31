@@ -197,7 +197,9 @@ div#mainContent
 {
     padding: 0 1em 1em; /* bottom padding for footer */
     overflow: hidden;
-    position: relative
+    position: relative;
+	top: -30px;
+	background:url(/media/images/bg_reg.jpg) no-repeat;
 }
 /*-----------------------*/
 #leftColumn
@@ -508,7 +510,7 @@ div#player
 .send
 {
     padding: 5px 7px 10px;
-    background:none repeat scroll 0 0 #D9D8BF;
+    background:none repeat scroll 0 0 #eeedde;
    /* width: 515px;*/
 }
 p.send_mass
@@ -524,6 +526,7 @@ p.send_mass
    /*	padding: 15px;*/
 	font-size: 14px;
 	color: #838383;
+	border: 2px solid #D9D8BF;
 }
 #video_coment input.sub
 {

@@ -51,4 +51,10 @@ if settings.DEBUG:
     )
 
 
+if settings.SITE_DOMAIN == 'mestovstrechi.piter.tv':
+    urlpatterns.insert(0,
+       url(r'^conference/', include('apps.groups.urls', namespace='groups')))
+
+
+
 handler500 = 'apps.social.views.server_error'

@@ -34,7 +34,7 @@ div.about_persone
 	padding: 15px 0px;
 	width: 290px;
 	position: relative;
-	top: -348px;/*-639px;*/
+	top: -639px;
 	/*background: url(../images/bg_about_persone.png) no-repeat;*/
 }
 .about_persone p
@@ -101,9 +101,9 @@ p.event_announce
 	background: url(../images/bg_gray.png) repeat-x top;
     height: 250px;
 	width: 220px;
-	position: absolute;
+	position: relative;
 	left: 302px;
-	top: 350px;
+	top: -20px;
 	overflow: hidden;
 }
 .friend_box span
