@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from apps.billing.documents import AccessCamOrder
 from apps.cam.documents import Camera
 from apps.social.documents import User
 from django.views.generic.simple import direct_to_template
@@ -153,7 +154,7 @@ def cam_view_notify(request, format):
             if order.begin_date is None:
                 if status != 'connect':
                     return -6, 0, 0
-                order.set_access_period()
+                order.begin_date = datetime.now()
                 order.save()
             time_next = order.get_time_left(user.cash)
             if time_next == 0:
@@ -170,6 +171,7 @@ def cam_view_notify(request, format):
                 time_next = settings.TIME_INTERVAL_NOTIFY
             if status == 'disconnect' or time_next == 0:
                 order.set_time_at_end()
+                order.cost = order.tariff.cost * order.duration
                 order.save()
                 return 0, 0, camera.stream_name
             order.save()
