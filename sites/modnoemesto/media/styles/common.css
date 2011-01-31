@@ -197,7 +197,9 @@ div#mainContent
 {
     padding: 0 1em 1em; /* bottom padding for footer */
     overflow: hidden;
-    position: relative
+    position: relative;
+	top: -30px;
+	background:url(/media/images/bg_reg.jpg) no-repeat;
 }
 /*-----------------------*/
 #leftColumn

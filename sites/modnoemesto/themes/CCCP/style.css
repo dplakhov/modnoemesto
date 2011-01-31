@@ -4,12 +4,12 @@
 }
 #centerColumn
 {
-	background: url(bg5.png);
+	background: url(bg4.png);
 }
 #user_page
 {
 	background: url(bg6.png) no-repeat 55% 0%;
-	min-height: 750px;
+	min-height: 950px;
 }
 #user_page h2
 {
@@ -62,10 +62,11 @@ p.grafa
 }
 #anounce_info
 {
+	width: 280px;
 }
 #anounce_info p
 {
-	width: 250px;
+	width: 280px;
 }
 p.event_announce
 {
@@ -138,5 +139,5 @@ a.tooltip
 	top: -2px;
 }
 #camera {
-    top: 910px;
+    top: 870px;
 }

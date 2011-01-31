@@ -50,7 +50,7 @@ $(document).ready(function(){
 
         <div id="header">
         
-            <a id="logo"{% if request.path != '/' %} href="/"{% endif %}>
+            <a id="logo" {% if request.path != '/' %} href="/" {% endif %}>
                 {% if not user.is_authenticated %}
                 <h1 id="logo_index" >Модное место – новая социальная сеть</h1>
                 {% else %}
@@ -112,7 +112,7 @@ $(document).ready(function(){
             </table>
         </div>
 
-        <div id="mainContent" style="background:url(/media/images/bg_reg.jpg) no-repeat; position:relative; top:-30px">
+        <div id="mainContent">
         
         {% if user.is_authenticated %}<div class="marquee" style="color:#08889F; font-size: 18px; height:25px; width:970px; overflow:hidden;">
 			<div class="move" style="overflow:hidden; width:99999px;">
@@ -146,11 +146,10 @@ here goes the actual content
     <div id="fotter">
         <div id="info">
             <ul>
-
-            <li style="padding-left:0"><a href="{% url social:static 'about' %}">О проекте</a></li>
-            <li><a href="{% url social:static 'agreement' %}">Пользовательское соглашение</a></li>
-            <li><a href="{% url cam:cam_list %}">Модные места</a></li>
-            <li><a href="{% url social:static 'support' %}">Скорая техническая помощь</a></li>
+                <li style="padding-left:0"><a href="{% url social:static 'about' %}">О проекте</a></li>
+                <li><a href="{% url social:static 'agreement' %}">Пользовательское соглашение</a></li>
+                <li><a href="{% url cam:cam_list %}">Модные места</a></li>
+                <li><a href="{% url social:static 'support' %}">Скорая техническая помощь</a></li>
             </ul>
             <p style="width:200px">Модное место &copy; 2010</p>
             <p id="design"><a href="http://www.web-mark.ru">Разработка сайта</a> – <a href="http://www.web-mark.ru/clients.html">Web-Mark</a></p>
@@ -170,5 +169,5 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
     </div>
     </div>
 </div>
-
+</div>
 {% endblock %}

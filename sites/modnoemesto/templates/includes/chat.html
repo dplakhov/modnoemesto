@@ -9,7 +9,7 @@
 	<script type="text/javascript" src="/media/js/jquery.template.js"></script>
 	<script type="text/javascript" src="/media/js/chat.js"></script>
 	
-	<script>
+	<script type="text/javascript">
 	$(document).ready(function(){
         init_chat("{{ camera.id }}", {{ settings.CHAT_POLLING_TIME }});
 		
@@ -73,7 +73,7 @@
 	        </div>
 	        <div class="send">
 	        <p class="send_mass">Отправить собщение в чат:</p>
-	        	<textarea id="message" class="com" name="message"></textarea>
+	        	<textarea id="message" class="com" name="message" rows="50" cols="2"></textarea>
 	            <input id="send_comment" type="submit" class="sub" value="отправить" />
 				<p>Отправить сообщение Ctrl+Enter</p>
 	        </div>
