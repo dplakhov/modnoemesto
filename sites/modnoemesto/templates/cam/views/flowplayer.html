@@ -5,13 +5,17 @@
             </a>
         {% endif %}
 
-        <video id="html-5-video"
-               autoplay="false"
-               controls width="515"
-               height="330"
-               style="display:block"
-               poster="{% media_url camera.screen camera_screen_full.png %}"
-        src="http://vid1.modnoemesto.ru:1935/live/mp4:{{ camera.stream_name }}/playlist.m3u8" >
+        <video  id="html-5-video"
+                autoplay="false"
+                controls width="515"
+                height="330"
+                style="display:block"
+                poster="{% media_url camera.screen camera_screen_full.png %}"
+                {% comment %}
+                src="{% url cam:cam_playlist camera.id %}"
+                {% endcomment %}
+                src="http://vid1.modnoemesto.ru:1935/live/mp4:{{ camera.stream_name }}/playlist.m3u8"
+                >
         </video>
 
         <script type="text/javascript">

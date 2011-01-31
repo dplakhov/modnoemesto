@@ -11,6 +11,7 @@ urlpatterns = patterns('apps.cam.views',
     url(r'^bookmarks/(?P<id>[a-f0-9]{24})/delete/$', 'cam_bookmark_delete', name='cam_bookmark_delete'),
 
     url(r'^(?P<id>[a-f0-9]{24})/$', 'cam_view', name='cam_view'),
+    url(r'^(?P<id>[a-f0-9]{24})/playlist.m3u8$', 'cam_playlist', name='cam_playlist'),
     url(r'^(?P<id>[a-f0-9]{24})/manage/(%s)/$' % '|'.join(AVAILABLE_COMMANDS),
         'cam_manage', name='cam_manage'),
 
