@@ -314,6 +314,7 @@ def user(request, user_id=None):
                                        camera.is_management_paid and
                                        (camera.is_management_public or
                                        is_friend),
+            'can_trial_show': bool(camera.get_trial_view_time(request)),
         })
     return direct_to_template(request, 'social/home.html', data)
 

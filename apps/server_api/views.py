@@ -142,6 +142,11 @@ def cam_view_notify(request, format):
             return 0, 0, camera.stream_name
         if not camera.is_view_paid:
             return 0, 0 if status == 'disconnect' else settings.TIME_INTERVAL_NOTIFY, camera.stream_name
+        time_left = camera.get_trial_view_time(request)
+        if time_left > 0:
+            time_left -= extra_time
+            camera.set_trial_view_time(request, time_left)
+            return 0, time_left if time_left > 0 else 0, camera.stream_name
         time_left, order = camera.get_show_info(user, now)
         # for enabled operator and owner
         if time_left is None:

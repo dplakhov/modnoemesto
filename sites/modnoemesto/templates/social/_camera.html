@@ -67,7 +67,7 @@ $(document).ready(function() {
     {% endif %}
 {% endif %}
 
-{% if billing.can_show %}
+{% if billing.can_show or can_trial_show %}
     <div id="watch-panel">
     {% include "cam/views/flowplayer.html" %}
     </div>
