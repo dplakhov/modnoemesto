@@ -17,7 +17,7 @@ class GroupCreationForm(forms.Form):
     public = forms.BooleanField(label=_('Access'), required=False)
     has_video_conference = forms.BooleanField(label=_('Has video conference'),
                                               required=False)
-    timestamp = forms.DateField(label=_('Timestamp'), required=False)
+    timestamp = forms.DateTimeField(label=_('Timestamp'), required=False)
 
     def __init__(self, *args, **kwarg):
         initial = kwarg.get('initial')
