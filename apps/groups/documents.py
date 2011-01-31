@@ -29,6 +29,8 @@ class Group(Document):
     public = BooleanField(default=False)
     photo = ReferenceField('File')
     has_video_conference = BooleanField(default=True)
+    timestamp = DateTimeField(default=datetime.now)
+
 
     @cached_property
     def members(self):
