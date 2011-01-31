@@ -161,6 +161,12 @@ class User(Document):
         return [i.group for i in GroupUser.objects(user=self, status=GroupUser.STATUS.ACTIVE).only('group')]
 
     @cached_property
+    def administered_groups(self):
+        return [i.group for i in GroupUser.objects(user=self,
+                                                   status=GroupUser.STATUS.ACTIVE,
+                                                   is_admin=True).only('group')]
+
+    @cached_property
     def groups_invites(self):
         return [i.group for i in GroupUser.objects(user=self, status=GroupUser.STATUS.INVITE).only('group')]
 
