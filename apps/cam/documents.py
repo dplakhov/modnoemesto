@@ -107,12 +107,14 @@ class Camera(Document):
             timer = self.trial_view_time * 60
             cameras[self.id] = timer
             session['trial_view_time'] = cameras
+            session.save()
         return timer
 
     def set_trial_view_time(self, session, seconds):
         cameras = session.get('trial_view_time', {})
         cameras[self.id] = seconds
         session['trial_view_time'] = cameras
+        session.save()
 
     def can_show(self, access_user, now):
         """
