@@ -100,18 +100,19 @@ class Camera(Document):
     def driver(self):
         return self.type.driver_class(self)
 
-    def get_trial_view_time(self, request):
-        cameras = request.session.get('trial_view_time', {})
+    def get_trial_view_time(self, session):
+        cameras = session.get('trial_view_time', {})
         timer = cameras.get(self.id)
         if timer is None:
-            cameras[self.id] = self.trial_view_time * 60
-            request.session['trial_view_time'] = cameras
+            timer = self.trial_view_time * 60
+            cameras[self.id] = timer
+            session['trial_view_time'] = cameras
         return timer
 
-    def set_trial_view_time(self, request, seconds):
-        cameras = request.session.get('trial_view_time', {})
+    def set_trial_view_time(self, session, seconds):
+        cameras = session.get('trial_view_time', {})
         cameras[self.id] = seconds
-        request.session['trial_view_time'] = cameras
+        session['trial_view_time'] = cameras
 
     def can_show(self, access_user, now):
         if self.owner == access_user:
