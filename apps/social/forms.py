@@ -181,6 +181,7 @@ class ChangeUserForm(forms.Form):
                                  required=False,
                                  error_messages={'invalid': _("This value may contain only letters, numbers and ./-/_/@/!/#/$/%/^/&/+/= characters.")})
     is_banned = forms.BooleanField(required=False)
+    cash = forms.FloatField(required=False)
 
 
 class ChangeProfileForm(forms.Form):
