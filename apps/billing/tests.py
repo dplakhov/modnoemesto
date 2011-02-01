@@ -152,14 +152,13 @@ class AcessCameraTest(unittest.TestCase):
         def view_notify(camera_id, status):
             params = dict(
                 status=status,
-                type='view',
                 session_key=self.client.session.session_key,
                 camera_id=camera_id,
                 time=settings.TIME_INTERVAL_NOTIFY,
             )
-            response = self.client.get('%s?%s' % (reverse('server_api:cam_view_notify'), urllib.urlencode(params)))
-            answer = dict(urlparse.parse_qsl(response.content))
-            self.assertEqual(answer['info'], 'OK')
+            response = self.client.get('%s?%s' % (reverse('server_api:cam_view_notify', args=['txt']), urllib.urlencode(params)))
+            status, time, stream = response.content.split('|')
+            self.assertEqual(status, '0')
 
 
         self.client.login(email='test1@web-mark.ru', password='123')
@@ -168,17 +167,16 @@ class AcessCameraTest(unittest.TestCase):
 
         self.failUnlessRaises(AccessCamOrder.CanNotAddOrder, get_access)
         
-
-        order = AccessCamOrder.objects.get(id=order.id)
+        view_notify(order.camera.id, 'connect')
+        order.reload()
         self.assertEqual(order.can_access(), True)
         time.sleep(settings.TIME_INTERVAL_NOTIFY)
-        view_notify(order.camera.id, 'connect')
         view_notify(order.camera.id, 'next')
-        order = AccessCamOrder.objects.get(id=order.id)
+        order.reload()
         self.assertEqual(order.can_access(), True)
         time.sleep(settings.TIME_INTERVAL_NOTIFY)
         view_notify(order.camera.id, 'disconnect')
-        order = AccessCamOrder.objects.get(id=order.id)
+        order.reload()
         self.assertEqual(order.can_access(), False)
 
 

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 from apps.billing.api import CameraAccessor
-
-from apps.social.documents import User
 from django.views.generic.simple import direct_to_template
 from mongoengine.django.shortcuts import get_document_or_404
 
@@ -9,6 +7,10 @@ import redis
 import traceback
 from django.http import HttpResponse
 from django.conf import settings
+from apps.cam.documents import Camera
+from django.contrib.auth import SESSION_KEY
+from django.utils.importlib import import_module
+from apps.social.documents import User
 
 import logging
 logger = logging.getLogger('server_api')
@@ -117,7 +119,36 @@ def cam_view_notify(request, format):
     logger.debug('cam_view_notify request %s' % repr(request.GET.items()))
 
     try:
-        result = CameraAccessor(request)
+        if not request.GET:
+            raise CameraAccessor.APIException("Bad params")
+        status = request.GET.get('status', None)
+        session_key = request.GET.get('session_key', None)
+        camera_id = request.GET.get('camera_id', None)
+        if not (status and session_key and camera_id):
+            raise CameraAccessor.APIException("Bad params")
+        extra_time = request.GET.get('time', None)
+        if extra_time is None:
+            return
+        if not extra_time.isdigit():
+            raise CameraAccessor.APIException("Time must by a digit")
+        extra_time = int(extra_time)
+        if extra_time > settings.TIME_INTERVAL_NOTIFY or extra_time < 0:
+            raise CameraAccessor.APIException("Bad time interval")
+
+        # extract data from session
+        engine = import_module(settings.SESSION_ENGINE)
+        session = engine.SessionStore(session_key)
+        user_id = session.get(SESSION_KEY, None)
+        if not user_id:
+            raise CameraAccessor.APIException("Need user_id")
+        user = User.objects(id=user_id).first()
+        if not user:
+            raise CameraAccessor.APIException("Bad user_id")
+        camera = Camera.objects(id=camera_id).first()
+        if not camera:
+            raise CameraAccessor.APIException("Can`t found camera by camera_id")
+
+        result = CameraAccessor(status, user, camera, session, extra_time)
     except CameraAccessor.APIException, e:
         params = (-1, 0, 0)
         logger.debug('cam_view_notify api error:\n%s\n%s' % (e, traceback.format_exc()))

@@ -2,10 +2,6 @@
 
 from django.conf import settings
 from datetime import datetime
-from apps.cam.documents import Camera
-from django.contrib.auth import SESSION_KEY
-from django.utils.importlib import import_module
-from apps.social.documents import User
 
 
 class CameraAccessor(object):
@@ -13,37 +9,7 @@ class CameraAccessor(object):
     class APIException(Exception):
         pass
 
-    def __init__(self, request):
-        # extract data from request
-        if not request.GET:
-            raise CameraAccessor.APIException("Bad params")
-        status = request.GET.get('status', None)
-        session_key = request.GET.get('session_key', None)
-        camera_id = request.GET.get('camera_id', None)
-        if not (status and session_key and camera_id):
-            raise CameraAccessor.APIException("Bad params")
-        extra_time = request.GET.get('time', None)
-        if extra_time is None:
-            return
-        if not extra_time.isdigit():
-            raise CameraAccessor.APIException("Time must by a digit")
-        extra_time = int(extra_time)
-        if extra_time > settings.TIME_INTERVAL_NOTIFY or extra_time < 0:
-            raise CameraAccessor.APIException("Bad time interval")
-
-        # extract data from session
-        engine = import_module(settings.SESSION_ENGINE)
-        session = engine.SessionStore(session_key)
-        user_id = session.get(SESSION_KEY, None)
-        if not user_id:
-            raise CameraAccessor.APIException("Need user_id")
-        user = User.objects(id=user_id).first()
-        if not user:
-            raise CameraAccessor.APIException("Bad user_id")
-        camera = Camera.objects(id=camera_id).first()
-        if not camera:
-            raise CameraAccessor.APIException("Can`t found camera by camera_id")
-
+    def __init__(self, status, user, camera, session, extra_time):
         # select next action
         try:
             f = { 'connect': self._connect,
@@ -52,12 +18,8 @@ class CameraAccessor(object):
         except KeyError:
             raise CameraAccessor.APIException("Bad status")
 
-        # call next action
-        time = f(user, camera, session, extra_time, datetime.now())
-
-        # result
+        self.time = f(user, camera, session, extra_time, datetime.now())
         self.status = 0
-        self.time = time
         self.stream = camera.stream_name
 
     def _save_new_time(self, order, extra_time):
