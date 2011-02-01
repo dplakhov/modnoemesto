@@ -10,7 +10,7 @@
         <div>
             <a href="{% url groups:group_view info.group.id %}">{{ info.group.name }}</a>
             <a href="{{ info.user.get_absolute_url }}">{{ info.user }}</a>
-            <a href="{% url groups:request_take info.id %}">{% trans "take" %}</a>
+            <a href="{% url groups:request_take info.id %}?">{% trans "take" %}</a>
             <a href="{% url groups:request_refuse info.id %}">{% trans "refuse" %}</a>
         </div>
     {% endfor %}

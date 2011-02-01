@@ -36,6 +36,11 @@ class Group(Document):
     def members(self):
         return [i.user for i in GroupUser.objects(group=self, status=GroupUser.STATUS.ACTIVE).only('user')]
 
+    @cached_property
+    def member_requests(self):
+        return GroupUser.objects(group=self, status=GroupUser.STATUS.REQUEST)
+
+
     def add_member(self, user, is_admin=False, status=GroupUser.STATUS.ACTIVE):
         try:
             GroupUser.objects.get_or_create(group=self,

@@ -17,7 +17,7 @@
 {% block js %}
     {{ block.super }}
     <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
-<script>
+<script type="text/javascript">
 $(document).ready(function() {
     var link = $("#videochat a");
 	link.click(function (e){
@@ -110,6 +110,13 @@ $(document).ready(function() {
         </dl>
     </div>
     
+    
+    <div id="anounce_info" class="about_persone transparent">
+             <p>{% trans "Announce" %}</p>
+         <p class="event_announce">
+             {{ profile.announce }}
+         </p>
+    </div>
     <div id="videochat" class="about_persone transparent">
     	<a href="{% url social:home_conference %}">
         <div class="button">
@@ -120,12 +127,46 @@ $(document).ready(function() {
     	</div>
         </a>
     </div>
-    <div id="anounce_info" class="about_persone transparent">
-             <p>{% trans "Announce" %}</p>
-         <p class="event_announce">
-             {{ profile.announce }}
-         </p>
+    <div id="conference_announcement">
+    	<div class="title">
+            <div class="title-r">
+                <div class="title-x">
+                    <h2>Видеоконференции</h2>
+                </div>
+            </div>
+        </div>
+        <div class="block3">
+          
+            {% for group in page_user.administered_groups|dictsort:"timestamp" %}
+            	<div class="conf_block">
+                    
+                    <div class="conf_item">
+                        <div class="conf_ava"><a href="{% url groups:group_view id=group.id %}"><img src="{% media_url group.photo group_photo_mini.png %}" /></a></div>
+                        <div class="conf_info"><a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a>
+                        <p>Начало: {{ group.timestamp }}</p></div>
+                       
+                       
+                    </div>
+                    <div class="beginning">
+                         <a href="{% url groups:group_view id=group.id %}">Пресс-релиз</a>
+                        {% if request.user in group.members %}
+                            <a href="{% url groups:group_leave id=group.id %}">Отказаться от участия</a>
+                            <a href="{% url groups:group_conference group.id %}" id="group_conference">Видеоконференция</a>
+                        {% else %}
+                            <a href="{% url groups:group_join id=group.id %}">Подать заявку на участие</a>
+                        {% endif %}
+                        
+                    </div>
+                 </div>
+            {% endfor %}
+            </div>
+        </div>
+        
+        
     </div>
+    
+    
+    
 	{% include "includes/chat.html" %}	
 </div>
 

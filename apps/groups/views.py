@@ -329,6 +329,11 @@ def request_take(request, id):
         if info.status == GroupUser.STATUS.REQUEST:
             info.status = GroupUser.STATUS.ACTIVE
             info.save()
+
+    next = request.GET.get('next')
+    if next:
+        return redirect(next)
+
     return redirect(reverse('groups:user_group_list'))
 
 
@@ -339,6 +344,11 @@ def request_refuse(request, id):
     else:
         if info.status == GroupUser.STATUS.REQUEST:
             info.delete()
+
+    next = request.GET.get('next')
+    if next:
+        return redirect(next)
+
     return redirect(reverse('groups:user_group_list'))
 
 

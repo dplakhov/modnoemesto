@@ -58,11 +58,12 @@ p.event_announce
 	color: #575655;
 	padding-top: 5px;
 }
-#anounce_info
+#conference_announcement
 {
 	position: absolute;
 	top: 102px;
-	left: 310px;
+	left: 250px;
+	width: 400px;
 }
 #videochat
 {
@@ -265,3 +266,57 @@ a.toollip_video:hover
 {
     display: block;
 }
+.conf_block
+{
+	overflow: hidden;
+	border-top: 7px solid #eee;
+}
+.beginning
+{
+	background: url(../images/news-block.gif) repeat-x top;
+	padding: 5px;
+}
+.beginning a
+{
+	color: #08889F;
+	padding-right: 10px;
+}
+
+div.conf_item
+{
+	background: url(../images/news-block-x.gif) repeat-x bottom;
+	padding: 5px;
+}
+.conf_ava {
+    float: left;
+    width: 70px;
+}
+.conf_ava img
+{
+	border: none;
+}
+.conf_info {
+    height: 47px;
+    margin-left: 70px;
+    overflow: hidden;
+    position: relative;
+    width: 240px;
+}
+.conf_info a {
+    font-size: 15px;
+    font-weight: bold;
+    color: #08889F;
+}
+.conf_info p
+{
+	color: #666;
+	margin-top: 5px;
+}
+.block3
+{
+	border: 2px solid #ccc;
+}
+
+
+
+
