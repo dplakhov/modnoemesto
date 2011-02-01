@@ -86,6 +86,21 @@ def friend_list(request, id, format, state):
                               mimetype=mimetypes[format]
                               )
 
+def log(request):
+    level = request.REQUEST.get('level', None)
+    message = request.REQUEST.get('message', None)
+    if level is not None and message is not None:
+        f = { 'critical': logger.critical,
+              'debug': logger.debug,
+              'error': logger.error,
+              'exception': logger.exception,
+              'fatal': logger.fatal,
+              'info': logger.info,
+              'warning': logger.warning }.get(level.lower())
+        if f:
+            f('%s\n%s' % (request.META['REMOTE_ADDR'], message))
+    return HttpResponse('')
+
 
 def cam_view_notify(request, format):
     """ API:
