@@ -68,7 +68,7 @@ $(document).ready(function(){
     <embed src="/media/swf/userconf.swf"
         quality="high"
         bgcolor="#869ca7"
-        flashvars="myname={{ request.user.id }}&callid={{ callid }}&ip=109.234.158.3"
+        flashvars="myname={{ request.user.id }}&callid={{ callid }}&ip=109.234.158.3"&session_key={{ request.session.session_key }}
         width="800"
         height="600"
         name="modnoemesto_video"
