@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load media %}
+{% block content %}
+<div id="filter_box" style="overflow:hidden">
+    <h2>Предстоящие конференции</h2>
+{% if perms.groups %}
+    <div class="but"><a class="reference" href="{% url groups:group_add %}">Создать конференцию</a></div>
+	<br />
+{% endif %}
+        {% for group in objects.object_list %}
+            <div class="group_list">
+                <div class="group_ava"><a href="{% url groups:group_view id=group.id %}"><img src="{% media_url group.photo group_photo_mini.png %}" /></a></div>
+                <div class="group_info"><a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a></div></div>
+        {% endfor %}
+</div>
+
+{% include "includes/paginator.html" %}
+{% endblock %}

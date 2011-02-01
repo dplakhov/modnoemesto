@@ -64,8 +64,8 @@ a.exit, a.home
 }
 a.home
 {
-	top: 56px;
-	left: 835px;
+	/*top: 56px;*/
+	left: 735px;
 }
 #mainContent
 {
@@ -464,7 +464,7 @@ a.delete
 {
 	padding-top:20px;
 }
-.friend_request a {
+.friend_request a.reference {
     color: #226BD7;
 }
 .press_release
@@ -474,7 +474,7 @@ a.delete
 #right
 {
 	position: absolute;
-	top: 77px;
+	top: 47px;
 	left: 700px;
 }
 #right .but
@@ -492,8 +492,15 @@ h3 a
 	color: #000;
 	text-decoration: none;
 }
-
-
+.conference_date
+{
+	margin-top: 7px;
+	color: #666;
+}
+a.ref
+{
+	color: #666;
+}
 
 
 

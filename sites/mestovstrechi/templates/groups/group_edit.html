@@ -42,7 +42,7 @@
                     <td style="height:10px">{{ form.description.errors }}</td>
                 </tr>
                 <tr>
-                    <th><label for="id_{{ form.description.html_name }}">{{ form.description.label }}:</label></th>
+                    <th><label for="id_{{ form.description.html_name }}">Пресс-релиз:</label></th>
                     <td class="empty_filt"></td>
                     <td>
                         
@@ -57,7 +57,7 @@
                     <td style="height:10px">{{ form.timestamp.errors }}</td>
                 </tr>
                 <tr>
-                    <th><label for="id_{{ form.timestamp.html_name }}">{{ form.timestamp.label }}:</label></th>
+                    <th><label for="id_{{ form.timestamp.html_name }}">Дата начала:</label></th>
                     <td class="empty_filt"></td>
                     <td>
 
@@ -66,7 +66,7 @@
                         </div>
                     </td>
                 </tr>
-
+{% comment %}
                 <tr>
                     <td style="height:10px"></td>
                     <td class="empty_filt"></td>
@@ -141,6 +141,7 @@
                         </div>
                     </td>
                 </tr>
+                {% endcomment %}
                 <tr>
                     <td style="height:10px"></td>
                     <td class="empty_filt"></td>
@@ -154,24 +155,20 @@
                         <div class="input_holder rounded">
                             <input type="radio" id="id_public" name="public" value="1"{% if is_public %} checked="checked"{% endif %}><label for="id_public">Открытый</label><br/>
 
-                            <div style="color:#777; font-size:10px">Вступить в группу может любой желающий. Все могут
-                                просматривать
-                                информацию о группе, её стену и фотоальбом.
+                            <div style="color:#777; font-size:10px">Присоединиться к конференции может любой желающий.
                             </div>
                             <br/>
                             <input type="radio" id="id_private" name="public" value="0"{% if not is_public %} checked="checked"{% endif %}><label for="id_private">Закрытый</label><br/>
-
-                            <div style="color:#777; font-size:10px">Вступить в группу можно только после одобрения
+                            
+                            <div style="color:#777; font-size:10px">Присоединиться к конференции можно только после одобрения
                                 администратором.
-                                Все могут просматривать информацию о группе, но стена и фотоальбом группы видны только
-                                её
-                                участникам.
                             </div>
                             <br/>
 
                         </div>
                     </td>
                 </tr>
+                {% comment %}
                 <tr>
                     <td style="height:10px"></td>
                     <td class="empty_filt"></td>
@@ -187,10 +184,12 @@
                 <tr>
                     <td style="height:10px"></td>
                 </tr>
+                {% endcomment %}
             </table>
 		</div>
         
         <div class="but">
+        <input type="hidden" name="has_video_conference" value="on">
         {% if is_new %}<input type="submit" value="{% trans 'Create group' %}"/>
         {% else %}<input type="submit" value="{% trans 'Save' %}"/>{% endif %}
         </div>

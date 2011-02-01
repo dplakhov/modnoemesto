@@ -1,0 +1,48 @@
+{% extends "base_head.html" %}
+
+{% load menu_tags %}
+{% load i18n %}
+{% load pytils_numeral %}
+
+{% block body %}
+
+<div id="container">
+    <div id="subContainer" style="width:100%">
+        <div class="head">
+   		   <div class="logo"></div>
+   		  
+          {% comment %} 
+           {% if user.is_authenticated %}
+           <a class="exit" href="javascript:window.close();">закрыть</a>
+           {% endif %}
+          {% endcomment %}
+		</div> <!-- end head"-->
+        
+<div id="camera_holder" style="position:relative; top:-40px; background:#eee;">
+<h2><a href="{% url groups:group_view group.id %}">Конференция {{ group.name }}</a></h2><br />
+{% if group.has_video_conference %}
+<object  width="{% if is_admin %}745{% else %}650{% endif %}"
+         height="{% if is_admin %}515{% else %}423{% endif %}"
+        >
+    <embed src="/media/swf/group_{% if is_admin %}admin{% else %}user{% endif %}.swf" quality="high" bgcolor="#869ca7"
+        flashvars="myname={{ user.id }}&ip=188.93.21.227&group_id={{ group.id }}&session_key={{ request.session.session_key }}"
+        width="{% if is_admin %}745{% else %}650{% endif %}"
+        height="{% if is_admin %}515{% else %}423{% endif %}"
+        name="sdo_video"
+        align="middle"
+        play="true"
+        loop="false"
+        quality="high"
+        allowScriptAccess="modnoemesto.ru"
+        type="application/x-shockwave-flash"
+        pluginspage="http://www.adobe.com/go/getflashplayer">
+    </embed>
+</object>
+{% else %}
+Конференция выключена.
+{% endif %}
+</div>
+
+    </div>
+</div>
+{% endblock %}

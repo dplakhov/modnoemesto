@@ -13,10 +13,10 @@
 {% endcomment %}
 {% endif %}
 {% endblock %}
-
+ <!-- 
 {% block js %}
     {{ block.super }}
-    <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
+  <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
     var link = $("#videochat a");
@@ -28,7 +28,7 @@ $(document).ready(function() {
     });
 });
 </script>
-{% endblock %}
+{% endblock %} -->
 
 {% block content %}
 
@@ -117,16 +117,7 @@ $(document).ready(function() {
              {{ profile.announce }}
          </p>
     </div>
-    <div id="videochat" class="about_persone transparent">
-    	<a href="{% url social:home_conference %}">
-        <div class="button">
-            <div class="button-r">
-                <div class="button-x"><span>Видеообщение</span>
-                </div>
-           </div>
-    	</div>
-        </a>
-    </div>
+   
     <div id="conference_announcement">
     	<div class="title">
             <div class="title-r">

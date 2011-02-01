@@ -1,0 +1,118 @@
+{% extends "base_mini.html" %}
+{% load i18n %}
+{% load media %}
+
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+var is_first_page = true;
+$(document).ready(function(){
+  var link = $("#group_conference");
+	link.click(function (e){
+        var width={% if is_admin %}745{% else %}650{% endif %}+20, height={% if is_admin %}515{% else %}423{% endif %}+170;
+        window.open(link.attr('href'), 'video',
+                'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
+        return false;
+    });
+});
+</script>
+{% endblock %}
+
+{% block base_content %}
+<div id="centerColumn" style="width:645px">
+<div id="filter_box">
+<h2>Конференция {{ group.name }}</h2>
+<div class="conference_date">Дата проведения: <span>{{ group.timestamp }}</span></div>
+{% if is_admin %}
+<div class="friend_request">
+                 <a class="reference" href="{% url groups:group_edit group.id %}">{% trans "Edit" %}</a>
+           &nbsp;&nbsp;/&nbsp;&nbsp;
+                 <a class="reference" href="{% url groups:photo_edit group.id %}">Фотография</a>
+           &nbsp;&nbsp;/&nbsp;&nbsp;
+                <a class="reference" href="{% url groups:members_manage group.id %}">Управление участниками</a>
+            &nbsp;&nbsp;/&nbsp;&nbsp;
+                <a class="reference" href="{% url groups:send_friends_invite group.id %}">Отправить приглашение</a>
+</div>
+<br />
+{% endif %}
+<div class="press_release">
+	<div class="title">
+            <div class="title-r">
+                <div class="title-x">
+                    <h2>Пресс-релиз</h2>
+                </div>
+            </div>
+     </div>
+    <div class="block3">
+        <div class="block3-b">
+        {% if group.description %}
+            {{ group.description }}
+    	{% endif %}
+        </div>
+    </div>
+</div>
+
+
+
+
+
+</div>
+</div>
+<div id="right">
+{% if group.has_video_conference and can_view_conference %}
+<a href="{% url groups:group_conference group.id %}" id="group_conference">
+        <div class="button">
+            <div class="button-r">
+                <div class="button-x"><span>Видеоконференция</span>
+                </div>
+           </div>
+    	</div>
+        </a>
+
+
+{% endif %}
+<div class="but">
+{% if request.user in group.members %}
+    <a href="{% url groups:group_leave id=group.id %}">Отказаться от участия</a>
+{% else %}
+    {% if is_status_request %}
+        <a href="{% url groups:cancel_request group.id %}">Отменить заявку на участие</a>
+    {% else %}
+        <a href="{% url groups:group_join id=group.id %}">Подать заявку на участие</a>
+    {% endif %}
+{% endif %}
+</div>
+<h3>Организатор</h3>
+<ul class="friendTable">
+{% for user in admins %}
+    <li>
+        {% include "includes/user/micro.html" %}
+    </li>
+{% endfor %}
+</ul>
+
+{% if is_admin %}
+<h3>Участники видеоконференции <a href="{% url groups:member_list group.id %}">({{ members_count }})</a></h3> 
+<ul class="friendTable">
+{% for user in members|slice:":6" %}
+    <li>
+        {% include "includes/user/micro.html" %}
+    </li>
+{% endfor %}
+</ul>
+{% endif %}
+{% if is_admin %}
+    {% if group.member_requests %}
+        <h3>Поданные заявки</h3>
+        {% for info in group.member_requests %}
+            <div>
+                <a href="{{ info.user.get_absolute_url }}">{{ info.user }}</a>
+                <a href="{% url groups:request_take info.id %}?next={% url groups:group_view group.id %}">{% trans "take" %}</a>
+                <a href="{% url groups:request_refuse info.id %}?next={% url groups:group_view group.id %}">{% trans "refuse" %}</a>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endif %}
+
+</div>
+{% endblock %}

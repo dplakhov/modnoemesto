@@ -61,7 +61,7 @@ p.event_announce
 #conference_announcement
 {
 	position: absolute;
-	top: 102px;
+	top: 26px;
 	left: 250px;
 	width: 400px;
 }
@@ -278,7 +278,7 @@ a.toollip_video:hover
 }
 .beginning a
 {
-	color: #08889F;
+	color: #666;
 	padding-right: 10px;
 }
 
