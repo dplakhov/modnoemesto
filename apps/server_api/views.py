@@ -12,6 +12,8 @@ from django.conf import settings
 from django.contrib.auth import SESSION_KEY
 from django.utils.importlib import import_module
 import traceback
+from apps.social.documents import User
+from apps.video_call.views import call_user as ajax_call_user
 
 import logging
 logger = logging.getLogger('server_api')
@@ -219,3 +221,17 @@ def cam_view_notify(request, format):
                                   )
     else:
         return HttpResponse('|'.join(str(i) for i in params))
+
+
+def call_user(request, id):
+    session_key = request.GET.get('session_key', None)
+    if not session_key:
+        return HttpResponse('Need session_key')
+    session = engine.SessionStore(session_key)
+    user_id = session.get(SESSION_KEY, None)
+    if not user_id:
+        return HttpResponse('Bad session_key')
+    user = User.objects(id=user_id).first()
+    if not user:
+        return HttpResponse('Can`t find request user')
+    return ajax_call_user(request, id, user.id)

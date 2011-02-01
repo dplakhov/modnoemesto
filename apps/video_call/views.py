@@ -5,7 +5,7 @@ from django.conf import settings
 from django.http import HttpResponse
 
 
-def call_user(request, id):
+def call_user(request, id, user_id=None):
     recipient = User.objects(id=id).first()
     if not recipient:
         return HttpResponse('NOT FOUND')
@@ -13,7 +13,8 @@ def call_user(request, id):
         return HttpResponse('OFFLINE')
     last_view = cache.get('LAST_VIEW_%s' % recipient.id, None)
     if last_view is None:
-        cache.set('CALL_EVENT_%s' % recipient.id, request.user.id, settings.VIDEO_CALL_INTERVAL_UPDATE)
+        user_id = user_id or request.user.id
+        cache.set('CALL_EVENT_%s' % recipient.id, user_id, settings.VIDEO_CALL_INTERVAL_UPDATE)
         return HttpResponse('WHITE')
     return HttpResponse('OK')
 
