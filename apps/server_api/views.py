@@ -99,7 +99,8 @@ def log(request):
               'warning': logger.warning }.get(level.lower())
         if f:
             f('%s\n%s' % (request.META['REMOTE_ADDR'], message))
-    return HttpResponse('')
+        return HttpResponse('STATUS=SUCCESS')
+    return HttpResponse('STATUS=FAIL')
 
 
 def cam_view_notify(request, format):
