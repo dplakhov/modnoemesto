@@ -119,8 +119,8 @@ class Camera(Document):
     def can_show(self, access_user, now):
         """
         return:
-            True = ( owner | paid | free )
-            False = ( disabled | not_friend | not_paid )
+            True, ( owner | paid | free )
+            False, ( disabled | not_friend | not_paid )
         """
         if self.owner == access_user:
             return True, 'owner'

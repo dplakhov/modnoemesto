@@ -166,11 +166,8 @@ class AcessCameraTest(unittest.TestCase):
 
         order = get_access()
 
-        try:
-            bad_order = get_access()
-        except AccessCamOrder.CanNotAddOrder:
-            bad_order = None
-        self.assertEqual(bad_order, None)
+        self.failUnlessRaises(AccessCamOrder.CanNotAddOrder, get_access)
+        
 
         order = AccessCamOrder.objects.get(id=order.id)
         self.assertEqual(order.can_access(), True)
