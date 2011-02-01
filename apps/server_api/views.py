@@ -227,6 +227,7 @@ def call_user(request, id):
     session_key = request.GET.get('session_key', None)
     if not session_key:
         return HttpResponse('Need session_key')
+    engine = import_module(settings.SESSION_ENGINE)
     session = engine.SessionStore(session_key)
     user_id = session.get(SESSION_KEY, None)
     if not user_id:
