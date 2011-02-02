@@ -7,11 +7,8 @@ from apps.utils.paginator import paginate
 from models import LogEntry
 
 
-def get_loggers_names():
-    return LogEntry.objects.distinct('logger_name')
-
 @permission_required('logging')
-def log_list(request, level=''):
+def log_list(request):
     filter_data = {}
 
     logger = request.GET.get('logger', None)
@@ -19,8 +16,15 @@ def log_list(request, level=''):
     if logger:
         filter_data['logger_name'] = logger
 
+    message = request.GET.get('message', None)
+
+    if message:
+        filter_data['message__icontains'] = message
+
+    level = request.GET.get('level', None)
+
     if level:
-        filter_data['levelname'] = level
+        filter_data['levelname'] = level.upper()
 
     if filter_data:
         query_list = LogEntry.objects.filter(**filter_data).order_by('-date')
@@ -30,12 +34,11 @@ def log_list(request, level=''):
     query_count = len(query_list)
     objects = paginate(request, query_list, query_count, settings.LOGS_PER_PAGE)
 
-    loggers = get_loggers_names()
-
     return direct_to_template(request, 'logging/log_list.html',
                               {
                                'objects': objects,
-                               'loggers': loggers,
+                               'loggers': LogEntry.objects.distinct('logger_name'),
                                'current_logger': logger,
+                               'levels': ['info', 'debug', 'warning', 'error', 'critical'],
                                'current_level': level,
                               })

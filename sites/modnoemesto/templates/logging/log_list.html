@@ -24,17 +24,35 @@
 
 <h2>{% trans "Log" %}</h2>
 <div class="logging-filter">
-	<b>{% trans "Logging filter" %}:</b><br />
-	{% if curren_logger %}
-		<a href="{% url logging:log_list %}">{% trans "All" %}</a> |
+    <b>{% trans "Level" %}:</b>
+    {% ifequal level current_level %}
+    <b>{% trans "All" %}</b>
+    {% else %}
+    <a href="{% url logging:log_list %}{% if current_level %}?logger={{ current_logger }}{% endif %}">all</a>
+    {% endifequal %}
+    {% for level in levels %}
+        |
+        {% ifequal level current_level %}
+        <b>{{ level }}</b>
+        {% else %}
+        <a href="{% url logging:log_list %}?level={{ level }}{% if current_level %}&logger={{ current_logger }}{% endif %}">{{ level }}</a>
+        {% endifequal %}
+    {% endfor %}
+    
+<br />
+
+	<b>{% trans "Logger" %}:</b>
+	{% if current_logger %}
+		<a href="{% url logging:log_list %}{% if current_level %}?level={{ current_level }}{% endif %}">{% trans "All" %}</a> |
 	{% else %}
 		<b>{% trans "All" %}</b> | 
 	{% endif %}
+
 	{% for logger in loggers %}
-		{% ifequal logger curren_logger %}
+		{% ifequal logger current_logger %}
 			<b>{{ logger }}</b>
 		{% else %}
-			<a href="{% url logging:log_list %}?logger={{ logger }}">{{ logger }}</a> 
+			<a href="{% url logging:log_list %}?{% if current_level %}level={{ current_level }}&{% endif %}logger={{ logger }}">{{ logger }}</a>
 		{% endifequal %}
 		{% if not forloop.last %}
 		|

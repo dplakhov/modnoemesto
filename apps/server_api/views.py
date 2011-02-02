@@ -120,10 +120,16 @@ def cam_view_notify(request, format):
 
     request_id = time()
     def log_debug(text):
-        logger.debug('%s\n%s' % (request_id, text))
+        info = '\n'.join([
+            "session_key=%s" % session_key,
+            "user_id=%s" % user.id if user else None,
+            "camera_id=%s" % camera_id,
+        ])
+        logger.debug('cam_view_notify %s\n%s\n%s' % (request_id, info, text))
 
-    log_debug('cam_view_notify request %s' % repr(request.GET.items()))
+    log_debug('request %s' % repr(request.GET.items()))
 
+    user = None
     try:
         if not request.GET:
             raise CameraAccessor.APIException("Bad params")
@@ -156,13 +162,13 @@ def cam_view_notify(request, format):
         result = CameraAccessor(status, user, camera, session, extra_time)
     except CameraAccessor.APIException, e:
         params = (-1, 0, 0)
-        log_debug('cam_view_notify api error:\n%s\n%s' % (e, traceback.format_exc()))
+        log_debug('api error\n%s\n%s' % (e, traceback.format_exc()))
     except Exception, e:
         params = (-500, 0, 0)
-        log_debug('cam_view_notify error:\n%s\n%s' % (e, traceback.format_exc()))
+        log_debug('internal error\n%s\n%s' % (e, traceback.format_exc()))
     else:
         params = result.status, result.time, result.stream
-    log_debug('cam_view_notify response %s' % repr(params))
+    log_debug('response\n%s' % repr(params))
 
     if format == 'xml':
         return direct_to_template(request,
