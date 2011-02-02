@@ -1,0 +1,30 @@
+{% load i18n %}
+{% load media %}
+
+<div class="conf_block">
+
+    <div class="conf_item">
+        <div class="conf_ava"><a href="{% url groups:group_view id=group.id %}"><img src="{% media_url group.photo group_photo_mini.png %}" /></a></div>
+        <div class="conf_info"><a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a>
+        <p>Начало: {{ group.timestamp }}</p></div>
+
+
+    </div>
+    <div class="beginning">
+         <a href="{% url groups:group_view id=group.id %}">Пресс-релиз</a>
+    {% if group.is_conference_in_future or group.is_conference_running %}
+        {% if request.user in group.members %}
+            <a href="{% url groups:group_leave id=group.id %}">Отказаться от участия</a>
+            {% if group.is_conference_running %}
+                <a href="{% url groups:group_conference group.id %}" id="group_conference">Видеоконференция</a>
+            {% endif %}
+        {% else %}
+            <a href="{% url groups:group_join id=group.id %}">Подать заявку на участие</a>
+        {% endif %}
+    {% else %}
+        Конференция закончилась.
+    {% endif %}
+
+    </div>
+ </div>
+

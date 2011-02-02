@@ -13,22 +13,22 @@
 {% endcomment %}
 {% endif %}
 {% endblock %}
- <!-- 
+
 {% block js %}
-    {{ block.super }}
-  <script type="text/javascript" src="/media/js/flowplayer-3.js"></script>
+{{ block.super }}
 <script type="text/javascript">
-$(document).ready(function() {
-    var link = $("#videochat a");
+$(document).ready(function(){
+  var link = $("#group_conference");
 	link.click(function (e){
-        var width=795, height=725;
+        var width={% if is_admin %}745{% else %}650{% endif %}+20, height={% if is_admin %}515{% else %}423{% endif %}+170;
         window.open(link.attr('href'), 'video',
                 'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
         return false;
     });
 });
 </script>
-{% endblock %} -->
+{% endblock %}
+
 
 {% block content %}
 
@@ -126,29 +126,10 @@ $(document).ready(function() {
                 </div>
             </div>
         </div>
-        <div class="block3">
+        <div class="block_conf">
           
-            {% for group in page_user.administered_groups|dictsort:"timestamp" %}
-            	<div class="conf_block">
-                    
-                    <div class="conf_item">
-                        <div class="conf_ava"><a href="{% url groups:group_view id=group.id %}"><img src="{% media_url group.photo group_photo_mini.png %}" /></a></div>
-                        <div class="conf_info"><a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a>
-                        <p>Начало: {{ group.timestamp }}</p></div>
-                       
-                       
-                    </div>
-                    <div class="beginning">
-                         <a href="{% url groups:group_view id=group.id %}">Пресс-релиз</a>
-                        {% if request.user in group.members %}
-                            <a href="{% url groups:group_leave id=group.id %}">Отказаться от участия</a>
-                            <a href="{% url groups:group_conference group.id %}" id="group_conference">Видеоконференция</a>
-                        {% else %}
-                            <a href="{% url groups:group_join id=group.id %}">Подать заявку на участие</a>
-                        {% endif %}
-                        
-                    </div>
-                 </div>
+            {% for group in page_user.administered_groups|dictsortreversed:"timestamp" %}
+                {% include "includes/group_item.html" %}
             {% endfor %}
             </div>
         </div>
@@ -157,8 +138,9 @@ $(document).ready(function() {
     </div>
     
     
-    
-	{% include "includes/chat.html" %}	
+    {% with page_user as user %}
+	    {% include "includes/chat.html" %}
+    {% endwith %}
 </div>
 
 {% endblock %}

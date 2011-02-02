@@ -5,7 +5,6 @@
 {% block js %}
 {{ block.super }}
 <script type="text/javascript">
-var is_first_page = true;
 $(document).ready(function(){
   var link = $("#group_conference");
 	link.click(function (e){
@@ -46,7 +45,7 @@ $(document).ready(function(){
     <div class="block3">
         <div class="block3-b">
         {% if group.description %}
-            {{ group.description }}
+            {{ group.description|linebreaks }}
     	{% endif %}
         </div>
     </div>
@@ -106,9 +105,9 @@ $(document).ready(function(){
         <h3>Поданные заявки</h3>
         {% for info in group.member_requests %}
             <div>
-                <a href="{{ info.user.get_absolute_url }}">{{ info.user }}</a>
-                <a href="{% url groups:request_take info.id %}?next={% url groups:group_view group.id %}">{% trans "take" %}</a>
-                <a href="{% url groups:request_refuse info.id %}?next={% url groups:group_view group.id %}">{% trans "refuse" %}</a>
+                <a class="reference" href="{{ info.user.get_absolute_url }}">{{ info.user }}</a>&nbsp;&nbsp
+                <a class="reference" href="{% url groups:request_take info.id %}?next={% url groups:group_view group.id %}">{% trans "take" %}</a>&nbsp;&nbsp;/&nbsp;&nbsp;
+                <a class="reference" href="{% url groups:request_refuse info.id %}?next={% url groups:group_view group.id %}">{% trans "refuse" %}</a>
             </div>
         {% endfor %}
     {% endif %}

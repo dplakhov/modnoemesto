@@ -319,9 +319,9 @@ td
 {
 	text-align: left;
 }
-input[type="checkbox"]
+input[type="checkbox"], input[type="radio"]
 {
-	width: 10px;
+	width: 15px;
 }
 #edit_form .button
 {
@@ -373,7 +373,7 @@ ul.friendTable
 {
 	float: left;
 	display: inline;
-	height: 110px;
+/*	height: 110px;*/
 }
 .friendTable td div
 {
@@ -464,7 +464,7 @@ a.delete
 {
 	padding-top:20px;
 }
-.friend_request a.reference {
+a.reference {
     color: #226BD7;
 }
 .press_release
@@ -551,12 +551,19 @@ div.conf_item
 	color: #666;
 	margin-top: 5px;
 }
-.block3
+.block_conf
 {
 	border: 2px solid #ccc;
 }
-
-
+.ava
+{
+	float: left;
+	margin-right: 10px;
+}
+.operation
+{
+	float: right;
+}
 
 
 

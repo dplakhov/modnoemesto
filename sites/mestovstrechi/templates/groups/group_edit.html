@@ -2,32 +2,30 @@
 
 {% load i18n %}
 
-{% block js %}
-{{ block.super }}
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('#id_theme').selectbox();
-        $('#id_type').selectbox();
-    });
-</script>
-{% endblock %}
-
 {% block content %}
-<div id="filter_box">
-    {% if not is_new %}<h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>{% endif %}
-    <h2>{% if is_new %}{% trans "Group creation" %}{% else %}{% trans "Group edit" %}{% endif %}</h2>
 
-	 <form method="post">
-    <div class="filt rounded">
-       
-            <table class="group_add">
+<div id="edit_form">
+{% if not is_new %}<h2><a href="{% url groups:group_view group.id %}">Видеоконференция "{{ group.name }}"</a></h2>{% endif %}
+		<div class="title">
+            <div class="title-r">
+                <div class="title-x">
+					<h2>{% if is_new %}Создание видеоконференции{% else %}Редактирование видеоконференции{% endif %}</h2>
+                </div>
+            </div>
+        </div>
+          <div class="block2">
+        <div class="block2-b">
+			<form method="post" class="baseform">
+    <input type="hidden" name="form" value="profile" />
+   
+<table class="group_add">
                 <tr>
                     <td style="height:10px"></td>
                     <td class="empty_filt"></td>
                     <td style="height:10px">{{ form.name.errors }}</td>
                 </tr>
                 <tr>
-                    <th><label for="id_{{ form.name.html_name }}">{{ form.name.label }}:</label></th>
+                    <td class="lable"><label for="id_{{ form.name.html_name }}">{{ form.name.label }}:</label></td>
                     <td class="empty_filt"></td>
                     <td>
                         
@@ -42,7 +40,7 @@
                     <td style="height:10px">{{ form.description.errors }}</td>
                 </tr>
                 <tr>
-                    <th><label for="id_{{ form.description.html_name }}">Пресс-релиз:</label></th>
+                    <td class="lable"><label for="id_{{ form.description.html_name }}">Пресс-релиз:</label></td>
                     <td class="empty_filt"></td>
                     <td>
                         
@@ -57,7 +55,7 @@
                     <td style="height:10px">{{ form.timestamp.errors }}</td>
                 </tr>
                 <tr>
-                    <th><label for="id_{{ form.timestamp.html_name }}">Дата начала:</label></th>
+                    <td class="lable"><label for="id_{{ form.timestamp.html_name }}">Дата начала:</label></td>
                     <td class="empty_filt"></td>
                     <td>
 
@@ -73,7 +71,7 @@
                     <td style="height:10px">{{ form.theme.errors }}</td>
                 </tr>
                 <tr>
-                    <th><label for="id_{{ form.theme.html_name }}">{{ form.theme.label }}:</label></th>
+                    <td class="lable"><label for="id_{{ form.theme.html_name }}">{{ form.theme.label }}:</label></td>
                     <td class="empty_filt"></td>
                     <td>
                         
@@ -88,7 +86,7 @@
                     <td style="height:10px">{{ form.type.errors }}</td>
                 </tr>
                 <tr>
-                    <th><label for="id_{{ form.type.html_name }}">{{ form.type.label }}:</label></th>
+                    <td class="lable"><label for="id_{{ form.type.html_name }}">{{ form.type.label }}:</label></td>
                     <td class="empty_filt"></td>
                     <td>
                         <div>
@@ -102,7 +100,7 @@
                     <td style="height:10px">{{ form.site.errors }}</td>
                 </tr>
                 <tr>
-                    <th><label for="id_{{ form.site.html_name }}">{{ form.site.label }}:</label></th>
+                    <td class="lable"><label for="id_{{ form.site.html_name }}">{{ form.site.label }}:</label></td>
                     <td class="empty_filt"></td>
                     <td>
                         
@@ -117,7 +115,7 @@
                     <td style="height:10px">{{ form.country.errors }}</td>
                 </tr>
                 <tr>
-                    <th><label for="id_{{ form.country.html_name }}">{{ form.country.label }}:</label></th>
+                    <td class="lable"><label for="id_{{ form.country.html_name }}">{{ form.country.label }}:</label></td>
                     <td class="empty_filt"></td>
                     <td>
                         
@@ -132,7 +130,7 @@
                     <td style="height:10px"> {{ form.city.errors }}</td>
                 </tr>
                 <tr>
-                    <th><label for="id_{{ form.city.html_name }}">{{ form.city.label }}:</label></th>
+                    <td class="lable"><label for="id_{{ form.city.html_name }}">{{ form.city.label }}:</label></td>
                     <td class="empty_filt"></td>
                     <td>
                        
@@ -148,7 +146,7 @@
                     <td style="height:10px"> {{ form.public.errors }}</td>
                 </tr>
                 <tr>
-                    <th><label for="id_{{ form.public.html_name }}">{{ form.public.label }}:</label></th>
+                    <td class="lable"><label for="id_{{ form.public.html_name }}">{{ form.public.label }}:</label></td>
                     <td class="empty_filt"></td>
                     <td>
                         {{ form.public.errors }}
@@ -175,7 +173,7 @@
                     <td style="height:10px"> {{ form.has_video_conference.errors }}</td>
                 </tr>
                 <tr>
-                    <th><label for="id_{{ form.has_video_conference.html_name }}">{{ form.has_video_conference.label }}:</label></th>
+                    <td class="lable"><label for="id_{{ form.has_video_conference.html_name }}">{{ form.has_video_conference.label }}:</label></td>
                     <td class="empty_filt"></td>
                     <td>
                             {{ form.has_video_conference }}
@@ -186,15 +184,16 @@
                 </tr>
                 {% endcomment %}
             </table>
+
+            <div class="but">
+                <input type="hidden" name="has_video_conference" value="on">
+                {% if is_new %}<input type="submit" value="{% trans 'Create group' %}"/>
+                {% else %}<input type="submit" value="{% trans 'Save' %}"/>{% endif %}
+        	</div>
+
+</form>
 		</div>
-        
-        <div class="but">
-        <input type="hidden" name="has_video_conference" value="on">
-        {% if is_new %}<input type="submit" value="{% trans 'Create group' %}"/>
-        {% else %}<input type="submit" value="{% trans 'Save' %}"/>{% endif %}
         </div>
-        </form>
-		
-   
 </div>
+
 {% endblock %}
