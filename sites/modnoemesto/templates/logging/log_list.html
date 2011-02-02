@@ -28,7 +28,7 @@
     {% ifequal level current_level %}
     <b>{% trans "All" %}</b>
     {% else %}
-    <a href="{% url logging:log_list %}{% if current_level %}?logger={{ current_logger }}{% endif %}">all</a>
+    <a href="{% url logging:log_list %}{% if current_level %}?logger={{ current_logger }}{% endif %}">{% trans "All" %}</a>
     {% endifequal %}
     {% for level in levels %}
         |
