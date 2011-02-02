@@ -11,7 +11,9 @@
 </script>
 <script type="text/javascript" src="/jsi18n/"></script>
 <script type="text/javascript" src="/media/admin/js/core.js"></script>
-{{ form.media }}
+<script type="text/javascript" src="/media/admin/js/calendar.js"></script>
+<script type="text/javascript" src="/media/admin/js/admin/DateTimeShortcuts.js"></script>
+
 {% endblock %}
 
 {% block content %}
@@ -199,7 +201,7 @@
 
             <div class="but">
                 <input type="hidden" name="has_video_conference" value="on">
-                {% if is_new %}<input type="submit" value="{% trans 'Create group' %}"/>
+                {% if is_new %}<input type="submit" value="Создать конференцию"/>
                 {% else %}<input type="submit" value="{% trans 'Save' %}"/>{% endif %}
         	</div>
 
