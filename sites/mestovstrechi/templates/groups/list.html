@@ -2,18 +2,52 @@
 {% load i18n %}
 {% load media %}
 {% block content %}
-<div id="filter_box" style="overflow:hidden">
-    <h2>Предстоящие конференции</h2>
+
+<div id="conference_announcement">
+    	<div class="title">
+            <div class="title-r">
+                <div class="title-x">
+                    <h2>Предстоящие конференции</h2>
+                </div>
+            </div>
+        </div>
+        <div class="block3">
+          {% for group in objects.object_list %}
+            <div class="conf_block">
+                    
+                    <div class="conf_item">
+                        <div class="conf_ava"><a href="{% url groups:group_view id=group.id %}"><img src="{% media_url group.photo group_photo_mini.png %}" /></a></div>
+                        <div class="conf_info"><a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a>
+                        <p>Начало: {{ group.timestamp }}</p></div>
+                       
+                       
+                    </div>
+                    <div class="beginning">
+                         <a href="{% url groups:group_view id=group.id %}">Пресс-релиз</a>
+                        {% if request.user in group.members %}
+                            <a href="{% url groups:group_leave id=group.id %}">Отказаться от участия</a>
+                            <a href="{% url groups:group_conference group.id %}" id="group_conference">Видеоконференция</a>
+                        {% else %}
+                            <a href="{% url groups:group_join id=group.id %}">Подать заявку на участие</a>
+                        {% endif %}
+                        
+                    </div>
+                 </div>
+        {% endfor %}
+        </div>
+</div>
+
+
+
+
+
+
+
 {% if perms.groups %}
     <div class="but"><a class="reference" href="{% url groups:group_add %}">Создать конференцию</a></div>
 	<br />
 {% endif %}
-        {% for group in objects.object_list %}
-            <div class="group_list">
-                <div class="group_ava"><a href="{% url groups:group_view id=group.id %}"><img src="{% media_url group.photo group_photo_mini.png %}" /></a></div>
-                <div class="group_info"><a href="{% url groups:group_view id=group.id %}">{{ group.name }}</a></div></div>
-        {% endfor %}
-</div>
+        
 
 {% include "includes/paginator.html" %}
 {% endblock %}
