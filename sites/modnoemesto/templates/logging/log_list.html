@@ -43,7 +43,7 @@
 
 	<b>{% trans "Logger" %}:</b>
 	{% if current_logger %}
-		<a href="{% url logging:log_list %}{% if current_level %}?level={{ current_level }}{% endif %}">{% trans "All" %}</a> |
+		<a href="{% url logging:log_list %}{% if current_level %}?level={{ current_level }}{% endif %}">{% trans "All" %}</a>
 	{% else %}
 		<b>{% trans "All" %}</b>
 	{% endif %}
