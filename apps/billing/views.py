@@ -195,3 +195,9 @@ def access_order_list(request):
                        AccessCamOrder.objects.count(),
                        25)
     return direct_to_template(request, 'billing/access_order_list.html', { 'objects': objects })
+
+
+@permission_required('superuser')
+def access_order_delete(request, id):
+    get_document_or_404(AccessCamOrder, id=id).delete()
+    return HttpResponseRedirect(reverse('billing:access_order_list'))

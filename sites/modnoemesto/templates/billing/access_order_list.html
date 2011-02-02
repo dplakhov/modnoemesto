@@ -1,10 +1,23 @@
 {% extends "base_mini.html" %}
 {% load i18n %}
 
+{% block js %}
+{{ block.super }}
+$('#access_order_list').click(function(e) {
+    var clicked = $(e.target);
+    if (clicked.hasClass('delete')) {
+        if (confirm("Вы действительно желаете удалить заказ?")) {
+            return true;
+        }
+        return false;
+    }
+});
+{% endblock %}
+
 {% block base_content %}
 {% include "_left_box_menu.html" %}
 <h2>{% trans "Access Orders" %}</h2>
-<table>
+<table id="access_order_list">
     <thead>
         <tr>
             <th>{% trans "User" %}</th>
@@ -15,6 +28,7 @@
             <th>{% trans "Duration" %}</th>
             <th>{% trans "Cost" %}</th>
             <th>{% trans "Status" %}</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -28,6 +42,7 @@
         <td>{{ order.duration|floatformat:.0 }}</td>
         <td>{{ order.cost|floatformat:2 }}</td>
         <td>{{ order.status }}</td>
+        <td><a href="{% url billing:access_order_delete order.id %}" class="delete">del</a></td>
     </tr>
 {% endfor %}
     </tbody>

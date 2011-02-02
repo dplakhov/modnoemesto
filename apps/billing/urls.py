@@ -13,4 +13,5 @@ urlpatterns = patterns('apps.billing.views',
     url(r'^tariffs/(?P<id>[a-f0-9]{24})/delete/$', 'tariff_delete', name='tariff_delete'),
     url(r'^orders/$', 'order_list', name='order_list'),
     url(r'^access_orders/$', 'access_order_list', name='access_order_list'),
+    url(r'^access_orders/(?P<id>[a-f0-9]{24})/delete/$', 'access_order_delete', name='access_order_delete'),
 )
