@@ -45,18 +45,16 @@
 	{% if current_logger %}
 		<a href="{% url logging:log_list %}{% if current_level %}?level={{ current_level }}{% endif %}">{% trans "All" %}</a> |
 	{% else %}
-		<b>{% trans "All" %}</b> | 
+		<b>{% trans "All" %}</b>
 	{% endif %}
 
 	{% for logger in loggers %}
-		{% ifequal logger current_logger %}
+	    |
+        {% ifequal logger current_logger %}
 			<b>{{ logger }}</b>
 		{% else %}
 			<a href="{% url logging:log_list %}?{% if current_level %}level={{ current_level }}&{% endif %}logger={{ logger }}">{{ logger }}</a>
 		{% endifequal %}
-		{% if not forloop.last %}
-		|
-		{% endif %}
 	{% endfor %}
 </div>
 <table cellspacing="0" class="log_view">
