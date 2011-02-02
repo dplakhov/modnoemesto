@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load media %}
+
+{% block content %}
+
+
+<h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>
+<br />
+<div id="edit_form">
+        <div class="title">
+            <div class="title-r">
+                <div class="title-x">
+					<h2>{% trans "Change photo" %}</h2>
+                </div>
+            </div>
+        </div>
+
+	<div class="block2">
+        <div class="block2-b">
+           <img src="{% media_url photo group_photo_full.png %}" />
+        
+            <form method="post" enctype="multipart/form-data">
+            
+            <p class="img_losder"><label for="id_file">Изображение:</label><br /><br /><input type="file" id="id_file" name="file"></p>
+           
+            <div class="but avatar">
+            <input type="submit" value="{% trans "Save" %}" />
+            </div>
+            </form>
+    	</div>
+    </div>
+</div>
+
+
+{% endblock %}

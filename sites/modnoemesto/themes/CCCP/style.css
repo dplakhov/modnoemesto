@@ -114,6 +114,7 @@ div#bg
 	border: none;
 	background: none;
 	top: 500px;
+	position: absolute;
 }
 .friend_box p
 {

@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
+from django.contrib.admin import widgets as admin_widgets
+
 from apps.groups.documents import GroupTheme, GroupType, Group
 
 class GroupCreationForm(forms.Form):
     name = forms.CharField(label=_('Name'), max_length=255)
-    description = forms.CharField(label=_('Description'), max_length=500, widget=forms.Textarea, required=False)
+    description = forms.CharField(label=_('Description'),
+                                  max_length=settings.GROUP_DESCRIPTION_MAX_LENGTH,
+                                  widget=forms.Textarea, required=False)
     theme = forms.ChoiceField(label=_('Theme'), choices=(), required=False)
     type = forms.ChoiceField(label=_('Type'), choices=(), required=False)
     site = forms.URLField(label=_('Site'), required=False)
@@ -14,6 +19,9 @@ class GroupCreationForm(forms.Form):
     public = forms.BooleanField(label=_('Access'), required=False)
     has_video_conference = forms.BooleanField(label=_('Has video conference'),
                                               required=False)
+    timestamp = forms.DateTimeField(label=_('Timestamp'), required=False,
+                                    widget = admin_widgets.AdminSplitDateTime
+                                    )
 
     def __init__(self, *args, **kwarg):
         initial = kwarg.get('initial')

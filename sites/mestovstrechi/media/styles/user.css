@@ -58,11 +58,12 @@ p.event_announce
 	color: #575655;
 	padding-top: 5px;
 }
-#anounce_info
+#conference_announcement
 {
 	position: absolute;
-	top: 102px;
-	left: 310px;
+	top: 26px;
+	left: 250px;
+	width: 400px;
 }
 #videochat
 {
@@ -265,3 +266,7 @@ a.toollip_video:hover
 {
     display: block;
 }
+
+
+
+

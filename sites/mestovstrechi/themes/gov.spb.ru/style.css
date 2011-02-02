@@ -37,11 +37,12 @@
 }
 #user_page h2
 {
-	font-size: 18px;
-	color: #7B9E33;
-	margin-bottom: 14px;
-	
-	font-weight: bold;
+
+	display: none;
+}
+#user_page .title h2, #user_page .button span 
+{
+	display: block;
 }
 dt
 {
@@ -58,12 +59,7 @@ dt
 }
 #avatar
 {
-	border: 10px solid #d0ea99;
-	background: #d0ea99;
-	width: 200px;
-	position: relative;
-	top: 0px;
-    left: 0px;
+	border: none;	
 }
 #videochat {
     position: absolute;
@@ -71,13 +67,13 @@ dt
 }
 .profileActions ul li
 {
-	padding: 15px 0px 15px 15px;
+	padding: 15px 0px 15px 5px;
 	border-top: none;
 	display: block;
 }
 .profileActions ul li a, .profileActions ul li span
 {
-	color: #7B9E33;
+	color: #666;
 	font-weight: bold;
 }
 div.about_persone 
@@ -85,7 +81,7 @@ div.about_persone
 	width: 370px;
 	border: none;
 	background: none;
-	top: -305px;
+	position: static;
 }
 
 dt
@@ -98,12 +94,15 @@ dd
 	padding: 5px;
 	overflow: hidden;
 	width: 200px;
-	color: #7B9E33;
+	color: #666;
+}
+#general_info, #education_info
+{
+	display: none;
 }
 
-
 .about_persone p {
-    color: #7B9E33;
+    color: #800000;
 	font-weight: bold;
 }
 .about_persone dd a
@@ -114,7 +113,9 @@ dd
 
 #anounce_info
 {
-	top: 200px;
+	top: 110px;
+	left: 210px;
+	position: absolute;
 }
 #videochat 
 {
@@ -158,9 +159,25 @@ p.event_announce
 .friendTable td img {
     border: 4px solid #d0ea99;
 }
-#camera
+/*#camera
 {
 	position: relative;
 	top: 30px;
 	height: 690px;
+}*/
+.beginning a
+{
+	font-size: 11px;
+}
+#conference_announcement
+{
+	position: relative;
+	left: 585px;
+	top: -260px;
+}
+#contact_info
+{
+	position: absolute;
+	left: 0px;
+	top: 360px;
 }

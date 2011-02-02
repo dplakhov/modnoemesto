@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load media %}
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+$(document).ready(function(){
+  var link = $("#group_conference");
+	link.click(function (e){
+        var width={% if is_admin %}745{% else %}650{% endif %}+20, height={% if is_admin %}515{% else %}423{% endif %}+170;
+        window.open(link.attr('href'), 'video',
+                'width='+width+',height='+height+',left='+($(window).width()-width)/2+',top='+($(window).height()-height)/2);
+        return false;
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div id="conference_announcement">
+    	<div class="title">
+            <div class="title-r">
+                <div class="title-x">
+                    <h2>Предстоящие конференции</h2>
+                </div>
+            </div>
+        </div>
+        <div class="block_conf">
+          {% for group in objects.object_list|dictsortreversed:"timestamp" %}
+            {% include "includes/group_item.html" %}
+        {% endfor %}
+        </div>
+</div>
+
+
+{% if perms.groups %}
+	<a class="reference" href="{% url groups:group_add %}">
+        <div class="button">
+            <div class="button-r">
+                <div class="button-x"><span>Создать конференцию</span>
+                </div>
+           </div>
+    	</div>
+    </a>
+
+{% endif %}
+        
+
+{% include "includes/paginator.html" %}
+{% endblock %}

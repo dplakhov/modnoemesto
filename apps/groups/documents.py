@@ -1,7 +1,7 @@
 from mongoengine.document import Document
 from mongoengine.fields import StringField, ReferenceField, BooleanField, DateTimeField
 from apps.utils.decorators import cached_property
-from datetime import datetime
+from datetime import datetime, timedelta
 from mongoengine.queryset import OperationError
 
 
@@ -29,10 +29,30 @@ class Group(Document):
     public = BooleanField(default=False)
     photo = ReferenceField('File')
     has_video_conference = BooleanField(default=True)
+    timestamp = DateTimeField(default=datetime.now)
+
 
     @cached_property
     def members(self):
         return [i.user for i in GroupUser.objects(group=self, status=GroupUser.STATUS.ACTIVE).only('user')]
+
+    @cached_property
+    def member_requests(self):
+        return GroupUser.objects(group=self, status=GroupUser.STATUS.REQUEST)
+
+    def is_conference_in_future(self):
+        return (
+            self.timestamp and
+            datetime.now() < self.timestamp
+        )
+
+    def is_conference_running(self):
+        now = datetime.now()
+        return (
+            self.timestamp and
+            now >= self.timestamp and
+            now <= self.timestamp + timedelta(hours=3)
+        )
 
     def add_member(self, user, is_admin=False, status=GroupUser.STATUS.ACTIVE):
         try:

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load media %}
+
+{% block content %}
+<div class="theme_box">
+<h2>{% trans "Themes" %}</h2>
+
+
+<table cellspacing="10px" class="theme_list">
+<tr>
+    <th width="25%">Название</th>
+    <th width="25%">Описание</th>
+    <th width="25%">Скриншот</th>
+    <th width="25%">Действия</th>
+</tr>
+{% for theme in objects.object_list  %}
+    <tr>
+        <td>
+            <b>{{ theme.name }}</b>
+        </td>
+        <td>
+            {{ theme.description }}
+        </td>
+        <td>
+            <img width="220px" src="{% url themes:file_view theme_id=theme.id file_name='preview.png' %}" alt="{{ theme.name }}" />
+        </td>
+        <td>
+            {% if can_manage %}
+                <a class="delete" href="{% url themes:delete theme_id=theme.id %}">{% trans "Delete theme" %}</a><br />
+            {% endif %}
+            {% if request.user.profile.theme == theme%}
+                <a class="cancel" href="{% url themes:unset %}">{% trans "Unset theme" %}</a>
+            {% else %}
+                <a class="done" href="{% url themes:set theme_id=theme.id %}">{% trans "Set theme" %}</a>
+            {% endif %}
+        </td>
+    </tr>
+     <tr>
+        	<td style="height:10px"></td>
+        </tr>
+{% endfor %}
+</table>
+</div>
+
+{% include 'includes/paginator.html' %}
+{% if can_manage %}
+    <form action="{% url themes:add %}" method="post" enctype="multipart/form-data">
+    <table>
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="{% trans "Add theme" %}"/>
+    </form>
+{% endif %}
+
+{% if request.user.profile.theme %}
+    <a class="cancel" href="{% url themes:unset %}">{% trans "Unset theme" %}</a>
+{% endif %}
+
+{% endblock %}
