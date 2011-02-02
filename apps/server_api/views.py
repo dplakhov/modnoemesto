@@ -12,6 +12,7 @@ from django.contrib.auth import SESSION_KEY
 from django.utils.importlib import import_module
 from apps.social.documents import User
 from apps.video_call.views import call_user as ajax_call_user
+from time import time
 
 import logging
 logger = logging.getLogger('server_api')
@@ -115,9 +116,11 @@ def cam_view_notify(request, format):
         -500 INTERNAL ERROR
     """
 
-
     from apps.media.documents import File
-    logger.debug('cam_view_notify request %s' % repr(request.GET.items()))
+
+    request_id = time()
+    def log_debug(text):
+        logger.debug('%s\n%s' % (request_id, text))
 
     try:
         if not request.GET:
@@ -152,13 +155,13 @@ def cam_view_notify(request, format):
         result = CameraAccessor(status, user, camera, session, extra_time)
     except CameraAccessor.APIException, e:
         params = (-1, 0, 0)
-        logger.debug('cam_view_notify api error:\n%s\n%s' % (e, traceback.format_exc()))
+        log_debug('cam_view_notify api error:\n%s\n%s' % (e, traceback.format_exc()))
     except Exception, e:
         params = (-500, 0, 0)
-        logger.debug('cam_view_notify error:\n%s\n%s' % (e, traceback.format_exc()))
+        log_debug('cam_view_notify error:\n%s\n%s' % (e, traceback.format_exc()))
     else:
         params = result.status, result.time, result.stream
-        logger.debug('cam_view_notify response %s' % repr(params))
+    log_debug('cam_view_notify response %s' % repr(params))
 
     if format == 'xml':
         return direct_to_template(request,
