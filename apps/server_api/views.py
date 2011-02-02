@@ -133,13 +133,12 @@ def cam_view_notify(request, format):
         if not (status and session_key and camera_id):
             raise CameraAccessor.APIException("Bad params")
         extra_time = request.GET.get('time', None)
-        if extra_time is None:
-            return
-        if not extra_time.isdigit():
-            raise CameraAccessor.APIException("Time must by a digit")
-        extra_time = int(extra_time)
-        if extra_time > settings.TIME_INTERVAL_NOTIFY or extra_time < 0:
-            raise CameraAccessor.APIException("Bad time interval")
+        if extra_time is not None:
+            if not extra_time.isdigit():
+                raise CameraAccessor.APIException("Time must by a digit")
+            extra_time = int(extra_time)
+            if extra_time > settings.TIME_INTERVAL_NOTIFY or extra_time < 0:
+                raise CameraAccessor.APIException("Bad time interval")
 
         # extract data from session
         engine = import_module(settings.SESSION_ENGINE)

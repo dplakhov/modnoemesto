@@ -4,14 +4,16 @@
 {% block js %}
 {{ block.super }}
 <script type="text/javascript">
-$('#access_order_list').click(function(e) {
-    var clicked = $(e.target);
-    if (clicked.hasClass('delete')) {
-        if (confirm("Вы действительно желаете удалить заказ?")) {
-            return true;
+$(document).ready(function(){
+    $('#access_order_list').click(function(e) {
+        var clicked = $(e.target);
+        if (clicked.hasClass('delete')) {
+            if (confirm("Вы действительно желаете удалить заказ?")) {
+                return true;
+            }
+            return false;
         }
-        return false;
-    }
+    });
 });
 </script>
 {% endblock %}
