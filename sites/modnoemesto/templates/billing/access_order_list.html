@@ -3,6 +3,7 @@
 
 {% block js %}
 {{ block.super }}
+<script type="text/javascript">
 $('#access_order_list').click(function(e) {
     var clicked = $(e.target);
     if (clicked.hasClass('delete')) {
@@ -12,6 +13,7 @@ $('#access_order_list').click(function(e) {
         return false;
     }
 });
+</script>
 {% endblock %}
 
 {% block base_content %}
