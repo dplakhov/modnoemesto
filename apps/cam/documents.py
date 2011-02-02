@@ -119,8 +119,8 @@ class Camera(Document):
     def can_show(self, access_user, now):
         """
         return:
-            True = ( owner | paid | free )
-            False = ( disabled | not_friend | not_paid )
+            True, ( owner | paid | free | operator )
+            False, ( disabled | not_friend | not_paid )
         """
         if self.owner == access_user:
             return True, 'owner'
@@ -131,13 +131,14 @@ class Camera(Document):
                 return False, 'not_friend'
         if self.is_view_paid:
             if self.operator == access_user:
-                return True, 'paid'
+                return True, 'operator'
             order = AccessCamOrder.objects(
                 user=access_user,
                 camera=self,
             ).order_by('-create_on').first()
             if not order or order.end_date is not None and order.end_date < now:
                 return False, 'not_paid'
+            return True, 'paid'
         return True, 'free'
 
     def get_show_info(self, access_user, now):

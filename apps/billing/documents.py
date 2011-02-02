@@ -93,6 +93,8 @@ class AccessCamOrder(Document):
     def create_time_type(cls, user, camera, tariff):
         assert not tariff.is_packet
         order = cls(user=user, camera=camera, tariff=tariff)
+        if not order.can_add_time_order():
+            raise AccessCamOrder.CanNotAddOrder()
         order.save()
         return order
 
@@ -113,6 +115,26 @@ class AccessCamOrder(Document):
     def set_end_date(self):
         self.end_date = self.begin_date + timedelta(seconds=self.duration)
 
+    def can_add_time_order(self):
+        q_data = dict(camera=self.camera,
+                      is_controlled=self.is_controlled)
+        if not self.is_controlled:
+            q_data.update(dict(user=self.user))
+        last_order = AccessCamOrder.objects(**q_data).order_by('-create_on').only('end_date').first()
+
+        if last_order and last_order.end_date is None:
+            if self.is_controlled:
+                # find time user order
+                q_data.update(dict(user=self.user,
+                                   end_date__exists=False,
+                                   count_packets__exists=False, # is not packet
+                                   ))
+                if AccessCamOrder.objects(**q_data).count() > 0:
+                    return False
+            else:
+                return False
+        return True
+
     def set_access_period(self):
         q_data = dict(camera=self.camera,
                       is_controlled=self.is_controlled)
@@ -124,16 +146,6 @@ class AccessCamOrder(Document):
         if last_order:
             if last_order.end_date:
                 self.begin_date = last_order.end_date if last_order.end_date > now else now
-            elif self.is_controlled:
-                # find time user order
-                q_data.update(dict(user=self.user,
-                                   end_date__exists=False,
-                                   count_packets__exists=False, # is not packet
-                                   ))
-                if AccessCamOrder.objects(**q_data).count() > 0:
-                    raise AccessCamOrder.CanNotAddOrder()
-            else:
-                raise AccessCamOrder.CanNotAddOrder()
         else: # first order
             self.begin_date = now
         if self.begin_date and self.is_packet:
