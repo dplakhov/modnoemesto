@@ -54,6 +54,9 @@ class CameraAccessor(object):
             return 0
         if can_show_info in ['owner', 'free']:
             return settings.TIME_INTERVAL_NOTIFY
+        time_left = camera.get_trial_view_time(session)
+        if time_left > 0:
+            camera.set_trial_view_time(session, 0)
         time_left, order = camera.get_show_info(user, now)
         if order.is_packet:
             time_next = self._check_packet(time_left)
