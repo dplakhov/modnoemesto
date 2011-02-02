@@ -8,9 +8,9 @@
 <link href="/media/styles/user.css" rel="stylesheet" type="text/css" />
 {% if profile.theme %}
 <link href="{% url themes:file_view theme_id=profile.theme.id file_name='style.css' %}" rel="stylesheet" type="text/css" />
-{% comment %}
+
 	<link href="/themes/gov.spb.ru/style.css" rel="stylesheet" type="text/css" />
-{% endcomment %}
+
 {% endif %}
 {% endblock %}
 
@@ -75,18 +75,24 @@ $(document).ready(function(){
             {% endif %}
         </ul>
     </div>
-   
-    
-    <div id="general_info" class="about_persone transparent">
-        <dl>
-            {% if profile.hometown %}<dt id="hometown">{% trans "Hometown" %}</dt>
-                <dd>{{ profile.hometown }}</dd>{% endif %}
-            {% if profile.birthday %}<dt id="birthday">{% trans "Birthday" %}</dt>
-                <dd>{{ profile.birthday }}</dd>{% endif %}
-            {% if profile.sex %}<dt id="sex">{% trans "Sex" %}</dt>
-                <dd>{{ profile.sex }}</dd>{% endif %}
-        </dl>
-    </div>
+   {% if page_user.administered_groups %}
+        <div id="conference_announcement">
+    	<div class="title">
+            <div class="title-r">
+                <div class="title-x">
+                    <h2>Видеоконференции</h2>
+                </div>
+            </div>
+        </div>
+        <div class="block_conf">
+          
+            {% for group in page_user.administered_groups|dictsortreversed:"timestamp" %}
+                {% include "includes/group_item.html" %}
+            {% endfor %}
+            </div>
+        </div>
+   {% endif %}
+
     <div id="contact_info" class="about_persone transparent">
         <p>{% trans "Contact Information" %}</p>
         <dl>
@@ -117,25 +123,7 @@ $(document).ready(function(){
              {{ profile.announce }}
          </p>
     </div>
-   {% if page_user.administered_groups %}
-    <div id="conference_announcement">
-    	<div class="title">
-            <div class="title-r">
-                <div class="title-x">
-                    <h2>Видеоконференции</h2>
-                </div>
-            </div>
-        </div>
-        <div class="block_conf">
-          
-            {% for group in page_user.administered_groups|dictsortreversed:"timestamp" %}
-                {% include "includes/group_item.html" %}
-            {% endfor %}
-        </div>
-     </div>
-     {% endif %}   
-        
-    </div>
+   
     
     {% comment %}
     {% with page_user as user %}

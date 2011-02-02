@@ -5,7 +5,14 @@
 
 {% block content %}
 <br />
-<a class="ref" href="{% url groups:group_list %}">Предстоящие конференции</a>
-
-
+<div class="seting">
+    <a href="{% url groups:group_list %}">
+    	<div class="button">
+            <div class="button-r">
+                <div class="button-x"><span>Предстоящие конференции</span>
+                </div>
+           </div>
+    	</div>
+    </a>
+</div>
 {% endblock %}

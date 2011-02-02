@@ -535,11 +535,11 @@ div.conf_item
 	border: none;
 }
 .conf_info {
-    height: 47px;
+    min-height: 47px;
     margin-left: 70px;
     overflow: hidden;
-    position: relative;
-    width: 240px;
+   /*  position: relative;
+    width: 240px; */
 }
 .conf_info a {
     font-size: 15px;
