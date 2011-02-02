@@ -2,6 +2,8 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.contrib.admin import widgets as admin_widgets
+
 from apps.groups.documents import GroupTheme, GroupType, Group
 
 class GroupCreationForm(forms.Form):
@@ -17,7 +19,9 @@ class GroupCreationForm(forms.Form):
     public = forms.BooleanField(label=_('Access'), required=False)
     has_video_conference = forms.BooleanField(label=_('Has video conference'),
                                               required=False)
-    timestamp = forms.DateTimeField(label=_('Timestamp'), required=False)
+    timestamp = forms.DateTimeField(label=_('Timestamp'), required=False,
+                                    widget = admin_widgets.AdminSplitDateTime
+                                    )
 
     def __init__(self, *args, **kwarg):
         initial = kwarg.get('initial')
