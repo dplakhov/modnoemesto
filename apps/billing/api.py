@@ -51,9 +51,6 @@ class CameraAccessor(object):
                     if time_next > settings.TIME_INTERVAL_NOTIFY:
                         time_next = settings.TIME_INTERVAL_NOTIFY
                     return time_next
-            self.status = 'OK'
-            self.time = 0
-            self.stream = camera.stream_name
             return 0
         if can_show_info in ['owner', 'free']:
             return settings.TIME_INTERVAL_NOTIFY
