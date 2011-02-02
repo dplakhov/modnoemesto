@@ -30,3 +30,4 @@ DATABASES = {
 #CELERY_EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 #EMAIL_BACKEND = 'apps.async_email.backends.CeleryEmailBackend'
 
+VIDEO_PROXY_SERVER_URL = 'rtmp://109.234.158.4/cam3'

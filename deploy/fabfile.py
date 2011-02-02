@@ -17,13 +17,14 @@ APPLICATION_USER = 'appserver'
 
 
 env.roledefs.update({
-    'app': [ 'as%d.modnoemesto.ru' %x for x in ( 2, 3, 4, 5, 6, 7, 8) ],
+    'app': [ 'as%d.modnoemesto.ru' %x for x in ( 2, 3, 4, 5, 6, 7, ) ],
 
     'db_master': [ 'db%d.modnoemesto.ru' %x for x in (2, 4, 6, 7) ],
     'db_slave': [ 'db%d.modnoemesto.ru' %x for x in (1, 3, 5, 8) ],
 
     'bal': [ 'bal%d.modnoemesto.ru' %x for x in (1, 2, 3, 4) ],
-    'mv': ['s0%d.modnoemesto.ru' % x for x in (24, 25,)],
+    #'mv': ['s0%d.modnoemesto.ru' % x for x in (24, 25,)],
+    'mv': ['as%d.modnoemesto.ru' % x for x in (8, )],
 })
 
 
