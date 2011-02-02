@@ -9,6 +9,13 @@
 		1border: 1px solid #CCC;
 		padding: 20px 20px;
 	}
+
+    table.log_view, .log_view th, .log_view td {
+        border: 1px solid black;
+        padding: 3px;
+
+    }
+
 </style>
 {% endblock %}
 
@@ -34,17 +41,16 @@
 		{% endif %}
 	{% endfor %}
 </div>
-<table border="1" cellpadding="1" style="border-collapse:collapse;">
+<table cellspacing="0" class="log_view">
     <thead>
         <tr>
             <th>{% trans "Date" %}</th>
             <th>{% trans "Level name" %}</th>
-            <th>{% trans "Level num" %}</th>
             <th>{% trans "Message" %}</th>
-            <th>{% trans "Path name" %}</th>
-            <th>{% trans "Logger name" %}</th>
-            <th>{% trans "Function" %}</th>
-            <th>{% trans "Line number" %}</th>
+            <th>{% trans "Path name" %}
+            {% trans "Logger name" %}
+            {% trans "Function" %}
+            {% trans "Line number" %}</th>
         </tr>
     </thead>
     <tbody>
@@ -52,12 +58,13 @@
     <tr>
         <td>{{ entry.date }}</td>
         <td>{{ entry.levelname }}</td>
-        <td>{{ entry.levelnum }}</td>
-        <td><pre>{{ entry.message }}</pre></td>
-        <td>{{ entry.pathname }}</td>
-        <td>{{ entry.logger_name }}</td>
-        <td>{{ entry.func }}</td>
-        <td>{{ entry.lineno }}</td>
+        <td>{{ entry.message }}</td>
+        <td style="font-size: 8px;">
+            {{ entry.pathname }}
+            {{ entry.logger_name }}
+            {{ entry.func }}
+            {{ entry.lineno }}
+        </td>
     </tr>
 {% endfor %}
     </tbody>

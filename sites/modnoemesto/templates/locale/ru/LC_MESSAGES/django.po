@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-20 12:06+0300\n"
+"POT-Creation-Date: 2011-02-01 19:10+0300\n"
 "PO-Revision-Date: 2010-11-25 17:23+0300\n"
 "Last-Translator: dgk <dgk@web-mark-ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: base_mini.html:55
+#: base_mini.html:65
 msgid "search"
 msgstr "поиск"
 
@@ -82,9 +82,9 @@ msgstr "Добавить"
 #: admin_blog/edit.html:36 billing/tariff_edit.html:16 cam/tag_edit.html:16
 #: cam/type_edit.html:16 groups/group_edit.html:179 groups/photo_edit.html:25
 #: groups/theme_edit.html:16 groups/type_edit.html:16 news/edit.html:55
-#: notes/note_edit.html:42 social/profile/_cam_form.html:251
-#: social/profile/_profile_form.html:122 social/profile/_profile_form.html:129
-#: social/profile/_screen_form.html:23 social/profile/_user_form.html:32
+#: notes/note_edit.html:42 social/profile/_cam_form.html:261
+#: social/profile/_profile_form.html:123 social/profile/_profile_form.html:130
+#: social/profile/_screen_form.html:23 social/profile/_user_form.html:61
 #: social/profile/avatar.html:16
 msgid "Save"
 msgstr "Сохранить"
@@ -119,36 +119,39 @@ msgstr "Новость"
 msgid "Created:"
 msgstr "Создана:"
 
-#: billing/access_order_list.html:5 includes/admin_menu.html:24
+#: billing/access_order_list.html:6 includes/admin_menu.html:24
 msgid "Access Orders"
 msgstr "Заказы доступа"
 
-#: billing/access_order_list.html:9 billing/order_list.html:10
+#: billing/access_order_list.html:10 billing/order_list.html:10
 msgid "User"
 msgstr "Пользователь"
 
-#: billing/access_order_list.html:10 cam/cam_view.html:4
+#: billing/access_order_list.html:11 cam/cam_view.html:4
 msgid "Camera"
 msgstr "Камера"
 
-#: billing/access_order_list.html:11
+#: billing/access_order_list.html:12
 msgid "Tariff"
 msgstr "Тарифы"
 
-#: billing/access_order_list.html:12
+#: billing/access_order_list.html:13
 msgid "Begin Date"
 msgstr "Начало"
 
-#: billing/access_order_list.html:13
+#: billing/access_order_list.html:14
 msgid "End Date"
 msgstr "Конец"
 
-#: billing/access_order_list.html:14
+#: billing/access_order_list.html:15
+msgid "Duration"
+msgstr "Продолжительность"
+
+#: billing/access_order_list.html:16
 msgid "Cost"
 msgstr "Стоимость"
 
-#: billing/access_order_list.html:15 social/home.html:51
-#: social/home.html.py:131 social/user.html:63
+#: billing/access_order_list.html:17 social/home.html:129
 msgid "Status"
 msgstr "Статус"
 
@@ -304,7 +307,7 @@ msgstr "Сменить фотографию"
 msgid "Your friends"
 msgstr "Ваши друзья"
 
-#: groups/theme_edit.html:6 themes/list.html:51
+#: groups/theme_edit.html:6 themes/list.html:55
 msgid "Add theme"
 msgstr "Добавить тему"
 
@@ -409,8 +412,8 @@ msgstr "Группы"
 msgid "Logging"
 msgstr ""
 
-#: includes/admin_menu.html:38 logging/log_list.html:22
-#: logging/log_list.html.py:24
+#: includes/admin_menu.html:38 logging/log_list.html:29
+#: logging/log_list.html.py:31
 msgid "All"
 msgstr ""
 
@@ -433,14 +436,6 @@ msgstr ""
 #: includes/admin_menu.html:43
 msgid "Critical"
 msgstr ""
-
-#: includes/camera.html:19
-msgid "This camera is not free!"
-msgstr "Просмотр этой камеры платный"
-
-#: includes/camera.html:22
-msgid "This camera is private."
-msgstr "Эта камера не для всеобщего просмотра"
 
 #: includes/datetime.html:2 user_messages/write_message.html:61
 msgid "ago"
@@ -466,43 +461,39 @@ msgstr "предыдущая"
 msgid "Next page"
 msgstr "следующая"
 
-#: logging/log_list.html:18
+#: logging/log_list.html:25
 msgid "Log"
 msgstr ""
 
-#: logging/log_list.html:20
+#: logging/log_list.html:27
 msgid "Logging filter"
 msgstr ""
 
-#: logging/log_list.html:40
+#: logging/log_list.html:47
 msgid "Date"
 msgstr ""
 
-#: logging/log_list.html:41
+#: logging/log_list.html:48
 msgid "Level name"
 msgstr ""
 
-#: logging/log_list.html:42
-msgid "Level num"
-msgstr ""
-
-#: logging/log_list.html:43
+#: logging/log_list.html:49
 msgid "Message"
 msgstr ""
 
-#: logging/log_list.html:44
+#: logging/log_list.html:50
 msgid "Path name"
 msgstr ""
 
-#: logging/log_list.html:45
+#: logging/log_list.html:51
 msgid "Logger name"
 msgstr ""
 
-#: logging/log_list.html:46
+#: logging/log_list.html:52
 msgid "Function"
 msgstr ""
 
-#: logging/log_list.html:47
+#: logging/log_list.html:53
 msgid "Line number"
 msgstr ""
 
@@ -522,7 +513,7 @@ msgstr "Добавить заметку"
 msgid "Edit note"
 msgstr "Редактировать заметку"
 
-#: notes/note_list.html:6 social/user.html:118
+#: notes/note_list.html:6 social/home.html:78
 msgid "Notes"
 msgstr "Заметки"
 
@@ -534,83 +525,91 @@ msgstr "Создать заметку"
 msgid "Note"
 msgstr "Заметка"
 
-#: social/home.html:25 social/home.html.py:102 social/user.html:34
-msgid "Hometown"
-msgstr "Родной город"
-
-#: social/home.html:27 social/home.html.py:104 social/user.html:36
-msgid "Birthday"
-msgstr "День рождения"
-
-#: social/home.html:29 social/home.html.py:106 social/user.html:38
-msgid "Sex"
-msgstr "Пол"
-
-#: social/home.html:34 social/home.html.py:111 social/user.html:43
-msgid "Contact Information"
-msgstr "Контактная информация"
-
-#: social/home.html:36 social/home.html.py:114 social/user.html:46
-msgid "ICQ"
-msgstr "ICQ"
-
-#: social/home.html:38 social/home.html.py:116 social/user.html:48
-msgid "Mobile"
-msgstr "Телефон"
-
-#: social/home.html:40 social/home.html.py:118 social/user.html:50
-msgid "Website"
-msgstr "Личный сайт"
-
-#: social/home.html:45 social/home.html.py:124 social/user.html:56
-msgid "Education"
-msgstr "Образование"
-
-#: social/home.html:47 social/home.html.py:127 social/user.html:59
-msgid "University"
-msgstr "ВУЗ"
-
-#: social/home.html:49 social/home.html.py:129 social/user.html:61
-msgid "Department"
-msgstr "Факультет"
-
-#: social/home.html:56 social/home.html.py:137 social/user.html:69
-msgid "Announce"
-msgstr "Анонс"
-
-#: social/home.html:67 social/home.html.py:152 social/user.html:116
-msgid "options"
-msgstr "Настройки"
-
-#: social/home.html:69 social/home.html.py:154 social/user.html:120
-msgid "Friends"
-msgstr "Друзья"
-
-#: social/user.html:141
+#: social/_camera.html:25
 msgid "Get view access to camera"
 msgstr "Получить доступ к камере на просмотр"
 
-#: social/user.html:144
+#: social/_camera.html:29
 msgid "Get manage access to camera"
 msgstr "Получить доступ к камере на управление"
 
-#: social/user.html:147
+#: social/_camera.html:33
 msgid "Bookmark this camera"
 msgstr "Добавить закладку"
 
-#: social/user.html:149
+#: social/_camera.html:35
 msgid "Remove Bookmark"
 msgstr "Убрать закладку"
 
-#: social/user.html:152
+#: social/_camera.html:39
 msgid "The remaining time on the show"
 msgstr "Оставшееся время просмотра"
+
+#: social/_camera.html:76
+msgid "This camera is not free!"
+msgstr "Просмотр этой камеры платный"
+
+#: social/_camera.html:78
+msgid "This camera is private."
+msgstr "Эта камера не для всеобщего просмотра"
+
+#: social/home.html:71 social/home.html.py:76
+msgid "options"
+msgstr "Настройки"
+
+#: social/home.html:73 social/home.html.py:80
+msgid "Friends"
+msgstr "Друзья"
+
+#: social/home.html:103
+msgid "Hometown"
+msgstr "Родной город"
+
+#: social/home.html:105
+msgid "Birthday"
+msgstr "День рождения"
+
+#: social/home.html:107
+msgid "Sex"
+msgstr "Пол"
+
+#: social/home.html:112
+msgid "Contact Information"
+msgstr "Контактная информация"
+
+#: social/home.html:114
+msgid "ICQ"
+msgstr "ICQ"
+
+#: social/home.html:116
+msgid "Mobile"
+msgstr "Телефон"
+
+#: social/home.html:118
+msgid "Website"
+msgstr "Личный сайт"
+
+#: social/home.html:123
+msgid "Education"
+msgstr "Образование"
+
+#: social/home.html:125
+msgid "University"
+msgstr "ВУЗ"
+
+#: social/home.html:127
+msgid "Department"
+msgstr "Факультет"
+
+#: social/home.html:134
+msgid "Announce"
+msgstr "Анонс"
 
 #: social/profile/_cam_form.html:44
 msgid "Edit camera"
 msgstr "Редактировать камеру"
 
-#: social/profile/_profile_form.html:9
+#: social/profile/_profile_form.html:10
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
@@ -638,7 +637,7 @@ msgstr "Изменить внешний вид домашней страницы
 msgid "Delete theme"
 msgstr "Удалить тему"
 
-#: themes/list.html:34 themes/list.html.py:56
+#: themes/list.html:34 themes/list.html.py:61
 msgid "Unset theme"
 msgstr "Отключить тему"
 

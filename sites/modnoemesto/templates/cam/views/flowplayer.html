@@ -52,7 +52,11 @@
             provider: 'rtmp',
             url: '{{ camera.id }}',
             live: true,
-                  connectionArgs: ['{{ camera.id }}', '{{ request.session.session_key }}'],
+                  connectionArgs: [
+                      '{{ camera.id }}',
+                      '{{ request.session.session_key }}',
+                      '{{ request.user.id }}'
+                  ],
             onBegin: function(clip) {
                     $.get('{% url cam:inc_view_count camera.id %}');
                     {% if camera.is_view_paid and billing.can_show and not billing.order.is_packet %}

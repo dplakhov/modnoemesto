@@ -8,7 +8,6 @@ import git
 from fabric.api import run, local, cd, env
 from fabric.contrib.files import exists, contains, comment, uncomment, append, sed
 from fabric.operations import put
-from fabric.decorators import roles
 
 APPLICATION_DIR = '/var/socnet/appserver'
 
@@ -148,11 +147,9 @@ def mongos_install():
     put('etc/init.d/mongos', '/etc/init.d/mongos', mode=0755)
     run('update-rc.d mongos defaults')
 
-@roles('app')
 def mongos_start():
     run('service mongos start')
 
-@roles('app')
 def mongos_restart():
     run('service mongos restart')
 

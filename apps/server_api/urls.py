@@ -11,4 +11,8 @@ urlpatterns = patterns('apps.server_api.views',
         'friend_list', name='friend_list'),
 
     url(r'^camera/notify.(?P<format>(txt|xml))$', 'cam_view_notify', name='cam_view_notify'),
+
+    url(r'^log/$', 'log', name='log'),
+    
+    url(r'^call_user/(?P<id>[a-f0-9]{24})/$', 'call_user', name='call_user'),
 )

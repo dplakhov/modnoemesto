@@ -1,9 +1,27 @@
-{% extends "base.html" %}
+{% extends "base_mini.html" %}
 {% load i18n %}
 
-{% block content %}
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#access_order_list').click(function(e) {
+        var clicked = $(e.target);
+        if (clicked.hasClass('delete')) {
+            if (confirm("Вы действительно желаете удалить заказ?")) {
+                return true;
+            }
+            return false;
+        }
+    });
+});
+</script>
+{% endblock %}
+
+{% block base_content %}
+{% include "_left_box_menu.html" %}
 <h2>{% trans "Access Orders" %}</h2>
-<table>
+<table id="access_order_list">
     <thead>
         <tr>
             <th>{% trans "User" %}</th>
@@ -11,8 +29,10 @@
             <th>{% trans "Tariff" %}</th>
             <th>{% trans "Begin Date" %}</th>
             <th>{% trans "End Date" %}</th>
+            <th>{% trans "Duration" %}</th>
             <th>{% trans "Cost" %}</th>
             <th>{% trans "Status" %}</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -21,10 +41,12 @@
         <td><a href="{% url social:user order.user.id %}" >{{ order.user }}</a></td>
         <td><a href="{% url social:user order.camera.owner.id %}" >{{ order.camera.name }}</a></td>
         <td><a href="{% url billing:tariff_edit order.tariff.id %}" >{{ order.tariff.name }}</a></td>
-        <td>{{ order.begin_date|date:"d M H:i" }}</td>
-        <td>{{ order.end_date|date:"d M H:i" }}</td>
+        <td>{{ order.begin_date|date:"d.m H:i:s" }}</td>
+        <td>{{ order.end_date|date:"d.m H:i:s" }}</td>
+        <td>{{ order.duration|floatformat:.0 }}</td>
         <td>{{ order.cost|floatformat:2 }}</td>
         <td>{{ order.status }}</td>
+        <td><a href="{% url billing:access_order_delete order.id %}" class="delete">del</a></td>
     </tr>
 {% endfor %}
     </tbody>

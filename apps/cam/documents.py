@@ -94,30 +94,52 @@ class Camera(Document):
 
     view_count = IntField(default=0)
 
-    trial_view_time = IntField(default=1)
+    trial_view_time = IntField(default=1) # in min.
 
     @property
     def driver(self):
         return self.type.driver_class(self)
 
+    def get_trial_view_time(self, session):
+        cameras = session.get('trial_view_time', {})
+        timer = cameras.get(self.id)
+        if timer is None:
+            timer = self.trial_view_time * 60
+            cameras[self.id] = timer
+            session['trial_view_time'] = cameras
+            session.save()
+        return timer
+
+    def set_trial_view_time(self, session, seconds):
+        cameras = session.get('trial_view_time', {})
+        cameras[self.id] = seconds
+        session['trial_view_time'] = cameras
+        session.save()
+
     def can_show(self, access_user, now):
+        """
+        return:
+            True, ( owner | paid | free | operator )
+            False, ( disabled | not_friend | not_paid )
+        """
         if self.owner == access_user:
-            return True
+            return True, 'owner'
         if not self.is_view_enabled:
-            return False
+            return False, 'disabled'
         if not self.is_view_public:
             if not access_user.friends.contains(self.owner):
-                return False
+                return False, 'not_friend'
         if self.is_view_paid:
             if self.operator == access_user:
-                return True
+                return True, 'operator'
             order = AccessCamOrder.objects(
                 user=access_user,
                 camera=self,
             ).order_by('-create_on').first()
             if not order or order.end_date is not None and order.end_date < now:
-                return False
-        return True
+                return False, 'not_paid'
+            return True, 'paid'
+        return True, 'free'
 
     def get_show_info(self, access_user, now):
         if self.operator == access_user or self.owner == access_user:
@@ -160,7 +182,7 @@ class Camera(Document):
 
     def billing(self, access_user):
         now = datetime.now()
-        can_show = self.can_show(access_user, now)
+        can_show, info = self.can_show(access_user, now)
         show_data = {}
         if can_show and self.is_view_paid:
             time_left, order = self.get_show_info(access_user, now)
