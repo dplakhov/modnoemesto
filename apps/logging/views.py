@@ -11,17 +11,17 @@ from models import LogEntry
 def log_list(request):
     filter_data = {}
 
-    logger = request.GET.get('logger', None)
+    logger = request.GET.get('logger', '')
 
     if logger:
         filter_data['logger_name'] = logger
 
-    message = request.GET.get('message', None)
+    message = request.GET.get('message', '')
 
     if message:
         filter_data['message__icontains'] = message
 
-    level = request.GET.get('level', None)
+    level = request.GET.get('level', '')
 
     if level:
         filter_data['levelname'] = level.upper()
