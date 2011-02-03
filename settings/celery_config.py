@@ -34,3 +34,4 @@ CELERY_EMAIL_TASK_CONFIG = {
     'rate_limit' : '50/m', # 50 emails per minute
 }
 
+CELERYD_LOG_TO_CONSOLE = True
