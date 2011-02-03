@@ -1,5 +1,19 @@
 # -*- coding: utf-8 -*-
 
+import django
+
+if django.VERSION[1] < 3:
+    LOGGING_CONFIG = 'apps.logging_patch.log.dictConfig'
+    _adminEmailHandler = 'apps.logging_patch.log.AdminEmailHandler'
+    _nullHandler = 'apps.logging_patch.log.NullHandler'
+else:
+    #for django version > 1.3.0
+    LOGGING_CONFIG = 'django.utils.log.dictConfig'
+    _adminEmailHandler = 'django.utils.log.AdminEmailHandler'
+    _nullHandler = 'django.utils.log.NullHandler'
+
+# end logging patches for django 1.2 series
+
 
 LOGGING = {
     'version': 1,
