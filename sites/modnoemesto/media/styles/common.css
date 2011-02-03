@@ -22,7 +22,10 @@ a {
     color: #027A98;
     outline: none;
 }
-
+li
+{
+	list-style: none;
+}
 div#container
 {
     height: auto !important; /* real browsers */
@@ -1754,3 +1757,36 @@ a.delete
 {
 	margin-bottom: 15px;
 }
+.media_holder
+{
+	float: left;
+	overflow: hidden;
+	margin-right: 10px;
+}
+a.fancy-image
+{
+	height: 98px;
+    margin: 0px 9px 9px 10px;
+    overflow: hidden;
+    text-align: center;
+    width: 200px;
+	display: inline-block;
+	float: left;
+}
+a.fancy-image+a.delete
+{
+	width: 17px;
+	overflow: hidden;
+	padding: 0px;
+	text-indent: 9999px;
+	float: right;
+}
+.lable {
+    font-weight: bold;
+    width: 150px;
+}
+
+
+
+
+
