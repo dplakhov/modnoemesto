@@ -28,7 +28,7 @@ from .decorators import check_admin_right
 
 def group_list(request):
     objects = paginate(request,
-                       Group.objects,
+                       Group.objects.order_by('-count_members'),
                        Group.objects.count(),
                        24)
     return direct_to_template(request, 'groups/list.html', dict(objects=objects))
@@ -104,7 +104,6 @@ def group_view(request, id):
             is_status_request=group.is_request(request.user),
             objects=objects,
             form=form,
-            members_count=GroupUser.objects(group=group, status=GroupUser.STATUS.ACTIVE).count(),
         ))
 
 

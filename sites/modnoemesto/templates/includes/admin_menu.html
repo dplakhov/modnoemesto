@@ -36,11 +36,6 @@
         <p>{% trans "Logging" %}</p>
         <ul>
             <li><a href="{% url logging:log_list %}">{% trans "All" %}</a></li>
-            <li><a href="{% url logging:log_list level='INFO' %}">{% trans "Info" %}</a></li>
-			<li><a href="{% url logging:log_list level='DEBUG' %}">{% trans "Debug" %}</a></li>
-			<li><a href="{% url logging:log_list level='WARNING' %}">{% trans "Warning" %}</a></li>
-			<li><a href="{% url logging:log_list level='ERROR' %}">{% trans "Error" %}</a></li>
-			<li><a href="{% url logging:log_list level='CRITICAL' %}">{% trans "Critical" %}</a></li>
         </ul>
         {% endif %}
 		

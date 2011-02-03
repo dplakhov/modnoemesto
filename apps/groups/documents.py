@@ -1,5 +1,5 @@
 from mongoengine.document import Document
-from mongoengine.fields import StringField, ReferenceField, BooleanField, DateTimeField
+from mongoengine.fields import StringField, ReferenceField, BooleanField, DateTimeField, IntField
 from apps.utils.decorators import cached_property
 from datetime import datetime, timedelta
 from mongoengine.queryset import OperationError
@@ -29,6 +29,7 @@ class Group(Document):
     public = BooleanField(default=False)
     photo = ReferenceField('File')
     has_video_conference = BooleanField(default=True)
+    count_members = IntField(default=0)
     timestamp = DateTimeField(default=datetime.now)
 
 
@@ -62,6 +63,8 @@ class Group(Document):
                                             status=status)
         except OperationError:
             return False
+        else:
+            Group.objects(id=self.id).update_one(inc__count_members=1)
         return True
 
     def is_active(self, user):
@@ -105,6 +108,7 @@ class Group(Document):
 
     def remove_member(self, user):
         GroupUser.objects(group=self, user=user).delete()
+        Group.objects(id=self.id).update_one(dec__count_members=1)
 
     def is_admin(self, user):
         info = GroupUser.objects(group=self, user=user).only('is_admin').first()

@@ -211,7 +211,7 @@ $(document).ready(function(){
     </li>
 {% endfor %}
 </ul>
-<a href="{% url groups:member_list group.id %}">все {{ members_count }}</a>
+<a href="{% url groups:member_list group.id %}">все {{ group.count_members }}</a>
 {% else %}
 <p class="hide_info">Информация скрыта.</p>
 {% endif %}
