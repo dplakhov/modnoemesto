@@ -13,6 +13,8 @@
     <script type="text/javascript">
     $(function(){
 $('a.fancy-image').fancybox({
+		
+		'titlePosition'	: 'inside',
 		'transitionIn'	:	'elastic',
 		'transitionOut'	:	'elastic',
 		'speedIn'		:	600, 
@@ -26,31 +28,59 @@ $('a.fancy-image').fancybox({
 {% endblock %}
 
 {% block content %}
-
-<h1>{% trans "Videos" %}</h1>
+<div id="filter_box">
+<h2>Видеозаписи</h2>
 
 <div id="content-main">
 {% for file in objects.object_list  %}
+<div class="media_holder">
     <a class="fancy-image" href="{% media_url file library_video_full.png %}">
         <img src="{% media_url file library_video_thumbnail.png %}" alt="" />
     </a>
     {% if can_manage %}
-        <a href="{% url media_library:video_delete id=file.id %}">{% trans "Delete" %}</a>
+        <a class="delete" title="удалить" href="{% url media_library:video_delete id=file.id %}">{% trans "Delete" %}</a>
     {% endif %}
+</div>
 {% endfor %}
 </div>
 
 {% include 'includes/paginator.html' %}
-
+<br />
     {% if can_manage %}
         <form action="{% url media_library:video_add %}" method="post" enctype="multipart/form-data">
-
+		<div class="filt rounded">
         <table>
-        {{ form.as_table }}
+        <tbody>
+            <tr>
+                <td class="label"><label for="id_file">Изображение:</label></td>
+                <td><input type="file" id="id_file" name="file"></td>
+            </tr>
+            <tr>
+                 <td style="height:10px"></td>
+                 <td class="empty_filt"></td>
+                 <td style="height:10px"></td>
+            </tr>
+            <tr>
+                <td class="label"><label for="id_title">Заголовок:</label></td>
+                <td><div class="input_holder rounded"><input type="text" id="id_title" name="title"></div></td>
+            </tr>
+            <tr>
+                 <td style="height:10px"></td>
+                 <td class="empty_filt"></td>
+                 <td style="height:10px"></td>
+            </tr>
+            <tr>
+                <td class="label"><label for="id_description">Описание:</label></td>
+                <td><div class="input_holder rounded"><input type="text" id="id_description" name="description"></div></td>
+            </tr>
+        </tbody>
         </table>
+        </div>
+        <div class="but">
         <input type="submit" value="{% trans "Add" %}"/>
+        </div>
         </form>
 
     {% endif %}
-    
+</div>    
 {% endblock %}
