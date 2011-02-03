@@ -28,14 +28,14 @@
     {% ifequal level current_level %}
     <b>{% trans "All" %}</b>
     {% else %}
-    <a href="{% url logging:log_list %}{% if current_level %}?logger={{ current_logger }}{% endif %}">{% trans "All" %}</a>
+    <a href="{% url logging:log_list %}?logger={{ current_logger }}&message={{ current_message }}">{% trans "All" %}</a>
     {% endifequal %}
     {% for level in levels %}
         |
         {% ifequal level current_level %}
         <b>{{ level }}</b>
         {% else %}
-        <a href="{% url logging:log_list %}?level={{ level }}{% if current_level %}&logger={{ current_logger }}{% endif %}">{{ level }}</a>
+        <a href="{% url logging:log_list %}?level={{ level }}&logger={{ current_logger }}&message={{ current_message }}">{{ level }}</a>
         {% endifequal %}
     {% endfor %}
     
@@ -43,7 +43,7 @@
 
 	<b>{% trans "Logger" %}:</b>
 	{% if current_logger %}
-		<a href="{% url logging:log_list %}{% if current_level %}?level={{ current_level }}{% endif %}">{% trans "All" %}</a>
+		<a href="{% url logging:log_list %}?level={{ current_level }}&message={{ current_message }}">{% trans "All" %}</a>
 	{% else %}
 		<b>{% trans "All" %}</b>
 	{% endif %}
@@ -53,9 +53,18 @@
         {% ifequal logger current_logger %}
 			<b>{{ logger }}</b>
 		{% else %}
-			<a href="{% url logging:log_list %}?{% if current_level %}level={{ current_level }}&{% endif %}logger={{ logger }}">{{ logger }}</a>
+			<a href="{% url logging:log_list %}?level={{ current_level }}&logger={{ logger }}&message={{ current_message }}">{{ logger }}</a>
 		{% endifequal %}
 	{% endfor %}
+
+<br />
+    <b>{% trans "Message" %}:</b>
+    <form action="{% url logging:log_list %}" method="get" style="display:inline">
+        <input type="hidden" name="level" value="{{ current_level }}" />
+        <input type="hidden" name="logger" value="{{ current_logger }}" />
+        <input type="text" name="message" value="{{ current_message }}" />
+        <input type="submit" value="{% trans 'Send' %}" />
+    </form>
 </div>
 <table cellspacing="0" class="log_view">
     <thead>
