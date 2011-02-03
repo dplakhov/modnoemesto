@@ -41,4 +41,5 @@ def log_list(request):
                                'current_logger': logger,
                                'levels': ['info', 'debug', 'warning', 'error', 'critical'],
                                'current_level': level,
+                               'current_message': message,
                               })
