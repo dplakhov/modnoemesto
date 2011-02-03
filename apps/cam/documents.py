@@ -200,7 +200,7 @@ class Camera(Document):
                 show_data = seconds_by_data(time_left.days, time_left.seconds)
         else:
             seconds = self.get_trial_view_time(session)
-            if seconds:
+            if seconds > 0:
                 show_data = seconds_by_data(0, seconds)
                 can_show = True
             order = None
