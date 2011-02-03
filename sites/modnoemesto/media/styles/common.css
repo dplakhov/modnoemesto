@@ -1781,9 +1781,10 @@ a.fancy-image+a.delete
 	text-indent: 9999px;
 	float: right;
 }
-.lable {
+.label {
     font-weight: bold;
     width: 150px;
+	text-align: right;
 }
 
 
