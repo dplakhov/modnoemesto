@@ -127,8 +127,8 @@ div#serch
  }
 #menu
 {
-    width: 790px;
-    left: 145px;
+    width: 670px;
+    left: 245px;
 }
 #menuReg
 {
@@ -1215,6 +1215,7 @@ h2.caption {
 .filt
 {
     margin-bottom: 10px;
+	clear: both;
 }
 .camera_edit th
 {
@@ -1757,11 +1758,16 @@ a.delete
 {
 	margin-bottom: 15px;
 }
+.content-main
+{
+	overflow: hidden;
+}
 .media_holder
 {
 	float: left;
 	overflow: hidden;
 	margin-right: 10px;
+	width: 245px;
 }
 a.fancy-image
 {

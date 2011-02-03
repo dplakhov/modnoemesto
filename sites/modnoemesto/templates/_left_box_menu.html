@@ -56,7 +56,6 @@ $(document).ready(function() {
             {% endif %}
             <li id="audio"><p>{% comment %}<a href="{% url social:in_dev %}">{% endcomment %}Аудиозаписи{% comment %}</a>{% endcomment %}</p></li>
 
-            <li id="meeting"><p>{% comment %}<a href="{% url social:in_dev %}">{% endcomment %}Встречи{% comment %}</a>{% endcomment %}</p></li>
             {% endif %}
             {% if request.user.is_staff %}
                 {% include 'includes/admin_menu.html' %}

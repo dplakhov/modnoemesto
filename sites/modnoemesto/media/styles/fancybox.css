@@ -35,7 +35,7 @@
 	left: 0;
 	width: 40px;
 	height: 480px;
-	background-image: url('../images/fancybox.png');
+	background-image: url('/media/images/fancybox.png');
 }
 
 #fancybox-overlay {
@@ -99,7 +99,7 @@
 	right: -15px;
 	width: 30px;
 	height: 30px;
-	background: transparent url('../images/fancybox.png') -40px 0px;
+	background: transparent url('/media/images/fancybox.png') -40px 0px;
 	cursor: pointer;
 	z-index: 1103;
 	display: none;
@@ -137,7 +137,7 @@
 	width: 35%;
 	cursor: pointer;
 	outline: none;
-	background: transparent url('../images/blank.gif');
+	background: transparent url('/media/images/blank.gif');
 	z-index: 1102;
 	display: none;
 }
