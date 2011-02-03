@@ -17,6 +17,7 @@ APPLICATION_USER = 'appserver'
 
 
 env.roledefs.update({
+    'test': [ 'as%d.modnoemesto.ru' %x for x in ( 1, ) ],
     'app': [ 'as%d.modnoemesto.ru' %x for x in ( 2, 3, 4, 5, 6, 7, ) ],
 
     'db_master': [ 'db%d.modnoemesto.ru' %x for x in (2, 4, 6, 7) ],
@@ -30,6 +31,7 @@ env.roledefs.update({
 
 env.roledefs.update({ 'db': env.roledefs['db_master'] + env.roledefs['db_slave'] })
 env.roledefs.update({ 'all': env.roledefs['app'] + env.roledefs['db'] + env.roledefs['bal'] })
+env.roledefs.update({ 'all_app': env.roledefs['app'] + env.roledefs['test'] + env.roledefs['mv'] })
 
 env.user = 'root'
 
@@ -105,10 +107,14 @@ def install_keys(user='root', key_file=None):
         append(pub_key, 'authorized_keys')
 
 
-def upgrade_server():
+def update_server():
     run('apt-get update')
+
+def upgrade_server():
     run('apt-get --yes dist-upgrade upgrade')
 
+def autoremove():
+    run('apt-get --yes autoremove')
 
 def install_git():
     run('apt-get --yes install git')
@@ -204,7 +210,12 @@ def install_app_server_software():
     run('apt-get --yes install python-imaging python-software-properties')
     run('apt-get --yes install python-lxml')
     run('apt-get --yes install rabbitmq-server python-mysqldb python-redis')
+    run('apt-get --yes install mplayer')
 
+
+def remove_nginx():
+    run('apt-get -f --yes install')
+    run('apt-get --yes --purge remove nginx')
 
 def install_nginx():
     run('add-apt-repository ppa:nginx/stable')
@@ -293,6 +304,18 @@ def install_application():
 
     # return
 
+
+
+
+def bal_disable_server(srv):
+    srv = int(srv)
+    comment('/etc/nginx/sites-available/modnoemesto.ru.conf', 'server[[:space:]]+as%d\.' % srv)
+    run('/etc/init.d/nginx reload')
+
+def bal_enable_server(srv):
+    srv = int(srv)
+    uncomment('/etc/nginx/sites-available/modnoemesto.ru.conf', 'server[[:space:]]+as%d\.' % srv)
+    run('/etc/init.d/nginx reload')
 
 def restart_nginx():
     env.user = 'appserver'
