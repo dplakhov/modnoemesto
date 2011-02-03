@@ -65,6 +65,10 @@ dt
     position: absolute;
     top: 148px;
 }
+.profileActions
+{
+	height: 45px;
+}
 .profileActions ul li
 {
 	padding: 15px 0px 15px 5px;
@@ -107,7 +111,7 @@ dd
 }
 .about_persone dd a
 {
-	color: #7B9E33;
+	color: #666;
 	text-decoration: underline;
 }
 
