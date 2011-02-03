@@ -62,6 +62,7 @@ $(document).ready(function(){
                 <td style="height:10px" class="empty_filt"></td>
                 <td style="height:10px"> {{ form.name.errors }} </td>
             </tr>
+            {% if request.user.is_superuser %}
             <tr>
                 <th>  {{ form.type.label_tag }}:</th>
                 <td class="empty_filt"></td>
@@ -72,7 +73,6 @@ $(document).ready(function(){
                 <td style="height:10px" class="empty_filt"></td>
                 <td style="height:10px"> {{ form.type.errors }} </td>
             </tr>
-            {% if perms.camera %}
             <tr>
                 <th>  {{ form.stream_name.label_tag }}:</th>
                 <td class="empty_filt"></td>
@@ -83,12 +83,12 @@ $(document).ready(function(){
                 <td style="height:10px" class="empty_filt"></td>
                 <td style="height:10px"> {{ form.stream_name.errors }} </td>
             </tr>
-            {% endif %}
             <tr>
                 <th>  {{ form.force_html5.label_tag }}:</th>
                 <td class="empty_filt"></td>
                 <td>    {{ form.force_html5 }}</td>
             </tr>
+            {% endif %}
             <tr>
                 <td style="height:10px"></td>
                 <td style="height:10px" class="empty_filt"></td>
@@ -223,6 +223,7 @@ $(document).ready(function(){
                 <td class="empty_filt"></td>
                 <td><div class="input_holder_short rounded">    {{ form.camera_management_host }}</div></td>
             </tr>
+            {% if request.user.is_superuser %}
             <tr>
                 <td style="height:10px"></td>
                 <td style="height:10px" class="empty_filt"></td>
@@ -248,6 +249,7 @@ $(document).ready(function(){
                 <td style="height:10px" class="empty_filt"></td>
                 <td style="height:10px"> {{ form.camera_management_password.errors }} </td>
             </tr>
+            {% endif %}
             <tr>
                 <th>  {{ form.operator.label_tag }}:</th>
                 <td class="empty_filt"></td>
