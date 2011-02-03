@@ -144,6 +144,7 @@ class Camera(Document):
     def get_show_info(self, access_user, now):
         if self.operator == access_user or self.owner == access_user:
             return None, None
+
         order = AccessCamOrder.objects(
             user=access_user,
             camera=self,
@@ -180,20 +181,28 @@ class Camera(Document):
             camera=self,
         ).order_by('create_on'))
 
-    def billing(self, access_user):
+    def billing(self, access_user, session):
+        def seconds_by_data(days, seconds):
+            data = {}
+            data['days'] = days
+            data['hours'] = seconds / 3600
+            seconds -= data['hours'] * 3600
+            data['minutes'] = seconds / 60
+            data['seconds'] = seconds - data['minutes'] * 60
+            return data
+
         now = datetime.now()
         can_show, info = self.can_show(access_user, now)
         show_data = {}
         if can_show and self.is_view_paid:
             time_left, order = self.get_show_info(access_user, now)
             if time_left is not None:
-                seconds = time_left.seconds
-                show_data['days'] = time_left.days
-                show_data['hours'] = seconds / 3600
-                seconds -= show_data['hours'] * 3600
-                show_data['minutes'] = seconds / 60
-                show_data['seconds'] = seconds - show_data['minutes'] * 60
+                show_data = seconds_by_data(time_left.days, time_left.seconds)
         else:
+            seconds = self.get_trial_view_time(session)
+            if seconds:
+                show_data = seconds_by_data(0, seconds)
+                can_show = True
             order = None
         can_manage = self.can_manage(access_user, now)
         manage_list = self.get_manage_list(now)

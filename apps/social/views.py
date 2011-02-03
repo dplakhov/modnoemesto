@@ -303,7 +303,7 @@ def user(request, user_id=None):
 
     if camera:
         data.update({
-            'billing': camera.billing(request.user),
+            'billing': camera.billing(request.user, request.session),
             'show_bookmark_button': camera.can_bookmark_add(request.user),
             'show_view_access_link': camera.is_view_enabled and
                                      camera.is_view_paid and
@@ -314,7 +314,6 @@ def user(request, user_id=None):
                                        camera.is_management_paid and
                                        (camera.is_management_public or
                                        is_friend),
-            'can_trial_show': camera.get_trial_view_time(request.session) > 0,
         })
     return direct_to_template(request, 'social/home.html', data)
 
