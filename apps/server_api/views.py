@@ -127,9 +127,11 @@ def cam_view_notify(request, format):
         ])
         logger.debug('cam_view_notify %s\n%s\n%s' % (request_id, info, text))
 
-    log_debug('request %s' % repr(request.GET.items()))
+    logger.debug('cam_view_notify %s\nrequest %s' % (request_id, repr(request.GET.items())))
 
     user = None
+    session_key = None
+    camera_id = None
     try:
         if not request.GET:
             raise CameraAccessor.APIException("Bad params")
