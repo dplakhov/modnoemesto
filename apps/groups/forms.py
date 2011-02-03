@@ -20,13 +20,15 @@ class GroupCreationForm(forms.Form):
     has_video_conference = forms.BooleanField(label=_('Has video conference'),
                                               required=False)
     timestamp = forms.DateTimeField(label=_('Timestamp'), required=False,
-                                    widget = admin_widgets.AdminSplitDateTime
+                                    #widget = admin_widgets.AdminSplitDateTime
                                     )
 
     def __init__(self, *args, **kwarg):
         initial = kwarg.get('initial')
         self.group_id = None
         if initial:
+            if 'timestamp' not in initial:
+                initial['timestamp'] = None
             if 'theme' in initial and initial['theme']:
                 initial['theme'] = initial['theme'].id
             if 'type' in initial and initial['type']:
