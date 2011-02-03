@@ -22,12 +22,12 @@ class CameraAccessor(object):
         self.status = 0
         self.stream = camera.stream_name
 
-    def _save_new_time(self, order, user, extra_time):
+    def _save_new_time(self, order, extra_time):
         if order.begin_date is None:
             raise CameraAccessor.APIException("Need connect")
         total_cost = order.tariff.cost * extra_time
-        user.cash -= total_cost
-        user.save()
+        order.user.cash -= total_cost
+        order.user.save()
         order.duration += extra_time
 
     def _complete_order(self, order):
@@ -94,7 +94,8 @@ class CameraAccessor(object):
         if order.is_packet:
             time_next = self._check_packet(time_left)
         else:
-            self._save_new_time(order, user, extra_time)
+            self._save_new_time(order, extra_time)
+            user.reload()
             time_next = order.get_time_left(user.cash)
             if time_next == 0:
                 self._complete_order(order)
@@ -120,6 +121,6 @@ class CameraAccessor(object):
         time_left, order = camera.get_show_info(user, now)
         if order.is_packet:
             return 0
-        self._save_new_time(order, user, extra_time)
+        self._save_new_time(order, extra_time)
         self._complete_order(order)
         return 0
