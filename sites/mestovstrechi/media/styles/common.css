@@ -566,4 +566,61 @@ div.conf_item
 }
 
 
-
+.message_item
+{
+    padding-top: 5px;
+    clear: both;
+    /*height: 95px;*/
+    overflow: hidden;
+    border-bottom: 1px dotted #6F6F6F;
+}
+.wall .message_item
+{
+    background: url(../images/bg_about_persone.png) repeat-x;
+    border-top: 1px dotted #6F6F6F;
+    border-bottom: none;
+}
+.message_item .friendTable, .mess .friendTable
+{
+    margin: 0;
+    float: left;
+    display: inline;
+}
+.message_text
+{
+    float: left;
+    padding: 7px;
+    width: 350px;
+    /*cursor: pointer;*/
+}
+.readed .message_text a, .readed div.opration a, .note_text a
+{
+    color: #6F6F6F;
+    text-decoration: none;
+}
+.unreaded .message_text a, .unreaded div.opration a
+{
+    color: #000;
+    text-decoration: none;
+}
+.message_text p, .message .message_text_view p, .message_text_reply textarea, .note_text p
+{
+    padding-bottom: 5px;
+    color: #585858;
+}
+.message_text_reply textarea
+{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+	width: 425px;
+}
+.message_text_view
+{
+    clear: left;
+    overflow: hidden;
+    padding: 7px;
+    border: 3px solid #d9d8bf;
+    width: 430px;
+    margin-left: 80px;
+    background: #FFF;
+}

@@ -44,11 +44,42 @@ $(document).ready(function(){
      </div>
     <div class="block3">
         <div class="block3-b">
-        {% if group.description %}
+        {% if false %}
             {{ group.description|linebreaks }}
+    	{% endif %}
+        {% if group.description %}
+            {{ group.description|safe }}
     	{% endif %}
         </div>
     </div>
+</div>
+
+<div style="width:510px;float:left">
+<div class="messages">
+    <h3>Комментарии</h3>
+{% if not can_view_private %}
+<p class="hide_info">Информация скрыта.</p>
+{% endif %}
+{% if can_send_message %}
+    <form method="post" action="{% url groups:group_view group.id %}" id="send_message_form">
+        <div class="answer">
+            <div class="message_text_group rounded">
+                <textarea name="text" cols="93" rows="5" maxlength="500"></textarea>
+            </div>
+            <div class="but" style="margin-right:0;">
+                <span class="charsRemaining" style="color: #3C3C3C"></span>
+                <input type="submit" value="{% trans "Send" %}"/>
+            </div>
+        </div>
+    </form>
+{% endif %}
+
+{% if can_view_private %}
+    <div class="messages_inbox wall">
+{% include "groups/_comments.html" %}
+    </div>
+{% endif %}
+</div>
 </div>
 
 
@@ -91,7 +122,7 @@ $(document).ready(function(){
 </ul>
 
 {% if is_admin %}
-<h3>Участники видеоконференции <a href="{% url groups:member_list group.id %}">({{ group.count_members }})</a></h3> 
+<h3>Участники видеоконференции <a href="{% url groups:member_list group.id %}">({{ members_count }})</a></h3> 
 <ul class="friendTable">
 {% for user in members|slice:":6" %}
     <li>

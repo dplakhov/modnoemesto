@@ -56,7 +56,7 @@ $(document).ready(function(){
 
            {% if user.is_authenticated %}
            <a class="exit" href="{% url social:logout %}">Выход</a>
-           <a class="home" href="{% url social:home %}">Домашняя страница</a>
+           <!--a class="home" href="{% url social:home %}">Домашняя страница</a-->
            {% endif %}
 		</div> <!-- end head"-->
 
@@ -104,20 +104,7 @@ here goes the actual content
             </ul>
             {% endcomment %}
             <p style="width:400px">Интернет-телевидение «PITER.TV» &copy; 2011</p>
-            <p id="design"><a href="http://www.web-mark.ru">Разработка сайта</a> – <a href="http://www.web-mark.ru/clients.html">Web-Mark</a></p>
-
         </div>
-       <div class="counter" style="text-indent:-9000px"> 
-        <!--LiveInternet counter--><script type="text/javascript"><!--
-document.write("<a href='http://www.liveinternet.ru/click' "+
-"target=_blank><img src='//counter.yadro.ru/hit?t44.6;r"+
-escape(document.referrer)+((typeof(screen)=="undefined")?"":
-";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
-screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
-";"+Math.random()+
-"' alt='' title='LiveInternet' "+
-"border='0' width='31' height='31'><\/a>")
-//--></script><!--/LiveInternet-->
     </div>
     </div>
 </div>
