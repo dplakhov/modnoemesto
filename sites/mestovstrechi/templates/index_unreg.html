@@ -1,6 +1,7 @@
 {% extends base_template %}
 
 {% load i18n %}
+{% load loginza_widget %}
 
 {% block js %}
 {{ block.super }}
@@ -95,6 +96,7 @@ function check(id_input, alph) {
             
                 <p><input class="subEnter" type="submit" value="Войти" /></p>
             </div>
+            <div align="right"><br/>{% loginza_button "Войти через loginza" %}</div>
             
             </form>
                 </div>
