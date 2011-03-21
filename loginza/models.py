@@ -1,6 +1,8 @@
-from django.contrib.auth.models import User
-from django.db import models
+from apps.social.documents import User
 from django.utils import simplejson as json
+
+from mongoengine.document import Document
+from mongoengine.fields import ReferenceField, StringField, BooleanField
 
 from loginza import signals
 from loginza.conf import settings
@@ -56,10 +58,10 @@ class UserMapManager(models.Manager):
             signals.created.send(request, user_map=user_map)
         return user_map
 
-class Identity(models.Model):
-    identity = models.CharField(max_length=255, unique=True)
-    provider = models.CharField(max_length=255)
-    data = models.TextField()
+class Identity(Document):
+    identity = StringField(max_length=255, unique=True)
+    provider = StringField(max_length=255)
+    data = StringField()
 
     objects = IdentityManager()
 
@@ -71,10 +73,10 @@ class Identity(models.Model):
         verbose_name_plural = "identities"
 
 
-class UserMap(models.Model):
-    identity = models.OneToOneField(Identity)
-    user = models.ForeignKey(User)
-    verified = models.BooleanField(default=False, db_index=True)
+class UserMap(Document):
+    identity = ReferenceField(Identity)
+    user = ReferenceField(User)
+    verified = BooleanField(default=False, db_index=True)
 
     objects = UserMapManager()
 
