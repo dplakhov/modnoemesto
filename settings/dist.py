@@ -180,7 +180,7 @@ INSTALLED_APPS = (
     'apps.async_email',
     'apps.invite',
     'apps.themes',
-    'apps.loginza',
+    'loginza',
 )
 
 
