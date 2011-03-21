@@ -205,8 +205,8 @@ ROOT_URLCONF = 'urls'
 ###############
 LOGINZA_AMNESIA_PATHS = ('/users/complete_registration/',)
 LOGINZA_DEFAULT_EMAIL = 'user@loginza'
-LOGINZA_DEFAULT_PROVIDERS_SET = 'facebook'
-LOGINZA_ICONS_PROVIDERS = 'facebook'
+LOGINZA_DEFAULT_PROVIDERS_SET = 'facebook,gmail'
+LOGINZA_ICONS_PROVIDERS = 'facebook,gmail'
 
 
 #######################################################
