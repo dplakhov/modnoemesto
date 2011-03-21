@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import urllib
 
-from django.config import settings
+from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.template import Library, Node, TemplateSyntaxError
 from django.template.defaulttags import kwarg_re
@@ -41,7 +41,7 @@ def _return_path(request, path=None):
     return request.session.get('loginza_return_path', '/')
 
 def _absolute_url(url):
-    return 'http://%s%s' % (settings.settings.SITE_DOMAIN, url)
+    return 'http://%s%s' % (Site.objects.get_current().domain, url)
 
 def return_url():
     return urllib.quote(_absolute_url(reverse('loginza.views.return_callback')), '')

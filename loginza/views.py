@@ -29,8 +29,8 @@ def return_callback(request):
         signals.error.send(request, error=LoginzaError(data))
         return redirect(_return_path(request))
 
-    identity = models.Identity.objects.from_loginza_data(data)
-    user_map = models.UserMap.objects.for_identity(identity, request)
+    identity = models.from_loginza_data(data)
+    user_map = models.for_identity(identity, request)
     response = redirect(_return_path(request))
     if request.user.is_anonymous():
         user = auth.authenticate(user_map=user_map)

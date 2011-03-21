@@ -1,69 +1,69 @@
 from apps.social.documents import User
+from django.db import models
 from django.utils import simplejson as json
-
-from mongoengine.document import Document
 from mongoengine.fields import ReferenceField, StringField, BooleanField
+from mongoengine.document import Document
 
-from loginza import signals
-from loginza.conf import settings
+from apps.loginza import signals
+from apps.loginza.conf import settings
 
-class IdentityManager(models.Manager):
-    def from_loginza_data(self, loginza_data):
-        try:
-            identity = self.get(identity=loginza_data['identity'])
-            # update data as some apps can use it, e.g. avatars
-            identity.data = json.dumps(loginza_data)
-            identity.save()
-        except self.model.DoesNotExist:
-            identity = self.create(
-                    identity=loginza_data['identity'],
-                    provider=loginza_data['provider'],
-                    data=json.dumps(loginza_data)
-                    )
-        return identity
+def from_loginza_data(loginza_data):
+    try:
+        identity = Identity.objects.get(identity=loginza_data['identity'])
+        # update data as some apps can use it, e.g. avatars
+        identity.data=json.dumps(loginza_data)
+        identity.save()
+    except Exception,e:
+        identity = Identity(
+                identity=loginza_data['identity'],
+                provider=loginza_data['provider'],
+                data=json.dumps(loginza_data)
+                )
+        identity.save()
+    return identity
 
-class UserMapManager(models.Manager):
-    def for_identity(self, identity, request):
-        try:
-            user_map = self.get(identity=identity)
-        except self.model.DoesNotExist:
-            # if there is authenticated user - map identity to that user
-            # if not - create new user and mapping for him
-            if request.user.is_authenticated():
-                user = request.user
-            else:
-                loginza_data = json.loads(identity.data)
 
-                loginza_email = loginza_data.get('email', '')
-                email = loginza_email if '@' in loginza_email else settings.DEFAULT_EMAIL
+def for_identity(identity, request):
+    try:
+        user_map = UserMap.objects.get(identity=identity)
+    except:
+        # if there is authenticated user - map identity to that user
+        # if not - create new user and mapping for him
+        if request.user.is_authenticated():
+            user = request.user
+        else:
+            loginza_data = json.loads(identity.data)
 
-                # if nickname is not set - try to get it from email
-                # e.g. vgarvardt@gmail.com -> vgarvardt
-                loginza_nickname = loginza_data.get('nickname', None)
-                username = loginza_nickname if loginza_nickname is not None else email.split('@')[0]
+            loginza_email = loginza_data.get('email', '')
+            try:
+                loginza_data['first_name'] = loginza_data['name']['first_name']
+                loginza_data['last_name'] = loginza_data['name']['last_name']
+            except:
+                pass
+                
+            email = loginza_email if '@' in loginza_email else settings.DEFAULT_EMAIL
 
-                # check duplicate user name
-                while True:
-                    try:
-                        existing_user = User.objects.get(username=username)
-                        username = '%s%d' % (username, existing_user.id)
-                    except User.DoesNotExist:
-                        break
+            # if nickname is not set - try to get it from email
+            # e.g. vgarvardt@gmail.com -> vgarvardt
+            loginza_nickname = loginza_data.get('nickname', None)
+            username = loginza_nickname if loginza_nickname is not None else email.split('@')[0]
+            if 'uid' in loginza_data:
+                username = str(loginza_data['uid'])
 
-                user = User.objects.create_user(
-                        username,
-                        email
-                        )
-            user_map = UserMap.objects.create(identity=identity, user=user)
-            signals.created.send(request, user_map=user_map)
-        return user_map
+            try:
+                user = User.objects.get(email=email)
+            except Exception,e:
+                user = User(username=username, email=email)
+                user.save()
+        user_map = UserMap(identity=identity, user=user)
+        signals.created.send(request, user_map=user_map)
+    return user_map
+
 
 class Identity(Document):
-    identity = StringField(max_length=255, unique=True)
-    provider = StringField(max_length=255)
+    identity = StringField(unique=True)
+    provider = StringField()
     data = StringField()
-
-    objects = IdentityManager()
 
     def __unicode__(self):
         return self.identity
@@ -74,11 +74,9 @@ class Identity(Document):
 
 
 class UserMap(Document):
-    identity = ReferenceField(Identity)
-    user = ReferenceField(User)
-    verified = BooleanField(default=False, db_index=True)
-
-    objects = UserMapManager()
+    identity = ReferenceField('Identity')
+    user = ReferenceField('User')
+    verified = BooleanField(default=False)
 
     def __unicode__(self):
         return '%s [%s]' % (unicode(self.user), self.identity.provider)
