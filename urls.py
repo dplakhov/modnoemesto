@@ -3,7 +3,7 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 
 urlpatterns = patterns('',
-    (r'^loginza/', include('apps.loginza.urls')),
+    (r'^loginza/', include('loginza.urls')),
 
     (r'^', include('apps.social.urls', namespace='social')),
     (r'^cam/', include('apps.cam.urls', namespace='cam')),
