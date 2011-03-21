@@ -22,7 +22,8 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': rel('local.db'),
+        'NAME': ':memory:', #rel('default.db'),
+        #'NAME': rel('local.db'),
     },
 
     'billing': {
