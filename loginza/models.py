@@ -4,8 +4,8 @@ from django.utils import simplejson as json
 from mongoengine.fields import ReferenceField, StringField, BooleanField
 from mongoengine.document import Document
 
-from apps.loginza import signals
-from apps.loginza.conf import settings
+from loginza import signals
+from loginza.conf import settings
 
 def from_loginza_data(loginza_data):
     try:
