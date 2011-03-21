@@ -3,15 +3,18 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 
 urlpatterns = patterns('',
+    (r'^loginza/', include('apps.loginza.urls')),
 
     (r'^', include('apps.social.urls', namespace='social')),
     (r'^cam/', include('apps.cam.urls', namespace='cam')),
-    (r'^messages/', include('apps.user_messages.urls', namespace='user_messages')),
+    (r'^messages/', include('apps.user_messages.urls', 
+     namespace='user_messages')),
     (r'^notes/', include('apps.notes.urls', namespace='notes')),
     (r'^billing/', include('apps.billing.urls', namespace='billing')),
     url(r'^pay/pskb/$', 'apps.billing.views.operator', name='operator'),
     url(r'^pay/robokassa/', include('apps.robokassa.urls')),
-    (r'^library/', include('apps.media_library.urls', namespace='media_library')),
+    (r'^library/', include('apps.media_library.urls', 
+     namespace='media_library')),
     (r'^file/', include('apps.media.urls', namespace='media')),
     (r'^groups/', include('apps.groups.urls', namespace='groups')),
     (r'^friends/', include('apps.friends.urls', namespace='friends')),
@@ -26,9 +29,11 @@ urlpatterns = patterns('',
     (r'^owner/', include('apps.admin_blog.urls', namespace='admin_blog')),
     (r'^captcha/(?P<code>[\da-f]{32})/$', 'apps.supercaptcha.draw'),
     (r'^video_call/', include('apps.video_call.urls', namespace='video_call')),
-    url(r'^robots.txt$', 'django.views.generic.simple.direct_to_template', name='robots_txt', kwargs={'template': 'robots.txt'}),
-    (r'^jsi18n/$', 'django.views.i18n.javascript_catalog', {'packages':
-'django.conf'}),
+    url(r'^robots.txt$', 'django.views.generic.simple.direct_to_template', 
+        name='robots_txt', kwargs={'template': 'robots.txt'}),
+    (r'^jsi18n/$', 'django.views.i18n.javascript_catalog', 
+     {'packages': 'django.conf'}),
+
 )
 
 #if settings.DEBUG:

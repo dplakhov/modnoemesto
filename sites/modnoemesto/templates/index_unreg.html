@@ -1,6 +1,7 @@
 {% extends base_template %}
 
 {% load i18n %}
+{% load loginza_widget %}
 
 {% block js %}
 {{ block.super }}
@@ -189,6 +190,7 @@ height="150px">
 
 </form>
     </div>
+    <div align="right"><br/>{% loginza_button "Войти через loginza" %}</div>
     <div id="reg_form">
     <h2 class="registr"><a href="/">Регистрация</a></h2> 
    

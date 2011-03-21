@@ -253,6 +253,8 @@ def login(request):
     return form
 
 
+
+
 def logout(request):
     django_logout(request)
     return redirect('/')

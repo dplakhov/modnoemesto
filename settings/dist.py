@@ -22,13 +22,14 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:', #rel('local.db'),
+        'NAME': rel('local.db'),
     },
 
     'billing': {
            'ENGINE': 'django.db.backends.sqlite3',
            'NAME': rel('billing.db'),
     },
+
 }
 
 if 'test' in sys.argv:
@@ -101,6 +102,8 @@ LOGIN_EXEMPT_URLS = (
     r'^srv/',
     r'^api/',
     r'^theme/',
+    r'^loginza/return_callback/',
+    r'^favicon.ico',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -153,7 +156,10 @@ MIDDLEWARE_CLASSES = (
 
 
 INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'djcelery',
     'pytils',
     'apps.robokassa',
@@ -174,6 +180,7 @@ INSTALLED_APPS = (
     'apps.async_email',
     'apps.invite',
     'apps.themes',
+    'apps.loginza',
 )
 
 
@@ -191,6 +198,15 @@ FORCE_SCRIPT_NAME = ''
 SEND_EMAILS = True
 
 ROOT_URLCONF = 'urls'
+
+###############
+### Loginza ###
+###############
+LOGINZA_AMNESIA_PATHS = ('/users/complete_registration/',)
+LOGINZA_DEFAULT_EMAIL = 'user@loginza'
+LOGINZA_DEFAULT_PROVIDERS_SET = 'facebook'
+LOGINZA_ICONS_PROVIDERS = 'facebook'
+
 
 #######################################################
 MONGO_DATABASE = 'social'

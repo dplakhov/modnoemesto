@@ -46,5 +46,6 @@ loaded. You'll get an error if they aren't.
         if not request.user.is_authenticated():
             path = request.path_info.lstrip('/')
             if not any(m.match(path) for m in EXEMPT_URLS):
-                return HttpResponseRedirect("%s?next=%s" % (settings.LOGIN_URL, request.path_info))
+                return HttpResponseRedirect("%s?next=%s" % (settings.LOGIN_URL,
+                                                            request.path_info))
 
