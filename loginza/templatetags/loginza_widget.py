@@ -75,7 +75,7 @@ def providers(kwargs):
 def iframe_template(kwargs, caption=''):
     return """<script src="http://loginza.ru/js/widget.js" type="text/javascript"></script>
 <iframe src="http://loginza.ru/api/widget?overlay=loginza&%(providers)slang=%(lang)s&token_url=%(return-url)s"
-style="width:359px;height:300px;" scrolling="no" frameborder="no"></iframe>""" % {
+style="width:359px;height:300px;position:fixed;top:100px;left:100px;" scrolling="no" frameborder="no"></iframe>""" % {
         'return-url': return_url(),
         'lang': kwargs['lang'],
         'providers': providers(kwargs),
