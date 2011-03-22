@@ -21,7 +21,7 @@ $(document).ready(function(){
 <div id="centerColumn" style="width:645px">
 <div id="filter_box">
 <h2>Конференция {{ group.name }}</h2>
-<div class="conference_date">Дата проведения: <span>{{ group.timestamp }}</span>&nbsp;<iframe src="http://www.facebook.com/plugins/like.php?href={{ request.get_full_path|urlencode}}&amp;layout=button_count&amp;show_faces=false&amp;width=130&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=21"
+<div class="conference_date">Дата проведения: <span>{{ group.timestamp }}</span>&nbsp;<iframe src="http://www.facebook.com/plugins/like.php?href=http://{{ SITE_DOMAIN }}{{ request.get_full_path|urlencode}}&amp;layout=button_count&amp;show_faces=false&amp;width=130&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=21"
 scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:130px; height:21px;" allowTransparency="true"></iframe></div>
 {% if is_admin %}
 <div class="friend_request">
