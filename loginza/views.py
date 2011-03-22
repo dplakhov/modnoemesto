@@ -24,6 +24,7 @@ def return_callback(request):
     f.close()
 
     data = json.loads(result)
+    print data
 
     if 'error_type' in data:
         signals.error.send(request, error=LoginzaError(data))

@@ -1,0 +1,41 @@
+{% extends "base_mini.html" %}
+
+{% load i18n %}
+
+{% block base_content %}
+<div id="content_about" style="height:480px">
+<h2>Благодарим вас за регистрацию на сайте {{ SITE_DOMAIN }}!</h2>
+    <p>
+    Вы успешно зарегистрированы и можете авторизоваться на сайте. Воспользуйтесь формой ниже.
+        <form action="{{ app_path }}" method="post">
+            <input type="hidden" name="form_name" value="login"/>
+
+            <div style="overflow:hidden">
+
+                <div class="enter rounded">
+            {% if login_form.non_field_errors %}
+            <ul class="errorlist">
+            {% for error in login_form.non_field_errors %}
+                <li>{% if error == 'inactive' %}
+                    {% trans "This account is inactive." %}<br/><a href="{% url social:resend_activation_code %}">{% trans "Resend activation code." %}</a>
+                    {% else %}{{ error }}{% endif %}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% for field in login_form %}
+                {{ field.errors }}
+                <p>{{ field.label }}:<br/>
+                    {{ field }}</p>
+            {% endfor %}
+
+            <p><a href="{% url social:lost_password %}">Забыли пароль?</a></p>
+                </div>
+
+                <p><input class="subEnter" type="submit" value="Войти" /></p>
+            </div>
+
+        </form>
+    </p>
+</div>
+{% endblock %}

@@ -45,7 +45,7 @@ def lazy_register(loginza_user, is_active=True):
 
 
 def loginza_auth_handler(sender, user, identity, **kwargs):
-    redirect_to = sender.REQUEST.get(REDIRECT_FIELD_NAME, 'social:home')
+    redirect_to = sender.REQUEST.get(REDIRECT_FIELD_NAME, 'groups:group_list')
     if not redirect_to or ' ' in redirect_to:
         redirect_to = settings.LOGIN_REDIRECT_URL
     elif '//' in redirect_to and re.match(r'[^\?]*//', redirect_to):

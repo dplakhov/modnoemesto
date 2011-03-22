@@ -150,7 +150,7 @@ def register(request):
                     first_name=form.cleaned_data['first_name'],
                     last_name=form.cleaned_data['last_name'],
                     email=form.cleaned_data['email'],
-                    is_active=False
+                    is_active=True#False
                     )
         user.gen_activation_code()
         user.set_password(form.cleaned_data['password1'])
@@ -158,7 +158,7 @@ def register(request):
         profile = user.profile
         profile.mobile = form.cleaned_data['phone']
         profile.save()
-        user.send_activation_code()
+        #user.send_activation_code() # uncomment for send activation code
 
         invite_id = request.session.get('invite_id')
 
@@ -182,6 +182,12 @@ def register(request):
                 messages.add_message(request, messages.WARNING,
                              _('Incorrect reference to an invitation'))
 
+        if user.is_active:
+            login_form = LoginForm()
+            request.session.set_test_cookie()
+            return direct_to_template(request, 
+                            'registration_complete_without_activation.html',
+                            {'login_form': login_form,})
         return direct_to_template(request, 'registration_complete.html')
 
     return form
