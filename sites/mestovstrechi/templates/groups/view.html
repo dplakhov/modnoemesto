@@ -20,6 +20,7 @@ $(document).ready(function(){
 <div id="centerColumn" style="width:645px">
 <div id="filter_box">
 <h2>Конференция {{ group.name }}</h2>
+{% if false %}
 <div class="conference_date">Дата проведения: <span>{{ group.timestamp }}</span>&nbsp;<iframe src="http://www.facebook.com/plugins/like.php?href=http://{{ SITE_DOMAIN }}{{ request.get_full_path|urlencode}}&amp;layout=button_count&amp;show_faces=false&amp;width=130&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" title='{{ group.name }}' style="border:none; overflow:hidden; width:130px; height:21px;" allowTransparency="true"></iframe></div>
 {% if is_admin %}
 <div class="friend_request">
@@ -32,6 +33,7 @@ $(document).ready(function(){
                 <a class="reference" href="{% url groups:send_friends_invite group.id %}">Отправить приглашение</a>
 </div>
 <br />
+{% endif %}
 {% endif %}
 <div class="press_release">
 	<div class="title">
@@ -121,7 +123,7 @@ $(document).ready(function(){
 </ul>
 
 {% if is_admin %}
-<h3>Участники видеоконференции <a href="{% url groups:member_list group.id %}">({{ members_count }})</a></h3> 
+<h3>Участники видеоконференции <a href="{% url groups:member_list group.id %}">( {{ members_count }} )</a></h3> 
 <ul class="friendTable">
 {% for user in members|slice:":6" %}
     <li>
