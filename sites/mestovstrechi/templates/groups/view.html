@@ -120,6 +120,8 @@ $(document).ready(function(){
 {% endfor %}
 </ul>
 
+{% if is_admin %}
+{% if false %}
 <h3>Участники видеоконференции <a href="{% url groups:member_list group.id %}">( {{ members_count }} )</a></h3> 
 <ul class="friendTable">
 {% for user in members|slice:":6" %}
@@ -128,8 +130,7 @@ $(document).ready(function(){
     </li>
 {% endfor %}
 </ul>
-{% if is_admin %}
-<p>.
+{% endif %}
 {% endif %}
 {% if is_admin %}
     {% if group.member_requests %}
