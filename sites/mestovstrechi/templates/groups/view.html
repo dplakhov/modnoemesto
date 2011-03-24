@@ -121,7 +121,7 @@ $(document).ready(function(){
 </ul>
 
 {% if is_admin %}
-<h3>Участники видеоконференции <a href="{% url groups:member_list group.id %}">( {{ members_count }} )</a></h3> 
+<h3>Участники видеоконференции <a href="{% url groups:member_list group.id %}">( {{ members.count }} )</a></h3> 
 <ul class="friendTable">
 {% for user in members|slice:":6" %}
     <li>
