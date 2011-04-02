@@ -41,7 +41,7 @@ def _pub_key():
 def deploy(revision, reinstall=False):
     env.user = 'appserver'
     assert re.match(r'[a-f0-9]{40}', revision)
-    repo = 'ssh://gitreader@ns1.modnoemesto.ru/opt/gitrepo/repositories/modnoe.git/'
+    repo = 'ssh://gitreader@109.234.158.2/opt/gitrepo/repositories/modnoe.git/'
     with cd(APPLICATION_DIR):
         append('%s %s' %
                (datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
@@ -69,7 +69,8 @@ def deploy(revision, reinstall=False):
                 run('ln -fs %s app' % revision)
                 with cd('app'):
                     if env.host.startswith('as1.'):
-                        settings_local = 'settings/modnoemesto_test.py'
+                        #settings_local = 'settings/modnoemesto_test.py'
+                        settings_local = 'settings/mestovstrechi.py'
                     elif env.host in env.roledefs['mv']:
                         settings_local = 'settings/mestovstrechi.py'
                     else:
