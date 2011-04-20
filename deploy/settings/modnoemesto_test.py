@@ -3,10 +3,7 @@
 DEBUG = TEMPLATE_DEBUG = 0
 
 ADMINS = (
-    ('tech', 'tech@web-mark.ru'),
-    ('dgk', 'dgk@web-mark.ru'),
-    ('elias', 'elias@web-mark.ru'),
-    ('eugene', 'eugene@web-mark.ru'),
+    ('dp', 'dmitri.plakhov@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -22,7 +19,7 @@ DATABASES = {
         'NAME': 'billing_test',
         'USER': 'billing_test',
         'PASSWORD': 'akonEsdfsdfd2',
-        'HOST': '10.10.10.7',
+        'HOST': '127.0.0.1',
     },
 }
 

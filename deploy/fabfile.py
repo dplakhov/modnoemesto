@@ -36,12 +36,12 @@ env.roledefs.update({ 'all_app': env.roledefs['app'] + env.roledefs['test'] + en
 env.user = 'root'
 
 def _pub_key():
-    return open(os.path.join(os.path.expanduser('~'), '.ssh/id_rsa.pub')).read()
+    return open(os.path.join(os.path.expanduser('~'), '.ssh/id_dsa.pub')).read()
 
 def deploy(revision, reinstall=False):
     env.user = 'appserver'
     assert re.match(r'[a-f0-9]{40}', revision)
-    repo = 'ssh://gitreader@ns1.modnoemesto.ru/opt/gitrepo/repositories/modnoe.git/'
+    repo = 'ssh://gitreader@109.234.158.2/opt/gitrepo/repositories/modnoe.git/'
     with cd(APPLICATION_DIR):
         append('%s %s' %
                (datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
@@ -117,7 +117,7 @@ def autoremove():
     run('apt-get --yes autoremove')
 
 def install_git():
-    run('apt-get --yes install git')
+    run('apt-get --yes install gitcore')
     run('git config --global user.name root')
     run('git config --global user.email root@web-mark.ru')
 
@@ -131,7 +131,7 @@ def install_etckeeper():
 def install_server_software():
     run('apt-get --yes install vim-nox mc htop zip unzip exuberant-ctags screen nmap')
 
-    run('apt-get --yes install ntp')
+    run('apt-get --yes install memcached ntp')
     run('cp /etc/cron.daily/ntp /etc/cron.hourly/ntp')
 
 

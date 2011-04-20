@@ -48,15 +48,15 @@ DATABASES = {
 }
 
 
-CACHE_BACKEND = 'memcached://10.10.10.11:11211/'
+CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 
 REDIS_DATABASES = dict(
-    streamed_users=dict(host='10.10.10.11', port=6379),
+    streamed_users=dict(host='127.0.0.1', port=6379),
 
 )
 
 EMAIL_HOST = 'mail1.modnoemesto.ru'
-EMAIL_HOST = '10.10.10.11'
+EMAIL_HOST = '127.0.0.1'
 
 ROBOKASSA_TEST_MODE = False
 

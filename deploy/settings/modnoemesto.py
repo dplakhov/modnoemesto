@@ -4,10 +4,7 @@
 DEBUG = TEMPLATE_DEBUG = False
 
 ADMINS = (
-    ('tech', 'tech@web-mark.ru'),
-    ('dgk', 'dgk@web-mark.ru'),
-    ('elias', 'elias@web-mark.ru'),
-    ('eugene', 'eugene@web-mark.ru'),
+    ('dp', 'dmitri.plakhov@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -23,15 +20,15 @@ DATABASES = {
         'NAME': 'billing',
         'USER': 'billing',
         'PASSWORD': 'akonEmjad2',
-        'HOST': '10.10.10.7',
+        'HOST': '127.0.0.1',
     },
 }
 
 
-CACHE_BACKEND = 'memcached://10.10.10.11:11211/'
+CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 
 REDIS_DATABASES = dict(
-    streamed_users=dict(host='10.10.10.11', port=6379),
+    streamed_users=dict(host='127.0.0.1', port=6379),
 
 )
 
