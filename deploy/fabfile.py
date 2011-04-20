@@ -18,14 +18,14 @@ APPLICATION_USER = 'appserver'
 
 env.roledefs.update({
     'test': [ 'as%d.modnoemesto.ru' %x for x in ( 1, ) ],
-    'app': [ 'as%d.modnoemesto.ru' %x for x in ( 2, 3, 4, 5, 6, 7, ) ],
+    'app': [ 'as%d.modnoemesto.ru' %x for x in ( 3, 4, ) ],
 
-    'db_master': [ 'db%d.modnoemesto.ru' %x for x in (2, 4, 6, 7) ],
-    'db_slave': [ 'db%d.modnoemesto.ru' %x for x in (1, 3, 5, 8) ],
+    'db_master': [ 'db%d.modnoemesto.ru' %x for x in (2, 4, ) ],
+    'db_slave': [ 'db%d.modnoemesto.ru' %x for x in (1, 3, ) ],
 
-    'bal': [ 'bal%d.modnoemesto.ru' %x for x in (1, 2, 3, 4) ],
+    'bal': [ 'bal%d.modnoemesto.ru' %x for x in (1, 2, ) ],
     #'mv': ['s0%d.modnoemesto.ru' % x for x in (24, 25,)],
-    'mv': ['as%d.modnoemesto.ru' % x for x in (8, )],
+    'mv': ['as%d.modnoemesto.ru' % x for x in (5, )],
 })
 
 
@@ -36,7 +36,7 @@ env.roledefs.update({ 'all_app': env.roledefs['app'] + env.roledefs['test'] + en
 env.user = 'root'
 
 def _pub_key():
-    return open(os.path.join(os.path.expanduser('~'), '.ssh/id_rsa.pub')).read()
+    return open(os.path.join(os.path.expanduser('~'), '.ssh/id_dsa.pub')).read()
 
 def deploy(revision, reinstall=False):
     env.user = 'appserver'
@@ -69,8 +69,8 @@ def deploy(revision, reinstall=False):
                 run('ln -fs %s app' % revision)
                 with cd('app'):
                     if env.host.startswith('as1.'):
-                        #settings_local = 'settings/modnoemesto_test.py'
-                        settings_local = 'settings/mestovstrechi.py'
+                        settings_local = 'settings/modnoemesto_test.py'
+                        #settings_local = 'settings/mestovstrechi.py'
                     elif env.host in env.roledefs['mv']:
                         settings_local = 'settings/mestovstrechi.py'
                     else:
@@ -118,9 +118,9 @@ def autoremove():
     run('apt-get --yes autoremove')
 
 def install_git():
-    run('apt-get --yes install git')
+    run('apt-get --yes install git-core')
     run('git config --global user.name root')
-    run('git config --global user.email root@web-mark.ru')
+    run('git config --global user.email root@modnoemesto.ru')
 
 def install_etckeeper():
     run('apt-get --yes install etckeeper')

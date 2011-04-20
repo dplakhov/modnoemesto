@@ -3,10 +3,7 @@
 DEBUG = TEMPLATE_DEBUG = 0
 
 ADMINS = (
-    ('tech', 'tech@web-mark.ru'),
-    ('dgk', 'dgk@web-mark.ru'),
-    ('elias', 'elias@web-mark.ru'),
-    ('eugene', 'eugene@web-mark.ru'),
+    ('dp', 'dmitri.plakhov@gmail.com'),
 )
 
 MANAGERS = ADMINS

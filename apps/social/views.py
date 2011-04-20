@@ -125,16 +125,27 @@ def _index_unreg(request):
             login_form = login(request)
             if type(login_form) == HttpResponseRedirect:
                 return login_form
+
     is_reg = reg_form is not None
     reg_form = reg_form or UserCreationForm()
     login_form = login_form or LoginForm()
     request.session.set_test_cookie()
+
+    objects = paginate(request,
+                       Group.objects.order_by('-count_members'),
+                       Group.objects.count(),
+                       24)
+
     return direct_to_template(request, 'index_unreg.html', {
         'base_template': "base_info.html",
         'reg_form': reg_form,
+        'reg_form2':reg_form,
         'login_form': login_form,
         'is_reg': is_reg,
         'news_list': News.objects,
+        'objects': objects,
+        'next': request.GET.get('next', None),
+        'reg_errors': reg_form.errors,
         })
 
 
@@ -150,7 +161,7 @@ def register(request):
                     first_name=form.cleaned_data['first_name'],
                     last_name=form.cleaned_data['last_name'],
                     email=form.cleaned_data['email'],
-                    is_active=True#False
+                    is_active=True
                     )
         user.gen_activation_code()
         user.set_password(form.cleaned_data['password1'])
@@ -158,7 +169,8 @@ def register(request):
         profile = user.profile
         profile.mobile = form.cleaned_data['phone']
         profile.save()
-        #user.send_activation_code() # uncomment for send activation code
+        # uncomment for sending activation code
+        #user.send_activation_code() 
 
         invite_id = request.session.get('invite_id')
 
@@ -243,7 +255,9 @@ def activation(request, code=None):
 def login(request):
     form = LoginForm(request, data=request.POST)
     if form.is_valid():
-        redirect_to = request.REQUEST.get(REDIRECT_FIELD_NAME, 'social:home')
+        redirect_to = request.POST.get('next',
+                                       request.REQUEST.get(REDIRECT_FIELD_NAME, 
+                                                           'social:home'))
         if not redirect_to or ' ' in redirect_to:
             redirect_to = settings.LOGIN_REDIRECT_URL
 
@@ -322,6 +336,11 @@ def user(request, user_id=None):
                                        camera.is_management_paid and
                                        (camera.is_management_public or
                                        is_friend),
+        })
+    if request.user.is_authenticated() and camera:
+        data.update({
+            'billing': camera.billing(request.user, request.session),
+            'show_bookmark_button': camera.can_bookmark_add(request.user),
         })
     return direct_to_template(request, 'social/home.html', data)
 
