@@ -18,14 +18,16 @@ APPLICATION_USER = 'appserver'
 
 env.roledefs.update({
     'test': [ 'as%d.modnoemesto.ru' %x for x in ( 1, ) ],
-    'app': [ 'as%d.modnoemesto.ru' %x for x in ( 2, 3, 4, 5, 6, 7, ) ],
+    #'app': [ 'as%d.modnoemesto.ru' %x for x in ( 2, 3, 4, 5, 6, 7, ) ],
 
     'db_master': [ 'db%d.modnoemesto.ru' %x for x in (2, 4, 6, 7) ],
     'db_slave': [ 'db%d.modnoemesto.ru' %x for x in (1, 3, 5, 8) ],
 
     'bal': [ 'bal%d.modnoemesto.ru' %x for x in (1, 2, 3, 4) ],
     #'mv': ['s0%d.modnoemesto.ru' % x for x in (24, 25,)],
-    'mv': ['as%d.modnoemesto.ru' % x for x in (8, )],
+    #'mv': ['as%d.modnoemesto.ru' % x for x in (8, )],
+    'app': [ '46.182.30.13%d' %x for x in ( 6, )],
+    'mv': ['46.182.30.13%d' %x for x in (2, )],
 })
 
 
@@ -117,9 +119,9 @@ def autoremove():
     run('apt-get --yes autoremove')
 
 def install_git():
-    run('apt-get --yes install gitcore')
+    run('apt-get --yes install git-core')
     run('git config --global user.name root')
-    run('git config --global user.email root@web-mark.ru')
+    run('git config --global user.email root@modnoemesto.ru')
 
 def install_etckeeper():
     run('apt-get --yes install etckeeper')
