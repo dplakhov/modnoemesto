@@ -16,8 +16,8 @@ input, textarea {
 body  
 {
 	font: normal 13px Arial, Helvetica, sans-serif; 
-	color: #434343; 
-	background: url(../images/head-xxx.png) 0 0 #efefef repeat-x ; 
+	/*color: #434343; 
+	background: url(../images/head-xxx.png) 0 0 #efefef repeat-x ; */
 	min-height: 100%; 
 	height: auto !important; 
 	height: 100%; 
@@ -215,18 +215,18 @@ a.home
 	width: 350px;
 }
 .button {
-    background: url("../images/but_corner_left.png") no-repeat scroll 0 0 transparent;
+    /*background: url("../images/but_corner_left.png") no-repeat scroll 0 0 transparent;*/
     padding-left: 6px;
     position: relative;
 	width: 350px;
 	margin: 10px 0;
 }
 .button-r {
-    background: url("../images/but_corner_right.png") no-repeat scroll 100% 0 transparent;
+    /*background: url("../images/but_corner_right.png") no-repeat scroll 100% 0 transparent;*/
     padding-right: 6px;
 }
 .button-x {
-    background: url("../images/but-x.png") repeat-x scroll 0 0 transparent;
+    /*background: url("../images/but-x.png") repeat-x scroll 0 0 transparent;*/
     height: 42px;
 	text-align: center;
 }
