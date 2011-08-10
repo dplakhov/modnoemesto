@@ -198,17 +198,20 @@ a.home
 }
 .title {
     /*background: url("../images/title_corner_left.gif") no-repeat scroll 0 0 transparent;*/
+    font: italic 15px Arial, Helvetica, sans-serif; 
     background-color: #ff0000;
     padding-left: 6px;
     position: relative;
 }
 .title-r {
     /*background: url("../images/title_corner_right.gif") no-repeat scroll 100% 0 transparent;*/
+    font: italic 15px Arial, Helvetica, sans-serif; 
     background-color: #ff0000;
     padding-right: 6px;
 }
 .title-x {
     /*background: url("../images/title-x.png") repeat-x scroll 0 0 transparent;*/
+    font: italic 15px Arial, Helvetica, sans-serif; 
     background-color: #ff0000;
     height: 32px;
 	text-align: center;
