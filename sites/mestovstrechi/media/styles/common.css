@@ -197,16 +197,19 @@ a.home
 	width: 499px;
 }
 .title {
-    background: url("../images/title_corner_left.gif") no-repeat scroll 0 0 transparent;
+    /*background: url("../images/title_corner_left.gif") no-repeat scroll 0 0 transparent;*/
+    background-color: #ff0000;
     padding-left: 6px;
     position: relative;
 }
 .title-r {
-    background: url("../images/title_corner_right.gif") no-repeat scroll 100% 0 transparent;
+    /*background: url("../images/title_corner_right.gif") no-repeat scroll 100% 0 transparent;*/
+    background-color: #ff0000;
     padding-right: 6px;
 }
 .title-x {
-    background: url("../images/title-x.png") repeat-x scroll 0 0 transparent;
+    /*background: url("../images/title-x.png") repeat-x scroll 0 0 transparent;*/
+    background-color: #ff0000;
     height: 32px;
 	text-align: center;
 }
@@ -216,6 +219,7 @@ a.home
 }
 .button {
     /*background: url("../images/but_corner_left.png") no-repeat scroll 0 0 transparent;*/
+    background-color: #ff0000;
     padding-left: 6px;
     position: relative;
 	width: 350px;
@@ -223,10 +227,12 @@ a.home
 }
 .button-r {
     /*background: url("../images/but_corner_right.png") no-repeat scroll 100% 0 transparent;*/
+    background-color: #ff0000;
     padding-right: 6px;
 }
 .button-x {
     /*background: url("../images/but-x.png") repeat-x scroll 0 0 transparent;*/
+    background-color: #ff0000;
     height: 42px;
 	text-align: center;
 }
