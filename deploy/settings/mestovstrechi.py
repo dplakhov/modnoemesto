@@ -23,8 +23,8 @@ LOCALE_PATHS = (
 
 MEDIA_ROOT = rel('sites/mestovstrechi/media/')
 
-SITE_DOMAIN = 'mestovstrechi.piter.tv' # no slashes here, please
-SERVER_EMAIL = 'mestovstrechi.piter.tv <mestovstrechi@mestovstrechi.piter.tv>'
+SITE_DOMAIN = 'берислово.рф' # no slashes here, please
+SERVER_EMAIL = 'берислово <берислово@берислово.рф>'
 
 
 DEBUG = TEMPLATE_DEBUG = False
