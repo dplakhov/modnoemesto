@@ -343,9 +343,21 @@ input[type="checkbox"], input[type="radio"]
 	top: -30px;
 }
 
-div.admin-menu p
+div.admin-menu
 {
     padding: 4px 4px 4px 4px;
+    display: block;
+    border-width: 1px;
+    border-color: #ff0000;
+}
+
+div.admin-menu p
+{
+    color: #ff0000;
+}
+
+div.admin-menu li
+{
     color: #ff0000;
 }
 
