@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div id="content_info">
+<h2>{% trans "Users" %}</h2>
+<table>
+    <thead>
+        <tr>
+            <th>{% trans "First Name" %}</th>
+            <th>{% trans "Last Name" %}</th>
+            <th>{% trans "E-mail" %}</th>
+            <th>{% trans "Date Joined" %}</th>
+            <th>{% trans "Confirmed" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for user in objects.object_list %}
+    <tr>
+        <td><a href="{% url social:user user.id %}">{{ user.first_name }}</a></td>
+        <td><a href="{% url social:user user.id %}">{{ user.last_name }}</a></td>
+        <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+        <td>{{ user.date_joined|date:"d M H:i" }}</td>
+        <td>
+            <img
+src="/media/images/{% if user.is_active %}true.png{% else %}exclamation.png{% endif %}"
+title="{% if user.is_active %}{% trans "Confirmed" %}{% else %}{% trans "Not confirmed" %}{% endif %}"
+/>
+        </td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+
+{% include "includes/paginator.html" %}
+</div>
+{% endblock %}

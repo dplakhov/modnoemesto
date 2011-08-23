@@ -1,0 +1,14 @@
+{% load i18n %}
+{% if request.user.is_staff %}
+<div class="admin-menu">
+    <div class="submenu">
+        {% if perms.statistic %}
+        <p>{% trans "Admin" %}</p>
+        <ul>
+            <li><a href="{% url admin:statistic %}">{% trans "Statistic" %}</a></li>
+            <li><a href="{% url admin:user_list %}">{% trans "Users" %}</a></li>
+        </ul>
+        {% endif %}
+    </div>
+</div>
+{% endif %}

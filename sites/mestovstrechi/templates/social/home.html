@@ -40,6 +40,9 @@ $(document).ready(function(){
      <div id="avatar" class="rounded">
         <img src="{% media_url page_user.avatar avatar_midi.png %}" />
     </div>
+            {% if request.user.is_staff %}
+                {% include 'includes/admin_menu.html' %}
+            {% endif %}
     {% if not is_owner %}
     {% comment %}
         {% if show_friend_button %}
