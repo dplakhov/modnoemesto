@@ -342,6 +342,13 @@ input[type="checkbox"], input[type="radio"]
 	position: relative;
 	top: -30px;
 }
+
+div.admin-menu p
+{
+    padding: 4px 4px 4px 4px;
+    color: #ff0000;
+}
+
 div.system_messages ul
 {
     position: fixed;

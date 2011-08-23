@@ -40,11 +40,6 @@ $(document).ready(function(){
      <div id="avatar" class="rounded">
         <img src="{% media_url page_user.avatar avatar_midi.png %}" />
     </div>
-    <!-- admin menu / -->
-            {% if request.user.is_superuser %}
-                {% include 'includes/admin_menu.html' %}
-            {% endif %}
-    <!-- / admin menu -->
     {% if not is_owner %}
     {% comment %}
         {% if show_friend_button %}
@@ -81,6 +76,13 @@ $(document).ready(function(){
         </ul>
     </div>
    
+    {% if is_owner %}
+    <!-- admin menu / -->
+            {% if request.user.is_staff %}
+                {% include 'includes/admin_menu.html' %}
+            {% endif %}
+    <!-- / admin menu -->
+    {% endif %}
     
     <div id="general_info" class="about_persone transparent">
         <dl>
