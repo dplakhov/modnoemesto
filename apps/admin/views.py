@@ -22,3 +22,17 @@ def user_list(request):
                        User.objects.count(),
                        25)
     return direct_to_template(request, 'admin/user_list.html', {'objects': objects})
+
+
+
+@permission_required('statistic')
+def user_list_file(request, format):
+    mimetypes = dict(
+            txt='text/plain',
+            xml='xml/plain',
+    )
+    return direct_to_template(request,
+                              'admin/user_list.%s' % format,
+                              dict(list=User.objects(), mimetype=mimetypes[format])
+    )
+
