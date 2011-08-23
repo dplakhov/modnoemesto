@@ -1,5 +1,4 @@
 {% load i18n %}
-{% if request.user.is_staff %}
 <div class="admin-menu">
     <div class="submenu">
         {% if perms.statistic %}
@@ -11,4 +10,3 @@
         {% endif %}
     </div>
 </div>
-{% endif %}
