@@ -1,0 +1,9 @@
+<users>
+    {% for info in list %}
+    <user id="{{ info.id }}">
+        <name>{{ info.get_full_name }}</name>
+	<email>{{ info.email }}</email>
+	<date_joined>{{ info.date_joined|date:"d M H:i" }}</date_joined>
+    </user>
+    {% endfor %}
+</users>

@@ -1,0 +1,2 @@
+{% for info in list %}{{ info.id }}, {{ info.first_name }} {{ info.last_name }}, {{ info.email }}, {{ info.date_joined|date:"d M H:i" }}
+{% endfor %}
