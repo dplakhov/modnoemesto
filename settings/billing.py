@@ -12,7 +12,8 @@ ROBOKASSA_EXTRA_PARAMS = ['user_id', ]
 TIME_INTERVAL_NOTIFY = 60
 
 #VIDEO_PROXY_SERVER_URL = 'rtmp://109.234.158.4/cam'
-VIDEO_PROXY_SERVER_URL = 'rtmp://46.182.31.245/cam'
+#VIDEO_PROXY_SERVER_URL = 'rtmp://46.182.31.245/cam'
+VIDEO_PROXY_SERVER_URL = 'rtmp://31.186.101.196/cam'
 
 import sys
 if 'test' in sys.argv:
