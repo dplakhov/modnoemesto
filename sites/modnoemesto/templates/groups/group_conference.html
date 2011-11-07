@@ -29,12 +29,12 @@
 <h2><a href="{% url groups:group_view group.id %}">{% trans "Group" %} "{{ group.name }}"</a></h2>
 {% if group.has_video_conference %}
 <object  width="{% if is_admin %}745{% else %}650{% endif %}"
-         height="{% if is_admin %}700{% else %}561{% endif %}"
+         height="{% if is_admin %}653{% else %}561{% endif %}"
         >
     <embed src="/media/swf/group_{% if is_admin %}admin{% else %}user{% endif %}.swf" quality="high" bgcolor="#869ca7"
         flashvars="myname={{ user.id }}&ip=31.186.101.196&group_id={{ group.id }}&session_key={{ request.session.session_key }}"
         width="{% if is_admin %}745{% else %}650{% endif %}"
-        height="{% if is_admin %}700{% else %}561{% endif %}"
+        height="{% if is_admin %}653{% else %}561{% endif %}"
 	allowFullScreen="true"
         name="sdo_video"
         align="middle"
