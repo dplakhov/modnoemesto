@@ -27,8 +27,8 @@ env.roledefs.update({
     'bal': [ 'bal%d.modnoemesto.ru' %x for x in (1, 2, 3, 4) ],
     #'mv': ['s0%d.modnoemesto.ru' % x for x in (24, 25,)],
     #'mv': ['as%d.modnoemesto.ru' % x for x in (8, )],
-    'app': [ '31.186.101.19%d' %x for x in ( 4, )],
-    'mv': ['109.234.157.25%d' %x for x in (1, )],
+    'app': [ '178.132.203.6%d' %x for x in ( 17, )],
+    'mv': ['178.132.203.6%d' %x for x in (7, )],
 })
 
 
@@ -39,7 +39,7 @@ env.roledefs.update({ 'all_app': env.roledefs['app'] + env.roledefs['test'] + en
 env.user = 'root'
 
 def _pub_key():
-    return open(os.path.join(os.path.expanduser('~'), '.ssh/id_dsa.pub')).read()
+    return open(os.path.join(os.path.expanduser('~'), '.ssh/id_rsa.pub')).read()
 
 def deploy(revision, reinstall=False):
     env.user = 'appserver'
