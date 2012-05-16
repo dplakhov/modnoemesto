@@ -28,7 +28,7 @@ env.roledefs.update({
     #'mv': ['s0%d.modnoemesto.ru' % x for x in (24, 25,)],
     #'mv': ['as%d.modnoemesto.ru' % x for x in (8, )],
     'app': [ '178.132.203.6%d' %x for x in ( 17, )],
-    'mv': ['178.132.203.6%d' %x for x in (7, )],
+    'mv': ['109.234.153.23%d' %x for x in (6, )],
 })
 
 
