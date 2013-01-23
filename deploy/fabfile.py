@@ -43,7 +43,7 @@ def _pub_key():
 
 def deploy(revision, reinstall=False):
     env.user = 'appserver'
-    assert re.match(r'[a-f0-9]{40}', revision)
+    #assert re.match(r'[a-f0-9]{40}', revision)
     #repo = 'ssh://gitreader@109.234.157.250/opt/modnoe/'
     repo = 'git://github.com/dplakhov/modnoemesto.git'
     with cd(APPLICATION_DIR):
