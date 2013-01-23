@@ -28,7 +28,7 @@ env.roledefs.update({
     #'mv': ['s0%d.modnoemesto.ru' % x for x in (24, 25,)],
     #'mv': ['as%d.modnoemesto.ru' % x for x in (8, )],
     'app': [ '178.132.203.6%d' %x for x in ( 17, )],
-    'mv': ['109.234.153.23%d' %x for x in (6, )],
+    'mv': ['10.21.35.%d' %x for x in (4, )],
 })
 
 
@@ -89,7 +89,8 @@ def deploy(revision, reinstall=False):
 
 def deploy_head(reinstall=False):
     repo = git.Repo(os.path.normpath('..'))
-    revision = repo.commit('master').id
+    #revision = repo.commit('master').id
+    revision = repo.commit('master')
     deploy(revision, reinstall=reinstall)
 
 
